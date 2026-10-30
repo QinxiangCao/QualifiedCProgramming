@@ -1,13 +1,7 @@
 #include "string.h"
 
 char *memcpy(char *dest, char *src, int n)
-/*@ With bytes
-    Require all_ascii(bytes) && Zlength(bytes) == n &&
-            0 <= n && n < INT_MAX &&
-            CharArray::undef_full(dest, n) * CharArray::full(src, n, bytes)
-    Ensure __return == dest &&
-           CharArray::full(dest, n, bytes) * CharArray::full(src, n, bytes)
-*/
+/*@ default */
 {
   int i = 0;
   /*@ Inv Assert
@@ -27,23 +21,7 @@ char *memcpy(char *dest, char *src, int n)
 }
 
 char *memmove(char *dest, char *src, int n)
-/*@ With (bytes memory : list Z) (base source destination mode dest0 src0 n0 : Z)
-    Require
-      dest == dest0 && src == src0 && n == n0 &&
-      0 <= n && n < INT_MAX &&
-      ((mode == 0 && all_ascii(bytes) && Zlength(bytes) == n &&
-        CharArray::undef_full(dest, n) * CharArray::full(src, n, bytes)) ||
-       (mode == 1 && all_ascii(memory) &&
-        0 <= source && 0 <= destination &&
-        source + n <= Zlength(memory) && destination + n <= Zlength(memory) &&
-        src == base + source && dest == base + destination &&
-        CharArray::full(base, Zlength(memory), memory)))
-    Ensure
-      __return == dest0 &&
-      ((mode == 0 && CharArray::full(dest0, n0, bytes) * CharArray::full(src0, n0, bytes)) ||
-       (mode == 1 && CharArray::full(base, Zlength(memory),
-          memmove_content(memory, source, destination, n0))))
-*/
+/*@ default */
 {
   if (dest < src) {
     int i = 0;
@@ -122,11 +100,7 @@ char *memmove(char *dest, char *src, int n)
 }
 
 char *memset(char *s, int c, int n)
-/*@ Require 0 <= n && n < INT_MAX &&
-            0 <= c && c <= 127 &&
-            CharArray::undef_full(s, n)
-    Ensure __return == s && CharArray::full(s, n, repeat_Z(c, n))
-*/
+/*@ default */
 {
   int i = 0;
   /*@ Inv Assert

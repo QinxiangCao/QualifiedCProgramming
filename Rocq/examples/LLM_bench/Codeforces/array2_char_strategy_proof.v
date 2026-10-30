@@ -108,21 +108,8 @@ Proof.
   change (CharArray2.ElemArray.full (CharArray2.row_addr p m i) m (Znth i rows __default_app1_Z)) with
     (CharArray.full (p + i * m * sizeof ( CHAR )) m (Znth i rows __default_app1_Z)).
   sep_apply (CharArray.full_split_to_missing_i (p + i * m * sizeof ( CHAR )) j m (Znth i rows __default_app1_Z ) 0) ; try lia.
-  replace (p + i *
-    match m with
-    | 0 => 0
-    | Z.pos y => Z.pos y
-    | Z.neg y => Z.neg y
-    end) with (p + i * m * sizeof (CHAR))
-    by (rewrite sizeof_char; destruct m; lia).
-  replace (p + i *
-    match m with
-    | 0 => 0
-    | Z.pos y => Z.pos y
-    | Z.neg y => Z.neg y
-    end + j * 1) with
-    (p + i * m * sizeof (CHAR) + j * sizeof (CHAR))
-    by (rewrite sizeof_char; destruct m; lia).
+  replace (p + i * (m * sizeof (CHAR)))
+    with (p + i * m * sizeof (CHAR)) by lia.
   cancel (CharArray.missing_i (p + i * m * sizeof (CHAR)) j 0 m (Znth i rows __default_app1_Z)).
   apply derivable1s_allp_r.
   intro v.
@@ -147,8 +134,8 @@ Proof.
     m (Znth i rows __default_app1_Z)) with
     (CharArray.full (p + i * m * sizeof (CHAR)) m
       (Znth i rows __default_app1_Z)) in Hmerge.
-  replace (p + i * (sizeof_front_end_type FET_char * m))
-    with (p + i * m * sizeof (CHAR)) by (rewrite sizeof_char; lia).
+  replace (p + i * (m * sizeof (CHAR)))
+    with (p + i * m * sizeof (CHAR)) by lia.
   sep_apply Hmerge; try lia.
   rewrite replace_Znth_Znth by lia.
   cancel.

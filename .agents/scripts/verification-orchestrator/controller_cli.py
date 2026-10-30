@@ -9,7 +9,7 @@ from controller_attempts import claim_attempt, finalize_delivery, retry_round
 from controller_control import cancel_action, pause_run, resume_run
 from controller_dune import dune_build
 from controller_final import final_apply, final_check
-from controller_proving import vc_proving_preparing, vc_proving_verify
+from controller_proving import retry_parent, vc_proving_preparing, vc_proving_verify
 from controller_rounds import DEFAULT_MAX_PARALLEL_GROUP_WORKERS, step
 from controller_state import init_run
 from controller_tools import coq_check, coq_debug, symexec
@@ -24,6 +24,7 @@ def build_parser() -> argparse.ArgumentParser:
         "init-run": init_run, "step": step, "pause-run": pause_run, "cancel-action": cancel_action,
         "resume-run": resume_run, "claim-attempt": claim_attempt, "finalize-delivery": finalize_delivery,
         "retry-round": retry_round, "unfreeze": unfreeze, "dune-build": dune_build,
+        "retry-parent": retry_parent,
         "vc-proving-preparing": vc_proving_preparing, "vc-proving-verify": vc_proving_verify,
         "symexec": symexec, "coq-check": coq_check, "coq-debug": coq_debug,
         "final-apply": final_apply, "final-check": final_check, "validate-artifact": validate_artifact,
@@ -60,6 +61,8 @@ def build_parser() -> argparse.ArgumentParser:
     retry.add_argument("--phase", choices=["annotation", "vc-checking"], required=True)
     retry.add_argument("--reason", required=True)
     retry.add_argument("--previous-attempt", required=True)
+    commands["retry-parent"].add_argument("--round", required=True)
+    commands["retry-parent"].add_argument("--reason", required=True)
     for name in ("unfreeze", "vc-proving-preparing", "vc-proving-verify", "symexec", "coq-check", "coq-debug"):
         commands[name].add_argument("--round", required=True)
     commands["coq-check"].add_argument("--target-kind", required=True,

@@ -1,0 +1,54 @@
+From SimpleC.Verification Require Import VCPrelude.
+From SimpleC.EE.Applications_human.gmp.minigmp Require Import mpn_normalized_size_goal.
+Import naive_C_Rules.
+Require Import SimpleC.EE.Applications_human.gmp.minigmp.gmp_lib.
+Local Open Scope sac.
+
+Lemma proof_of_mpn_normalized_size_safety_wit_1_plain : mpn_normalized_size_safety_wit_1_plain.
+Proof. Admitted.
+
+Lemma proof_of_mpn_normalized_size_safety_wit_2_read0 : mpn_normalized_size_safety_wit_2_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpn_normalized_size_safety_wit_3_plain : mpn_normalized_size_safety_wit_3_plain.
+Proof. Admitted.
+
+Lemma proof_of_mpn_normalized_size_safety_wit_4_read0 : mpn_normalized_size_safety_wit_4_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpn_normalized_size_safety_wit_5_read0 : mpn_normalized_size_safety_wit_5_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpn_normalized_size_safety_wit_6_plain : mpn_normalized_size_safety_wit_6_plain.
+Proof. Admitted.
+
+Lemma proof_of_mpn_normalized_size_safety_wit_7_read0 : mpn_normalized_size_safety_wit_7_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpn_normalized_size_safety_wit_8_plain : mpn_normalized_size_safety_wit_8_plain.
+Proof. Admitted.
+
+Lemma proof_of_mpn_normalized_size_safety_wit_9_plain : mpn_normalized_size_safety_wit_9_plain.
+Proof. Admitted.
+
+Lemma proof_of_mpn_normalized_size_safety_wit_10_read0 : mpn_normalized_size_safety_wit_10_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpn_normalized_size_entail_wit_1_plain : mpn_normalized_size_entail_wit_1_plain.
+Proof. Admitted.
+
+Lemma proof_of_mpn_normalized_size_entail_wit_2_read0 : mpn_normalized_size_entail_wit_2_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpn_normalized_size_partial_solve_wit_1_plain : mpn_normalized_size_partial_solve_wit_1_plain.
+Proof. Admitted.
+
+Lemma proof_of_mpn_normalized_size_partial_solve_wit_2_read0 : mpn_normalized_size_partial_solve_wit_2_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpn_normalized_size_partial_solve_wit_3_read0 : mpn_normalized_size_partial_solve_wit_3_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpn_normalized_size_partial_solve_wit_4_plain : mpn_normalized_size_partial_solve_wit_4_plain.
+Proof. Admitted.
+

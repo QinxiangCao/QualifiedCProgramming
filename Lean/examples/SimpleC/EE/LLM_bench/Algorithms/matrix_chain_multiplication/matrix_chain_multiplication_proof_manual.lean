@@ -78,7 +78,7 @@ attribute [local irreducible]
 
 theorem proof_of_matrixChainMinCost_entail_wit_2_split_goal_1 : matrixChainMinCost_entail_wit_2_split_goal_1 := by
   unfold matrixChainMinCost_entail_wit_2_split_goal_1
-  intro matrix_count_pre dimensions_l cost_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro dimensions_l matrix_count_pre cost_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   rw [Forall.iff_forall_mem] at PreH11 ⊢
   intro x hx
   rcases List.mem_append.mp hx with hleft | hright
@@ -88,13 +88,13 @@ theorem proof_of_matrixChainMinCost_entail_wit_2_split_goal_1 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_2_split_goal_2 : matrixChainMinCost_entail_wit_2_split_goal_2 := by
   unfold matrixChainMinCost_entail_wit_2_split_goal_2
-  intro matrix_count_pre dimensions_l cost_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro dimensions_l matrix_count_pre cost_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   simp only [Zlength_app, Zlength_cons, Zlength_nil]
   omega
 
 theorem proof_of_matrixChainMinCost_entail_wit_4_split_goal_1 : matrixChainMinCost_entail_wit_4_split_goal_1 := by
   unfold matrixChainMinCost_entail_wit_4_split_goal_1
-  intro matrix_count_pre dimensions_l chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro dimensions_l matrix_count_pre chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   have PreH9_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH9
   have PreH10_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH10
   have PreH11_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH11
@@ -113,7 +113,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_4_split_goal_1 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_1 : matrixChainMinCost_entail_wit_5_split_goal_1 := by
   unfold matrixChainMinCost_entail_wit_5_split_goal_1
-  intro matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have PreH11_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH11
   have PreH12_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH12
   have PreH13_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH13
@@ -130,7 +130,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_1 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_2 : matrixChainMinCost_entail_wit_5_split_goal_2 := by
   unfold matrixChainMinCost_entail_wit_5_split_goal_2
-  intro matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have PreH11_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH11
   have PreH12_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH12
   have PreH13_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH13
@@ -147,7 +147,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_2 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_3 : matrixChainMinCost_entail_wit_5_split_goal_3 := by
   unfold matrixChainMinCost_entail_wit_5_split_goal_3
-  intro matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have PreH11_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH11
   have PreH12_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH12
   have PreH13_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH13
@@ -164,7 +164,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_3 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_4 : matrixChainMinCost_entail_wit_5_split_goal_4 := by
   unfold matrixChainMinCost_entail_wit_5_split_goal_4
-  intro matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have PreH11_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH11
   have PreH12_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH12
   have PreH13_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH13
@@ -181,7 +181,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_4 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_5 : matrixChainMinCost_entail_wit_5_split_goal_5 := by
   unfold matrixChainMinCost_entail_wit_5_split_goal_5
-  intro matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have PreH11_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH11
   have PreH12_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH12
   have PreH13_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH13
@@ -198,7 +198,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_5 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_6 : matrixChainMinCost_entail_wit_5_split_goal_6 := by
   unfold matrixChainMinCost_entail_wit_5_split_goal_6
-  intro matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have PreH11_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH11
   have PreH12_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH12
   have PreH13_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH13
@@ -215,7 +215,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_6 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_7 : matrixChainMinCost_entail_wit_5_split_goal_7 := by
   unfold matrixChainMinCost_entail_wit_5_split_goal_7
-  intro matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have PreH11_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH11
   have PreH12_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH12
   have PreH13_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH13
@@ -234,7 +234,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_7 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_8 : matrixChainMinCost_entail_wit_5_split_goal_8 := by
   unfold matrixChainMinCost_entail_wit_5_split_goal_8
-  intro matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have PreH11_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH11
   have PreH12_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH12
   have PreH13_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH13
@@ -253,7 +253,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_8 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_9 : matrixChainMinCost_entail_wit_5_split_goal_9 := by
   unfold matrixChainMinCost_entail_wit_5_split_goal_9
-  intro matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have PreH11_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH11
   have PreH12_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH12
   have PreH13_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH13
@@ -272,7 +272,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_9 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_10 : matrixChainMinCost_entail_wit_5_split_goal_10 := by
   unfold matrixChainMinCost_entail_wit_5_split_goal_10
-  intro matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have PreH11_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH11
   have PreH12_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH12
   have PreH13_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH13
@@ -291,7 +291,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_10 : matrixChainMinC
 
 theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_11 : matrixChainMinCost_entail_wit_5_split_goal_11 := by
   unfold matrixChainMinCost_entail_wit_5_split_goal_11
-  intro matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have PreH11_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH11
   have PreH12_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH12
   have PreH13_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH13
@@ -310,7 +310,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_11 : matrixChainMinC
 
 theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_12 : matrixChainMinCost_entail_wit_5_split_goal_12 := by
   unfold matrixChainMinCost_entail_wit_5_split_goal_12
-  intro matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have PreH11_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH11
   have PreH12_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH12
   have PreH13_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH13
@@ -329,7 +329,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_5_split_goal_12 : matrixChainMinC
 
 theorem proof_of_matrixChainMinCost_entail_wit_6_split_goal_1 : matrixChainMinCost_entail_wit_6_split_goal_1 := by
   unfold matrixChainMinCost_entail_wit_6_split_goal_1
-  intro matrix_count_pre dimensions_l cost_l chain_length left right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro dimensions_l matrix_count_pre cost_l chain_length left right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have PreH33_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH33
   have PreH34_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH34
   have PreH35_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l (0 : Int)).mp PreH35
@@ -348,7 +348,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_6_split_goal_1 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_6_split_goal_2 : matrixChainMinCost_entail_wit_6_split_goal_2 := by
   unfold matrixChainMinCost_entail_wit_6_split_goal_2
-  intro matrix_count_pre dimensions_l cost_l chain_length left right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro dimensions_l matrix_count_pre cost_l chain_length left right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have PreH33_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH33
   have PreH34_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH34
   have PreH35_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l (0 : Int)).mp PreH35
@@ -366,7 +366,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_6_split_goal_2 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_1 : matrixChainMinCost_entail_wit_7_split_goal_1 := by
   unfold matrixChainMinCost_entail_wit_7_split_goal_1
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH18_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH19
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH20
@@ -383,7 +383,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_1 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_2 : matrixChainMinCost_entail_wit_7_split_goal_2 := by
   unfold matrixChainMinCost_entail_wit_7_split_goal_2
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH18_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH19
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH20
@@ -400,7 +400,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_2 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_3 : matrixChainMinCost_entail_wit_7_split_goal_3 := by
   unfold matrixChainMinCost_entail_wit_7_split_goal_3
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH18_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH19
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH20
@@ -417,7 +417,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_3 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_4 : matrixChainMinCost_entail_wit_7_split_goal_4 := by
   unfold matrixChainMinCost_entail_wit_7_split_goal_4
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH18_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH19
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH20
@@ -434,7 +434,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_4 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_5 : matrixChainMinCost_entail_wit_7_split_goal_5 := by
   unfold matrixChainMinCost_entail_wit_7_split_goal_5
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH18_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH19
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH20
@@ -451,7 +451,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_5 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_6 : matrixChainMinCost_entail_wit_7_split_goal_6 := by
   unfold matrixChainMinCost_entail_wit_7_split_goal_6
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH18_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH19
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH20
@@ -468,7 +468,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_6 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_7 : matrixChainMinCost_entail_wit_7_split_goal_7 := by
   unfold matrixChainMinCost_entail_wit_7_split_goal_7
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH18_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH19
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH20
@@ -487,7 +487,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_7 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_8 : matrixChainMinCost_entail_wit_7_split_goal_8 := by
   unfold matrixChainMinCost_entail_wit_7_split_goal_8
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH18_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH19
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH20
@@ -506,7 +506,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_8 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_9 : matrixChainMinCost_entail_wit_7_split_goal_9 := by
   unfold matrixChainMinCost_entail_wit_7_split_goal_9
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH18_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH19
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH20
@@ -525,7 +525,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_9 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_10 : matrixChainMinCost_entail_wit_7_split_goal_10 := by
   unfold matrixChainMinCost_entail_wit_7_split_goal_10
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH18_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH19
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH20
@@ -544,7 +544,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_10 : matrixChainMinC
 
 theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_11 : matrixChainMinCost_entail_wit_7_split_goal_11 := by
   unfold matrixChainMinCost_entail_wit_7_split_goal_11
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH18_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH19
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH20
@@ -563,7 +563,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_11 : matrixChainMinC
 
 theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_12 : matrixChainMinCost_entail_wit_7_split_goal_12 := by
   unfold matrixChainMinCost_entail_wit_7_split_goal_12
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH18_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH19
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH20
@@ -582,7 +582,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_7_split_goal_12 : matrixChainMinC
 
 theorem proof_of_matrixChainMinCost_entail_wit_8_split_goal_1 : matrixChainMinCost_entail_wit_8_split_goal_1 := by
   unfold matrixChainMinCost_entail_wit_8_split_goal_1
-  intro matrix_count_pre dimensions_l cost_l chain_length left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
+  intro dimensions_l matrix_count_pre cost_l chain_length left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
   have PreH37_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH37
   have PreH38_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH38
   have PreH39_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l (0 : Int)).mp PreH39
@@ -599,7 +599,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_8_split_goal_1 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_8_split_goal_2 : matrixChainMinCost_entail_wit_8_split_goal_2 := by
   unfold matrixChainMinCost_entail_wit_8_split_goal_2
-  intro matrix_count_pre dimensions_l cost_l chain_length left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
+  intro dimensions_l matrix_count_pre cost_l chain_length left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
   have PreH37_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH37
   have PreH38_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH38
   have PreH39_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l (0 : Int)).mp PreH39
@@ -617,7 +617,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_8_split_goal_2 : matrixChainMinCo
 
 theorem proof_of_matrixChainMinCost_entail_wit_9_1_split_goal_1 : matrixChainMinCost_entail_wit_9_1_split_goal_1 := by
   unfold matrixChainMinCost_entail_wit_9_1_split_goal_1
-  intro matrix_count_pre dimensions_l cost_l_2 chain_length left right split best candidate PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro dimensions_l matrix_count_pre cost_l_2 chain_length left right split best candidate PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH20
   have PreH21_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH21
   have PreH22_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH22
@@ -638,7 +638,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_9_1_split_goal_1 : matrixChainMin
 
 theorem proof_of_matrixChainMinCost_entail_wit_9_2_split_goal_1 : matrixChainMinCost_entail_wit_9_2_split_goal_1 := by
   unfold matrixChainMinCost_entail_wit_9_2_split_goal_1
-  intro matrix_count_pre dimensions_l cost_l_2 chain_length left right split best candidate PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro dimensions_l matrix_count_pre cost_l_2 chain_length left right split best candidate PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH20
   have PreH21_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH21
   have PreH22_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH22
@@ -659,7 +659,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_9_2_split_goal_1 : matrixChainMin
 
 theorem proof_of_matrixChainMinCost_entail_wit_10_split_goal_1 : matrixChainMinCost_entail_wit_10_split_goal_1 := by
   unfold matrixChainMinCost_entail_wit_10_split_goal_1
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH18_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH19
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH20
@@ -678,7 +678,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_10_split_goal_1 : matrixChainMinC
 
 theorem proof_of_matrixChainMinCost_entail_wit_10_split_goal_2 : matrixChainMinCost_entail_wit_10_split_goal_2 := by
   unfold matrixChainMinCost_entail_wit_10_split_goal_2
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH18_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH19
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH20
@@ -697,7 +697,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_10_split_goal_2 : matrixChainMinC
 
 theorem proof_of_matrixChainMinCost_entail_wit_10_split_goal_3 : matrixChainMinCost_entail_wit_10_split_goal_3 := by
   unfold matrixChainMinCost_entail_wit_10_split_goal_3
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH18_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH19
   have PreH20_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH20
@@ -715,7 +715,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_10_split_goal_3 : matrixChainMinC
 
 theorem proof_of_matrixChainMinCost_entail_wit_11_split_goal_1 : matrixChainMinCost_entail_wit_11_split_goal_1 := by
   unfold matrixChainMinCost_entail_wit_11_split_goal_1
-  intro matrix_count_pre dimensions_l cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH17_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH17
   have PreH18_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH19
@@ -772,7 +772,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_11_split_goal_1 : matrixChainMinC
 
 theorem proof_of_matrixChainMinCost_entail_wit_11_split_goal_2 : matrixChainMinCost_entail_wit_11_split_goal_2 := by
   unfold matrixChainMinCost_entail_wit_11_split_goal_2
-  intro matrix_count_pre dimensions_l cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH17_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH17
   have PreH18_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH19
@@ -787,7 +787,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_11_split_goal_2 : matrixChainMinC
 
 theorem proof_of_matrixChainMinCost_entail_wit_11_split_goal_3 : matrixChainMinCost_entail_wit_11_split_goal_3 := by
   unfold matrixChainMinCost_entail_wit_11_split_goal_3
-  intro matrix_count_pre dimensions_l cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH17_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH17
   have PreH18_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH19
@@ -802,7 +802,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_11_split_goal_3 : matrixChainMinC
 
 theorem proof_of_matrixChainMinCost_entail_wit_11_split_goal_4 : matrixChainMinCost_entail_wit_11_split_goal_4 := by
   unfold matrixChainMinCost_entail_wit_11_split_goal_4
-  intro matrix_count_pre dimensions_l cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH17_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH17
   have PreH18_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH18
   have PreH19_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH19
@@ -817,7 +817,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_11_split_goal_4 : matrixChainMinC
 
 theorem proof_of_matrixChainMinCost_entail_wit_12_split_goal_1 : matrixChainMinCost_entail_wit_12_split_goal_1 := by
   unfold matrixChainMinCost_entail_wit_12_split_goal_1
-  intro matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have PreH11_indexed := (indexed_Forall ((LE.le (α := Int)) (1)) dimensions_l (0 : Int)).mp PreH11
   have PreH12_indexed := (indexed_Forall ((GE.ge (α := Int)) (100)) dimensions_l (0 : Int)).mp PreH12
   have PreH13_indexed := (indexed_Forall ((LE.le (α := Int)) ((0 : Int))) cost_l_2 (0 : Int)).mp PreH13
@@ -843,14 +843,14 @@ theorem proof_of_matrixChainMinCost_entail_wit_12_split_goal_1 : matrixChainMinC
 theorem proof_of_matrixChainMinCost_entail_wit_2 : matrixChainMinCost_entail_wit_2 := by
   unfold matrixChainMinCost_entail_wit_2
   right
-  intro matrix_count_pre dimensions_l cost_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro dimensions_l matrix_count_pre cost_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_2_split_goal_1 matrix_count_pre dimensions_l cost_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11))
-    | exact (proof_of_matrixChainMinCost_entail_wit_2_split_goal_1 matrix_count_pre dimensions_l cost_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_2_split_goal_2 matrix_count_pre dimensions_l cost_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11))
-    | exact (proof_of_matrixChainMinCost_entail_wit_2_split_goal_2 matrix_count_pre dimensions_l cost_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_2_split_goal_1 dimensions_l matrix_count_pre cost_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11))
+    | exact (proof_of_matrixChainMinCost_entail_wit_2_split_goal_1 dimensions_l matrix_count_pre cost_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_2_split_goal_2 dimensions_l matrix_count_pre cost_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11))
+    | exact (proof_of_matrixChainMinCost_entail_wit_2_split_goal_2 dimensions_l matrix_count_pre cost_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11)
     | assumption
     | omega
     | trivial
@@ -858,12 +858,12 @@ theorem proof_of_matrixChainMinCost_entail_wit_2 : matrixChainMinCost_entail_wit
 theorem proof_of_matrixChainMinCost_entail_wit_4 : matrixChainMinCost_entail_wit_4 := by
   unfold matrixChainMinCost_entail_wit_4
   right
-  intro matrix_count_pre dimensions_l chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro dimensions_l matrix_count_pre chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_4_split_goal_1 matrix_count_pre dimensions_l chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14))
-    | exact (proof_of_matrixChainMinCost_entail_wit_4_split_goal_1 matrix_count_pre dimensions_l chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_4_split_goal_1 dimensions_l matrix_count_pre chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14))
+    | exact (proof_of_matrixChainMinCost_entail_wit_4_split_goal_1 dimensions_l matrix_count_pre chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14)
     | assumption
     | omega
     | trivial
@@ -871,34 +871,34 @@ theorem proof_of_matrixChainMinCost_entail_wit_4 : matrixChainMinCost_entail_wit
 theorem proof_of_matrixChainMinCost_entail_wit_5 : matrixChainMinCost_entail_wit_5 := by
   unfold matrixChainMinCost_entail_wit_5
   right
-  intro matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_1 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_1 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_2 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_2 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_3 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_3 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_4 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_4 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_5 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_5 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_6 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_6 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_7 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_7 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_8 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_8 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_9 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_9 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_10 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_10 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_11 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_11 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_12 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_12 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_1 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_1 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_2 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_2 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_3 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_3 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_4 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_4 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_5 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_5 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_6 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_6 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_7 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_7 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_8 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_8 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_9 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_9 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_10 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_10 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_11 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_11 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_5_split_goal_12 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+    | exact (proof_of_matrixChainMinCost_entail_wit_5_split_goal_12 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
     | assumption
     | omega
     | trivial
@@ -906,14 +906,14 @@ theorem proof_of_matrixChainMinCost_entail_wit_5 : matrixChainMinCost_entail_wit
 theorem proof_of_matrixChainMinCost_entail_wit_6 : matrixChainMinCost_entail_wit_6 := by
   unfold matrixChainMinCost_entail_wit_6
   right
-  intro matrix_count_pre dimensions_l cost_l chain_length left right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro dimensions_l matrix_count_pre cost_l chain_length left right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_6_split_goal_1 matrix_count_pre dimensions_l cost_l chain_length left right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38))
-    | exact (proof_of_matrixChainMinCost_entail_wit_6_split_goal_1 matrix_count_pre dimensions_l cost_l chain_length left right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_6_split_goal_2 matrix_count_pre dimensions_l cost_l chain_length left right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38))
-    | exact (proof_of_matrixChainMinCost_entail_wit_6_split_goal_2 matrix_count_pre dimensions_l cost_l chain_length left right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_6_split_goal_1 dimensions_l matrix_count_pre cost_l chain_length left right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38))
+    | exact (proof_of_matrixChainMinCost_entail_wit_6_split_goal_1 dimensions_l matrix_count_pre cost_l chain_length left right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_6_split_goal_2 dimensions_l matrix_count_pre cost_l chain_length left right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38))
+    | exact (proof_of_matrixChainMinCost_entail_wit_6_split_goal_2 dimensions_l matrix_count_pre cost_l chain_length left right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38)
     | assumption
     | omega
     | trivial
@@ -921,34 +921,34 @@ theorem proof_of_matrixChainMinCost_entail_wit_6 : matrixChainMinCost_entail_wit
 theorem proof_of_matrixChainMinCost_entail_wit_7 : matrixChainMinCost_entail_wit_7 := by
   unfold matrixChainMinCost_entail_wit_7
   right
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_1 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_1 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_2 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_2 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_3 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_3 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_4 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_4 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_5 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_5 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_6 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_6 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_7 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_7 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_8 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_8 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_9 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_9 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_10 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_10 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_11 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_11 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_12 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_12 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_1 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_1 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_2 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_2 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_3 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_3 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_4 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_4 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_5 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_5 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_6 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_6 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_7 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_7 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_8 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_8 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_9 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_9 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_10 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_10 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_11 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_11 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_7_split_goal_12 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_7_split_goal_12 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
     | assumption
     | omega
     | trivial
@@ -956,14 +956,14 @@ theorem proof_of_matrixChainMinCost_entail_wit_7 : matrixChainMinCost_entail_wit
 theorem proof_of_matrixChainMinCost_entail_wit_8 : matrixChainMinCost_entail_wit_8 := by
   unfold matrixChainMinCost_entail_wit_8
   right
-  intro matrix_count_pre dimensions_l cost_l chain_length left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
+  intro dimensions_l matrix_count_pre cost_l chain_length left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_8_split_goal_1 matrix_count_pre dimensions_l cost_l chain_length left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42))
-    | exact (proof_of_matrixChainMinCost_entail_wit_8_split_goal_1 matrix_count_pre dimensions_l cost_l chain_length left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_8_split_goal_2 matrix_count_pre dimensions_l cost_l chain_length left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42))
-    | exact (proof_of_matrixChainMinCost_entail_wit_8_split_goal_2 matrix_count_pre dimensions_l cost_l chain_length left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_8_split_goal_1 dimensions_l matrix_count_pre cost_l chain_length left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42))
+    | exact (proof_of_matrixChainMinCost_entail_wit_8_split_goal_1 dimensions_l matrix_count_pre cost_l chain_length left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_8_split_goal_2 dimensions_l matrix_count_pre cost_l chain_length left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42))
+    | exact (proof_of_matrixChainMinCost_entail_wit_8_split_goal_2 dimensions_l matrix_count_pre cost_l chain_length left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42)
     | assumption
     | omega
     | trivial
@@ -971,12 +971,12 @@ theorem proof_of_matrixChainMinCost_entail_wit_8 : matrixChainMinCost_entail_wit
 theorem proof_of_matrixChainMinCost_entail_wit_9_1 : matrixChainMinCost_entail_wit_9_1 := by
   unfold matrixChainMinCost_entail_wit_9_1
   right
-  intro matrix_count_pre dimensions_l cost_l_2 chain_length left right split best candidate PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro dimensions_l matrix_count_pre cost_l_2 chain_length left right split best candidate PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_9_1_split_goal_1 matrix_count_pre dimensions_l cost_l_2 chain_length left right split best candidate PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26))
-    | exact (proof_of_matrixChainMinCost_entail_wit_9_1_split_goal_1 matrix_count_pre dimensions_l cost_l_2 chain_length left right split best candidate PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_9_1_split_goal_1 dimensions_l matrix_count_pre cost_l_2 chain_length left right split best candidate PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26))
+    | exact (proof_of_matrixChainMinCost_entail_wit_9_1_split_goal_1 dimensions_l matrix_count_pre cost_l_2 chain_length left right split best candidate PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26)
     | assumption
     | omega
     | trivial
@@ -984,12 +984,12 @@ theorem proof_of_matrixChainMinCost_entail_wit_9_1 : matrixChainMinCost_entail_w
 theorem proof_of_matrixChainMinCost_entail_wit_9_2 : matrixChainMinCost_entail_wit_9_2 := by
   unfold matrixChainMinCost_entail_wit_9_2
   right
-  intro matrix_count_pre dimensions_l cost_l_2 chain_length left right split best candidate PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro dimensions_l matrix_count_pre cost_l_2 chain_length left right split best candidate PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_9_2_split_goal_1 matrix_count_pre dimensions_l cost_l_2 chain_length left right split best candidate PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26))
-    | exact (proof_of_matrixChainMinCost_entail_wit_9_2_split_goal_1 matrix_count_pre dimensions_l cost_l_2 chain_length left right split best candidate PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_9_2_split_goal_1 dimensions_l matrix_count_pre cost_l_2 chain_length left right split best candidate PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26))
+    | exact (proof_of_matrixChainMinCost_entail_wit_9_2_split_goal_1 dimensions_l matrix_count_pre cost_l_2 chain_length left right split best candidate PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26)
     | assumption
     | omega
     | trivial
@@ -997,16 +997,16 @@ theorem proof_of_matrixChainMinCost_entail_wit_9_2 : matrixChainMinCost_entail_w
 theorem proof_of_matrixChainMinCost_entail_wit_10 : matrixChainMinCost_entail_wit_10 := by
   unfold matrixChainMinCost_entail_wit_10
   right
-  intro matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_10_split_goal_1 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_10_split_goal_1 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_10_split_goal_2 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_10_split_goal_2 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_10_split_goal_3 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_10_split_goal_3 matrix_count_pre dimensions_l cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_10_split_goal_1 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_10_split_goal_1 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_10_split_goal_2 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_10_split_goal_2 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_10_split_goal_3 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_10_split_goal_3 dimensions_l matrix_count_pre cost_l_2 best split right left chain_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
     | assumption
     | omega
     | trivial
@@ -1014,18 +1014,18 @@ theorem proof_of_matrixChainMinCost_entail_wit_10 : matrixChainMinCost_entail_wi
 theorem proof_of_matrixChainMinCost_entail_wit_11 : matrixChainMinCost_entail_wit_11 := by
   unfold matrixChainMinCost_entail_wit_11
   right
-  intro matrix_count_pre dimensions_l cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro dimensions_l matrix_count_pre cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_11_split_goal_1 matrix_count_pre dimensions_l cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_11_split_goal_1 matrix_count_pre dimensions_l cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_11_split_goal_2 matrix_count_pre dimensions_l cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_11_split_goal_2 matrix_count_pre dimensions_l cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_11_split_goal_3 matrix_count_pre dimensions_l cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_11_split_goal_3 matrix_count_pre dimensions_l cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_11_split_goal_4 matrix_count_pre dimensions_l cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_matrixChainMinCost_entail_wit_11_split_goal_4 matrix_count_pre dimensions_l cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_11_split_goal_1 dimensions_l matrix_count_pre cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_11_split_goal_1 dimensions_l matrix_count_pre cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_11_split_goal_2 dimensions_l matrix_count_pre cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_11_split_goal_2 dimensions_l matrix_count_pre cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_11_split_goal_3 dimensions_l matrix_count_pre cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_11_split_goal_3 dimensions_l matrix_count_pre cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_11_split_goal_4 dimensions_l matrix_count_pre cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_matrixChainMinCost_entail_wit_11_split_goal_4 dimensions_l matrix_count_pre cost_l_2 chain_length left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
     | assumption
     | omega
     | trivial
@@ -1033,12 +1033,12 @@ theorem proof_of_matrixChainMinCost_entail_wit_11 : matrixChainMinCost_entail_wi
 theorem proof_of_matrixChainMinCost_entail_wit_12 : matrixChainMinCost_entail_wit_12 := by
   unfold matrixChainMinCost_entail_wit_12
   right
-  intro matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_12_split_goal_1 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-    | exact (proof_of_matrixChainMinCost_entail_wit_12_split_goal_1 matrix_count_pre dimensions_l left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+    | (solve | Goal_apply (proof_of_matrixChainMinCost_entail_wit_12_split_goal_1 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+    | exact (proof_of_matrixChainMinCost_entail_wit_12_split_goal_1 dimensions_l matrix_count_pre left chain_length cost_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
     | assumption
     | omega
     | trivial
@@ -1046,7 +1046,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_12 : matrixChainMinCost_entail_wi
 theorem proof_of_matrixChainMinCost_entail_wit_1 : matrixChainMinCost_entail_wit_1 := by
   unfold matrixChainMinCost_entail_wit_1
   right
-  intro n dims hn hnmax hd hd' hb hu
+  intro dims n hn hnmax hd hd' hb hu
   split_pure_spatial
   · sep_apply (intArray.undef_full_split_to_undef_seg (&("cost")) (n*n) 64 (by constructor <;> nlinarith))
     cancel
@@ -1057,7 +1057,7 @@ theorem proof_of_matrixChainMinCost_entail_wit_1 : matrixChainMinCost_entail_wit
 theorem proof_of_matrixChainMinCost_entail_wit_3 : matrixChainMinCost_entail_wit_3 := by
   unfold matrixChainMinCost_entail_wit_3
   right
-  intro n dims table i hi hn hnmax hd hi0 hin hd' hb hu hlen hz
+  intro dims n table i hi hn hnmax hd hi0 hin hd' hb hu hlen hz
   have he : i = n*n := by omega
   have hlength : Zlength table = n*n := by omega
   have hzero : MatrixChainZeroPrefix table (n*n) := by
@@ -1075,18 +1075,14 @@ theorem proof_of_matrixChainMinCost_entail_wit_3 : matrixChainMinCost_entail_wit
     intro v hv
     have he := hz v hv
     omega
-  rw [he]
-  Exists table
-  sep_apply (intArray.seg_to_full (&("cost")) 0 (n*n) table)
-  simp only [Int.zero_mul, Int.add_zero, Int.sub_zero]
   split_pure_spatial
-  · exact naive_C_Rules.toContext.derivable1_refl _
+  · cancel
   · split_pures <;> dump_pre_spatial <;> first | assumption | omega | exact hdone.2
 
 theorem proof_of_matrixChainMinCost_entail_wit_13 : matrixChainMinCost_entail_wit_13 := by
   unfold matrixChainMinCost_entail_wit_13
   right
-  intro n dims len table hlen hn hnmax hd ht hlen0 hlenn hd' hb hu htb htu hlen1 hdone
+  intro dims n len table hlen hn hnmax hd ht hlen0 hlenn hd' hb hu htb htu hlen1 hdone
   have hc := hdone n 0 (n-1) ⟨hn, hlen⟩ (by omega) (by omega) (by omega)
   have hresult : MatrixChainOptimalCost dims n (Znth (n-1) table 0) := by
     simpa only [Int.zero_mul, Int.zero_add] using hc

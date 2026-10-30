@@ -16,7 +16,7 @@ private noncomputable abbrev intArray := naive_C_Rules.IntArray
 theorem proof_of_solver_entail_wit_8 : solver_entail_wit_8 := by
   unfold solver_entail_wit_8
   right
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have hlen := PreH18.1
   have hbefore : Znth s cs_2 0 = -1 := by have hh := PreH18.2 s ⟨PreH12,PreH2⟩; omega
   have hks : Zlength (replace_Znth 0 s ks_2) = n_pre+1 := by simpa only [Zlength_replace_Znth] using PreH23
@@ -37,7 +37,7 @@ theorem proof_of_solver_entail_wit_8 : solver_entail_wit_8 := by
     all_goals first | assumption | omega
 
 theorem proof_of_solver_entail_wit_9_1 : solver_entail_wit_9_1 := by
-  intro stack__pre color_pre wt_pre to_pre nxt_pre head_pre comment_diff_pre comment_v_pre comment_u_pre m_pre n_pre comment_kinds comment_targets comment_sources comments hs ns_2 ts_2 ws_2 finished_2 cs_2 before_2 ks c1 c0 top total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre comment_u_pre comment_v_pre comment_diff_pre head_pre nxt_pre to_pre wt_pre color_pre stack__pre hs ns_2 ts_2 ws_2 finished_2 cs_2 before_2 ks c1 c0 top total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
   have hu := PreH20 (top-1) ⟨by omega,by omega⟩
   have hbit := PreH1
   obtain ⟨hscan,hsum⟩ := component_frontier_pop_to_scan__frontier_pop_to_scan n_pre comments before_2 cs_2 finished_2 ks c0 c1 0 top hs ns_2 ts_2 ws_2 m_pre
@@ -62,7 +62,7 @@ theorem proof_of_solver_entail_wit_9_1 : solver_entail_wit_9_1 := by
     all_goals first | assumption | omega
 
 theorem proof_of_solver_entail_wit_9_2 : solver_entail_wit_9_2 := by
-  intro stack__pre color_pre wt_pre to_pre nxt_pre head_pre comment_diff_pre comment_v_pre comment_u_pre m_pre n_pre comment_kinds comment_targets comment_sources comments hs ns_2 ts_2 ws_2 finished_2 cs_2 before_2 ks c1 c0 top total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre comment_u_pre comment_v_pre comment_diff_pre head_pre nxt_pre to_pre wt_pre color_pre stack__pre hs ns_2 ts_2 ws_2 finished_2 cs_2 before_2 ks c1 c0 top total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
   have hu := PreH20 (top-1) ⟨by omega,by omega⟩
   have hp := sublist_pop_permutation__frontier_pop_to_scan ks top ⟨by omega,by omega⟩
   have hum : Znth (top-1) ks 0 ∈ sublist 0 top ks := hp.mem_iff.mpr (by simp)

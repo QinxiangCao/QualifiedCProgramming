@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P083_938E_max_history_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P083_938E_max_history_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import AUXLib.MonotonicList.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P083_938E_max_history_lib.
@@ -24,7 +8,7 @@ Local Open Scope sac.
 
 Lemma proof_of_power_entail_wit_1_split_goal_1 : power_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PowerLoopState.
   destruct (rem_eq_mod_nonneg__power_modexp b_pre 1000000007 ltac:(lia) ltac:(lia)) as [Hrb Hbnd].
   rewrite Hrb.
@@ -35,14 +19,14 @@ Qed.
 
 Lemma proof_of_power_entail_wit_1_split_goal_2 : power_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (rem_eq_mod_nonneg__power_modexp b_pre 1000000007 ltac:(lia) ltac:(lia)) as [Hrb Hbnd].
   lia.
 Qed.
 
 Lemma proof_of_power_entail_wit_1_split_goal_3 : power_entail_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (rem_eq_mod_nonneg__power_modexp b_pre 1000000007 ltac:(lia) ltac:(lia)) as [Hrb Hbnd].
   lia.
 Qed.
@@ -57,7 +41,7 @@ Qed.
 
 Lemma proof_of_power_entail_wit_2_1_split_goal_1 : power_entail_wit_2_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PowerLoopState in PreH11 |- *.
   destruct (shiftr_land1_decompose__power_modexp e ltac:(lia)) as [Hs [[Hq0 Hqe] [Hdec Hcase]]].
   assert (He : e = 2 * Z.shiftr e 1 + 1) by lia.
@@ -80,42 +64,42 @@ Qed.
 
 Lemma proof_of_power_entail_wit_2_1_split_goal_2 : power_entail_wit_2_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (shiftr_land1_decompose__power_modexp e ltac:(lia)) as [Hs [[Hq0 Hqe] [Hdec Hcase]]].
   lia.
 Qed.
 
 Lemma proof_of_power_entail_wit_2_1_split_goal_3 : power_entail_wit_2_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (shiftr_land1_decompose__power_modexp e ltac:(lia)) as [Hs [[Hq0 Hqe] [Hdec Hcase]]].
   lia.
 Qed.
 
 Lemma proof_of_power_entail_wit_2_1_split_goal_4 : power_entail_wit_2_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (rem_eq_mod_nonneg__power_modexp (r * b) 1000000007 ltac:(nia) ltac:(lia)) as [_ Hbnd].
   lia.
 Qed.
 
 Lemma proof_of_power_entail_wit_2_1_split_goal_5 : power_entail_wit_2_1_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (rem_eq_mod_nonneg__power_modexp (r * b) 1000000007 ltac:(nia) ltac:(lia)) as [_ Hbnd].
   lia.
 Qed.
 
 Lemma proof_of_power_entail_wit_2_1_split_goal_6 : power_entail_wit_2_1_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (rem_eq_mod_nonneg__power_modexp (b * b) 1000000007 ltac:(nia) ltac:(lia)) as [_ Hbnd].
   lia.
 Qed.
 
 Lemma proof_of_power_entail_wit_2_1_split_goal_7 : power_entail_wit_2_1_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (rem_eq_mod_nonneg__power_modexp (b * b) 1000000007 ltac:(nia) ltac:(lia)) as [_ Hbnd].
   lia.
 Qed.
@@ -134,7 +118,7 @@ Qed.
 
 Lemma proof_of_power_entail_wit_2_2_split_goal_1 : power_entail_wit_2_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PowerLoopState in PreH11 |- *.
   destruct (shiftr_land1_decompose__power_modexp e ltac:(lia)) as [Hs [[Hq0 Hqe] [Hdec Hcase]]].
   assert (He : e = 2 * Z.shiftr e 1) by lia.
@@ -153,28 +137,28 @@ Qed.
 
 Lemma proof_of_power_entail_wit_2_2_split_goal_2 : power_entail_wit_2_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (shiftr_land1_decompose__power_modexp e ltac:(lia)) as [Hs [[Hq0 Hqe] [Hdec Hcase]]].
   lia.
 Qed.
 
 Lemma proof_of_power_entail_wit_2_2_split_goal_3 : power_entail_wit_2_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (shiftr_land1_decompose__power_modexp e ltac:(lia)) as [Hs [[Hq0 Hqe] [Hdec Hcase]]].
   lia.
 Qed.
 
 Lemma proof_of_power_entail_wit_2_2_split_goal_4 : power_entail_wit_2_2_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (rem_eq_mod_nonneg__power_modexp (b * b) 1000000007 ltac:(nia) ltac:(lia)) as [_ Hbnd].
   lia.
 Qed.
 
 Lemma proof_of_power_entail_wit_2_2_split_goal_5 : power_entail_wit_2_2_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (rem_eq_mod_nonneg__power_modexp (b * b) 1000000007 ltac:(nia) ltac:(lia)) as [_ Hbnd].
   lia.
 Qed.
@@ -191,7 +175,7 @@ Qed.
 
 Lemma proof_of_power_return_wit_1_split_goal_1 : power_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold ModPower.
   unfold PowerLoopState in PreH11.
   rewrite PreH12 in PreH11.
@@ -209,7 +193,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_14_split_goal_1 : solver_safety_wit_14_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (rem_nonneg_bound__solver_arith_safety fact 1000000007 ltac:(lia) ltac:(lia)) as Hf.
   assert (Z.rem fact 1000000007 * retval <= 1000000006 * 1000000006) as Hb.
@@ -219,7 +203,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_14_split_goal_2 : solver_safety_wit_14_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (rem_nonneg_bound__solver_arith_safety fact 1000000007 ltac:(lia) ltac:(lia)) as Hf.
   assert (0 <= Z.rem fact 1000000007 * retval) as Hb.
@@ -236,7 +220,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_25_split_goal_1 : solver_safety_wit_25_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (PreH11 i ltac:(lia)) as Hi.
   pose proof (rem_nonneg_bound__solver_arith_safety (j - i) 1000000007 ltac:(lia) ltac:(lia)) as H1.
@@ -257,7 +241,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_25_split_goal_2 : solver_safety_wit_25_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (PreH11 i ltac:(lia)) as Hi.
   pose proof (rem_nonneg_bound__solver_arith_safety (j - i) 1000000007 ltac:(lia) ltac:(lia)) as H1.
@@ -284,7 +268,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_26_split_goal_1 : solver_safety_wit_26_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (PreH11 i ltac:(lia)) as Hi.
   pose proof (rem_nonneg_bound__solver_arith_safety (j - i) 1000000007 ltac:(lia) ltac:(lia)) as H1.
@@ -305,7 +289,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_26_split_goal_2 : solver_safety_wit_26_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (PreH11 i ltac:(lia)) as Hi.
   pose proof (rem_nonneg_bound__solver_arith_safety (j - i) 1000000007 ltac:(lia) ltac:(lia)) as H1.
@@ -332,7 +316,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_28_split_goal_1 : solver_safety_wit_28_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (PreH11 i ltac:(lia)) as Hi.
   pose proof (rem_nonneg_bound__solver_arith_safety (j - i) 1000000007 ltac:(lia) ltac:(lia)) as H1.
@@ -345,7 +329,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_28_split_goal_2 : solver_safety_wit_28_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (PreH11 i ltac:(lia)) as Hi.
   pose proof (rem_nonneg_bound__solver_arith_safety (j - i) 1000000007 ltac:(lia) ltac:(lia)) as H1.
@@ -364,7 +348,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (znth_bounds_perm_transfer__solver_loop_setup values l1_2 n_pre 1 1000000000
                 PreH1 (eq_sym PreH6) PreH5) as [Hlen Hb].
   apply Hb. exact H.
@@ -372,7 +356,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (znth_bounds_perm_transfer__solver_loop_setup values l1_2 n_pre 1 1000000000
                 PreH1 (eq_sym PreH6) PreH5) as [Hlen Hb].
   exact Hlen.
@@ -387,12 +371,12 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_2 : solver_entail_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH5. exact H.
 Qed.
 
@@ -405,7 +389,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold FactorialModState in *.
   rewrite rem_eq_mod_nonneg__solver_loop_setup by nia.
   replace (i + 1 - 1) with i by lia.
@@ -417,7 +401,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_2 : solver_entail_wit_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite rem_eq_mod_nonneg__solver_loop_setup by nia.
   pose proof (Z.mod_pos_bound (fact * i) 1000000007 ltac:(lia)) as Hb.
   lia.
@@ -425,7 +409,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_3 : solver_entail_wit_3_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite rem_eq_mod_nonneg__solver_loop_setup by nia.
   pose proof (Z.mod_pos_bound (fact * i) 1000000007 ltac:(lia)) as Hb.
   lia.
@@ -441,24 +425,24 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_1 : solver_entail_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_2 : solver_entail_wit_4_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GroupBoundary. left. reflexivity.
 Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_3 : solver_entail_wit_4_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (n_pre + 1) with i by lia. exact PreH13.
 Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_4 : solver_entail_wit_4_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH6. exact H.
 Qed.
 
@@ -473,12 +457,12 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_1 : solver_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_2 : solver_entail_wit_5_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH6. exact H.
 Qed.
 
@@ -491,7 +475,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_1_split_goal_1 : solver_entail_wit_7_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold ContribPrefixSum in *.
   unfold FactorialModState in PreH21.
   replace (n_pre + 1 - 1) with n_pre in PreH21 by lia.
@@ -564,7 +548,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_1_split_goal_2 : solver_entail_wit_7_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (j - 1 + 1) with j by lia.
   assert (Hij : i < j).
   { assert (i <> j) by (intro Heq; apply PreH5; rewrite Heq; reflexivity). lia. }
@@ -576,7 +560,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_1_split_goal_3 : solver_entail_wit_7_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hv : 1 <= Znth i l1_2 0 <= 1000000000) by (apply PreH11; lia).
   pose proof (rem_eq_mod_nonneg__group_contribution_step (j - i) 1000000007
                 ltac:(lia) ltac:(lia)) as [_ R1].
@@ -601,7 +585,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_1_split_goal_4 : solver_entail_wit_7_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hv : 1 <= Znth i l1_2 0 <= 1000000000) by (apply PreH11; lia).
   pose proof (rem_eq_mod_nonneg__group_contribution_step (j - i) 1000000007
                 ltac:(lia) ltac:(lia)) as [_ R1].
@@ -626,7 +610,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_1_split_goal_5 : solver_entail_wit_7_1_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH11. exact H.
 Qed.
 
@@ -642,7 +626,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_2_split_goal_1 : solver_entail_wit_7_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold ContribPrefixSum in *.
   replace (j - 1 + 1) with j by lia.
   assert (Hzero : contrib l1_2 (Znth i l1_2 0) = 0).
@@ -657,14 +641,14 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_2_split_goal_2 : solver_entail_wit_7_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (j - 1 + 1) with j by lia.
   unfold GroupBoundary. right. left. lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_7_2_split_goal_3 : solver_entail_wit_7_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH7. exact H.
 Qed.
 
@@ -678,7 +662,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply (spec_of_contrib_prefix__spec_final_result values l1 i total).
   - lia.
   - assumption.
@@ -694,7 +678,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_4_pure_split_goal_1 : solver_partial_solve_wit_4_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (rem_nonneg_bound__solver_arith_safety (n_pre - i) 1000000007 ltac:(lia) ltac:(lia)).
   lia.
@@ -702,7 +686,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_4_pure_split_goal_2 : solver_partial_solve_wit_4_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (rem_nonneg_bound__solver_arith_safety (n_pre - i) 1000000007 ltac:(lia) ltac:(lia)).
   lia.
@@ -714,4 +698,3 @@ Proof.
   - Goal_apply proof_of_solver_partial_solve_wit_4_pure_split_goal_1.
   - Goal_apply proof_of_solver_partial_solve_wit_4_pure_split_goal_2.
 Qed.
-

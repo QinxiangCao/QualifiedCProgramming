@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Engineering.string Require Import memory_goal.
 From SimpleC.EE.LLM_bench.Engineering.string Require Import memory_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.StdLib.string_lib.
 Local Open Scope sac.
@@ -86,7 +70,10 @@ Qed.
 Lemma proof_of_memmove_entail_wit_1_2_split_goal_spatial : memmove_entail_wit_1_2_split_goal_spatial.
 Proof.
   unfold memmove_entail_wit_1_2_split_goal_spatial; intros.
-  subst dest_pre src_pre n_pre. apply derivable1_refl.
+  subst dest_pre src_pre n_pre.
+  apply derivable1_sepcon_mono.
+  - apply CharArray.undef_full_to_undef_seg.
+  - reflexivity.
 Qed.
 
 Lemma proof_of_memmove_entail_wit_1_2 : memmove_entail_wit_1_2.
@@ -173,7 +160,10 @@ Qed.
 Lemma proof_of_memmove_entail_wit_4_2_split_goal_spatial : memmove_entail_wit_4_2_split_goal_spatial.
 Proof.
   unfold memmove_entail_wit_4_2_split_goal_spatial; intros.
-  subst dest_pre src_pre n_pre. apply derivable1_refl.
+  subst dest_pre src_pre n_pre.
+  apply derivable1_sepcon_mono.
+  - apply CharArray.undef_full_to_undef_seg.
+  - reflexivity.
 Qed.
 
 Lemma proof_of_memmove_entail_wit_4_2 : memmove_entail_wit_4_2.
@@ -207,8 +197,7 @@ Lemma proof_of_memmove_entail_wit_5_2_split_goal_spatial : memmove_entail_wit_5_
 Proof.
   unfold memmove_entail_wit_5_2_split_goal_spatial; intros.
   replace (i - 1 + 1) with i by lia.
-  unfold CharArray.undef_full, CharArray.undef_seg, store_undef_array.
-  rewrite Z.sub_0_r. apply derivable1_refl.
+  reflexivity.
 Qed.
 
 Lemma proof_of_memmove_entail_wit_5_2 : memmove_entail_wit_5_2.
@@ -244,8 +233,6 @@ Proof.
   rewrite (sublist_split i n0 (i + 1) bytes) by lia.
   rewrite (sublist_single 0 i bytes) by lia. cbn [app].
   rewrite CharArray.full_unfold, CharArray.seg_0_shift.
-  unfold CharArray.undef_full, CharArray.undef_seg, store_undef_array.
-  rewrite Z.sub_0_r.
   replace (dest0 + i * sizeof(CHAR) + 1 * sizeof(CHAR)) with
     (dest0 + (i + 1) * sizeof(CHAR)) by lia.
   replace (n0 - i - 1) with (n0 - (i + 1)) by lia.

@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P029_690D1_the_wall_easy_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P029_690D1_the_wall_easy_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.array2_ext_lib.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P029_690D1_the_wall_easy_lib.
@@ -24,7 +8,7 @@ Local Open Scope sac.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold WallColumnsAfterRows.
   split.
   - unfold repeat_Z.
@@ -44,7 +28,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply pre_from_quantified_rows__row_boundaries.
   - lia.
   - lia.
@@ -64,7 +48,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply wall_columns_during_row_zero__row_boundaries.
   exact PreH11.
 Qed.
@@ -77,7 +61,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Array2.replace_mixed_row_Znth.
   rewrite (Znth_indep grid_mem i __default__List__App_option_Z nil) by lia.
   unfold Array2.mixed_val.
@@ -88,7 +72,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_2 : solver_entail_wit_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Array2.replace_mixed_row_Znth.
   rewrite (Znth_indep grid_mem i __default__List__App_option_Z nil) by lia.
   unfold Array2.mixed_val.
@@ -99,12 +83,12 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_3 : solver_entail_wit_3_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_4 : solver_entail_wit_3_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Array2.replace_mixed_row_Znth.
   rewrite (Znth_indep grid_mem i __default__List__App_option_Z nil) by lia.
   unfold Array2.mixed_def.
@@ -115,7 +99,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_spatial : solver_entail_wit_3_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Array2.replace_mixed_row_Znth.
   rewrite (Znth_indep grid_mem i __default__List__App_option_Z nil) by lia.
   cancel.
@@ -133,7 +117,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_1_split_goal_1 : solver_entail_wit_4_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   eapply wall_columns_mark_current__cell_updates; eauto; lia.
 Qed.
@@ -145,7 +129,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_1_split_goal_spatial : solver_entail_wit_4_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold Array2.replace_mixed_row.
   rewrite (replace_Znth_same_inbounds__cell_updates
              _ i grid_mem nil) by lia.
@@ -162,7 +146,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_2_split_goal_1 : solver_entail_wit_4_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   eapply wall_columns_skip_current__cell_updates; eauto; lia.
 Qed.
@@ -174,7 +158,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_2_split_goal_spatial : solver_entail_wit_4_2_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   fold (CharArray.mixedstoreA
           (grid_pre + i * (sizeof (CHAR) * 105)) j (Some cell)).
   sep_apply_l_atomic
@@ -226,7 +210,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_1 : solver_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (j = c_pre) by lia.
   subst j.
   eapply wall_columns_during_row_complete__row_boundaries.
@@ -248,7 +232,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_split_goal_2 : solver_entail_wit_7_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (i = r_pre) by lia.
   subst i.
   exact PreH11.
@@ -263,7 +247,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_8_1_split_goal_1 : solver_entail_wit_8_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (pre_first_row_length__segment_scan _ _ _ PreH9) as Hfirstlen.
   unfold Pre in PreH9.
@@ -303,7 +287,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_8_2_split_goal_1 : solver_entail_wit_8_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst j.
   assert (segments = 0) by lia.
   subst segments.
@@ -336,7 +320,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_8_3_split_goal_1 : solver_entail_wit_8_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold Pre in PreH7.
   destruct PreH7 as [[Hrlo Hrhi] [[Hclo Hchi] [Hgrid Hrows]]].
   destruct PreH14 as [_ Hcolumns].
@@ -367,7 +351,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_8_4_split_goal_1 : solver_entail_wit_8_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold Pre in PreH9.
   destruct PreH9 as [[Hrlo Hrhi] [[Hclo Hchi] [Hgrid Hrows]]].
   destruct PreH16 as [_ Hcolumns].
@@ -403,7 +387,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (j = c_pre) by lia.
   subst j.
   apply segment_count_prefix_full_to_spec__final_result with (r := r_pre).
@@ -420,7 +404,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_1_pure_split_goal_1 : solver_partial_solve_wit_1_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH16 i ltac:(lia)) as [[_ Hcells] _].
   specialize (Hcells j ltac:(lia)).
   dump_pre_spatial.
@@ -435,13 +419,13 @@ Qed.
 
 Lemma proof_of_solver_which_implies_wit_1_split_goal_spatial : solver_which_implies_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   sep_apply_l_atomic
     (CharArray2.mixed_full_split_to_mixed_missing_i
        grid_pre i r_pre 105 grid_mem ltac:(lia)).
   unfold CharArray2.row_addr.
   replace (grid_pre + i * 105 * sizeof (CHAR)) with
-    (grid_pre + i * (sizeof (CHAR) * 105)) by ring.
+    (grid_pre + i * (105 * sizeof (CHAR))) by ring.
   unfold CharArray2.ElemArray.mixed_full, CharArray.mixed_full.
   unfold CharArray2.ElemArray.mixedstoreA, CharArray.mixedstoreA.
   cancel.

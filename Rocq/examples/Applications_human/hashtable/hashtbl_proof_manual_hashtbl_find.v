@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.Applications_human.hashtable Require Import hashtbl_goal.
 From SimpleC.EE.Applications_human.hashtable Require Import hashtbl_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.hashtable.hashtbl_lib.
 Local Open Scope sac.
@@ -67,7 +51,6 @@ Proof.
   Intros_p Hhead.
   Exists (Znth (retval % 211) lh_2 0) (@nil Z) l2
     b_2 lh_2 l_2 bucks_ph top_ph_2 m_node_2.
-  replace (sizeof(PTR)) with ptr_size_Z by reflexivity.
   simpl sllbseg.
   split_pure_spatial.
   - repeat cancel.
@@ -150,8 +133,6 @@ Proof.
       Exists p_next kp vp h_val t_l1 (h_val :: t_l1) b_2 lh_2 l_2
         bucks_ph_2 top_ph_2 k_cur i_v_3 l_tail (i_v_3 :: l_tail)
         m_node_2.
-      replace (sizeof(PTR)) with ptr_size_Z by reflexivity.
-      unfold ptr_size_Z, Arch32.ptr_size_Z, Arch32.ptr_size.
       split_pure_spatial.
       * cancel (i # Ptr |-> i_v_3).
         cancel (&(h_pre # "hashtbl" ->ₛ "top") # Ptr |-> top_ph_2).
@@ -339,11 +320,6 @@ Proof.
     split_pure_spatial.
     + cancel (store_map store_name m_node_2).
       cancel.
-      change
-        ((bucks_ph_2 + ind * sizeof(PTR)) # Ptr |-> i_v_2
-         |--
-         (bucks_ph_2 + ind * sizeof(PTR)) # Ptr |-> i_v_2).
-      cancel ((bucks_ph_2 + ind * sizeof(PTR)) # Ptr |-> i_v_2).
     + split_pures; dump_pre_spatial; auto.
   - split_pures; dump_pre_spatial; eauto.
 Qed.
@@ -374,8 +350,6 @@ Proof.
   assert (Hb_head : b ind = Some (head, l1)).
   { rewrite Hhead_lh. exact PreH7. }
   normalize.
-  rewrite sizeof_ptr.
-  fold ptr_size_Z.
   sep_apply_l_atomic
     (PtrArray.missing_i_merge_to_full bucks_ph ind 211 head lh).
   - dump_pre_spatial. lia.

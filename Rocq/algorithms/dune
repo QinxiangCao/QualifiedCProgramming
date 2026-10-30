@@ -1,6 +1,5 @@
 ; Converted from:
 ; - _CoqProject: -Q Rocq/algorithms Algorithms
-; - Rocq/_CoqProject: -Q algorithms Algorithms
 (coq.theory
  (name Algorithms)
  (theories

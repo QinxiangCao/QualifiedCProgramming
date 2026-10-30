@@ -122,7 +122,7 @@ static int solver(const int *values, int n, int *flat,
                     cells[k] == Some(active[k])) &&
                   cells[depth - 1] == Some(active[depth - 1]) &&
                   IntArray::full(values@pre, n@pre, last_numbers) *
-                  store(pointer_offset(stack, depth - 1, sizeof(int), int),
+                  store(pointer_offset(stack, depth - 1, int),
                     int, active[depth - 1]) *
                   IntArray::mixed_missing_i(stack, depth - 1, 0, 1005, cells) *
                   IntArray::seg(flat@pre, 0, total, flat_data) *
@@ -233,7 +233,7 @@ static int solver(const int *values, int n, int *flat,
                   cells[i] == Some(active[i]) &&
                   has_int_permission(&x) *
                   IntArray::full(values@pre, n@pre, last_numbers) *
-                  store(pointer_offset(stack, i, sizeof(int), int),
+                  store(pointer_offset(stack, i, int),
                     int, active[i]) *
                   IntArray::mixed_missing_i(stack, i, 0, 1005, cells) *
                   IntArray::seg(flat@pre, 0, total, flat_data) *

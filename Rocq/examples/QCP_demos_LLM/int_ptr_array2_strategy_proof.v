@@ -1,12 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.QCP_demos_LLM Require Import int_ptr_array2_strategy_goal.
 Import naive_C_Rules.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 
@@ -21,10 +15,7 @@ Proof.
   - Intros row_ptr.
     Exists row_ptr.
     rewrite (Znth_indep rows i nil __default_app1_Z) by lia.
-    unfold StorePtrAsElement.storeA.
-    change (IntPtrArray2.ElemArray.full row_ptr
-(Zlength (Znth i rows __default_app1_Z))
-(Znth i rows __default_app1_Z)) with (IntArray.full row_ptr (Zlength (Znth i rows __default_app1_Z)) (Znth i rows __default_app1_Z)).
+    change (IntPtrArray2.ElemArray.full row_ptr (Zlength (Znth i rows __default_app1_Z)) (Znth i rows __default_app1_Z)) with (IntArray.full row_ptr (Zlength (Znth i rows __default_app1_Z)) (Znth i rows __default_app1_Z)).
     normalize.
     cancel (IntPtrArray2.missing_i p n i row_ptr rows).
     cancel (IntArray.full row_ptr (Zlength (Znth i rows __default_app1_Z)) (Znth i rows __default_app1_Z)).
@@ -32,8 +23,7 @@ Proof.
     apply_sepcon_adjoint.
     Intros.
     subst v.
-    fold_arch.
-    cancel.
+    entailer!.
 Qed.
 
 Lemma int_ptr_array2_strategy4_correctness : int_ptr_array2_strategy4.
@@ -52,14 +42,10 @@ Qed.
 Lemma int_ptr_array2_strategy2_correctness : int_ptr_array2_strategy2.
 Proof.
   pre_process_default.
-  pose proof (IntPtrArray2.missing_i_merge_to_full
-        p i n row_ptr rows (Znth i rows __default_app1_Z)).
-  unfold StorePtrAsElement.storeA in H1.
-  fold_arch.
-  change (IntPtrArray2.ElemArray.full row_ptr
-(Zlength (Znth i rows __default_app1_Z))
-(Znth i rows __default_app1_Z)) with (IntArray.full row_ptr (Zlength (Znth i rows __default_app1_Z)) (Znth i rows __default_app1_Z)) in H1.
-  sep_apply H1 ; try lia.
-  rewrite replace_Znth_Znth by lia.
-  cancel.
+  pose proof (IntPtrArray2.missing_i_merge_to_full p i n row_ptr rows (Znth i rows __default_app1_Z) ltac:(lia)) as Hmerge.
+  rewrite replace_Znth_Znth in Hmerge.
+  sep_apply_r_atomic Hmerge.
+  entailer!.
+  sep_apply (derivable1_sepcon_comm (IntArray.full row_ptr (Zlength (Znth i rows __default_app1_Z)) (Znth i rows __default_app1_Z)) (poly_store FET_ptr (p + i * sizeof(PTR)) row_ptr)).
+  reflexivity.
 Qed.

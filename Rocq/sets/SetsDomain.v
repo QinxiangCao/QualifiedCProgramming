@@ -691,6 +691,63 @@ Ltac UNFOLD_MARKER_TAC T :=
                MarkerWrapper2t] in T in
   constr:(T0).
 
+Ltac test_redun_In_not_appear SIn T :=
+  match T with
+  | context [SIn _ (fun _ => _ )] =>
+      fail 1
+  | _ => constr:(T)
+  end.
+
+Goal forall f: nat -> (nat -> nat) -> nat,
+  True.
+  intros.
+  match goal with
+  | |- True =>
+        let T := test_redun_In_not_appear f (f O (fun n: nat => n)) in
+        idtac "Choice 1"
+  | |- _ => idtac "Choice 2"
+  end.
+Abort.
+
+Definition SetsEleIn_shaded := @SetsEle.In.
+Definition SetsEleIn_curr := @SetsEle.In.
+
+Ltac elim_redun_In_rec_rec T :=
+  match T with
+  | context G [@SetsEle.In ?S ?E ?SETS _ (fun _ => _ )] =>
+      let T1 := eval pattern (@SetsEle.In S E SETS) at 1 in T in
+      match T1 with
+      | ?F _ => 
+          let T2 := eval cbv beta in (F (SetsEleIn_curr S E SETS)) in
+          match T with
+          | _ =>
+              let __ := test_redun_In_not_appear (@SetsEle.In S E SETS) T2 in
+              let SIn := SETS_ELE_In_simplify_rec (@SetsEle.In S E SETS) in
+              let T3 := eval cbv beta in (F SIn) in
+              constr:(T3)
+          | _ =>
+              let T3 := eval cbv beta in (F (SetsEleIn_shaded S E SETS)) in
+              let T4 := elim_redun_In_rec_rec T3 in
+              constr:(T4)
+          end
+      end
+  end.
+
+Ltac elim_redun_In_rec T :=
+  let T0 := T in
+  match T0 with
+  | _ => let T1 := elim_redun_In_rec_rec T0 in
+         let T2 := eval cbv beta iota delta [SetsEleIn_curr SetsEleIn_shaded] in T1 in
+         let T3 := elim_redun_In_rec T2 in
+         constr:(T3)
+  | _ => constr:(T0)
+  end.
+  
+Ltac ELIM_REDUN_IN_TAC T :=
+  let T0 := eval cbv beta iota in T in
+  let T1 := elim_redun_In_rec T0 in
+  constr:(T1).
+
 Ltac SETS_simplify_add_In T :=
   let T1 := ADD_MARKER_WRAPPER_TAC T in
   let T2 := UNFOLD_MARKER_TAC T1 in
@@ -698,7 +755,8 @@ Ltac SETS_simplify_add_In T :=
   let T4 := eval cbv beta delta [add_In_Marker_head] in T3 in
   let T5 := handle_general T4 in
   let T6 := SIMPLIFY_TAC T5 in
-  constr:(T6).
+  let T7 := ELIM_REDUN_IN_TAC T6 in
+  constr:(T7).
 
 Ltac unfold_SETS_add_In_in_goal_tac :=
   match goal with
@@ -1648,6 +1706,96 @@ Proof.
   rewrite Sets_union_intersect_distr_r.
   rewrite ! (Sets_union_comm x).
   reflexivity.
+Qed.
+
+Lemma Sets_indexed_union_union_distr {I T} {_SETS: Sets.SETS T} {_SETS_Properties: SETS_Properties T}:
+  forall A B: I -> T,
+    Sets.equiv
+      (Sets.indexed_union (Sets.union A B))
+      (Sets.union (Sets.indexed_union A) (Sets.indexed_union B)).
+Proof.
+  intros.
+  apply Sets_equiv_Sets_included.
+  split.
+  + apply Sets_indexed_union_included; intros i.
+    apply Sets_union_included.
+    - rewrite <- Sets_included_union1.
+      apply Sets_included_indexed_union.
+    - rewrite <- Sets_included_union2.
+      apply Sets_included_indexed_union.
+  + apply Sets_union_included.
+    - apply Sets_indexed_union_included; intros i.
+      rewrite <- (Sets_included_indexed_union i (Sets.union A B)).
+      apply Sets_included_union1.
+    - apply Sets_indexed_union_included; intros i.
+      rewrite <- (Sets_included_indexed_union i (Sets.union A B)).
+      apply Sets_included_union2.
+Qed.
+
+Lemma Sets_indexed_union_empty {I T} {_SETS: Sets.SETS T} {_SETS_Properties: SETS_Properties T}:
+  Sets.equiv
+    (Sets.indexed_union (@Sets.empty (I -> T) _))
+    Sets.empty.
+Proof.
+  apply Sets_equiv_empty_fact.
+  apply Sets_indexed_union_included; intros i.
+  change (Sets.included Sets.empty Sets.empty).
+  reflexivity.
+Qed.
+
+Lemma Sets_indexed_union_empty_of {I T} {_SETS: Sets.SETS T} {_SETS_Properties: SETS_Properties T}:
+  forall A: I -> T,
+    Sets.equiv A (@Sets.empty (I -> T) _) ->
+    Sets.equiv (Sets.indexed_union A) Sets.empty.
+Proof.
+  intros A H.
+  rewrite H.
+  apply Sets_indexed_union_empty.
+Qed.
+
+Lemma Sets_indexed_intersect_intersect_distr {I T} {_SETS: Sets.SETS T} {_SETS_Properties: SETS_Properties T}:
+  forall A B: I -> T,
+    Sets.equiv
+      (Sets.indexed_intersect (Sets.intersect A B))
+      (Sets.intersect (Sets.indexed_intersect A) (Sets.indexed_intersect B)).
+Proof.
+  intros.
+  apply Sets_equiv_Sets_included.
+  split.
+  + apply Sets_included_intersect.
+    - apply Sets_included_indexed_intersect; intros i.
+      rewrite Sets_intersect_included1.
+      apply Sets_indexed_intersect_included.
+    - apply Sets_included_indexed_intersect; intros i.
+      rewrite Sets_intersect_included2.
+      apply Sets_indexed_intersect_included.
+  + apply Sets_included_indexed_intersect; intros i.
+    apply Sets_included_intersect.
+    - rewrite Sets_intersect_included1.
+      apply Sets_indexed_intersect_included.
+    - rewrite Sets_intersect_included2.
+      apply Sets_indexed_intersect_included.
+Qed.
+
+Lemma Sets_indexed_intersect_full {I T} {_SETS: Sets.SETS T} {_SETS_Properties: SETS_Properties T}:
+  Sets.equiv
+    (Sets.indexed_intersect (@Sets.full (I -> T) _))
+    Sets.full.
+Proof.
+  apply Sets_equiv_full_fact.
+  apply Sets_included_indexed_intersect; intros i.
+  change (Sets.included Sets.full Sets.full).
+  reflexivity.
+Qed.
+
+Lemma Sets_indexed_intersect_full_of {I T} {_SETS: Sets.SETS T} {_SETS_Properties: SETS_Properties T}:
+  forall A: I -> T,
+    Sets.equiv A (@Sets.full (I -> T) _) ->
+    Sets.equiv (Sets.indexed_intersect A) Sets.full.
+Proof.
+  intros A H.
+  rewrite H.
+  apply Sets_indexed_intersect_full.
 Qed.
 
 Lemma Sets_intersect_indexed_union_distr_r {I T} {_SETS: Sets.SETS T} {_SETS_Properties: SETS_Properties T}:

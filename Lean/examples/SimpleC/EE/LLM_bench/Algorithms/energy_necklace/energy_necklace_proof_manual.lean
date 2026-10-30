@@ -146,7 +146,7 @@ private theorem split_arithmetic (beads vals dp : List Int) (n total width len l
 
 theorem proof_of_energyNecklace_safety_wit_25 : energyNecklace_safety_wit_25 := by
   right
-  intro n_pre beads_pre beads_l vals_l dp_l total width len left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
+  intro beads_l beads_pre n_pre vals_l dp_l total width len left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
   have hl : EnergyLabelsBounded beads_l n_pre := ⟨by assumption,fun idx hi => ⟨nth_property _ _ _ PreH46 (by omega),nth_property _ _ _ PreH47 (by omega)⟩⟩
   have hb0 := EnergyValsDuplicated_label_bound__arithmetic_safety_bounds beads_l vals_l n_pre left PreH29 hl (by omega)
   have hb1 := EnergyValsDuplicated_label_bound__arithmetic_safety_bounds beads_l vals_l n_pre (split+1) PreH29 hl (by omega)
@@ -158,7 +158,7 @@ theorem proof_of_energyNecklace_safety_wit_25 : energyNecklace_safety_wit_25 := 
 
 theorem proof_of_energyNecklace_safety_wit_27 : energyNecklace_safety_wit_27 := by
   right
-  intro n_pre beads_pre beads_l vals_l dp_l total width len left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
+  intro beads_l beads_pre n_pre vals_l dp_l total width len left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
   have hl : EnergyLabelsBounded beads_l n_pre := ⟨by assumption,fun idx hi => ⟨nth_property _ _ _ PreH46 (by omega),nth_property _ _ _ PreH47 (by omega)⟩⟩
   have hb0 := EnergyValsDuplicated_label_bound__arithmetic_safety_bounds beads_l vals_l n_pre left PreH29 hl (by omega)
   have hb1 := EnergyValsDuplicated_label_bound__arithmetic_safety_bounds beads_l vals_l n_pre (split+1) PreH29 hl (by omega)
@@ -168,7 +168,7 @@ theorem proof_of_energyNecklace_safety_wit_27 : energyNecklace_safety_wit_27 := 
 
 theorem proof_of_energyNecklace_safety_wit_31 : energyNecklace_safety_wit_31 := by
   right
-  intro n_pre beads_pre beads_l vals_l dp_l total width len left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
+  intro beads_l beads_pre n_pre vals_l dp_l total width len left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
   have hl : EnergyLabelsBounded beads_l n_pre := ⟨by assumption,fun idx hi => ⟨nth_property _ _ _ PreH46 (by omega),nth_property _ _ _ PreH47 (by omega)⟩⟩
   have hb := split_arithmetic beads_l vals_l dp_l n_pre total width len left right split (by omega) PreH1 PreH2 PreH29 hl (fun start e hs hp => PreH48 vals_l start e ⟨⟨⟨PreH29,hs.1⟩,hs.2⟩,hp⟩) ⟨by omega,by omega⟩ ⟨by omega,by omega⟩ PreH11 ⟨by omega,by omega⟩ PreH35
   dsimp only [EnergySplitArithmeticBounded,EnergyCellIndex] at hb
@@ -177,7 +177,7 @@ theorem proof_of_energyNecklace_safety_wit_31 : energyNecklace_safety_wit_31 := 
 
 theorem proof_of_energyNecklace_safety_wit_32 : energyNecklace_safety_wit_32 := by
   right
-  intro n_pre beads_pre beads_l vals_l dp_l total width len left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
+  intro beads_l beads_pre n_pre vals_l dp_l total width len left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
   have hl : EnergyLabelsBounded beads_l n_pre := ⟨by assumption,fun idx hi => ⟨nth_property _ _ _ PreH46 (by omega),nth_property _ _ _ PreH47 (by omega)⟩⟩
   have hb := split_arithmetic beads_l vals_l dp_l n_pre total width len left right split (by omega) PreH1 PreH2 PreH29 hl (fun start e hs hp => PreH48 vals_l start e ⟨⟨⟨PreH29,hs.1⟩,hs.2⟩,hp⟩) ⟨by omega,by omega⟩ ⟨by omega,by omega⟩ PreH11 ⟨by omega,by omega⟩ PreH35
   dsimp only [EnergySplitArithmeticBounded,EnergyCellIndex] at hb
@@ -186,7 +186,7 @@ theorem proof_of_energyNecklace_safety_wit_32 : energyNecklace_safety_wit_32 := 
 
 theorem proof_of_energyNecklace_entail_wit_8 : energyNecklace_entail_wit_8 := by
   right
-  intro n_pre beads_l vals_l_2 dp_l_2 len width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro beads_l n_pre vals_l_2 dp_l_2 len width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hp : EnergyLeftComplete vals_l_2 dp_l_2 width len 0 := by intro l r idx hl; omega
   split_pure_spatial
   · cancel
@@ -195,7 +195,7 @@ theorem proof_of_energyNecklace_entail_wit_8 : energyNecklace_entail_wit_8 := by
 
 theorem proof_of_energyNecklace_entail_wit_9 : energyNecklace_entail_wit_9 := by
   right
-  intro n_pre beads_l vals_l_2 dp_l_2 left len width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro beads_l n_pre vals_l_2 dp_l_2 left len width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hp : EnergySplitBest vals_l_2 dp_l_2 width len left left 0 := Or.inl ⟨rfl,rfl⟩
   split_pure_spatial
   · cancel
@@ -204,7 +204,7 @@ theorem proof_of_energyNecklace_entail_wit_9 : energyNecklace_entail_wit_9 := by
 
 theorem proof_of_energyNecklace_entail_wit_10 : energyNecklace_entail_wit_10 := by
   right
-  intro n_pre beads_l vals_l_2 dp_l_2 best split right left len width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
+  intro beads_l n_pre vals_l_2 dp_l_2 best split right left len width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -212,7 +212,7 @@ theorem proof_of_energyNecklace_entail_wit_10 : energyNecklace_entail_wit_10 := 
 
 theorem proof_of_energyNecklace_entail_wit_11 : energyNecklace_entail_wit_11 := by
   right
-  intro n_pre beads_l vals_l dp_l total width len left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
+  intro beads_l n_pre vals_l dp_l total width len left right split best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
   have hl : EnergyLabelsBounded beads_l n_pre := ⟨by assumption,fun idx hi => ⟨nth_property _ _ _ PreH46 (by omega),nth_property _ _ _ PreH47 (by omega)⟩⟩
   have hb := split_arithmetic beads_l vals_l dp_l n_pre total width len left right split (by omega) PreH1 PreH2 PreH29 hl (fun start e hs hp => PreH48 vals_l start e ⟨⟨⟨PreH29,hs.1⟩,hs.2⟩,hp⟩) ⟨by omega,by omega⟩ ⟨by omega,by omega⟩ PreH11 ⟨by omega,by omega⟩ PreH35
   dsimp only [EnergySplitArithmeticBounded,EnergyCellIndex] at hb
@@ -224,7 +224,7 @@ theorem proof_of_energyNecklace_entail_wit_11 : energyNecklace_entail_wit_11 := 
 
 theorem proof_of_energyNecklace_entail_wit_12_1 : energyNecklace_entail_wit_12_1 := by
   right
-  intro n_pre beads_l vals_l_2 dp_l_2 total width len left right split left_value right_value gain candidate best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45
+  intro beads_l n_pre vals_l_2 dp_l_2 total width len left right split left_value right_value gain candidate best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45
   have hd : EnergyLenDone vals_l_2 dp_l_2 total width len := ⟨by omega,by assumption,by assumption,by assumption,by omega,PreH32⟩
   have hlp : EnergyLeftProgress vals_l_2 dp_l_2 total width len left := ⟨hd,by omega,by omega,PreH35⟩
   have hsp : EnergySplitProgress vals_l_2 dp_l_2 total width len left split best := ⟨hlp,by omega,by omega,by omega,rfl,⟨by omega,by omega⟩,⟨by omega,by omega⟩,PreH41⟩
@@ -239,7 +239,7 @@ theorem proof_of_energyNecklace_entail_wit_12_1 : energyNecklace_entail_wit_12_1
 
 theorem proof_of_energyNecklace_entail_wit_12_2 : energyNecklace_entail_wit_12_2 := by
   right
-  intro n_pre beads_l vals_l_2 dp_l_2 total width len left right split left_value right_value gain candidate best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45
+  intro beads_l n_pre vals_l_2 dp_l_2 total width len left right split left_value right_value gain candidate best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45
   have hd : EnergyLenDone vals_l_2 dp_l_2 total width len := ⟨by omega,by assumption,by assumption,by assumption,by omega,PreH32⟩
   have hlp : EnergyLeftProgress vals_l_2 dp_l_2 total width len left := ⟨hd,by omega,by omega,PreH35⟩
   have hsp : EnergySplitProgress vals_l_2 dp_l_2 total width len left split best := ⟨hlp,by omega,by omega,by omega,rfl,⟨by omega,by omega⟩,⟨by omega,by omega⟩,PreH41⟩
@@ -254,7 +254,7 @@ theorem proof_of_energyNecklace_entail_wit_12_2 : energyNecklace_entail_wit_12_2
 
 theorem proof_of_energyNecklace_entail_wit_13 : energyNecklace_entail_wit_13 := by
   right
-  intro n_pre beads_l vals_l_2 dp_l_2 total width len left right split left_value right_value gain candidate best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
+  intro beads_l n_pre vals_l_2 dp_l_2 total width len left right split left_value right_value gain candidate best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -262,7 +262,7 @@ theorem proof_of_energyNecklace_entail_wit_13 : energyNecklace_entail_wit_13 := 
 
 theorem proof_of_energyNecklace_entail_wit_14 : energyNecklace_entail_wit_14 := by
   right
-  intro n_pre beads_l vals_l_2 dp_l_2 best split right left len width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
+  intro beads_l n_pre vals_l_2 dp_l_2 best split right left len width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
   have hd : EnergyLenDone vals_l_2 dp_l_2 total width len := ⟨by omega,by assumption,by assumption,by assumption,by omega,PreH29⟩
   have hlp : EnergyLeftProgress vals_l_2 dp_l_2 total width len left := ⟨hd,by omega,by omega,PreH32⟩
   have hsp : EnergySplitProgress vals_l_2 dp_l_2 total width len left split best := ⟨hlp,by omega,by omega,by omega,rfl,⟨by omega,by omega⟩,⟨by omega,by omega⟩,PreH38⟩
@@ -278,7 +278,7 @@ theorem proof_of_energyNecklace_entail_wit_14 : energyNecklace_entail_wit_14 := 
 
 theorem proof_of_energyNecklace_entail_wit_15 : energyNecklace_entail_wit_15 := by
   right
-  intro n_pre beads_l vals_l_2 dp_l_2 total width len left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro beads_l n_pre vals_l_2 dp_l_2 total width len left right best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   have hd : EnergyLenDone vals_l_2 dp_l_2 total width len := ⟨by omega,by assumption,by assumption,by assumption,by omega,PreH25⟩
   have hlp : EnergyLeftProgress vals_l_2 dp_l_2 total width len left := ⟨hd,by omega,by omega,PreH28⟩
   have hsp : EnergySplitProgress vals_l_2 dp_l_2 total width len left right best := ⟨hlp,by omega,by omega,by omega,rfl,⟨by omega,by omega⟩,⟨by omega,by omega⟩,PreH34⟩
@@ -295,7 +295,7 @@ theorem proof_of_energyNecklace_entail_wit_15 : energyNecklace_entail_wit_15 := 
 
 theorem proof_of_energyNecklace_entail_wit_16 : energyNecklace_entail_wit_16 := by
   right
-  intro n_pre beads_l vals_l_2 dp_l_2 left len width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro beads_l n_pre vals_l_2 dp_l_2 left len width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hd : EnergyLenDone vals_l_2 dp_l_2 total width len := ⟨by omega,by assumption,by assumption,by assumption,by omega,PreH20⟩
   have hlp : EnergyLeftProgress vals_l_2 dp_l_2 total width len left := ⟨hd,by omega,by omega,PreH23⟩
   have hx := EnergyLeftProgress_finish_len__dp_interval_progress vals_l_2 dp_l_2 total width len left PreH1 PreH11 hlp
@@ -307,7 +307,7 @@ theorem proof_of_energyNecklace_entail_wit_16 : energyNecklace_entail_wit_16 := 
 
 theorem proof_of_energyNecklace_entail_wit_17 : energyNecklace_entail_wit_17 := by
   right
-  intro n_pre beads_l vals_l_2 dp_l_2 len width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro beads_l n_pre vals_l_2 dp_l_2 len width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have he : len=n_pre+1 := by omega
   have hp : EnergyLengthsComplete vals_l_2 dp_l_2 width (n_pre+1) := by simpa only [he] using PreH18
   have ha : EnergyAnswerBest vals_l_2 n_pre 0 0 := Or.inl ⟨rfl,rfl⟩
@@ -318,7 +318,7 @@ theorem proof_of_energyNecklace_entail_wit_17 : energyNecklace_entail_wit_17 := 
 
 theorem proof_of_energyNecklace_entail_wit_18 : energyNecklace_entail_wit_18 := by
   right
-  intro n_pre beads_l vals_l_2 dp_l_2 answer start width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
+  intro beads_l n_pre vals_l_2 dp_l_2 answer start width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
   have hp : EnergyIntervalBest vals_l_2 start (start+n_pre-1) (Znth (start*width+start+n_pre-1) dp_l_2 0) := PreH20 n_pre start (start+n_pre-1) _ ⟨by omega,by omega⟩ rfl (by dsimp only [EnergyCellIndex]; ring) PreH8 (by omega)
   split_pure_spatial
   · cancel
@@ -327,7 +327,7 @@ theorem proof_of_energyNecklace_entail_wit_18 : energyNecklace_entail_wit_18 := 
 
 theorem proof_of_energyNecklace_entail_wit_19 : energyNecklace_entail_wit_19 := by
   right
-  intro n_pre beads_l vals_l_2 dp_l total width start answer PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
+  intro beads_l n_pre vals_l_2 dp_l total width start answer PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
   have hl : EnergyLabelsBounded beads_l n_pre := ⟨by assumption,fun idx hi => ⟨nth_property _ _ _ PreH30 (by omega),nth_property _ _ _ PreH31 (by omega)⟩⟩
   have hv := duplicated_nonnegative beads_l vals_l_2 n_pre PreH13 hl
   have hp := best_plan _ _ _ _ PreH28
@@ -341,7 +341,7 @@ theorem proof_of_energyNecklace_entail_wit_19 : energyNecklace_entail_wit_19 := 
 
 theorem proof_of_energyNecklace_entail_wit_20_1 : energyNecklace_entail_wit_20_1 := by
   right
-  intro n_pre beads_l vals_l_2 dp_l_2 total width start value answer PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
+  intro beads_l n_pre vals_l_2 dp_l_2 total width start value answer PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
   have hp : EnergyAnswerProgress beads_l vals_l_2 dp_l_2 n_pre total width start answer := ⟨PreH15,by assumption,by assumption,⟨by omega,by omega⟩,⟨by omega,by omega⟩,PreH29⟩
   have hx := EnergyAnswerProgress_step_update__answer_loop beads_l vals_l_2 dp_l_2 n_pre total width start answer value hp ⟨by omega,by omega⟩ PreH30 ⟨by omega,by omega⟩ PreH1
   have ha : EnergyAnswerBest vals_l_2 n_pre (start+1) value := hx.2.2.2.2.2
@@ -352,7 +352,7 @@ theorem proof_of_energyNecklace_entail_wit_20_1 : energyNecklace_entail_wit_20_1
 
 theorem proof_of_energyNecklace_entail_wit_20_2 : energyNecklace_entail_wit_20_2 := by
   right
-  intro n_pre beads_l vals_l_2 dp_l_2 total width start value answer PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
+  intro beads_l n_pre vals_l_2 dp_l_2 total width start value answer PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
   have hp : EnergyAnswerProgress beads_l vals_l_2 dp_l_2 n_pre total width start answer := ⟨PreH15,by assumption,by assumption,⟨by omega,by omega⟩,⟨by omega,by omega⟩,PreH29⟩
   have hx := EnergyAnswerProgress_step_keep__answer_loop beads_l vals_l_2 dp_l_2 n_pre total width start answer value hp ⟨by omega,by omega⟩ PreH30 (by omega) PreH1
   have ha : EnergyAnswerBest vals_l_2 n_pre (start+1) answer := hx.2.2.2.2.2
@@ -363,7 +363,7 @@ theorem proof_of_energyNecklace_entail_wit_20_2 : energyNecklace_entail_wit_20_2
 
 theorem proof_of_energyNecklace_entail_wit_21 : energyNecklace_entail_wit_21 := by
   right
-  intro n_pre beads_l vals_l_2 dp_l_2 total width start_2 value answer PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
+  intro beads_l n_pre vals_l_2 dp_l_2 total width start_2 value answer PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -427,7 +427,7 @@ private theorem scratch_cleanup (a len total : Int) (l : List Int) (hc : 0 ≤ l
 
 theorem proof_of_energyNecklace_entail_wit_1 : energyNecklace_entail_wit_1 := by
   right
-  intro n_pre beads_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro beads_l n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   have hz : Forall2 Eq (sublist 0 0 ([] : List Int)) (sublist 0 0 beads_l) := by simp only [Zsublist_of_nil,Zsublist_nil beads_l 0 0 (by omega)]; exact .nil
   split_pure_spatial
   · sep_apply (intArray.undef_full_split_to_undef_seg (&("vals")) (2*n_pre) 200 (by omega))
@@ -440,7 +440,7 @@ theorem proof_of_energyNecklace_entail_wit_1 : energyNecklace_entail_wit_1 := by
 
 theorem proof_of_energyNecklace_entail_wit_2 : energyNecklace_entail_wit_2 := by
   right
-  intro n_pre beads_l i vals_l_2 width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro beads_l n_pre i vals_l_2 width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have hlen : Zlength (vals_l_2++[Znth i beads_l 0]) = i+1 := by simp only [Zlength_app,Zlength_cons,Zlength_nil]; omega
   have hp : Forall2 Eq (sublist 0 (i+1) (vals_l_2++[Znth i beads_l 0])) (sublist 0 (i+1) beads_l) := by
     apply prefix_view_make _ _ (i+1) (by omega) (by omega) (by omega)
@@ -457,7 +457,7 @@ theorem proof_of_energyNecklace_entail_wit_2 : energyNecklace_entail_wit_2 := by
 
 theorem proof_of_energyNecklace_entail_wit_3 : energyNecklace_entail_wit_3 := by
   right
-  intro n_pre beads_l i vals_l_2 width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro beads_l n_pre i vals_l_2 width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have he : i=n_pre := by omega
   have hz : Forall2 Eq (sublist n_pre (n_pre+0) vals_l_2) (sublist 0 0 beads_l) := by simp only [Int.add_zero,Zsublist_nil vals_l_2 n_pre n_pre (by omega),Zsublist_nil beads_l 0 0 (by omega)]; exact .nil
   have hp := PreH12
@@ -470,7 +470,7 @@ theorem proof_of_energyNecklace_entail_wit_3 : energyNecklace_entail_wit_3 := by
 
 theorem proof_of_energyNecklace_entail_wit_4 : energyNecklace_entail_wit_4 := by
   right
-  intro n_pre beads_l i vals_l_2 width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro beads_l n_pre i vals_l_2 width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have hlen : Zlength (vals_l_2++[Znth i beads_l 0]) = n_pre+(i+1) := by simp only [Zlength_app,Zlength_cons,Zlength_nil]; omega
   have hp : Forall2 Eq (sublist 0 n_pre (vals_l_2++[Znth i beads_l 0])) (sublist 0 n_pre beads_l) := by
     apply prefix_view_make _ _ n_pre (by omega) (by omega) (by omega)
@@ -494,7 +494,7 @@ theorem proof_of_energyNecklace_entail_wit_4 : energyNecklace_entail_wit_4 := by
 
 theorem proof_of_energyNecklace_entail_wit_5 : energyNecklace_entail_wit_5 := by
   right
-  intro n_pre beads_l i vals_l_2 width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro beads_l n_pre i vals_l_2 width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have he : i=n_pre := by omega
   have hd : EnergyValsDuplicated beads_l vals_l_2 n_pre := by
     refine ⟨by omega,by assumption,by omega,?_,?_⟩
@@ -502,17 +502,14 @@ theorem proof_of_energyNecklace_entail_wit_5 : energyNecklace_entail_wit_5 := by
       simpa only [Int.zero_add] using view_get vals_l_2 beads_l 0 n_pre k (by omega) hk (by simpa only [Int.zero_add] using PreH12)
     · intro k hk
       exact view_get vals_l_2 beads_l n_pre n_pre k (by omega) hk (by simpa only [he] using PreH13)
-  Exists vals_l_2
   split_pure_spatial
-  · have heq : n_pre+i=total := by omega
-    rw [heq]
-    simpa only [Int.zero_mul,Int.add_zero,Int.sub_zero] using intArray.seg_to_full (&("vals")) 0 total vals_l_2
+  · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first | assumption | rfl | exact Forall.nil | (simp only [Zlength_app,Zlength_cons,Zlength_nil]; omega) | nlinarith
 
 theorem proof_of_energyNecklace_entail_wit_6 : energyNecklace_entail_wit_6 := by
   right
-  intro n_pre beads_l vals_l_2 i dp_l_2 width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro beads_l n_pre vals_l_2 i dp_l_2 width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have hz : Forall (Eq (0 : Int)) (dp_l_2++[0]) := by
     apply Forall.iff_forall_mem.mpr
     intro x hx
@@ -527,22 +524,20 @@ theorem proof_of_energyNecklace_entail_wit_6 : energyNecklace_entail_wit_6 := by
 
 theorem proof_of_energyNecklace_entail_wit_7 : energyNecklace_entail_wit_7 := by
   right
-  intro n_pre beads_l vals_l_2 i dp_l_2 width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro beads_l n_pre vals_l_2 i dp_l_2 width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have he : i=total*width := by omega
   have hz : EnergyZeroTable dp_l_2 total width := ⟨by omega,by assumption,by omega,fun k hk => (nth_property _ dp_l_2 k PreH12 (by omega)).symm⟩
   have hd := EnergyZeroTable_len_done_2__prefix_table_bootstrap vals_l_2 dp_l_2 total width (by have h := PreH13.2.2.1; omega) hz
   have hp : EnergyLengthsComplete vals_l_2 dp_l_2 width 2 := hd.2.2.2.2.2
   have hvals := PreH13.2.2.1
-  Exists dp_l_2
   split_pure_spatial
-  · rw [he]
-    simpa only [Int.zero_mul,Int.add_zero,Int.sub_zero] using intArray.seg_to_full (&("dp")) 0 (total*width) dp_l_2
+  · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first | assumption | rfl | exact Forall.nil | (simp only [Zlength_app,Zlength_cons,Zlength_nil]; omega) | nlinarith
 
 theorem proof_of_energyNecklace_entail_wit_22 : energyNecklace_entail_wit_22 := by
   right
-  intro n_pre beads_l vals_l dp_l answer start_2 width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
+  intro beads_l n_pre vals_l dp_l answer start_2 width total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
   have hp : EnergyAnswerProgress beads_l vals_l dp_l n_pre total width start_2 answer := ⟨PreH14,PreH13,PreH3,⟨PreH8,PreH9⟩,⟨PreH10,PreH11⟩,PreH28⟩
   have ha := EnergyAnswerProgress_finish__answer_loop beads_l vals_l dp_l n_pre total width start_2 answer PreH4 hp PreH1 PreH9
   split_pure_spatial

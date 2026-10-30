@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P048_1607E_robot_on_the_board_1_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P048_1607E_robot_on_the_board_1_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.
 Local Open Scope sac.
@@ -38,7 +22,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_spatial : solver_entail_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold IntArray.full, store_array.
   simpl store_array_rec.
   replace (1 - 0) with 1 by lia.
@@ -60,7 +44,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_1_split_goal_1 : solver_entail_wit_2_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as
       (_ & _ & Hc & _ & _ & Hall & _ & _ & _ & _).
@@ -70,7 +54,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_1_split_goal_2 : solver_entail_wit_2_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z.lt_ge_cases i (Zlength moves)); [lia |].
   assert (i = Zlength moves) by lia.
   subst i.
@@ -89,7 +73,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_2_split_goal_1 : solver_entail_wit_2_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as
       (_ & _ & Hc & _ & _ & Hall & _ & _ & _ & _).
@@ -99,7 +83,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_2_split_goal_2 : solver_entail_wit_2_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z.lt_ge_cases i (Zlength moves)); [lia |].
   assert (i = Zlength moves) by lia.
   subst i.
@@ -118,7 +102,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_3_split_goal_1 : solver_entail_wit_2_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i < Zlength moves).
   {
     destruct (Z.lt_ge_cases i (Zlength moves)); [lia |].
@@ -139,7 +123,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_3_split_goal_2 : solver_entail_wit_2_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z.lt_ge_cases i (Zlength moves)); [lia |].
   assert (i = Zlength moves) by lia.
   subst i.
@@ -158,7 +142,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_4_split_goal_1 : solver_entail_wit_2_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as [Hi [Hr [Hc [Hrow0 [Hcol0 [Hbounds Hextrema]]]]]].
   specialize (Hbounds i ltac:(lia)).
@@ -168,7 +152,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_4_split_goal_2 : solver_entail_wit_2_4_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z_lt_ge_dec i (Zlength moves)) as [Hlt | Hge]; [exact Hlt |].
   assert (i = Zlength moves) by lia.
   subst i.
@@ -187,7 +171,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_5_split_goal_1 : solver_entail_wit_2_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as [Hi [Hr [Hc [Hrow0 [Hcol0 [Hbounds Hextrema]]]]]].
   specialize (Hbounds i ltac:(lia)).
@@ -197,7 +181,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_5_split_goal_2 : solver_entail_wit_2_5_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z_lt_ge_dec i (Zlength moves)) as [Hlt | Hge]; [exact Hlt |].
   assert (i = Zlength moves) by lia.
   subst i.
@@ -216,7 +200,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_6_split_goal_1 : solver_entail_wit_2_6_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as [Hi [Hr [Hc [Hrow0 [Hcol0 [Hbounds Hextrema]]]]]].
   specialize (Hbounds i ltac:(lia)).
@@ -226,7 +210,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_6_split_goal_2 : solver_entail_wit_2_6_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z_lt_ge_dec i (Zlength moves)) as [Hlt | Hge]; [exact Hlt |].
   assert (i = Zlength moves) by lia.
   subst i.
@@ -245,7 +229,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_7_split_goal_1 : solver_entail_wit_2_7_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as [Hi [_ [Hc [_ [_ [Hall _]]]]]].
   specialize (Hall i ltac:(lia)).
@@ -255,7 +239,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_7_split_goal_2 : solver_entail_wit_2_7_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z.lt_ge_cases i (Zlength moves)); [lia |].
   assert (i = Zlength moves) by lia.
   subst i.
@@ -274,7 +258,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_8_split_goal_1 : solver_entail_wit_2_8_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as [Hi [_ [Hc [_ [_ [Hall _]]]]]].
   specialize (Hall i ltac:(lia)).
@@ -284,7 +268,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_8_split_goal_2 : solver_entail_wit_2_8_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z.lt_ge_cases i (Zlength moves)); [lia |].
   assert (i = Zlength moves) by lia.
   subst i.
@@ -303,7 +287,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_9_split_goal_1 : solver_entail_wit_2_9_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i < Zlength moves).
   {
     destruct (Z.lt_ge_cases i (Zlength moves)); [lia |].
@@ -324,7 +308,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_9_split_goal_2 : solver_entail_wit_2_9_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z.lt_ge_cases i (Zlength moves)); [lia |].
   assert (i = Zlength moves) by lia.
   subst i.
@@ -343,7 +327,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_10_split_goal_1 : solver_entail_wit_2_10_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as (_ & Hr & Hc & _ & _ & Hbounds & _).
   specialize (Hbounds i ltac:(lia)).
@@ -354,7 +338,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_10_split_goal_2 : solver_entail_wit_2_10_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z_lt_ge_dec i (Zlength moves)) as [Hi | Hi].
   - exact Hi.
   - rewrite app_Znth2 in PreH30 by lia.
@@ -372,7 +356,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_11_split_goal_1 : solver_entail_wit_2_11_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as (_ & Hr & Hc & _ & _ & Hbounds & _).
   specialize (Hbounds i ltac:(lia)).
@@ -383,7 +367,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_11_split_goal_2 : solver_entail_wit_2_11_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z_lt_ge_dec i (Zlength moves)) as [Hi | Hi].
   - exact Hi.
   - rewrite app_Znth2 in PreH30 by lia.
@@ -401,7 +385,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_12_split_goal_1 : solver_entail_wit_2_12_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as (_ & Hr & _ & _ & _ & Hbounds & _).
   specialize (Hbounds i ltac:(lia)).
@@ -412,7 +396,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_12_split_goal_2 : solver_entail_wit_2_12_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z_lt_ge_dec i (Zlength moves)) as [Hi | Hi].
   - exact Hi.
   - rewrite app_Znth2 in PreH30 by lia.
@@ -430,7 +414,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_13_split_goal_1 : solver_entail_wit_2_13_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as
     [_ [_ [Hc [_ [_ [Hall _]]]]]].
@@ -440,7 +424,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_13_split_goal_2 : solver_entail_wit_2_13_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z.eq_dec i (Zlength moves)) as [Heq | Hneq].
   - subst i.
     rewrite Znth_app_last__down_new_max in PreH30.
@@ -457,7 +441,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_14_split_goal_1 : solver_entail_wit_2_14_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as
     [_ [_ [Hc [_ [_ [Hall _]]]]]].
@@ -467,7 +451,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_14_split_goal_2 : solver_entail_wit_2_14_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z.eq_dec i (Zlength moves)) as [Heq | Hneq].
   - subst i.
     rewrite Znth_app_last__down_new_max in PreH30.
@@ -484,7 +468,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_15_split_goal_1 : solver_entail_wit_2_15_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : 0 <= i < Zlength moves).
   {
     destruct (Z.eq_dec i (Zlength moves)) as [Heq | Hneq].
@@ -503,7 +487,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_15_split_goal_2 : solver_entail_wit_2_15_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z.eq_dec i (Zlength moves)) as [Heq | Hneq].
   - subst i.
     rewrite Znth_app_last__down_new_max in PreH30.
@@ -629,7 +613,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_19_split_goal_1 : solver_entail_wit_2_19_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as (_ & Hr & _ & _ & _ & Hall & _).
   specialize (Hall i ltac:(lia)).
@@ -639,7 +623,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_19_split_goal_2 : solver_entail_wit_2_19_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z.eq_dec i (Zlength moves)) as [Heq | Hneq].
   - subst i.
     rewrite Znth_app_last__left_impossible_low_row in PreH30.
@@ -656,7 +640,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_20_split_goal_1 : solver_entail_wit_2_20_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as (_ & Hr & _ & _ & _ & Hall & _).
   specialize (Hall i ltac:(lia)).
@@ -666,7 +650,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_20_split_goal_2 : solver_entail_wit_2_20_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z.eq_dec i (Zlength moves)) as [Heq | Hneq].
   - subst i.
     rewrite Znth_app_last__left_impossible_low_row in PreH30.
@@ -683,7 +667,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_21_split_goal_1 : solver_entail_wit_2_21_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as (_ & Hr & _ & _ & _ & Hall & _).
   specialize (Hall i ltac:(lia)).
@@ -693,7 +677,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_21_split_goal_2 : solver_entail_wit_2_21_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z.eq_dec i (Zlength moves)) as [Heq | Hneq].
   - subst i.
     rewrite Znth_app_last__left_impossible_low_row in PreH30.
@@ -710,7 +694,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_22_split_goal_1 : solver_entail_wit_2_22_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as (_ & Hr & _ & _ & _ & Hall & _).
   specialize (Hall i ltac:(lia)).
@@ -721,7 +705,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_22_split_goal_2 : solver_entail_wit_2_22_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z_lt_ge_dec i (Zlength moves)); [lia |].
   exfalso.
   apply PreH30.
@@ -739,7 +723,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_23_split_goal_1 : solver_entail_wit_2_23_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as (_ & Hr & _ & _ & _ & Hall & _).
   specialize (Hall i ltac:(lia)).
@@ -750,7 +734,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_23_split_goal_2 : solver_entail_wit_2_23_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z_lt_ge_dec i (Zlength moves)); [lia |].
   exfalso.
   apply PreH30.
@@ -768,7 +752,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_24_split_goal_1 : solver_entail_wit_2_24_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as (_ & Hr & _ & _ & _ & Hall & _).
   specialize (Hall i ltac:(lia)).
@@ -779,7 +763,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_24_split_goal_2 : solver_entail_wit_2_24_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z_lt_ge_dec i (Zlength moves)); [lia |].
   exfalso.
   apply PreH30.
@@ -797,7 +781,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_25_split_goal_1 : solver_entail_wit_2_25_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (nonzero_Znth_sentinel_lt__left_valid_row moves i
     (conj PreH12 PreH13) PreH30) as Hi.
   rewrite app_Znth1 in PreH33 by exact (conj PreH12 Hi).
@@ -810,7 +794,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_25_split_goal_2 : solver_entail_wit_2_25_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   exact (nonzero_Znth_sentinel_lt__left_valid_row moves i
     (conj PreH12 PreH13) PreH30).
 Qed.
@@ -824,7 +808,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_26_split_goal_1 : solver_entail_wit_2_26_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as (_ & Hr & Hc & _ & _ & Hbounds & _).
   specialize (Hbounds i ltac:(lia)).
@@ -834,7 +818,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_26_split_goal_2 : solver_entail_wit_2_26_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   exact (nonzero_Znth_sentinel_lt__left_valid_row moves i
     (conj PreH12 PreH13) PreH30).
 Qed.
@@ -848,7 +832,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_27_split_goal_1 : solver_entail_wit_2_27_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (nonzero_Znth_sentinel_lt__left_valid_row moves i
     (conj PreH12 PreH13) PreH30) as Hi.
   rewrite app_Znth1 in PreH33 by exact (conj PreH12 Hi).
@@ -861,7 +845,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_27_split_goal_2 : solver_entail_wit_2_27_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   exact (nonzero_Znth_sentinel_lt__left_valid_row moves i
     (conj PreH12 PreH13) PreH30).
 Qed.
@@ -959,7 +943,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_31_split_goal_1 : solver_entail_wit_2_31_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as (_ & Hr & _ & _ & _ & Hbounds & _).
   specialize (Hbounds i ltac:(lia)).
@@ -968,7 +952,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_31_split_goal_2 : solver_entail_wit_2_31_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z_lt_ge_dec i (Zlength moves)) as [Hlt | Hge]; [lia |].
   assert (i = Zlength moves) as -> by lia.
   rewrite app_Znth2 in PreH30 by lia.
@@ -986,7 +970,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_32_split_goal_1 : solver_entail_wit_2_32_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as (_ & Hr & _ & _ & _ & Hbounds & _).
   specialize (Hbounds i ltac:(lia)).
@@ -995,7 +979,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_32_split_goal_2 : solver_entail_wit_2_32_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z_lt_ge_dec i (Zlength moves)) as [Hlt | Hge]; [lia |].
   assert (i = Zlength moves) as -> by lia.
   rewrite app_Znth2 in PreH30 by lia.
@@ -1013,7 +997,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_33_split_goal_1 : solver_entail_wit_2_33_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as (_ & Hr & _ & _ & _ & Hbounds & _).
   specialize (Hbounds i ltac:(lia)).
@@ -1022,7 +1006,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_33_split_goal_2 : solver_entail_wit_2_33_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z_lt_ge_dec i (Zlength moves)) as [Hlt | Hge]; [lia |].
   assert (i = Zlength moves) as -> by lia.
   rewrite app_Znth2 in PreH30 by lia.
@@ -1040,7 +1024,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_34_split_goal_1 : solver_entail_wit_2_34_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixWindow in PreH28.
   destruct PreH28 as
       [Hi_range [Hr [Hc [Hrow0 [Hcol0 [Hall
@@ -1053,7 +1037,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_34_split_goal_2 : solver_entail_wit_2_34_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z_lt_ge_dec i (Zlength moves)) as [Hi | Hi]; [exact Hi |].
   assert (i = Zlength moves) by lia. subst i.
   rewrite app_Znth2 in PreH30 by lia.
@@ -1070,7 +1054,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_35_split_goal_1 : solver_entail_wit_2_35_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i < Zlength moves).
   {
     destruct (Z_lt_ge_dec i (Zlength moves)) as [Hi | Hi]; [exact Hi |].
@@ -1097,7 +1081,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_35_split_goal_2 : solver_entail_wit_2_35_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z_lt_ge_dec i (Zlength moves)) as [Hi | Hi]; [exact Hi |].
   assert (i = Zlength moves) by lia. subst i.
   rewrite app_Znth2 in PreH30 by lia.
@@ -1114,7 +1098,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_36_split_goal_1 : solver_entail_wit_2_36_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i < Zlength moves).
   {
     destruct (Z_lt_ge_dec i (Zlength moves)) as [Hi | Hi]; [exact Hi |].
@@ -1141,7 +1125,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_36_split_goal_2 : solver_entail_wit_2_36_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z_lt_ge_dec i (Zlength moves)) as [Hi | Hi]; [exact Hi |].
   assert (i = Zlength moves) by lia. subst i.
   rewrite app_Znth2 in PreH30 by lia.
@@ -1158,14 +1142,14 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold WindowFits.
   split; assumption.
 Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_2 : solver_entail_wit_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_3 : solver_entail_wit_3.
@@ -1177,7 +1161,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_1_split_goal_1 : solver_entail_wit_4_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hiend : i = Zlength moves).
   { destruct (Z_lt_ge_dec i (Zlength moves)) as [Hi | Hi]; [| lia].
     rewrite Znth_app_left__termination_optimality in PreH26 by lia.
@@ -1188,7 +1172,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_1_split_goal_2 : solver_entail_wit_4_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_4_1 : solver_entail_wit_4_1.
@@ -1200,13 +1184,13 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_2_split_goal_1 : solver_entail_wit_4_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply optimal_prefix_before_overflow__termination_optimality; eauto.
 Qed.
 
 Lemma proof_of_solver_entail_wit_4_2_split_goal_2 : solver_entail_wit_4_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_4_2 : solver_entail_wit_4_2.
@@ -1218,13 +1202,13 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_3_split_goal_1 : solver_entail_wit_4_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply optimal_prefix_before_overflow__termination_optimality; eauto.
 Qed.
 
 Lemma proof_of_solver_entail_wit_4_3_split_goal_2 : solver_entail_wit_4_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_4_3 : solver_entail_wit_4_3.
@@ -1236,7 +1220,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1 : solver_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   remember (1 - minr) as rr eqn:Hrr.
   remember (1 - minc) as cc eqn:Hcc.
   Exists (rr, cc).
@@ -1261,7 +1245,7 @@ Qed.
 
 Lemma proof_of_solver_which_implies_wit_1 : solver_which_implies_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold IntArray.undef_full, store_undef_array.
   simpl.
   replace (row + 0) with row by lia.
@@ -1274,7 +1258,7 @@ Qed.
 
 Lemma proof_of_solver_which_implies_wit_2_split_goal_spatial : solver_which_implies_wit_2_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold IntArray.full, store_array.
   simpl.
   replace (row + 0) with row by lia.

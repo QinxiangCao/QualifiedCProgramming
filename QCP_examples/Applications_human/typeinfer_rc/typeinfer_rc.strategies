@@ -1,0 +1,1035 @@
+#include "typeinfer_rc.h"
+
+// Demand-driven missing-list lookup. Function contracts and C are unchanged.
+// field_lookup(p,s,L) := True is a search-control tag, NOT a freshness certificate.
+// Only a real left-hand field_fresh(field_key(p,s),L) permits extraction/merge.
+// IDs 54-105 perform demand-driven lookup, bottom-up proof, and cleanup.
+
+
+// The integer solver need not perform the finite tag case split itself.
+id : 53
+priority : core(9)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       rc_valid(M) at 3
+       field_fresh(field_key(p, Payload0()), L) at 10
+right : store(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), ATOM), anonymous(atype.d.ATOM), name), I32, ?v) at 2
+check : infer(node_tag(n) != 1);
+        infer(node_tag(n) != 2);
+        infer(node_tag(n) != 3);
+action : left_add(node_tag(n) == 0);
+         right_add(v == node_a(n));
+         left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Payload0()), L)));
+
+// Expose the two child interpretations only while servicing a child read.
+id : 44
+priority : core(7)
+left : store_type(?M, ?p : Z, ?tr) at 0
+       node_at(M, p, ?n) at 1
+       store_world_missing(M, ?L) at 2
+       field_fresh(field_key(p, Payload0()), L) at 10
+right : store(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), ARROW), anonymous(atype.d.ARROW), from), PTR, ?v) at 3
+check : infer(node_tag(n) == 1);
+action : left_exist_add(a : <TypeTree>);
+         left_exist_add(b : <TypeTree>);
+         left_add(tr == TArrow(a, b));
+         left_add(store_type(M, node_a(n), a));
+         left_add(store_type(M, node_b(n), b));
+         right_add(v == node_a(n));
+         left_erase(2);
+         right_erase(3);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Payload0()), L)));
+
+// Expose the two child interpretations only while servicing a child read.
+id : 45
+priority : core(7)
+left : store_type(?M, ?p : Z, ?tr) at 0
+       node_at(M, p, ?n) at 1
+       store_world_missing(M, ?L) at 2
+       field_fresh(field_key(p, Payload0()), L) at 10
+right : store(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), APP), anonymous(atype.d.APP), tfn), PTR, ?v) at 3
+check : infer(node_tag(n) == 2);
+action : left_exist_add(a : <TypeTree>);
+         left_exist_add(b : <TypeTree>);
+         left_add(tr == TApply(a, b));
+         left_add(store_type(M, node_a(n), a));
+         left_add(store_type(M, node_b(n), b));
+         right_add(v == node_a(n));
+         left_erase(2);
+         right_erase(3);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Payload0()), L)));
+
+id : 46
+priority : core(0)
+left : store_world_missing(?M, nil{TypeFieldKey}) at 0
+right : store_world(?N) at 1
+action : left_erase(0);
+         right_erase(1);
+         right_add(N == M);
+
+// Close one unchanged head field only when a caller requests the whole world.
+id : 47
+priority : core(1)
+left : store_world_missing(?M, cons{TypeFieldKey}(field_key(?p : Z, Tag()), ?L)) at 0
+       node_at(M, p, ?n) at 1
+       store(field_addr(?q : Z, atype, t), I32, ?v) at 2
+       field_fresh(field_key(p, Tag()), L) at 10
+right : store_world(?N) at 3
+check : infer(q == p);
+        infer(v == node_tag(n));
+action : left_erase(0);
+         left_erase(2);
+         left_add(store_world_missing(M, L));
+
+// Close one unchanged head field only when a caller requests the whole world.
+id : 48
+priority : core(1)
+left : store_world_missing(?M, cons{TypeFieldKey}(field_key(?p : Z, Payload0()), ?L)) at 0
+       node_at(M, p, ?n) at 1
+       store(field_addr(field_addr(field_addr(?q : Z, atype, d), anonymous(atype.d), ARROW), anonymous(atype.d.ARROW), from), PTR, ?v) at 2
+       field_fresh(field_key(p, Payload0()), L) at 10
+right : store_world(?N) at 3
+check : infer(q == p);
+        infer(v == node_a(n));
+        infer(node_tag(n) == 1);
+action : left_erase(0);
+         left_erase(2);
+         left_add(store_world_missing(M, L));
+
+// Close one unchanged head field only when a caller requests the whole world.
+id : 49
+priority : core(1)
+left : store_world_missing(?M, cons{TypeFieldKey}(field_key(?p : Z, Payload1()), ?L)) at 0
+       node_at(M, p, ?n) at 1
+       store(field_addr(field_addr(field_addr(?q : Z, atype, d), anonymous(atype.d), ARROW), anonymous(atype.d.ARROW), to), PTR, ?v) at 2
+       field_fresh(field_key(p, Payload1()), L) at 10
+right : store_world(?N) at 3
+check : infer(q == p);
+        infer(v == node_b(n));
+        infer(node_tag(n) == 1);
+action : left_erase(0);
+         left_erase(2);
+         left_add(store_world_missing(M, L));
+
+// Close one unchanged head field only when a caller requests the whole world.
+id : 50
+priority : core(1)
+left : store_world_missing(?M, cons{TypeFieldKey}(field_key(?p : Z, Payload0()), ?L)) at 0
+       node_at(M, p, ?n) at 1
+       store(field_addr(field_addr(field_addr(?q : Z, atype, d), anonymous(atype.d), APP), anonymous(atype.d.APP), tfn), PTR, ?v) at 2
+       field_fresh(field_key(p, Payload0()), L) at 10
+right : store_world(?N) at 3
+check : infer(q == p);
+        infer(v == node_a(n));
+        infer(node_tag(n) == 2);
+action : left_erase(0);
+         left_erase(2);
+         left_add(store_world_missing(M, L));
+
+// Close one unchanged head field only when a caller requests the whole world.
+id : 51
+priority : core(1)
+left : store_world_missing(?M, cons{TypeFieldKey}(field_key(?p : Z, Payload1()), ?L)) at 0
+       node_at(M, p, ?n) at 1
+       store(field_addr(field_addr(field_addr(?q : Z, atype, d), anonymous(atype.d), APP), anonymous(atype.d.APP), rand), PTR, ?v) at 2
+       field_fresh(field_key(p, Payload1()), L) at 10
+right : store_world(?N) at 3
+check : infer(q == p);
+        infer(v == node_b(n));
+        infer(node_tag(n) == 2);
+action : left_erase(0);
+         left_erase(2);
+         left_add(store_world_missing(M, L));
+
+// Close one unchanged head field only when a caller requests the whole world.
+id : 52
+priority : core(1)
+left : store_world_missing(?M, cons{TypeFieldKey}(field_key(?p : Z, Payload0()), ?L)) at 0
+       node_at(M, p, ?n) at 1
+       store(field_addr(field_addr(field_addr(?q : Z, atype, d), anonymous(atype.d), ATOM), anonymous(atype.d.ATOM), name), I32, ?v) at 2
+       field_fresh(field_key(p, Payload0()), L) at 10
+right : store_world(?N) at 3
+check : infer(q == p);
+        infer(v == node_a(n));
+        infer(node_tag(n) == 0);
+action : left_erase(0);
+         left_erase(2);
+         left_add(store_world_missing(M, L));
+
+
+// Decode only the node whose tag is being read; never recursively unfold a tree.
+id : 40
+priority : core(9)
+left : store_world_missing(?M, ?L) at 0
+       store_type(M, ?p : Z, ?tr) at 1
+       field_fresh(field_key(p, Tag()), L) at 10
+right : store(field_addr(p, atype, t), I32, ?v) at 2
+action : left_exist_add(n : <TypeNode>);
+         left_add(node_at(M, p, n));
+         left_add(0 <= node_tag(n));
+         left_add(node_tag(n) <= 3);
+         right_add(v == node_tag(n));
+         left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Tag()), L)));
+
+// A VAR payload access fixes the shallow mathematical constructor and its range.
+id : 43
+priority : core(0)
+left : store_type(?M, ?p : Z, ?tr) at 0
+       store_world(M) at 2
+right : store_type(?N, p, ?out) at 1
+action : right_add(N == M);
+         right_add(out == tr);
+         right_erase(1);
+
+// A VAR payload access fixes the shallow mathematical constructor and its range.
+id : 41
+priority : core(6)
+left : store_type(?M, ?p : Z, ?tr) at 0
+       node_at(M, p, ?n) at 1
+       rc_valid(M) at 2
+       store_world_missing(M, nil{TypeFieldKey}) at 4
+right : store(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), VAR), anonymous(atype.d.VAR), name), I32, ?v) at 3
+check : infer(node_tag(n) == 3);
+action : left_add(tr == TVar(node_a(n)));
+         left_add(n == Node(3, node_a(n), 0));
+         left_add(node_at(M, p, Node(3, node_a(n), 0)));
+         left_add(0 <= node_a(n));
+         left_add(node_a(n) < 100);
+         left_erase(4);
+         right_erase(3);
+         right_add(v == node_a(n));
+         left_add(store_world_missing(M, payload_keys(p, Node(3, node_a(n), 0))));
+
+// Before opening a VAR name, return any previously read tag at the mask head.
+// This is one-way at this access: the requested cell is a payload, not a tag.
+id : 42
+priority : core(2)
+left : store_world_missing(?M, cons{TypeFieldKey}(field_key(?p : Z, Tag()), ?L)) at 0
+       node_at(M, p, ?n) at 1
+       store(field_addr(p, atype, t), I32, ?x) at 2
+       field_fresh(field_key(p, Tag()), L) at 10
+right : store(field_addr(field_addr(field_addr(?q : Z, atype, d), anonymous(atype.d), VAR), anonymous(atype.d.VAR), name), I32, ?v) at 3
+check : infer(x == node_tag(n));
+action : left_erase(0);
+         left_erase(2);
+         left_add(store_world_missing(M, L));
+
+// Call-post transport is independent of a right-hand target. The owned world
+// selects the current destination, so historical preserves edges cannot move
+// facts back to a stale world. Retain old pure facts and transition history.
+// absense is a syntactic saturation guard, not a mathematical premise: each
+// existing (pointer, payload) pair is added at most once per destination map.
+// This also makes reflexive transitions and cycles terminate without aliases
+// being declared distinct. No count, capacity, solution or world is rewritten.
+id : 36
+priority : post(1)
+left : rc_preserves(?M, ?N) at 0
+       store_type(M, ?p : Z, ?tr) at 1
+       store_world(N) at 2
+check : absense(store_type(N, p, tr));
+action : left_add(store_type(N, p, tr));
+
+id : 37
+priority : post(1)
+left : rc_preserves(?M, ?N) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       store_world(N) at 2
+check : absense(node_at(N, p, n));
+action : left_add(node_at(N, p, n));
+
+// Open-field call contracts return the same current-world anchor as a masked
+// view. Pure decoding remains valid independently of which fields are open.
+id : 38
+priority : post(1)
+left : rc_preserves(?M, ?N) at 0
+       store_type(M, ?p : Z, ?tr) at 1
+       store_world_missing(N, ?L) at 2
+check : absense(store_type(N, p, tr));
+action : left_add(store_type(N, p, tr));
+
+id : 39
+priority : post(1)
+left : rc_preserves(?M, ?N) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       store_world_missing(N, ?L) at 2
+check : absense(node_at(N, p, n));
+action : left_add(node_at(N, p, n));
+
+// Active union payload accesses. A tag premise is essential: a leaf owns no
+// Payload1 and one union branch must never be used to read another branch.
+
+id : 20
+priority : core(8)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       field_fresh(field_key(p, Payload0()), L) at 10
+right : store(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), VAR), anonymous(atype.d.VAR), name), I32, ?v) at 2
+check : infer(node_tag(n) == 3);
+action : right_add(v == node_a(n));
+         left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Payload0()), L)));
+
+id : 21
+priority : core(8)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       field_fresh(field_key(p, Payload0()), L) at 10
+right : undef_data_at(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), VAR), anonymous(atype.d.VAR), name), I32) at 2
+check : infer(node_tag(n) == 3);
+action : left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Payload0()), L)));
+
+id : 22
+priority : core(8)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       field_fresh(field_key(p, Payload0()), L) at 10
+right : store(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), ATOM), anonymous(atype.d.ATOM), name), I32, ?v) at 2
+check : infer(node_tag(n) == 0);
+action : right_add(v == node_a(n));
+         left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Payload0()), L)));
+
+id : 23
+priority : core(8)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       field_fresh(field_key(p, Payload0()), L) at 10
+right : undef_data_at(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), ATOM), anonymous(atype.d.ATOM), name), I32) at 2
+check : infer(node_tag(n) == 0);
+action : left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Payload0()), L)));
+
+id : 24
+priority : core(8)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       field_fresh(field_key(p, Payload0()), L) at 10
+right : store(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), ARROW), anonymous(atype.d.ARROW), from), PTR, ?v) at 2
+check : infer(node_tag(n) == 1);
+action : right_add(v == node_a(n));
+         left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Payload0()), L)));
+
+id : 25
+priority : core(8)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       field_fresh(field_key(p, Payload0()), L) at 10
+right : undef_data_at(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), ARROW), anonymous(atype.d.ARROW), from), PTR) at 2
+check : infer(node_tag(n) == 1);
+action : left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Payload0()), L)));
+
+id : 26
+priority : core(8)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       field_fresh(field_key(p, Payload1()), L) at 10
+right : store(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), ARROW), anonymous(atype.d.ARROW), to), PTR, ?v) at 2
+check : infer(node_tag(n) == 1);
+action : right_add(v == node_b(n));
+         left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Payload1()), L)));
+
+id : 27
+priority : core(8)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       field_fresh(field_key(p, Payload1()), L) at 10
+right : undef_data_at(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), ARROW), anonymous(atype.d.ARROW), to), PTR) at 2
+check : infer(node_tag(n) == 1);
+action : left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Payload1()), L)));
+
+id : 28
+priority : core(8)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       field_fresh(field_key(p, Payload0()), L) at 10
+right : store(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), APP), anonymous(atype.d.APP), tfn), PTR, ?v) at 2
+check : infer(node_tag(n) == 2);
+action : right_add(v == node_a(n));
+         left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Payload0()), L)));
+
+id : 29
+priority : core(8)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       field_fresh(field_key(p, Payload0()), L) at 10
+right : undef_data_at(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), APP), anonymous(atype.d.APP), tfn), PTR) at 2
+check : infer(node_tag(n) == 2);
+action : left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Payload0()), L)));
+
+id : 30
+priority : core(8)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       field_fresh(field_key(p, Payload1()), L) at 10
+right : store(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), APP), anonymous(atype.d.APP), rand), PTR, ?v) at 2
+check : infer(node_tag(n) == 2);
+action : right_add(v == node_b(n));
+         left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Payload1()), L)));
+
+id : 31
+priority : core(8)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       field_fresh(field_key(p, Payload1()), L) at 10
+right : undef_data_at(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), APP), anonymous(atype.d.APP), rand), PTR) at 2
+check : infer(node_tag(n) == 2);
+action : left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Payload1()), L)));
+
+// Preserve the decoded variable value syntactically at the C call boundary.
+id : 33
+priority : core(7)
+left : store_world_missing(?M, nil{TypeFieldKey}) at 0
+       node_at(M, ?p : Z, Node(3, ?name, ?unused)) at 1
+right : store(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), VAR), anonymous(atype.d.VAR), name), I32, ?v) at 2
+action : right_add(v == name);
+         left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, payload_keys(p, Node(3, name, unused))));
+
+// Consume an already-open concrete cell before considering extraction.
+// This also handles shared nodes whose C pointers are provably equal but
+// syntactically different. It never re-reads the count from an old map.
+id : 34
+priority : core(4)
+left : store(?a : Z, ?ty, ?x) at 0
+right : store(?b : Z, ty, ?v) at 1
+check : infer(a == b);
+action : left_erase(0);
+         right_erase(1);
+         right_add(v == x);
+
+id : 35
+priority : core(4)
+left : store(?a : Z, ?ty, ?x) at 0
+right : undef_data_at(?b : Z, ty) at 1
+check : infer(a == b);
+action : left_erase(0);
+         right_erase(1);
+
+
+// Full world is the empty missing-list view. These rules only fire when
+// the opposite side requests that view, so they cannot form a rewrite loop.
+id : 0
+priority : core(0)
+left : store_world(?M) at 0
+right : store_world_missing(M, nil{TypeFieldKey}) at 1
+action : left_erase(0);
+         right_erase(1);
+
+// Concrete reads request a fresh logical value, not node_tag(n) syntactically.
+// Extract only after lookup (or an explicit bridge) supplies left-hand freshness.
+id : 5
+priority : core(8)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       field_fresh(field_key(p, Tag()), L) at 10
+right : store(field_addr(p, atype, t), I32, ?v) at 2
+action : right_add(v == node_tag(n));
+         left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Tag()), L)));
+
+id : 6
+priority : core(1)
+left : store_world_missing(?M, cons{TypeFieldKey}(field_key(?p : Z, Tag()), ?L)) at 0
+       node_at(M, p, ?n) at 1
+       store(field_addr(p, atype, t), I32, node_tag(n)) at 2
+       field_fresh(field_key(p, Tag()), L) at 10
+right : store_world_missing(M, L) at 3
+action : left_erase(0);
+         left_erase(2);
+         right_erase(3);
+
+// The former singleton-Tag shortcut (16) is handled by the general path:
+// 70/73 establish empty-tail freshness; 47 returns the tag; 46 closes the world.
+
+// Close the one-field VAR view after a failed solution lookup. The requested
+// map may still be a call-spec existential; equality binds it to the owned M.
+id : 17
+priority : core(1)
+left : store_world_missing(?M, payload_keys(?p : Z, Node(3, ?name, ?unused))) at 0
+       node_at(M, p, Node(3, name, unused)) at 1
+       store(field_addr(field_addr(field_addr(p, atype, d), anonymous(atype.d), VAR), anonymous(atype.d.VAR), name), I32, ?v) at 2
+right : store_world(?N) at 3
+check : infer(v == name);
+action : left_erase(0);
+         left_erase(2);
+         right_erase(3);
+         right_add(N == M);
+
+// The former same-map empty-world rule (1) is the N=M instance of rule 46.
+
+// A map lookup determines its node uniquely. This preserves inference of
+// logical node witnesses after the spatial frame stopped carrying them.
+id : 4
+priority : core(0)
+left : node_at(?M, ?p : Z, ?n) at 0
+right : node_at(M, p, ?m) at 1
+action : right_add(n == m);
+         right_erase(1);
+
+// Normalize the full view only when a concrete memory access is requested.
+// This changes representation only, and does not unfold any node or field.
+id : 7
+priority : core(5)
+left : store_world(?M) at 0
+right : store(?a, ?ty, ?v) at 1
+action : left_erase(0);
+         left_add(store_world_missing(M, nil{TypeFieldKey}));
+
+id : 8
+priority : core(5)
+left : store_world(?M) at 0
+right : undef_data_at(?a, ?ty) at 1
+action : left_erase(0);
+         left_add(store_world_missing(M, nil{TypeFieldKey}));
+
+// Known-node count access. The counter need not be positive when node_at
+// is already known (e.g. a pending release); ownership is in the world.
+id : 9
+priority : core(8)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       field_fresh(field_key(p, RefCount()), L) at 10
+right : store(field_addr(p, atype, refcnt), I32, ?v) at 2
+action : right_add(v == rc_count(M, p));
+         left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, RefCount()), L)));
+
+id : 10
+priority : core(8)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       field_fresh(field_key(p, RefCount()), L) at 10
+right : undef_data_at(field_addr(p, atype, refcnt), I32) at 2
+action : left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, RefCount()), L)));
+
+// Positive count OR positive reservation entails node existence only under
+// rc_valid. Introduce that genuine node witness while servicing this access.
+// Freshness must already be present on the left; lookup proves it before extraction.
+id : 11
+priority : core(9)
+left : store_world_missing(?M, ?L) at 0
+       rc_valid(M) at 1
+       field_fresh(field_key(?p : Z, RefCount()), L) at 10
+right : store(field_addr(p, atype, refcnt), I32, ?v) at 2
+check : infer(0 < rc_count(M, p));
+action : left_exist_add(n : <TypeNode>);
+         left_add(node_at(M, p, n));
+         right_add(v == rc_count(M, p));
+         left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, RefCount()), L)));
+
+id : 12
+priority : core(9)
+left : store_world_missing(?M, ?L) at 0
+       rc_valid(M) at 1
+       field_fresh(field_key(?p : Z, RefCount()), L) at 10
+right : undef_data_at(field_addr(p, atype, refcnt), I32) at 2
+check : infer(0 < rc_count(M, p));
+action : left_exist_add(n : <TypeNode>);
+         left_add(node_at(M, p, n));
+         left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, RefCount()), L)));
+
+id : 13
+priority : core(8)
+left : store_world_missing(?M, ?L) at 0
+       node_at(M, ?p : Z, ?n) at 1
+       field_fresh(field_key(p, Tag()), L) at 10
+right : undef_data_at(field_addr(p, atype, t), I32) at 2
+action : left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, Tag()), L)));
+
+id : 14
+priority : core(9)
+left : store_world_missing(?M, ?L) at 0
+       rc_valid(M) at 1
+       field_fresh(field_key(?p : Z, RefCount()), L) at 10
+right : store(field_addr(p, atype, refcnt), I32, ?v) at 2
+check : infer(0 < rc_reserved(M, p));
+action : left_exist_add(n : <TypeNode>);
+         left_add(node_at(M, p, n));
+         right_add(v == rc_count(M, p));
+         left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, RefCount()), L)));
+
+id : 15
+priority : core(9)
+left : store_world_missing(?M, ?L) at 0
+       rc_valid(M) at 1
+       field_fresh(field_key(?p : Z, RefCount()), L) at 10
+right : undef_data_at(field_addr(p, atype, refcnt), I32) at 2
+check : infer(0 < rc_reserved(M, p));
+action : left_exist_add(n : <TypeNode>);
+         left_add(node_at(M, p, n));
+         left_erase(0);
+         right_erase(2);
+         left_add(store_world_missing(M, cons{TypeFieldKey}(field_key(p, RefCount()), L)));
+
+
+// A. Demand only. Starting lookup never erases the field request or the world.
+// Existing concrete cells (rules 34/35 at core(4)) are consumed before these.
+id : 54
+priority : core(10)
+left : store_world_missing(?M, ?L) at 0
+right : store(field_addr(?p : Z, atype, refcnt), I32, ?v) at 1
+check : absense(field_lookup(p, RefCount(), L));
+        absense(field_fresh(field_key(p, RefCount()), L));
+action : left_add(field_lookup(p, RefCount(), L));
+
+id : 55
+priority : core(10)
+left : store_world_missing(?M, ?L) at 0
+right : undef_data_at(field_addr(?p : Z, atype, refcnt), I32) at 1
+check : absense(field_lookup(p, RefCount(), L));
+        absense(field_fresh(field_key(p, RefCount()), L));
+action : left_add(field_lookup(p, RefCount(), L));
+
+id : 56
+priority : core(10)
+left : store_world_missing(?M, ?L) at 0
+right : store(field_addr(?p : Z, atype, t), I32, ?v) at 1
+check : absense(field_lookup(p, Tag(), L));
+        absense(field_fresh(field_key(p, Tag()), L));
+action : left_add(field_lookup(p, Tag(), L));
+
+id : 57
+priority : core(10)
+left : store_world_missing(?M, ?L) at 0
+right : undef_data_at(field_addr(?p : Z, atype, t), I32) at 1
+check : absense(field_lookup(p, Tag(), L));
+        absense(field_fresh(field_key(p, Tag()), L));
+action : left_add(field_lookup(p, Tag(), L));
+
+id : 58
+priority : core(10)
+left : store_world_missing(?M, ?L) at 0
+right : store(field_addr(field_addr(field_addr(?p : Z, atype, d), anonymous(atype.d), VAR), anonymous(atype.d.VAR), name), I32, ?v) at 1
+check : absense(field_lookup(p, Payload0(), L));
+        absense(field_fresh(field_key(p, Payload0()), L));
+action : left_add(field_lookup(p, Payload0(), L));
+
+id : 59
+priority : core(10)
+left : store_world_missing(?M, ?L) at 0
+right : undef_data_at(field_addr(field_addr(field_addr(?p : Z, atype, d), anonymous(atype.d), VAR), anonymous(atype.d.VAR), name), I32) at 1
+check : absense(field_lookup(p, Payload0(), L));
+        absense(field_fresh(field_key(p, Payload0()), L));
+action : left_add(field_lookup(p, Payload0(), L));
+
+id : 60
+priority : core(10)
+left : store_world_missing(?M, ?L) at 0
+right : store(field_addr(field_addr(field_addr(?p : Z, atype, d), anonymous(atype.d), ATOM), anonymous(atype.d.ATOM), name), I32, ?v) at 1
+check : absense(field_lookup(p, Payload0(), L));
+        absense(field_fresh(field_key(p, Payload0()), L));
+action : left_add(field_lookup(p, Payload0(), L));
+
+id : 61
+priority : core(10)
+left : store_world_missing(?M, ?L) at 0
+right : undef_data_at(field_addr(field_addr(field_addr(?p : Z, atype, d), anonymous(atype.d), ATOM), anonymous(atype.d.ATOM), name), I32) at 1
+check : absense(field_lookup(p, Payload0(), L));
+        absense(field_fresh(field_key(p, Payload0()), L));
+action : left_add(field_lookup(p, Payload0(), L));
+
+id : 62
+priority : core(10)
+left : store_world_missing(?M, ?L) at 0
+right : store(field_addr(field_addr(field_addr(?p : Z, atype, d), anonymous(atype.d), ARROW), anonymous(atype.d.ARROW), from), PTR, ?v) at 1
+check : absense(field_lookup(p, Payload0(), L));
+        absense(field_fresh(field_key(p, Payload0()), L));
+action : left_add(field_lookup(p, Payload0(), L));
+
+id : 63
+priority : core(10)
+left : store_world_missing(?M, ?L) at 0
+right : undef_data_at(field_addr(field_addr(field_addr(?p : Z, atype, d), anonymous(atype.d), ARROW), anonymous(atype.d.ARROW), from), PTR) at 1
+check : absense(field_lookup(p, Payload0(), L));
+        absense(field_fresh(field_key(p, Payload0()), L));
+action : left_add(field_lookup(p, Payload0(), L));
+
+id : 64
+priority : core(10)
+left : store_world_missing(?M, ?L) at 0
+right : store(field_addr(field_addr(field_addr(?p : Z, atype, d), anonymous(atype.d), ARROW), anonymous(atype.d.ARROW), to), PTR, ?v) at 1
+check : absense(field_lookup(p, Payload1(), L));
+        absense(field_fresh(field_key(p, Payload1()), L));
+action : left_add(field_lookup(p, Payload1(), L));
+
+id : 65
+priority : core(10)
+left : store_world_missing(?M, ?L) at 0
+right : undef_data_at(field_addr(field_addr(field_addr(?p : Z, atype, d), anonymous(atype.d), ARROW), anonymous(atype.d.ARROW), to), PTR) at 1
+check : absense(field_lookup(p, Payload1(), L));
+        absense(field_fresh(field_key(p, Payload1()), L));
+action : left_add(field_lookup(p, Payload1(), L));
+
+id : 66
+priority : core(10)
+left : store_world_missing(?M, ?L) at 0
+right : store(field_addr(field_addr(field_addr(?p : Z, atype, d), anonymous(atype.d), APP), anonymous(atype.d.APP), tfn), PTR, ?v) at 1
+check : absense(field_lookup(p, Payload0(), L));
+        absense(field_fresh(field_key(p, Payload0()), L));
+action : left_add(field_lookup(p, Payload0(), L));
+
+id : 67
+priority : core(10)
+left : store_world_missing(?M, ?L) at 0
+right : undef_data_at(field_addr(field_addr(field_addr(?p : Z, atype, d), anonymous(atype.d), APP), anonymous(atype.d.APP), tfn), PTR) at 1
+check : absense(field_lookup(p, Payload0(), L));
+        absense(field_fresh(field_key(p, Payload0()), L));
+action : left_add(field_lookup(p, Payload0(), L));
+
+id : 68
+priority : core(10)
+left : store_world_missing(?M, ?L) at 0
+right : store(field_addr(field_addr(field_addr(?p : Z, atype, d), anonymous(atype.d), APP), anonymous(atype.d.APP), rand), PTR, ?v) at 1
+check : absense(field_lookup(p, Payload1(), L));
+        absense(field_fresh(field_key(p, Payload1()), L));
+action : left_add(field_lookup(p, Payload1(), L));
+
+id : 69
+priority : core(10)
+left : store_world_missing(?M, ?L) at 0
+right : undef_data_at(field_addr(field_addr(field_addr(?p : Z, atype, d), anonymous(atype.d), APP), anonymous(atype.d.APP), rand), PTR) at 1
+check : absense(field_lookup(p, Payload1(), L));
+        absense(field_fresh(field_key(p, Payload1()), L));
+action : left_add(field_lookup(p, Payload1(), L));
+
+// A head-field merge needs freshness against the TAIL, not the whole list.
+// These requests cover full-world close, missing-world close, and rule 42's
+// tag-return before a VAR read. They only add True; resource checks stay in
+// the existing merge rules. No head is removed merely because lookup starts.
+id : 70
+priority : core(10)
+left : store_world_missing(?M, cons{TypeFieldKey}(field_key(?p : Z, ?s), ?L)) at 0
+right : store_world(?N) at 1
+check : absense(field_lookup(p, s, L));
+        absense(field_fresh(field_key(p, s), L));
+action : left_add(field_lookup(p, s, L));
+
+id : 71
+priority : core(10)
+left : store_world_missing(?M, cons{TypeFieldKey}(field_key(?p : Z, ?s), ?L)) at 0
+right : store_world_missing(?N, ?K) at 1
+check : absense(field_lookup(p, s, L));
+        absense(field_fresh(field_key(p, s), L));
+action : left_add(field_lookup(p, s, L));
+
+// Only a real VAR read requests an already-open tag's return.
+// core(5) lets concrete-cell reuse (34/35, core(4)) finish before any lookup,
+// but still prepares the singleton VAR view before generic payload extraction.
+// The head tag may belong to another node: all such heads must be returned
+// before the singleton VAR view can be established. The tag cell itself is
+// tied to its own node/address, not confused with the requested VAR address.
+id : 72
+priority : core(5)
+left : store_world_missing(?M, cons{TypeFieldKey}(field_key(?p : Z, Tag()), ?L)) at 0
+       node_at(M, p, ?n) at 1
+       store(field_addr(p, atype, t), I32, node_tag(n)) at 2
+right : store(field_addr(field_addr(field_addr(?q : Z, atype, d), anonymous(atype.d), VAR), anonymous(atype.d.VAR), name), I32, ?v) at 4
+check : absense(field_lookup(p, Tag(), L));
+        absense(field_fresh(field_key(p, Tag()), L));
+action : left_add(field_lookup(p, Tag(), L));
+
+// B. Empty list: this is a theorem about [], not evidence obtained from True.
+
+id : 73
+priority : core(3)
+left : field_lookup(?p : Z, ?s, nil{TypeFieldKey}) at 0
+check : absense(field_fresh(field_key(p, s), nil{TypeFieldKey}));
+action : left_erase(0);
+         left_add(field_fresh(field_key(p, s), nil{TypeFieldKey}));
+
+// C. Descend only after proving that the current head is different.
+// Keep the parent tag: it is the return address for bottom-up reconstruction.
+// Explicit address inequalities are matched structurally; different slots use
+// constructors. A delayed arithmetic fallback exists only for derived facts.
+// There is deliberately no same-key rule and no unknown-list fallback.
+id : 74
+priority : core(3)
+left : field_lookup(?p : Z, ?s, cons{TypeFieldKey}(field_key(?q : Z, ?t), ?L)) at 0
+       p != q at 1
+check : absense(field_lookup(p, s, L));
+        absense(field_fresh(field_key(p, s), L));
+action : left_add(field_lookup(p, s, L));
+
+id : 75
+priority : core(3)
+left : field_lookup(?p : Z, RefCount(), cons{TypeFieldKey}(field_key(?q : Z, Tag()), ?L)) at 0
+check : absense(field_lookup(p, RefCount(), L));
+        absense(field_fresh(field_key(p, RefCount()), L));
+action : left_add(field_lookup(p, RefCount(), L));
+
+id : 76
+priority : core(3)
+left : field_lookup(?p : Z, RefCount(), cons{TypeFieldKey}(field_key(?q : Z, Payload0()), ?L)) at 0
+check : absense(field_lookup(p, RefCount(), L));
+        absense(field_fresh(field_key(p, RefCount()), L));
+action : left_add(field_lookup(p, RefCount(), L));
+
+id : 77
+priority : core(3)
+left : field_lookup(?p : Z, RefCount(), cons{TypeFieldKey}(field_key(?q : Z, Payload1()), ?L)) at 0
+check : absense(field_lookup(p, RefCount(), L));
+        absense(field_fresh(field_key(p, RefCount()), L));
+action : left_add(field_lookup(p, RefCount(), L));
+
+id : 78
+priority : core(3)
+left : field_lookup(?p : Z, Tag(), cons{TypeFieldKey}(field_key(?q : Z, RefCount()), ?L)) at 0
+check : absense(field_lookup(p, Tag(), L));
+        absense(field_fresh(field_key(p, Tag()), L));
+action : left_add(field_lookup(p, Tag(), L));
+
+id : 79
+priority : core(3)
+left : field_lookup(?p : Z, Tag(), cons{TypeFieldKey}(field_key(?q : Z, Payload0()), ?L)) at 0
+check : absense(field_lookup(p, Tag(), L));
+        absense(field_fresh(field_key(p, Tag()), L));
+action : left_add(field_lookup(p, Tag(), L));
+
+id : 80
+priority : core(3)
+left : field_lookup(?p : Z, Tag(), cons{TypeFieldKey}(field_key(?q : Z, Payload1()), ?L)) at 0
+check : absense(field_lookup(p, Tag(), L));
+        absense(field_fresh(field_key(p, Tag()), L));
+action : left_add(field_lookup(p, Tag(), L));
+
+id : 81
+priority : core(3)
+left : field_lookup(?p : Z, Payload0(), cons{TypeFieldKey}(field_key(?q : Z, RefCount()), ?L)) at 0
+check : absense(field_lookup(p, Payload0(), L));
+        absense(field_fresh(field_key(p, Payload0()), L));
+action : left_add(field_lookup(p, Payload0(), L));
+
+id : 82
+priority : core(3)
+left : field_lookup(?p : Z, Payload0(), cons{TypeFieldKey}(field_key(?q : Z, Tag()), ?L)) at 0
+check : absense(field_lookup(p, Payload0(), L));
+        absense(field_fresh(field_key(p, Payload0()), L));
+action : left_add(field_lookup(p, Payload0(), L));
+
+id : 83
+priority : core(3)
+left : field_lookup(?p : Z, Payload0(), cons{TypeFieldKey}(field_key(?q : Z, Payload1()), ?L)) at 0
+check : absense(field_lookup(p, Payload0(), L));
+        absense(field_fresh(field_key(p, Payload0()), L));
+action : left_add(field_lookup(p, Payload0(), L));
+
+id : 84
+priority : core(3)
+left : field_lookup(?p : Z, Payload1(), cons{TypeFieldKey}(field_key(?q : Z, RefCount()), ?L)) at 0
+check : absense(field_lookup(p, Payload1(), L));
+        absense(field_fresh(field_key(p, Payload1()), L));
+action : left_add(field_lookup(p, Payload1(), L));
+
+id : 85
+priority : core(3)
+left : field_lookup(?p : Z, Payload1(), cons{TypeFieldKey}(field_key(?q : Z, Tag()), ?L)) at 0
+check : absense(field_lookup(p, Payload1(), L));
+        absense(field_fresh(field_key(p, Payload1()), L));
+action : left_add(field_lookup(p, Payload1(), L));
+
+id : 86
+priority : core(3)
+left : field_lookup(?p : Z, Payload1(), cons{TypeFieldKey}(field_key(?q : Z, Payload0()), ?L)) at 0
+check : absense(field_lookup(p, Payload1(), L));
+        absense(field_fresh(field_key(p, Payload1()), L));
+action : left_add(field_lookup(p, Payload1(), L));
+
+// D. Return: real tail freshness + head inequality proves full-list freshness.
+// A True lookup tag alone NEVER enables this step. The pure conclusion is
+// reusable and needs no map parameter: membership depends only on the key/list.
+id : 87
+priority : core(3)
+left : field_lookup(?p : Z, ?s, cons{TypeFieldKey}(field_key(?q : Z, ?t), ?L)) at 0
+       field_fresh(field_key(p, s), L) at 1
+       p != q at 2
+check : absense(field_fresh(field_key(p, s), cons{TypeFieldKey}(field_key(q, t), L)));
+action : left_erase(0);
+         left_add(field_fresh(field_key(p, s), cons{TypeFieldKey}(field_key(q, t), L)));
+
+id : 88
+priority : core(3)
+left : field_lookup(?p : Z, RefCount(), cons{TypeFieldKey}(field_key(?q : Z, Tag()), ?L)) at 0
+       field_fresh(field_key(p, RefCount()), L) at 1
+check : absense(field_fresh(field_key(p, RefCount()), cons{TypeFieldKey}(field_key(q, Tag()), L)));
+action : left_erase(0);
+         left_add(field_fresh(field_key(p, RefCount()), cons{TypeFieldKey}(field_key(q, Tag()), L)));
+
+id : 89
+priority : core(3)
+left : field_lookup(?p : Z, RefCount(), cons{TypeFieldKey}(field_key(?q : Z, Payload0()), ?L)) at 0
+       field_fresh(field_key(p, RefCount()), L) at 1
+check : absense(field_fresh(field_key(p, RefCount()), cons{TypeFieldKey}(field_key(q, Payload0()), L)));
+action : left_erase(0);
+         left_add(field_fresh(field_key(p, RefCount()), cons{TypeFieldKey}(field_key(q, Payload0()), L)));
+
+id : 90
+priority : core(3)
+left : field_lookup(?p : Z, RefCount(), cons{TypeFieldKey}(field_key(?q : Z, Payload1()), ?L)) at 0
+       field_fresh(field_key(p, RefCount()), L) at 1
+check : absense(field_fresh(field_key(p, RefCount()), cons{TypeFieldKey}(field_key(q, Payload1()), L)));
+action : left_erase(0);
+         left_add(field_fresh(field_key(p, RefCount()), cons{TypeFieldKey}(field_key(q, Payload1()), L)));
+
+id : 91
+priority : core(3)
+left : field_lookup(?p : Z, Tag(), cons{TypeFieldKey}(field_key(?q : Z, RefCount()), ?L)) at 0
+       field_fresh(field_key(p, Tag()), L) at 1
+check : absense(field_fresh(field_key(p, Tag()), cons{TypeFieldKey}(field_key(q, RefCount()), L)));
+action : left_erase(0);
+         left_add(field_fresh(field_key(p, Tag()), cons{TypeFieldKey}(field_key(q, RefCount()), L)));
+
+id : 92
+priority : core(3)
+left : field_lookup(?p : Z, Tag(), cons{TypeFieldKey}(field_key(?q : Z, Payload0()), ?L)) at 0
+       field_fresh(field_key(p, Tag()), L) at 1
+check : absense(field_fresh(field_key(p, Tag()), cons{TypeFieldKey}(field_key(q, Payload0()), L)));
+action : left_erase(0);
+         left_add(field_fresh(field_key(p, Tag()), cons{TypeFieldKey}(field_key(q, Payload0()), L)));
+
+id : 93
+priority : core(3)
+left : field_lookup(?p : Z, Tag(), cons{TypeFieldKey}(field_key(?q : Z, Payload1()), ?L)) at 0
+       field_fresh(field_key(p, Tag()), L) at 1
+check : absense(field_fresh(field_key(p, Tag()), cons{TypeFieldKey}(field_key(q, Payload1()), L)));
+action : left_erase(0);
+         left_add(field_fresh(field_key(p, Tag()), cons{TypeFieldKey}(field_key(q, Payload1()), L)));
+
+id : 94
+priority : core(3)
+left : field_lookup(?p : Z, Payload0(), cons{TypeFieldKey}(field_key(?q : Z, RefCount()), ?L)) at 0
+       field_fresh(field_key(p, Payload0()), L) at 1
+check : absense(field_fresh(field_key(p, Payload0()), cons{TypeFieldKey}(field_key(q, RefCount()), L)));
+action : left_erase(0);
+         left_add(field_fresh(field_key(p, Payload0()), cons{TypeFieldKey}(field_key(q, RefCount()), L)));
+
+id : 95
+priority : core(3)
+left : field_lookup(?p : Z, Payload0(), cons{TypeFieldKey}(field_key(?q : Z, Tag()), ?L)) at 0
+       field_fresh(field_key(p, Payload0()), L) at 1
+check : absense(field_fresh(field_key(p, Payload0()), cons{TypeFieldKey}(field_key(q, Tag()), L)));
+action : left_erase(0);
+         left_add(field_fresh(field_key(p, Payload0()), cons{TypeFieldKey}(field_key(q, Tag()), L)));
+
+id : 96
+priority : core(3)
+left : field_lookup(?p : Z, Payload0(), cons{TypeFieldKey}(field_key(?q : Z, Payload1()), ?L)) at 0
+       field_fresh(field_key(p, Payload0()), L) at 1
+check : absense(field_fresh(field_key(p, Payload0()), cons{TypeFieldKey}(field_key(q, Payload1()), L)));
+action : left_erase(0);
+         left_add(field_fresh(field_key(p, Payload0()), cons{TypeFieldKey}(field_key(q, Payload1()), L)));
+
+id : 97
+priority : core(3)
+left : field_lookup(?p : Z, Payload1(), cons{TypeFieldKey}(field_key(?q : Z, RefCount()), ?L)) at 0
+       field_fresh(field_key(p, Payload1()), L) at 1
+check : absense(field_fresh(field_key(p, Payload1()), cons{TypeFieldKey}(field_key(q, RefCount()), L)));
+action : left_erase(0);
+         left_add(field_fresh(field_key(p, Payload1()), cons{TypeFieldKey}(field_key(q, RefCount()), L)));
+
+id : 98
+priority : core(3)
+left : field_lookup(?p : Z, Payload1(), cons{TypeFieldKey}(field_key(?q : Z, Tag()), ?L)) at 0
+       field_fresh(field_key(p, Payload1()), L) at 1
+check : absense(field_fresh(field_key(p, Payload1()), cons{TypeFieldKey}(field_key(q, Tag()), L)));
+action : left_erase(0);
+         left_add(field_fresh(field_key(p, Payload1()), cons{TypeFieldKey}(field_key(q, Tag()), L)));
+
+id : 99
+priority : core(3)
+left : field_lookup(?p : Z, Payload1(), cons{TypeFieldKey}(field_key(?q : Z, Payload0()), ?L)) at 0
+       field_fresh(field_key(p, Payload1()), L) at 1
+check : absense(field_fresh(field_key(p, Payload1()), cons{TypeFieldKey}(field_key(q, Payload0()), L)));
+action : left_erase(0);
+         left_add(field_fresh(field_key(p, Payload1()), cons{TypeFieldKey}(field_key(q, Payload0()), L)));
+
+// E. User-facing 'Tag_cancel' is spelled Tagcancel by the current engine.
+// Cleanup runs after core search. Successful searches consume their tags in
+// core and retain freshness caches; pending tags remain to prevent restart.
+// This does not erase a
+// pending field request and does not turn a blocked lookup into a successful one.
+id : 100
+priority : Tagcancel(0)
+left : field_lookup(?p : Z, ?s, ?L) at 0
+action : left_erase(0);
+
+id : 101
+priority : Tagcancel(0)
+right : field_lookup(?p : Z, ?s, ?L) at 0
+action : right_erase(0);
+
+// Freshness is real evidence during core search, but no longer needed after
+// all resource transformations finish. Forget it only on the LEFT. There is
+// deliberately no right-hand rule: a pending freshness obligation must remain.
+id : 102
+priority : Tagcancel(0)
+left : field_fresh(?k, ?L) at 0
+action : left_erase(0);
+
+
+// Explicit reversed inequality: structural matching, not an SMT query.
+id : 103
+priority : core(3)
+left : field_lookup(?p : Z, ?s, cons{TypeFieldKey}(field_key(?q : Z, ?t), ?L)) at 0
+       q != p at 1
+check : absense(field_lookup(p, s, L));
+        absense(field_fresh(field_key(p, s), L));
+action : left_add(field_lookup(p, s, L));
+
+id : 104
+priority : core(3)
+left : field_lookup(?p : Z, ?s, cons{TypeFieldKey}(field_key(?q : Z, ?t), ?L)) at 0
+       field_fresh(field_key(p, s), L) at 1
+       q != p at 2
+check : absense(field_fresh(field_key(p, s), cons{TypeFieldKey}(field_key(q, t), L)));
+action : left_erase(0);
+         left_add(field_fresh(field_key(p, s), cons{TypeFieldKey}(field_key(q, t), L)));
+
+// General arithmetic fallback, reached only when faster core work is exhausted.
+// Learn the actual inequality once; both descent and return then match it.
+// check conditions are NOT short-circuit: priority and consumed completed tags,
+// not the order of absense checks, keep ordinary cases away from this SMT query.
+id : 105
+priority : core(11)
+left : field_lookup(?p : Z, ?s, cons{TypeFieldKey}(field_key(?q : Z, ?t), ?L)) at 0
+check : absense(p != q);
+        absense(q != p);
+        infer(p != q);
+action : left_add(p != q);

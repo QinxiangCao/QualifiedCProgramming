@@ -12,7 +12,7 @@
 Require Import Coq.ZArith.ZArith.
 From MonadLib Require Import Monad.
 From MonadLib.OptionMonad Require Import OptionBasic.
-Import MonadNotation.
+Import MonadNotation OptionProgNotations.
 Local Open Scope Z_scope.
 Local Open Scope monad_scope.
 Local Open Scope optprog_scope.

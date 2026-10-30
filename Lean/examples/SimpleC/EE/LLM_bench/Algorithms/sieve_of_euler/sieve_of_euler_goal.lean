@@ -58,7 +58,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def get_prime_safety_wit_1 : Prop :=
-  forall (prime_pre : Int) (tot_pre : Int) (n_pre : Int) (prime0 : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : ((Zlength (prime0)) = n_pre)) ,
+  forall (prime0 : (List Int)) (n_pre : Int) (tot_pre : Int) (prime_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : ((Zlength (prime0)) = n_pre)) ,
   ((( &( "z" ) )) # Int |->_)
   ** (intArray.undef_full ( &( "flag" ) ) 46341)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -70,7 +70,7 @@ noncomputable def get_prime_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def get_prime_safety_wit_2 : Prop :=
-  forall (prime_pre : Int) (tot_pre : Int) (n_pre : Int) (prime0 : (List Int)) (flag_init : (List Int)) (z : Int) (PreH1 : (z <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init)) = (z - 2))) ,
+  forall (prime0 : (List Int)) (n_pre : Int) (tot_pre : Int) (prime_pre : Int) (flag_init : (List Int)) (z : Int) (PreH1 : (z <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init)) = (z - 2))) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "prime" ) )) # Ptr |-> (prime_pre))
   ** ((( &( "tot" ) )) # Int |-> (tot_pre))
@@ -85,7 +85,7 @@ noncomputable def get_prime_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def get_prime_safety_wit_3 : Prop :=
-  forall (prime_pre : Int) (tot_pre : Int) (n_pre : Int) (prime0 : (List Int)) (flag_init : (List Int)) (z : Int) (PreH1 : (z <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init)) = (z - 2))) ,
+  forall (prime0 : (List Int)) (n_pre : Int) (tot_pre : Int) (prime_pre : Int) (flag_init : (List Int)) (z : Int) (PreH1 : (z <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init)) = (z - 2))) ,
   (intArray.seg ( &( "flag" ) ) 2 (z + 1) (flag_init ++ ((0 : Int) :: (@List.nil Int))))
   ** (intArray.undef_seg ( &( "flag" ) ) (z + 1) (n_pre + 1))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -100,7 +100,7 @@ noncomputable def get_prime_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (z + 1)) ”
 
 noncomputable def get_prime_safety_wit_4 : Prop :=
-  forall (prime_pre : Int) (tot_pre : Int) (n_pre : Int) (prime0 : (List Int)) (flag_init : (List Int)) (z : Int) (PreH1 : (z > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init)) = (z - 2))) ,
+  forall (prime0 : (List Int)) (n_pre : Int) (tot_pre : Int) (prime_pre : Int) (flag_init : (List Int)) (z : Int) (PreH1 : (z > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init)) = (z - 2))) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "prime" ) )) # Ptr |-> (prime_pre))
   ** ((( &( "tot" ) )) # Int |-> (tot_pre))
@@ -114,7 +114,7 @@ noncomputable def get_prime_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def get_prime_safety_wit_5 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (prime0 : (List Int)) (flag_init : (List Int)) (z : Int) (PreH1 : (z > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init)) = (z - 2))) ,
+  forall (prime0 : (List Int)) (n_pre : Int) (prime_pre : Int) (flag_init : (List Int)) (z : Int) (PreH1 : (z > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init)) = (z - 2))) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "prime" ) )) # Ptr |-> (prime_pre))
@@ -129,7 +129,7 @@ noncomputable def get_prime_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def get_prime_safety_wit_6 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (prime0 : (List Int)) (flag_l : (List Int)) (i : Int) (tot : Int) (PreH1 : (i <= n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l)) (PreH8 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
+  forall (prime0 : (List Int)) (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (i : Int) (tot : Int) (PreH1 : (i <= n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l)) (PreH8 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
   (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) (replace_Znth ((i - 2)) (i) (flag_l)))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "prime" ) )) # Ptr |-> (prime_pre))
@@ -143,7 +143,7 @@ noncomputable def get_prime_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def get_prime_safety_wit_7 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (prime0 : (List Int)) (flag_l : (List Int)) (i : Int) (tot : Int) (PreH1 : (i > n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l)) (PreH8 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
+  forall (prime0 : (List Int)) (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (i : Int) (tot : Int) (PreH1 : (i > n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l)) (PreH8 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "prime" ) )) # Ptr |-> (prime_pre))
@@ -157,7 +157,7 @@ noncomputable def get_prime_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def get_prime_safety_wit_8 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (tot : Int) (i : Int) (PreH1 : ((Znth (i - 2) flag_l (0 : Int)) = i)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : ((0 : Int) <= tot)) (PreH8 : (tot < i)) (PreH9 : (EulerOuterState n_pre i tot flag_l prime_l)) (PreH10 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH11 : ((Zlength (prime_l)) = n_pre)) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (tot : Int) (i : Int) (PreH1 : ((Znth (i - 2) flag_l (0 : Int)) = i)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : ((0 : Int) <= tot)) (PreH8 : (tot < i)) (PreH9 : (EulerOuterState n_pre i tot flag_l prime_l)) (PreH10 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH11 : ((Zlength (prime_l)) = n_pre)) ,
   (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "prime" ) )) # Ptr |-> (prime_pre))
@@ -171,7 +171,7 @@ noncomputable def get_prime_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (tot + 1)) ”
 
 noncomputable def get_prime_safety_wit_9 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (tot : Int) (i : Int) (PreH1 : ((Znth (i - 2) flag_l (0 : Int)) = i)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : ((0 : Int) <= tot)) (PreH8 : (tot < i)) (PreH9 : (EulerOuterState n_pre i tot flag_l prime_l)) (PreH10 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH11 : ((Zlength (prime_l)) = n_pre)) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (tot : Int) (i : Int) (PreH1 : ((Znth (i - 2) flag_l (0 : Int)) = i)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : ((0 : Int) <= tot)) (PreH8 : (tot < i)) (PreH9 : (EulerOuterState n_pre i tot flag_l prime_l)) (PreH10 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH11 : ((Zlength (prime_l)) = n_pre)) ,
   (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "prime" ) )) # Ptr |-> (prime_pre))
@@ -185,7 +185,7 @@ noncomputable def get_prime_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def get_prime_safety_wit_10 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (tot : Int) (i : Int) (PreH1 : ((Znth (i - 2) flag_l (0 : Int)) = i)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : ((0 : Int) <= tot)) (PreH8 : (tot < i)) (PreH9 : (EulerOuterState n_pre i tot flag_l prime_l)) (PreH10 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH11 : ((Zlength (prime_l)) = n_pre)) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (tot : Int) (i : Int) (PreH1 : ((Znth (i - 2) flag_l (0 : Int)) = i)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : ((0 : Int) <= tot)) (PreH8 : (tot < i)) (PreH9 : (EulerOuterState n_pre i tot flag_l prime_l)) (PreH10 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH11 : ((Zlength (prime_l)) = n_pre)) ,
   ((( &( "j" ) )) # Int |->_)
   ** (intArray.seg prime_pre 1 (n_pre + 1) (replace_Znth (((tot + 1) - 1)) (i) (prime_l)))
   ** (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l)
@@ -200,7 +200,7 @@ noncomputable def get_prime_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def get_prime_safety_wit_11 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (tot : Int) (i : Int) (PreH1 : ((Znth (i - 2) flag_l (0 : Int)) ≠ i)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : ((0 : Int) <= tot)) (PreH8 : (tot < i)) (PreH9 : (EulerOuterState n_pre i tot flag_l prime_l)) (PreH10 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH11 : ((Zlength (prime_l)) = n_pre)) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (tot : Int) (i : Int) (PreH1 : ((Znth (i - 2) flag_l (0 : Int)) ≠ i)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : ((0 : Int) <= tot)) (PreH8 : (tot < i)) (PreH9 : (EulerOuterState n_pre i tot flag_l prime_l)) (PreH10 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH11 : ((Zlength (prime_l)) = n_pre)) ,
   ((( &( "j" ) )) # Int |->_)
   ** (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -215,7 +215,7 @@ noncomputable def get_prime_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def get_prime_safety_wit_12 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= tot)) (PreH9 : (EulerInnerState n_pre i j tot flag_l prime_l)) (PreH10 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH11 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH12 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH13 : ((Zlength (prime_l)) = n_pre)) (PreH14 : (tot < (i + 1))) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= tot)) (PreH9 : (EulerInnerState n_pre i j tot flag_l prime_l)) (PreH10 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH11 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH12 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH13 : ((Zlength (prime_l)) = n_pre)) (PreH14 : (tot < (i + 1))) ,
   (intArray.seg prime_pre 1 (n_pre + 1) prime_l)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "prime" ) )) # Ptr |-> (prime_pre))
@@ -230,7 +230,7 @@ noncomputable def get_prime_safety_wit_12 : Prop :=
   “ ((INT_MIN) <= (i * (Znth (j - 1) prime_l (0 : Int)))) ”
 
 noncomputable def get_prime_safety_wit_13 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : (j > tot)) (PreH2 : ((i * (Znth (j - 1) prime_l (0 : Int))) <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (1 <= tot)) (PreH8 : (tot <= n_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= tot)) (PreH11 : (EulerInnerState n_pre i j tot flag_l prime_l)) (PreH12 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH13 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH14 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH15 : ((Zlength (prime_l)) = n_pre)) (PreH16 : (tot < (i + 1))) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : (j > tot)) (PreH2 : ((i * (Znth (j - 1) prime_l (0 : Int))) <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (1 <= tot)) (PreH8 : (tot <= n_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= tot)) (PreH11 : (EulerInnerState n_pre i j tot flag_l prime_l)) (PreH12 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH13 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH14 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH15 : ((Zlength (prime_l)) = n_pre)) (PreH16 : (tot < (i + 1))) ,
   (intArray.seg prime_pre 1 (n_pre + 1) prime_l)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "prime" ) )) # Ptr |-> (prime_pre))
@@ -244,7 +244,7 @@ noncomputable def get_prime_safety_wit_13 : Prop :=
   “ False ”
 
 noncomputable def get_prime_safety_wit_14 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : (j <= tot)) (PreH2 : ((i * (Znth (j - 1) prime_l (0 : Int))) <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (1 <= tot)) (PreH8 : (tot <= n_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= tot)) (PreH11 : (EulerInnerState n_pre i j tot flag_l prime_l)) (PreH12 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH13 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH14 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH15 : ((Zlength (prime_l)) = n_pre)) (PreH16 : (tot < (i + 1))) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : (j <= tot)) (PreH2 : ((i * (Znth (j - 1) prime_l (0 : Int))) <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (1 <= tot)) (PreH8 : (tot <= n_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= tot)) (PreH11 : (EulerInnerState n_pre i j tot flag_l prime_l)) (PreH12 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH13 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH14 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH15 : ((Zlength (prime_l)) = n_pre)) (PreH16 : (tot < (i + 1))) ,
   (intArray.seg prime_pre 1 (n_pre + 1) prime_l)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "prime" ) )) # Ptr |-> (prime_pre))
@@ -259,7 +259,7 @@ noncomputable def get_prime_safety_wit_14 : Prop :=
   “ ((INT_MIN) <= (i * (Znth (j - 1) prime_l (0 : Int)))) ”
 
 noncomputable def get_prime_safety_wit_15 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= tot)) (PreH9 : ((i * (Znth (j - 1) prime_l (0 : Int))) <= n_pre)) (PreH10 : (EulerInnerMarkedState n_pre i j tot flag_l prime_l)) (PreH11 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH12 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH13 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH14 : ((Zlength (prime_l)) = n_pre)) (PreH15 : (tot < (i + 1))) (PreH16 : (¬((Z.divide (Znth (j - 1) prime_l (0 : Int)) i)) -> ((j + 1) <= tot))) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= tot)) (PreH9 : ((i * (Znth (j - 1) prime_l (0 : Int))) <= n_pre)) (PreH10 : (EulerInnerMarkedState n_pre i j tot flag_l prime_l)) (PreH11 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH12 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH13 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH14 : ((Zlength (prime_l)) = n_pre)) (PreH15 : (tot < (i + 1))) (PreH16 : (¬((Z.divide (Znth (j - 1) prime_l (0 : Int)) i)) -> ((j + 1) <= tot))) ,
   (intArray.seg prime_pre 1 (n_pre + 1) prime_l)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "prime" ) )) # Ptr |-> (prime_pre))
@@ -274,7 +274,7 @@ noncomputable def get_prime_safety_wit_15 : Prop :=
   “ ((Znth (j - 1) prime_l (0 : Int)) ≠ (0 : Int)) ”
 
 noncomputable def get_prime_safety_wit_16 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= tot)) (PreH9 : ((i * (Znth (j - 1) prime_l (0 : Int))) <= n_pre)) (PreH10 : (EulerInnerMarkedState n_pre i j tot flag_l prime_l)) (PreH11 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH12 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH13 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH14 : ((Zlength (prime_l)) = n_pre)) (PreH15 : (tot < (i + 1))) (PreH16 : (¬((Z.divide (Znth (j - 1) prime_l (0 : Int)) i)) -> ((j + 1) <= tot))) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= tot)) (PreH9 : ((i * (Znth (j - 1) prime_l (0 : Int))) <= n_pre)) (PreH10 : (EulerInnerMarkedState n_pre i j tot flag_l prime_l)) (PreH11 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH12 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH13 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH14 : ((Zlength (prime_l)) = n_pre)) (PreH15 : (tot < (i + 1))) (PreH16 : (¬((Z.divide (Znth (j - 1) prime_l (0 : Int)) i)) -> ((j + 1) <= tot))) ,
   (intArray.seg prime_pre 1 (n_pre + 1) prime_l)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "prime" ) )) # Ptr |-> (prime_pre))
@@ -289,7 +289,7 @@ noncomputable def get_prime_safety_wit_16 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def get_prime_safety_wit_17 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= (j + 1))) (PreH8 : ((j + 1) <= tot)) (PreH9 : (EulerInnerState n_pre i (j + 1) tot flag_l prime_l)) (PreH10 : (2 <= (Znth j prime_l (0 : Int)))) (PreH11 : ((Znth j prime_l (0 : Int)) <= i)) (PreH12 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH13 : ((Zlength (prime_l)) = n_pre)) (PreH14 : (tot < (i + 1))) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= (j + 1))) (PreH8 : ((j + 1) <= tot)) (PreH9 : (EulerInnerState n_pre i (j + 1) tot flag_l prime_l)) (PreH10 : (2 <= (Znth j prime_l (0 : Int)))) (PreH11 : ((Znth j prime_l (0 : Int)) <= i)) (PreH12 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH13 : ((Zlength (prime_l)) = n_pre)) (PreH14 : (tot < (i + 1))) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "prime" ) )) # Ptr |-> (prime_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -304,7 +304,7 @@ noncomputable def get_prime_safety_wit_17 : Prop :=
   “ ((INT_MIN) <= (j + 1)) ”
 
 noncomputable def get_prime_safety_wit_18 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : ((i * (Znth (j - 1) prime_l (0 : Int))) > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (1 <= tot)) (PreH7 : (tot <= n_pre)) (PreH8 : (1 <= j)) (PreH9 : (j <= tot)) (PreH10 : (EulerInnerState n_pre i j tot flag_l prime_l)) (PreH11 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH12 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH13 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH14 : ((Zlength (prime_l)) = n_pre)) (PreH15 : (tot < (i + 1))) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : ((i * (Znth (j - 1) prime_l (0 : Int))) > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (1 <= tot)) (PreH7 : (tot <= n_pre)) (PreH8 : (1 <= j)) (PreH9 : (j <= tot)) (PreH10 : (EulerInnerState n_pre i j tot flag_l prime_l)) (PreH11 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH12 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH13 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH14 : ((Zlength (prime_l)) = n_pre)) (PreH15 : (tot < (i + 1))) ,
   (intArray.seg prime_pre 1 (n_pre + 1) prime_l)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "prime" ) )) # Ptr |-> (prime_pre))
@@ -318,7 +318,7 @@ noncomputable def get_prime_safety_wit_18 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def get_prime_safety_wit_19 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= tot)) (PreH9 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH10 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH11 : (EulerOuterState n_pre (i + 1) tot flag_l prime_l)) (PreH12 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH13 : ((Zlength (prime_l)) = n_pre)) (PreH14 : (2 <= (i + 1))) (PreH15 : ((i + 1) <= (n_pre + 1))) (PreH16 : ((0 : Int) <= tot)) (PreH17 : (tot < (i + 1))) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= tot)) (PreH9 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH10 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH11 : (EulerOuterState n_pre (i + 1) tot flag_l prime_l)) (PreH12 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH13 : ((Zlength (prime_l)) = n_pre)) (PreH14 : (2 <= (i + 1))) (PreH15 : ((i + 1) <= (n_pre + 1))) (PreH16 : ((0 : Int) <= tot)) (PreH17 : (tot < (i + 1))) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "prime" ) )) # Ptr |-> (prime_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -333,7 +333,7 @@ noncomputable def get_prime_safety_wit_19 : Prop :=
 
 noncomputable def get_prime_entail_wit_1 : Prop :=
   (
-forall (prime_pre : Int) (n_pre : Int) (prime0 : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : ((Zlength (prime0)) = n_pre)) ,
+forall (prime0 : (List Int)) (n_pre : Int) (prime_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : ((Zlength (prime0)) = n_pre)) ,
   (intArray.undef_full ( &( "flag" ) ) 46341)
   ** (intArray.seg prime_pre 1 (n_pre + 1) prime0)
 |--
@@ -351,7 +351,7 @@ forall (prime_pre : Int) (n_pre : Int) (prime0 : (List Int)) (PreH1 : (2 <= n_pr
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
 ) \/
 (
-forall (n_pre : Int) (prime0 : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : ((Zlength (prime0)) = n_pre)) ,
+forall (prime0 : (List Int)) (n_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : ((Zlength (prime0)) = n_pre)) ,
   (intArray.undef_full ( &( "flag" ) ) 46341)
 |--
   “ ((Zlength ((@List.nil Int))) = (2 - 2)) ”
@@ -361,13 +361,13 @@ forall (n_pre : Int) (prime0 : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pr
 )
 
 noncomputable def get_prime_entail_wit_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (prime0 : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : ((Zlength (prime0)) = n_pre)) ,
+  forall (prime0 : (List Int)) (n_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : ((Zlength (prime0)) = n_pre)) ,
   (intArray.undef_full ( &( "flag" ) ) 46341)
 |--
   “ ((Zlength ((@List.nil Int))) = (2 - 2)) ”
 
 noncomputable def get_prime_entail_wit_1_split_goal_spatial : Prop :=
-  forall (n_pre : Int) (prime0 : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : ((Zlength (prime0)) = n_pre)) ,
+  forall (prime0 : (List Int)) (n_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : ((Zlength (prime0)) = n_pre)) ,
   (intArray.undef_full ( &( "flag" ) ) 46341)
 |--
   (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
@@ -376,7 +376,7 @@ noncomputable def get_prime_entail_wit_1_split_goal_spatial : Prop :=
 
 noncomputable def get_prime_entail_wit_2 : Prop :=
   (
-forall (prime_pre : Int) (n_pre : Int) (prime0 : (List Int)) (flag_init_2 : (List Int)) (z : Int) (PreH1 : (z <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init_2)) = (z - 2))) ,
+forall (prime0 : (List Int)) (n_pre : Int) (prime_pre : Int) (flag_init_2 : (List Int)) (z : Int) (PreH1 : (z <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init_2)) = (z - 2))) ,
   (intArray.seg ( &( "flag" ) ) 2 (z + 1) (flag_init_2 ++ ((0 : Int) :: (@List.nil Int))))
   ** (intArray.undef_seg ( &( "flag" ) ) (z + 1) (n_pre + 1))
   ** (intArray.seg prime_pre 1 (n_pre + 1) prime0)
@@ -397,7 +397,7 @@ forall (prime_pre : Int) (n_pre : Int) (prime0 : (List Int)) (flag_init_2 : (Lis
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
 ) \/
 (
-forall (n_pre : Int) (prime0 : (List Int)) (flag_init_2 : (List Int)) (z : Int) (PreH1 : (z <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init_2)) = (z - 2))) ,
+forall (prime0 : (List Int)) (n_pre : Int) (flag_init_2 : (List Int)) (z : Int) (PreH1 : (z <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init_2)) = (z - 2))) ,
   TT && emp 
 |--
   “ ((Zlength ((flag_init_2 ++ ((0 : Int) :: (@List.nil Int))))) = ((z + 1) - 2)) ”
@@ -405,12 +405,12 @@ forall (n_pre : Int) (prime0 : (List Int)) (flag_init_2 : (List Int)) (z : Int) 
 )
 
 noncomputable def get_prime_entail_wit_2_split_goal_1 : Prop :=
-  forall (n_pre : Int) (prime0 : (List Int)) (flag_init_2 : (List Int)) (z : Int) (PreH1 : (z <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init_2)) = (z - 2))) ,
+  forall (prime0 : (List Int)) (n_pre : Int) (flag_init_2 : (List Int)) (z : Int) (PreH1 : (z <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init_2)) = (z - 2))) ,
   ((Zlength ((flag_init_2 ++ ((0 : Int) :: (@List.nil Int))))) = ((z + 1) - 2))
 
 noncomputable def get_prime_entail_wit_3 : Prop :=
   (
-forall (prime_pre : Int) (n_pre : Int) (prime0 : (List Int)) (flag_init : (List Int)) (z : Int) (PreH1 : (z > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init)) = (z - 2))) ,
+forall (prime0 : (List Int)) (n_pre : Int) (prime_pre : Int) (flag_init : (List Int)) (z : Int) (PreH1 : (z > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init)) = (z - 2))) ,
   (intArray.seg prime_pre 1 (n_pre + 1) prime0)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
   ** (intArray.seg ( &( "flag" ) ) 2 z flag_init)
@@ -432,7 +432,7 @@ forall (prime_pre : Int) (n_pre : Int) (prime0 : (List Int)) (flag_init : (List 
   ** (intArray.seg prime_pre 1 (n_pre + 1) prime0)
 ) \/
 (
-forall (n_pre : Int) (prime0 : (List Int)) (flag_init : (List Int)) (z : Int) (PreH1 : (z > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init)) = (z - 2))) ,
+forall (prime0 : (List Int)) (n_pre : Int) (flag_init : (List Int)) (z : Int) (PreH1 : (z > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init)) = (z - 2))) ,
   (intArray.seg ( &( "flag" ) ) 2 z flag_init)
 |--
   EX flag_l : (List Int),
@@ -448,7 +448,7 @@ forall (n_pre : Int) (prime0 : (List Int)) (flag_init : (List Int)) (z : Int) (P
 
 noncomputable def get_prime_entail_wit_4 : Prop :=
   (
-forall (prime_pre : Int) (n_pre : Int) (prime0 : (List Int)) (flag_l_2 : (List Int)) (i : Int) (tot : Int) (PreH1 : (i <= n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l_2)) (PreH8 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
+forall (prime0 : (List Int)) (n_pre : Int) (prime_pre : Int) (flag_l_2 : (List Int)) (i : Int) (tot : Int) (PreH1 : (i <= n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l_2)) (PreH8 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
   (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) (replace_Znth ((i - 2)) (i) (flag_l_2)))
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
@@ -469,7 +469,7 @@ forall (prime_pre : Int) (n_pre : Int) (prime0 : (List Int)) (flag_l_2 : (List I
   ** (intArray.seg prime_pre 1 (n_pre + 1) prime0)
 ) \/
 (
-forall (n_pre : Int) (prime0 : (List Int)) (flag_l_2 : (List Int)) (i : Int) (tot : Int) (PreH1 : (i <= n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l_2)) (PreH8 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
+forall (prime0 : (List Int)) (n_pre : Int) (flag_l_2 : (List Int)) (i : Int) (tot : Int) (PreH1 : (i <= n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l_2)) (PreH8 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
   TT && emp 
 |--
   “ ((Zlength ((replace_Znth ((i - 2)) (i) (flag_l_2)))) = (n_pre - 1)) ” &&
@@ -478,16 +478,16 @@ forall (n_pre : Int) (prime0 : (List Int)) (flag_l_2 : (List Int)) (i : Int) (to
 )
 
 noncomputable def get_prime_entail_wit_4_split_goal_1 : Prop :=
-  forall (n_pre : Int) (prime0 : (List Int)) (flag_l_2 : (List Int)) (i : Int) (tot : Int) (PreH1 : (i <= n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l_2)) (PreH8 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
+  forall (prime0 : (List Int)) (n_pre : Int) (flag_l_2 : (List Int)) (i : Int) (tot : Int) (PreH1 : (i <= n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l_2)) (PreH8 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
   ((Zlength ((replace_Znth ((i - 2)) (i) (flag_l_2)))) = (n_pre - 1))
 
 noncomputable def get_prime_entail_wit_4_split_goal_2 : Prop :=
-  forall (n_pre : Int) (prime0 : (List Int)) (flag_l_2 : (List Int)) (i : Int) (tot : Int) (PreH1 : (i <= n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l_2)) (PreH8 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
+  forall (prime0 : (List Int)) (n_pre : Int) (flag_l_2 : (List Int)) (i : Int) (tot : Int) (PreH1 : (i <= n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l_2)) (PreH8 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
   (EulerInitPrefix n_pre (i + 1) (replace_Znth ((i - 2)) (i) (flag_l_2)))
 
 noncomputable def get_prime_entail_wit_5 : Prop :=
   (
-forall (prime_pre : Int) (n_pre : Int) (prime0 : (List Int)) (flag_l_2 : (List Int)) (i : Int) (tot : Int) (PreH1 : (i > n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l_2)) (PreH8 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
+forall (prime0 : (List Int)) (n_pre : Int) (prime_pre : Int) (flag_l_2 : (List Int)) (i : Int) (tot : Int) (PreH1 : (i > n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l_2)) (PreH8 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
   (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l_2)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
@@ -509,7 +509,7 @@ forall (prime_pre : Int) (n_pre : Int) (prime0 : (List Int)) (flag_l_2 : (List I
   ** (intArray.seg prime_pre 1 (n_pre + 1) prime_l)
 ) \/
 (
-forall (n_pre : Int) (prime0 : (List Int)) (flag_l_2 : (List Int)) (i : Int) (tot : Int) (PreH1 : (i > n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l_2)) (PreH8 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
+forall (prime0 : (List Int)) (n_pre : Int) (flag_l_2 : (List Int)) (i : Int) (tot : Int) (PreH1 : (i > n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l_2)) (PreH8 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
   TT && emp 
 |--
   “ (EulerOuterState n_pre 2 (0 : Int) flag_l_2 prime0) ”
@@ -517,12 +517,12 @@ forall (n_pre : Int) (prime0 : (List Int)) (flag_l_2 : (List Int)) (i : Int) (to
 )
 
 noncomputable def get_prime_entail_wit_5_split_goal_1 : Prop :=
-  forall (n_pre : Int) (prime0 : (List Int)) (flag_l_2 : (List Int)) (i : Int) (tot : Int) (PreH1 : (i > n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l_2)) (PreH8 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
+  forall (prime0 : (List Int)) (n_pre : Int) (flag_l_2 : (List Int)) (i : Int) (tot : Int) (PreH1 : (i > n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l_2)) (PreH8 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
   (EulerOuterState n_pre 2 (0 : Int) flag_l_2 prime0)
 
 noncomputable def get_prime_entail_wit_6_1 : Prop :=
   (
-forall (prime_pre : Int) (n_pre : Int) (flag_l_2 : (List Int)) (prime_l_2 : (List Int)) (tot : Int) (i : Int) (PreH1 : ((Znth (i - 2) flag_l_2 (0 : Int)) = i)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : ((0 : Int) <= tot)) (PreH8 : (tot < i)) (PreH9 : (EulerOuterState n_pre i tot flag_l_2 prime_l_2)) (PreH10 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH11 : ((Zlength (prime_l_2)) = n_pre)) ,
+forall (n_pre : Int) (prime_pre : Int) (flag_l_2 : (List Int)) (prime_l_2 : (List Int)) (tot : Int) (i : Int) (PreH1 : ((Znth (i - 2) flag_l_2 (0 : Int)) = i)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : ((0 : Int) <= tot)) (PreH8 : (tot < i)) (PreH9 : (EulerOuterState n_pre i tot flag_l_2 prime_l_2)) (PreH10 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH11 : ((Zlength (prime_l_2)) = n_pre)) ,
   (intArray.seg prime_pre 1 (n_pre + 1) (replace_Znth (((tot + 1) - 1)) (i) (prime_l_2)))
   ** (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l_2)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
@@ -577,7 +577,7 @@ noncomputable def get_prime_entail_wit_6_1_split_goal_4 : Prop :=
 
 noncomputable def get_prime_entail_wit_6_2 : Prop :=
   (
-forall (prime_pre : Int) (n_pre : Int) (flag_l_2 : (List Int)) (prime_l_2 : (List Int)) (tot : Int) (i : Int) (PreH1 : ((Znth (i - 2) flag_l_2 (0 : Int)) ≠ i)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : ((0 : Int) <= tot)) (PreH8 : (tot < i)) (PreH9 : (EulerOuterState n_pre i tot flag_l_2 prime_l_2)) (PreH10 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH11 : ((Zlength (prime_l_2)) = n_pre)) ,
+forall (n_pre : Int) (prime_pre : Int) (flag_l_2 : (List Int)) (prime_l_2 : (List Int)) (tot : Int) (i : Int) (PreH1 : ((Znth (i - 2) flag_l_2 (0 : Int)) ≠ i)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : ((0 : Int) <= tot)) (PreH8 : (tot < i)) (PreH9 : (EulerOuterState n_pre i tot flag_l_2 prime_l_2)) (PreH10 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH11 : ((Zlength (prime_l_2)) = n_pre)) ,
   (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l_2)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
@@ -637,7 +637,7 @@ noncomputable def get_prime_entail_wit_6_2_split_goal_5 : Prop :=
 
 noncomputable def get_prime_entail_wit_7 : Prop :=
   (
-forall (prime_pre : Int) (n_pre : Int) (flag_l_2 : (List Int)) (prime_l_2 : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : (j <= tot)) (PreH2 : ((i * (Znth (j - 1) prime_l_2 (0 : Int))) <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (1 <= tot)) (PreH8 : (tot <= n_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= tot)) (PreH11 : (EulerInnerState n_pre i j tot flag_l_2 prime_l_2)) (PreH12 : (2 <= (Znth (j - 1) prime_l_2 (0 : Int)))) (PreH13 : ((Znth (j - 1) prime_l_2 (0 : Int)) <= i)) (PreH14 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH15 : ((Zlength (prime_l_2)) = n_pre)) (PreH16 : (tot < (i + 1))) ,
+forall (n_pre : Int) (prime_pre : Int) (flag_l_2 : (List Int)) (prime_l_2 : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : (j <= tot)) (PreH2 : ((i * (Znth (j - 1) prime_l_2 (0 : Int))) <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (1 <= tot)) (PreH8 : (tot <= n_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= tot)) (PreH11 : (EulerInnerState n_pre i j tot flag_l_2 prime_l_2)) (PreH12 : (2 <= (Znth (j - 1) prime_l_2 (0 : Int)))) (PreH13 : ((Znth (j - 1) prime_l_2 (0 : Int)) <= i)) (PreH14 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH15 : ((Zlength (prime_l_2)) = n_pre)) (PreH16 : (tot < (i + 1))) ,
   (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) (replace_Znth (((i * (Znth (j - 1) prime_l_2 (0 : Int))) - 2)) ((Znth (j - 1) prime_l_2 (0 : Int))) (flag_l_2)))
   ** (intArray.seg prime_pre 1 (n_pre + 1) prime_l_2)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
@@ -689,7 +689,7 @@ noncomputable def get_prime_entail_wit_7_split_goal_3 : Prop :=
 
 noncomputable def get_prime_entail_wit_8 : Prop :=
   (
-forall (prime_pre : Int) (n_pre : Int) (flag_l_2 : (List Int)) (prime_l_2 : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : ((Z.rem i (Znth (j - 1) prime_l_2 (0 : Int))) = (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (1 <= tot)) (PreH7 : (tot <= n_pre)) (PreH8 : (1 <= j)) (PreH9 : (j <= tot)) (PreH10 : ((i * (Znth (j - 1) prime_l_2 (0 : Int))) <= n_pre)) (PreH11 : (EulerInnerMarkedState n_pre i j tot flag_l_2 prime_l_2)) (PreH12 : (2 <= (Znth (j - 1) prime_l_2 (0 : Int)))) (PreH13 : ((Znth (j - 1) prime_l_2 (0 : Int)) <= i)) (PreH14 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH15 : ((Zlength (prime_l_2)) = n_pre)) (PreH16 : (tot < (i + 1))) (PreH17 : (¬((Z.divide (Znth (j - 1) prime_l_2 (0 : Int)) i)) -> ((j + 1) <= tot))) ,
+forall (n_pre : Int) (prime_pre : Int) (flag_l_2 : (List Int)) (prime_l_2 : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : ((Z.rem i (Znth (j - 1) prime_l_2 (0 : Int))) = (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (1 <= tot)) (PreH7 : (tot <= n_pre)) (PreH8 : (1 <= j)) (PreH9 : (j <= tot)) (PreH10 : ((i * (Znth (j - 1) prime_l_2 (0 : Int))) <= n_pre)) (PreH11 : (EulerInnerMarkedState n_pre i j tot flag_l_2 prime_l_2)) (PreH12 : (2 <= (Znth (j - 1) prime_l_2 (0 : Int)))) (PreH13 : ((Znth (j - 1) prime_l_2 (0 : Int)) <= i)) (PreH14 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH15 : ((Zlength (prime_l_2)) = n_pre)) (PreH16 : (tot < (i + 1))) (PreH17 : (¬((Z.divide (Znth (j - 1) prime_l_2 (0 : Int)) i)) -> ((j + 1) <= tot))) ,
   (intArray.seg prime_pre 1 (n_pre + 1) prime_l_2)
   ** (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l_2)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
@@ -732,7 +732,7 @@ noncomputable def get_prime_entail_wit_8_split_goal_1 : Prop :=
 
 noncomputable def get_prime_entail_wit_9 : Prop :=
   (
-forall (prime_pre : Int) (n_pre : Int) (flag_l_2 : (List Int)) (prime_l_2 : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : ((Z.rem i (Znth (j - 1) prime_l_2 (0 : Int))) ≠ (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (1 <= tot)) (PreH7 : (tot <= n_pre)) (PreH8 : (1 <= j)) (PreH9 : (j <= tot)) (PreH10 : ((i * (Znth (j - 1) prime_l_2 (0 : Int))) <= n_pre)) (PreH11 : (EulerInnerMarkedState n_pre i j tot flag_l_2 prime_l_2)) (PreH12 : (2 <= (Znth (j - 1) prime_l_2 (0 : Int)))) (PreH13 : ((Znth (j - 1) prime_l_2 (0 : Int)) <= i)) (PreH14 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH15 : ((Zlength (prime_l_2)) = n_pre)) (PreH16 : (tot < (i + 1))) (PreH17 : (¬((Z.divide (Znth (j - 1) prime_l_2 (0 : Int)) i)) -> ((j + 1) <= tot))) ,
+forall (n_pre : Int) (prime_pre : Int) (flag_l_2 : (List Int)) (prime_l_2 : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : ((Z.rem i (Znth (j - 1) prime_l_2 (0 : Int))) ≠ (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (1 <= tot)) (PreH7 : (tot <= n_pre)) (PreH8 : (1 <= j)) (PreH9 : (j <= tot)) (PreH10 : ((i * (Znth (j - 1) prime_l_2 (0 : Int))) <= n_pre)) (PreH11 : (EulerInnerMarkedState n_pre i j tot flag_l_2 prime_l_2)) (PreH12 : (2 <= (Znth (j - 1) prime_l_2 (0 : Int)))) (PreH13 : ((Znth (j - 1) prime_l_2 (0 : Int)) <= i)) (PreH14 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH15 : ((Zlength (prime_l_2)) = n_pre)) (PreH16 : (tot < (i + 1))) (PreH17 : (¬((Z.divide (Znth (j - 1) prime_l_2 (0 : Int)) i)) -> ((j + 1) <= tot))) ,
   (intArray.seg prime_pre 1 (n_pre + 1) prime_l_2)
   ** (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l_2)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
@@ -787,7 +787,7 @@ noncomputable def get_prime_entail_wit_9_split_goal_4 : Prop :=
 
 noncomputable def get_prime_entail_wit_10 : Prop :=
   (
-forall (prime_pre : Int) (n_pre : Int) (flag_l_2 : (List Int)) (prime_l_2 : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= (j + 1))) (PreH8 : ((j + 1) <= tot)) (PreH9 : (EulerInnerState n_pre i (j + 1) tot flag_l_2 prime_l_2)) (PreH10 : (2 <= (Znth j prime_l_2 (0 : Int)))) (PreH11 : ((Znth j prime_l_2 (0 : Int)) <= i)) (PreH12 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH13 : ((Zlength (prime_l_2)) = n_pre)) (PreH14 : (tot < (i + 1))) ,
+forall (n_pre : Int) (prime_pre : Int) (flag_l_2 : (List Int)) (prime_l_2 : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= (j + 1))) (PreH8 : ((j + 1) <= tot)) (PreH9 : (EulerInnerState n_pre i (j + 1) tot flag_l_2 prime_l_2)) (PreH10 : (2 <= (Znth j prime_l_2 (0 : Int)))) (PreH11 : ((Znth j prime_l_2 (0 : Int)) <= i)) (PreH12 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH13 : ((Zlength (prime_l_2)) = n_pre)) (PreH14 : (tot < (i + 1))) ,
   (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l_2)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
@@ -832,7 +832,7 @@ noncomputable def get_prime_entail_wit_10_split_goal_2 : Prop :=
 
 noncomputable def get_prime_entail_wit_11_1 : Prop :=
   (
-forall (prime_pre : Int) (n_pre : Int) (flag_l_2 : (List Int)) (prime_l_2 : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : ((i * (Znth (j - 1) prime_l_2 (0 : Int))) > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (1 <= tot)) (PreH7 : (tot <= n_pre)) (PreH8 : (1 <= j)) (PreH9 : (j <= tot)) (PreH10 : (EulerInnerState n_pre i j tot flag_l_2 prime_l_2)) (PreH11 : (2 <= (Znth (j - 1) prime_l_2 (0 : Int)))) (PreH12 : ((Znth (j - 1) prime_l_2 (0 : Int)) <= i)) (PreH13 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH14 : ((Zlength (prime_l_2)) = n_pre)) (PreH15 : (tot < (i + 1))) ,
+forall (n_pre : Int) (prime_pre : Int) (flag_l_2 : (List Int)) (prime_l_2 : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : ((i * (Znth (j - 1) prime_l_2 (0 : Int))) > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (1 <= tot)) (PreH7 : (tot <= n_pre)) (PreH8 : (1 <= j)) (PreH9 : (j <= tot)) (PreH10 : (EulerInnerState n_pre i j tot flag_l_2 prime_l_2)) (PreH11 : (2 <= (Znth (j - 1) prime_l_2 (0 : Int)))) (PreH12 : ((Znth (j - 1) prime_l_2 (0 : Int)) <= i)) (PreH13 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH14 : ((Zlength (prime_l_2)) = n_pre)) (PreH15 : (tot < (i + 1))) ,
   (intArray.seg prime_pre 1 (n_pre + 1) prime_l_2)
   ** (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l_2)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
@@ -866,7 +866,7 @@ noncomputable def get_prime_entail_wit_11_1_split_goal_1 : Prop :=
   (EulerOuterState n_pre (i + 1) tot flag_l_2 prime_l_2)
 
 noncomputable def get_prime_entail_wit_11_2 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l_2 : (List Int)) (prime_l_2 : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= tot)) (PreH9 : (2 <= (Znth (j - 1) prime_l_2 (0 : Int)))) (PreH10 : ((Znth (j - 1) prime_l_2 (0 : Int)) <= i)) (PreH11 : (EulerOuterState n_pre (i + 1) tot flag_l_2 prime_l_2)) (PreH12 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH13 : ((Zlength (prime_l_2)) = n_pre)) (PreH14 : (2 <= (i + 1))) (PreH15 : ((i + 1) <= (n_pre + 1))) (PreH16 : ((0 : Int) <= tot)) (PreH17 : (tot < (i + 1))) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l_2 : (List Int)) (prime_l_2 : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= tot)) (PreH9 : (2 <= (Znth (j - 1) prime_l_2 (0 : Int)))) (PreH10 : ((Znth (j - 1) prime_l_2 (0 : Int)) <= i)) (PreH11 : (EulerOuterState n_pre (i + 1) tot flag_l_2 prime_l_2)) (PreH12 : ((Zlength (flag_l_2)) = (n_pre - 1))) (PreH13 : ((Zlength (prime_l_2)) = n_pre)) (PreH14 : (2 <= (i + 1))) (PreH15 : ((i + 1) <= (n_pre + 1))) (PreH16 : ((0 : Int) <= tot)) (PreH17 : (tot < (i + 1))) ,
   (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l_2)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
@@ -889,7 +889,7 @@ noncomputable def get_prime_entail_wit_11_2 : Prop :=
 
 noncomputable def get_prime_entail_wit_12 : Prop :=
   (
-forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (tot : Int) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : ((0 : Int) <= tot)) (PreH7 : (tot < i)) (PreH8 : (EulerOuterState n_pre i tot flag_l prime_l)) (PreH9 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH10 : ((Zlength (prime_l)) = n_pre)) ,
+forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (tot : Int) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : ((0 : Int) <= tot)) (PreH7 : (tot < i)) (PreH8 : (EulerOuterState n_pre i tot flag_l prime_l)) (PreH9 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH10 : ((Zlength (prime_l)) = n_pre)) ,
   (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
@@ -917,7 +917,7 @@ forall (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (tot : Int) (i
 
 noncomputable def get_prime_return_wit_1 : Prop :=
   (
-forall (prime_pre : Int) (n_pre : Int) (flag_out : (List Int)) (prime_out_2 : (List Int)) (tot : Int) (PreH1 : ((0 : Int) <= tot)) (PreH2 : (tot <= n_pre)) (PreH3 : (EulerSieveResult n_pre tot flag_out prime_out_2)) ,
+forall (n_pre : Int) (prime_pre : Int) (flag_out : (List Int)) (prime_out_2 : (List Int)) (tot : Int) (PreH1 : ((0 : Int) <= tot)) (PreH2 : (tot <= n_pre)) (PreH3 : (EulerSieveResult n_pre tot flag_out prime_out_2)) ,
   (intArray.seg prime_pre 1 (n_pre + 1) prime_out_2)
 |--
   EX prime_out : (List Int), EX final_tot : Int,
@@ -939,7 +939,7 @@ forall (n_pre : Int) (flag_out : (List Int)) (prime_out_2 : (List Int)) (tot : I
 )
 
 noncomputable def get_prime_partial_solve_wit_1 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (prime0 : (List Int)) (flag_init : (List Int)) (z : Int) (PreH1 : (z <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init)) = (z - 2))) ,
+  forall (prime0 : (List Int)) (n_pre : Int) (prime_pre : Int) (flag_init : (List Int)) (z : Int) (PreH1 : (z <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : ((Zlength (prime0)) = n_pre)) (PreH5 : (2 <= z)) (PreH6 : (z <= (n_pre + 1))) (PreH7 : ((Zlength (flag_init)) = (z - 2))) ,
   (intArray.seg prime_pre 1 (n_pre + 1) prime0)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
   ** (intArray.seg ( &( "flag" ) ) 2 z flag_init)
@@ -961,7 +961,7 @@ noncomputable def get_prime_partial_solve_wit_1 : Prop :=
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
 
 noncomputable def get_prime_partial_solve_wit_2 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (prime0 : (List Int)) (flag_l : (List Int)) (i : Int) (tot : Int) (PreH1 : (i <= n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l)) (PreH8 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
+  forall (prime0 : (List Int)) (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (i : Int) (tot : Int) (PreH1 : (i <= n_pre)) (PreH2 : (tot = (0 : Int))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (EulerInitPrefix n_pre i flag_l)) (PreH8 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH9 : ((Zlength (prime0)) = n_pre)) ,
   (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
@@ -983,7 +983,7 @@ noncomputable def get_prime_partial_solve_wit_2 : Prop :=
   ** (intArray.seg prime_pre 1 (n_pre + 1) prime0)
 
 noncomputable def get_prime_partial_solve_wit_3 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (tot : Int) (i : Int) (PreH1 : (i <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : ((0 : Int) <= tot)) (PreH7 : (tot < i)) (PreH8 : (EulerOuterState n_pre i tot flag_l prime_l)) (PreH9 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH10 : ((Zlength (prime_l)) = n_pre)) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (tot : Int) (i : Int) (PreH1 : (i <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : ((0 : Int) <= tot)) (PreH7 : (tot < i)) (PreH8 : (EulerOuterState n_pre i tot flag_l prime_l)) (PreH9 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH10 : ((Zlength (prime_l)) = n_pre)) ,
   (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
@@ -1006,7 +1006,7 @@ noncomputable def get_prime_partial_solve_wit_3 : Prop :=
   ** (intArray.seg prime_pre 1 (n_pre + 1) prime_l)
 
 noncomputable def get_prime_partial_solve_wit_4 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (tot : Int) (i : Int) (PreH1 : ((Znth (i - 2) flag_l (0 : Int)) = i)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : ((0 : Int) <= tot)) (PreH8 : (tot < i)) (PreH9 : (EulerOuterState n_pre i tot flag_l prime_l)) (PreH10 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH11 : ((Zlength (prime_l)) = n_pre)) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (tot : Int) (i : Int) (PreH1 : ((Znth (i - 2) flag_l (0 : Int)) = i)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : ((0 : Int) <= tot)) (PreH8 : (tot < i)) (PreH9 : (EulerOuterState n_pre i tot flag_l prime_l)) (PreH10 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH11 : ((Zlength (prime_l)) = n_pre)) ,
   (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
@@ -1030,7 +1030,7 @@ noncomputable def get_prime_partial_solve_wit_4 : Prop :=
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
 
 noncomputable def get_prime_partial_solve_wit_5 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= tot)) (PreH9 : (EulerInnerState n_pre i j tot flag_l prime_l)) (PreH10 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH11 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH12 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH13 : ((Zlength (prime_l)) = n_pre)) (PreH14 : (tot < (i + 1))) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= tot)) (PreH9 : (EulerInnerState n_pre i j tot flag_l prime_l)) (PreH10 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH11 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH12 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH13 : ((Zlength (prime_l)) = n_pre)) (PreH14 : (tot < (i + 1))) ,
   (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
@@ -1057,7 +1057,7 @@ noncomputable def get_prime_partial_solve_wit_5 : Prop :=
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
 
 noncomputable def get_prime_partial_solve_wit_6 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : (j <= tot)) (PreH2 : ((i * (Znth (j - 1) prime_l (0 : Int))) <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (1 <= tot)) (PreH8 : (tot <= n_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= tot)) (PreH11 : (EulerInnerState n_pre i j tot flag_l prime_l)) (PreH12 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH13 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH14 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH15 : ((Zlength (prime_l)) = n_pre)) (PreH16 : (tot < (i + 1))) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : (j <= tot)) (PreH2 : ((i * (Znth (j - 1) prime_l (0 : Int))) <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (1 <= tot)) (PreH8 : (tot <= n_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= tot)) (PreH11 : (EulerInnerState n_pre i j tot flag_l prime_l)) (PreH12 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH13 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH14 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH15 : ((Zlength (prime_l)) = n_pre)) (PreH16 : (tot < (i + 1))) ,
   (intArray.seg prime_pre 1 (n_pre + 1) prime_l)
   ** (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
@@ -1086,7 +1086,7 @@ noncomputable def get_prime_partial_solve_wit_6 : Prop :=
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
 
 noncomputable def get_prime_partial_solve_wit_7 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : (j <= tot)) (PreH2 : ((i * (Znth (j - 1) prime_l (0 : Int))) <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (1 <= tot)) (PreH8 : (tot <= n_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= tot)) (PreH11 : (EulerInnerState n_pre i j tot flag_l prime_l)) (PreH12 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH13 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH14 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH15 : ((Zlength (prime_l)) = n_pre)) (PreH16 : (tot < (i + 1))) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : (j <= tot)) (PreH2 : ((i * (Znth (j - 1) prime_l (0 : Int))) <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (1 <= tot)) (PreH8 : (tot <= n_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= tot)) (PreH11 : (EulerInnerState n_pre i j tot flag_l prime_l)) (PreH12 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH13 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH14 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH15 : ((Zlength (prime_l)) = n_pre)) (PreH16 : (tot < (i + 1))) ,
   (intArray.seg prime_pre 1 (n_pre + 1) prime_l)
   ** (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
@@ -1115,7 +1115,7 @@ noncomputable def get_prime_partial_solve_wit_7 : Prop :=
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
 
 noncomputable def get_prime_partial_solve_wit_8 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : (j <= tot)) (PreH2 : ((i * (Znth (j - 1) prime_l (0 : Int))) <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (1 <= tot)) (PreH8 : (tot <= n_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= tot)) (PreH11 : (EulerInnerState n_pre i j tot flag_l prime_l)) (PreH12 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH13 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH14 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH15 : ((Zlength (prime_l)) = n_pre)) (PreH16 : (tot < (i + 1))) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (j : Int) (tot : Int) (i : Int) (PreH1 : (j <= tot)) (PreH2 : ((i * (Znth (j - 1) prime_l (0 : Int))) <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (1 <= tot)) (PreH8 : (tot <= n_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= tot)) (PreH11 : (EulerInnerState n_pre i j tot flag_l prime_l)) (PreH12 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH13 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH14 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH15 : ((Zlength (prime_l)) = n_pre)) (PreH16 : (tot < (i + 1))) ,
   (intArray.seg prime_pre 1 (n_pre + 1) prime_l)
   ** (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
@@ -1144,7 +1144,7 @@ noncomputable def get_prime_partial_solve_wit_8 : Prop :=
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)
 
 noncomputable def get_prime_partial_solve_wit_9 : Prop :=
-  forall (prime_pre : Int) (n_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= tot)) (PreH9 : ((i * (Znth (j - 1) prime_l (0 : Int))) <= n_pre)) (PreH10 : (EulerInnerMarkedState n_pre i j tot flag_l prime_l)) (PreH11 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH12 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH13 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH14 : ((Zlength (prime_l)) = n_pre)) (PreH15 : (tot < (i + 1))) (PreH16 : (¬((Z.divide (Znth (j - 1) prime_l (0 : Int)) i)) -> ((j + 1) <= tot))) ,
+  forall (n_pre : Int) (prime_pre : Int) (flag_l : (List Int)) (prime_l : (List Int)) (i : Int) (tot : Int) (j : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 46340)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (1 <= tot)) (PreH6 : (tot <= n_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= tot)) (PreH9 : ((i * (Znth (j - 1) prime_l (0 : Int))) <= n_pre)) (PreH10 : (EulerInnerMarkedState n_pre i j tot flag_l prime_l)) (PreH11 : (2 <= (Znth (j - 1) prime_l (0 : Int)))) (PreH12 : ((Znth (j - 1) prime_l (0 : Int)) <= i)) (PreH13 : ((Zlength (flag_l)) = (n_pre - 1))) (PreH14 : ((Zlength (prime_l)) = n_pre)) (PreH15 : (tot < (i + 1))) (PreH16 : (¬((Z.divide (Znth (j - 1) prime_l (0 : Int)) i)) -> ((j + 1) <= tot))) ,
   (intArray.seg ( &( "flag" ) ) 2 (n_pre + 1) flag_l)
   ** (intArray.undef_seg ( &( "flag" ) ) (0 : Int) 2)
   ** (intArray.undef_seg ( &( "flag" ) ) (n_pre + 1) 46341)

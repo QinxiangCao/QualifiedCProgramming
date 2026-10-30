@@ -23,11 +23,15 @@ Section RewriteClass.
 
 Context {L: Language}
         {minL: MinimumLanguage L}
-        {pL: PropositionalLanguage L}
+        {andpL: AndLanguage L}
+        {negpL: NegLanguage L}
+        {iffpL: IffLanguage L}
         {mL: ModalLanguage L}
         {Gamma: Provable L}
         {minAX: MinimumAxiomatization L Gamma}
-        {ipAX: IntuitionisticPropositionalLogic L Gamma}
+        {andpAX: AndAxiomatization L Gamma}
+        {inegpAX: IntuitionisticNegAxiomatization L Gamma}
+        {iffpAX: IffAxiomatization L Gamma}
         {KmAX: SystemK L Gamma}.
 
 #[export] Instance boxp_proper_impp: Proper ((fun x y => |-- impp x y) ==> (fun x y => |-- impp x y)) boxp.
@@ -41,25 +45,29 @@ Qed.
 #[export] Instance boxp_proper_iffp: Proper ((fun x y => |-- iffp x y) ==> (fun x y => |-- iffp x y)) boxp.
 Proof.
   hnf; intros x y ?.
-  apply provables_andp_intros; apply boxp_proper_impp.
-  + eapply provables_andp_elim1; eauto.
-  + eapply provables_andp_elim2; eauto.
+  apply provables_iffp_intros; apply boxp_proper_impp.
+  + eapply provables_iffp_elim1; eauto.
+  + eapply provables_iffp_elim2; eauto.
 Qed.
 
 #[export] Instance diamondp_proper_impp: Proper ((fun x y => |-- impp x y) ==> (fun x y => |-- impp x y)) diamondp.
 Proof.
   hnf; intros x y ?.
   unfold diamondp.
-  rewrite H.
-  apply provable_impp_refl.
+  eapply provables_modus_ponens.
+  + apply provable_contrapositivePP.
+  + apply boxp_proper_impp.
+    eapply provables_modus_ponens.
+    * apply provable_contrapositivePP.
+    * exact H.
 Qed.
 
 #[export] Instance diamondp_proper_iffp: Proper ((fun x y => |-- iffp x y) ==> (fun x y => |-- iffp x y)) diamondp.
 Proof.
   hnf; intros x y ?.
-  unfold diamondp.
-  rewrite H.
-  apply provable_iffp_refl.
+  apply provables_iffp_intros; apply diamondp_proper_impp.
+  + eapply provables_iffp_elim1; eauto.
+  + eapply provables_iffp_elim2; eauto.
 Qed.
 
 End RewriteClass.

@@ -14,8 +14,6 @@ Require Import Coq.Lists.List. Import ListNotations.
     (fix go (l : list A) := match l with [] => [] | x :: l => f x ++ go l end) mx;
   ret := fun A x => [x];
 }.
-Arguments Monad.bind _ _ _ _ !mx / f.
-Arguments Monad.ret _ _ _ !x /.
 
 #[export] Instance list_fmap : FMap list := λ A B f,
   fix go (l : list A) := match l with [] => [] | x :: l => f x :: go l end.
@@ -46,8 +44,9 @@ Section mapM.
   Proof.
     revert k. induction l as [|x l]; intros [|y k]; simpl; try done.
     - destruct (f x); simpl; [|discriminate]. by destruct (mapM f l).
-    - intros. constructor. 2: apply IHl.
-      all: destruct (f x), (mapM f l); simpl in *; congruence.
+    - destruct (f x) eqn:Hfx; simpl; [|discriminate].
+      destruct (mapM f l); simpl; [|discriminate].
+      injection 1 as <- <-. constructor; [by rewrite Hfx|by eapply IHl].
   Qed.
   Lemma mapM_Some_2 l k : Forall2 (λ x y, f x = Some y) l k → mapM f l = Some k.
   Proof.
@@ -124,6 +123,8 @@ End mapM.
 (*  the cartesian product.                                                                                   *)
 (*                                                                                                          *)
 
+Module ListProgNotations.
+
 Declare Scope listprog_scope.
 Delimit Scope listprog_scope with listprog.
 
@@ -154,3 +155,5 @@ Notation "'MAP' e 'FOR' x 'IN' l" :=
   (fmap (fun x => e) l)
   (at level 0, e at level 99, x ident, l at level 99,
    format "'[v' 'MAP'  e  'FOR'  x  'IN'  l ']'") : listprog_scope.
+
+End ListProgNotations.

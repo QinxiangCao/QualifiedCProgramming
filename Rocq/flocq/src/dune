@@ -1,6 +1,5 @@
 ; Converted from:
 ; - _CoqProject: -R Rocq/flocq/src Flocq
-; - Rocq/_CoqProject: -R flocq/src Flocq
 (coq.theory
  (name Flocq)
  (modules

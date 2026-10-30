@@ -57,7 +57,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def add_safety_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : ((0 : Int) <= x_pre)) (PreH2 : (x_pre <= 100)) (PreH3 : ((0 : Int) <= y_pre)) (PreH4 : (y_pre <= 100)) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : ((0 : Int) <= x_pre)) (PreH2 : (x_pre <= 100)) (PreH3 : ((0 : Int) <= y_pre)) (PreH4 : (y_pre <= 100)) ,
   ((( &( "z" ) )) # Int |->_)
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -66,14 +66,14 @@ noncomputable def add_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (x_pre + y_pre)) ”
 
 noncomputable def add_return_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : ((0 : Int) <= x_pre)) (PreH2 : (x_pre <= 100)) (PreH3 : ((0 : Int) <= y_pre)) (PreH4 : (y_pre <= 100)) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : ((0 : Int) <= x_pre)) (PreH2 : (x_pre <= 100)) (PreH3 : ((0 : Int) <= y_pre)) (PreH4 : (y_pre <= 100)) ,
   TT && emp 
 |--
   “ ((x_pre + y_pre) = (x_pre + y_pre)) ”
   &&  emp
 
 noncomputable def slow_add_safety_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (y : Int) (x : Int) (PreH1 : ((0 : Int) <= x)) (PreH2 : (x <= 100)) (PreH3 : ((0 : Int) <= y)) (PreH4 : (y <= 200)) (PreH5 : ((0 : Int) <= x_pre)) (PreH6 : (x_pre <= 100)) (PreH7 : ((0 : Int) <= y_pre)) (PreH8 : (y_pre <= 100)) (PreH9 : ((x + y) = (x_pre + y_pre))) ,
+  forall (x_pre : Int) (y_pre : Int) (y : Int) (x : Int) (PreH1 : ((0 : Int) <= x)) (PreH2 : (x <= 100)) (PreH3 : ((0 : Int) <= y)) (PreH4 : (y <= 200)) (PreH5 : ((0 : Int) <= x_pre)) (PreH6 : (x_pre <= 100)) (PreH7 : ((0 : Int) <= y_pre)) (PreH8 : (y_pre <= 100)) (PreH9 : ((x + y) = (x_pre + y_pre))) ,
   ((( &( "x" ) )) # Int |-> (x))
   ** ((( &( "y" ) )) # Int |-> (y))
 |--
@@ -81,7 +81,7 @@ noncomputable def slow_add_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def slow_add_safety_wit_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (y : Int) (x : Int) (PreH1 : (x > (0 : Int))) (PreH2 : ((0 : Int) <= x)) (PreH3 : (x <= 100)) (PreH4 : ((0 : Int) <= y)) (PreH5 : (y <= 200)) (PreH6 : ((0 : Int) <= x_pre)) (PreH7 : (x_pre <= 100)) (PreH8 : ((0 : Int) <= y_pre)) (PreH9 : (y_pre <= 100)) (PreH10 : ((x + y) = (x_pre + y_pre))) ,
+  forall (x_pre : Int) (y_pre : Int) (y : Int) (x : Int) (PreH1 : (x > (0 : Int))) (PreH2 : ((0 : Int) <= x)) (PreH3 : (x <= 100)) (PreH4 : ((0 : Int) <= y)) (PreH5 : (y <= 200)) (PreH6 : ((0 : Int) <= x_pre)) (PreH7 : (x_pre <= 100)) (PreH8 : ((0 : Int) <= y_pre)) (PreH9 : (y_pre <= 100)) (PreH10 : ((x + y) = (x_pre + y_pre))) ,
   ((( &( "x" ) )) # Int |-> (x))
   ** ((( &( "y" ) )) # Int |-> (y))
 |--
@@ -89,7 +89,7 @@ noncomputable def slow_add_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (x - 1)) ”
 
 noncomputable def slow_add_safety_wit_3 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (y : Int) (x : Int) (PreH1 : (x > (0 : Int))) (PreH2 : ((0 : Int) <= x)) (PreH3 : (x <= 100)) (PreH4 : ((0 : Int) <= y)) (PreH5 : (y <= 200)) (PreH6 : ((0 : Int) <= x_pre)) (PreH7 : (x_pre <= 100)) (PreH8 : ((0 : Int) <= y_pre)) (PreH9 : (y_pre <= 100)) (PreH10 : ((x + y) = (x_pre + y_pre))) ,
+  forall (x_pre : Int) (y_pre : Int) (y : Int) (x : Int) (PreH1 : (x > (0 : Int))) (PreH2 : ((0 : Int) <= x)) (PreH3 : (x <= 100)) (PreH4 : ((0 : Int) <= y)) (PreH5 : (y <= 200)) (PreH6 : ((0 : Int) <= x_pre)) (PreH7 : (x_pre <= 100)) (PreH8 : ((0 : Int) <= y_pre)) (PreH9 : (y_pre <= 100)) (PreH10 : ((x + y) = (x_pre + y_pre))) ,
   ((( &( "x" ) )) # Int |-> (x))
   ** ((( &( "y" ) )) # Int |-> (y))
 |--
@@ -97,7 +97,7 @@ noncomputable def slow_add_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def slow_add_safety_wit_4 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (y : Int) (x : Int) (PreH1 : (x > (0 : Int))) (PreH2 : ((0 : Int) <= x)) (PreH3 : (x <= 100)) (PreH4 : ((0 : Int) <= y)) (PreH5 : (y <= 200)) (PreH6 : ((0 : Int) <= x_pre)) (PreH7 : (x_pre <= 100)) (PreH8 : ((0 : Int) <= y_pre)) (PreH9 : (y_pre <= 100)) (PreH10 : ((x + y) = (x_pre + y_pre))) ,
+  forall (x_pre : Int) (y_pre : Int) (y : Int) (x : Int) (PreH1 : (x > (0 : Int))) (PreH2 : ((0 : Int) <= x)) (PreH3 : (x <= 100)) (PreH4 : ((0 : Int) <= y)) (PreH5 : (y <= 200)) (PreH6 : ((0 : Int) <= x_pre)) (PreH7 : (x_pre <= 100)) (PreH8 : ((0 : Int) <= y_pre)) (PreH9 : (y_pre <= 100)) (PreH10 : ((x + y) = (x_pre + y_pre))) ,
   ((( &( "x" ) )) # Int |-> ((x - 1)))
   ** ((( &( "y" ) )) # Int |-> (y))
 |--
@@ -105,7 +105,7 @@ noncomputable def slow_add_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (y + 1)) ”
 
 noncomputable def slow_add_safety_wit_5 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (y : Int) (x : Int) (PreH1 : (x > (0 : Int))) (PreH2 : ((0 : Int) <= x)) (PreH3 : (x <= 100)) (PreH4 : ((0 : Int) <= y)) (PreH5 : (y <= 200)) (PreH6 : ((0 : Int) <= x_pre)) (PreH7 : (x_pre <= 100)) (PreH8 : ((0 : Int) <= y_pre)) (PreH9 : (y_pre <= 100)) (PreH10 : ((x + y) = (x_pre + y_pre))) ,
+  forall (x_pre : Int) (y_pre : Int) (y : Int) (x : Int) (PreH1 : (x > (0 : Int))) (PreH2 : ((0 : Int) <= x)) (PreH3 : (x <= 100)) (PreH4 : ((0 : Int) <= y)) (PreH5 : (y <= 200)) (PreH6 : ((0 : Int) <= x_pre)) (PreH7 : (x_pre <= 100)) (PreH8 : ((0 : Int) <= y_pre)) (PreH9 : (y_pre <= 100)) (PreH10 : ((x + y) = (x_pre + y_pre))) ,
   ((( &( "x" ) )) # Int |-> ((x - 1)))
   ** ((( &( "y" ) )) # Int |-> (y))
 |--
@@ -113,7 +113,7 @@ noncomputable def slow_add_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def slow_add_entail_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : ((0 : Int) <= x_pre)) (PreH2 : (x_pre <= 100)) (PreH3 : ((0 : Int) <= y_pre)) (PreH4 : (y_pre <= 100)) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : ((0 : Int) <= x_pre)) (PreH2 : (x_pre <= 100)) (PreH3 : ((0 : Int) <= y_pre)) (PreH4 : (y_pre <= 100)) ,
   TT && emp 
 |--
   “ ((0 : Int) <= x_pre) ” &&
@@ -128,7 +128,7 @@ noncomputable def slow_add_entail_wit_1 : Prop :=
   &&  emp
 
 noncomputable def slow_add_entail_wit_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (y : Int) (x : Int) (PreH1 : (x > (0 : Int))) (PreH2 : ((0 : Int) <= x)) (PreH3 : (x <= 100)) (PreH4 : ((0 : Int) <= y)) (PreH5 : (y <= 200)) (PreH6 : ((0 : Int) <= x_pre)) (PreH7 : (x_pre <= 100)) (PreH8 : ((0 : Int) <= y_pre)) (PreH9 : (y_pre <= 100)) (PreH10 : ((x + y) = (x_pre + y_pre))) ,
+  forall (x_pre : Int) (y_pre : Int) (y : Int) (x : Int) (PreH1 : (x > (0 : Int))) (PreH2 : ((0 : Int) <= x)) (PreH3 : (x <= 100)) (PreH4 : ((0 : Int) <= y)) (PreH5 : (y <= 200)) (PreH6 : ((0 : Int) <= x_pre)) (PreH7 : (x_pre <= 100)) (PreH8 : ((0 : Int) <= y_pre)) (PreH9 : (y_pre <= 100)) (PreH10 : ((x + y) = (x_pre + y_pre))) ,
   TT && emp 
 |--
   “ ((0 : Int) <= (x - 1)) ” &&
@@ -143,7 +143,7 @@ noncomputable def slow_add_entail_wit_2 : Prop :=
   &&  emp
 
 noncomputable def slow_add_return_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (y : Int) (x : Int) (PreH1 : (x <= (0 : Int))) (PreH2 : ((0 : Int) <= x)) (PreH3 : (x <= 100)) (PreH4 : ((0 : Int) <= y)) (PreH5 : (y <= 200)) (PreH6 : ((0 : Int) <= x_pre)) (PreH7 : (x_pre <= 100)) (PreH8 : ((0 : Int) <= y_pre)) (PreH9 : (y_pre <= 100)) (PreH10 : ((x + y) = (x_pre + y_pre))) ,
+  forall (x_pre : Int) (y_pre : Int) (y : Int) (x : Int) (PreH1 : (x <= (0 : Int))) (PreH2 : ((0 : Int) <= x)) (PreH3 : (x <= 100)) (PreH4 : ((0 : Int) <= y)) (PreH5 : (y <= 200)) (PreH6 : ((0 : Int) <= x_pre)) (PreH7 : (x_pre <= 100)) (PreH8 : ((0 : Int) <= y_pre)) (PreH9 : (y_pre <= 100)) (PreH10 : ((x + y) = (x_pre + y_pre))) ,
   TT && emp 
 |--
   “ (y = (x_pre + y_pre)) ”
@@ -173,7 +173,7 @@ noncomputable def add1_1_return_wit_1 : Prop :=
   &&  emp
 
 noncomputable def add1_2_safety_wit_1 : Prop :=
-  forall (x_pre : Int) (v : Int) (PreH1 : (INT_MIN <= v)) (PreH2 : (v < INT_MAX)) ,
+  forall (v : Int) (x_pre : Int) (PreH1 : (INT_MIN <= v)) (PreH2 : (v < INT_MAX)) ,
   ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((x_pre) # Int |-> (v))
 |--
@@ -181,40 +181,40 @@ noncomputable def add1_2_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (v + 1)) ”
 
 noncomputable def add1_2_return_wit_1 : Prop :=
-  forall (x_pre : Int) (v : Int) (PreH1 : (INT_MIN <= v)) (PreH2 : (v < INT_MAX)) ,
+  forall (v : Int) (x_pre : Int) (PreH1 : (INT_MIN <= v)) (PreH2 : (v < INT_MAX)) ,
   ((x_pre) # Int |-> ((v + 1)))
 |--
-  EX x_pre_v : Int,
-  “ (x_pre_v = (v + 1)) ”
-  &&  ((x_pre) # Int |-> (x_pre_v))
+  EX x_v : Int,
+  “ (x_v = (v + 1)) ”
+  &&  ((x_pre) # Int |-> (x_v))
 
 noncomputable def add1_3_safety_wit_1 : Prop :=
-  forall (x_pre : Int) (v : Int) (x_pre_v : Int) (PreH1 : (INT_MIN <= v)) (PreH2 : (v < INT_MAX)) ,
+  forall (v : Int) (x_pre : Int) (x_v : Int) (PreH1 : (INT_MIN <= v)) (PreH2 : (v < INT_MAX)) ,
   ((( &( "x" ) )) # Ptr |-> (x_pre))
-  ** ((x_pre) # Ptr |-> (x_pre_v))
-  ** ((x_pre_v) # Int |-> (v))
+  ** ((x_pre) # Ptr |-> (x_v))
+  ** ((x_v) # Int |-> (v))
 |--
   “ ((v + 1) <= INT_MAX) ” &&
   “ ((INT_MIN) <= (v + 1)) ”
 
 noncomputable def add1_3_safety_wit_2 : Prop :=
-  forall (x_pre : Int) (v : Int) (x_pre_v : Int) (PreH1 : (INT_MIN <= v)) (PreH2 : (v < INT_MAX)) ,
+  forall (v : Int) (x_pre : Int) (x_v : Int) (PreH1 : (INT_MIN <= v)) (PreH2 : (v < INT_MAX)) ,
   ((( &( "x" ) )) # Ptr |-> (x_pre))
-  ** ((x_pre) # Ptr |-> (x_pre_v))
-  ** ((x_pre_v) # Int |-> (v))
+  ** ((x_pre) # Ptr |-> (x_v))
+  ** ((x_v) # Int |-> (v))
 |--
   “ (1 <= INT_MAX) ” &&
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def add1_3_return_wit_1 : Prop :=
-  forall (x_pre : Int) (v : Int) (x_pre_v_2 : Int) (PreH1 : (INT_MIN <= v)) (PreH2 : (v < INT_MAX)) ,
-  ((x_pre) # Ptr |-> (x_pre_v_2))
-  ** ((x_pre_v_2) # Int |-> ((v + 1)))
+  forall (v : Int) (x_pre : Int) (x_v_2 : Int) (PreH1 : (INT_MIN <= v)) (PreH2 : (v < INT_MAX)) ,
+  ((x_pre) # Ptr |-> (x_v_2))
+  ** ((x_v_2) # Int |-> ((v + 1)))
 |--
-  EX x_pre_v_v : Int, EX x_pre_v : Int,
-  “ (x_pre_v_v = (v + 1)) ”
-  &&  ((x_pre) # Ptr |-> (x_pre_v))
-  ** ((x_pre_v) # Int |-> (x_pre_v_v))
+  EX x_v_v : Int, EX x_v : Int,
+  “ (x_v_v = (v + 1)) ”
+  &&  ((x_pre) # Ptr |-> (x_v))
+  ** ((x_v) # Int |-> (x_v_v))
 
 
 structure VC_Correct : Type where

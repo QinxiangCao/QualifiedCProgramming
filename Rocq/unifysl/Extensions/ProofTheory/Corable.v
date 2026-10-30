@@ -11,72 +11,111 @@ Require Import Logic.PropositionalLogic.ProofTheory.DeMorgan.
 Require Import Logic.PropositionalLogic.ProofTheory.GodelDummett.
 Require Import Logic.PropositionalLogic.ProofTheory.Classical.
 Require Import Logic.PropositionalLogic.ProofTheory.RewriteClass.
+Require Import Logic.PropositionalLogic.ProofTheory.TheoryOfPropositionalConnectives.
 Require Import Logic.SeparationLogic.ProofTheory.SeparationLogic.
 Require Import Logic.SeparationLogic.ProofTheory.DerivedRules.
 Require Import Logic.SeparationLogic.ProofTheory.RewriteClass.
 Require Import Logic.Extensions.ProofTheory.Stable.
+Require Import Logic.SeparationLogic.ProofTheory.Corable.
 
 Local Open Scope logic_base.
 Local Open Scope syntax.
 Import PropositionalLanguageNotation.
 Import SeparationLogicNotation.
 
-Class Corable
-      (L: Language)
+#[export] Instance CorableAxiomatization2StableProperIff
+      {L: Language}
       {minL: MinimumLanguage L}
-      {pL: PropositionalLanguage L}
+      {andpL: AndLanguage L}
+      {iffpL: IffLanguage L}
       {sepconL: SepconLanguage L}
-      {wandL: WandLanguage L}
-      (Gamma: Provable L) := {
-  corable: expr -> Prop;
-  corable_pstable: PropositionalStable L Gamma corable;
-  corable_sstable: SeparationStable L Gamma corable;
-  corable_sabs: SeparationAbsorbStable L Gamma corable
-}.
+      {Gamma: Provable L}
+      {minAX: MinimumAxiomatization L Gamma}
+      {iffpAX: IffAxiomatization L Gamma}
+      {Cor: Corable L}
+      {CorAX: Corable_withAxiomatization L Gamma Cor}:
+  StableProperIff L Gamma corable.
+Proof.
+  constructor.
+  hnf; intros x y Hxy.
+  split; intros Hstable.
+  - eapply corable_preserved'; eauto.
+  - eapply corable_preserved'.
+    + apply (@Equivalence_Symmetric expr (fun x y => |-- x <--> y) _).
+      exact Hxy.
+    + exact Hstable.
+Qed.
+
+#[export] Instance CorableAxiomatization2SeparationAbsorbStable
+      {L: Language}
+      {minL: MinimumLanguage L}
+      {andpL: AndLanguage L}
+      {iffpL: IffLanguage L}
+      {sepconL: SepconLanguage L}
+      {Gamma: Provable L}
+      {Cor: Corable L}
+      {CorAX: Corable_withAxiomatization L Gamma Cor}:
+  SeparationAbsorbStable L Gamma corable.
+Proof.
+  constructor.
+  apply corable_andp_sepcon1.
+Qed.
 
 Section Corable.
 
 Context {L: Language}
         {minL: MinimumLanguage L}
-        {pL: PropositionalLanguage L}
+        {andpL: AndLanguage L}
+        {orpL: OrLanguage L}
+        {falsepL: FalseLanguage L}
+        {iffpL: IffLanguage L}
+        {truepL: TrueLanguage L}
         {sepconL: SepconLanguage L}
         {wandL: WandLanguage L}
         {Gamma: Provable L}
         {minAX: MinimumAxiomatization L Gamma}
-        {ipAX: IntuitionisticPropositionalLogic L Gamma}
+        {andpAX: AndAxiomatization L Gamma}
+        {iffpAX: IffAxiomatization L Gamma}
+        {truepAX: TrueAxiomatization L Gamma}
         {sepconAX: SepconAxiomatization L Gamma}
-        {wandAX: WandAxiomatization L Gamma}
-        {CosAX: Corable L Gamma}.
-
-Lemma corable_andp: forall x y, corable x -> corable y -> corable (x && y).
-Proof. intros. apply (@andp_stable L _ _ Gamma corable corable_pstable); auto. Qed.
-
-Lemma corable_orp: forall x y, corable x -> corable y -> corable (x || y).
-Proof. intros. apply (@orp_stable L _ _ Gamma corable corable_pstable); auto. Qed.
+        {Cor: Corable L}
+        {CorAX: Corable_withAxiomatization L Gamma Cor}
+        {corable_istable: ImpStable L corable}
+        {corable_astable: AndStable L corable}
+        {corable_ostable: OrStable L corable}
+        {corable_fstable: FalseStable L corable}
+        {corable_sstable: SeparationStable L corable}.
 
 Lemma corable_impp: forall x y, corable x -> corable y -> corable (x --> y).
-Proof. intros. apply (@impp_stable L _ _ Gamma corable corable_pstable); auto. Qed.
+Proof. intros. apply impp_stable; auto. Qed.
 
-Lemma corable_iffp: forall x y, corable x -> corable y -> corable (x <--> y).
-Proof. intros. apply (@iffp_stable L _ _ Gamma corable corable_pstable); auto. Qed.
+Lemma corable_andp: forall x y, corable x -> corable y -> corable (x && y).
+Proof. intros. apply andp_stable; auto. Qed.
+
+Lemma corable_orp: forall x y, corable x -> corable y -> corable (x || y).
+Proof. intros. apply orp_stable; auto. Qed.
+
+Lemma corable_iffp
+      {iffp_Def_andp_impp: IffDefinition_And_Imp L}:
+  forall x y, corable x -> corable y -> corable (x <--> y).
+Proof. intros. apply iffp_stable; auto. Qed.
 
 Lemma corable_falsep: corable FF.
-Proof. apply (@falsep_stable L _ _ Gamma corable corable_pstable); auto. Qed.
+Proof. apply falsep_stable. Qed.
 
-Lemma corable_truep: corable TT.
-Proof. apply (@truep_stable L _ _ Gamma corable corable_pstable); auto. Qed.
+Lemma corable_truep
+      {truep_Def_falsep_impp: TrueDefinition_False_Imp L}:
+  corable TT.
+Proof. apply truep_stable. Qed.
 
 Lemma corable_sepcon: forall x y, corable x -> corable y -> corable (x * y).
-Proof. intros. apply (@sepcon_stable L _ _ _ Gamma corable corable_sstable); auto. Qed.
+Proof. intros. apply sepcon_stable; auto. Qed.
 
 Lemma corable_wand: forall x y, corable x -> corable y -> corable (x -* y).
-Proof. intros. apply (@wand_stable L _ _ _ Gamma corable corable_sstable); auto. Qed.
+Proof. intros. apply wand_stable; auto. Qed.
 
 Instance corable_proper_iff: Proper ((fun x y => |-- x <--> y) ==> iff) corable.
-Proof. apply (@stable_proper_iffp L _ _ Gamma corable corable_pstable); auto. Qed.
-
-Lemma corable_andp_sepcon1: forall x y z, corable x -> |-- (x && y) * z <--> x && (y * z).
-Proof. intros. apply (@stable_andp_sepcon1 L _ _ _ _ Gamma corable corable_sabs); auto. Qed.
+Proof. apply stable_proper_iffp. Qed.
 
 Lemma corable_andp_sepcon2: forall x y z, corable y -> |-- (x && y) * z <--> y && (x * z).
 Proof.
@@ -88,8 +127,8 @@ Qed.
 Lemma corable_sepcon_andp1: forall x y z, corable y -> |-- x * (y && z) <--> y && (x * z).
 Proof.
   intros.
-  rewrite provable_sepcon_impp_comm.
-  rewrite (provable_sepcon_impp_comm x z).
+  rewrite Logic.SeparationLogic.ProofTheory.SeparationLogic.provable_sepcon_impp_comm.
+  rewrite (Logic.SeparationLogic.ProofTheory.SeparationLogic.provable_sepcon_impp_comm x z).
   apply corable_andp_sepcon1; auto.
 Qed.
 

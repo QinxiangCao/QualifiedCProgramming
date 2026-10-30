@@ -54,29 +54,6 @@ Parameter sizeof_union_type: string -> Z.
 Parameter sizeof_enum_type: string -> Z.
 Parameter sizeof_alias_type: string -> Z.
 
-Definition sizeof_front_end_type_of_ptr_size (ptr_size : Z) (ty : front_end_type) : Z :=
-  match ty with
-  | FET_struct x => sizeof_struct_type x
-  | FET_union x => sizeof_union_type x
-  | FET_enum x => sizeof_enum_type x
-  | FET_alias x => sizeof_alias_type x
-  | FET_bool => 1
-  | FET_int => 4
-  | FET_char => 1
-  | FET_int64 => 8
-  | FET_short => 2
-  | FET_uint => 4
-  | FET_uchar => 1
-  | FET_uint64 => 8
-  | FET_int128 => 16
-  | FET_uint128 => 16
-  | FET_ushort => 2
-  | FET_float => 4
-  | FET_double => 8
-  | FET_long_double => 16
-  | FET_ptr => ptr_size
-  end.
-
 Declare Custom Entry addr_expr_entry.
 Declare Custom Entry lvalue_expr_entry.
 Declare Custom Entry rvalue_expr_entry.
@@ -417,10 +394,34 @@ Axiom eval_addr_expr_congr:
 #[export] Existing Instance RE_addr_of_congr.
 #[export] Existing Instance eval_addr_expr_congr.
 
-Module CNotationSig (Arch : CArchSig).
+Module CNotationSig (ArchImpl : CArchSig).
+Module Arch := CArch ArchImpl.
 
 Definition sizeof_front_end_type (ty : front_end_type) : Z :=
-  sizeof_front_end_type_of_ptr_size Arch.ptr_size_Z ty.
+  match ty with
+  | FET_struct x => sizeof_struct_type x
+  | FET_union x => sizeof_union_type x
+  | FET_enum x => sizeof_enum_type x
+  | FET_alias x => sizeof_alias_type x
+  | FET_bool => 1
+  | FET_int => 4
+  | FET_char => 1
+  | FET_int64 => 8
+  | FET_short => 2
+  | FET_uint => 4
+  | FET_uchar => 1
+  | FET_uint64 => 8
+  | FET_int128 => 16
+  | FET_uint128 => 16
+  | FET_ushort => 2
+  | FET_float => 4
+  | FET_double => 8
+  | FET_long_double => 16
+  | FET_ptr => Arch.ptr_size_Z
+  end.
+
+(* Preserve layout expressions during ordinary simplification. *)
+Arguments sizeof_front_end_type ty : simpl never.
 
 Lemma sizeof_bool: sizeof_front_end_type FET_bool = 1.
 Proof. reflexivity. Qed.
@@ -466,6 +467,9 @@ Proof. reflexivity. Qed.
 
 Lemma sizeof_ptr: sizeof_front_end_type FET_ptr = Arch.ptr_size_Z.
 Proof. reflexivity. Qed.
+
+Lemma sizeof_ptr_pos : 0 < sizeof_front_end_type FET_ptr.
+Proof. rewrite sizeof_ptr. apply Arch.ptr_size_pos. Qed.
 
 Notation "'sizeof' ( 'INT' )" := (sizeof_front_end_type FET_int)
   (at level 1).
@@ -520,6 +524,24 @@ Notation "'sizeof' ( 'union' s )" := (sizeof_front_end_type (FET_union s))
 
 Notation "'sizeof' ( s )" := (sizeof_front_end_type (FET_alias s))
   (at level 1).
+
+(* Keep pointer strides in the public sizeof form.  Do not fold numeric
+   literals: a literal may describe another C type or ordinary arithmetic. *)
+Ltac normalize_ptr_size :=
+  try change Arch.ptr_size_Z with (sizeof(PTR)) in *.
+
+(* Simplify scalar sizes without evaluating the architecture-dependent
+   pointer stride.  Useful before cbn that keeps sizeof_front_end_type opaque. *)
+Ltac simpl_nonptr_sizeof :=
+  rewrite ?sizeof_bool, ?sizeof_int, ?sizeof_char, ?sizeof_int64,
+    ?sizeof_short, ?sizeof_uint, ?sizeof_uchar, ?sizeof_uint64,
+    ?sizeof_int128, ?sizeof_uint128, ?sizeof_ushort, ?sizeof_float,
+    ?sizeof_double, ?sizeof_long_double in *.
+
+(* Explicit evaluation for arithmetic in a concrete architecture instance. *)
+Ltac eval_ptr_size :=
+  rewrite ?sizeof_ptr in *;
+  cbn [Arch.ptr_size_Z Arch.ptr_size] in *.
 
 Axiom eval_addr: forall R t,
   rvalue_expr_equiv

@@ -106,9 +106,9 @@ int maximum_profit(int days, int max_stock, int wait_days,
         IntArray::full(bp, days, bp_l) *
         IntArray::full(buy_limit, days, buy_l) *
         IntArray::full(sell_limit, days, sell_l) *
-        IntArray::undef_full(pointer_offset(queue_index, 0, sizeof(int), int), max_stock + 1) *
+        IntArray::undef_full(pointer_offset(queue_index, 0, int), max_stock + 1) *
         IntArray::undef_seg(queue_index, max_stock + 1, 991) *
-        IntArray::undef_full(pointer_offset(dp, 0, sizeof(int), int), (days + 1) * (max_stock + 1)) *
+        IntArray::undef_full(pointer_offset(dp, 0, int), (days + 1) * (max_stock + 1)) *
         IntArray::undef_seg(dp, (days + 1) * (max_stock + 1), 982081)
      */
     stock_init_storage(queue_index, max_stock + 1);

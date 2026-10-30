@@ -15,7 +15,7 @@ private theorem land_one (n : Int) : Z.land n 1 = Z.modulo n 2 := by
   exact Z.land_ones n 1 (by decide)
 
 theorem proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1 := by
-  intro n rows flights home default h1 h2 h3 h4 h5 h6 h7 h8 h9
+  intro rows flights home n default h1 h2 h3 h4 h5 h6 h7 h8 h9
   rcases h6 with ⟨_, _, hf, current, hit⟩
   have hf' : Forall (fun f => (f.1 = home ∧ f.2 ≠ home) ∨
       (f.1 ≠ home ∧ f.2 = home)) flights := by
@@ -29,14 +29,14 @@ theorem proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_go
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   unfold solver_return_wit_1
   right
-  intro n rows flights home default h1 h2 h3 h4 h5 h6 h7 h8 h9
+  intro rows flights home n default h1 h2 h3 h4 h5 h6 h7 h8 h9
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    exact proof_of_solver_return_wit_1_split_goal_1 n rows flights home default h1 h2 h3 h4 h5 h6 h7 h8 h9
+    exact proof_of_solver_return_wit_1_split_goal_1 rows flights home n default h1 h2 h3 h4 h5 h6 h7 h8 h9
 
 theorem proof_of_solver_return_wit_2_split_goal_1 : solver_return_wit_2_split_goal_1 := by
-  intro n rows flights home default h1 h2 h3 h4 h5 h6 h7 h8 h9
+  intro rows flights home n default h1 h2 h3 h4 h5 h6 h7 h8 h9
   rcases h6 with ⟨_, _, hf, current, hit⟩
   have hf' : Forall (fun f => (f.1 = home ∧ f.2 ≠ home) ∨
       (f.1 ≠ home ∧ f.2 = home)) flights := by
@@ -51,10 +51,10 @@ theorem proof_of_solver_return_wit_2_split_goal_1 : solver_return_wit_2_split_go
 theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
   unfold solver_return_wit_2
   right
-  intro n rows flights home default h1 h2 h3 h4 h5 h6 h7 h8 h9
+  intro rows flights home n default h1 h2 h3 h4 h5 h6 h7 h8 h9
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    exact proof_of_solver_return_wit_2_split_goal_1 n rows flights home default h1 h2 h3 h4 h5 h6 h7 h8 h9
+    exact proof_of_solver_return_wit_2_split_goal_1 rows flights home n default h1 h2 h3 h4 h5 h6 h7 h8 h9
 
 end SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P011_765A_neverending_competitions_proof_manual

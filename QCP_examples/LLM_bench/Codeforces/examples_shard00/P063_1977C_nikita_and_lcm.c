@@ -125,19 +125,20 @@ void qsort(int *base, unsigned long nmemb, unsigned long size,
 
 static int solver(int *input, int n) /* QCP_INSERT_BEGIN:P063_1977C_nikita_and_lcm.contract */
 
-/*@ With (a : list Z)
+/*@ With (input_values : list Z)
     Require
-      1 <= Zlength(a) && Zlength(a) <= 2000 &&
-      (forall i, (0 <= i && i < Zlength(a)) => (1 <= a[i] && a[i] <= 1000000000)) &&
-      n == Zlength(a) && IntArray::full(input, n, a)
+      1 <= Zlength(input_values) && Zlength(input_values) <= 2000 &&
+      (forall i, (0 <= i && i < Zlength(input_values)) =>
+        (1 <= input_values[i] && input_values[i] <= 1000000000)) &&
+      n == Zlength(input_values) && IntArray::full(input, n, input_values)
     Ensure
-      Spec(a, __return) && IntArray::full(input, n, a)
+      Spec(input_values, __return) && IntArray::full(input, n, input_values)
 */
 /* QCP_INSERT_END:P063_1977C_nikita_and_lcm.contract */
 {
     /*@ Assert
           exists original,
-            original == a &&
+            original == input_values &&
             input == input@pre && n == n@pre &&
             n@pre == Zlength(original) &&
             1 <= n@pre && n@pre <= 2000 &&

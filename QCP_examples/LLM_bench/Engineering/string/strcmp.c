@@ -1,13 +1,7 @@
 #include "string.h"
 
 int strcmp(char *s1, char *s2)
-/*@ With str1 str2
-    Require valid_string(str1) && valid_string(str2) &&
-            string_length(str1) < INT_MAX && string_length(str2) < INT_MAX &&
-            store_string(s1, str1) * store_string(s2, str2)
-    Ensure strcmp_result(str1, str2, __return) &&
-           store_string(s1, str1) * store_string(s2, str2)
-*/
+/*@ default */
 {
   int i = 0;
   /*@ Inv Assert
@@ -26,14 +20,7 @@ int strcmp(char *s1, char *s2)
 }
 
 int strncmp(char *s1, char *s2, int n)
-/*@ With str1 str2
-    Require valid_string(str1) && valid_string(str2) &&
-            0 <= n && n < INT_MAX &&
-            string_length(str1) < INT_MAX && string_length(str2) < INT_MAX &&
-            store_string(s1, str1) * store_string(s2, str2)
-    Ensure strncmp_result(str1, str2, n, __return) &&
-           store_string(s1, str1) * store_string(s2, str2)
-*/
+/*@ default */
 {
   int i = 0;
   /*@ Inv Assert

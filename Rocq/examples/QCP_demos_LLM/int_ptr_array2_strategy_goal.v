@@ -1,19 +1,12 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
 
 Definition int_ptr_array2_strategy1 :=
   forall (i : Z) (n : Z) (__default_app1_Z : (@list Z)) (p : Z) (rows : (@list (@list Z))),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     emp **
     ((IntPtrArray2.full p n rows))
     |--
@@ -30,7 +23,7 @@ Definition int_ptr_array2_strategy1 :=
         emp -*
         TT &&
         emp **
-        ((poly_store FET_ptr (Z.add p (Z.mul i (@sizeof_front_end_type FET_ptr))) v))
+        ((poly_store FET_ptr (p + (i * sizeof(PTR))) v))
         ).
 
 Definition int_ptr_array2_strategy4 :=
@@ -72,12 +65,12 @@ Definition int_ptr_array2_strategy5 :=
 Definition int_ptr_array2_strategy2 :=
   forall (i : Z) (n : Z) (rows : (@list (@list Z))) (__default_app1_Z : (@list Z)) (row_ptr : Z) (p : Z),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     emp **
     ((IntPtrArray2.missing_i p n i row_ptr rows)) **
     ((IntArray.full row_ptr (@Zlength Z (Znth i rows __default_app1_Z)) (Znth i rows __default_app1_Z))) **
-    ((poly_store FET_ptr (Z.add p (Z.mul i (@sizeof_front_end_type FET_ptr))) row_ptr))
+    ((poly_store FET_ptr (p + (i * sizeof(PTR))) row_ptr))
     |--
     (
     TT &&

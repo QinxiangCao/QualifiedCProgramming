@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.QCP_demos_LLM Require Import functional_queue_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 Import naive_C_Rules.
 From SimpleC.EE.QCP_demos_LLM Require Import sll_lib.
 From SimpleC.EE.QCP_demos_LLM Require Import functional_queue_lib.
@@ -25,12 +10,12 @@ Proof.
   LLM_pre_process ltac:(int_auto).
   unfold store_queue.
   subst.
-  Exists ql1 p_callee_v l1 (x_pre :: l2).
+  Exists ql1 p_v l1 (x_pre :: l2).
   split_pure_spatial.
   - cancel (&((q_pre)  # "queue" ->ₛ "l1") # Ptr  |-> ql1).
-    cancel (&((q_pre)  # "queue" ->ₛ "l2") # Ptr  |-> p_callee_v).
+    cancel (&((q_pre)  # "queue" ->ₛ "l2") # Ptr  |-> p_v).
     cancel (sll ql1 l1).
-    cancel (sll p_callee_v (x_pre :: l2)).
+    cancel (sll p_v (x_pre :: l2)).
   - dump_pre_spatial. 
     simpl.
     rewrite app_assoc.
@@ -59,11 +44,11 @@ Proof.
   unfold store_queue.
   simpl in PreH2.
   inversion PreH2; subst.
-  Exists p_callee_v ql2 l1_tail l2.
+  Exists p_v ql2 l1_tail l2.
   split_pure_spatial.
-  - cancel (&((q_pre)  # "queue" ->ₛ "l1") # Ptr  |-> p_callee_v).
+  - cancel (&((q_pre)  # "queue" ->ₛ "l1") # Ptr  |-> p_v).
     cancel (&((q_pre)  # "queue" ->ₛ "l2") # Ptr  |-> ql2).
-    cancel (sll p_callee_v l1_tail).
+    cancel (sll p_v l1_tail).
     cancel (sll ql2 l2).
   - split_pures ; dump_pre_spatial ; reflexivity.
 Qed.

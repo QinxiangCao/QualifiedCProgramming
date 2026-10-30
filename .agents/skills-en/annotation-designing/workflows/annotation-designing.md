@@ -93,6 +93,8 @@ Before writing a definition, search the current dependency set, canonical case l
 - membership, distinctness, and rearrangement: In, NoDup, Permutation;
 - monotonicity: one existing increasing/decreasing or mono family throughout the case;
 - counting, sums, and extrema: #, sum, SumLib, min_value_of_subset, max_value_of_subset;
+- growable vectors and arrays of them: DynVec, VecArray (dynvec_lib.v), with the instances Veci, Vecp, VecpArray when the C includes vec_qcp.h;
+- literals, clauses, CNF, and SAT/CDCL state: literal, clause, cnf, models, cnf_sat, cnf_unsat, cdcl_view from CDCLLib;
 - graphs: valid_vpath and reachable.
 
 Use existing expressions directly for:

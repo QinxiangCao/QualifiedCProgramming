@@ -42,7 +42,7 @@ id : 5
 priority : core(4)
 left : sll(?p, ?l) at 0
        (p != NULL || NULL != p) at 1
-right : (store(field_addr(p, blist, val), I32, ?q) || store(field_addr(p, blist, next), PTR(struct blist), ?q)) at 2
+right : (store(field_addr(p, blist, val), I32, ?q) || store(field_addr(p, blist, next), PTR, ?q)) at 2
 action : left_erase(0);
          left_exist_add(x);
          left_exist_add(l0);
@@ -63,7 +63,7 @@ left : sll(?p, cons{Z}(?x, ?l)) at 0
 action : left_erase(0);
          left_exist_add(y);
          left_add(p == x);
-         left_add(store(field_addr(p, blist, next), PTR(struct blist), y));
+         left_add(store(field_addr(p, blist, next), PTR, y));
          left_add(sll(y, l));
 
 id : 8
@@ -74,7 +74,7 @@ action : right_erase(0);
          right_add(p != 0);
          right_add(p == x);
          right_add(field_addr(p, blist, next) != NULL);
-         right_add(store(field_addr(p, blist, next), PTR(struct blist), y));
+         right_add(store(field_addr(p, blist, next), PTR, y));
          right_add(sll(y, l));
 
 id : 9
@@ -94,7 +94,7 @@ action : right_erase(0);
 id : 11
 priority : core(0)
 right : sllbseg(?p, p, ?l) at 0
-        store(p, PTR(struct blist), ?q) at 1
+        store(p, PTR, ?q) at 1
 action : right_erase(0);
          right_add(p != 0);
          right_add(l == nil{Z});
@@ -111,8 +111,8 @@ id : 13
 priority : core(0)
 left : sllbseg(?p, ?q, ?l1) at 0
 right : sllbseg(p, q, ?l2) at 2
-left : store(q, PTR(struct blist), ?v1) at 1
-right : store(q, PTR(struct blist), ?v2) at 3
+left : store(q, PTR, ?v1) at 1
+right : store(q, PTR, ?v2) at 3
 action : left_erase(0);
          right_erase(2);
          right_add(l1 == l2);
@@ -144,13 +144,13 @@ action : left_erase(1);
          left_exist_add(q);
          left_exist_add(l0);
          left_add(p == d);
-         left_add(store(field_addr(p, blist, next), PTR(struct blist), q));
+         left_add(store(field_addr(p, blist, next), PTR, q));
          left_add(sll(q, l0));
          left_add(l == cons{Z}(d, l0));
 
 id : 17
 priority : fold_sll(0)
-left : store(field_addr(?p, blist, next), PTR(struct blist), ?q) at 0
+left : store(field_addr(?p, blist, next), PTR, ?q) at 0
        sll(q, ?l0) at 1
        (p != NULL || NULL != p) at 2
        field_addr(p, blist, next) != NULL at 3
@@ -174,15 +174,15 @@ left : dll(?p, ?up, ?l) at 0
 action : left_erase(0);
          left_exist_add(down);
          left_exist_add(l0);
-         left_add(store(field_addr(p, blist, down), PTR(struct blist), down));
-         left_add(store(field_addr(p, blist, up), PTR(struct blist), up));
+         left_add(store(field_addr(p, blist, down), PTR, down));
+         left_add(store(field_addr(p, blist, up), PTR, up));
          left_add(dll(down, p, l0));
          left_add(l == cons{Z}(p, l0));
 
 id : 21
 priority : fold_dll(0)
-left : store(field_addr(?p, blist, down), PTR(struct blist), ?down) at 0
-       store(field_addr(p, blist, up), PTR(struct blist), ?up) at 1
+left : store(field_addr(?p, blist, down), PTR, ?down) at 0
+       store(field_addr(p, blist, up), PTR, ?up) at 1
        dll(down, p, ?l0) at 2
        (p != NULL || NULL != p) at 3
 action : left_erase(0);
@@ -206,8 +206,8 @@ left : (?x : Z != ?y : Z) at 0
 action : left_erase(1);
          left_exist_add(z);
          left_exist_add(l0);
-         left_add(store(field_addr(x, blist, down), PTR(struct blist), z));
-         left_add(store(field_addr(x, blist, up), PTR(struct blist), x_up));
+         left_add(store(field_addr(x, blist, down), PTR, z));
+         left_add(store(field_addr(x, blist, up), PTR, x_up));
          left_add(dllseg(z, y, x, y_up, l0));
          left_add(l == cons{Z}(x, l0));
 

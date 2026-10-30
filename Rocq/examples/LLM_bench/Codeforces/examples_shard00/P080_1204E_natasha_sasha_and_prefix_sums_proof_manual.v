@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P080_1204E_natasha_sasha_and_prefix_sums_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P080_1204E_natasha_sasha_and_prefix_sums_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P080_1204E_natasha_sasha_and_prefix_sums_lib.
 Local Open Scope sac.
@@ -1237,4 +1221,3 @@ Proof.
   - Goal_apply proof_of_solver_partial_solve_wit_7_pure_split_goal_3.
   - Goal_apply proof_of_solver_partial_solve_wit_7_pure_split_goal_4.
 Qed. 
-

@@ -1,0 +1,244 @@
+{
+  "base_commit": "a2df6332233fde0e7e1f856d56906bb2b206fa93",
+  "threshold_seconds": 600,
+  "cases": [
+    {
+      "case": "QCP_examples/Applications_human/minisat",
+      "folder": "minisat",
+      "stem": "solver_qcp",
+      "units": [
+        {
+          "name": "support",
+          "functions": [
+            "toLit",
+            "lit_neg",
+            "lit_var",
+            "lit_sign",
+            "check",
+            "minisat_simpdb_props_after_propagation",
+            "clause_size",
+            "clause_begin",
+            "clause_learnt",
+            "clause_activity",
+            "clause_setactivity",
+            "clause_from_lit",
+            "clause_is_lit",
+            "clause_read_lit",
+            "solver_dlevel",
+            "solver_read_wlist",
+            "order_update",
+            "order_assigned",
+            "order_unassigned",
+            "order_select",
+            "act_var_rescale",
+            "act_var_bump",
+            "act_var_decay",
+            "act_clause_rescale",
+            "act_clause_bump",
+            "act_clause_decay",
+            "clause_new",
+            "clause_remove",
+            "clause_simplify",
+            "clause_cmp",
+            "solver_reducedb",
+            "selectionsort",
+            "sortrnd",
+            "sort"
+          ],
+          "origins": {
+            "toLit": "QCP_examples/Applications_human/minisat/solver_qcp.h",
+            "lit_neg": "QCP_examples/Applications_human/minisat/solver_qcp.h",
+            "lit_var": "QCP_examples/Applications_human/minisat/solver_qcp.h",
+            "lit_sign": "QCP_examples/Applications_human/minisat/solver_qcp.h",
+            "check": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "minisat_simpdb_props_after_propagation": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "clause_size": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "clause_begin": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "clause_learnt": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "clause_activity": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "clause_setactivity": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "clause_from_lit": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "clause_is_lit": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "clause_read_lit": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "solver_dlevel": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "solver_read_wlist": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "order_update": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "order_assigned": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "order_unassigned": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "order_select": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "act_var_rescale": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "act_var_bump": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "act_var_decay": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "act_clause_rescale": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "act_clause_bump": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "act_clause_decay": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "clause_new": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "clause_remove": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "clause_simplify": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "clause_cmp": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "solver_reducedb": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "selectionsort": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "sortrnd": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "sort": "QCP_examples/Applications_human/minisat/solver_qcp.c"
+          },
+          "source": "QCP_examples/Applications_human/minisat/solver_qcp_support.c",
+          "rocq_stem": "Rocq/examples/Applications_human/minisat/solver_qcp_support",
+          "goal_definitions": 1258,
+          "manual_lemmas": 274
+        },
+        {
+          "name": "analysis",
+          "functions": [
+            "solver_lit_removable",
+            "solver_analyze"
+          ],
+          "origins": {
+            "solver_lit_removable": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "solver_analyze": "QCP_examples/Applications_human/minisat/solver_qcp.c"
+          },
+          "source": "QCP_examples/Applications_human/minisat/solver_qcp_analysis.c",
+          "rocq_stem": "Rocq/examples/Applications_human/minisat/solver_qcp_analysis",
+          "goal_definitions": 1183,
+          "manual_lemmas": 284
+        },
+        {
+          "name": "solver_propagate",
+          "functions": [
+            "solver_propagate"
+          ],
+          "origins": {
+            "solver_propagate": "QCP_examples/Applications_human/minisat/solver_qcp.c"
+          },
+          "source": "QCP_examples/Applications_human/minisat/solver_qcp_solver_propagate.c",
+          "rocq_stem": "Rocq/examples/Applications_human/minisat/solver_qcp_solver_propagate",
+          "goal_definitions": 1809,
+          "manual_lemmas": 260
+        },
+        {
+          "name": "state_search",
+          "functions": [
+            "solver_setnvars",
+            "enqueue",
+            "assume",
+            "solver_canceluntil",
+            "solver_record",
+            "solver_progress",
+            "solver_search",
+            "solver_new",
+            "solver_delete",
+            "solver_addclause",
+            "solver_simplify",
+            "solver_solve",
+            "solver_nvars",
+            "solver_nclauses",
+            "solver_nconflicts"
+          ],
+          "origins": {
+            "solver_setnvars": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "enqueue": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "assume": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "solver_canceluntil": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "solver_record": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "solver_progress": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "solver_search": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "solver_new": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "solver_delete": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "solver_addclause": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "solver_simplify": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "solver_solve": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "solver_nvars": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "solver_nclauses": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+            "solver_nconflicts": "QCP_examples/Applications_human/minisat/solver_qcp.c"
+          },
+          "source": "QCP_examples/Applications_human/minisat/solver_qcp_state_search.c",
+          "rocq_stem": "Rocq/examples/Applications_human/minisat/solver_qcp_state_search",
+          "goal_definitions": 1450,
+          "manual_lemmas": 369
+        }
+      ],
+      "baseline_source": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+      "layout": "translation_units"
+    },
+    {
+      "case": "QCP_examples/Applications_human/CDCL/CDCL_qcp.c",
+      "folder": "CDCL",
+      "stem": "CDCL_qcp",
+      "units": [
+        {
+          "name": "solver",
+          "functions": [
+            "qcpsat_fill_ints",
+            "clause_resolution",
+            "clause_learning",
+            "conflict_analysis",
+            "decide",
+            "cdcl_solver"
+          ],
+          "origins": {
+            "qcpsat_fill_ints": "QCP_examples/Applications_human/CDCL/CDCL_qcp.c",
+            "clause_resolution": "QCP_examples/Applications_human/CDCL/CDCL_qcp.c",
+            "clause_learning": "QCP_examples/Applications_human/CDCL/CDCL_qcp.c",
+            "conflict_analysis": "QCP_examples/Applications_human/CDCL/CDCL_qcp.c",
+            "decide": "QCP_examples/Applications_human/CDCL/CDCL_qcp.c",
+            "cdcl_solver": "QCP_examples/Applications_human/CDCL/CDCL_qcp.c"
+          },
+          "source": "QCP_examples/Applications_human/CDCL/CDCL_qcp_solver.c",
+          "rocq_stem": "Rocq/examples/Applications_human/CDCL/CDCL_qcp_solver",
+          "goal_definitions": 361,
+          "manual_lemmas": 69
+        },
+        {
+          "name": "bcp",
+          "functions": [
+            "bcp"
+          ],
+          "origins": {
+            "bcp": "QCP_examples/Applications_human/CDCL/CDCL_qcp.c"
+          },
+          "source": "QCP_examples/Applications_human/CDCL/CDCL_qcp_bcp.c",
+          "rocq_stem": "Rocq/examples/Applications_human/CDCL/CDCL_qcp_bcp",
+          "goal_definitions": 345,
+          "manual_lemmas": 46
+        },
+        {
+          "name": "backtrack",
+          "functions": [
+            "backtrack"
+          ],
+          "origins": {
+            "backtrack": "QCP_examples/Applications_human/CDCL/CDCL_qcp.c"
+          },
+          "source": "QCP_examples/Applications_human/CDCL/CDCL_qcp_backtrack.c",
+          "rocq_stem": "Rocq/examples/Applications_human/CDCL/CDCL_qcp_backtrack",
+          "goal_definitions": 233,
+          "manual_lemmas": 30
+        }
+      ]
+    }
+  ],
+  "timing_evidence": [
+    {
+      "case": "QCP_examples/Applications_human/minisat/solver_qcp.c",
+      "seconds": 4627.58,
+      "recorded_on": "2026-10-18",
+      "report": "diagnostics/minisat-pr21-20261018/generation.json",
+      "action": "split"
+    },
+    {
+      "case": "QCP_examples/Applications_human/CDCL/CDCL_qcp.c",
+      "seconds": 867.55,
+      "recorded_on": "2026-09-21",
+      "report": "diagnostics/binary-refresh-20260921/symexec-results.json",
+      "action": "split"
+    },
+    {
+      "case": "QCP_examples/LLM_bench/Algorithms/streetlight/streetlight.c",
+      "seconds": 793.22,
+      "recorded_on": "2026-09-14",
+      "report": "diagnostics/binary-update-20260914-r2/symexec-results.json",
+      "action": "keep_single_function",
+      "function": "solve"
+    }
+  ],
+  "grouping_target_seconds": 300
+}

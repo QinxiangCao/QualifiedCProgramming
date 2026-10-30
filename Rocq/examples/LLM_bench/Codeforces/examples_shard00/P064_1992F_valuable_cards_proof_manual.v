@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P064_1992F_valuable_cards_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P064_1992F_valuable_cards_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.StdLib.string_lib.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P064_1992F_valuable_cards_lib.
@@ -24,7 +8,7 @@ Local Open Scope sac.
 
 Lemma proof_of_solver_safety_wit_19_split_goal_1 : solver_safety_wit_19_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH28 j ltac:(lia)).
   destruct PreH28 as [Hproduct_pos Hproduct_bound].
   assert (Hmul :
@@ -38,7 +22,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_19_split_goal_2 : solver_safety_wit_19_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH28 j ltac:(lia)).
   destruct PreH28 as [Hproduct_pos Hproduct_bound].
   dump_pre_spatial.
@@ -55,7 +39,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_20_split_goal_1 : solver_safety_wit_20_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH28 j ltac:(lia)).
   destruct PreH28 as [Hproduct_pos Hproduct_bound].
   assert (Hmul :
@@ -69,7 +53,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_20_split_goal_2 : solver_safety_wit_20_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH28 j ltac:(lia)).
   destruct PreH28 as [Hproduct_pos Hproduct_bound].
   dump_pre_spatial.
@@ -86,7 +70,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_23_split_goal_1 : solver_safety_wit_23_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH29 j ltac:(lia)).
   destruct PreH29 as [Hproduct_pos Hproduct_bound].
   assert (Hmul :
@@ -100,7 +84,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_23_split_goal_2 : solver_safety_wit_23_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH29 j ltac:(lia)).
   destruct PreH29 as [Hproduct_pos Hproduct_bound].
   dump_pre_spatial.
@@ -117,7 +101,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_24_split_goal_1 : solver_safety_wit_24_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH29 j ltac:(lia)).
   destruct PreH29 as [Hproduct_pos Hproduct_bound].
   assert (Hmul :
@@ -131,7 +115,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_24_split_goal_2 : solver_safety_wit_24_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH29 j ltac:(lia)).
   destruct PreH29 as [Hproduct_pos Hproduct_bound].
   dump_pre_spatial.
@@ -148,7 +132,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1 : solver_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold repeat_Z.
   Exists (replace_Znth 1 1 (repeat 0 (Z.to_nat (x_pre + 1))))
     (1 :: nil).
@@ -173,7 +157,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2 : solver_entail_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH7 i ltac:(lia)) as Hvalue.
   destruct Hvalue as [Hvalue_pos Hvalue_bound].
   pose proof (positive_remainder_divisor_le__initialization
@@ -194,7 +178,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_1 : solver_entail_wit_3_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Left.
   replace (j - 0) with j in * by lia.
   pose proof (PreH29 j ltac:(lia)) as Hjbound.
@@ -208,7 +192,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_2 : solver_entail_wit_3_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Right.
   replace (j_2 - 0) with j_2 in * by lia.
   pose proof (PreH29 j_2 ltac:(lia)) as Hjbound.
@@ -222,7 +206,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_1 : solver_entail_wit_5_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (j = old) by lia.
   subst j.
   Exists segment_2 bitmap_2 products_2 base_products_2.
@@ -236,7 +220,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_2 : solver_entail_wit_5_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (j = old) by lia.
   subst j.
   Exists segment_2 bitmap_2 products_2 base_products_2.
@@ -250,7 +234,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_1 : solver_entail_wit_6_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (j - 0) with j in * by lia.
   assert (Hp : Znth j products_before_append 0 * v = x_pre) by exact PreH1.
   assert (Hzero : Znth (Znth j products_before_append 0 * v) bitmap_2 0 = 0)
@@ -342,7 +326,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_2 : solver_entail_wit_6_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (j - 0) with j in * by lia.
   assert (Hp : Znth j products_before_append 0 * v = x_pre) by exact PreH1.
   assert (Hzero : Znth (Znth j products_before_append 0 * v) bitmap_2 0 = 0)
@@ -434,7 +418,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_3 : solver_entail_wit_6_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (j - 0) with j in * by lia.
   assert (Hp : Znth j products_before_append 0 * v = x_pre) by exact PreH1.
   assert (Hin : In (Znth j products_before_append 0 * v)
@@ -475,7 +459,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_4 : solver_entail_wit_6_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (j - 0) with j in * by lia.
   assert (Hp : Znth j products_before_append 0 * v = x_pre) by exact PreH1.
   assert (Hin : In (Znth j products_before_append 0 * v)
@@ -516,7 +500,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_5 : solver_entail_wit_6_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (j - 0) with j in * by lia.
   set (p := Znth j products_before_append 0 * v) in *.
   assert (Hbase : sublist 0 old (products_before_append ++ p :: nil) =
@@ -590,7 +574,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_6 : solver_entail_wit_6_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (j - 0) with j in * by lia.
   set (p := Znth j products_before_append 0 * v) in *.
   assert (Hbase : sublist 0 old (products_before_append ++ p :: nil) =
@@ -664,7 +648,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_7 : solver_entail_wit_6_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (j - 0) with j in * by lia.
   set (p := Znth j products_before_append 0 * v) in *.
   assert (Hin : In p products_before_append).
@@ -700,7 +684,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_8 : solver_entail_wit_6_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (j - 0) with j in * by lia.
   set (p := Znth j products_before_append 0 * v) in *.
   assert (Hin : In p products_before_append).
@@ -736,7 +720,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_9 : solver_entail_wit_6_9.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (j - 0) with j in * by lia.
   assert (Hlarge : x_pre < Znth j products_before_append 0 * v).
   {
@@ -771,7 +755,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_10 : solver_entail_wit_6_10.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (j - 0) with j in * by lia.
   assert (Hlarge : x_pre < Znth j products_before_append 0 * v).
   {
@@ -806,7 +790,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_11 : solver_entail_wit_6_11.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (j - 0) with j in * by lia.
   assert (Hclosure : ValuableClosureState x_pre segment_2 v base_products_2
       (j + 1) products_before_append reaches).
@@ -833,7 +817,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_12 : solver_entail_wit_6_12.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (j - 0) with j in * by lia.
   assert (Hclosure : ValuableClosureState x_pre segment_2 v base_products_2
       (j + 1) products_before_append reaches).
@@ -860,7 +844,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9 : solver_entail_wit_9.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst reaches.
   assert (Hclearing : ValuableClearingState x_pre products_2 0 bitmap_2).
   {
@@ -882,7 +866,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_10 : solver_entail_wit_10.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hnodup : NoDup products_2).
   { unfold ValuableClosureState in PreH30. tauto. }
   assert (Hstep : ValuableClearingState x_pre products_2 (j + 1)
@@ -913,7 +897,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_11 : solver_entail_wit_11.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hreset :
       Zlength (replace_Znth 1 1 bitmap_2) = x_pre + 1 /\
       ValuableBitmap x_pre (1 :: nil) (replace_Znth 1 1 bitmap_2)).
@@ -973,7 +957,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_1_split_goal_1 : solver_entail_wit_14_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold ValuableBitmap in *.
   intros p Hp.
   destruct (Z.eq_dec p v) as [Heq | Hneq].
@@ -1001,7 +985,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_1_split_goal_2 : solver_entail_wit_14_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : 0 <= i < Zlength values) by lia.
   assert (Hvnotx : v <> x_pre).
   {
@@ -1072,10 +1056,10 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_1_split_goal_3 : solver_entail_wit_14_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply valuable_aligned_history_to_forced.
   exact (proof_of_solver_entail_wit_14_1_split_goal_2
-    x_pre n_pre values segment base_products old_products bitmap_2 i
+    values n_pre x_pre segment base_products old_products bitmap_2 i
     v segments old count reaches
     PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
     PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
@@ -1086,10 +1070,10 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_1_split_goal_4 : solver_entail_wit_14_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply valuable_aligned_history_to_outer.
   exact (proof_of_solver_entail_wit_14_1_split_goal_2
-    x_pre n_pre values segment base_products old_products bitmap_2 i
+    values n_pre x_pre segment base_products old_products bitmap_2 i
     v segments old count reaches
     PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
     PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
@@ -1100,7 +1084,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_1_split_goal_5 : solver_entail_wit_14_1_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (k_2 = 0 \/ k_2 = 1) as [-> | ->] by lia.
   - rewrite Znth0_cons. lia.
   - rewrite Znth_cons by lia.
@@ -1110,20 +1094,20 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_1_split_goal_6 : solver_entail_wit_14_1_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Zlength_replace_Znth__outer_transition.
   exact PreH41.
 Qed.
 
 Lemma proof_of_solver_entail_wit_14_1_split_goal_7 : solver_entail_wit_14_1_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: reflexivity.
 Qed.
 
 Lemma proof_of_solver_entail_wit_14_1_split_goal_8 : solver_entail_wit_14_1_split_goal_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH21. assumption.
 Qed.
 
@@ -1142,7 +1126,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_2_split_goal_1 : solver_entail_wit_14_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : 0 <= i < Zlength values) by lia.
   assert (Hvone : v = 1).
   {
@@ -1205,10 +1189,10 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_2_split_goal_2 : solver_entail_wit_14_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply valuable_aligned_history_to_forced.
   exact (proof_of_solver_entail_wit_14_2_split_goal_1
-    x_pre n_pre values segment base_products old_products bitmap_2 i
+    values n_pre x_pre segment base_products old_products bitmap_2 i
     v segments old count reaches
     PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
     PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
@@ -1219,10 +1203,10 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_2_split_goal_3 : solver_entail_wit_14_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply valuable_aligned_history_to_outer.
   exact (proof_of_solver_entail_wit_14_2_split_goal_1
-    x_pre n_pre values segment base_products old_products bitmap_2 i
+    values n_pre x_pre segment base_products old_products bitmap_2 i
     v segments old count reaches
     PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
     PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
@@ -1233,19 +1217,19 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_2_split_goal_4 : solver_entail_wit_14_2_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (k_2 = 0) by lia. subst k_2. rewrite Znth0_cons. lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_14_2_split_goal_5 : solver_entail_wit_14_2_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: reflexivity.
 Qed.
 
 Lemma proof_of_solver_entail_wit_14_2_split_goal_6 : solver_entail_wit_14_2_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH21. assumption.
 Qed.
 
@@ -1262,7 +1246,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_3_split_goal_1 : solver_entail_wit_14_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : 0 <= i < Zlength values) by lia.
   eapply valuable_aligned_no_cut__outer_transition.
   - exact Hi.
@@ -1288,10 +1272,10 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_3_split_goal_2 : solver_entail_wit_14_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply valuable_aligned_history_to_forced.
   exact (proof_of_solver_entail_wit_14_3_split_goal_1
-    x_pre n_pre values segment base_products products_2 bitmap_2 i v
+    values n_pre x_pre segment base_products products_2 bitmap_2 i v
     segments old count reaches
     PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
     PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
@@ -1301,10 +1285,10 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_3_split_goal_3 : solver_entail_wit_14_3_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply valuable_aligned_history_to_outer.
   exact (proof_of_solver_entail_wit_14_3_split_goal_1
-    x_pre n_pre values segment base_products products_2 bitmap_2 i v
+    values n_pre x_pre segment base_products products_2 bitmap_2 i v
     segments old count reaches
     PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
     PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
@@ -1314,13 +1298,13 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_3_split_goal_4 : solver_entail_wit_14_3_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH24. assumption.
 Qed.
 
 Lemma proof_of_solver_entail_wit_14_3_split_goal_5 : solver_entail_wit_14_3_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH6. assumption.
 Qed.
 
@@ -1336,7 +1320,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_4_split_goal_1 : solver_entail_wit_14_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : 0 <= i < Zlength values) by lia.
   pose proof (PreH7 i Hi) as Hvrange.
   eapply valuable_aligned_no_cut__outer_transition.
@@ -1381,7 +1365,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_4_split_goal_2 : solver_entail_wit_14_4_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply valuable_aligned_history_to_forced.
   eapply proof_of_solver_entail_wit_14_4_split_goal_1; eauto.
   all: try lia.
@@ -1389,7 +1373,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_4_split_goal_3 : solver_entail_wit_14_4_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply valuable_aligned_history_to_outer.
   eapply proof_of_solver_entail_wit_14_4_split_goal_1; eauto.
   all: try lia.
@@ -1405,7 +1389,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_15_split_goal_1 : solver_entail_wit_15_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (i = n_pre) by lia.
   subst i.
   exact PreH20.
@@ -1413,7 +1397,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_15_split_goal_2 : solver_entail_wit_15_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (i = Zlength values) by lia.
   subst i.
   eapply valuable_aligned_history_complete__final_result; eauto.

@@ -1,14 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.StdLib.string_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
 
 Definition string_strategy1 :=
   forall (p : Z) (l : (@list Z)),
@@ -19,7 +12,7 @@ Definition string_strategy1 :=
     (
     TT &&
     emp **
-    ((CharArray.full p (Z.add ( string_length l) 1) ( c_string l)))
+    ((CharArray.full p ((string_length l) + 1) (c_string l)))
     ) ** (
     TT &&
     emp -*
@@ -38,7 +31,7 @@ Definition string_strategy2 :=
   ALL (p : Z) (l : (@list Z)),
     TT &&
     emp **
-    ((CharArray.full p (Z.add ( string_length l) 1) ( c_string l))) -*
+    ((CharArray.full p ((string_length l) + 1) (c_string l))) -*
     TT &&
     emp **
     ((store_string p l))

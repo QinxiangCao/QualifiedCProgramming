@@ -224,8 +224,6 @@ Proof.
       (IntArray.full row_ptr
         (Zlength (Znth row_index rows nil))
         (Znth row_index rows nil)).
-    change (sizeof (PTR)) with ptr_size_Z.
-    fold_arch.
     normalize.
     split_pure_spatial.
     + cancel (IntPtrArray2.missing_i
@@ -274,8 +272,6 @@ Proof.
     (IntArray.full row_ptr
       (Zlength (Znth row_index rows nil))
       (Znth row_index rows nil)) in Hmerge.
-  change (sizeof (PTR)) with ptr_size_Z.
-  fold_arch.
   sep_apply_l_atomic (Hmerge Hrow).
   rewrite replace_Znth_Znth by lia.
   sep_apply (@store_graph_intro row_count matrix_model matrix rows Hmodel).

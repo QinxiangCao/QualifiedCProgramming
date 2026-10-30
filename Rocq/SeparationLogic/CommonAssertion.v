@@ -9,7 +9,9 @@ Require Coq.Vectors.Vector.
 Require Import String.
 Require Import Permutation.
 
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
+From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap Tactics.
+Require Import ListLib.Base.Positional.
+Require Import ListLib.General.Length.
 Require Import SetsClass.SetsClass. Import SetsNotation.
 From compcert.lib Require Import Coqlib Integers.
 
@@ -24,6 +26,8 @@ Require Import Logic.LogicGenerator.demo932.Interface.
 
 Local Open Scope Z_scope.
 Local Open Scope sets.
+Local Open Scope list.
+Import ListNotations.
 
 Module Type BasePredSig (Import Names: LanguageSig) (Import DerivedNames: DerivedNamesSig Names).
 Parameter mstore: addr -> Z -> expr.
@@ -45,12 +49,86 @@ Axiom dup_mstore_noninit:
       (coq_prop False).
 End BasePredSig.
 
+Module Type IterSepconLibSig
+  (Import Names: LanguageSig)
+  (Import DerivedNames: DerivedNamesSig Names)
+  (Import Rules: PrimitiveRuleSig Names DerivedNames)
+  (Import Theorems: LogicTheoremSig Names DerivedNames Rules).
+
+Local Notation "x |-- y" := (derivable1 x y) (at level 70, no associativity).
+Local Notation "x ** y" := (sepcon x y) (at level 31, left associativity).
+
+Lemma iter_sepcon_remove_nth : forall n (l : list expr) d,
+  (n < length l)%nat ->
+  logic_equiv (iter_sepcon l) (nth n l d ** iter_sepcon (remove_nth n l)).
+Proof.
+  intros.
+  rewrite remove_nth_decomp by exact H.
+  rewrite (firstn_skipSn d n l) at 1 by exact H.
+  rewrite !logic_equiv_iter_sepcon_app, logic_equiv_iter_sepcon_cons.
+  rewrite !logic_equiv_sepcon_assoc.
+  rewrite (logic_equiv_sepcon_comm _ (nth n l d)).
+  reflexivity.
+Qed.
+
+Lemma iter_sepcon_replace_nth : forall n (l : list expr) v,
+  (n < length l)%nat ->
+  logic_equiv (iter_sepcon (replace_nth n l v)) (v ** iter_sepcon (remove_nth n l)).
+Proof.
+  intros.
+  rewrite replace_nth_decomp by exact H.
+  rewrite remove_nth_decomp by exact H.
+  rewrite !logic_equiv_iter_sepcon_app, logic_equiv_iter_sepcon_cons.
+  rewrite !logic_equiv_sepcon_assoc.
+  rewrite (logic_equiv_sepcon_comm _ v).
+  reflexivity.
+Qed.
+
+Lemma iter_sepcon_split_remove_nth : forall n (l : list expr) d,
+  (n < length l)%nat ->
+  iter_sepcon l |--
+    nth n l d ** iter_sepcon (remove_nth n l).
+Proof. intros. rewrite <- iter_sepcon_remove_nth; auto. reflexivity. Qed.
+
+Lemma iter_sepcon_merge_remove_nth : forall n (l : list expr) v,
+  (n < length l)%nat ->
+  v ** iter_sepcon (remove_nth n l) |--
+    iter_sepcon (replace_nth n l v).
+Proof. intros. rewrite iter_sepcon_replace_nth; auto. reflexivity. Qed.
+
+Lemma iter_sepcon_split_remove_Znth : forall i (l : list expr) d,
+  0 <= i < Zlength l ->
+  iter_sepcon l |--
+    Znth i l d ** iter_sepcon (remove_Znth i l).
+Proof.
+  intros.
+  unfold Znth, remove_Znth.
+  apply iter_sepcon_split_remove_nth.
+  rewrite Zlength_correct in H.
+  lia.
+Qed.
+
+Lemma iter_sepcon_merge_remove_Znth : forall i (l : list expr) v,
+  0 <= i < Zlength l ->
+  v ** iter_sepcon (remove_Znth i l) |--
+    iter_sepcon (replace_Znth i v l).
+Proof.
+  intros.
+  unfold Znth, remove_Znth, replace_Znth.
+  apply iter_sepcon_merge_remove_nth.
+  rewrite Zlength_correct in H.
+  lia.
+Qed.
+
+End IterSepconLibSig.
+
 Module Type SeparationLogicSig :=
-  LanguageSig <+ 
+  LanguageSig <+
   DerivedNamesSig <+
   PrimitiveRuleSig <+
   LogicTheoremSig' <+
-  BasePredSig.
+  BasePredSig <+
+  IterSepconLibSig.
 
 Definition aligned_2 (x : Z) : Prop := x mod 2 = 0.
 
@@ -58,312 +136,32 @@ Definition aligned_4 (x : Z) : Prop := x mod 4 = 0.
 
 Definition aligned_8 (x : Z) : Prop := x mod 8 = 0.
 
-Module Type DerivedPredSig (Arch : CArchSig) (Endian : CEndianSig) (CRules: SeparationLogicSig).
+Module Type DerivedPredSig (ArchImpl : CArchSig) (Endian : CEndianSig) (CRules: SeparationLogicSig).
 
 Arguments CRules.exp {A}.
 
 Local Set Warnings "-notation-overridden".
-Include CNotationSig Arch.
+Include CNotationSig ArchImpl.
 Local Set Warnings "notation-overridden".
 
-Definition addr_max_unsigned : Z := Arch.addr_max_unsigned.
-Definition ptr_size : nat := Arch.ptr_size.
-Definition ptr_align : Z := Arch.ptr_align.
-Definition ptr_size_Z : Z := Arch.ptr_size_Z.
-Definition ptr_width_Z : Z := Arch.ptr_width_Z.
-Definition aligned (align x : Z) : Prop := Arch.aligned align x.
-Definition bytes_eqm := Endian.bytes_eqm.
-Definition n_bytes_to_Z := Endian.n_bytes_to_Z.
-Definition Z_to_n_bytes := Endian.Z_to_n_bytes.
-Definition merge_n_bytes := Endian.merge_n_bytes.
-Definition merge_short := Endian.merge_short.
-Definition merge_int := Endian.merge_int.
-Definition merge_int64 := Endian.merge_int64.
-Definition vec1 (x : Z) : Vector.t Z 1 :=
-  Vector.cons Z x 0 (Vector.nil Z).
-Definition vec2 (x1 x2 : Z) : Vector.t Z 2 :=
-  Vector.cons Z x1 1 (Vector.cons Z x2 0 (Vector.nil Z)).
-Definition vec4 (x1 x2 x3 x4 : Z) : Vector.t Z 4 :=
-  Vector.cons Z x1 3
-    (Vector.cons Z x2 2
-      (Vector.cons Z x3 1
-        (Vector.cons Z x4 0 (Vector.nil Z)))).
-Definition vec8 (x1 x2 x3 x4 x5 x6 x7 x8 : Z) : Vector.t Z 8 :=
-  Vector.cons Z x1 7
-    (Vector.cons Z x2 6
-      (Vector.cons Z x3 5
-        (Vector.cons Z x4 4
-          (Vector.cons Z x5 3
-            (Vector.cons Z x6 2
-              (Vector.cons Z x7 1
-                (Vector.cons Z x8 0 (Vector.nil Z)))))))).
+Include Arch.
+Include CEndian Endian.
 
 Ltac unfold_arch :=
-  unfold ptr_width_Z, ptr_size_Z, ptr_size, ptr_align, addr_max_unsigned, aligned in *;
+  unfold ptr_width_Z, ptr_align, addr_max_unsigned, aligned in *;
+  eval_ptr_size;
   cbn in *.
 
 Ltac fold_arch :=
-  fold ptr_width_Z ptr_size_Z ptr_size ptr_align addr_max_unsigned aligned in *.
+  fold ptr_width_Z ptr_align addr_max_unsigned aligned in *;
+  normalize_ptr_size.
 
 Ltac solve_arch :=
   unfold_arch; try reflexivity; try lia.
 
-Lemma ptr_size_32_or_64 : ptr_size = 4%nat \/ ptr_size = 8%nat.
-Proof.
-  unfold ptr_size.
-  apply Arch.ptr_size_32_or_64.
-Qed.
-
-Lemma ptr_size_pos : 0 < ptr_size_Z.
-Proof.
-  unfold ptr_size_Z.
-  apply Arch.ptr_size_pos.
-Qed.
-
-Lemma ptr_align_pos : 0 < ptr_align.
-Proof.
-  unfold ptr_align.
-  apply Arch.ptr_align_pos.
-Qed.
-
-Lemma ptr_aligned_aligned_4 :
-  forall x, aligned ptr_align x -> x mod 4 = 0.
-Proof.
-  unfold aligned, ptr_align.
-  apply Arch.ptr_aligned_aligned_4.
-Qed.
-
-Lemma addr_max_unsigned_ge_7 : 7 <= addr_max_unsigned.
-Proof.
-  unfold addr_max_unsigned.
-  apply Arch.addr_max_unsigned_ge_7.
-Qed.
-
-Lemma ptr_size_fits_addr : ptr_size_Z - 1 <= addr_max_unsigned.
-Proof.
-  unfold ptr_size_Z, addr_max_unsigned.
-  apply Arch.ptr_size_fits_addr.
-Qed.
-
-Lemma int_max_fits_addr : Int.max_unsigned <= addr_max_unsigned.
-Proof.
-  unfold addr_max_unsigned.
-  apply Arch.int_max_fits_addr.
-Qed.
-
-Lemma eqm_bytes_to_Z_eq :
-  forall n (v1 v2 : Vector.t Z n),
-    bytes_eqm n v1 v2 -> n_bytes_to_Z n v1 = n_bytes_to_Z n v2.
-Proof.
-  unfold bytes_eqm, n_bytes_to_Z.
-  apply Endian.eqm_bytes_to_Z_eq.
-Qed.
-
-Lemma Z_to_n_bytes_to_Z :
-  forall length v,
-    n_bytes_to_Z length (Z_to_n_bytes v length) =
-    v mod (2 ^ (8 * Z.of_nat length)).
-Proof.
-  unfold n_bytes_to_Z, Z_to_n_bytes.
-  apply Endian.Z_to_n_bytes_to_Z.
-Qed.
-
-Lemma merge_n_bytes_self :
-  forall n (v : Vector.t Z n),
-    merge_n_bytes n v (n_bytes_to_Z n v).
-Proof.
-  unfold merge_n_bytes, n_bytes_to_Z.
-  apply Endian.merge_n_bytes_self.
-Qed.
-
-Lemma merge_byte_equiv_merge_n_bytes :
-  forall x y,
-    Byte.eqm x y <-> merge_n_bytes 1 (Vector.cons Z x 0 (Vector.nil Z)) y.
-Proof.
-  unfold merge_n_bytes.
-  apply Endian.merge_byte_equiv_merge_n_bytes.
-Qed.
-
-Lemma merge_short_equiv_merge_n_bytes :
-  forall x1 x2 y,
-    merge_short x1 x2 y <->
-    merge_n_bytes 2 (Vector.cons Z x1 1 (Vector.cons Z x2 0 (Vector.nil Z))) y.
-Proof.
-  unfold merge_short, merge_n_bytes.
-  apply Endian.merge_short_equiv_merge_n_bytes.
-Qed.
-
-Lemma merge_int_equiv_merge_n_bytes :
-  forall x1 x2 x3 x4 y,
-    merge_int x1 x2 x3 x4 y <->
-    merge_n_bytes 4
-      (Vector.cons Z x1 3
-        (Vector.cons Z x2 2
-          (Vector.cons Z x3 1
-            (Vector.cons Z x4 0 (Vector.nil Z))))) y.
-Proof.
-  unfold merge_int, merge_n_bytes.
-  apply Endian.merge_int_equiv_merge_n_bytes.
-Qed.
-
-Lemma merge_int64_equiv_merge_n_bytes :
-  forall x1 x2 x3 x4 x5 x6 x7 x8 y,
-    merge_int64 x1 x2 x3 x4 x5 x6 x7 x8 y <->
-    merge_n_bytes 8
-      (Vector.cons Z x1 7
-        (Vector.cons Z x2 6
-          (Vector.cons Z x3 5
-            (Vector.cons Z x4 4
-              (Vector.cons Z x5 3
-                (Vector.cons Z x6 2
-                  (Vector.cons Z x7 1
-                    (Vector.cons Z x8 0 (Vector.nil Z))))))))) y.
-Proof.
-  unfold merge_int64, merge_n_bytes.
-  apply Endian.merge_int64_equiv_merge_n_bytes.
-Qed.
-
-Lemma merge_short_eqm :
-  forall x1 x2 y1 y2 v,
-    Byte.eqm x1 y1 -> Byte.eqm x2 y2 ->
-    merge_short x1 x2 v -> merge_short y1 y2 v.
-Proof.
-  unfold merge_short.
-  apply Endian.merge_short_eqm.
-Qed.
-
-Lemma merge_int_eqm :
-  forall x1 x2 x3 x4 y1 y2 y3 y4 v,
-    Byte.eqm x1 y1 -> Byte.eqm x2 y2 -> Byte.eqm x3 y3 -> Byte.eqm x4 y4 ->
-    merge_int x1 x2 x3 x4 v -> merge_int y1 y2 y3 y4 v.
-Proof.
-  unfold merge_int.
-  apply Endian.merge_int_eqm.
-Qed.
-
-Lemma merge_int64_eqm :
-  forall x1 x2 x3 x4 x5 x6 x7 x8 y1 y2 y3 y4 y5 y6 y7 y8 v,
-    Byte.eqm x1 y1 -> Byte.eqm x2 y2 -> Byte.eqm x3 y3 -> Byte.eqm x4 y4 ->
-    Byte.eqm x5 y5 -> Byte.eqm x6 y6 -> Byte.eqm x7 y7 -> Byte.eqm x8 y8 ->
-    merge_int64 x1 x2 x3 x4 x5 x6 x7 x8 v ->
-    merge_int64 y1 y2 y3 y4 y5 y6 y7 y8 v.
-Proof.
-  unfold merge_int64.
-  apply Endian.merge_int64_eqm.
-Qed.
-
-Lemma merge_short_value_eqm :
-  forall x1 x2 v v',
-    v mod 2^16 = v' mod 2^16 ->
-    merge_short x1 x2 v -> merge_short x1 x2 v'.
-Proof.
-  unfold merge_short.
-  apply Endian.merge_short_value_eqm.
-Qed.
-
-Lemma merge_int_value_eqm :
-  forall x1 x2 x3 x4 v v',
-    v mod 2^32 = v' mod 2^32 ->
-    merge_int x1 x2 x3 x4 v -> merge_int x1 x2 x3 x4 v'.
-Proof.
-  unfold merge_int.
-  apply Endian.merge_int_value_eqm.
-Qed.
-
-Lemma merge_int64_value_eqm :
-  forall x1 x2 x3 x4 x5 x6 x7 x8 v v',
-    v mod 2^64 = v' mod 2^64 ->
-    merge_int64 x1 x2 x3 x4 x5 x6 x7 x8 v ->
-    merge_int64 x1 x2 x3 x4 x5 x6 x7 x8 v'.
-Proof.
-  unfold merge_int64.
-  apply Endian.merge_int64_value_eqm.
-Qed.
-
-Definition valid_addr_range (p len : Z) : Prop :=
-  Arch.valid_addr_range p len.
-
-Definition valid_object (p len align : Z) : Prop :=
-  Arch.valid_object p len align.
-
-Definition isvalidptr_char (x : Z) : Prop :=
-  x >= 0 /\ x <= addr_max_unsigned.
-
-Definition isvalidptr_short (x : Z) : Prop := 
-  x >= 0 /\ x + 1 <= addr_max_unsigned /\ aligned_2 x.  
-
-Definition isvalidptr_int (x : Z) : Prop :=
-  x >= 0 /\ x + 3 <= addr_max_unsigned /\ aligned_4 x.
-
-Definition isvalidptr_int64 (x : Z) : Prop :=
-  x >= 0 /\ x + 7 <= addr_max_unsigned /\ aligned_4 x.
-
-Definition isvalidptr_int128 (x : Z) : Prop :=
-  x >= 0 /\ x + 15 <= addr_max_unsigned /\ aligned_4 x.
-
-Definition isvalidptr_float (x : Z) : Prop :=
-  x >= 0 /\ x + 3 <= addr_max_unsigned /\ aligned_4 x.
-
-Definition isvalidptr_double (x : Z) : Prop :=
-  x >= 0 /\ x + 7 <= addr_max_unsigned /\ aligned_8 x.
-
-Definition isvalidptr_long_double (x : Z) : Prop :=
-  x >= 0 /\ x + 15 <= addr_max_unsigned /\ aligned_8 x.
-
-Definition isvalidptr (x : Z) : Prop :=
-  x >= 0 /\ x + ptr_size_Z - 1 <= addr_max_unsigned /\ Arch.aligned Arch.ptr_align x.
-
-Definition valid_ptr_value (v : Z) : Prop :=
-  0 <= v /\ v <= addr_max_unsigned.
-
+(* Byte vectors are ordered by increasing address.  Endianness belongs to
+   merge_n_bytes, not to the resource recursion. *)
 Definition store_byte : addr -> Z -> CRules.expr := CRules.mstore.
-
-Definition store_2byte (x : addr) (v : Z) : CRules.expr := 
-  CRules.exp (fun z1 => 
-  CRules.exp (fun z2 =>
-    CRules.andp 
-    (CRules.coq_prop (merge_short z1 z2 v))
-    (CRules.sepcon (store_byte x z1) (store_byte (x+1) z2))
-  )).
-Definition store_4byte (x : addr) (v : Z) : CRules.expr :=
-  CRules.exp (fun z1 => 
-  CRules.exp (fun z2 =>
-  CRules.exp (fun z3 =>
-  CRules.exp (fun z4 =>
-    CRules.andp 
-    (CRules.coq_prop (merge_int z1 z2 z3 z4 v))
-    (CRules.sepcon (store_byte x z1)
-      (CRules.sepcon (store_byte (x+1) z2)
-        (CRules.sepcon (store_byte (x+2) z3) (store_byte (x+3) z4))  
-    )
-  ))))).
-     
-Definition store_8byte (x : addr) (v : Z) : CRules.expr :=
-  CRules.exp (fun z1 => 
-  CRules.exp (fun z2 =>
-  CRules.exp (fun z3 =>
-  CRules.exp (fun z4 =>
-  CRules.exp (fun z5 => 
-  CRules.exp (fun z6 =>
-  CRules.exp (fun z7 =>
-  CRules.exp (fun z8 =>
-    CRules.andp 
-    (CRules.coq_prop (merge_int64 z1 z2 z3 z4 z5 z6 z7 z8 v))
-    (CRules.sepcon (store_byte x z1)
-      (CRules.sepcon (store_byte (x+1) z2)
-        (CRules.sepcon (store_byte (x+2) z3) 
-          (CRules.sepcon (store_byte (x+3) z4)
-            (CRules.sepcon (store_byte (x+4) z5)
-              (CRules.sepcon (store_byte (x+5) z6)
-                (CRules.sepcon (store_byte (x+6) z7) (store_byte (x+7) z8) 
-                )
-              )
-            )
-          )
-        )  
-      )
-    )
-  )))))))).
 
 Fixpoint store_bytes (x : addr) (n : nat) : Vector.t Z n -> CRules.expr :=
   match n with
@@ -373,40 +171,22 @@ Fixpoint store_bytes (x : addr) (n : nat) : Vector.t Z n -> CRules.expr :=
         (store_bytes (x + 1) n' (Vector.tl bytes))
   end.
 
-Definition store_16byte (x : addr) (v : Z) : CRules.expr :=
-  CRules.exp (fun bytes : Vector.t Z 16 =>
+Arguments store_bytes x {n} _.
+
+Definition store_bytes_Z (x : addr) (n : nat) (v : Z) : CRules.expr :=
+  CRules.exp (fun bytes : Vector.t Z n =>
     CRules.andp
-      (CRules.coq_prop (merge_n_bytes 16 bytes v))
-      (store_bytes x 16 bytes)).
+      (CRules.coq_prop (merge_n_bytes bytes v))
+      (store_bytes x bytes)).
 
-Definition store_byte_noninit : addr -> CRules.expr := CRules.mstore_noninit.
+Definition undef_store_byte : addr -> CRules.expr := CRules.mstore_noninit.
 
-Definition store_2byte_noninit (x : addr) : CRules.expr := 
-  CRules.sepcon (store_byte_noninit x) (store_byte_noninit (x+1)).
-
-Definition store_4byte_noninit (x : addr) : CRules.expr :=
-  CRules.sepcon (store_byte_noninit x)
-    (CRules.sepcon (store_byte_noninit (x+1))
-      (CRules.sepcon (store_byte_noninit (x+2)) (store_byte_noninit (x+3)))).
-
-Definition store_8byte_noninit (x : addr) : CRules.expr :=
-  (CRules.sepcon (store_byte_noninit x)
-  (CRules.sepcon (store_byte_noninit (x+1))
-    (CRules.sepcon (store_byte_noninit (x+2)) 
-      (CRules.sepcon (store_byte_noninit (x+3))
-        (CRules.sepcon (store_byte_noninit (x+4))
-          (CRules.sepcon (store_byte_noninit (x+5))
-            (CRules.sepcon (store_byte_noninit (x+6)) (store_byte_noninit (x+7))))))))).
-
-Fixpoint store_bytes_noninit (x : addr) (n : nat) : CRules.expr :=
+Fixpoint undef_store_bytes (x : addr) (n : nat) : CRules.expr :=
   match n with
   | O => CRules.emp
-  | S n' => CRules.sepcon (store_byte_noninit x) (store_bytes_noninit (x + 1) n')
+  | S n' => CRules.sepcon (undef_store_byte x) (undef_store_bytes (x + 1) n')
   end.
 
-Definition store_16byte_noninit (x : addr) : CRules.expr :=
-  store_bytes_noninit x 16.
-  
 (* The following are notations *)  
 Declare Scope sac_scope.
 Delimit Scope sac_scope with sac.
@@ -441,86 +221,61 @@ Notation "'ALL' x .. y , p" :=
   (CRules.allp _ (fun x => .. (CRules.allp _ (fun y => p)) ..))
     (at level 45, x binder, right associativity) : sac_scope.
 
-Definition store_char (x : addr) (v : Z) :=
-  “ isvalidptr_char x /\ v <= Byte.max_signed /\ v >= Byte.min_signed ” && store_byte x v.
+(* Widths are byte counts.  Positivity belongs to lemmas that need it,
+   not to the storage predicates.  At width zero the signed value range
+   is empty; the unsigned range contains only zero. *)
+Definition valid_signed_value (n : nat) (v : Z) : Prop :=
+  - 2 ^ (8 * Z.of_nat n - 1) <= v < 2 ^ (8 * Z.of_nat n - 1).
 
-Definition undef_store_char (x : addr) :=
-  “ isvalidptr_char x ” && store_byte_noninit x.
+Definition valid_unsigned_value (n : nat) (v : Z) : Prop :=
+  0 <= v < 2 ^ (8 * Z.of_nat n).
 
-Definition store_uchar (x : addr) (v : Z) :=
-  “ isvalidptr_char x /\ v >= 0 /\ v <= Byte.max_unsigned ” && 
-  store_byte x v.
+Definition store_integer (n : nat) (align : Z) (x : addr) (v : Z) :=
+  “ valid_object x (Z.of_nat n) align /\ valid_signed_value n v ” &&
+  store_bytes_Z x n v.
 
-Definition undef_store_uchar (x : addr) :=
-  “ isvalidptr_char x ” && store_byte_noninit x.
+Definition store_uinteger (n : nat) (align : Z) (x : addr) (v : Z) :=
+  “ valid_object x (Z.of_nat n) align /\ valid_unsigned_value n v ” &&
+  store_bytes_Z x n v.
+
+Definition undef_store_integer (n : nat) (align : Z) (x : addr) :=
+  “ valid_object x (Z.of_nat n) align ” && undef_store_bytes x n.
+
+(* Readable fixed-width interfaces; all storage proofs use the generic core. *)
+Definition store_char := store_integer 1 1.
+Definition store_uchar := store_uinteger 1 1.
+Definition store_short := store_integer 2 2.
+Definition store_ushort := store_uinteger 2 2.
+Definition store_int := store_integer 4 4.
+Definition store_uint := store_uinteger 4 4.
+Definition store_int64 := store_integer 8 4.
+Definition store_uint64 := store_uinteger 8 4.
+Definition store_int128 := store_integer 16 4.
+Definition store_uint128 := store_uinteger 16 4.
+
+Definition undef_store_char := undef_store_integer 1 1.
+Definition undef_store_uchar := undef_store_integer 1 1.
+Definition undef_store_short := undef_store_integer 2 2.
+Definition undef_store_ushort := undef_store_integer 2 2.
+Definition undef_store_int := undef_store_integer 4 4.
+Definition undef_store_uint := undef_store_integer 4 4.
+Definition undef_store_int64 := undef_store_integer 8 4.
+Definition undef_store_uint64 := undef_store_integer 8 4.
+Definition undef_store_int128 := undef_store_integer 16 4.
+Definition undef_store_uint128 := undef_store_integer 16 4.
 
 Definition store_bool (x : addr) (v : Z) :=
   CRules.andp
-    (CRules.coq_prop (isvalidptr_char x /\ (v = 0 \/ v = 1)))
+    (CRules.coq_prop ((valid_object x (sizeof(CHAR)) 1) /\ (v = 0 \/ v = 1)))
     (store_byte x v).
 
 Definition undef_store_bool (x : addr) :=
-  CRules.andp (CRules.coq_prop (isvalidptr_char x)) (store_byte_noninit x).
-
-Definition store_short (x : addr) (v : Z) :=
-  “ isvalidptr_short x /\ v <= 32767 /\ v >= -32768 ” && store_2byte x v.
-
-Definition undef_store_short (x : addr) :=
-  “ isvalidptr_short x ” && store_2byte_noninit x.
-
-Definition store_ushort (x : addr) (v : Z) :=
-  “ isvalidptr_short x /\ v >= 0 /\ v <= 65535 ” &&
-  store_2byte x v.
-
-Definition undef_store_ushort (x : addr) :=
-  “ isvalidptr_short x ” && store_2byte_noninit x.
-
-Definition store_int (x : addr) (v : Z) :=
-  “ isvalidptr_int x /\ v <= Int.max_signed /\ v >= Int.min_signed ” && store_4byte x v.
-
-Definition undef_store_int (x : addr) :=
-  (“ isvalidptr_int x ” && store_4byte_noninit x).
-
-Definition store_uint (x : addr) (v : Z) :=
-  “ isvalidptr_int x /\ v >= 0 /\ v <= Int.max_unsigned ” && 
-  store_4byte x v.
-
-Definition undef_store_uint (x : addr) :=
-  “ isvalidptr_int x ” && store_4byte_noninit x.
-
-Definition store_int64 (x : addr) (v : Z) :=
-  “ isvalidptr_int64 x /\ v <= Int64.max_signed /\ v >= Int64.min_signed ” && store_8byte x v.
-
-Definition undef_store_int64 (x : addr) :=
-  “ isvalidptr_int64 x ” && store_8byte_noninit x.
-
-Definition store_uint64 (x : addr) (v : Z) :=
-  “ isvalidptr_int64 x /\ v >= 0 /\ v <= Int64.max_unsigned ” && 
-  store_8byte x v.
-
-Definition undef_store_uint64 (x : addr) :=
-  “ isvalidptr_int64 x ” && store_8byte_noninit x.
-
-Definition store_int128 (x : addr) (v : Z) :=
-  CRules.andp
-    (CRules.coq_prop (isvalidptr_int128 x /\ v <= Int128.max_signed /\ v >= Int128.min_signed))
-    (store_16byte x v).
-
-Definition undef_store_int128 (x : addr) :=
-  CRules.andp (CRules.coq_prop (isvalidptr_int128 x)) (store_16byte_noninit x).
-
-Definition store_uint128 (x : addr) (v : Z) :=
-  CRules.andp
-    (CRules.coq_prop (isvalidptr_int128 x /\ v >= 0 /\ v <= Int128.max_unsigned))
-    (store_16byte x v).
-
-Definition undef_store_uint128 (x : addr) :=
-  CRules.andp (CRules.coq_prop (isvalidptr_int128 x)) (store_16byte_noninit x).
+  CRules.andp (CRules.coq_prop ((valid_object x (sizeof(CHAR)) 1))) (undef_store_byte x).
 
 Definition store_float (x : addr) (v : fp32) :=
   match bits_of_float_value v with
   | Some z =>
-      “ isvalidptr_float x /\ 0 <= z <= Int.max_unsigned ” && store_4byte x z
+      “ (valid_object x (sizeof(FLOAT)) 4) /\ 0 <= z <= Int.max_unsigned ” && store_bytes_Z x 4 z
   | None =>
       “ False ”
   end.
@@ -528,7 +283,7 @@ Definition store_float (x : addr) (v : fp32) :=
 Definition store_double (x : addr) (v : fp64) :=
   match bits_of_double_value v with
   | Some z =>
-      “ isvalidptr_double x /\ 0 <= z <= Int64.max_unsigned ” && store_8byte x z
+      “ (valid_object x (sizeof(DOUBLE)) 8) /\ 0 <= z <= Int64.max_unsigned ” && store_bytes_Z x 8 z
   | None =>
       “ False ”
   end.
@@ -537,29 +292,20 @@ Definition store_long_double (x : addr) (v : fp128) :=
   match bits_of_long_double_value v with
   | Some z =>
       CRules.andp
-        (CRules.coq_prop (isvalidptr_long_double x /\ 0 <= z <= max_unsigned_128))
-        (store_16byte x z)
+        (CRules.coq_prop ((valid_object x (sizeof(LONGDOUBLE)) 8) /\ 0 <= z <= max_unsigned_128))
+        (store_bytes_Z x 16 z)
   | None =>
       CRules.coq_prop False
   end.
 
-Definition store_finite_float (x : addr) (v : fp32) :=
-  “ fp32_isFinite v ” && store_float x v.
-
-Definition store_finite_double (x : addr) (v : fp64) :=
-  “ fp64_isFinite v ” && store_double x v.
-
-Definition store_finite_long_double (x : addr) (v : fp128) :=
-  CRules.andp (CRules.coq_prop (fp128_isFinite v)) (store_long_double x v).
-
 Definition undef_store_float (x : addr) :=
-  “ isvalidptr_float x ” && store_4byte_noninit x.
+  “ (valid_object x (sizeof(FLOAT)) 4) ” && undef_store_bytes x 4.
 
 Definition undef_store_double (x : addr) :=
-  “ isvalidptr_double x ” && store_8byte_noninit x.
+  “ (valid_object x (sizeof(DOUBLE)) 8) ” && undef_store_bytes x 8.
 
 Definition undef_store_long_double (x : addr) :=
-  CRules.andp (CRules.coq_prop (isvalidptr_long_double x)) (store_16byte_noninit x).
+  CRules.andp (CRules.coq_prop ((valid_object x (sizeof(LONGDOUBLE)) 8))) (undef_store_bytes x 16).
 
 Definition undef_store_finite_float : addr -> CRules.expr :=
   undef_store_float.
@@ -570,21 +316,13 @@ Definition undef_store_finite_double : addr -> CRules.expr :=
 Definition undef_store_finite_long_double : addr -> CRules.expr :=
   undef_store_long_double.
 
-Definition store_ptr (x : addr) (v : Z) := 
-  “ isvalidptr x /\ valid_ptr_value v ” && 
-  match ptr_size with
-  | 4%nat => store_4byte x v
-  | 8%nat => store_8byte x v
-  | _ => “ False ”
-  end.
+Definition store_ptr (x : addr) (v : Z) :=
+  “ (valid_object x (sizeof(PTR)) Arch.ptr_align) /\ valid_ptr_value v ” &&
+  store_bytes_Z x (Z.to_nat (sizeof(PTR))) v.
 
 Definition undef_store_ptr (x : addr) :=
-  “ isvalidptr x ” &&
-  match ptr_size with
-  | 4%nat => store_4byte_noninit x
-  | 8%nat => store_8byte_noninit x
-  | _ => “ False ”
-  end.
+  “ (valid_object x (sizeof(PTR)) Arch.ptr_align) ” &&
+  undef_store_bytes x (Z.to_nat (sizeof(PTR))).
 
 Definition Invalid_store {A : Type} (x : addr) (v : A) :=
   “ False ”.
@@ -632,7 +370,7 @@ Definition store_undef_array (storeA : addr -> Z -> CRules.expr) (x: addr) (n: Z
 Fixpoint store_align4_list (l : list Z) := 
   match l with 
     | nil => emp
-    | x :: l' => “ isvalidptr_int x ” && store_4byte_noninit x ** store_align4_list l'
+    | x :: l' => “ (valid_object x (sizeof(INT)) 4) ” && undef_store_bytes x 4 ** store_align4_list l'
   end.
 
 Definition store_align4_n (n : Z) :=
@@ -641,49 +379,11 @@ Definition store_align4_n (n : Z) :=
 Fixpoint store_align_list (l : list Z) := 
   match l with 
     | nil => emp
-    | x :: l' => “ isvalidptr_char x ” && store_byte_noninit x ** store_align_list l'
+    | x :: l' => “ (valid_object x (sizeof(CHAR)) 1) ” && undef_store_byte x ** store_align_list l'
   end.
 
 Definition store_align_n (n : Z) :=
   EX l, “ Zlength l = n /\ interval_list 0 0 addr_max_unsigned l ” && store_align_list l.
-
-Notation "x # 'Char' |-> v" := (store_char x v) (at level 25, no associativity) : sac_scope.
-Notation "x # 'Bool' |-> v" := (store_bool x v) (at level 25, no associativity) : sac_scope.
-Notation "x # 'UChar' |-> v" := (store_uchar x v ) (at level 25, no associativity):sac_scope.
-Notation "x # 'Short' |-> v" := (store_short x v) (at level 25, no associativity) : sac_scope.
-Notation "x # 'UShort' |-> v" := (store_ushort x v) (at level 25, no associativity):sac_scope.
-Notation "x # 'Int' |-> v" := ( store_int x v) (at level 25, no associativity) : sac_scope.
-Notation "x # 'UInt' |-> v" := ( store_uint x v ) (at level 25, no associativity):sac_scope.
-Notation "x # 'Int64' |-> v" := ( store_int64 x v) (at level 25, no associativity):sac_scope.
-Notation "x # 'UInt64' |-> v" := ( store_uint64 x v) (at level 25, no associativity):sac_scope.
-Notation "x # 'Int128' |-> v" := (store_int128 x v) (at level 25, no associativity):sac_scope.
-Notation "x # 'UInt128' |-> v" := (store_uint128 x v) (at level 25, no associativity):sac_scope.
-Notation "x # 'Float' |-> v" := (store_float x v) (at level 25, no associativity) : sac_scope.
-Notation "x # 'Double' |-> v" := (store_double x v) (at level 25, no associativity) : sac_scope.
-Notation "x # 'LongDouble' |-> v" := (store_long_double x v) (at level 25, no associativity) : sac_scope.
-Notation "x # 'FiniteFloat' |-> v" := (store_finite_float x v) (at level 25, no associativity) : sac_scope.
-Notation "x # 'FiniteDouble' |-> v" := (store_finite_double x v) (at level 25, no associativity) : sac_scope.
-Notation "x # 'FiniteLongDouble' |-> v" := (store_finite_long_double x v) (at level 25, no associativity) : sac_scope.
-Notation "x # 'Ptr' |-> v" := (store_ptr x v) (at level 25, no associativity):sac_scope.
-
-Notation " x # 'Char' |->_" := (undef_store_char x) (at level 25, no associativity) : sac_scope.
-Notation "x # 'Bool' |->_" := (undef_store_bool x) (at level 25, no associativity) : sac_scope.
-Notation "x # 'UChar' |->_" := (undef_store_uchar x) (at level 25, no associativity):sac_scope.
-Notation "x # 'Short' |->_" := (undef_store_short x) (at level 25, no associativity) : sac_scope.
-Notation "x # 'UShort' |->_" := (undef_store_ushort x) (at level 25, no associativity):sac_scope.
-Notation "x # 'Int' |->_" := (undef_store_int x) (at level 25, no associativity) : sac_scope.
-Notation "x # 'UInt' |->_" := (undef_store_uint x) (at level 25, no associativity):sac_scope.
-Notation "x # 'Int64' |->_" := (undef_store_int64 x) (at level 25, no associativity):sac_scope.
-Notation "x # 'UInt64' |->_" := (undef_store_uint64 x) (at level 25, no associativity):sac_scope.
-Notation "x # 'Int128' |->_" := (undef_store_int128 x) (at level 25, no associativity):sac_scope.
-Notation "x # 'UInt128' |->_" := (undef_store_uint128 x) (at level 25, no associativity):sac_scope.
-Notation "x # 'Float' |->_" := (undef_store_float x) (at level 25, no associativity) : sac_scope.
-Notation "x # 'Double' |->_" := (undef_store_double x) (at level 25, no associativity) : sac_scope.
-Notation "x # 'LongDouble' |->_" := (undef_store_long_double x) (at level 25, no associativity) : sac_scope.
-Notation "x # 'FiniteFloat' |->_" := (undef_store_finite_float x) (at level 25, no associativity) : sac_scope.
-Notation "x # 'FiniteDouble' |->_" := (undef_store_finite_double x) (at level 25, no associativity) : sac_scope.
-Notation "x # 'FiniteLongDouble' |->_" := (undef_store_finite_long_double x) (at level 25, no associativity) : sac_scope.
-Notation "x # 'Ptr' |->_" := (undef_store_ptr x) (at level 25, no associativity):sac_scope.
 
 Definition front_end_type_value (ty : front_end_type) : Type :=
   match ty with
@@ -693,20 +393,20 @@ Definition front_end_type_value (ty : front_end_type) : Type :=
   | _ => Z
   end.
 
-Definition typed_poly_store (ty : front_end_type) :
+Definition poly_store (ty : front_end_type) :
   addr -> front_end_type_value ty -> CRules.expr :=
   match ty as ty0 return addr -> front_end_type_value ty0 -> CRules.expr with
     | FET_bool => store_bool
-    | FET_int => store_int
     | FET_char => store_char
-    | FET_int64 => store_int64
-    | FET_short => store_short
-    | FET_uint => store_uint
     | FET_uchar => store_uchar
+    | FET_short => store_short
+    | FET_ushort => store_ushort
+    | FET_int => store_int
+    | FET_uint => store_uint
+    | FET_int64 => store_int64
     | FET_uint64 => store_uint64
     | FET_int128 => store_int128
     | FET_uint128 => store_uint128
-    | FET_ushort => store_ushort
     | FET_float => store_float
     | FET_double => store_double
     | FET_long_double => store_long_double
@@ -714,45 +414,74 @@ Definition typed_poly_store (ty : front_end_type) :
     | _ => @Invalid_store Z
   end.
 
-Definition poly_store (ty : front_end_type) : addr -> Z -> CRules.expr :=
-  match ty with
-    | FET_bool => store_bool
-    | FET_int => store_int
-    | FET_char => store_char
-    | FET_int64 => store_int64
-    | FET_short => store_short
-    | FET_uint => store_uint
-    | FET_uchar => store_uchar
-    | FET_uint64 => store_uint64
-    | FET_int128 => store_int128
-    | FET_uint128 => store_uint128
-    | FET_ushort => store_ushort
-    | FET_float => fun x z => store_float x (fp32_of_bits z)
-    | FET_double => fun x z => store_double x (fp64_of_bits z)
-    | FET_long_double => fun x z => store_long_double x (fp128_of_bits z)
-    | FET_ptr => store_ptr
-    | _ => @Invalid_store Z
-  end.
+
+Definition store_finite_float (x : addr) (v : fp32) :=
+  “ fp32_isFinite v ” && store_float x v.
+
+Definition store_finite_double (x : addr) (v : fp64) :=
+  “ fp64_isFinite v ” && store_double x v.
+
+Definition store_finite_long_double (x : addr) (v : fp128) :=
+  CRules.andp (CRules.coq_prop (fp128_isFinite v)) (store_long_double x v).
 
 Definition poly_undef_store (ty : front_end_type) := 
   match ty with 
-    | FET_bool => undef_store_bool
-    | FET_int => undef_store_int
+    | FET_bool => undef_store_bool 
     | FET_char => undef_store_char
-    | FET_int64 => undef_store_int64
-    | FET_short => undef_store_short
-    | FET_uint => undef_store_uint
     | FET_uchar => undef_store_uchar
+    | FET_short => undef_store_short
+    | FET_ushort => undef_store_ushort
+    | FET_int => undef_store_int
+    | FET_uint => undef_store_uint
+    | FET_int64 => undef_store_int64
     | FET_uint64 => undef_store_uint64
     | FET_int128 => undef_store_int128
     | FET_uint128 => undef_store_uint128
-    | FET_ushort => undef_store_ushort
     | FET_float => undef_store_float
     | FET_double => undef_store_double
     | FET_long_double => undef_store_long_double
     | FET_ptr => undef_store_ptr
     | _ => Invalid_undef_store
   end.
+
+
+Notation "x # 'Char' |-> v" := (store_char x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Bool' |-> v" := (store_bool x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'UChar' |-> v" := (store_uchar x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Short' |-> v" := (store_short x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'UShort' |-> v" := (store_ushort x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Int' |-> v" := (store_int x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'UInt' |-> v" := (store_uint x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Int64' |-> v" := (store_int64 x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'UInt64' |-> v" := (store_uint64 x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Int128' |-> v" := (store_int128 x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'UInt128' |-> v" := (store_uint128 x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Float' |-> v" := (store_float x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Double' |-> v" := (store_double x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'LongDouble' |-> v" := (store_long_double x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'FiniteFloat' |-> v" := (store_finite_float x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'FiniteDouble' |-> v" := (store_finite_double x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'FiniteLongDouble' |-> v" := (store_finite_long_double x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Ptr' |-> v" := (store_ptr x v) (at level 25, no associativity) : sac_scope.
+
+Notation " x # 'Char' |->_" := (undef_store_char x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Bool' |->_" := (undef_store_bool x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'UChar' |->_" := (undef_store_uchar x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Short' |->_" := (undef_store_short x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'UShort' |->_" := (undef_store_ushort x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Int' |->_" := (undef_store_int x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'UInt' |->_" := (undef_store_uint x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Int64' |->_" := (undef_store_int64 x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'UInt64' |->_" := (undef_store_uint64 x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Int128' |->_" := (undef_store_int128 x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'UInt128' |->_" := (undef_store_uint128 x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Float' |->_" := (undef_store_float x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Double' |->_" := (undef_store_double x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'LongDouble' |->_" := (undef_store_long_double x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'FiniteFloat' |->_" := (undef_store_finite_float x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'FiniteDouble' |->_" := (undef_store_finite_double x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'FiniteLongDouble' |->_" := (undef_store_finite_long_double x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Ptr' |->_" := (undef_store_ptr x) (at level 25, no associativity) : sac_scope.
 
 Notation "x # ty |-> v" := (poly_store ty x v) (at level 25, no associativity) : sac_scope.
 Notation "x # ty |->_" := (poly_undef_store ty x) (at level 25, no associativity) : sac_scope.
@@ -1150,12 +879,15 @@ Ltac find_lift x Hp :=
           end
   end. 
 
-Ltac pure_find_lift x Hp :=
-  match Hp with 
-  | ?A ** ?B => pure_find_lift x A
-  | ?A ** ?B => pure_find_lift x B
-  | x => idtac
-  end. 
+Ltac sepcon_contains x P :=
+  lazymatch P with
+  | ?A ** ?B =>
+      first
+        [ sepcon_contains x A
+        | sepcon_contains x B
+        ]
+  | ?P => constr_eq P x
+  end.
 
 Ltac sepcon_lift p :=
   match goal with 
@@ -1169,15 +901,27 @@ Ltac sepcon_lift p :=
 Ltac derivable1_refl_tac := apply (derivable1_refl _).
 
 Ltac sepcon_cancel' P := 
-   match P with 
-  | ?x ** ?P' => match goal with 
-                 | |- x ** P' |-- x ** _ => eapply derivable1_sepcon_mono ; [derivable1_refl_tac | ];sepcon_cancel' P'
-                 | |- _ |-- ?Q => pure_find_lift x Q ;
-                sepcon_lift x; eapply derivable1_sepcon_mono ; [derivable1_refl_tac | ];
-                sepcon_cancel' P'
-                end
-  | ?x ** ?P' => sepcon_cancel' P'
-  | ?x => sepcon_lift x;
+  match P with 
+  | ?x ** ?P' =>
+    first [
+      (* Try to cancel x *)
+      match goal with 
+      | |- x ** P' |-- x ** _ =>
+        eapply derivable1_sepcon_mono; [derivable1_refl_tac | ];
+        sepcon_cancel' P'
+      | |- _ |-- ?Q =>
+        sepcon_contains x Q;
+        sepcon_lift x;
+        eapply derivable1_sepcon_mono; [derivable1_refl_tac | ];
+        sepcon_cancel' P'
+      end
+    | (* Search in P' for something to cancel *)
+      sepcon_cancel' P'
+    ]
+  | ?x => match goal with
+          | |- _ |-- ?Q => sepcon_contains x Q
+          end;
+          sepcon_lift x;
           match goal with
             | |- x |-- x => derivable1_refl_tac
             | |- x ** ?P |-- x ** _  => eapply derivable1_sepcon_mono ; [derivable1_refl_tac | ]
@@ -1194,69 +938,6 @@ Ltac sepcon_cancel :=
   | |- ?P |-- _ => sepcon_cancel' P 
   end.
 
-Ltac get_head t :=
-  match constr:(t) with
-  | ?A  ?B => get_head A
-  | ?A => A
-  end.
-
-Ltac unfold_term t :=
-  let o := get_head t in
-  pattern t;
-  match goal with [ |- ?a ?b] => 
-    let b := (eval unfold o in b) in change (a b) end;
-  simpl. 
-
-Ltac poly_store_unfold :=
-  match goal with 
-    | |- context [@typed_poly_store FET_bool] => unfold_term (@typed_poly_store FET_bool)
-    | |- context [@typed_poly_store FET_int] => unfold_term (@typed_poly_store FET_int)
-    | |- context [@typed_poly_store FET_char] => unfold_term (@typed_poly_store FET_char)
-    | |- context [@typed_poly_store FET_int64] => unfold_term (@typed_poly_store FET_int64)
-    | |- context [@typed_poly_store FET_short] => unfold_term (@typed_poly_store FET_short)
-    | |- context [@typed_poly_store FET_uint] => unfold_term (@typed_poly_store FET_uint)
-    | |- context [@typed_poly_store FET_uchar] => unfold_term (@typed_poly_store FET_uchar)
-    | |- context [@typed_poly_store FET_uint64] => unfold_term (@typed_poly_store FET_uint64)
-    | |- context [@typed_poly_store FET_int128] => unfold_term (@typed_poly_store FET_int128)
-    | |- context [@typed_poly_store FET_uint128] => unfold_term (@typed_poly_store FET_uint128)
-    | |- context [@typed_poly_store FET_ushort] => unfold_term (@typed_poly_store FET_ushort)
-    | |- context [@typed_poly_store FET_float] => unfold_term (@typed_poly_store FET_float)
-    | |- context [@typed_poly_store FET_double] => unfold_term (@typed_poly_store FET_double)
-    | |- context [@typed_poly_store FET_long_double] => unfold_term (@typed_poly_store FET_long_double)
-    | |- context [@typed_poly_store FET_ptr] => unfold_term (@typed_poly_store FET_ptr)
-    | |- context [@poly_store FET_bool] => unfold_term (@poly_store FET_bool)
-    | |- context [@poly_store FET_int] => unfold_term (@poly_store FET_int)
-    | |- context [@poly_store FET_char] => unfold_term (@poly_store FET_char)
-    | |- context [@poly_store FET_int64] => unfold_term (@poly_store FET_int64)
-    | |- context [@poly_store FET_short] => unfold_term (@poly_store FET_short)
-    | |- context [@poly_store FET_uint] => unfold_term (@poly_store FET_uint)
-    | |- context [@poly_store FET_uchar] => unfold_term (@poly_store FET_uchar)
-    | |- context [@poly_store FET_uint64] => unfold_term (@poly_store FET_uint64)
-    | |- context [@poly_store FET_int128] => unfold_term (@poly_store FET_int128)
-    | |- context [@poly_store FET_uint128] => unfold_term (@poly_store FET_uint128)
-    | |- context [@poly_store FET_ushort] => unfold_term (@poly_store FET_ushort)
-    | |- context [@poly_store FET_float] => unfold_term (@poly_store FET_float)
-    | |- context [@poly_store FET_double] => unfold_term (@poly_store FET_double)
-    | |- context [@poly_store FET_long_double] => unfold_term (@poly_store FET_long_double)
-    | |- context [@poly_store FET_ptr] => unfold_term (@poly_store FET_ptr)
-    | |- context [@poly_undef_store FET_bool] => unfold_term (@poly_undef_store FET_bool)
-    | |- context [@poly_undef_store FET_int] => unfold_term (@poly_undef_store FET_int)
-    | |- context [@poly_undef_store FET_char] => unfold_term (@poly_undef_store FET_char)
-    | |- context [@poly_undef_store FET_int64] => unfold_term (@poly_undef_store FET_int64)
-    | |- context [@poly_undef_store FET_short] => unfold_term (@poly_undef_store FET_short)
-    | |- context [@poly_undef_store FET_uint] => unfold_term (@poly_undef_store FET_uint)
-    | |- context [@poly_undef_store FET_uchar] => unfold_term (@poly_undef_store FET_uchar)
-    | |- context [@poly_undef_store FET_uint64] => unfold_term (@poly_undef_store FET_uint64)
-    | |- context [@poly_undef_store FET_int128] => unfold_term (@poly_undef_store FET_int128)
-    | |- context [@poly_undef_store FET_uint128] => unfold_term (@poly_undef_store FET_uint128)
-    | |- context [@poly_undef_store FET_ushort] => unfold_term (@poly_undef_store FET_ushort)
-    | |- context [@poly_undef_store FET_float] => unfold_term (@poly_undef_store FET_float)
-    | |- context [@poly_undef_store FET_double] => unfold_term (@poly_undef_store FET_double)
-    | |- context [@poly_undef_store FET_long_double] => unfold_term (@poly_undef_store FET_long_double)
-    | |- context [@poly_undef_store FET_ptr] => unfold_term (@poly_undef_store FET_ptr)
-    | |- _ => idtac
-    end.
-
 Ltac TT_simpl := repeat rewrite truep_andp_left_equiv; repeat rewrite truep_andp_right_equiv.
 
 Ltac andp_assoc_change := 
@@ -1269,12 +950,6 @@ Ltac sepcon_assoc_change :=
     | |- context [ ?P ** ?Q ** ?R ] => rewrite <- (logic_equiv_sepcon_assoc P Q R)
   end.
 
-(* Hypothesis-directed counterpart of sepcon_assoc_change.  QCP emits a
-   split-goal lemma's conclusion flat, so it elaborates left-nested, while the
-   parent verification-condition goal is right-nested.  The two are equal only
-   up to associativity, so `exact` fails and Goal_apply_finish falls through to
-   a full sep_apply re-association on every call.  Normalising the hypothesis
-   first lets `exact` succeed. *)
 Ltac sepcon_assoc_change_in H :=
   repeat progress match type of H with
     | context [ ?P ** ?Q ** ?R ] => rewrite <- (logic_equiv_sepcon_assoc P Q R) in H
@@ -1336,9 +1011,9 @@ Ltac asrt_complex_simpl :=
     | |- context [ ?P ** (?Q || ?R) ] => rewrite (orp_sepcon_right P Q R)
     end.
 
-Ltac asrt_simpl_pure := asrt_easysimpl; asrt_complex_simpl.
+Ltac asrt_simpl_pure := normalize_ptr_size; asrt_easysimpl; asrt_complex_simpl.
 
-Ltac asrt_simpl := try poly_store_unfold ; Rename asrt_simpl_pure.
+Ltac asrt_simpl := Rename asrt_simpl_pure.
 
 Ltac andp_cancel' P := 
   match P with 
@@ -1383,26 +1058,40 @@ repeat progress (match goal with
                   end)
 end) ; sepcon_assoc_change .
 
-Ltac pureIntros := try poly_store_unfold ; Rename pureIntros_without_rename.
+Ltac pureIntros := Rename pureIntros_without_rename.
+
+(* Match the assertion connective before applying its rule.  An unrestricted
+   [eapply] can unfold derivable1 and match the whole goal against [Q m]. *)
+Ltac apply_exp_left :=
+  lazymatch goal with
+  | |- @exp ?T ?P |-- ?Q =>
+      refine (@derivable1s_exp_l T P Q _)
+  end.
+
+Ltac apply_allp_right :=
+  lazymatch goal with
+  | |- ?P |-- @allp ?T ?Q =>
+      refine (@derivable1s_allp_r T P Q _)
+  end.
 
 Ltac left_intro v:=
   asrt_simpl;
-  eapply derivable1s_exp_l;
+  apply_exp_left;
   intro v.
 
 Ltac left_intro_any:=
   asrt_simpl;
-  eapply derivable1s_exp_l;
+  apply_exp_left;
   intros .
 
 Ltac right_intro v:=
   asrt_simpl;
-  eapply derivable1s_allp_r;
+  apply_allp_right;
   intro v.
 
 Ltac right_intro_any:=
   asrt_simpl;
-  eapply derivable1s_allp_r;
+  apply_allp_right;
   intros.
 
 Ltac reexists :=
@@ -1443,105 +1132,47 @@ Ltac entailer_pure := asrt_simpl_pure; sepcon_assoc_change; andp_cancel.
 
 Ltac entailer_with tac :=
   set_String_name;
-  try poly_store_unfold;
   Rename entailer_pure;
   simpl_entail_with tac;
   subst_all_strings.
 
 Tactic Notation "cancel" := set_String_name ; Rename sepcon_cancel ; subst_all_strings.
 Tactic Notation "entailer!" := entailer_with ltac:(lia || nia || int_auto).
+Ltac _Intros xs :=
+  set_String_name;
+  pureIntros;
+  ltac1_list_iter ltac:(fun x => left_intro x) xs;
+  pureIntros;
+  subst_all_strings.
+
 Tactic Notation "Intros" := set_String_name ; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) := set_String_name ; pureIntros ; left_intro x0; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; left_intro x4; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; left_intro x4; left_intro x5; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; left_intro x4; left_intro x5; left_intro x6; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; left_intro x4; left_intro x5; left_intro x6; left_intro x7; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; left_intro x4; left_intro x5; left_intro x6; left_intro x7; left_intro x8; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; left_intro x4; left_intro x5; left_intro x6; left_intro x7; left_intro x8; left_intro x9; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; left_intro x4; left_intro x5; left_intro x6; left_intro x7; left_intro x8; left_intro x9; left_intro x10; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; left_intro x4; left_intro x5; left_intro x6; left_intro x7; left_intro x8; left_intro x9; left_intro x10; left_intro x11; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; left_intro x4; left_intro x5; left_intro x6; left_intro x7; left_intro x8; left_intro x9; left_intro x10; left_intro x11; left_intro x12; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) simple_intropattern(x13) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; left_intro x4; left_intro x5; left_intro x6; left_intro x7; left_intro x8; left_intro x9; left_intro x10; left_intro x11; left_intro x12; left_intro x13; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) simple_intropattern(x13) simple_intropattern(x14) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; left_intro x4; left_intro x5; left_intro x6; left_intro x7; left_intro x8; left_intro x9; left_intro x10; left_intro x11; left_intro x12; left_intro x13; left_intro x14; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) simple_intropattern(x13) simple_intropattern(x14) simple_intropattern(x15) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; left_intro x4; left_intro x5; left_intro x6; left_intro x7; left_intro x8; left_intro x9; left_intro x10; left_intro x11; left_intro x12; left_intro x13; left_intro x14; left_intro x15; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) simple_intropattern(x13) simple_intropattern(x14) simple_intropattern(x15) simple_intropattern(x16) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; left_intro x4; left_intro x5; left_intro x6; left_intro x7; left_intro x8; left_intro x9; left_intro x10; left_intro x11; left_intro x12; left_intro x13; left_intro x14; left_intro x15; left_intro x16; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) simple_intropattern(x13) simple_intropattern(x14) simple_intropattern(x15) simple_intropattern(x16) simple_intropattern(x17) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; left_intro x4; left_intro x5; left_intro x6; left_intro x7; left_intro x8; left_intro x9; left_intro x10; left_intro x11; left_intro x12; left_intro x13; left_intro x14; left_intro x15; left_intro x16; left_intro x17; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) simple_intropattern(x13) simple_intropattern(x14) simple_intropattern(x15) simple_intropattern(x16) simple_intropattern(x17) simple_intropattern(x18) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; left_intro x4; left_intro x5; left_intro x6; left_intro x7; left_intro x8; left_intro x9; left_intro x10; left_intro x11; left_intro x12; left_intro x13; left_intro x14; left_intro x15; left_intro x16; left_intro x17; left_intro x18; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) simple_intropattern(x13) simple_intropattern(x14) simple_intropattern(x15) simple_intropattern(x16) simple_intropattern(x17) simple_intropattern(x18) simple_intropattern(x19) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; left_intro x2; left_intro x3; left_intro x4; left_intro x5; left_intro x6; left_intro x7; left_intro x8; left_intro x9; left_intro x10; left_intro x11; left_intro x12; left_intro x13; left_intro x14; left_intro x15; left_intro x16; left_intro x17; left_intro x18; left_intro x19; pureIntros ; subst_all_strings.
-Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) simple_intropattern(x13) simple_intropattern(x14) simple_intropattern(x15) simple_intropattern(x16) simple_intropattern(x17) simple_intropattern(x18) simple_intropattern(x19) simple_intropattern(x20) simple_intropattern_list(xs) := fail 0 "Intros: supports at most 20 arguments".
+Tactic Notation "Intros" ne_simple_intropattern_list(xs) := _Intros xs.
 Tactic Notation "Intro_any" := set_String_name ; pureIntros ; left_intro_any ; pureIntros ; subst_all_strings.
+Ltac _Intros_r xs :=
+  set_String_name;
+  ltac1_list_iter ltac:(fun x => right_intro x) xs;
+  pureIntros;
+  subst_all_strings.
+
 Tactic Notation "Intros_r" := set_String_name ; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) := set_String_name ; right_intro x0; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) := set_String_name ; right_intro x0; right_intro x1; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; right_intro x4; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; right_intro x4; right_intro x5; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; right_intro x4; right_intro x5; right_intro x6; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; right_intro x4; right_intro x5; right_intro x6; right_intro x7; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; right_intro x4; right_intro x5; right_intro x6; right_intro x7; right_intro x8; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; right_intro x4; right_intro x5; right_intro x6; right_intro x7; right_intro x8; right_intro x9; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; right_intro x4; right_intro x5; right_intro x6; right_intro x7; right_intro x8; right_intro x9; right_intro x10; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; right_intro x4; right_intro x5; right_intro x6; right_intro x7; right_intro x8; right_intro x9; right_intro x10; right_intro x11; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; right_intro x4; right_intro x5; right_intro x6; right_intro x7; right_intro x8; right_intro x9; right_intro x10; right_intro x11; right_intro x12; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) simple_intropattern(x13) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; right_intro x4; right_intro x5; right_intro x6; right_intro x7; right_intro x8; right_intro x9; right_intro x10; right_intro x11; right_intro x12; right_intro x13; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) simple_intropattern(x13) simple_intropattern(x14) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; right_intro x4; right_intro x5; right_intro x6; right_intro x7; right_intro x8; right_intro x9; right_intro x10; right_intro x11; right_intro x12; right_intro x13; right_intro x14; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) simple_intropattern(x13) simple_intropattern(x14) simple_intropattern(x15) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; right_intro x4; right_intro x5; right_intro x6; right_intro x7; right_intro x8; right_intro x9; right_intro x10; right_intro x11; right_intro x12; right_intro x13; right_intro x14; right_intro x15; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) simple_intropattern(x13) simple_intropattern(x14) simple_intropattern(x15) simple_intropattern(x16) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; right_intro x4; right_intro x5; right_intro x6; right_intro x7; right_intro x8; right_intro x9; right_intro x10; right_intro x11; right_intro x12; right_intro x13; right_intro x14; right_intro x15; right_intro x16; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) simple_intropattern(x13) simple_intropattern(x14) simple_intropattern(x15) simple_intropattern(x16) simple_intropattern(x17) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; right_intro x4; right_intro x5; right_intro x6; right_intro x7; right_intro x8; right_intro x9; right_intro x10; right_intro x11; right_intro x12; right_intro x13; right_intro x14; right_intro x15; right_intro x16; right_intro x17; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) simple_intropattern(x13) simple_intropattern(x14) simple_intropattern(x15) simple_intropattern(x16) simple_intropattern(x17) simple_intropattern(x18) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; right_intro x4; right_intro x5; right_intro x6; right_intro x7; right_intro x8; right_intro x9; right_intro x10; right_intro x11; right_intro x12; right_intro x13; right_intro x14; right_intro x15; right_intro x16; right_intro x17; right_intro x18; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) simple_intropattern(x13) simple_intropattern(x14) simple_intropattern(x15) simple_intropattern(x16) simple_intropattern(x17) simple_intropattern(x18) simple_intropattern(x19) := set_String_name ; right_intro x0; right_intro x1; right_intro x2; right_intro x3; right_intro x4; right_intro x5; right_intro x6; right_intro x7; right_intro x8; right_intro x9; right_intro x10; right_intro x11; right_intro x12; right_intro x13; right_intro x14; right_intro x15; right_intro x16; right_intro x17; right_intro x18; right_intro x19; pureIntros ; subst_all_strings.
-Tactic Notation "Intros_r" simple_intropattern(x0) simple_intropattern(x1) simple_intropattern(x2) simple_intropattern(x3) simple_intropattern(x4) simple_intropattern(x5) simple_intropattern(x6) simple_intropattern(x7) simple_intropattern(x8) simple_intropattern(x9) simple_intropattern(x10) simple_intropattern(x11) simple_intropattern(x12) simple_intropattern(x13) simple_intropattern(x14) simple_intropattern(x15) simple_intropattern(x16) simple_intropattern(x17) simple_intropattern(x18) simple_intropattern(x19) simple_intropattern(x20) simple_intropattern_list(xs) := fail 0 "Intros_r: supports at most 20 arguments".
+Tactic Notation "Intros_r" ne_simple_intropattern_list(xs) := _Intros_r xs.
 Tactic Notation "Intros_r_any" := set_String_name ; right_intro_any; pureIntros; subst_all_strings.
 
 Tactic Notation "eExists" := set_String_name ; asrt_simpl; reexists ; eexists ; subst_all_strings.
+Ltac _Exists xs :=
+  set_String_name;
+  ltac1_list_iter ltac:(fun x => asrt_simpl; rexists x) xs;
+  subst_all_strings.
+
 Tactic Notation "Exists" := set_String_name ; asrt_simpl ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) := set_String_name ; asrt_simpl; rexists x0 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3; asrt_simpl; rexists x4 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3; asrt_simpl; rexists x4; asrt_simpl; rexists x5 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3; asrt_simpl; rexists x4; asrt_simpl; rexists x5; asrt_simpl; rexists x6 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3; asrt_simpl; rexists x4; asrt_simpl; rexists x5; asrt_simpl; rexists x6; asrt_simpl; rexists x7 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3; asrt_simpl; rexists x4; asrt_simpl; rexists x5; asrt_simpl; rexists x6; asrt_simpl; rexists x7; asrt_simpl; rexists x8 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3; asrt_simpl; rexists x4; asrt_simpl; rexists x5; asrt_simpl; rexists x6; asrt_simpl; rexists x7; asrt_simpl; rexists x8; asrt_simpl; rexists x9 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3; asrt_simpl; rexists x4; asrt_simpl; rexists x5; asrt_simpl; rexists x6; asrt_simpl; rexists x7; asrt_simpl; rexists x8; asrt_simpl; rexists x9; asrt_simpl; rexists x10 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3; asrt_simpl; rexists x4; asrt_simpl; rexists x5; asrt_simpl; rexists x6; asrt_simpl; rexists x7; asrt_simpl; rexists x8; asrt_simpl; rexists x9; asrt_simpl; rexists x10; asrt_simpl; rexists x11 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3; asrt_simpl; rexists x4; asrt_simpl; rexists x5; asrt_simpl; rexists x6; asrt_simpl; rexists x7; asrt_simpl; rexists x8; asrt_simpl; rexists x9; asrt_simpl; rexists x10; asrt_simpl; rexists x11; asrt_simpl; rexists x12 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) uconstr(x13) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3; asrt_simpl; rexists x4; asrt_simpl; rexists x5; asrt_simpl; rexists x6; asrt_simpl; rexists x7; asrt_simpl; rexists x8; asrt_simpl; rexists x9; asrt_simpl; rexists x10; asrt_simpl; rexists x11; asrt_simpl; rexists x12; asrt_simpl; rexists x13 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) uconstr(x13) uconstr(x14) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3; asrt_simpl; rexists x4; asrt_simpl; rexists x5; asrt_simpl; rexists x6; asrt_simpl; rexists x7; asrt_simpl; rexists x8; asrt_simpl; rexists x9; asrt_simpl; rexists x10; asrt_simpl; rexists x11; asrt_simpl; rexists x12; asrt_simpl; rexists x13; asrt_simpl; rexists x14 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) uconstr(x13) uconstr(x14) uconstr(x15) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3; asrt_simpl; rexists x4; asrt_simpl; rexists x5; asrt_simpl; rexists x6; asrt_simpl; rexists x7; asrt_simpl; rexists x8; asrt_simpl; rexists x9; asrt_simpl; rexists x10; asrt_simpl; rexists x11; asrt_simpl; rexists x12; asrt_simpl; rexists x13; asrt_simpl; rexists x14; asrt_simpl; rexists x15 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) uconstr(x13) uconstr(x14) uconstr(x15) uconstr(x16) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3; asrt_simpl; rexists x4; asrt_simpl; rexists x5; asrt_simpl; rexists x6; asrt_simpl; rexists x7; asrt_simpl; rexists x8; asrt_simpl; rexists x9; asrt_simpl; rexists x10; asrt_simpl; rexists x11; asrt_simpl; rexists x12; asrt_simpl; rexists x13; asrt_simpl; rexists x14; asrt_simpl; rexists x15; asrt_simpl; rexists x16 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) uconstr(x13) uconstr(x14) uconstr(x15) uconstr(x16) uconstr(x17) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3; asrt_simpl; rexists x4; asrt_simpl; rexists x5; asrt_simpl; rexists x6; asrt_simpl; rexists x7; asrt_simpl; rexists x8; asrt_simpl; rexists x9; asrt_simpl; rexists x10; asrt_simpl; rexists x11; asrt_simpl; rexists x12; asrt_simpl; rexists x13; asrt_simpl; rexists x14; asrt_simpl; rexists x15; asrt_simpl; rexists x16; asrt_simpl; rexists x17 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) uconstr(x13) uconstr(x14) uconstr(x15) uconstr(x16) uconstr(x17) uconstr(x18) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3; asrt_simpl; rexists x4; asrt_simpl; rexists x5; asrt_simpl; rexists x6; asrt_simpl; rexists x7; asrt_simpl; rexists x8; asrt_simpl; rexists x9; asrt_simpl; rexists x10; asrt_simpl; rexists x11; asrt_simpl; rexists x12; asrt_simpl; rexists x13; asrt_simpl; rexists x14; asrt_simpl; rexists x15; asrt_simpl; rexists x16; asrt_simpl; rexists x17; asrt_simpl; rexists x18 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) uconstr(x13) uconstr(x14) uconstr(x15) uconstr(x16) uconstr(x17) uconstr(x18) uconstr(x19) := set_String_name ; asrt_simpl; rexists x0; asrt_simpl; rexists x1; asrt_simpl; rexists x2; asrt_simpl; rexists x3; asrt_simpl; rexists x4; asrt_simpl; rexists x5; asrt_simpl; rexists x6; asrt_simpl; rexists x7; asrt_simpl; rexists x8; asrt_simpl; rexists x9; asrt_simpl; rexists x10; asrt_simpl; rexists x11; asrt_simpl; rexists x12; asrt_simpl; rexists x13; asrt_simpl; rexists x14; asrt_simpl; rexists x15; asrt_simpl; rexists x16; asrt_simpl; rexists x17; asrt_simpl; rexists x18; asrt_simpl; rexists x19 ; subst_all_strings.
-Tactic Notation "Exists" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) uconstr(x13) uconstr(x14) uconstr(x15) uconstr(x16) uconstr(x17) uconstr(x18) uconstr(x19) uconstr(x20) uconstr_list(xs) := fail 0 "Exists: supports at most 20 arguments".
+Tactic Notation "Exists" ne_uconstr_list(xs) := _Exists xs.
+Ltac _Exists_l xs :=
+  set_String_name;
+  ltac1_list_iter ltac:(fun x => asrt_simpl; lexists x) xs;
+  subst_all_strings.
+
 Tactic Notation "Exists_l" := set_String_name ; asrt_simpl ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) := set_String_name ; asrt_simpl; lexists x0 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3; asrt_simpl; lexists x4 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3; asrt_simpl; lexists x4; asrt_simpl; lexists x5 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3; asrt_simpl; lexists x4; asrt_simpl; lexists x5; asrt_simpl; lexists x6 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3; asrt_simpl; lexists x4; asrt_simpl; lexists x5; asrt_simpl; lexists x6; asrt_simpl; lexists x7 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3; asrt_simpl; lexists x4; asrt_simpl; lexists x5; asrt_simpl; lexists x6; asrt_simpl; lexists x7; asrt_simpl; lexists x8 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3; asrt_simpl; lexists x4; asrt_simpl; lexists x5; asrt_simpl; lexists x6; asrt_simpl; lexists x7; asrt_simpl; lexists x8; asrt_simpl; lexists x9 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3; asrt_simpl; lexists x4; asrt_simpl; lexists x5; asrt_simpl; lexists x6; asrt_simpl; lexists x7; asrt_simpl; lexists x8; asrt_simpl; lexists x9; asrt_simpl; lexists x10 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3; asrt_simpl; lexists x4; asrt_simpl; lexists x5; asrt_simpl; lexists x6; asrt_simpl; lexists x7; asrt_simpl; lexists x8; asrt_simpl; lexists x9; asrt_simpl; lexists x10; asrt_simpl; lexists x11 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3; asrt_simpl; lexists x4; asrt_simpl; lexists x5; asrt_simpl; lexists x6; asrt_simpl; lexists x7; asrt_simpl; lexists x8; asrt_simpl; lexists x9; asrt_simpl; lexists x10; asrt_simpl; lexists x11; asrt_simpl; lexists x12 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) uconstr(x13) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3; asrt_simpl; lexists x4; asrt_simpl; lexists x5; asrt_simpl; lexists x6; asrt_simpl; lexists x7; asrt_simpl; lexists x8; asrt_simpl; lexists x9; asrt_simpl; lexists x10; asrt_simpl; lexists x11; asrt_simpl; lexists x12; asrt_simpl; lexists x13 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) uconstr(x13) uconstr(x14) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3; asrt_simpl; lexists x4; asrt_simpl; lexists x5; asrt_simpl; lexists x6; asrt_simpl; lexists x7; asrt_simpl; lexists x8; asrt_simpl; lexists x9; asrt_simpl; lexists x10; asrt_simpl; lexists x11; asrt_simpl; lexists x12; asrt_simpl; lexists x13; asrt_simpl; lexists x14 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) uconstr(x13) uconstr(x14) uconstr(x15) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3; asrt_simpl; lexists x4; asrt_simpl; lexists x5; asrt_simpl; lexists x6; asrt_simpl; lexists x7; asrt_simpl; lexists x8; asrt_simpl; lexists x9; asrt_simpl; lexists x10; asrt_simpl; lexists x11; asrt_simpl; lexists x12; asrt_simpl; lexists x13; asrt_simpl; lexists x14; asrt_simpl; lexists x15 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) uconstr(x13) uconstr(x14) uconstr(x15) uconstr(x16) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3; asrt_simpl; lexists x4; asrt_simpl; lexists x5; asrt_simpl; lexists x6; asrt_simpl; lexists x7; asrt_simpl; lexists x8; asrt_simpl; lexists x9; asrt_simpl; lexists x10; asrt_simpl; lexists x11; asrt_simpl; lexists x12; asrt_simpl; lexists x13; asrt_simpl; lexists x14; asrt_simpl; lexists x15; asrt_simpl; lexists x16 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) uconstr(x13) uconstr(x14) uconstr(x15) uconstr(x16) uconstr(x17) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3; asrt_simpl; lexists x4; asrt_simpl; lexists x5; asrt_simpl; lexists x6; asrt_simpl; lexists x7; asrt_simpl; lexists x8; asrt_simpl; lexists x9; asrt_simpl; lexists x10; asrt_simpl; lexists x11; asrt_simpl; lexists x12; asrt_simpl; lexists x13; asrt_simpl; lexists x14; asrt_simpl; lexists x15; asrt_simpl; lexists x16; asrt_simpl; lexists x17 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) uconstr(x13) uconstr(x14) uconstr(x15) uconstr(x16) uconstr(x17) uconstr(x18) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3; asrt_simpl; lexists x4; asrt_simpl; lexists x5; asrt_simpl; lexists x6; asrt_simpl; lexists x7; asrt_simpl; lexists x8; asrt_simpl; lexists x9; asrt_simpl; lexists x10; asrt_simpl; lexists x11; asrt_simpl; lexists x12; asrt_simpl; lexists x13; asrt_simpl; lexists x14; asrt_simpl; lexists x15; asrt_simpl; lexists x16; asrt_simpl; lexists x17; asrt_simpl; lexists x18 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) uconstr(x13) uconstr(x14) uconstr(x15) uconstr(x16) uconstr(x17) uconstr(x18) uconstr(x19) := set_String_name ; asrt_simpl; lexists x0; asrt_simpl; lexists x1; asrt_simpl; lexists x2; asrt_simpl; lexists x3; asrt_simpl; lexists x4; asrt_simpl; lexists x5; asrt_simpl; lexists x6; asrt_simpl; lexists x7; asrt_simpl; lexists x8; asrt_simpl; lexists x9; asrt_simpl; lexists x10; asrt_simpl; lexists x11; asrt_simpl; lexists x12; asrt_simpl; lexists x13; asrt_simpl; lexists x14; asrt_simpl; lexists x15; asrt_simpl; lexists x16; asrt_simpl; lexists x17; asrt_simpl; lexists x18; asrt_simpl; lexists x19 ; subst_all_strings.
-Tactic Notation "Exists_l" uconstr(x0) uconstr(x1) uconstr(x2) uconstr(x3) uconstr(x4) uconstr(x5) uconstr(x6) uconstr(x7) uconstr(x8) uconstr(x9) uconstr(x10) uconstr(x11) uconstr(x12) uconstr(x13) uconstr(x14) uconstr(x15) uconstr(x16) uconstr(x17) uconstr(x18) uconstr(x19) uconstr(x20) uconstr_list(xs) := fail 0 "Exists_l: supports at most 20 arguments".
+Tactic Notation "Exists_l" ne_uconstr_list(xs) := _Exists_l xs.
 Tactic Notation "normalize"  := set_String_name ; asrt_simpl ; subst_all_strings.
 
 Tactic Notation "Left" := set_String_name ; rewrite <- derivable1_orp_intros1 ; subst_all_strings.
@@ -1725,7 +1356,8 @@ Ltac LLM_pre_process_tac tac :=
     | |-  _ \/ _ => left 
     | _ => idtac
   end;
-  intros; poly_store_unfold;
+  intros;
+  cbn [poly_store poly_undef_store];
   Rename pre_process_pure ;
   try (solve [entailer_with tac]).
 
@@ -1876,7 +1508,7 @@ Ltac sepcon_cancel1_p' p P :=
             eapply sepcon_cancel_lhs_emp;
             idtac
         | |- _ |-- ?Q =>
-            pure_find_lift x Q; sepcon_lift x;
+            sepcon_contains x Q; sepcon_lift x;
             eapply derivable1_sepcon_mono; [derivable1_refl_tac | ];
             idtac
         end
@@ -1931,7 +1563,7 @@ Ltac sepcon_right_assoc :=
   repeat progress sepcon_assoc_change.
 
 Tactic Notation "cancel" uconstr(p) :=
-  sepcon_right_assoc; cancel_exactly1_or_fail p.
+  normalize_ptr_size; sepcon_right_assoc; cancel_exactly1_or_fail p.
 
 (* ----- Lemma application on spatial goals ----- *)
 
@@ -2157,23 +1789,24 @@ Ltac aggressive_pre_process :=
     | |-  _ \/ _ => right
     | _ => idtac
   end;
-  intros; poly_store_unfold;
+  intros;
   Rename pre_process_pure ;
   repeat (split_pure_spatial || split_pures);
-  try solve [cancel];
   try match goal with
       | |- emp |-- “ _ ” => dump_pre_spatial
       | |- emp |-- emp => cancel
-      end.
+      end;
+  try solve [cancel].
 
+(* Normalise sepcon associativity in the instantiated lemma so that split-goal
+   conclusions can match the goal with exact, avoiding a full sep_apply. *)
 Ltac Goal_apply_finish H :=
   let H_inst := fresh "H_goal_inst" in
   pose proof H as H_inst;
   repeat rewrite truep_andp_left_equiv in H_inst;
   repeat rewrite truep_andp_right_equiv in H_inst;
-  first [ exact H_inst
-        | (sepcon_assoc_change_in H_inst; exact H_inst)
-        | sep_apply H_inst; entailer! ].
+  sepcon_assoc_change_in H_inst;
+  first [ exact H_inst | sep_apply H_inst; entailer! ].
 
 Ltac Goal_apply_used H used :=
   lazymatch type of H with

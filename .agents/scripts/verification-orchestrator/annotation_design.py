@@ -58,7 +58,7 @@ def annotation_vc_comparison_errors(
     current_vcs: dict[str, Any],
     require_resolved: bool = True,
 ) -> list[str]:
-    """Match each failed VC to the current manual without duplicating statements."""
+    """Match failed VCs to current generated identities without duplicating statements."""
 
     failed_errors = _failed_vcs_errors(failed_vcs)
     if failed_errors:

@@ -3,7 +3,7 @@
 id : 1
 priority : core(1)
 left : IntPtrArray2::full(?p, ?n, ?rows) at 0
-right : data_at(?p + (?i * sizeof(PTR)), PTR, ?v) at 1
+right : data_at(pointer_offset(p, ?i, PTR), PTR, ?v) at 1
 check : infer(0 <= i);
         infer(i < n);
 action : right_erase(1);
@@ -17,7 +17,7 @@ id : 2
 priority : post(1)
 left : IntPtrArray2::missing_i(?p, ?n, ?i, ?row_ptr, ?rows) at 0
        IntArray::full(row_ptr, Zlength{Z}(rows[i]), rows[i]) at 1
-       data_at(p + i * sizeof(PTR), PTR, row_ptr) at 2
+       data_at(pointer_offset(p, i, PTR), PTR, row_ptr) at 2
 check : infer(0 <= i);
         infer(i < n);
 action : left_erase(2);

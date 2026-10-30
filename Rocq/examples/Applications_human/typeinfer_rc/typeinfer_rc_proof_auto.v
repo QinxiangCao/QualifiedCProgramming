@@ -1,0 +1,466 @@
+From SimpleC.Verification Require Import VCPrelude.
+From SimpleC.EE.Applications_human.typeinfer_rc Require Import typeinfer_rc_goal.
+Import naive_C_Rules.
+Require Import SimpleC.EE.Applications_human.typeinfer_rc.typeinfer_rc.
+Require Import SimpleC.EE.Applications_human.typeinfer_rc.typeinfer_rc_lib.
+Local Open Scope sac.
+
+Lemma proof_of_copy_atype_safety_wit_1_nonnull : copy_atype_safety_wit_1_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_copy_atype_safety_wit_2_null : copy_atype_safety_wit_2_null.
+Proof. Admitted.
+
+Lemma proof_of_copy_atype_safety_wit_3_nonnull : copy_atype_safety_wit_3_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_copy_atype_safety_wit_4_null : copy_atype_safety_wit_4_null.
+Proof. Admitted.
+
+Lemma proof_of_copy_atype_safety_wit_5_nonnull : copy_atype_safety_wit_5_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_copy_atype_safety_wit_6_nonnull : copy_atype_safety_wit_6_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_copy_atype_partial_solve_wit_1_nonnull : copy_atype_partial_solve_wit_1_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_safety_wit_1_nonnull : free_atype_safety_wit_1_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_safety_wit_2_null : free_atype_safety_wit_2_null.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_safety_wit_3_nonnull : free_atype_safety_wit_3_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_safety_wit_4_null : free_atype_safety_wit_4_null.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_safety_wit_6_nonnull : free_atype_safety_wit_6_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_safety_wit_7_nonnull : free_atype_safety_wit_7_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_safety_wit_8_nonnull : free_atype_safety_wit_8_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_safety_wit_9_nonnull : free_atype_safety_wit_9_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_return_wit_2_nonnull : free_atype_return_wit_2_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_partial_solve_wit_1_nonnull : free_atype_partial_solve_wit_1_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_partial_solve_wit_2_nonnull : free_atype_partial_solve_wit_2_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_partial_solve_wit_3_nonnull : free_atype_partial_solve_wit_3_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_partial_solve_wit_4_nonnull : free_atype_partial_solve_wit_4_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_partial_solve_wit_5_nonnull : free_atype_partial_solve_wit_5_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_partial_solve_wit_6_nonnull : free_atype_partial_solve_wit_6_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_partial_solve_wit_7_nonnull : free_atype_partial_solve_wit_7_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_partial_solve_wit_8_nonnull : free_atype_partial_solve_wit_8_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_free_atype_partial_solve_wit_9_nonnull : free_atype_partial_solve_wit_9_nonnull.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify_safety_wit_1 : atype_unify_safety_wit_1.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify_safety_wit_2 : atype_unify_safety_wit_2.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify_safety_wit_3 : atype_unify_safety_wit_3.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify_entail_wit_1_1 : atype_unify_entail_wit_1_1.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify_entail_wit_2_2 : atype_unify_entail_wit_2_2.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify_partial_solve_wit_1 : atype_unify_partial_solve_wit_1.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify_partial_solve_wit_2 : atype_unify_partial_solve_wit_2.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify_partial_solve_wit_3_pure : atype_unify_partial_solve_wit_3_pure.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify_partial_solve_wit_3 : atype_unify_partial_solve_wit_3.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify_partial_solve_wit_4 : atype_unify_partial_solve_wit_4.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify_partial_solve_wit_5 : atype_unify_partial_solve_wit_5.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify_partial_solve_wit_6 : atype_unify_partial_solve_wit_6.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify_partial_solve_wit_7 : atype_unify_partial_solve_wit_7.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify_partial_solve_wit_8 : atype_unify_partial_solve_wit_8.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify_partial_solve_wit_9 : atype_unify_partial_solve_wit_9.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify1_safety_wit_1 : atype_unify1_safety_wit_1.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify1_safety_wit_2 : atype_unify1_safety_wit_2.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify1_safety_wit_3 : atype_unify1_safety_wit_3.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify1_entail_wit_1_1 : atype_unify1_entail_wit_1_1.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify1_entail_wit_2_2 : atype_unify1_entail_wit_2_2.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify1_partial_solve_wit_1 : atype_unify1_partial_solve_wit_1.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify1_partial_solve_wit_2 : atype_unify1_partial_solve_wit_2.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify1_partial_solve_wit_3_pure : atype_unify1_partial_solve_wit_3_pure.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify1_partial_solve_wit_3 : atype_unify1_partial_solve_wit_3.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify1_partial_solve_wit_4 : atype_unify1_partial_solve_wit_4.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify1_partial_solve_wit_5 : atype_unify1_partial_solve_wit_5.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify1_partial_solve_wit_6 : atype_unify1_partial_solve_wit_6.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify1_partial_solve_wit_7 : atype_unify1_partial_solve_wit_7.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify1_partial_solve_wit_8 : atype_unify1_partial_solve_wit_8.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify1_partial_solve_wit_9 : atype_unify1_partial_solve_wit_9.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_1 : atype_unify2_safety_wit_1.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_2_same_node : atype_unify2_safety_wit_2_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_3_distinct_nodes : atype_unify2_safety_wit_3_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_4_same_node : atype_unify2_safety_wit_4_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_5_distinct_nodes : atype_unify2_safety_wit_5_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_6_same_node : atype_unify2_safety_wit_6_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_7_distinct_nodes : atype_unify2_safety_wit_7_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_8_same_node : atype_unify2_safety_wit_8_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_9_distinct_nodes : atype_unify2_safety_wit_9_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_10_same_node : atype_unify2_safety_wit_10_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_11_distinct_nodes : atype_unify2_safety_wit_11_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_12_same_node : atype_unify2_safety_wit_12_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_13_distinct_nodes : atype_unify2_safety_wit_13_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_14_same_node : atype_unify2_safety_wit_14_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_15_distinct_nodes : atype_unify2_safety_wit_15_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_16_distinct_nodes : atype_unify2_safety_wit_16_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_17_distinct_nodes : atype_unify2_safety_wit_17_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_18_distinct_nodes : atype_unify2_safety_wit_18_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_19_distinct_nodes : atype_unify2_safety_wit_19_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_20_distinct_nodes : atype_unify2_safety_wit_20_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_21_same_node : atype_unify2_safety_wit_21_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_22_distinct_nodes : atype_unify2_safety_wit_22_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_23_distinct_nodes : atype_unify2_safety_wit_23_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_24_same_node : atype_unify2_safety_wit_24_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_25_same_node : atype_unify2_safety_wit_25_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_26_distinct_nodes : atype_unify2_safety_wit_26_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_27_distinct_nodes : atype_unify2_safety_wit_27_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_28_same_node : atype_unify2_safety_wit_28_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_29_same_node : atype_unify2_safety_wit_29_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_30_same_node : atype_unify2_safety_wit_30_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_31_distinct_nodes : atype_unify2_safety_wit_31_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_32_same_node : atype_unify2_safety_wit_32_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_33_same_node : atype_unify2_safety_wit_33_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_34_distinct_nodes : atype_unify2_safety_wit_34_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_35_distinct_nodes : atype_unify2_safety_wit_35_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_36_same_node : atype_unify2_safety_wit_36_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_37_same_node : atype_unify2_safety_wit_37_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_38_distinct_nodes : atype_unify2_safety_wit_38_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_39_distinct_nodes : atype_unify2_safety_wit_39_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_40_same_node : atype_unify2_safety_wit_40_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_41_distinct_nodes : atype_unify2_safety_wit_41_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_safety_wit_42_distinct_nodes : atype_unify2_safety_wit_42_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_entail_wit_1_2_same_node : atype_unify2_entail_wit_1_2_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_entail_wit_1_4_distinct_nodes : atype_unify2_entail_wit_1_4_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_entail_wit_2_1_same_node : atype_unify2_entail_wit_2_1_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_entail_wit_2_3_distinct_nodes : atype_unify2_entail_wit_2_3_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_entail_wit_3_2_distinct_nodes : atype_unify2_entail_wit_3_2_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_entail_wit_4_1_distinct_nodes : atype_unify2_entail_wit_4_1_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_1_same_node : atype_unify2_partial_solve_wit_1_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_2_distinct_nodes : atype_unify2_partial_solve_wit_2_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_3_same_node : atype_unify2_partial_solve_wit_3_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_4_same_node_pure : atype_unify2_partial_solve_wit_4_same_node_pure.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_4_same_node : atype_unify2_partial_solve_wit_4_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_5_distinct_nodes : atype_unify2_partial_solve_wit_5_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_6_distinct_nodes_pure : atype_unify2_partial_solve_wit_6_distinct_nodes_pure.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_6_distinct_nodes : atype_unify2_partial_solve_wit_6_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_7_same_node : atype_unify2_partial_solve_wit_7_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_8_distinct_nodes : atype_unify2_partial_solve_wit_8_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_9_same_node : atype_unify2_partial_solve_wit_9_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_10_distinct_nodes : atype_unify2_partial_solve_wit_10_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_11_same_node : atype_unify2_partial_solve_wit_11_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_12_distinct_nodes : atype_unify2_partial_solve_wit_12_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_13_distinct_nodes : atype_unify2_partial_solve_wit_13_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_14_distinct_nodes_pure : atype_unify2_partial_solve_wit_14_distinct_nodes_pure.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_14_distinct_nodes : atype_unify2_partial_solve_wit_14_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_15_distinct_nodes : atype_unify2_partial_solve_wit_15_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_16_distinct_nodes : atype_unify2_partial_solve_wit_16_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_17_same_node : atype_unify2_partial_solve_wit_17_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_18_same_node : atype_unify2_partial_solve_wit_18_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_19_same_node : atype_unify2_partial_solve_wit_19_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_20_distinct_nodes : atype_unify2_partial_solve_wit_20_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_21_same_node : atype_unify2_partial_solve_wit_21_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_22_distinct_nodes : atype_unify2_partial_solve_wit_22_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_23_same_node : atype_unify2_partial_solve_wit_23_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_24_distinct_nodes : atype_unify2_partial_solve_wit_24_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_25_same_node : atype_unify2_partial_solve_wit_25_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_26_distinct_nodes : atype_unify2_partial_solve_wit_26_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_27_same_node : atype_unify2_partial_solve_wit_27_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_28_distinct_nodes : atype_unify2_partial_solve_wit_28_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_29_same_node : atype_unify2_partial_solve_wit_29_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_30_distinct_nodes : atype_unify2_partial_solve_wit_30_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_31_same_node : atype_unify2_partial_solve_wit_31_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_32_same_node : atype_unify2_partial_solve_wit_32_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_33_distinct_nodes : atype_unify2_partial_solve_wit_33_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_34_same_node : atype_unify2_partial_solve_wit_34_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_35_distinct_nodes : atype_unify2_partial_solve_wit_35_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_36_same_node : atype_unify2_partial_solve_wit_36_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_37_distinct_nodes : atype_unify2_partial_solve_wit_37_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_38_same_node : atype_unify2_partial_solve_wit_38_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_39_distinct_nodes : atype_unify2_partial_solve_wit_39_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_40_same_node : atype_unify2_partial_solve_wit_40_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_41_distinct_nodes : atype_unify2_partial_solve_wit_41_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_42_same_node : atype_unify2_partial_solve_wit_42_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_43_distinct_nodes : atype_unify2_partial_solve_wit_43_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_44_same_node : atype_unify2_partial_solve_wit_44_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_45_distinct_nodes : atype_unify2_partial_solve_wit_45_distinct_nodes.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_46_same_node : atype_unify2_partial_solve_wit_46_same_node.
+Proof. Admitted.
+
+Lemma proof_of_atype_unify2_partial_solve_wit_47_distinct_nodes : atype_unify2_partial_solve_wit_47_distinct_nodes.
+Proof. Admitted.
+

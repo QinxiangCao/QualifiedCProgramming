@@ -50,7 +50,7 @@ theorem proof_of_veci_new_which_implies_wit_1 : veci_new_which_implies_wit_1 := 
 
 theorem proof_of_veci_delete_return_wit_1_split_goal_spatial : veci_delete_return_wit_1_split_goal_spatial := by
   unfold veci_delete_return_wit_1_split_goal_spatial
-  intro v_pre xs cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro xs v_pre cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   unfold veci_shell
   split_pure_spatial
   · sep_apply (store_int_undef_store_int naive_C_Rules (&((v_pre # "veci_t") ->ₛ "size")) (Zlength xs))
@@ -64,8 +64,8 @@ theorem proof_of_veci_delete_return_wit_1_split_goal_spatial : veci_delete_retur
 theorem proof_of_veci_delete_return_wit_1 : veci_delete_return_wit_1 := by
   unfold veci_delete_return_wit_1
   right
-  intro v_pre xs cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-  exact proof_of_veci_delete_return_wit_1_split_goal_spatial v_pre xs cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro xs v_pre cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  exact proof_of_veci_delete_return_wit_1_split_goal_spatial xs v_pre cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 
 theorem proof_of_veci_delete_which_implies_wit_1 : veci_delete_which_implies_wit_1 := by
@@ -89,7 +89,7 @@ theorem proof_of_veci_delete_which_implies_wit_1 : veci_delete_which_implies_wit
 theorem proof_of_veci_begin_return_wit_1 : veci_begin_return_wit_1 := by
   unfold veci_begin_return_wit_1
   left
-  intro v_pre xs cap_2 buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro xs v_pre cap_2 buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   refine Automation.exp_right_rule (CRules := naive_C_Rules) cap_2 ?_
   unfold veci_raw veci_header veci_buffer
   split_pure_spatial
@@ -118,7 +118,7 @@ theorem proof_of_veci_begin_which_implies_wit_1 : veci_begin_which_implies_wit_1
 
 theorem proof_of_veci_size_return_wit_1_split_goal_spatial : veci_size_return_wit_1_split_goal_spatial := by
   unfold veci_size_return_wit_1_split_goal_spatial
-  intro v_pre xs cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro xs v_pre cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   unfold store_veci
   refine Automation.exp_right_rule (CRules := naive_C_Rules) buf ?_
   refine Automation.exp_right_rule (CRules := naive_C_Rules) cap ?_
@@ -132,8 +132,8 @@ theorem proof_of_veci_size_return_wit_1_split_goal_spatial : veci_size_return_wi
 theorem proof_of_veci_size_return_wit_1 : veci_size_return_wit_1 := by
   unfold veci_size_return_wit_1
   right
-  intro v_pre xs cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-  exact proof_of_veci_size_return_wit_1_split_goal_spatial v_pre xs cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro xs v_pre cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  exact proof_of_veci_size_return_wit_1_split_goal_spatial xs v_pre cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 
 theorem proof_of_veci_size_which_implies_wit_1 : veci_size_which_implies_wit_1 := by
@@ -156,7 +156,7 @@ theorem proof_of_veci_size_which_implies_wit_1 : veci_size_which_implies_wit_1 :
 
 theorem proof_of_veci_resize_return_wit_1_split_goal_spatial : veci_resize_return_wit_1_split_goal_spatial := by
   unfold veci_resize_return_wit_1_split_goal_spatial
-  intro k_pre v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro cap buf xs v_pre k_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   unfold veci_raw veci_header veci_buffer
   have hlen : Zlength (sublist 0 k_pre xs) = k_pre := by
     simpa only [Int.sub_zero] using ListLib.Zlength_sublist 0 k_pre xs (by omega) PreH13
@@ -171,8 +171,8 @@ theorem proof_of_veci_resize_return_wit_1_split_goal_spatial : veci_resize_retur
 theorem proof_of_veci_resize_return_wit_1 : veci_resize_return_wit_1 := by
   unfold veci_resize_return_wit_1
   right
-  intro k_pre v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-  exact proof_of_veci_resize_return_wit_1_split_goal_spatial k_pre v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro cap buf xs v_pre k_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  exact proof_of_veci_resize_return_wit_1_split_goal_spatial cap buf xs v_pre k_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
 
 
 theorem proof_of_veci_resize_which_implies_wit_1_split_goal_1 : veci_resize_which_implies_wit_1_split_goal_1 := by
@@ -273,32 +273,32 @@ theorem proof_of_veci_resize_which_implies_wit_1 : veci_resize_which_implies_wit
 
 theorem proof_of_veci_push_entail_wit_1_2_split_goal_1 : veci_push_entail_wit_1_2_split_goal_1 := by
   unfold veci_push_entail_wit_1_2_split_goal_1
-  intro v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro cap buf xs v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   intro h
   exact ⟨rfl, rfl⟩
 
 
 theorem proof_of_veci_push_entail_wit_1_2_split_goal_2 : veci_push_entail_wit_1_2_split_goal_2 := by
   unfold veci_push_entail_wit_1_2_split_goal_2
-  intro v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro cap buf xs v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   omega
 
 
 theorem proof_of_veci_push_entail_wit_1_2 : veci_push_entail_wit_1_2 := by
   unfold veci_push_entail_wit_1_2
   right
-  intro v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro cap buf xs v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_veci_push_entail_wit_1_2_split_goal_1 v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-      | exact proof_of_veci_push_entail_wit_1_2_split_goal_2 v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_veci_push_entail_wit_1_2_split_goal_1 cap buf xs v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_veci_push_entail_wit_1_2_split_goal_2 cap buf xs v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
 
 
 theorem proof_of_veci_push_partial_solve_wit_2_pure_split_goal_1 : veci_push_partial_solve_wit_2_pure_split_goal_1 := by
   unfold veci_push_partial_solve_wit_2_pure_split_goal_1
-  intro e_pre v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro cap buf xs v_pre e_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have hg := (PreH18 PreH9).1.1
   obtain ⟨hstride, hcap, htwice, hnew, halloc, haddr⟩ := hg
   have he : cap * 2 + 1 = 2 * cap + 1 := by omega
@@ -311,8 +311,8 @@ theorem proof_of_veci_push_partial_solve_wit_2_pure_split_goal_1 : veci_push_par
 theorem proof_of_veci_push_partial_solve_wit_2_pure : veci_push_partial_solve_wit_2_pure := by
   unfold veci_push_partial_solve_wit_2_pure
   right
-  intro e_pre v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-  exact proof_of_veci_push_partial_solve_wit_2_pure_split_goal_1 e_pre v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro cap buf xs v_pre e_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  exact proof_of_veci_push_partial_solve_wit_2_pure_split_goal_1 cap buf xs v_pre e_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
 
 
 theorem proof_of_veci_push_which_implies_wit_1_split_goal_1 : veci_push_which_implies_wit_1_split_goal_1 := by
@@ -383,7 +383,7 @@ theorem proof_of_veci_push_which_implies_wit_1 : veci_push_which_implies_wit_1 :
 theorem proof_of_veci_push_which_implies_wit_2 : veci_push_which_implies_wit_2 := by
   unfold veci_push_which_implies_wit_2
   left
-  intro v_pre cap buf xs curcap_2 curbuf_2 e PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro cap buf xs v_pre curcap_2 curbuf_2 e PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   refine Automation.exp_right_rule (CRules := naive_C_Rules) curbuf_2 ?_
   refine Automation.exp_right_rule (CRules := naive_C_Rules) curcap_2 ?_
   unfold veci_raw veci_header veci_buffer
@@ -431,7 +431,7 @@ theorem proof_of_vecp_new_which_implies_wit_1 : vecp_new_which_implies_wit_1 := 
 
 theorem proof_of_vecp_delete_return_wit_1_split_goal_spatial : vecp_delete_return_wit_1_split_goal_spatial := by
   unfold vecp_delete_return_wit_1_split_goal_spatial
-  intro v_pre xs cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro xs v_pre cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   unfold vecp_shell
   split_pure_spatial
   · sep_apply (store_int_undef_store_int naive_C_Rules (&((v_pre # "vecp_t") ->ₛ "size")) (Zlength xs))
@@ -445,8 +445,8 @@ theorem proof_of_vecp_delete_return_wit_1_split_goal_spatial : vecp_delete_retur
 theorem proof_of_vecp_delete_return_wit_1 : vecp_delete_return_wit_1 := by
   unfold vecp_delete_return_wit_1
   right
-  intro v_pre xs cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-  exact proof_of_vecp_delete_return_wit_1_split_goal_spatial v_pre xs cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro xs v_pre cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  exact proof_of_vecp_delete_return_wit_1_split_goal_spatial xs v_pre cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 
 theorem proof_of_vecp_delete_which_implies_wit_1 : vecp_delete_which_implies_wit_1 := by
@@ -471,7 +471,7 @@ theorem proof_of_vecp_delete_which_implies_wit_1 : vecp_delete_which_implies_wit
 theorem proof_of_vecp_begin_return_wit_1 : vecp_begin_return_wit_1 := by
   unfold vecp_begin_return_wit_1
   left
-  intro v_pre xs cap_2 buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro xs v_pre cap_2 buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   refine Automation.exp_right_rule (CRules := naive_C_Rules) cap_2 ?_
   unfold vecp_raw vecp_header vecp_buffer
   simp only [ptr_size_Z_eq_sizeof]
@@ -502,7 +502,7 @@ theorem proof_of_vecp_begin_which_implies_wit_1 : vecp_begin_which_implies_wit_1
 
 theorem proof_of_vecp_size_return_wit_1_split_goal_spatial : vecp_size_return_wit_1_split_goal_spatial := by
   unfold vecp_size_return_wit_1_split_goal_spatial
-  intro v_pre xs cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro xs v_pre cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   unfold store_vecp
   refine Automation.exp_right_rule (CRules := naive_C_Rules) buf ?_
   refine Automation.exp_right_rule (CRules := naive_C_Rules) cap ?_
@@ -517,8 +517,8 @@ theorem proof_of_vecp_size_return_wit_1_split_goal_spatial : vecp_size_return_wi
 theorem proof_of_vecp_size_return_wit_1 : vecp_size_return_wit_1 := by
   unfold vecp_size_return_wit_1
   right
-  intro v_pre xs cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-  exact proof_of_vecp_size_return_wit_1_split_goal_spatial v_pre xs cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro xs v_pre cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  exact proof_of_vecp_size_return_wit_1_split_goal_spatial xs v_pre cap buf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 
 theorem proof_of_vecp_size_which_implies_wit_1 : vecp_size_which_implies_wit_1 := by
@@ -542,7 +542,7 @@ theorem proof_of_vecp_size_which_implies_wit_1 : vecp_size_which_implies_wit_1 :
 
 theorem proof_of_vecp_resize_return_wit_1_split_goal_spatial : vecp_resize_return_wit_1_split_goal_spatial := by
   unfold vecp_resize_return_wit_1_split_goal_spatial
-  intro k_pre v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro cap buf xs v_pre k_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   unfold vecp_raw vecp_header vecp_buffer
   simp only [ptr_size_Z_eq_sizeof]
   have hlen : Zlength (sublist 0 k_pre xs) = k_pre := by
@@ -558,8 +558,8 @@ theorem proof_of_vecp_resize_return_wit_1_split_goal_spatial : vecp_resize_retur
 theorem proof_of_vecp_resize_return_wit_1 : vecp_resize_return_wit_1 := by
   unfold vecp_resize_return_wit_1
   right
-  intro k_pre v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-  exact proof_of_vecp_resize_return_wit_1_split_goal_spatial k_pre v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro cap buf xs v_pre k_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  exact proof_of_vecp_resize_return_wit_1_split_goal_spatial cap buf xs v_pre k_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
 
 
 theorem proof_of_vecp_resize_which_implies_wit_1_split_goal_1 : vecp_resize_which_implies_wit_1_split_goal_1 := by
@@ -667,32 +667,32 @@ theorem proof_of_vecp_resize_which_implies_wit_1 : vecp_resize_which_implies_wit
 
 theorem proof_of_vecp_push_entail_wit_1_2_split_goal_1 : vecp_push_entail_wit_1_2_split_goal_1 := by
   unfold vecp_push_entail_wit_1_2_split_goal_1
-  intro v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro cap buf xs v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   intro h
   exact ⟨rfl, rfl⟩
 
 
 theorem proof_of_vecp_push_entail_wit_1_2_split_goal_2 : vecp_push_entail_wit_1_2_split_goal_2 := by
   unfold vecp_push_entail_wit_1_2_split_goal_2
-  intro v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro cap buf xs v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   omega
 
 
 theorem proof_of_vecp_push_entail_wit_1_2 : vecp_push_entail_wit_1_2 := by
   unfold vecp_push_entail_wit_1_2
   right
-  intro v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro cap buf xs v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_vecp_push_entail_wit_1_2_split_goal_1 v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-      | exact proof_of_vecp_push_entail_wit_1_2_split_goal_2 v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_vecp_push_entail_wit_1_2_split_goal_1 cap buf xs v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_vecp_push_entail_wit_1_2_split_goal_2 cap buf xs v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
 
 
 theorem proof_of_vecp_push_partial_solve_wit_2_pure_split_goal_1 : vecp_push_partial_solve_wit_2_pure_split_goal_1 := by
   unfold vecp_push_partial_solve_wit_2_pure_split_goal_1
-  intro e_pre v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro cap buf xs v_pre e_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have hg := (PreH16 PreH7).1.1
   obtain ⟨hstride, hcap, htwice, hnew, halloc, haddr⟩ := hg
   have he : cap * 2 + 1 = 2 * cap + 1 := by omega
@@ -705,8 +705,8 @@ theorem proof_of_vecp_push_partial_solve_wit_2_pure_split_goal_1 : vecp_push_par
 theorem proof_of_vecp_push_partial_solve_wit_2_pure : vecp_push_partial_solve_wit_2_pure := by
   unfold vecp_push_partial_solve_wit_2_pure
   right
-  intro e_pre v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
-  exact proof_of_vecp_push_partial_solve_wit_2_pure_split_goal_1 e_pre v_pre cap buf xs PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro cap buf xs v_pre e_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  exact proof_of_vecp_push_partial_solve_wit_2_pure_split_goal_1 cap buf xs v_pre e_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
 
 
 theorem proof_of_vecp_push_which_implies_wit_1_split_goal_1 : vecp_push_which_implies_wit_1_split_goal_1 := by
@@ -777,7 +777,7 @@ theorem proof_of_vecp_push_which_implies_wit_1 : vecp_push_which_implies_wit_1 :
 theorem proof_of_vecp_push_which_implies_wit_2 : vecp_push_which_implies_wit_2 := by
   unfold vecp_push_which_implies_wit_2
   left
-  intro v_pre cap buf xs curcap_2 curbuf_2 e PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro cap buf xs v_pre curcap_2 curbuf_2 e PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   refine Automation.exp_right_rule (CRules := naive_C_Rules) curbuf_2 ?_
   refine Automation.exp_right_rule (CRules := naive_C_Rules) curcap_2 ?_
   unfold vecp_raw vecp_header vecp_buffer

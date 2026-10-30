@@ -1,35 +1,28 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.CDCL.CDCL_qcp_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
 
 Definition CDCL_qcp_strategy7 :=
   forall (j : Z) (live : Z) (n : Z) (original_count : Z) (snap : dense_snapshot) (F : cnf) (old : cdcl_view) (after_clear : cdcl_view) (target : Z) (cap : Z) (st : (@list Z)) (un : (@list Z)) (tc : (@list Z)) (dl : Z) (ranks : (Z -> (@option nat))) (n2 : Z) (variable : Z) (current : cdcl_view) (un_ptr : Z),
     TT &&
-    (“ (backtrack_inner old current after_clear n target variable j live cap ( installed_clauses ( cdcl_view_of_snapshot n2 snap ranks dl)) st tc un) ”) &&
+    (“ (backtrack_inner old current after_clear n target variable j live cap (installed_clauses (cdcl_view_of_snapshot n2 snap ranks dl)) st tc un) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
-    (“ (Z.le 0 j) ”) &&
-    (“ (Z.lt j live) ”) &&
+    (“ (0 <= j) ”) &&
+    (“ (j < live) ”) &&
     emp **
     ((IntArray.full un_ptr live un))
     |--
     (
     TT &&
-    (“ (backtrack_inner old current after_clear n target variable j live cap ( installed_clauses ( cdcl_view_of_snapshot n2 snap ranks dl)) st tc un) ”) &&
+    (“ (backtrack_inner old current after_clear n target variable j live cap (installed_clauses (cdcl_view_of_snapshot n2 snap ranks dl)) st tc un) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
-    (“ (Z.le 0 (@Znth Z j un 0)) ”) &&
-    (“ (Z.le (@Znth Z j un 0) n) ”) &&
-    (“ (Z.le 0 (@Znth Z j tc 0)) ”) &&
-    (“ (Z.le (@Znth Z j tc 0) n) ”) &&
-    (“ (Z.le (Z.sub 0 n) (@Znth Z j st 0)) ”) &&
-    (“ (Z.le (@Znth Z j st 0) 2) ”) &&
+    (“ (0 <= (@Znth Z j un 0)) ”) &&
+    (“ ((@Znth Z j un 0) <= n) ”) &&
+    (“ (0 <= (@Znth Z j tc 0)) ”) &&
+    (“ ((@Znth Z j tc 0) <= n) ”) &&
+    (“ ((0 - n) <= (@Znth Z j st 0)) ”) &&
+    (“ ((@Znth Z j st 0) <= 2) ”) &&
     emp **
     ((IntArray.full un_ptr live un))
     ) ** (
@@ -42,23 +35,23 @@ Definition CDCL_qcp_strategy7 :=
 Definition CDCL_qcp_strategy8 :=
   forall (j : Z) (live : Z) (n : Z) (original_count : Z) (snap : dense_snapshot) (F : cnf) (old : cdcl_view) (x : Z) (n2 : Z) (ranks : (Z -> (@option nat))) (dl : Z) (tc : (@list Z)) (un : (@list Z)) (st : (@list Z)) (cap : Z) (new : cdcl_view) (un_ptr : Z),
     TT &&
-    (“ (decision_update old new x j live cap ( installed_clauses ( cdcl_view_of_snapshot n2 snap ranks dl)) st tc un) ”) &&
+    (“ (decision_update old new x j live cap (installed_clauses (cdcl_view_of_snapshot n2 snap ranks dl)) st tc un) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
-    (“ (Z.le 0 j) ”) &&
-    (“ (Z.lt j live) ”) &&
+    (“ (0 <= j) ”) &&
+    (“ (j < live) ”) &&
     emp **
     ((IntArray.full un_ptr live un))
     |--
     (
     TT &&
-    (“ (decision_update old new x j live cap ( installed_clauses ( cdcl_view_of_snapshot n2 snap ranks dl)) st tc un) ”) &&
+    (“ (decision_update old new x j live cap (installed_clauses (cdcl_view_of_snapshot n2 snap ranks dl)) st tc un) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
-    (“ (Z.le 0 (@Znth Z j un 0)) ”) &&
-    (“ (Z.le (@Znth Z j un 0) n) ”) &&
-    (“ (Z.le 0 (@Znth Z j tc 0)) ”) &&
-    (“ (Z.le (@Znth Z j tc 0) n) ”) &&
-    (“ (Z.le (Z.sub 0 n) (@Znth Z j st 0)) ”) &&
-    (“ (Z.le (@Znth Z j st 0) 2) ”) &&
+    (“ (0 <= (@Znth Z j un 0)) ”) &&
+    (“ ((@Znth Z j un 0) <= n) ”) &&
+    (“ (0 <= (@Znth Z j tc 0)) ”) &&
+    (“ ((@Znth Z j tc 0) <= n) ”) &&
+    (“ ((0 - n) <= (@Znth Z j st 0)) ”) &&
+    (“ ((@Znth Z j st 0) <= 2) ”) &&
     emp **
     ((IntArray.full un_ptr live un))
     ) ** (
@@ -71,23 +64,23 @@ Definition CDCL_qcp_strategy8 :=
 Definition CDCL_qcp_strategy9 :=
   forall (j : Z) (live : Z) (n : Z) (original_count : Z) (snap : dense_snapshot) (F : cnf) (old : cdcl_view) (x : Z) (d : Z) (n2 : Z) (ranks : (Z -> (@option nat))) (dl : Z) (tc : (@list Z)) (un : (@list Z)) (st : (@list Z)) (cap : Z) (exempt : Z) (reason : Z) (b : bool) (new : cdcl_view) (un_ptr : Z),
     TT &&
-    (“ (bcp_clause_scan old new x b d reason j exempt live cap ( installed_clauses ( cdcl_view_of_snapshot n2 snap ranks dl)) st tc un) ”) &&
+    (“ (bcp_clause_scan old new x b d reason j exempt live cap (installed_clauses (cdcl_view_of_snapshot n2 snap ranks dl)) st tc un) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
-    (“ (Z.le 0 j) ”) &&
-    (“ (Z.lt j live) ”) &&
+    (“ (0 <= j) ”) &&
+    (“ (j < live) ”) &&
     emp **
     ((IntArray.full un_ptr live un))
     |--
     (
     TT &&
-    (“ (bcp_clause_scan old new x b d reason j exempt live cap ( installed_clauses ( cdcl_view_of_snapshot n2 snap ranks dl)) st tc un) ”) &&
+    (“ (bcp_clause_scan old new x b d reason j exempt live cap (installed_clauses (cdcl_view_of_snapshot n2 snap ranks dl)) st tc un) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
-    (“ (Z.le 0 (@Znth Z j un 0)) ”) &&
-    (“ (Z.le (@Znth Z j un 0) n) ”) &&
-    (“ (Z.le 0 (@Znth Z j tc 0)) ”) &&
-    (“ (Z.le (@Znth Z j tc 0) n) ”) &&
-    (“ (Z.le (Z.sub 0 n) (@Znth Z j st 0)) ”) &&
-    (“ (Z.le (@Znth Z j st 0) 2) ”) &&
+    (“ (0 <= (@Znth Z j un 0)) ”) &&
+    (“ ((@Znth Z j un 0) <= n) ”) &&
+    (“ (0 <= (@Znth Z j tc 0)) ”) &&
+    (“ ((@Znth Z j tc 0) <= n) ”) &&
+    (“ ((0 - n) <= (@Znth Z j st 0)) ”) &&
+    (“ ((@Znth Z j st 0) <= 2) ”) &&
     emp **
     ((IntArray.full un_ptr live un))
     ) ** (
@@ -101,8 +94,8 @@ Definition CDCL_qcp_strategy10 :=
   forall (i : Z) (live2 : Z) (new : cdcl_view) (b : bool) (reason : Z) (exempt : Z) (cap : Z) (st : (@list Z)) (un : (@list Z)) (tc : (@list Z)) (rows : cnf) (live : Z) (j : Z) (d : Z) (x : Z) (old : cdcl_view) (l : (@list Z)) (v : Z) (p : Z),
     TT &&
     (“ (bcp_clause_scan old new x b d reason j exempt live cap rows st tc un) ”) &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i live2) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < live2) ”) &&
     emp **
     ((IntArray.full p live2 (@replace_Znth Z i v l)))
     |--
@@ -122,8 +115,8 @@ Definition CDCL_qcp_strategy10 :=
 Definition CDCL_qcp_strategy3 :=
   forall (i : Z) (live : Z) (__default_app1_Z : (@list Z)) (p : Z) (cap : Z) (rows : (@list (@list Z))),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i live) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < live) ”) &&
     emp **
     ((installed_rows_capacity_rep p live cap rows))
     |--
@@ -141,13 +134,13 @@ Definition CDCL_qcp_strategy3 :=
         emp -*
         TT &&
         emp **
-        ((poly_store FET_ptr (Z.add p (Z.mul i (@sizeof_front_end_type FET_ptr))) v))
+        ((poly_store FET_ptr (p + (i * sizeof(PTR))) v))
         ).
 
 Definition CDCL_qcp_strategy5 :=
   forall (live : Z) (cap : Z) (p : Z) (rows : (@list (@list Z))),
     TT &&
-    (“ (Z.lt live cap) ”) &&
+    (“ (live < cap) ”) &&
     emp **
     ((installed_rows_capacity_rep p live cap rows))
     |--
@@ -155,13 +148,13 @@ Definition CDCL_qcp_strategy5 :=
     TT &&
     emp **
     ((IntPtrArray2.full p live rows)) **
-    ((PtrArray.undef_seg p (Z.add live 1) cap))
+    ((PtrArray.undef_seg p (live + 1) cap))
     ) ** (
     TT &&
     emp -*
     TT &&
     emp **
-    ((poly_undef_store FET_ptr (Z.add p (Z.mul live (@sizeof_front_end_type FET_ptr)))))
+    ((poly_undef_store FET_ptr (p + (live * sizeof(PTR)))))
     ).
 
 Definition CDCL_qcp_strategy11 :=
@@ -175,9 +168,9 @@ Definition CDCL_qcp_strategy11 :=
   ALL (rp : Z) (vp : Z) (lp : Z) (snap : dense_snapshot) (n : Z),
     TT &&
     emp **
-    ((IntArray.full vp n ( snap_values snap))) **
-    ((IntArray.full rp n ( snap_reasons snap))) **
-    ((IntArray.full lp n ( snap_levels snap))) -*
+    ((IntArray.full vp n (snap_values snap))) **
+    ((IntArray.full rp n (snap_reasons snap))) **
+    ((IntArray.full lp n (snap_levels snap))) -*
     TT &&
     emp **
     ((variable_arrays_rep vp rp lp n snap))
@@ -192,9 +185,9 @@ Definition CDCL_qcp_strategy12 :=
     (
     TT &&
     emp **
-    ((IntArray.full vp n ( snap_values snap))) **
-    ((IntArray.full rp n ( snap_reasons snap))) **
-    ((IntArray.full lp n ( snap_levels snap)))
+    ((IntArray.full vp n (snap_values snap))) **
+    ((IntArray.full rp n (snap_reasons snap))) **
+    ((IntArray.full lp n (snap_levels snap)))
     ) ** (
     TT &&
     emp -*
@@ -213,13 +206,13 @@ Definition CDCL_qcp_strategy13 :=
   ALL (un : Z) (tc : Z) (st : Z) (rt : Z) (cap : Z) (snap : dense_snapshot) (live : Z),
     TT &&
     emp **
-    ((IntArray.seg st 0 live ( snap_states snap))) **
+    ((IntArray.seg st 0 live (snap_states snap))) **
     ((IntArray.seg_shape st live cap)) **
-    ((IntArray.seg tc 0 live ( snap_true_counts snap))) **
+    ((IntArray.seg tc 0 live (snap_true_counts snap))) **
     ((IntArray.seg_shape tc live cap)) **
-    ((IntArray.seg un 0 live ( snap_unassigned snap))) **
+    ((IntArray.seg un 0 live (snap_unassigned snap))) **
     ((IntArray.seg_shape un live cap)) **
-    ((installed_rows_capacity_rep rt live cap ( snap_rows snap))) -*
+    ((installed_rows_capacity_rep rt live cap (snap_rows snap))) -*
     TT &&
     emp **
     ((solver_arrays_rep st tc un rt live cap snap))
@@ -234,13 +227,13 @@ Definition CDCL_qcp_strategy14 :=
     (
     TT &&
     emp **
-    ((IntArray.seg st 0 live ( snap_states snap))) **
+    ((IntArray.seg st 0 live (snap_states snap))) **
     ((IntArray.seg_shape st live cap)) **
-    ((IntArray.seg tc 0 live ( snap_true_counts snap))) **
+    ((IntArray.seg tc 0 live (snap_true_counts snap))) **
     ((IntArray.seg_shape tc live cap)) **
-    ((IntArray.seg un 0 live ( snap_unassigned snap))) **
+    ((IntArray.seg un 0 live (snap_unassigned snap))) **
     ((IntArray.seg_shape un live cap)) **
-    ((installed_rows_capacity_rep rt live cap ( snap_rows snap)))
+    ((installed_rows_capacity_rep rt live cap (snap_rows snap)))
     ) ** (
     TT &&
     emp -*
@@ -463,7 +456,7 @@ Definition CDCL_qcp_strategy25 :=
     emp **
     ((IntArray.full wi n left_row)) **
     ((IntArray.full wj n right_row)) **
-    ((IntArray.full result_row n ( dense_cancel_union left_row right_row))) -*
+    ((IntArray.full result_row n (dense_cancel_union left_row right_row))) -*
     TT &&
     emp **
     ((resolution_rows_rep wi wj result_row n left_row right_row))
@@ -480,7 +473,7 @@ Definition CDCL_qcp_strategy26 :=
     emp **
     ((IntArray.full wi n left_row)) **
     ((IntArray.full wj n right_row)) **
-    ((IntArray.full result_row n ( dense_cancel_union left_row right_row)))
+    ((IntArray.full result_row n (dense_cancel_union left_row right_row)))
     ) ** (
     TT &&
     emp -*
@@ -503,7 +496,7 @@ Definition CDCL_qcp_strategy27 :=
     ((poly_store FET_ptr &( ((s)) # "sat_data" ->ₛ "v_data") v_data)) **
     ((poly_store FET_ptr &( ((v_data)) # "var_data" ->ₛ "dl") levels)) **
     ((IntArray.full clause n row)) **
-    ((IntArray.full levels n ( snap_levels snap))) -*
+    ((IntArray.full levels n (snap_levels snap))) -*
     TT &&
     emp **
     ((conflict_levels_rep s clause n v_data levels row snap))
@@ -522,7 +515,7 @@ Definition CDCL_qcp_strategy28 :=
     ((poly_store FET_ptr &( ((s)) # "sat_data" ->ₛ "v_data") v_data)) **
     ((poly_store FET_ptr &( ((v_data)) # "var_data" ->ₛ "dl") levels)) **
     ((IntArray.full clause n row)) **
-    ((IntArray.full levels n ( snap_levels snap)))
+    ((IntArray.full levels n (snap_levels snap)))
     ) ** (
     TT &&
     emp -*
@@ -585,7 +578,7 @@ Definition CDCL_qcp_strategy31 :=
   ALL (p : Z) (i : Z) (rows : (@list (@list Z))) (row_ptr : Z) (live : Z),
     TT &&
     emp **
-    ((poly_store FET_ptr (Z.add p (Z.mul i (@sizeof_front_end_type FET_ptr))) row_ptr)) **
+    ((poly_store FET_ptr (p + (i * sizeof(PTR))) row_ptr)) **
     ((IntArray.full row_ptr (@Zlength Z (@Znth (@list Z) i rows (@nil Z))) (@Znth (@list Z) i rows (@nil Z)))) **
     ((IntPtrArray2.missing_i p live i row_ptr rows)) -*
     TT &&
@@ -602,7 +595,7 @@ Definition CDCL_qcp_strategy32 :=
     (
     TT &&
     emp **
-    ((poly_store FET_ptr (Z.add p (Z.mul i (@sizeof_front_end_type FET_ptr))) row_ptr)) **
+    ((poly_store FET_ptr (p + (i * sizeof(PTR))) row_ptr)) **
     ((IntArray.full row_ptr (@Zlength Z (@Znth (@list Z) i rows (@nil Z))) (@Znth (@list Z) i rows (@nil Z)))) **
     ((IntPtrArray2.missing_i p live i row_ptr rows))
     ) ** (
@@ -694,7 +687,7 @@ Definition CDCL_qcp_strategy37 :=
   ) ** (
   ALL (J : Assignment) (n : Z) (snap : dense_snapshot) (values : Z) (levels : Z) (reasons : Z),
     TT &&
-    (“ (J = ( rho_of_values n ( snap_values snap))) ”) &&
+    (“ (J = (rho_of_values n (snap_values snap))) ”) &&
     emp **
     ((variable_arrays_rep values reasons levels n snap)) -*
     TT &&
@@ -710,7 +703,7 @@ Definition CDCL_qcp_strategy38 :=
     |--
     (
     TT &&
-    (“ (J = ( rho_of_values n ( snap_values snap))) ”) &&
+    (“ (J = (rho_of_values n (snap_values snap))) ”) &&
     emp **
     ((variable_arrays_rep values reasons levels n snap))
     ) ** (
@@ -764,14 +757,14 @@ Definition CDCL_qcp_strategy41 :=
   ) ** (
   ALL (n : Z) (snap : dense_snapshot) (ranks : (Z -> (@option nat))) (original_count : Z) (F : cnf) (live : Z) (cap : Z) (states : Z) (unassigned : Z) (row_table : Z) (true_counts : Z) (v_data : Z) (s : Z) (cl_data : Z) (values : Z) (levels : Z) (reasons : Z),
     TT &&
-    (“ (Z.le 0 n) ”) &&
-    (“ (Z.lt n ( INT_MAX)) ”) &&
-    (“ (Z.le 0 original_count) ”) &&
+    (“ (0 <= n) ”) &&
+    (“ (n < (INT_MAX)) ”) &&
+    (“ (0 <= original_count) ”) &&
     (“ (original_count = live) ”) &&
-    (“ (Z.le 0 live) ”) &&
-    (“ (Z.le live cap) ”) &&
+    (“ (0 <= live) ”) &&
+    (“ (live <= cap) ”) &&
     (“ (stable_search_facts n snap ranks 0) ”) &&
-    (“ (fresh_formula F n original_count ( cdcl_view_of_snapshot n snap ranks 0)) ”) &&
+    (“ (fresh_formula F n original_count (cdcl_view_of_snapshot n snap ranks 0)) ”) &&
     emp **
     ((sat_entry_header_rep s n live cap v_data cl_data)) **
     ((var_header_rep v_data values reasons levels)) **
@@ -792,14 +785,14 @@ Definition CDCL_qcp_strategy42 :=
     EX (v_data : Z) (cl_data : Z),
       (
       TT &&
-      (“ (Z.le 0 n) ”) &&
-      (“ (Z.lt n ( INT_MAX)) ”) &&
-      (“ (Z.le 0 original_count) ”) &&
+      (“ (0 <= n) ”) &&
+      (“ (n < (INT_MAX)) ”) &&
+      (“ (0 <= original_count) ”) &&
       (“ (original_count = live) ”) &&
-      (“ (Z.le 0 live) ”) &&
-      (“ (Z.le live cap) ”) &&
+      (“ (0 <= live) ”) &&
+      (“ (live <= cap) ”) &&
       (“ (stable_search_facts n snap ranks 0) ”) &&
-      (“ (fresh_formula F n original_count ( cdcl_view_of_snapshot n snap ranks 0)) ”) &&
+      (“ (fresh_formula F n original_count (cdcl_view_of_snapshot n snap ranks 0)) ”) &&
       emp **
       ((sat_entry_header_rep s n live cap v_data cl_data)) **
       ((var_header_rep v_data values reasons levels)) **
@@ -823,8 +816,8 @@ Definition CDCL_qcp_strategy43 :=
   ) ** (
   ALL (final_live : Z) (cap : Z) (original_count : Z) (states : Z) (unassigned : Z) (row_table : Z) (true_counts : Z) (F : cnf) (v_data : Z) (snap : dense_snapshot) (live : Z) (ranks : (Z -> (@option nat))) (s : Z) (final_dl : Z) (cl_data : Z) (values : Z) (levels : Z) (final_snap : dense_snapshot) (J : Assignment) (n : Z) (reasons : Z),
     TT &&
-    (“ (Z.le original_count final_live) ”) &&
-    (“ (Z.le final_live cap) ”) &&
+    (“ (original_count <= final_live) ”) &&
+    (“ (final_live <= cap) ”) &&
     emp **
     ((sat_header_rep s n final_live cap final_dl v_data cl_data)) **
     ((var_header_rep v_data values reasons levels)) **
@@ -845,8 +838,8 @@ Definition CDCL_qcp_strategy44 :=
     EX (final_snap : dense_snapshot) (final_dl : Z) (final_live : Z) (v_data : Z) (cl_data : Z),
       (
       TT &&
-      (“ (Z.le original_count final_live) ”) &&
-      (“ (Z.le final_live cap) ”) &&
+      (“ (original_count <= final_live) ”) &&
+      (“ (final_live <= cap) ”) &&
       emp **
       ((sat_header_rep s n final_live cap final_dl v_data cl_data)) **
       ((var_header_rep v_data values reasons levels)) **
@@ -870,8 +863,8 @@ Definition CDCL_qcp_strategy45 :=
   ) ** (
   ALL (final_live : Z) (cap : Z) (original_count : Z) (states : Z) (unassigned : Z) (row_table : Z) (true_counts : Z) (F : cnf) (v_data : Z) (snap : dense_snapshot) (live : Z) (ranks : (Z -> (@option nat))) (s : Z) (final_dl : Z) (cl_data : Z) (values : Z) (levels : Z) (final_snap : dense_snapshot) (n : Z) (reasons : Z),
     TT &&
-    (“ (Z.le original_count final_live) ”) &&
-    (“ (Z.le final_live cap) ”) &&
+    (“ (original_count <= final_live) ”) &&
+    (“ (final_live <= cap) ”) &&
     emp **
     ((sat_header_rep s n final_live cap final_dl v_data cl_data)) **
     ((var_header_rep v_data values reasons levels)) **
@@ -892,8 +885,8 @@ Definition CDCL_qcp_strategy46 :=
     EX (final_snap : dense_snapshot) (final_dl : Z) (final_live : Z) (v_data : Z) (cl_data : Z),
       (
       TT &&
-      (“ (Z.le original_count final_live) ”) &&
-      (“ (Z.le final_live cap) ”) &&
+      (“ (original_count <= final_live) ”) &&
+      (“ (final_live <= cap) ”) &&
       emp **
       ((sat_header_rep s n final_live cap final_dl v_data cl_data)) **
       ((var_header_rep v_data values reasons levels)) **
@@ -917,8 +910,8 @@ Definition CDCL_qcp_strategy47 :=
   ) ** (
   ALL (row : (@list Z)) (n : Z) (conflict_dl : Z) (reasons : Z) (conflict_snap : dense_snapshot) (levels : Z) (values : Z) (cl_data : Z) (s : Z) (ranks : (Z -> (@option nat))) (live : Z) (snap : dense_snapshot) (v_data : Z) (F : cnf) (original_count : Z) (true_counts : Z) (row_table : Z) (cap : Z) (unassigned : Z) (states : Z) (row_ptr : Z),
     TT &&
-    (“ (Z.lt 0 conflict_dl) ”) &&
-    (“ (Z.le conflict_dl n) ”) &&
+    (“ (0 < conflict_dl) ”) &&
+    (“ (conflict_dl <= n) ”) &&
     (“ (row_wf n row) ”) &&
     emp **
     ((sat_header_rep s n cap cap conflict_dl v_data cl_data)) **
@@ -941,8 +934,8 @@ Definition CDCL_qcp_strategy48 :=
     EX (conflict_snap : dense_snapshot) (conflict_dl : Z) (row_ptr : Z) (row : (@list Z)) (v_data : Z) (cl_data : Z),
       (
       TT &&
-      (“ (Z.lt 0 conflict_dl) ”) &&
-      (“ (Z.le conflict_dl n) ”) &&
+      (“ (0 < conflict_dl) ”) &&
+      (“ (conflict_dl <= n) ”) &&
       (“ (row_wf n row) ”) &&
       emp **
       ((sat_header_rep s n cap cap conflict_dl v_data cl_data)) **
@@ -1015,9 +1008,9 @@ Definition CDCL_qcp_strategy51 :=
     ((sat_header_rep s n live cap logical_dl v_data cl_data)) **
     ((var_header_rep v_data values reasons levels)) **
     ((clause_header_rep cl_data states true_counts unassigned row_table)) **
-    ((IntArray.full reasons n ( snap_reasons snap))) **
-    ((IntArray.full levels n ( snap_levels snap))) **
-    ((installed_rows_capacity_rep row_table live cap ( snap_rows snap))) -*
+    ((IntArray.full reasons n (snap_reasons snap))) **
+    ((IntArray.full levels n (snap_levels snap))) **
+    ((installed_rows_capacity_rep row_table live cap (snap_rows snap))) -*
     TT &&
     emp **
     ((learning_state s values reasons levels states true_counts unassigned row_table n live cap logical_dl snap))
@@ -1036,9 +1029,9 @@ Definition CDCL_qcp_strategy52 :=
       ((sat_header_rep s n live cap logical_dl v_data cl_data)) **
       ((var_header_rep v_data values reasons levels)) **
       ((clause_header_rep cl_data states true_counts unassigned row_table)) **
-      ((IntArray.full reasons n ( snap_reasons snap))) **
-      ((IntArray.full levels n ( snap_levels snap))) **
-      ((installed_rows_capacity_rep row_table live cap ( snap_rows snap)))
+      ((IntArray.full reasons n (snap_reasons snap))) **
+      ((IntArray.full levels n (snap_levels snap))) **
+      ((installed_rows_capacity_rep row_table live cap (snap_rows snap)))
       ) ** (
       TT &&
       emp -*
@@ -1062,7 +1055,7 @@ Definition CDCL_qcp_strategy53 :=
     ((clause_header_rep cl_data states true_counts unassigned row_table)) **
     ((variable_arrays_rep values reasons levels n snap)) **
     ((solver_arrays_rep states true_counts unassigned row_table live cap snap)) **
-    ((pending_backjump_rep F ( cdcl_view_of_snapshot n start_snap start_ranks conflict_dl) ( cdcl_view_of_snapshot n conflict_snap conflict_ranks conflict_dl) ( cdcl_view_of_snapshot n snap ranks conflict_dl) back_dl back_dl last learned)) -*
+    ((pending_backjump_rep F (cdcl_view_of_snapshot n start_snap start_ranks conflict_dl) (cdcl_view_of_snapshot n conflict_snap conflict_ranks conflict_dl) (cdcl_view_of_snapshot n snap ranks conflict_dl) back_dl back_dl last learned)) -*
     TT &&
     emp **
     ((backjump_state s F original_count start_snap conflict_snap snap start_ranks conflict_ranks ranks conflict_dl back_dl last learned values reasons levels states true_counts unassigned row_table n live cap))
@@ -1083,7 +1076,7 @@ Definition CDCL_qcp_strategy54 :=
       ((clause_header_rep cl_data states true_counts unassigned row_table)) **
       ((variable_arrays_rep values reasons levels n snap)) **
       ((solver_arrays_rep states true_counts unassigned row_table live cap snap)) **
-      ((pending_backjump_rep F ( cdcl_view_of_snapshot n start_snap start_ranks conflict_dl) ( cdcl_view_of_snapshot n conflict_snap conflict_ranks conflict_dl) ( cdcl_view_of_snapshot n snap ranks conflict_dl) back_dl back_dl last learned))
+      ((pending_backjump_rep F (cdcl_view_of_snapshot n start_snap start_ranks conflict_dl) (cdcl_view_of_snapshot n conflict_snap conflict_ranks conflict_dl) (cdcl_view_of_snapshot n snap ranks conflict_dl) back_dl back_dl last learned))
       ) ** (
       TT &&
       emp -*
@@ -1101,7 +1094,7 @@ Definition CDCL_qcp_strategy55 :=
   ) ** (
   ALL (snap1 : dense_snapshot) (ranks1 : (Z -> (@option nat))) (last : Z) (n : Z) (pre_ranks : (Z -> (@option nat))) (logical_dl : Z) (pre_snap : dense_snapshot) (s : Z) (reasons : Z) (states : Z) (unassigned : Z) (cap : Z) (live : Z) (row_table : Z) (true_counts : Z) (levels : Z) (values : Z),
     TT &&
-    (“ (dense_conflict_batch ( cdcl_view_of_snapshot n pre_snap pre_ranks logical_dl) ( cdcl_view_of_snapshot n snap1 ranks1 logical_dl) last) ”) &&
+    (“ (dense_conflict_batch (cdcl_view_of_snapshot n pre_snap pre_ranks logical_dl) (cdcl_view_of_snapshot n snap1 ranks1 logical_dl) last) ”) &&
     emp **
     ((solver_state s values reasons levels states true_counts unassigned row_table n live cap logical_dl snap1)) -*
     TT &&
@@ -1118,7 +1111,7 @@ Definition CDCL_qcp_strategy56 :=
     EX (pre_snap : dense_snapshot) (pre_ranks : (Z -> (@option nat))) (last : Z),
       (
       TT &&
-      (“ (dense_conflict_batch ( cdcl_view_of_snapshot n pre_snap pre_ranks logical_dl) ( cdcl_view_of_snapshot n snap1 ranks1 logical_dl) last) ”) &&
+      (“ (dense_conflict_batch (cdcl_view_of_snapshot n pre_snap pre_ranks logical_dl) (cdcl_view_of_snapshot n snap1 ranks1 logical_dl) last) ”) &&
       emp **
       ((solver_state s values reasons levels states true_counts unassigned row_table n live cap logical_dl snap1))
       ) ** (
@@ -1138,15 +1131,15 @@ Definition CDCL_qcp_strategy57 :=
   ) ** (
   ALL (n : Z) (ranks : (Z -> (@option nat))) (dl : Z) (snap : dense_snapshot) (original_count : Z) (live : Z) (F : cnf) (cap : Z) (s : Z) (reasons : Z) (states : Z) (unassigned : Z) (row_table : Z) (true_counts : Z) (levels : Z) (values : Z),
     TT &&
-    (“ (Z.le 0 dl) ”) &&
-    (“ (Z.le dl n) ”) &&
-    (“ (Z.le 0 original_count) ”) &&
-    (“ (Z.le original_count live) ”) &&
-    (“ (Z.le 0 live) ”) &&
-    (“ (Z.le live cap) ”) &&
+    (“ (0 <= dl) ”) &&
+    (“ (dl <= n) ”) &&
+    (“ (0 <= original_count) ”) &&
+    (“ (original_count <= live) ”) &&
+    (“ (0 <= live) ”) &&
+    (“ (live <= cap) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
     (“ (stable_search_facts n snap ranks dl) ”) &&
-    (“ (bcp_ready ( cdcl_view_of_snapshot n snap ranks dl)) ”) &&
+    (“ (bcp_ready (cdcl_view_of_snapshot n snap ranks dl)) ”) &&
     emp **
     ((solver_state s values reasons levels states true_counts unassigned row_table n live cap dl snap)) -*
     TT &&
@@ -1162,15 +1155,15 @@ Definition CDCL_qcp_strategy58 :=
     |--
     (
     TT &&
-    (“ (Z.le 0 dl) ”) &&
-    (“ (Z.le dl n) ”) &&
-    (“ (Z.le 0 original_count) ”) &&
-    (“ (Z.le original_count live) ”) &&
-    (“ (Z.le 0 live) ”) &&
-    (“ (Z.le live cap) ”) &&
+    (“ (0 <= dl) ”) &&
+    (“ (dl <= n) ”) &&
+    (“ (0 <= original_count) ”) &&
+    (“ (original_count <= live) ”) &&
+    (“ (0 <= live) ”) &&
+    (“ (live <= cap) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
     (“ (stable_search_facts n snap ranks dl) ”) &&
-    (“ (bcp_ready ( cdcl_view_of_snapshot n snap ranks dl)) ”) &&
+    (“ (bcp_ready (cdcl_view_of_snapshot n snap ranks dl)) ”) &&
     emp **
     ((solver_state s values reasons levels states true_counts unassigned row_table n live cap dl snap))
     ) ** (
@@ -1190,15 +1183,15 @@ Definition CDCL_qcp_strategy59 :=
   ) ** (
   ALL (pre_snap : dense_snapshot) (pre_ranks : (Z -> (@option nat))) (conflict_cl : Z) (last : Z) (live : Z) (n : Z) (ranks : (Z -> (@option nat))) (dl : Z) (snap : dense_snapshot) (original_count : Z) (F : cnf) (cap : Z) (s : Z) (reasons : Z) (states : Z) (unassigned : Z) (row_table : Z) (true_counts : Z) (levels : Z) (values : Z),
     TT &&
-    (“ (Z.le 0 dl) ”) &&
-    (“ (Z.le dl n) ”) &&
-    (“ (Z.le 0 original_count) ”) &&
-    (“ (Z.le original_count live) ”) &&
-    (“ (Z.le 0 live) ”) &&
-    (“ (Z.le live cap) ”) &&
+    (“ (0 <= dl) ”) &&
+    (“ (dl <= n) ”) &&
+    (“ (0 <= original_count) ”) &&
+    (“ (original_count <= live) ”) &&
+    (“ (0 <= live) ”) &&
+    (“ (live <= cap) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
     (“ (stable_search_facts n snap ranks dl) ”) &&
-    (“ (bcp_outcome ( cdcl_view_of_snapshot n snap ranks dl) ( cdcl_view_of_snapshot n pre_snap pre_ranks dl) live conflict_cl last) ”) &&
+    (“ (bcp_outcome (cdcl_view_of_snapshot n snap ranks dl) (cdcl_view_of_snapshot n pre_snap pre_ranks dl) live conflict_cl last) ”) &&
     emp **
     ((solver_state s values reasons levels states true_counts unassigned row_table n live cap dl snap)) -*
     TT &&
@@ -1215,15 +1208,15 @@ Definition CDCL_qcp_strategy60 :=
     EX (pre_snap : dense_snapshot) (pre_ranks : (Z -> (@option nat))) (last : Z),
       (
       TT &&
-      (“ (Z.le 0 dl) ”) &&
-      (“ (Z.le dl n) ”) &&
-      (“ (Z.le 0 original_count) ”) &&
-      (“ (Z.le original_count live) ”) &&
-      (“ (Z.le 0 live) ”) &&
-      (“ (Z.le live cap) ”) &&
+      (“ (0 <= dl) ”) &&
+      (“ (dl <= n) ”) &&
+      (“ (0 <= original_count) ”) &&
+      (“ (original_count <= live) ”) &&
+      (“ (0 <= live) ”) &&
+      (“ (live <= cap) ”) &&
       (“ (coherent_snapshot F n live original_count snap) ”) &&
       (“ (stable_search_facts n snap ranks dl) ”) &&
-      (“ (bcp_outcome ( cdcl_view_of_snapshot n snap ranks dl) ( cdcl_view_of_snapshot n pre_snap pre_ranks dl) live conflict_cl last) ”) &&
+      (“ (bcp_outcome (cdcl_view_of_snapshot n snap ranks dl) (cdcl_view_of_snapshot n pre_snap pre_ranks dl) live conflict_cl last) ”) &&
       emp **
       ((solver_state s values reasons levels states true_counts unassigned row_table n live cap dl snap))
       ) ** (
@@ -1243,20 +1236,20 @@ Definition CDCL_qcp_strategy61 :=
   ) ** (
   ALL (conflict_cl : Z) (n : Z) (ranks : (Z -> (@option nat))) (dl : Z) (snap : dense_snapshot) (F : cnf) (cap : Z) (live : Z) (original_count : Z) (pre_snap : dense_snapshot) (pre_ranks : (Z -> (@option nat))) (last : Z) (row : (@list Z)) (values : Z) (levels : Z) (true_counts : Z) (row_table : Z) (unassigned : Z) (states : Z) (reasons : Z) (s : Z) (new_cl : Z),
     TT &&
-    (“ (Z.le 0 conflict_cl) ”) &&
-    (“ (Z.lt conflict_cl live) ”) &&
-    (“ (Z.lt 0 dl) ”) &&
-    (“ (Z.le dl n) ”) &&
-    (“ (Z.le 0 original_count) ”) &&
-    (“ (Z.le original_count live) ”) &&
-    (“ (Z.le 0 live) ”) &&
-    (“ (Z.le live cap) ”) &&
+    (“ (0 <= conflict_cl) ”) &&
+    (“ (conflict_cl < live) ”) &&
+    (“ (0 < dl) ”) &&
+    (“ (dl <= n) ”) &&
+    (“ (0 <= original_count) ”) &&
+    (“ (original_count <= live) ”) &&
+    (“ (0 <= live) ”) &&
+    (“ (live <= cap) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
     (“ (stable_search_facts n snap ranks dl) ”) &&
-    (“ (dense_conflict_batch ( cdcl_view_of_snapshot n pre_snap pre_ranks dl) ( cdcl_view_of_snapshot n snap ranks dl) last) ”) &&
-    (“ (current_learning_exit_cert F ( cdcl_view_of_snapshot n snap ranks dl) ( dense_decode row)) ”) &&
+    (“ (dense_conflict_batch (cdcl_view_of_snapshot n pre_snap pre_ranks dl) (cdcl_view_of_snapshot n snap ranks dl) last) ”) &&
+    (“ (current_learning_exit_cert F (cdcl_view_of_snapshot n snap ranks dl) (dense_decode row)) ”) &&
     (“ (row_wf n row) ”) &&
-    (“ (learning_ready_conflict ( cdcl_view_of_snapshot n snap ranks dl) conflict_cl) ”) &&
+    (“ (learning_ready_conflict (cdcl_view_of_snapshot n snap ranks dl) conflict_cl) ”) &&
     emp **
     ((solver_state s values reasons levels states true_counts unassigned row_table n live cap dl snap)) **
     ((IntArray.full new_cl n row)) -*
@@ -1274,20 +1267,20 @@ Definition CDCL_qcp_strategy62 :=
     EX (pre_snap : dense_snapshot) (pre_ranks : (Z -> (@option nat))) (last : Z),
       (
       TT &&
-      (“ (Z.le 0 conflict_cl) ”) &&
-      (“ (Z.lt conflict_cl live) ”) &&
-      (“ (Z.lt 0 dl) ”) &&
-      (“ (Z.le dl n) ”) &&
-      (“ (Z.le 0 original_count) ”) &&
-      (“ (Z.le original_count live) ”) &&
-      (“ (Z.le 0 live) ”) &&
-      (“ (Z.le live cap) ”) &&
+      (“ (0 <= conflict_cl) ”) &&
+      (“ (conflict_cl < live) ”) &&
+      (“ (0 < dl) ”) &&
+      (“ (dl <= n) ”) &&
+      (“ (0 <= original_count) ”) &&
+      (“ (original_count <= live) ”) &&
+      (“ (0 <= live) ”) &&
+      (“ (live <= cap) ”) &&
       (“ (coherent_snapshot F n live original_count snap) ”) &&
       (“ (stable_search_facts n snap ranks dl) ”) &&
-      (“ (dense_conflict_batch ( cdcl_view_of_snapshot n pre_snap pre_ranks dl) ( cdcl_view_of_snapshot n snap ranks dl) last) ”) &&
-      (“ (current_learning_exit_cert F ( cdcl_view_of_snapshot n snap ranks dl) ( dense_decode row)) ”) &&
+      (“ (dense_conflict_batch (cdcl_view_of_snapshot n pre_snap pre_ranks dl) (cdcl_view_of_snapshot n snap ranks dl) last) ”) &&
+      (“ (current_learning_exit_cert F (cdcl_view_of_snapshot n snap ranks dl) (dense_decode row)) ”) &&
       (“ (row_wf n row) ”) &&
-      (“ (learning_ready_conflict ( cdcl_view_of_snapshot n snap ranks dl) conflict_cl) ”) &&
+      (“ (learning_ready_conflict (cdcl_view_of_snapshot n snap ranks dl) conflict_cl) ”) &&
       emp **
       ((solver_state s values reasons levels states true_counts unassigned row_table n live cap dl snap)) **
       ((IntArray.full new_cl n row))
@@ -1309,36 +1302,36 @@ Definition CDCL_qcp_strategy63 :=
   ALL (snap : dense_snapshot) (dl : Z) (ranks : (Z -> (@option nat))) (n : Z) (cap : Z) (live : Z) (row : (@list Z)) (F : cnf) (last : Z) (pre_ranks : (Z -> (@option nat))) (pre_snap : dense_snapshot) (original_count : Z) (slot : Z) (conflict_cl : Z) (row_table : Z) (old_unassigned : Z) (true_counts : Z) (old_state : Z) (reasons : Z) (levels : Z) (values : Z) (v_data : Z) (s : Z) (cl_data : Z) (states : Z) (old_true_count : Z) (unassigned : Z) (new_cl : Z),
     TT &&
     (“ (slot_at slot live) ”) &&
-    (“ (Z.le 0 conflict_cl) ”) &&
-    (“ (Z.lt conflict_cl live) ”) &&
-    (“ (Z.lt 0 dl) ”) &&
-    (“ (Z.le dl n) ”) &&
-    (“ (Z.le 0 original_count) ”) &&
-    (“ (Z.le original_count live) ”) &&
-    (“ (Z.le 0 live) ”) &&
-    (“ (Z.lt live cap) ”) &&
+    (“ (0 <= conflict_cl) ”) &&
+    (“ (conflict_cl < live) ”) &&
+    (“ (0 < dl) ”) &&
+    (“ (dl <= n) ”) &&
+    (“ (0 <= original_count) ”) &&
+    (“ (original_count <= live) ”) &&
+    (“ (0 <= live) ”) &&
+    (“ (live < cap) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
     (“ (stable_search_facts n snap ranks dl) ”) &&
-    (“ (dense_conflict_batch ( cdcl_view_of_snapshot n pre_snap pre_ranks dl) ( cdcl_view_of_snapshot n snap ranks dl) last) ”) &&
-    (“ (current_learning_exit_cert F ( cdcl_view_of_snapshot n snap ranks dl) ( dense_decode row)) ”) &&
-    (“ (installing_clause F ( cdcl_view_of_snapshot n snap ranks dl) n cap row ( dense_decode row) live (Z.add live 1)) ”) &&
+    (“ (dense_conflict_batch (cdcl_view_of_snapshot n pre_snap pre_ranks dl) (cdcl_view_of_snapshot n snap ranks dl) last) ”) &&
+    (“ (current_learning_exit_cert F (cdcl_view_of_snapshot n snap ranks dl) (dense_decode row)) ”) &&
+    (“ (installing_clause F (cdcl_view_of_snapshot n snap ranks dl) n cap row (dense_decode row) live (live + 1)) ”) &&
     emp **
     ((sat_header_rep s n slot cap dl v_data cl_data)) **
     ((var_header_rep v_data values reasons levels)) **
     ((clause_header_rep cl_data states true_counts unassigned row_table)) **
     ((variable_arrays_rep values reasons levels n snap)) **
-    ((IntArray.seg states 0 live ( snap_states snap))) **
-    ((poly_store FET_int (Z.add states (Z.mul (Z.sub slot 1) (@sizeof_front_end_type FET_int))) old_state)) **
-    ((IntArray.seg_shape states (Z.add live 1) cap)) **
-    ((IntArray.seg true_counts 0 live ( snap_true_counts snap))) **
-    ((poly_store FET_int (Z.add true_counts (Z.mul (Z.sub slot 1) (@sizeof_front_end_type FET_int))) old_true_count)) **
-    ((IntArray.seg_shape true_counts (Z.add live 1) cap)) **
-    ((IntArray.seg unassigned 0 live ( snap_unassigned snap))) **
-    ((poly_store FET_int (Z.add unassigned (Z.mul (Z.sub slot 1) (@sizeof_front_end_type FET_int))) old_unassigned)) **
-    ((IntArray.seg_shape unassigned (Z.add live 1) cap)) **
-    ((IntPtrArray2.full row_table live ( snap_rows snap))) **
-    ((poly_undef_store FET_ptr (Z.add row_table (Z.mul (Z.sub slot 1) (@sizeof_front_end_type FET_ptr))))) **
-    ((PtrArray.undef_seg row_table (Z.add live 1) cap)) **
+    ((IntArray.seg states 0 live (snap_states snap))) **
+    ((poly_store FET_int (states + ((slot - 1) * sizeof(INT))) old_state)) **
+    ((IntArray.seg_shape states (live + 1) cap)) **
+    ((IntArray.seg true_counts 0 live (snap_true_counts snap))) **
+    ((poly_store FET_int (true_counts + ((slot - 1) * sizeof(INT))) old_true_count)) **
+    ((IntArray.seg_shape true_counts (live + 1) cap)) **
+    ((IntArray.seg unassigned 0 live (snap_unassigned snap))) **
+    ((poly_store FET_int (unassigned + ((slot - 1) * sizeof(INT))) old_unassigned)) **
+    ((IntArray.seg_shape unassigned (live + 1) cap)) **
+    ((IntPtrArray2.full row_table live (snap_rows snap))) **
+    ((poly_undef_store FET_ptr (row_table + ((slot - 1) * sizeof(PTR))))) **
+    ((PtrArray.undef_seg row_table (live + 1) cap)) **
     ((IntArray.full new_cl n row)) -*
     TT &&
     emp **
@@ -1355,36 +1348,36 @@ Definition CDCL_qcp_strategy64 :=
       (
       TT &&
       (“ (slot_at slot live) ”) &&
-      (“ (Z.le 0 conflict_cl) ”) &&
-      (“ (Z.lt conflict_cl live) ”) &&
-      (“ (Z.lt 0 dl) ”) &&
-      (“ (Z.le dl n) ”) &&
-      (“ (Z.le 0 original_count) ”) &&
-      (“ (Z.le original_count live) ”) &&
-      (“ (Z.le 0 live) ”) &&
-      (“ (Z.lt live cap) ”) &&
+      (“ (0 <= conflict_cl) ”) &&
+      (“ (conflict_cl < live) ”) &&
+      (“ (0 < dl) ”) &&
+      (“ (dl <= n) ”) &&
+      (“ (0 <= original_count) ”) &&
+      (“ (original_count <= live) ”) &&
+      (“ (0 <= live) ”) &&
+      (“ (live < cap) ”) &&
       (“ (coherent_snapshot F n live original_count snap) ”) &&
       (“ (stable_search_facts n snap ranks dl) ”) &&
-      (“ (dense_conflict_batch ( cdcl_view_of_snapshot n pre_snap pre_ranks dl) ( cdcl_view_of_snapshot n snap ranks dl) last) ”) &&
-      (“ (current_learning_exit_cert F ( cdcl_view_of_snapshot n snap ranks dl) ( dense_decode row)) ”) &&
-      (“ (installing_clause F ( cdcl_view_of_snapshot n snap ranks dl) n cap row ( dense_decode row) live (Z.add live 1)) ”) &&
+      (“ (dense_conflict_batch (cdcl_view_of_snapshot n pre_snap pre_ranks dl) (cdcl_view_of_snapshot n snap ranks dl) last) ”) &&
+      (“ (current_learning_exit_cert F (cdcl_view_of_snapshot n snap ranks dl) (dense_decode row)) ”) &&
+      (“ (installing_clause F (cdcl_view_of_snapshot n snap ranks dl) n cap row (dense_decode row) live (live + 1)) ”) &&
       emp **
       ((sat_header_rep s n slot cap dl v_data cl_data)) **
       ((var_header_rep v_data values reasons levels)) **
       ((clause_header_rep cl_data states true_counts unassigned row_table)) **
       ((variable_arrays_rep values reasons levels n snap)) **
-      ((IntArray.seg states 0 live ( snap_states snap))) **
-      ((poly_store FET_int (Z.add states (Z.mul (Z.sub slot 1) (@sizeof_front_end_type FET_int))) old_state)) **
-      ((IntArray.seg_shape states (Z.add live 1) cap)) **
-      ((IntArray.seg true_counts 0 live ( snap_true_counts snap))) **
-      ((poly_store FET_int (Z.add true_counts (Z.mul (Z.sub slot 1) (@sizeof_front_end_type FET_int))) old_true_count)) **
-      ((IntArray.seg_shape true_counts (Z.add live 1) cap)) **
-      ((IntArray.seg unassigned 0 live ( snap_unassigned snap))) **
-      ((poly_store FET_int (Z.add unassigned (Z.mul (Z.sub slot 1) (@sizeof_front_end_type FET_int))) old_unassigned)) **
-      ((IntArray.seg_shape unassigned (Z.add live 1) cap)) **
-      ((IntPtrArray2.full row_table live ( snap_rows snap))) **
-      ((poly_undef_store FET_ptr (Z.add row_table (Z.mul (Z.sub slot 1) (@sizeof_front_end_type FET_ptr))))) **
-      ((PtrArray.undef_seg row_table (Z.add live 1) cap)) **
+      ((IntArray.seg states 0 live (snap_states snap))) **
+      ((poly_store FET_int (states + ((slot - 1) * sizeof(INT))) old_state)) **
+      ((IntArray.seg_shape states (live + 1) cap)) **
+      ((IntArray.seg true_counts 0 live (snap_true_counts snap))) **
+      ((poly_store FET_int (true_counts + ((slot - 1) * sizeof(INT))) old_true_count)) **
+      ((IntArray.seg_shape true_counts (live + 1) cap)) **
+      ((IntArray.seg unassigned 0 live (snap_unassigned snap))) **
+      ((poly_store FET_int (unassigned + ((slot - 1) * sizeof(INT))) old_unassigned)) **
+      ((IntArray.seg_shape unassigned (live + 1) cap)) **
+      ((IntPtrArray2.full row_table live (snap_rows snap))) **
+      ((poly_undef_store FET_ptr (row_table + ((slot - 1) * sizeof(PTR))))) **
+      ((PtrArray.undef_seg row_table (live + 1) cap)) **
       ((IntArray.full new_cl n row))
       ) ** (
       TT &&
@@ -1404,30 +1397,30 @@ Definition CDCL_qcp_strategy65 :=
   ALL (snap : dense_snapshot) (dl : Z) (ranks : (Z -> (@option nat))) (n : Z) (cap : Z) (live : Z) (row : (@list Z)) (F : cnf) (conflict_cl : Z) (installed_snap : dense_snapshot) (original_count : Z) (pre_snap : dense_snapshot) (pre_ranks : (Z -> (@option nat))) (last : Z) (new_cl : Z) (reasons : Z) (levels : Z) (values : Z) (v_data : Z) (s : Z) (cl_data : Z) (states : Z) (unassigned : Z) (true_counts : Z) (row_table : Z),
     TT &&
     (“ (snapshot_installs row snap installed_snap) ”) &&
-    (“ (Z.le 0 conflict_cl) ”) &&
-    (“ (Z.lt conflict_cl live) ”) &&
-    (“ (Z.lt 0 dl) ”) &&
-    (“ (Z.le dl n) ”) &&
-    (“ (Z.le 0 original_count) ”) &&
-    (“ (Z.le original_count live) ”) &&
-    (“ (Z.le 0 live) ”) &&
-    (“ (Z.lt live cap) ”) &&
+    (“ (0 <= conflict_cl) ”) &&
+    (“ (conflict_cl < live) ”) &&
+    (“ (0 < dl) ”) &&
+    (“ (dl <= n) ”) &&
+    (“ (0 <= original_count) ”) &&
+    (“ (original_count <= live) ”) &&
+    (“ (0 <= live) ”) &&
+    (“ (live < cap) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
     (“ (stable_search_facts n snap ranks dl) ”) &&
-    (“ (dense_conflict_batch ( cdcl_view_of_snapshot n pre_snap pre_ranks dl) ( cdcl_view_of_snapshot n snap ranks dl) last) ”) &&
-    (“ (current_learning_exit_cert F ( cdcl_view_of_snapshot n snap ranks dl) ( dense_decode row)) ”) &&
-    (“ (clause_vars_assigned ( cdcl_view_of_snapshot n snap ranks dl) ( dense_decode row)) ”) &&
-    (“ (installing_clause F ( cdcl_view_of_snapshot n snap ranks dl) n cap row ( dense_decode row) live (Z.add live 1)) ”) &&
+    (“ (dense_conflict_batch (cdcl_view_of_snapshot n pre_snap pre_ranks dl) (cdcl_view_of_snapshot n snap ranks dl) last) ”) &&
+    (“ (current_learning_exit_cert F (cdcl_view_of_snapshot n snap ranks dl) (dense_decode row)) ”) &&
+    (“ (clause_vars_assigned (cdcl_view_of_snapshot n snap ranks dl) (dense_decode row)) ”) &&
+    (“ (installing_clause F (cdcl_view_of_snapshot n snap ranks dl) n cap row (dense_decode row) live (live + 1)) ”) &&
     emp **
-    ((sat_header_rep s n (Z.add live 1) cap dl v_data cl_data)) **
+    ((sat_header_rep s n (live + 1) cap dl v_data cl_data)) **
     ((var_header_rep v_data values reasons levels)) **
     ((clause_header_rep cl_data states true_counts unassigned row_table)) **
     ((variable_arrays_rep values reasons levels n snap)) **
-    ((clause_summaries_explicit_rep states true_counts unassigned (Z.add live 1) cap ( snap_states installed_snap) ( snap_true_counts installed_snap) ( snap_unassigned installed_snap))) **
-    ((IntPtrArray2.missing_i row_table (Z.add live 1) live new_cl ( snap_rows installed_snap))) **
-    ((poly_store FET_ptr (Z.add row_table (Z.mul live (@sizeof_front_end_type FET_ptr))) new_cl)) **
+    ((clause_summaries_explicit_rep states true_counts unassigned (live + 1) cap (snap_states installed_snap) (snap_true_counts installed_snap) (snap_unassigned installed_snap))) **
+    ((IntPtrArray2.missing_i row_table (live + 1) live new_cl (snap_rows installed_snap))) **
+    ((poly_store FET_ptr (row_table + (live * sizeof(PTR))) new_cl)) **
     ((IntArray.full new_cl n row)) **
-    ((PtrArray.undef_seg row_table (Z.add live 1) cap)) -*
+    ((PtrArray.undef_seg row_table (live + 1) cap)) -*
     TT &&
     emp **
     ((solver_installed_row_state s F original_count values reasons levels states true_counts unassigned row_table n live cap conflict_cl new_cl row snap ranks dl))
@@ -1443,30 +1436,30 @@ Definition CDCL_qcp_strategy66 :=
       (
       TT &&
       (“ (snapshot_installs row snap installed_snap) ”) &&
-      (“ (Z.le 0 conflict_cl) ”) &&
-      (“ (Z.lt conflict_cl live) ”) &&
-      (“ (Z.lt 0 dl) ”) &&
-      (“ (Z.le dl n) ”) &&
-      (“ (Z.le 0 original_count) ”) &&
-      (“ (Z.le original_count live) ”) &&
-      (“ (Z.le 0 live) ”) &&
-      (“ (Z.lt live cap) ”) &&
+      (“ (0 <= conflict_cl) ”) &&
+      (“ (conflict_cl < live) ”) &&
+      (“ (0 < dl) ”) &&
+      (“ (dl <= n) ”) &&
+      (“ (0 <= original_count) ”) &&
+      (“ (original_count <= live) ”) &&
+      (“ (0 <= live) ”) &&
+      (“ (live < cap) ”) &&
       (“ (coherent_snapshot F n live original_count snap) ”) &&
       (“ (stable_search_facts n snap ranks dl) ”) &&
-      (“ (dense_conflict_batch ( cdcl_view_of_snapshot n pre_snap pre_ranks dl) ( cdcl_view_of_snapshot n snap ranks dl) last) ”) &&
-      (“ (current_learning_exit_cert F ( cdcl_view_of_snapshot n snap ranks dl) ( dense_decode row)) ”) &&
-      (“ (clause_vars_assigned ( cdcl_view_of_snapshot n snap ranks dl) ( dense_decode row)) ”) &&
-      (“ (installing_clause F ( cdcl_view_of_snapshot n snap ranks dl) n cap row ( dense_decode row) live (Z.add live 1)) ”) &&
+      (“ (dense_conflict_batch (cdcl_view_of_snapshot n pre_snap pre_ranks dl) (cdcl_view_of_snapshot n snap ranks dl) last) ”) &&
+      (“ (current_learning_exit_cert F (cdcl_view_of_snapshot n snap ranks dl) (dense_decode row)) ”) &&
+      (“ (clause_vars_assigned (cdcl_view_of_snapshot n snap ranks dl) (dense_decode row)) ”) &&
+      (“ (installing_clause F (cdcl_view_of_snapshot n snap ranks dl) n cap row (dense_decode row) live (live + 1)) ”) &&
       emp **
-      ((sat_header_rep s n (Z.add live 1) cap dl v_data cl_data)) **
+      ((sat_header_rep s n (live + 1) cap dl v_data cl_data)) **
       ((var_header_rep v_data values reasons levels)) **
       ((clause_header_rep cl_data states true_counts unassigned row_table)) **
       ((variable_arrays_rep values reasons levels n snap)) **
-      ((clause_summaries_explicit_rep states true_counts unassigned (Z.add live 1) cap ( snap_states installed_snap) ( snap_true_counts installed_snap) ( snap_unassigned installed_snap))) **
-      ((IntPtrArray2.missing_i row_table (Z.add live 1) live new_cl ( snap_rows installed_snap))) **
-      ((poly_store FET_ptr (Z.add row_table (Z.mul live (@sizeof_front_end_type FET_ptr))) new_cl)) **
+      ((clause_summaries_explicit_rep states true_counts unassigned (live + 1) cap (snap_states installed_snap) (snap_true_counts installed_snap) (snap_unassigned installed_snap))) **
+      ((IntPtrArray2.missing_i row_table (live + 1) live new_cl (snap_rows installed_snap))) **
+      ((poly_store FET_ptr (row_table + (live * sizeof(PTR))) new_cl)) **
       ((IntArray.full new_cl n row)) **
-      ((PtrArray.undef_seg row_table (Z.add live 1) cap))
+      ((PtrArray.undef_seg row_table (live + 1) cap))
       ) ** (
       TT &&
       emp -*
@@ -1484,24 +1477,24 @@ Definition CDCL_qcp_strategy69 :=
   ) ** (
   ALL (snap : dense_snapshot) (logical_dl : Z) (ranks : (Z -> (@option nat))) (n : Z) (focus : Z) (cap : Z) (F : cnf) (live : Z) (original_count : Z) (row_ptr : Z) (reasons : Z) (values : Z) (v_data : Z) (s : Z) (cl_data : Z) (true_counts : Z) (unassigned : Z) (states : Z) (levels : Z) (row_table : Z),
     TT &&
-    (“ (Z.lt 0 n) ”) &&
-    (“ (Z.lt n ( INT_MAX)) ”) &&
-    (“ (Z.le 0 original_count) ”) &&
-    (“ (Z.le original_count live) ”) &&
-    (“ (Z.le 0 live) ”) &&
-    (“ (Z.le live cap) ”) &&
-    (“ (Z.lt 0 logical_dl) ”) &&
-    (“ (Z.le 0 focus) ”) &&
-    (“ (Z.lt focus live) ”) &&
+    (“ (0 < n) ”) &&
+    (“ (n < (INT_MAX)) ”) &&
+    (“ (0 <= original_count) ”) &&
+    (“ (original_count <= live) ”) &&
+    (“ (0 <= live) ”) &&
+    (“ (live <= cap) ”) &&
+    (“ (0 < logical_dl) ”) &&
+    (“ (0 <= focus) ”) &&
+    (“ (focus < live) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
     (“ (stable_search_facts n snap ranks logical_dl) ”) &&
     emp **
     ((sat_header_rep s n live cap logical_dl v_data cl_data)) **
     ((var_header_rep v_data values reasons levels)) **
     ((clause_header_rep cl_data states true_counts unassigned row_table)) **
-    ((IntArray.full reasons n ( snap_reasons snap))) **
-    ((IntArray.full levels n ( snap_levels snap))) **
-    ((installed_row_focus_rep row_table live focus row_ptr ( snap_rows snap))) **
+    ((IntArray.full reasons n (snap_reasons snap))) **
+    ((IntArray.full levels n (snap_levels snap))) **
+    ((installed_row_focus_rep row_table live focus row_ptr (snap_rows snap))) **
     ((PtrArray.undef_seg row_table live cap)) -*
     TT &&
     emp **
@@ -1517,24 +1510,24 @@ Definition CDCL_qcp_strategy70 :=
     EX (v_data : Z) (cl_data : Z),
       (
       TT &&
-      (“ (Z.lt 0 n) ”) &&
-      (“ (Z.lt n ( INT_MAX)) ”) &&
-      (“ (Z.le 0 original_count) ”) &&
-      (“ (Z.le original_count live) ”) &&
-      (“ (Z.le 0 live) ”) &&
-      (“ (Z.le live cap) ”) &&
-      (“ (Z.lt 0 logical_dl) ”) &&
-      (“ (Z.le 0 focus) ”) &&
-      (“ (Z.lt focus live) ”) &&
+      (“ (0 < n) ”) &&
+      (“ (n < (INT_MAX)) ”) &&
+      (“ (0 <= original_count) ”) &&
+      (“ (original_count <= live) ”) &&
+      (“ (0 <= live) ”) &&
+      (“ (live <= cap) ”) &&
+      (“ (0 < logical_dl) ”) &&
+      (“ (0 <= focus) ”) &&
+      (“ (focus < live) ”) &&
       (“ (coherent_snapshot F n live original_count snap) ”) &&
       (“ (stable_search_facts n snap ranks logical_dl) ”) &&
       emp **
       ((sat_header_rep s n live cap logical_dl v_data cl_data)) **
       ((var_header_rep v_data values reasons levels)) **
       ((clause_header_rep cl_data states true_counts unassigned row_table)) **
-      ((IntArray.full reasons n ( snap_reasons snap))) **
-      ((IntArray.full levels n ( snap_levels snap))) **
-      ((installed_row_focus_rep row_table live focus row_ptr ( snap_rows snap))) **
+      ((IntArray.full reasons n (snap_reasons snap))) **
+      ((IntArray.full levels n (snap_levels snap))) **
+      ((installed_row_focus_rep row_table live focus row_ptr (snap_rows snap))) **
       ((PtrArray.undef_seg row_table live cap))
       ) ** (
       TT &&
@@ -1600,29 +1593,29 @@ Definition CDCL_qcp_strategy75 :=
   ) ** (
   ALL (current_snap : dense_snapshot) (snap : dense_snapshot) (i : Z) (original_count : Z) (F : cnf) (back_dl : Z) (cap : Z) (conflict_ranks : (Z -> (@option nat))) (conflict_dl : Z) (conflict_snap : dense_snapshot) (n : Z) (live : Z) (after_snap : dense_snapshot) (s : Z) (reasons : Z) (states : Z) (unassigned : Z) (cur_states : (@list Z)) (cur_unassigned : (@list Z)) (cur_true : (@list Z)) (row_table : Z) (true_counts : Z) (levels : Z) (values : Z),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
-    (“ (Z.le 0 back_dl) ”) &&
-    (“ (Z.lt back_dl conflict_dl) ”) &&
-    (“ (Z.le 0 n) ”) &&
-    (“ (Z.lt n ( INT_MAX)) ”) &&
-    (“ (Z.le 0 original_count) ”) &&
-    (“ (Z.le original_count live) ”) &&
-    (“ (Z.le 0 live) ”) &&
-    (“ (Z.le live cap) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
+    (“ (0 <= back_dl) ”) &&
+    (“ (back_dl < conflict_dl) ”) &&
+    (“ (0 <= n) ”) &&
+    (“ (n < (INT_MAX)) ”) &&
+    (“ (0 <= original_count) ”) &&
+    (“ (original_count <= live) ”) &&
+    (“ (0 <= live) ”) &&
+    (“ (live <= cap) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
     (“ (stable_search_facts n conflict_snap conflict_ranks conflict_dl) ”) &&
     (“ (snapshot_lengths n live current_snap) ”) &&
     (“ (snapshot_cells_wf n live current_snap) ”) &&
     (“ (snapshot_lengths n live after_snap) ”) &&
     (“ (snapshot_cells_wf n live after_snap) ”) &&
-    (“ (( snap_values after_snap) = (@replace_Znth Z i (Z.sub 0 1) ( snap_values current_snap))) ”) &&
-    (“ (( snap_reasons after_snap) = (@replace_Znth Z i (Z.sub 0 1) ( snap_reasons current_snap))) ”) &&
-    (“ (( snap_levels after_snap) = (@replace_Znth Z i (Z.sub 0 1) ( snap_levels current_snap))) ”) &&
-    (“ (( snap_rows after_snap) = ( snap_rows current_snap)) ”) &&
-    (“ (( snap_rows current_snap) = ( snap_rows snap)) ”) &&
+    (“ ((snap_values after_snap) = (@replace_Znth Z i (0 - 1) (snap_values current_snap))) ”) &&
+    (“ ((snap_reasons after_snap) = (@replace_Znth Z i (0 - 1) (snap_reasons current_snap))) ”) &&
+    (“ ((snap_levels after_snap) = (@replace_Znth Z i (0 - 1) (snap_levels current_snap))) ”) &&
+    (“ ((snap_rows after_snap) = (snap_rows current_snap)) ”) &&
+    (“ ((snap_rows current_snap) = (snap_rows snap)) ”) &&
     emp **
-    ((solver_explicit_state s values reasons levels states true_counts unassigned row_table n live cap back_dl ( snap_values current_snap) ( snap_reasons current_snap) ( snap_levels current_snap) ( snap_rows current_snap) cur_states cur_true cur_unassigned)) -*
+    ((solver_explicit_state s values reasons levels states true_counts unassigned row_table n live cap back_dl (snap_values current_snap) (snap_reasons current_snap) (snap_levels current_snap) (snap_rows current_snap) cur_states cur_true cur_unassigned)) -*
     TT &&
     emp **
     ((backtrack_inner_state s F original_count snap conflict_snap current_snap after_snap conflict_ranks conflict_dl back_dl i values reasons levels states true_counts unassigned row_table n live cap cur_states cur_true cur_unassigned))
@@ -1636,29 +1629,29 @@ Definition CDCL_qcp_strategy76 :=
     |--
     (
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
-    (“ (Z.le 0 back_dl) ”) &&
-    (“ (Z.lt back_dl conflict_dl) ”) &&
-    (“ (Z.le 0 n) ”) &&
-    (“ (Z.lt n ( INT_MAX)) ”) &&
-    (“ (Z.le 0 original_count) ”) &&
-    (“ (Z.le original_count live) ”) &&
-    (“ (Z.le 0 live) ”) &&
-    (“ (Z.le live cap) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
+    (“ (0 <= back_dl) ”) &&
+    (“ (back_dl < conflict_dl) ”) &&
+    (“ (0 <= n) ”) &&
+    (“ (n < (INT_MAX)) ”) &&
+    (“ (0 <= original_count) ”) &&
+    (“ (original_count <= live) ”) &&
+    (“ (0 <= live) ”) &&
+    (“ (live <= cap) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
     (“ (stable_search_facts n conflict_snap conflict_ranks conflict_dl) ”) &&
     (“ (snapshot_lengths n live current_snap) ”) &&
     (“ (snapshot_cells_wf n live current_snap) ”) &&
     (“ (snapshot_lengths n live after_snap) ”) &&
     (“ (snapshot_cells_wf n live after_snap) ”) &&
-    (“ (( snap_values after_snap) = (@replace_Znth Z i (Z.sub 0 1) ( snap_values current_snap))) ”) &&
-    (“ (( snap_reasons after_snap) = (@replace_Znth Z i (Z.sub 0 1) ( snap_reasons current_snap))) ”) &&
-    (“ (( snap_levels after_snap) = (@replace_Znth Z i (Z.sub 0 1) ( snap_levels current_snap))) ”) &&
-    (“ (( snap_rows after_snap) = ( snap_rows current_snap)) ”) &&
-    (“ (( snap_rows current_snap) = ( snap_rows snap)) ”) &&
+    (“ ((snap_values after_snap) = (@replace_Znth Z i (0 - 1) (snap_values current_snap))) ”) &&
+    (“ ((snap_reasons after_snap) = (@replace_Znth Z i (0 - 1) (snap_reasons current_snap))) ”) &&
+    (“ ((snap_levels after_snap) = (@replace_Znth Z i (0 - 1) (snap_levels current_snap))) ”) &&
+    (“ ((snap_rows after_snap) = (snap_rows current_snap)) ”) &&
+    (“ ((snap_rows current_snap) = (snap_rows snap)) ”) &&
     emp **
-    ((solver_explicit_state s values reasons levels states true_counts unassigned row_table n live cap back_dl ( snap_values current_snap) ( snap_reasons current_snap) ( snap_levels current_snap) ( snap_rows current_snap) cur_states cur_true cur_unassigned))
+    ((solver_explicit_state s values reasons levels states true_counts unassigned row_table n live cap back_dl (snap_values current_snap) (snap_reasons current_snap) (snap_levels current_snap) (snap_rows current_snap) cur_states cur_true cur_unassigned))
     ) ** (
     TT &&
     emp -*
@@ -1727,29 +1720,29 @@ Definition CDCL_qcp_strategy77 :=
   ) ** (
   ALL (current_snap : dense_snapshot) (snap : dense_snapshot) (i : Z) (original_count : Z) (F : cnf) (back_dl : Z) (cap : Z) (conflict_ranks : (Z -> (@option nat))) (conflict_dl : Z) (conflict_snap : dense_snapshot) (n : Z) (live : Z) (after_snap : dense_snapshot) (s : Z) (reasons : Z) (states : Z) (unassigned : Z) (j : Z) (cur_states : (@list Z)) (cur_unassigned : (@list Z)) (cur_true : (@list Z)) (row_ptr : Z) (row_table : Z) (true_counts : Z) (levels : Z) (values : Z),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
-    (“ (Z.le 0 back_dl) ”) &&
-    (“ (Z.lt back_dl conflict_dl) ”) &&
-    (“ (Z.le 0 n) ”) &&
-    (“ (Z.lt n ( INT_MAX)) ”) &&
-    (“ (Z.le 0 original_count) ”) &&
-    (“ (Z.le original_count live) ”) &&
-    (“ (Z.le 0 live) ”) &&
-    (“ (Z.le live cap) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
+    (“ (0 <= back_dl) ”) &&
+    (“ (back_dl < conflict_dl) ”) &&
+    (“ (0 <= n) ”) &&
+    (“ (n < (INT_MAX)) ”) &&
+    (“ (0 <= original_count) ”) &&
+    (“ (original_count <= live) ”) &&
+    (“ (0 <= live) ”) &&
+    (“ (live <= cap) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
     (“ (stable_search_facts n conflict_snap conflict_ranks conflict_dl) ”) &&
     (“ (snapshot_lengths n live current_snap) ”) &&
     (“ (snapshot_cells_wf n live current_snap) ”) &&
     (“ (snapshot_lengths n live after_snap) ”) &&
     (“ (snapshot_cells_wf n live after_snap) ”) &&
-    (“ (( snap_values after_snap) = (@replace_Znth Z i (Z.opp 1) ( snap_values current_snap))) ”) &&
-    (“ (( snap_reasons after_snap) = (@replace_Znth Z i (Z.opp 1) ( snap_reasons current_snap))) ”) &&
-    (“ (( snap_levels after_snap) = (@replace_Znth Z i (Z.opp 1) ( snap_levels current_snap))) ”) &&
-    (“ (( snap_rows after_snap) = ( snap_rows current_snap)) ”) &&
-    (“ (( snap_rows current_snap) = ( snap_rows snap)) ”) &&
+    (“ ((snap_values after_snap) = (@replace_Znth Z i (- 1) (snap_values current_snap))) ”) &&
+    (“ ((snap_reasons after_snap) = (@replace_Znth Z i (- 1) (snap_reasons current_snap))) ”) &&
+    (“ ((snap_levels after_snap) = (@replace_Znth Z i (- 1) (snap_levels current_snap))) ”) &&
+    (“ ((snap_rows after_snap) = (snap_rows current_snap)) ”) &&
+    (“ ((snap_rows current_snap) = (snap_rows snap)) ”) &&
     emp **
-    ((solver_row_focus_state s values reasons levels states true_counts unassigned row_table n live cap back_dl j row_ptr ( snap_values current_snap) ( snap_reasons current_snap) ( snap_levels current_snap) ( snap_rows current_snap) cur_states cur_true cur_unassigned)) -*
+    ((solver_row_focus_state s values reasons levels states true_counts unassigned row_table n live cap back_dl j row_ptr (snap_values current_snap) (snap_reasons current_snap) (snap_levels current_snap) (snap_rows current_snap) cur_states cur_true cur_unassigned)) -*
     TT &&
     emp **
     ((backtrack_row_focus_state s F original_count snap conflict_snap current_snap after_snap conflict_ranks conflict_dl back_dl i j values reasons levels states true_counts unassigned row_table n live cap row_ptr cur_states cur_true cur_unassigned))
@@ -1763,29 +1756,29 @@ Definition CDCL_qcp_strategy78 :=
     |--
     (
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
-    (“ (Z.le 0 back_dl) ”) &&
-    (“ (Z.lt back_dl conflict_dl) ”) &&
-    (“ (Z.le 0 n) ”) &&
-    (“ (Z.lt n ( INT_MAX)) ”) &&
-    (“ (Z.le 0 original_count) ”) &&
-    (“ (Z.le original_count live) ”) &&
-    (“ (Z.le 0 live) ”) &&
-    (“ (Z.le live cap) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
+    (“ (0 <= back_dl) ”) &&
+    (“ (back_dl < conflict_dl) ”) &&
+    (“ (0 <= n) ”) &&
+    (“ (n < (INT_MAX)) ”) &&
+    (“ (0 <= original_count) ”) &&
+    (“ (original_count <= live) ”) &&
+    (“ (0 <= live) ”) &&
+    (“ (live <= cap) ”) &&
     (“ (coherent_snapshot F n live original_count snap) ”) &&
     (“ (stable_search_facts n conflict_snap conflict_ranks conflict_dl) ”) &&
     (“ (snapshot_lengths n live current_snap) ”) &&
     (“ (snapshot_cells_wf n live current_snap) ”) &&
     (“ (snapshot_lengths n live after_snap) ”) &&
     (“ (snapshot_cells_wf n live after_snap) ”) &&
-    (“ (( snap_values after_snap) = (@replace_Znth Z i (Z.opp 1) ( snap_values current_snap))) ”) &&
-    (“ (( snap_reasons after_snap) = (@replace_Znth Z i (Z.opp 1) ( snap_reasons current_snap))) ”) &&
-    (“ (( snap_levels after_snap) = (@replace_Znth Z i (Z.opp 1) ( snap_levels current_snap))) ”) &&
-    (“ (( snap_rows after_snap) = ( snap_rows current_snap)) ”) &&
-    (“ (( snap_rows current_snap) = ( snap_rows snap)) ”) &&
+    (“ ((snap_values after_snap) = (@replace_Znth Z i (- 1) (snap_values current_snap))) ”) &&
+    (“ ((snap_reasons after_snap) = (@replace_Znth Z i (- 1) (snap_reasons current_snap))) ”) &&
+    (“ ((snap_levels after_snap) = (@replace_Znth Z i (- 1) (snap_levels current_snap))) ”) &&
+    (“ ((snap_rows after_snap) = (snap_rows current_snap)) ”) &&
+    (“ ((snap_rows current_snap) = (snap_rows snap)) ”) &&
     emp **
-    ((solver_row_focus_state s values reasons levels states true_counts unassigned row_table n live cap back_dl j row_ptr ( snap_values current_snap) ( snap_reasons current_snap) ( snap_levels current_snap) ( snap_rows current_snap) cur_states cur_true cur_unassigned))
+    ((solver_row_focus_state s values reasons levels states true_counts unassigned row_table n live cap back_dl j row_ptr (snap_values current_snap) (snap_reasons current_snap) (snap_levels current_snap) (snap_rows current_snap) cur_states cur_true cur_unassigned))
     ) ** (
     TT &&
     emp -*
@@ -1808,14 +1801,14 @@ Definition CDCL_qcp_strategy79 :=
     ((var_header_rep v_data values reasons levels)) **
     ((clause_header_rep cl_data states true_counts unassigned row_table)) **
     ((variable_arrays_rep values reasons levels n new_snap)) **
-    ((poly_store FET_int (Z.add states (Z.mul focus (@sizeof_front_end_type FET_int))) current_state)) **
+    ((poly_store FET_int (states + (focus * sizeof(INT))) current_state)) **
     ((IntArray.missing_i states focus 0 live cur_states)) **
     ((IntArray.seg_shape states live cap)) **
     ((IntArray.full true_counts live cur_true)) **
     ((IntArray.seg_shape true_counts live cap)) **
     ((IntArray.full unassigned live cur_unassigned)) **
     ((IntArray.seg_shape unassigned live cap)) **
-    ((installed_row_focus_rep row_table live focus row_ptr ( snap_rows snap))) **
+    ((installed_row_focus_rep row_table live focus row_ptr (snap_rows snap))) **
     ((PtrArray.undef_seg row_table live cap)) -*
     TT &&
     emp **
@@ -1836,14 +1829,14 @@ Definition CDCL_qcp_strategy80 :=
       ((var_header_rep v_data values reasons levels)) **
       ((clause_header_rep cl_data states true_counts unassigned row_table)) **
       ((variable_arrays_rep values reasons levels n new_snap)) **
-      ((poly_store FET_int (Z.add states (Z.mul focus (@sizeof_front_end_type FET_int))) current_state)) **
+      ((poly_store FET_int (states + (focus * sizeof(INT))) current_state)) **
       ((IntArray.missing_i states focus 0 live cur_states)) **
       ((IntArray.seg_shape states live cap)) **
       ((IntArray.full true_counts live cur_true)) **
       ((IntArray.seg_shape true_counts live cap)) **
       ((IntArray.full unassigned live cur_unassigned)) **
       ((IntArray.seg_shape unassigned live cap)) **
-      ((installed_row_focus_rep row_table live focus row_ptr ( snap_rows snap))) **
+      ((installed_row_focus_rep row_table live focus row_ptr (snap_rows snap))) **
       ((PtrArray.undef_seg row_table live cap))
       ) ** (
       TT &&
@@ -1855,12 +1848,12 @@ Definition CDCL_qcp_strategy80 :=
 Definition CDCL_qcp_strategy4 :=
   forall (i : Z) (live : Z) (row_ptr : Z) (__default_app1_Z : (@list Z)) (rows : (@list (@list Z))) (p : Z) (cap : Z),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i live) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < live) ”) &&
     emp **
     ((IntPtrArray2.missing_i p live i row_ptr rows)) **
     ((IntArray.full row_ptr (@Zlength Z (Znth i rows __default_app1_Z)) (Znth i rows __default_app1_Z))) **
-    ((poly_store FET_ptr (Z.add p (Z.mul i (@sizeof_front_end_type FET_ptr))) row_ptr)) **
+    ((poly_store FET_ptr (p + (i * sizeof(PTR))) row_ptr)) **
     ((PtrArray.undef_seg p live cap))
     |--
     (
@@ -1877,18 +1870,18 @@ Definition CDCL_qcp_strategy4 :=
 Definition CDCL_qcp_strategy6 :=
   forall (live : Z) (cap : Z) (row : (@list Z)) (newp : Z) (rows : (@list (@list Z))) (p : Z),
     TT &&
-    (“ (Z.le 0 live) ”) &&
-    (“ (Z.lt live cap) ”) &&
+    (“ (0 <= live) ”) &&
+    (“ (live < cap) ”) &&
     emp **
     ((IntPtrArray2.full p live rows)) **
-    ((poly_store FET_ptr (Z.add p (Z.mul live (@sizeof_front_end_type FET_ptr))) newp)) **
+    ((poly_store FET_ptr (p + (live * sizeof(PTR))) newp)) **
     ((IntArray.full newp (@Zlength Z row) row)) **
-    ((PtrArray.undef_seg p (Z.add live 1) cap))
+    ((PtrArray.undef_seg p (live + 1) cap))
     |--
     (
     TT &&
     emp **
-    ((installed_rows_capacity_rep p (Z.add live 1) cap (@app (@list Z) rows (@cons (@list Z) row (@nil (@list Z))))))
+    ((installed_rows_capacity_rep p (live + 1) cap (@app (@list Z) rows (@cons (@list Z) row (@nil (@list Z))))))
     ) ** (
     TT &&
     emp -*

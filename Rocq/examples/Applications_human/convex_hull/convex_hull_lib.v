@@ -40,22 +40,6 @@ Notation "p '.(y)'" := (point_y p) (at level 1).
 
 Axiom sizeof_point : sizeof_front_end_type (FET_alias "Point") = 8.
 
-Definition sizeof_Point : Z := sizeof_front_end_type (FET_alias "Point").
-
-Notation "'sizeof' ( ""Point"" )" := (sizeof_Point) (at level 1).
-
-Lemma sizeof_Point_eq : sizeof_Point = 8.
-Proof.
-  unfold sizeof_Point.
-  apply sizeof_point.
-Qed.
-
-Lemma sizeof_front_end_type_Point :
-  sizeof_alias_type "Point" = sizeof_Point.
-Proof.
-  reflexivity.
-Qed.
-
 Definition store_point (p : addr) (pt : Point) : Assertion :=
   (&((p) # "Point" ->ₛ "x") # Int |-> pt.(x)) **
   (&((p) # "Point" ->ₛ "y") # Int |-> pt.(y)).
@@ -2047,7 +2031,7 @@ Proof.
   unfold store_point, undef_point.
   sep_apply store_int_undef_store_int.
   sep_apply store_int_undef_store_int.
-  cancel.
+  cancel; reflexivity.
 Qed.
 
 Lemma point_cmp_xy_range : forall a b,
@@ -2211,12 +2195,12 @@ Module StorePointAsElement <: ELEMENT_STORE.
   Definition A := Point.
 
   Definition storeA (base : addr) (lo : Z) (a : Point) : Assertion :=
-    store_point (base + lo * sizeof_Point) a.
+    store_point (base + lo * sizeof("Point")) a.
 
   Definition undefstoreA (base : addr) (lo : Z) : Assertion :=
-    undef_point (base + lo * sizeof_Point).
+    undef_point (base + lo * sizeof("Point")).
 
-  Definition sizeA := sizeof_Point.
+  Definition sizeA := sizeof("Point").
 
   Lemma store_point_to_align : forall p pt,
     store_point p pt |-- store_align_n sizeA.
@@ -2230,7 +2214,7 @@ Module StorePointAsElement <: ELEMENT_STORE.
     sep_apply (store_align4_merge 1 1).
     replace (1 + 1) with 2 by lia.
     sep_apply (store_align4_to_store_align 2).
-    rewrite sizeof_Point_eq.
+    rewrite sizeof_point.
     replace (4 * 2) with 8 by lia.
     reflexivity.
   Qed.
@@ -2247,7 +2231,7 @@ Module StorePointAsElement <: ELEMENT_STORE.
     sep_apply (store_align4_merge 1 1).
     replace (1 + 1) with 2 by lia.
     sep_apply (store_align4_to_store_align 2).
-    rewrite sizeof_Point_eq.
+    rewrite sizeof_point.
     replace (4 * 2) with 8 by lia.
     reflexivity.
   Qed.
@@ -2264,8 +2248,8 @@ Module StorePointAsElement <: ELEMENT_STORE.
   Proof.
     intros.
     unfold storeA, sizeA.
-    replace (base + n * sizeof_Point + lo * sizeof_Point)
-      with (base + (lo + n) * sizeof_Point) by lia.
+    replace (base + n * sizeof("Point") + lo * sizeof("Point"))
+      with (base + (lo + n) * sizeof("Point")) by lia.
     split; reflexivity.
   Qed.
 
@@ -2274,8 +2258,8 @@ Module StorePointAsElement <: ELEMENT_STORE.
   Proof.
     intros.
     unfold undefstoreA, sizeA.
-    replace (base + n * sizeof_Point + lo * sizeof_Point)
-      with (base + (lo + n) * sizeof_Point) by lia.
+    replace (base + n * sizeof("Point") + lo * sizeof("Point"))
+      with (base + (lo + n) * sizeof("Point")) by lia.
     split; reflexivity.
   Qed.
 
@@ -2291,14 +2275,6 @@ Module StorePointAsElement <: ELEMENT_STORE.
     intros.
     unfold undefstoreA, sizeA.
     apply undef_point_to_align.
-  Qed.
-
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_Point_eq.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
   Qed.
 End StorePointAsElement.
 

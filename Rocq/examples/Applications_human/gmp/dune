@@ -1,0 +1,3 @@
+; The three child directories own their theories. An empty umbrella theory
+; crashes Dune's Coq source lookup when building this directory recursively.
+(include_subdirs no)

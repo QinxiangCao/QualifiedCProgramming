@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P031_1194C_from_s_to_t_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P031_1194C_from_s_to_t_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.StdLib.string_lib.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P031_1194C_from_s_to_t_lib.
@@ -24,11 +8,11 @@ Local Open Scope sac.
 
 Lemma proof_of_solver_safety_wit_22_split_goal_1 : solver_safety_wit_22_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (count_state_cell_bounds__count_init_safety
        source pool target i 0 0 counts (Znth i source 0 - 97)
-       PreH23 ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)) as Hcount.
+       PreH20 ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)) as Hcount.
   rewrite PreH3.
   dump_pre_spatial.
   lia.
@@ -36,8 +20,8 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_22_split_goal_2 : solver_safety_wit_22_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  pose proof (PreH24 (Znth i source 0 - 97) ltac:(lia)) as Hcount.
+  LLM_pre_process ltac:(lia || int_auto).
+  pose proof (PreH21 (Znth i source 0 - 97) ltac:(lia)) as Hcount.
   rewrite PreH3.
   dump_pre_spatial.
   lia.
@@ -52,11 +36,11 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_29_split_goal_1 : solver_safety_wit_29_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (count_state_cell_bounds__count_init_safety
        source pool target (Zlength source) i 0 counts (Znth i pool 0 - 97)
-       PreH23 ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)) as Hcount.
+       PreH20 ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)) as Hcount.
   rewrite PreH3.
   dump_pre_spatial.
   lia.
@@ -64,8 +48,8 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_29_split_goal_2 : solver_safety_wit_29_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  pose proof (PreH24 (Znth i pool 0 - 97) ltac:(lia)) as Hcount.
+  LLM_pre_process ltac:(lia || int_auto).
+  pose proof (PreH21 (Znth i pool 0 - 97) ltac:(lia)) as Hcount.
   rewrite PreH3.
   dump_pre_spatial.
   lia.
@@ -80,12 +64,12 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_35_split_goal_1 : solver_safety_wit_35_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (count_state_cell_bounds__count_init_safety
        source pool target (Zlength source) (Zlength pool) i counts
        (Znth i target 0 - 97)
-       PreH23 ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)) as Hcount.
+       PreH20 ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)) as Hcount.
   rewrite PreH3.
   dump_pre_spatial.
   lia.
@@ -93,8 +77,8 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_35_split_goal_2 : solver_safety_wit_35_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  pose proof (PreH24 (Znth i target 0 - 97) ltac:(lia)) as Hcount.
+  LLM_pre_process ltac:(lia || int_auto).
+  pose proof (PreH21 (Znth i target 0 - 97) ltac:(lia)) as Hcount.
   rewrite PreH3.
   dump_pre_spatial.
   lia.
@@ -109,7 +93,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold NonnegativeCounts.
   intros c Hc.
   unfold repeat_Z.
@@ -119,7 +103,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold CountState.
   split.
   - unfold repeat_Z.
@@ -136,41 +120,41 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_3 : solver_entail_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply greedy_prefix_zero__count_init_safety.
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_4 : solver_entail_wit_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply app_Znth1.
   lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_5 : solver_entail_wit_1_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply app_Znth1.
   lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_6 : solver_entail_wit_1_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH9.
   exact H.
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_7 : solver_entail_wit_1_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH8.
   exact H.
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_8 : solver_entail_wit_1_split_goal_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH7.
   exact H.
 Qed.
@@ -190,12 +174,12 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_1 : solver_entail_wit_7_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hchars : Znth i source 0 = Znth j target 0).
-  { rewrite <- PreH25, <- PreH21. exact PreH1. }
+  { rewrite <- PreH22, <- PreH18. exact PreH1. }
   pose proof
     (greedy_prefix_match_equal_step__greedy_match
-       source target j i ltac:(lia) ltac:(lia) Hchars PreH28) as Hgreedy.
+       source target j i ltac:(lia) ltac:(lia) Hchars PreH25) as Hgreedy.
   destruct (Z.eq_dec (j + 1) (Zlength target)) as [Hjt | Hjt].
   - destruct (Z.eq_dec (i + 1) (Zlength source)) as [His | His].
     + Left. Left. Right. Exists counts_2.
@@ -213,7 +197,7 @@ Proof.
                rewrite Z.sub_diag; apply Znth0_cons);
           try (rewrite His; rewrite app_Znth2 by lia;
                rewrite Z.sub_diag; apply Znth0_cons).
-    + pose proof (PreH13 (i + 1) ltac:(lia)) as Hsource_next.
+    + pose proof (PreH10 (i + 1) ltac:(lia)) as Hsource_next.
       destruct Hsource_next as (Hsource_lo & Hsource_hi).
       Left. Left. Left. Exists counts_2.
       split_pure_spatial.
@@ -230,7 +214,7 @@ Proof.
           try (rewrite Hjt; rewrite app_Znth2 by lia;
                rewrite Z.sub_diag; apply Znth0_cons).
   - destruct (Z.eq_dec (i + 1) (Zlength source)) as [His | His].
-    + pose proof (PreH14 (j + 1) ltac:(lia)) as Htarget_next.
+    + pose proof (PreH11 (j + 1) ltac:(lia)) as Htarget_next.
       destruct Htarget_next as (Htarget_lo & Htarget_hi).
       Right. Exists counts_2.
       split_pure_spatial.
@@ -246,8 +230,8 @@ Proof.
           try (rewrite app_Znth1 by lia; reflexivity);
           try (rewrite His; rewrite app_Znth2 by lia;
                rewrite Z.sub_diag; apply Znth0_cons).
-    + pose proof (PreH13 (i + 1) ltac:(lia)) as Hsource_next.
-      pose proof (PreH14 (j + 1) ltac:(lia)) as Htarget_next.
+    + pose proof (PreH10 (i + 1) ltac:(lia)) as Hsource_next.
+      pose proof (PreH11 (j + 1) ltac:(lia)) as Htarget_next.
       destruct Hsource_next as (Hsource_lo & Hsource_hi).
       destruct Htarget_next as (Htarget_lo & Htarget_hi).
       Left. Right. Exists counts_2.
@@ -266,48 +250,12 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_2 : solver_entail_wit_7_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hchars : Znth i source 0 <> Znth j target 0).
-  { rewrite <- PreH25, <- PreH21. exact PreH1. }
+  { rewrite <- PreH22, <- PreH18. exact PreH1. }
   pose proof
     (greedy_prefix_match_skip_step__greedy_match
-       source target j i ltac:(lia) ltac:(lia) Hchars PreH28) as Hgreedy.
-  destruct (Z.eq_dec (j + 1) (Zlength target)) as [Hjt | Hjt].
-  - Left. Exists counts_2.
-    split_pure_spatial.
-    + cancel (CharArray.full s_pre (Zlength source + 1) (source +:: 0)).
-      cancel (CharArray.full t_pre (Zlength target + 1) (target +:: 0)).
-      cancel (CharArray.undef_seg s_pre (Zlength source + 1) 105).
-      cancel (CharArray.undef_seg t_pre (Zlength target + 1) 105).
-      cancel (CharArray.full p_pre (Zlength pool + 1) (pool +:: 0)).
-      cancel (CharArray.undef_seg p_pre (Zlength pool + 1) 105).
-      cancel (IntArray.full (&( "cnt" )) 26 counts_2).
-    + split_pures; dump_pre_spatial;
-        try assumption; try lia; try eauto;
-        try (rewrite Hjt; rewrite app_Znth2 by lia;
-             rewrite Z.sub_diag; apply Znth0_cons).
-  - pose proof (PreH14 (j + 1) ltac:(lia)) as Htarget_next.
-    destruct Htarget_next as (Htarget_lo & Htarget_hi).
-    Right. Exists counts_2.
-    split_pure_spatial.
-    + cancel (CharArray.full s_pre (Zlength source + 1) (source +:: 0)).
-      cancel (CharArray.full t_pre (Zlength target + 1) (target +:: 0)).
-      cancel (CharArray.undef_seg s_pre (Zlength source + 1) 105).
-      cancel (CharArray.undef_seg t_pre (Zlength target + 1) 105).
-      cancel (CharArray.full p_pre (Zlength pool + 1) (pool +:: 0)).
-      cancel (CharArray.undef_seg p_pre (Zlength pool + 1) 105).
-      cancel (IntArray.full (&( "cnt" )) 26 counts_2).
-    + split_pures; dump_pre_spatial;
-        try assumption; try lia; try eauto;
-        try (rewrite app_Znth1 by lia; reflexivity).
-Qed.
-
-Lemma proof_of_solver_entail_wit_7_3 : solver_entail_wit_7_3.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  pose proof
-    (greedy_prefix_match_target_step_complete__greedy_match
-       source target j i PreH21 ltac:(lia) PreH23) as Hgreedy.
+       source target j i ltac:(lia) ltac:(lia) Hchars PreH25) as Hgreedy.
   destruct (Z.eq_dec (j + 1) (Zlength target)) as [Hjt | Hjt].
   - Left. Exists counts_2.
     split_pure_spatial.
@@ -338,13 +286,49 @@ Proof.
         try (rewrite app_Znth1 by lia; reflexivity).
 Qed.
 
+Lemma proof_of_solver_entail_wit_7_3 : solver_entail_wit_7_3.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  pose proof
+    (greedy_prefix_match_target_step_complete__greedy_match
+       source target j i PreH18 ltac:(lia) PreH20) as Hgreedy.
+  destruct (Z.eq_dec (j + 1) (Zlength target)) as [Hjt | Hjt].
+  - Left. Exists counts_2.
+    split_pure_spatial.
+    + cancel (CharArray.full s_pre (Zlength source + 1) (source +:: 0)).
+      cancel (CharArray.full t_pre (Zlength target + 1) (target +:: 0)).
+      cancel (CharArray.undef_seg s_pre (Zlength source + 1) 105).
+      cancel (CharArray.undef_seg t_pre (Zlength target + 1) 105).
+      cancel (CharArray.full p_pre (Zlength pool + 1) (pool +:: 0)).
+      cancel (CharArray.undef_seg p_pre (Zlength pool + 1) 105).
+      cancel (IntArray.full (&( "cnt" )) 26 counts_2).
+    + split_pures; dump_pre_spatial;
+        try assumption; try lia; try eauto;
+        try (rewrite Hjt; rewrite app_Znth2 by lia;
+             rewrite Z.sub_diag; apply Znth0_cons).
+  - pose proof (PreH8 (j + 1) ltac:(lia)) as Htarget_next.
+    destruct Htarget_next as (Htarget_lo & Htarget_hi).
+    Right. Exists counts_2.
+    split_pure_spatial.
+    + cancel (CharArray.full s_pre (Zlength source + 1) (source +:: 0)).
+      cancel (CharArray.full t_pre (Zlength target + 1) (target +:: 0)).
+      cancel (CharArray.undef_seg s_pre (Zlength source + 1) 105).
+      cancel (CharArray.undef_seg t_pre (Zlength target + 1) 105).
+      cancel (CharArray.full p_pre (Zlength pool + 1) (pool +:: 0)).
+      cancel (CharArray.undef_seg p_pre (Zlength pool + 1) 105).
+      cancel (IntArray.full (&( "cnt" )) 26 counts_2).
+    + split_pures; dump_pre_spatial;
+        try assumption; try lia; try eauto;
+        try (rewrite app_Znth1 by lia; reflexivity).
+Qed.
+
 Lemma proof_of_solver_entail_wit_10_split_goal_1 : solver_entail_wit_10_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (greedy_prefix_match_complete_cases__greedy_match
-       source target j i PreH23 PreH17) as (_ & Hno).
-  apply Hno. exact PreH19.
+       source target j i PreH20 PreH14) as (_ & Hno).
+  apply Hno. exact PreH16.
 Qed.
 
 Lemma proof_of_solver_entail_wit_10 : solver_entail_wit_10.
@@ -355,29 +339,29 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_11_split_goal_1 : solver_entail_wit_11_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (greedy_prefix_match_complete_cases__greedy_match
-       source target j i PreH21 PreH17) as (Hyes & _).
-  apply Hyes. exact PreH19.
+       source target j i PreH18 PreH14) as (Hyes & _).
+  apply Hyes. exact PreH16.
 Qed.
 
 Lemma proof_of_solver_entail_wit_11_split_goal_2 : solver_entail_wit_11_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  apply PreH12. exact H.
+  LLM_pre_process ltac:(lia || int_auto).
+  apply PreH9. exact H.
 Qed.
 
 Lemma proof_of_solver_entail_wit_11_split_goal_3 : solver_entail_wit_11_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  apply PreH11. exact H.
+  LLM_pre_process ltac:(lia || int_auto).
+  apply PreH8. exact H.
 Qed.
 
 Lemma proof_of_solver_entail_wit_11_split_goal_4 : solver_entail_wit_11_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  apply PreH10. exact H.
+  LLM_pre_process ltac:(lia || int_auto).
+  apply PreH7. exact H.
 Qed.
 
 Lemma proof_of_solver_entail_wit_11 : solver_entail_wit_11.
@@ -391,28 +375,28 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_split_goal_1 : solver_entail_wit_12_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Znth_app_left__source_pool_updates by lia.
   reflexivity.
 Qed.
 
 Lemma proof_of_solver_entail_wit_12_split_goal_2 : solver_entail_wit_12_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH9.
   exact H.
 Qed.
 
 Lemma proof_of_solver_entail_wit_12_split_goal_3 : solver_entail_wit_12_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH8.
   exact H.
 Qed.
 
 Lemma proof_of_solver_entail_wit_12_split_goal_4 : solver_entail_wit_12_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH7.
   exact H.
 Qed.
@@ -428,17 +412,17 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_16 : solver_entail_wit_16.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite PreH3 in *.
-  pose proof (proj1 PreH23) as Hcounts_len.
+  pose proof (proj1 PreH20) as Hcounts_len.
   pose proof
     (count_state_source_step__source_pool_updates
-      source pool target counts_2 i ltac:(lia) ltac:(lia) PreH23)
+      source pool target counts_2 i ltac:(lia) ltac:(lia) PreH20)
     as Hcount_step.
   pose proof
     (nonnegative_counts_increment__source_pool_updates
       counts_2 (Znth i source 0 - 97)
-      Hcounts_len ltac:(lia) PreH24)
+      Hcounts_len ltac:(lia) PreH21)
     as Hnonnegative_step.
   destruct (Z.eq_dec (i + 1) (Zlength source)) as [Hend | Hcontinue].
   - Left.
@@ -451,7 +435,7 @@ Proof.
       cancel.
       cancel.
     + split_pures.
-      all: dump_pre_spatial.
+      all: entailer!.
       all: try assumption.
       all: try lia.
       rewrite Hend.
@@ -467,38 +451,38 @@ Proof.
       cancel.
       cancel.
     + split_pures.
-      all: dump_pre_spatial.
+      all: entailer!.
       all: try assumption.
       all: try lia.
       all: try (rewrite Znth_app_left__source_pool_updates by lia; reflexivity).
-      all: apply PreH13; lia.
+      all: apply PreH10; lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_17_split_goal_1 : solver_entail_wit_17_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Znth_app_left__source_pool_updates by lia.
   reflexivity.
 Qed.
 
 Lemma proof_of_solver_entail_wit_17_split_goal_2 : solver_entail_wit_17_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  apply PreH11.
+  LLM_pre_process ltac:(lia || int_auto).
+  apply PreH9.
   exact H.
 Qed.
 
 Lemma proof_of_solver_entail_wit_17_split_goal_3 : solver_entail_wit_17_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  apply PreH10.
+  LLM_pre_process ltac:(lia || int_auto).
+  apply PreH8.
   exact H.
 Qed.
 
 Lemma proof_of_solver_entail_wit_17_split_goal_4 : solver_entail_wit_17_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  apply PreH9.
+  LLM_pre_process ltac:(lia || int_auto).
+  apply PreH7.
   exact H.
 Qed.
 
@@ -513,18 +497,18 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_21 : solver_entail_wit_21.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite PreH3 in *.
-  pose proof (proj1 PreH23) as Hcounts_len.
+  pose proof (proj1 PreH20) as Hcounts_len.
   pose proof
     (count_state_pool_step__source_pool_updates
       source pool target counts_2 (Zlength source) i
-      ltac:(lia) ltac:(lia) PreH23)
+      ltac:(lia) ltac:(lia) PreH20)
     as Hcount_step.
   pose proof
     (nonnegative_counts_increment__source_pool_updates
       counts_2 (Znth i pool 0 - 97)
-      Hcounts_len ltac:(lia) PreH24)
+      Hcounts_len ltac:(lia) PreH21)
     as Hnonnegative_step.
   destruct (Z.eq_dec (i + 1) (Zlength pool)) as [Hend | Hcontinue].
   - Left.
@@ -555,32 +539,32 @@ Proof.
       all: try assumption.
       all: try lia.
       all: try (rewrite Znth_app_left__source_pool_updates by lia; reflexivity).
-      all: apply PreH15; lia.
+      all: apply PreH12; lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_22_split_goal_1 : solver_entail_wit_22_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply Znth_app_left__target_shortage.
   lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_22_split_goal_2 : solver_entail_wit_22_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  exact (PreH11 k_3 H).
+  LLM_pre_process ltac:(lia || int_auto).
+  auto.
 Qed.
 
 Lemma proof_of_solver_entail_wit_22_split_goal_3 : solver_entail_wit_22_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  exact (PreH10 k_2 H).
+  LLM_pre_process ltac:(lia || int_auto).
+  auto.
 Qed.
 
 Lemma proof_of_solver_entail_wit_22_split_goal_4 : solver_entail_wit_22_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  exact (PreH9 k H).
+  LLM_pre_process ltac:(lia || int_auto).
+  auto.
 Qed.
 
 Lemma proof_of_solver_entail_wit_22 : solver_entail_wit_22.
@@ -594,7 +578,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_26_split_goal_1 : solver_entail_wit_26_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply negative_target_cell_implies_shortage__target_shortage;
     eauto; try lia.
   rewrite <- PreH4.
@@ -603,7 +587,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_26_split_goal_2 : solver_entail_wit_26_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite PreH4.
   eapply count_state_target_step__target_shortage; eauto; lia.
 Qed.
@@ -617,10 +601,10 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_27 : solver_entail_wit_27.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite PreH4 in PreH1 |- *.
   assert (Hidx : 0 <= Znth i target 0 - 97 < 26) by lia.
-  pose proof (proj1 PreH24) as Hlen.
+  pose proof (proj1 PreH21) as Hlen.
   assert (Hnewstate :
       CountState source pool target (Zlength source) (Zlength pool) (i + 1)
         (replace_Znth (Znth i target 0 - 97)
@@ -673,14 +657,15 @@ Proof.
       all: try assumption.
       all: try lia.
       all: try (apply Znth_app_left__target_shortage; lia).
-      all: try (apply PreH15; lia).
+      all: pose proof (PreH12 (i + 1) ltac:(lia)).
+      all: lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_28_split_goal_1 : solver_entail_wit_28_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply complete_counts_to_can_insert__success_final; eauto.
-  rewrite <- PreH15. exact PreH17.
+  rewrite <- PreH13. exact PreH15.
 Qed.
 
 Lemma proof_of_solver_entail_wit_28 : solver_entail_wit_28.
@@ -691,7 +676,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold Spec.
   split.
   - right. reflexivity.
@@ -708,7 +693,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_2_split_goal_1 : solver_return_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold Spec.
   split.
   - left. reflexivity.
@@ -727,7 +712,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_3_split_goal_1 : solver_return_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold Spec.
   split.
   - left. reflexivity.

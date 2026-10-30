@@ -6,6 +6,7 @@ import SimpleC.SL.CNotation
 import SimpleC.SL.UnifyslBridge
 import SimpleC.SL.CommonAssertion
 import SimpleC.SL.Assertion
+import SimpleC.SL.FunAssertion
 import SimpleC.SL.ConAssertion
 import SimpleC.SL.StoreAux
 import SimpleC.SL.ArrayLib

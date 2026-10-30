@@ -77,7 +77,7 @@ private theorem singleton_to_cell (p : Int) (values : List Int) (h : Zlength val
 theorem proof_of_feasible_entail_wit_1 : feasible_entail_wit_1 := by
   unfold feasible_entail_wit_1
   right
-  intro rep_pre x_pre m_pre n_pre old_bj old_bi rows __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro old_bj old_bi rows n_pre m_pre x_pre rep_pre __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   sep_apply (shape_full rep_pre 256)
   Intros reps
   prop_apply (intArray.full_Zlength rep_pre 256 reps)
@@ -94,7 +94,7 @@ theorem proof_of_feasible_entail_wit_1 : feasible_entail_wit_1 := by
 theorem proof_of_feasible_which_implies_wit_1 : feasible_which_implies_wit_1 := by
   unfold feasible_which_implies_wit_1
   left
-  intro bj_pre bi_pre old_bj old_bi
+  intro old_bj old_bi bi_pre bj_pre
   sep_apply (intArray.mixed_full_to_undef_full bi_pre 1 old_bi)
   sep_apply (intArray.mixed_full_to_undef_full bj_pre 1 old_bj)
   sep_apply (undef_singleton bi_pre)
@@ -104,7 +104,7 @@ theorem proof_of_feasible_which_implies_wit_1 : feasible_which_implies_wit_1 := 
 theorem proof_of_solver_which_implies_wit_1 : solver_which_implies_wit_1 := by
   unfold solver_which_implies_wit_1
   left
-  intro bj_pre bi_pre
+  intro bi_pre bj_pre
   exact naive_C_Rules.toContext.derivable1_sepcon_mono _ _ _ _
     (undef_singleton bi_pre) (undef_singleton bj_pre)
 
@@ -123,7 +123,7 @@ theorem proof_of_solver_which_implies_wit_2 : solver_which_implies_wit_2 := by
   · split_pures <;> dump_pre_spatial <;> rfl
 
 theorem proof_of_solver_which_implies_wit_3_split_goal_spatial : solver_which_implies_wit_3_split_goal_spatial := by
-  intro bj_pre bi_pre old_js old_is cj_values ci_values PreH1 PreH2 PreH3 PreH4
+  intro bi_pre bj_pre old_js old_is cj_values ci_values PreH1 PreH2 PreH3 PreH4
   sep_apply (singleton_to_cell (&("ci")) ci_values PreH1)
   sep_apply (singleton_to_cell (&("cj")) cj_values PreH2)
   sep_apply (singleton_to_cell bi_pre old_is PreH3)
@@ -133,8 +133,8 @@ theorem proof_of_solver_which_implies_wit_3_split_goal_spatial : solver_which_im
 theorem proof_of_solver_which_implies_wit_3 : solver_which_implies_wit_3 := by
   unfold solver_which_implies_wit_3
   right
-  intro bj_pre bi_pre old_js old_is cj_values ci_values PreH1 PreH2 PreH3 PreH4
-  exact proof_of_solver_which_implies_wit_3_split_goal_spatial bj_pre bi_pre old_js old_is cj_values ci_values PreH1 PreH2 PreH3 PreH4
+  intro bi_pre bj_pre old_js old_is cj_values ci_values PreH1 PreH2 PreH3 PreH4
+  exact proof_of_solver_which_implies_wit_3_split_goal_spatial bi_pre bj_pre old_js old_is cj_values ci_values PreH1 PreH2 PreH3 PreH4
 
 theorem proof_of_solver_which_implies_wit_4 : solver_which_implies_wit_4 := by
   unfold solver_which_implies_wit_4
@@ -149,7 +149,7 @@ theorem proof_of_solver_which_implies_wit_4 : solver_which_implies_wit_4 := by
 theorem proof_of_solver_which_implies_wit_5 : solver_which_implies_wit_5 := by
   unfold solver_which_implies_wit_5
   right
-  intro bj_pre bi_pre bj_values bi_values
+  intro bi_pre bj_pre bj_values bi_values
   prop_apply (intArray.full_Zlength bi_pre 1 bi_values)
   Intros_p hbi
   prop_apply (intArray.full_Zlength bj_pre 1 bj_values)
@@ -180,11 +180,11 @@ private theorem matrix_cell_restore (a n m i j : Int) (rows : List (List Int)) (
     (intArray2.missing_i_merge_to_full a i n m rows (Znth i rows []) hi)
 
 theorem proof_of_feasible_entail_wit_5_1_split_goal_spatial : feasible_entail_wit_5_1_split_goal_spatial := by
-  intro x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   exact matrix_cell_restore a_pre n_pre m_pre i j rows __default__List_Z PreH12 ⟨PreH19,PreH20⟩ ⟨PreH21,PreH4⟩
 
 theorem proof_of_feasible_entail_wit_5_2_split_goal_spatial : feasible_entail_wit_5_2_split_goal_spatial := by
-  intro x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   exact matrix_cell_restore a_pre n_pre m_pre i j rows __default__List_Z PreH12 ⟨PreH19,PreH20⟩ ⟨PreH21,PreH4⟩
 
 end SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P066_1288D_minimax_problem_manual_spatial

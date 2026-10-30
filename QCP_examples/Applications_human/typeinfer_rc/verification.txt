@@ -1,0 +1,267 @@
+Reference-counted type inference demo
+====================================
+
+Current full-C validation: cleaned lookup (2026-10-29)
+
+  Run typeinfer_rc-20261029093604: final-check passed, phase done, errors [].
+  All 22 groups were accepted; merged parent checking, pre-publication
+  checking, writeback, independent symexec replay and final Rocq checking
+  passed. No new library declarations were needed.
+
+  Rules 1 and 16 were removed because existing general rules cover them.
+  There are 99 proved strategy rules plus 8 helpers (107 Qed). Manual has
+  88 parent proofs + 148 split proofs = 236 Qed, with no Admitted. Auto
+  retains its 153 generator placeholders under the agreed boundary; this
+  is not an axiom-free end-to-end kernel certificate. Top-level function
+  obligations are 88 + 153 = 241; split proofs are not additional parents.
+
+  Cleanup from 101 to 99 strategies preserves the entire isolated goal
+  byte-for-byte. Formal generation adds only the strategy-certificate
+  imports/interface. Same-window wall-time medians were 11.668 s (101)
+  and 12.248 s (99), three samples each; this is redundancy cleanup, not
+  a claimed speedup. The singleton-Tag shortcut now uses general rules.
+
+  C, header, instance, VC lib and auto bytes match the pre-cleanup backup.
+  Mathematical correctness, C annotations/contracts and .agents are unchanged.
+  Prior proved manual/lib and all diagnostic records remain in the run's
+  lookup-cleanup/baseline and report directories. The opaque-list diagnostic
+  limitation documented below is unchanged; those fixtures are not claimed
+  fully verified. The strategy-stage records below are historical.
+  Evidence: reports/typeinfer_rc-20261029093604/lookup-cleanup-validation.md
+
+Previous strategy-stage validation: optimized lookup (2026-10-29)
+
+  Record: typeinfer_rc-20261029093604, lookup-optimization continuation.
+  All 101 strategy certificates and 8 helpers compile (109 Qed, no strategy
+  placeholders). Explicit address inequalities and slot constructors drive
+  normal lookup without infer; one low-priority arithmetic fallback learns
+  a reusable inequality. Completed lookup tags are consumed immediately.
+  Rule 72 now requires a real VAR read and owned head Tag; concrete-cell
+  reuse runs first. Left-only freshness cleanup remains unchanged.
+
+  Full-case isolated symexec succeeds. Seven behavior probes preserve the
+  negative boundaries and exercise the arithmetic fallback. Probe VCs are
+  not separately proved, and the opaque-list return-merge limitation below
+  remains. C/annotations/contracts, instance, VC lib, canonical function
+  VC/proof files, mathematics and .agents are unchanged by this optimization.
+  This is strategy-stage validation, NOT a new full-C proof or phase-done.
+
+  Same-window sequential benchmark, one warmup + three samples per version:
+    autoview (49 rules):         wall median  9.870 s; CPU median  9.734 s
+    original lookup (98 rules):  wall median 24.429 s; CPU median 23.953 s
+    optimized lookup (101):      wall median 12.966 s; CPU median 12.797 s
+  All 12 runs succeeded. Optimized lookup takes about 47% less wall time
+  than original lookup, but remains about 31% slower than autoview here.
+  Other background proof jobs were present; this is not an exclusive-machine
+  microbenchmark. Debug-SMT runs are separate from these timing samples.
+  Whole-process PropEntail calls: 11269 -> 6944; single SMT proposition
+  checks: 13204 -> 8879. Original/optimized lookup generated goal bytes are
+  identical in this benchmark. These counts include non-lookup checks.
+  Full logs, source hashes, actual inference counts and limitations:
+    reports/typeinfer_rc-20261029093604/lookup-optimization-validation.md
+    reports/typeinfer_rc-20261029093604/lookup-optimization-benchmark/results.json
+
+Previous strategy-stage validation: initial lookup and cleanup (2026-10-29)
+
+  Record: typeinfer_rc-20261029093604. All 98 strategy certificates and 8
+  helpers compile (106 Qed, no strategy placeholders). The 32 residual
+  right_add(field_fresh) actions now require real left-hand freshness.
+  True lookup markers drive finite-list search; Tagcancel removes both
+  lookup tags and LEFT freshness. RIGHT freshness is never erased.
+
+  Full-case isolated symbolic execution succeeds. New diagnostic goals
+  contain neither field_lookup nor field_fresh. Function C, annotations,
+  contracts, mathematical correctness, .agents and the existing function
+  goal/auto/manual/goal_check files are unchanged. The newly generated
+  function VCs have NOT been reproved or published; the preserved function
+  proof files still correspond to the last full-C validation below.
+  This is NOT a new controller phase-done or full-C proof claim.
+
+  Boundary probes confirm refusal for already-missing keys, opaque lists,
+  and unknown aliases; right field_fresh(k,[k]) remains an unproved goal.
+  Known limitation: clearing LEFT freshness also loses an explicit opaque-L
+  premise, so an extraction bridge can succeed while the later return merge
+  VC lacks sufficient information. That fixture is not claimed verified.
+
+  Same-machine sequential benchmark, one warmup + three samples per version:
+    field strategies (31 rules): median 15.880 seconds
+    post transport (35 rules):   median 14.350 seconds
+    autoview (49 rules):         median 12.465 seconds
+    lookup (98 rules):           median 30.511 seconds
+  All 16 runs succeeded. Lookup takes about 2.45 times the previous version's
+  median time in this test. Timing includes native process/output generation,
+  uses --no-exec-info --no-strategy-gen, and excludes Coq compilation.
+  Full samples, hashes, logs and limitations:
+    reports/typeinfer_rc-20261029093604/lookup-validation.md
+    reports/typeinfer_rc-20261029093604/symexec-benchmark/results.json
+
+Previous full-C validation: automatic field views (2026-10-28)
+
+  Run: typeinfer_rc-20261028193426; controller final-check passed, phase done.
+  All 22 proof groups, the merged parent check, publication and independent
+  final symexec replay/Rocq check passed.
+
+  The 17 function contracts and executable C are unchanged. Mathematical
+  definitions and .agents are unchanged. Routine field/call-view conversion
+  is automatic: 15 -> 2 which-implies annotations, 10 -> 1 ordinary Assert,
+  and one alias Destruct. There are no explicit do fold/unfold commands in
+  this version; this is the tested result, not a ban on necessary manual
+  control in future cases. The remaining implications implement semantic
+  RC deletion/child-credit transfer, not layout conversion.
+
+  There are 49 proved strategy rules (57 Qed including 8 helpers); all 14 new
+  rules actually fired in the detailed execution trace. Manual contains
+  116 parent proofs + 213 split proofs = 329 Qed, with no Admitted. The
+  generated auto retains 153 placeholders under the agreed verification
+  boundary. Thus top-level VCs are 116 + 153 = 269 (previously 272), not 482.
+  The annotation-attempt notes initially counted splits as parents; the
+  correction is recorded in reports/typeinfer_rc-20261028193426/
+  vc-count-correction.json. Strategy/manual completeness does not mean the
+  auto placeholders have been discharged.
+
+  Diagnostics, baseline bytes and the discarded checkpoint experiment are
+  under reports/typeinfer_rc-20261028193426/. Historical annotation drafts
+  were moved to that run's publication-cleanup/ directory (local only);
+  use typeinfer_rc.c and the Rocq files below as the published source.
+
+Call-post diagnostic fixture
+
+  post_transport.c contains the isolated post-scope cases.
+  It is a diagnostic fixture, not a separately verified C implementation.
+  The historical publication notes/hashes below describe their dated runs.
+
+Source and proof locations (relative to the repository root)
+
+  QCP_examples/Applications_human/typeinfer_rc/typeinfer_rc.c
+    C implementation, external function contracts, internal verify specs,
+    and the public "final <= verify" mathematical specification.
+  Rocq/SeparationLogic/RCMap.v
+    General RCMap Module Type and shared reference-counting interface.
+  Rocq/examples/Applications_human/typeinfer_rc/typeinfer_rc.v
+    TypeNode instance, heap predicates, monadic model and reusable lemmas.
+    Field strategies depend on this instance, not on the VC helper library.
+  Rocq/examples/Applications_human/typeinfer_rc/typeinfer_rc_lib.v
+    Helpers for the generated verification conditions.
+  Rocq/examples/Applications_human/typeinfer_rc/typeinfer_rc_proof_manual.v
+    Completed manual verification conditions and split proofs.
+  The goal, proof_auto and goal_check modules in the same Rocq directory
+    are the corresponding generated obligations and correctness wrapper.
+
+Representation and ownership
+
+  M is a mathematical map, not an additional runtime data structure.
+  nodes maps addresses to one-layer payloads; children is a list of owning
+  edges, so duplicate child addresses contribute multiple references.
+  counts = roots + incoming-edge multiplicity, with 0 <= reserved <= roots.
+  Live nodes have positive bounded counts; the graph is finite, closed and
+  acyclic. Finite support is existential in Prop, not a stored Live_keys list.
+
+  store_type M p tr is the pure decode relation. It does not own memory or
+  grant a release credit. store_world M owns each live node's fields once,
+  and ties its physical refcnt to counts M p. store_solution M res s owns
+  the 100 pointer slots, relates their addresses to mathematical types,
+  and bounds pointer multiplicity by roots - reserved. It does not own
+  the pointed-to nodes. The top-level heap is world ** solution.
+
+  retain increments roots/counts/reserved. publish transfers one reserved
+  credit to a container without changing the physical count. A non-final
+  release decrements all three. Deleting a final-reference parent converts
+  its outgoing edges into reserved child roots before recursive release;
+  this supports shared children and repeated edges.
+
+  This demo uses centralized world ownership and one solution container,
+  not fractional permissions, an STS, or independently composable linear
+  handle tokens. Multiple containers require combined accounting or a
+  further ownership interface. Arbitrary syntax-tree insertion/update and
+  expression matching are not claimed to be completed here.
+
+Mathematical specification and trust boundary
+
+  The original TypeTree, sol, unify_rel, sol_correct_iter, sol_compress_to
+  and sound_pv.unify_soundness are reused, not weakened or redefined.
+  Actual successful C returns establish the original unify_rel. The
+  same_return_final_bridge__final_compression helper uses the original
+  soundness theorem for that same return value and supplies the compressed
+  solution conclusion. Failure retains a valid solution; borrowed input
+  nodes and their decoding are preserved.
+
+  rc_capacity excludes overflow in the execution model; it does not
+  assume heap safety or mathematical correctness.
+  The bodies of copy_atype, free_atype and the three unify stages are
+  verified. get_map, add_map, type_var_occur, atype_repr and the raw
+  free_atype_node allocator boundary are external contracts in this demo.
+
+  Manual and case-library proofs contain no Admitted or added Axiom.
+  However, proof_auto contains 153 generator-emitted Admitted placeholders
+  for native automatically discharged obligations, as in the original
+  workflow. Manual/helpers do not rely on those placeholders. This is
+  not an axiom-free end-to-end kernel certificate.
+
+Historical verification record (2026-10-19)
+
+  Completed run: typeinfer_rc-20261018221001
+  Completed at: 2026-10-19 00:24:58 Asia/Shanghai
+  Result: final-check passed, phase done, errors []
+  Coverage: 27 accepted groups, 105 top-level manual VCs, 75 split proofs,
+            142 added helper lemmas.
+  Checks: group acceptance; merged full goal_check compilation; pre-write
+          full compilation; independent symexec replay and obligation
+          comparison; final full compilation of the published sources.
+  Environment: native Windows, Coq 8.20.1, Dune 3.16.1, Python 3.12.
+  The restarted seed changed only store_world_open's proof tactic from
+  entailer! to cancel; its statement and the existing mathematical model
+  were unchanged.
+
+  Detailed local records remain under reports/typeinfer_rc-20261018221001
+  and verification_runs/typeinfer_rc-20261018221001. The previous blocked
+  run typeinfer_rc-20261018173903 is also preserved locally. These local
+  controller records, machine paths and compilation workspaces are not
+  part of the source distribution; this file is a portable summary, not
+  a replacement controller state or an independently checked certificate.
+
+Build and regeneration
+
+  Windows, from the repository root:
+    .\dune.cmd build Rocq/examples/Applications_human/typeinfer_rc/typeinfer_rc_goal_check.vo
+  Other supported Dune environments, from the repository root:
+    dune build Rocq/examples/Applications_human/typeinfer_rc/typeinfer_rc_goal_check.vo
+  GNU Make, with the repository's configured Coq environment:
+    make -C Rocq examples/Applications_human/typeinfer_rc/typeinfer_rc_goal_check.vo
+
+  Rocq/Makefile includes the instance, function and strategy modules. The Applications_human
+  Dune theory includes typeinfer_rc. Both run-example-linux.sh and
+  run-example-windows.cmd include its symexec generation entry. There is
+  a case-specific typeinfer_rc.strategies file with certificates depending
+  on the reusable typeinfer_rc instance, not the VC helper lib. The collection script discovers the
+  C source recursively. No Lean port is claimed.
+
+  Generation is not proof checking and may update generated files. Use
+  the verification-orchestrator workflow in AGENTS.md for verification
+  changes; do not treat running an example generator as a completed proof.
+  Build-entrypoint regression tests:
+    uv run --frozen --python 3.12 python -m pytest scripts/tests/test_build_entrypoints.py -q
+
+  Publication checks on 2026-10-19, after merging origin/main f75b2e76e:
+    Native Windows Dune build of typeinfer_rc_goal_check.vo: passed.
+    scripts/tests/test_build_entrypoints.py: 10 passed, including the
+    GNU Make source inventory and both generator-entry regression tests.
+    bash -n run-example-linux.sh: passed.
+    A full GNU Make proof build and Linux execution were not rerun here.
+
+Historical SHA-256 of the verified source bytes (2026-10-19)
+
+  typeinfer_rc.c
+    27438F66A9FE935A12E7B4C39550FEB3006DFD9116D85B3A468BD2527689DC00
+  typeinfer_rc_lib.v
+    D8C4C0593075D7986BCDF9792BDCBD158DBD1BB6137D019A02CB5664C9B48624
+  typeinfer_rc_proof_manual.v
+    DF74B1A0FD02AD2BF2E8C0BD69B82FCEC96D445F69F8DE10C1492AD42E5DDD23
+  typeinfer_rc_goal.v
+    00B8DF7D4D2CAE6849DFF68966D801E10F7F4761B176E3CE87C58BC789D34832
+  typeinfer_rc_proof_auto.v
+    92495007537766F2B4952732C3231F034D8D85A224164F50D264A2B1344FC356
+  typeinfer_rc_goal_check.v
+    AE5BB02B83DB918CA9BF939BFD711D2A50DC39A74BF253C2DB58E4C94F04CA5B
+
+  Hashes describe the local verified bytes (before Git line-ending
+  normalization); line-ending changes can change a byte hash.

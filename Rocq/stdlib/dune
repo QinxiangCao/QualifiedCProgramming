@@ -1,8 +1,7 @@
 ; Converted from:
 ; - _CoqProject: -R Rocq/stdlib SimpleC.StdLib
-; - Rocq/_CoqProject: -R stdlib SimpleC.StdLib
 (coq.theory
  (name SimpleC.StdLib)
- (theories AUXLib Logic SetsClass SimpleC.SL))
+ (theories AUXLib Logic SetsClass SimpleC.SL SimpleC.Verification))
 
 (include_subdirs qualified)

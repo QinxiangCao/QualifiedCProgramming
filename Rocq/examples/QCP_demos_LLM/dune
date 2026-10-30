@@ -24,6 +24,7 @@
   SetsClass
   SimpleC.Common
   SimpleC.SL
+  SimpleC.Verification
   SimpleC.StdLib
   SumLib
   compcert.lib))

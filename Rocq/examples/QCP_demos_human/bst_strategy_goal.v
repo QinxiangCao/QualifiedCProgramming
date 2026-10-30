@@ -1,15 +1,8 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.QCP_demos_human.bst_lib.
 Import get_right_most.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
 
 Definition bst_strategy0 :=
   forall (p : Z) (tr0 : tree),
@@ -40,7 +33,7 @@ Definition bst_strategy1 :=
   ) ** (
   ALL (pt : partial_tree) (q : Z) (p : Z),
     TT &&
-    (“ (pt = ( empty_partial_tree)) ”) &&
+    (“ (pt = (empty_partial_tree)) ”) &&
     emp **
     ((poly_store FET_ptr p q)) -*
     TT &&
@@ -78,7 +71,7 @@ Definition bst_strategy4 :=
   ) ** (
   ALL (pt : partial_tree) (q : Z) (p : Z),
     TT &&
-    (“ (pt = ( empty_partial_tree)) ”) &&
+    (“ (pt = (empty_partial_tree)) ”) &&
     emp **
     ((poly_store FET_ptr p q)) -*
     TT &&

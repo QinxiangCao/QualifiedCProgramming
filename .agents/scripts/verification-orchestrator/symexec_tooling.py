@@ -86,6 +86,7 @@ STRATEGY_PROFILE_BY_COLLECTION = {
 STRATEGY_PROFILE_BY_TARGET_PREFIX: dict[tuple[str, ...], str | None] = {
     ("Applications_human", "convex_hull"): "QCP_demos_LLM",
     ("Applications_human", "fme_ge_gmp"): None,
+    ("Applications_human", "gmp"): None,
 }
 SYMEXEC_FLAGS_BY_TARGET_PREFIX: dict[tuple[str, ...], tuple[str, ...]] = {
     ("LLM_bench", "Algorithms", "convex_hull_float"): ("--float-finite-vc",),
@@ -387,18 +388,18 @@ def _driver_for_platform(main_root: Path) -> Path:
     normalized_machine = machine.strip().lower()
 
     if os_name == "nt":
-        return main_root / "win-binary" / "symexec.exe"
+        return main_root / "bin" / "windows" / "symexec.exe"
     if platform_name.startswith("linux"):
         if normalized_machine not in {"x86_64", "amd64"}:
             raise ValueError(
                 f"unsupported Linux architecture for bundled symexec: {machine or '<unknown>'}"
             )
-        return main_root / "linux-binary" / "symexec"
+        return main_root / "bin" / "linux" / "symexec"
     if platform_name == "darwin":
         if normalized_machine in {"arm64", "aarch64"}:
-            return main_root / "mac-arm64-binary" / "symexec"
+            return main_root / "bin" / "macos-arm64" / "symexec"
         if normalized_machine in {"x86_64", "amd64"}:
-            return main_root / "mac-x86-64-binary" / "symexec"
+            return main_root / "bin" / "macos-x86_64" / "symexec"
         raise ValueError(
             f"unsupported macOS architecture for symexec: {machine or '<unknown>'}"
         )
@@ -571,8 +572,9 @@ def _strategy_directory_pair(
             "strategy directory cannot form an SLP logical path: "
             + relative.as_posix()
         )
-    if relative.parts[0] == "stdlib":
-        logical = "SimpleC.StdLib" + (
+    public_roots = {"stdlib": "SimpleC.StdLib", "verification": "SimpleC.Verification"}
+    if relative.parts[0] in public_roots:
+        logical = public_roots[relative.parts[0]] + (
             "." + ".".join(relative.parts[1:])
             if len(relative.parts) > 1
             else ""
@@ -615,6 +617,9 @@ def _symexec_search_paths(
         target_relative,
     )
     include_dirs: list[Path] = [target.parent]
+    public_headers = qcp_root / "verification"
+    if public_headers.is_dir():
+        include_dirs.append(public_headers)
     source_queue = deque([target])
     repository_index: dict[str, list[Path]] = {}
     visited: set[Path] = set()
@@ -674,9 +679,9 @@ def _symexec_search_paths(
         (
             f"QCP_examples/{collection}/",
             (
-                "SimpleC.StdLib"
-                if collection == "stdlib"
-                else f"SimpleC.EE.{collection}"
+                {"stdlib": "SimpleC.StdLib", "verification": "SimpleC.Verification"}.get(
+                    collection, f"SimpleC.EE.{collection}"
+                )
             ),
         )
         for collection in collections

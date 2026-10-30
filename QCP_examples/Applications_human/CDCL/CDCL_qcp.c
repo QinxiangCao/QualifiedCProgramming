@@ -54,6 +54,7 @@
 
 /* Set the first n cells of `a` to `value`.  Initialises the per-variable
    arrays. */
+#if !defined(QCP_SPLIT_UNIT) || defined(QCP_SPLIT_qcpsat_fill_ints)
 void qcpsat_fill_ints(int *a, int n, int value)
 /*@ Require 0 <= n && n < INT_MAX && IntArray::undef_full(a, n)
     Ensure IntArray::full(a, n, repeat_Z(value@pre, n))
@@ -71,10 +72,18 @@ void qcpsat_fill_ints(int *a, int n, int value)
         a[i] = value;
     }
 }
+#else
+void qcpsat_fill_ints(int *a, int n, int value)
+/*@ Require 0 <= n && n < INT_MAX && IntArray::undef_full(a, n)
+    Ensure IntArray::full(a, n, repeat_Z(value@pre, n))
+*/
+;
+#endif
 
 /* Resolve two clauses.  `wi` and `wj` are dense rows (one cell per variable:
    0 absent, 1 the positive literal, -1 the negative).  Returns a fresh row for
    their resolvent, with every complementary pair cancelled.  Caller owns it. */
+#if !defined(QCP_SPLIT_UNIT) || defined(QCP_SPLIT_clause_resolution)
 int* clause_resolution(int* wi, int* wj, sat_data* s)/*@ With (left right : list Z) n
     Require
       0 < n && n < INT_MAX &&
@@ -113,6 +122,21 @@ int* clause_resolution(int* wi, int* wj, sat_data* s)/*@ With (left right : list
     }
     return res;
 }
+#else
+int* clause_resolution(int* wi, int* wj, sat_data* s)/*@ With (left right : list Z) n
+    Require
+      0 < n && n < INT_MAX &&
+      row_wf(n, left) && row_wf(n, right) &&
+      n == s->v_size &&
+      IntArray::full(wi, n, left) *
+      IntArray::full(wj, n, right)
+    Ensure
+      row_wf(n, dense_cancel_union(left, right)) &&
+      n == s->v_size &&
+      resolution_rows_rep(wi, wj, __return, n, left, right)
+*/
+;
+#endif
 
 /* Last-UIP conflict analysis.  `wi` is the index of a clause that is false
    under the current assignment.  Resolves it against the antecedents of its
@@ -121,6 +145,7 @@ int* clause_resolution(int* wi, int* wj, sat_data* s)/*@ With (left right : list
    itself (the last UIP, not the first).  Returns the learned clause as a
    fresh dense row.  The exit certificate `current_learning_exit_cert` records
    that the learned clause is implied by F and false under the assignment. */
+#if !defined(QCP_SPLIT_UNIT) || defined(QCP_SPLIT_clause_learning)
 int* clause_learning(int wi, sat_data* s)/*@ With (F : cnf) original_count (snap : dense_snapshot)
           (ranks : Z -> option nat) logical_dl values reasons levels states true_counts
           unassigned row_table n live cap
@@ -257,12 +282,31 @@ int* clause_learning(int wi, sat_data* s)/*@ With (F : cnf) original_count (snap
     }
     return res;
 }
+#else
+int* clause_learning(int wi, sat_data* s)/*@ With (F : cnf) original_count (snap : dense_snapshot)
+          (ranks : Z -> option nat) logical_dl values reasons levels states true_counts
+          unassigned row_table n live cap
+    Require 0 < n && n < INT_MAX && 0 <= original_count && original_count <= live &&
+      0 <= wi && wi < live && 0 <= live && live <= cap && 0 < logical_dl &&
+      coherent_snapshot(F, n, live, original_count, snap) &&
+      stable_search_facts(n, snap, ranks, logical_dl) &&
+      learning_ready_conflict(cdcl_view_of_snapshot(n, snap, ranks, logical_dl), wi) &&
+      learning_state(s, values, reasons, levels, states, true_counts, unassigned,
+        row_table, n, live, cap, logical_dl, snap)
+    Ensure exists learned_row, row_wf(n, learned_row) && current_learning_exit_cert(F,
+      cdcl_view_of_snapshot(n, snap, ranks, logical_dl), dense_decode(learned_row)) &&
+      learning_state(s, values, reasons, levels, states, true_counts, unassigned,
+        row_table, n, live, cap, logical_dl, snap) * IntArray::full(__return, n, learned_row)
+*/
+;
+#endif
 
 
 /* Backjump level of a learned clause.  Scans `clause` for the two highest
    decision levels among its assigned variables and returns the second highest
    -- the level to which the search must return for the clause to become unit.
    Returns -1 if no literal is assigned, 0 if they all sit at one level. */
+#if !defined(QCP_SPLIT_UNIT) || defined(QCP_SPLIT_conflict_analysis)
 int conflict_analysis(int* clause, sat_data* s)/*@ With (row : list Z) (snap : dense_snapshot)
           (ranks : Z -> option nat) logical_dl n v_data levels
     Require
@@ -319,6 +363,26 @@ int conflict_analysis(int* clause, sat_data* s)/*@ With (row : list Z) (snap : d
     return max2;
 
 }
+#else
+int conflict_analysis(int* clause, sat_data* s)/*@ With (row : list Z) (snap : dense_snapshot)
+          (ranks : Z -> option nat) logical_dl n v_data levels
+    Require
+      0 <= n && n < INT_MAX &&
+      row_wf(n, row) &&
+      clause_vars_assigned(cdcl_view_of_snapshot(n, snap, ranks, logical_dl),
+        dense_decode(row)) &&
+      conflict_levels_rep(s, clause, n, v_data, levels, row, snap)
+    Ensure
+      exists max1 max2,
+        top_two_levels_exact(cdcl_view_of_snapshot(n, snap, ranks, logical_dl),
+          row, n, max1, max2) &&
+        ((max1 == -1 && __return == -1) ||
+         (max1 != -1 && max2 == -1 && __return == 0) ||
+         (max1 != -1 && max2 != -1 && __return == max2)) &&
+        conflict_levels_rep(s, clause, n, v_data, levels, row, snap)
+*/
+;
+#endif
 
 /* Boolean constraint propagation to a fixed point.  Repeatedly finds a unit
    clause, assigns its one free literal at the current decision level with that
@@ -329,6 +393,7 @@ int conflict_analysis(int* clause, sat_data* s)/*@ With (row : list Z) (snap : d
    the postcondition also names `last`, the variable whose assignment caused
    every conflict in this batch -- `dense_conflict_batch` relates the state
    before the batch to the state after it. */
+#if !defined(QCP_SPLIT_UNIT) || defined(QCP_SPLIT_bcp)
 int bcp(sat_data* s)/*@ With (F : cnf) original_count (snap : dense_snapshot)
       (ranks : Z -> option nat) logical_dl values reasons levels states true_counts
       unassigned row_table n live cap
@@ -574,6 +639,28 @@ int bcp(sat_data* s)/*@ With (F : cnf) original_count (snap : dense_snapshot)
                                 ranks = final_ranks */;
 
 }
+#else
+int bcp(sat_data* s)/*@ With (F : cnf) original_count (snap : dense_snapshot)
+      (ranks : Z -> option nat) logical_dl values reasons levels states true_counts
+      unassigned row_table n live cap
+    Require 0 <= n && n < INT_MAX && 0 <= original_count && original_count <= live &&
+      0 <= live && live <= cap && coherent_snapshot(F, n, live, original_count, snap) &&
+      stable_search_facts(n, snap, ranks, logical_dl) &&
+      bcp_ready(cdcl_view_of_snapshot(n, snap, ranks, logical_dl)) &&
+      solver_state(s, values, reasons, levels, states, true_counts, unassigned,
+        row_table, n, live, cap, logical_dl, snap)
+    Ensure exists snap1 ranks1, coherent_snapshot(F, n, live, original_count, snap1) &&
+      stable_search_facts(n, snap1, ranks1, logical_dl) && ((__return == -1 &&
+        propagation_quiescent(cdcl_view_of_snapshot(n, snap1, ranks1, logical_dl)) &&
+        solver_state(s, values, reasons, levels, states, true_counts, unassigned,
+          row_table, n, live, cap, logical_dl, snap1)) ||
+       (0 <= __return && __return < live &&
+        learning_ready_conflict(cdcl_view_of_snapshot(n, snap1, ranks1, logical_dl), __return) &&
+        propagation_result(s, values, reasons, levels, states, true_counts, unassigned,
+          row_table, n, live, cap, logical_dl, snap1, ranks1)))
+*/
+;
+#endif
 
 
 
@@ -583,6 +670,7 @@ int bcp(sat_data* s)/*@ With (F : cnf) original_count (snap : dense_snapshot)
    summaries.  `pending_backjump_rep` carries, across the whole function, the
    promise that the learned clause is still an implicate of F and that the state
    being unwound is the one conflict analysis looked at. */
+#if !defined(QCP_SPLIT_UNIT) || defined(QCP_SPLIT_backtrack)
 void backtrack(int back_dl, sat_data *s)/*@ With (F : cnf) original_count
           (start_snap conflict_snap snap : dense_snapshot)
           (start_ranks conflict_ranks ranks : Z -> option nat)
@@ -715,12 +803,35 @@ void backtrack(int back_dl, sat_data *s)/*@ With (F : cnf) original_count
         }
     }
 }
+#else
+void backtrack(int back_dl, sat_data *s)/*@ With (F : cnf) original_count
+          (start_snap conflict_snap snap : dense_snapshot)
+          (start_ranks conflict_ranks ranks : Z -> option nat)
+          conflict_dl last (learned : list literal)
+          values reasons levels states true_counts unassigned row_table n live cap
+    Require 0 <= back_dl && back_dl < conflict_dl && 0 <= n && n < INT_MAX &&
+      0 <= original_count && original_count <= live && 0 <= live && live <= cap &&
+      coherent_snapshot(F, n, live, original_count, snap) &&
+      stable_search_facts(n, conflict_snap, conflict_ranks, conflict_dl) &&
+      backjump_state(s, F, original_count, start_snap, conflict_snap, snap, start_ranks,
+        conflict_ranks, ranks, conflict_dl, back_dl, last, learned, values, reasons,
+        levels, states, true_counts, unassigned, row_table, n, live, cap)
+    Ensure exists final_snap final_ranks,
+      coherent_snapshot(F, n, live, original_count, final_snap) &&
+      stable_search_facts(n, final_snap, final_ranks, back_dl) &&
+      bcp_ready(cdcl_view_of_snapshot(n, final_snap, final_ranks, back_dl)) &&
+      solver_state(s, values, reasons, levels, states, true_counts, unassigned,
+        row_table, n, live, cap, back_dl, final_snap)
+*/
+;
+#endif
 
 /* Choose a branching variable.  Picks the lowest-numbered unassigned variable,
    opens a new decision level, and assigns it true with no antecedent (-1).
    Returns its index, or -1 when every variable is assigned -- in which case the
    postcondition upgrades the state to `model_ready`, i.e. a total satisfying
    assignment. */
+#if !defined(QCP_SPLIT_UNIT) || defined(QCP_SPLIT_decide)
 int decide(sat_data* s)/*@ With (F : cnf) original_count (snap : dense_snapshot)
           (ranks : Z -> option nat) logical_dl values reasons levels states
           true_counts unassigned row_table n live cap
@@ -824,6 +935,29 @@ int decide(sat_data* s)/*@ With (F : cnf) original_count (snap : dense_snapshot)
     }
     return -1;
 }
+#else
+int decide(sat_data* s)/*@ With (F : cnf) original_count (snap : dense_snapshot)
+          (ranks : Z -> option nat) logical_dl values reasons levels states
+          true_counts unassigned row_table n live cap
+    Require 0 <= n && n < INT_MAX && 0 <= logical_dl && logical_dl <= n &&
+      0 <= original_count && original_count <= live && 0 <= live && live <= cap &&
+      coherent_snapshot(F, n, live, original_count, snap) &&
+      stable_search_facts(n, snap, ranks, logical_dl) &&
+      decision_ready(cdcl_view_of_snapshot(n, snap, ranks, logical_dl)) &&
+      solver_state(s, values, reasons, levels, states, true_counts, unassigned,
+        row_table, n, live, cap, logical_dl, snap)
+    Ensure (__return == -1 && model_ready(n, cdcl_view_of_snapshot(n, snap, ranks, logical_dl)) &&
+        solver_state(s, values, reasons, levels, states, true_counts, unassigned,
+          row_table, n, live, cap, logical_dl, snap)) ||
+      (exists final_snap final_ranks, 0 <= __return && __return < n &&
+        coherent_snapshot(F, n, live, original_count, final_snap) &&
+        stable_search_facts(n, final_snap, final_ranks, logical_dl + 1) &&
+        bcp_ready(cdcl_view_of_snapshot(n, final_snap, final_ranks, logical_dl + 1)) &&
+        solver_state(s, values, reasons, levels, states, true_counts, unassigned,
+          row_table, n, live, cap, logical_dl + 1, final_snap))
+*/
+;
+#endif
 
 /* The CDCL main loop: propagate, and on a conflict learn a clause, backjump and
    install it; otherwise decide, until either every variable is assigned or a
@@ -832,6 +966,7 @@ int decide(sat_data* s)/*@ With (F : cnf) original_count (snap : dense_snapshot)
    Returns 1 with `models(J, F)`, 0 with `cnf_unsat(n, F)`, or -2 when the clause
    table is full, retaining specified memory ownership with no SAT/UNSAT verdict.
    `unsat_terminal` is the internal certificate for 0, deliberately not published. */
+#if !defined(QCP_SPLIT_UNIT) || defined(QCP_SPLIT_cdcl_solver)
 int cdcl_solver(sat_data* s )/*@ With (F : cnf) original_count (snap : dense_snapshot)
       (ranks : Z -> option nat) values reasons levels states true_counts unassigned
       row_table n live cap
@@ -1032,3 +1167,26 @@ int cdcl_solver(sat_data* s )/*@ With (F : cnf) original_count (snap : dense_sna
     }
 
 }
+#else
+int cdcl_solver(sat_data* s )/*@ With (F : cnf) original_count (snap : dense_snapshot)
+      (ranks : Z -> option nat) values reasons levels states true_counts unassigned
+      row_table n live cap
+    Require cnf_wf(n, F) &&
+    solver_input_core(s, F, original_count, snap, ranks,
+      values, reasons, levels, states, true_counts, unassigned, row_table, n, live, cap)
+    Ensure
+      (exists J, __return == 1 &&
+      models(J, F) &&
+        solver_sat_arm_core(s, F, original_count, snap, ranks, values, reasons,
+          levels, states, true_counts, unassigned, row_table, n, live, cap, J)) ||
+      (__return == 0 &&
+      cnf_unsat(n, F) &&
+        solver_unsat_arm_core(s, F, original_count, snap, ranks, values, reasons,
+          levels, states, true_counts, unassigned, row_table, n, live, cap)) ||
+      (__return == -2 &&
+      solver_capacity_exhausted_arm_core(s, F, original_count,
+        snap, ranks, values, reasons, levels, states, true_counts, unassigned,
+        row_table, n, live, cap))
+*/
+;
+#endif

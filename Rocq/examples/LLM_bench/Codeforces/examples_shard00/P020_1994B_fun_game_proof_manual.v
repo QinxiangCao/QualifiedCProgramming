@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P020_1994B_fun_game_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P020_1994B_fun_game_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.StdLib.string_lib.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P020_1994B_fun_game_lib.
@@ -24,17 +8,17 @@ Local Open Scope sac.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_3 : solver_entail_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_1 : solver_entail_wit_1.
@@ -65,41 +49,42 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_3 : solver_entail_wit_3_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  unfold valid_string, all_ascii, no_inner_nul.
-  split; intros k Hk; destruct (PreH10 k Hk); lia.
-Qed.
-
-Lemma proof_of_solver_entail_wit_3_split_goal_4 : solver_entail_wit_3_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold valid_string, all_ascii, no_inner_nul.
   split; intros k Hk; destruct (PreH9 k Hk); lia.
 Qed.
 
+Lemma proof_of_solver_entail_wit_3_split_goal_4 : solver_entail_wit_3_split_goal_4.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  unfold valid_string, all_ascii, no_inner_nul.
+  split; intros k Hk; destruct (PreH8 k Hk); lia.
+Qed.
+
 Lemma proof_of_solver_entail_wit_3_split_goal_5 : solver_entail_wit_3_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  rewrite <- PreH2.
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
-  exact PreH13.
+  intros k Hk.
+  apply PreH12.
+  lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_6 : solver_entail_wit_3_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_7 : solver_entail_wit_3_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_spatial : solver_entail_wit_3_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold string_length, c_string.
-  rewrite <- PreH5, <- PreH4.
+  rewrite <- PreH3, <- PreH4.
   cancel.
 Qed.
 
@@ -118,32 +103,32 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_1 : solver_entail_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_2 : solver_entail_wit_4_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_3 : solver_entail_wit_4_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite app_Znth1 in PreH2 by lia.
-  specialize (PreH10 i ltac:(lia)).
-  destruct PreH10 as [H48 | H49].
+  specialize (PreH9 i ltac:(lia)).
+  destruct PreH9 as [H48 | H49].
   - contradiction.
   - exact H49.
 Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_4 : solver_entail_wit_4_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_5 : solver_entail_wit_4_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_4 : solver_entail_wit_4.
@@ -158,7 +143,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (j = i) by lia. subst j.
   unfold Spec.
   split; [lia |].
@@ -177,7 +162,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_2_split_goal_1 : solver_return_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold Spec.
   split; [lia |].
   split.
@@ -186,7 +171,7 @@ Proof.
     exfalso.
     pose proof
       (game_reachable_preserves_zero_prefix__game_semantics
-         source target i ltac:(lia) PreH14 Hreach) as [_ Hzero].
+         source target i ltac:(lia) PreH13 Hreach) as [_ Hzero].
     pose proof (Hzero j ltac:(lia)) as Htarget_j.
     rewrite app_Znth1 in PreH1 by lia.
     contradiction.
@@ -200,7 +185,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_3_split_goal_1 : solver_return_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold Spec.
   split; [lia |].
   split.
@@ -216,20 +201,20 @@ Proof.
       exfalso. apply PreH1. lia. }
     pose proof
       (game_reachable_preserves_zero_prefix__game_semantics
-         source target n_pre ltac:(lia) PreH13 Hreach) as [_ Htarget_zero].
+         source target n_pre ltac:(lia) PreH11 Hreach) as [_ Htarget_zero].
     apply Hneq.
     apply (proj2 (list_eq_ext source target 0)).
     split; [lia |].
     intros k Hk.
-    rewrite PreH13 by lia.
+    rewrite PreH11 by lia.
     symmetry. apply Htarget_zero. lia.
 Qed.
 
 Lemma proof_of_solver_return_wit_3_split_goal_spatial : solver_return_wit_3_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold c_string.
-  rewrite PreH16, PreH17.
+  rewrite PreH14, PreH15.
   cancel.
 Qed.
 
@@ -242,7 +227,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_4_split_goal_1 : solver_return_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst retval.
   assert (source = target) as Heq.
   { unfold strncmp_result in PreH2.
@@ -259,7 +244,7 @@ Proof.
               Znth k (c_string target) 0) as Hsame by lia.
       destruct Hstop as [Hzero | Hneq]; [|contradiction].
       pose proof
-        (c_string_zero_index_eq_length source k PreH14 ltac:(lia) Hks Hzero)
+        (c_string_zero_index_eq_length source k PreH12 ltac:(lia) Hks Hzero)
         as Hkend.
       unfold string_length in Hkend.
       lia. }
@@ -273,9 +258,9 @@ Qed.
 
 Lemma proof_of_solver_return_wit_4_split_goal_spatial : solver_return_wit_4_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold c_string.
-  rewrite PreH16, PreH17.
+  rewrite PreH14, PreH15.
   cancel.
 Qed.
 

@@ -1,13 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.Applications_human.mergeablelist Require Import sll_project_strategy_goal.
 From SimpleC.EE.Applications_human.mergeablelist Require Import sll_project_lib.
 Import naive_C_Rules.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 
@@ -150,6 +144,7 @@ Qed.
 Lemma sll_project_strategy37_correctness : sll_project_strategy37.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   unfold sllb_sll.
   Exists h.
   normalize.
@@ -202,15 +197,14 @@ Qed.
 Lemma sll_project_strategy72_correctness : sll_project_strategy72.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   sep_apply_l_atomic (UIntArray.undef_seg_split_to_undef_missing_i p x x y).
   - dump_pre_spatial.
     lia.
   - sep_apply_l_atomic (UIntArray.undef_missing_i_to_undef_seg_head p x y).
     + dump_pre_spatial.
       lia.
-    + replace (p + x * 4) with (p + x * sizeof (UINT))
-        by (rewrite sizeof_uint; lia).
-      cancel (UIntArray.undef_seg p (x + 1) y).
+    + cancel (UIntArray.undef_seg p (x + 1) y).
       apply_sepcon_adjoint.
       normalize.
       cancel.
@@ -255,6 +249,7 @@ Qed.
 Lemma sll_project_strategy78_correctness : sll_project_strategy78.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   sep_apply_l_atomic (UIntArray.undef_full_split_to_undef_missing_i p 0 n).
   - dump_pre_spatial.
     lia.
@@ -263,8 +258,6 @@ Proof.
       lia.
     + cancel (UIntArray.undef_seg p 1 n).
       apply_sepcon_adjoint.
-      cancel.
-      replace (p + 0 * sizeof (UINT)) with (p + 0) by lia.
       cancel.
       normalize.
       cancel.
@@ -335,8 +328,7 @@ Qed.
 Lemma sll_project_strategy71_correctness : sll_project_strategy71.
 Proof.
   pre_process_default.
-  replace (p + i * 4) with (p + i * sizeof (UINT))
-    by (rewrite sizeof_uint; lia).
+  cbn [poly_store poly_undef_store].
   sep_apply_l_atomic (UIntArray.undef_missing_i_merge_to_undef_full p i n).
   - dump_pre_spatial.
     lia.
@@ -346,6 +338,7 @@ Qed.
 Lemma sll_project_strategy32_correctness : sll_project_strategy32.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   sep_apply (sllb_2_sll p l).
   Intros h_val pt_val.
   Exists h_val pt_val.
@@ -364,6 +357,7 @@ Qed.
 Lemma sll_project_strategy35_correctness : sll_project_strategy35.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   unfold sllb_sll.
   Intros h.
   Exists h.
@@ -382,6 +376,7 @@ Qed.
 Lemma sll_project_strategy36_correctness : sll_project_strategy36.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   unfold sllb_sll.
   Exists h.
   Intros_p H.
@@ -394,12 +389,11 @@ Qed.
 Lemma sll_project_strategy70_correctness : sll_project_strategy70.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   sep_apply_l_atomic (UIntArray.undef_full_split_to_undef_missing_i p i n).
   - dump_pre_spatial.
     lia.
-  - replace (p + i * 4) with (p + i * sizeof (UINT))
-      by (rewrite sizeof_uint; lia).
-    cancel (UIntArray.undef_missing_i p i 0 n).
+  - cancel (UIntArray.undef_missing_i p i 0 n).
     apply_sepcon_adjoint.
     normalize.
     cancel.

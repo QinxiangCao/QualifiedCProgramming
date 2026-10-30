@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.Applications_human.typeinfer Require Import typeinfer_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 From SimpleC.EE.Applications_human.typeinfer Require Import typeinfer_lib.
 From SimpleC.EE.Applications_human.typeinfer Require Import sound_pv.
 Import naive_C_Rules.
@@ -1078,9 +1063,11 @@ Proof.
 Qed.
 
 
-Lemma proof_of_atype_unify_derive_final_by_verify : 
-  atype_unify_derive_final_by_verify.
+Lemma proof_of_atype_unify_verify_entail_final : 
+  atype_unify_verify_entail_final.
 Proof.
+  unfold atype_unify_verify_entail_final.
+  intros t1_pre t2_pre s_pre_final tr1_final tr2_final.
   LLM_pre_process ltac:(int_auto).
   rename s_pre_final into s_cpre.
   unfold store_compressed_solution at 1.
@@ -1089,21 +1076,22 @@ Proof.
   cancel (store_solution &( "res") s_pre).
   cancel (store_type t1_pre tr1_final).
   cancel (store_type t2_pre tr2_final).
-  rewrite <- derivable1_wand_sepcon_adjoint.
+  Intros_r retval.
+    rewrite <- derivable1_wand_sepcon_adjoint.
   Split.
-  - Intros s_post retval.
+  - Intros s_post.
     pose proof (unify_soundness tr1_final tr2_final s_pre s_post s_cpre H H1 H0 H3).
     destruct H4 as [s_cpost ?].
     Left.
-    Exists s_cpost retval.
+    Exists s_cpost.
     unfold store_compressed_solution.
     Exists s_post.
     split_pure_spatial.
     + repeat cancel.
     + repeat split_pures; dump_pre_spatial; tauto.
-  - Intros s_post retval.
+  - Intros s_post.
     Right. 
-    Exists s_post retval.
+    Exists s_post.
     split_pure_spatial.
     + repeat cancel.
     + dump_pre_spatial; auto.

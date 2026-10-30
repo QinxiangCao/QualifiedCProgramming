@@ -1,108 +1,79 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.Applications_human.CDCL Require Import CDCL_qcp_strategy_goal.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.CDCL.CDCL_qcp_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 
 Lemma CDCL_qcp_strategy3_correctness : CDCL_qcp_strategy3.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   unfold installed_rows_capacity_rep.
   prop_apply (IntPtrArray2.full_Zlength p live rows).
   Intros.
   sep_apply_l_atomic (IntPtrArray2.full_split_to_missing_i p i live rows).
   - dump_pre_spatial.
-    lia.
+  lia.
   - Intros row_ptr.
-    Exists row_ptr.
-    rewrite (Znth_indep rows i nil __default_app1_Z) by lia.
-    unfold StorePtrAsElement.storeA.
-    change (IntPtrArray2.ElemArray.full row_ptr
-      (Zlength (Znth i rows __default_app1_Z))
-      (Znth i rows __default_app1_Z)) with
-      (IntArray.full row_ptr
-        (Zlength (Znth i rows __default_app1_Z))
-        (Znth i rows __default_app1_Z)).
-    cdcl_entailer.
-    Intros_r v.
-    apply_sepcon_adjoint.
-    Intros.
-    subst v.
-    fold_arch.
-    cancel.
+  Exists row_ptr.
+  rewrite (Znth_indep rows i nil __default_app1_Z) by lia.
+  change (IntPtrArray2.ElemArray.full row_ptr (Zlength (Znth i rows __default_app1_Z)) (Znth i rows __default_app1_Z)) with (IntArray.full row_ptr (Zlength (Znth i rows __default_app1_Z)) (Znth i rows __default_app1_Z)).
+  cdcl_entailer.
+  Intros_r v.
+  apply_sepcon_adjoint.
+  Intros.
+  subst v.
+  cdcl_entailer.
 Qed.
 
 Lemma CDCL_qcp_strategy5_correctness : CDCL_qcp_strategy5.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   sep_apply (installed_rows_capacity_expose p live cap rows).
   2: lia.
   cancel (IntPtrArray2.full p live rows).
   cancel (PtrArray.undef_seg p (live + 1) cap).
   apply_sepcon_adjoint.
   elim_emp.
-  unfold StorePtrAsElement.undefstoreA.
-  fold_arch.
-  cancel.
+  cdcl_entailer.
 Qed.
 
 Lemma CDCL_qcp_strategy4_correctness : CDCL_qcp_strategy4.
 Proof.
   pre_process_default.
-  pose proof (IntPtrArray2.missing_i_merge_to_full
-    p i live row_ptr rows (Znth i rows __default_app1_Z)) as Hmerge.
-  unfold StorePtrAsElement.storeA in Hmerge.
-  fold_arch.
-  change (IntPtrArray2.ElemArray.full row_ptr
-    (Zlength (Znth i rows __default_app1_Z))
-    (Znth i rows __default_app1_Z)) with
-    (IntArray.full row_ptr
-      (Zlength (Znth i rows __default_app1_Z))
-      (Znth i rows __default_app1_Z)) in Hmerge.
-  sep_apply Hmerge; try lia.
-  rewrite replace_Znth_Znth by lia.
+  cbn [poly_store poly_undef_store].
   unfold installed_rows_capacity_rep.
-  cancel.
+  pose proof (IntPtrArray2.missing_i_merge_to_full p i live row_ptr rows (Znth i rows __default_app1_Z) ltac:(lia)) as Hmerge.
+  rewrite replace_Znth_Znth in Hmerge.
+  sep_apply_r_atomic Hmerge.
+  cdcl_entailer.
+  sep_apply (derivable1_sepcon_comm (IntArray.full row_ptr (Zlength (Znth i rows __default_app1_Z)) (Znth i rows __default_app1_Z)) ((p + i * sizeof(PTR)) # Ptr |-> row_ptr)).
+  reflexivity.
 Qed.
 
 Lemma CDCL_qcp_strategy6_correctness : CDCL_qcp_strategy6.
 Proof.
   pre_process_default.
-  pose proof (installed_rows_capacity_publish
-    p live cap rows newp row) as Hpublish.
-  unfold StorePtrAsElement.storeA in Hpublish.
-  fold_arch.
-  sep_apply Hpublish; try lia.
-  cancel.
+  cbn [poly_store poly_undef_store].
+  sep_apply_r_atomic (installed_rows_capacity_publish p live cap rows newp row ltac:(lia)).
+  cdcl_entailer.
 Qed.
 
-(* Rules 31/32 name the focused row.  Definitional like 11-18, with one extra
-   step: the generated statement spells the row-table cell as
-   [poly_store FET_ptr (p + i * sizeof_front_end_type FET_ptr) row_ptr] while
-   [installed_row_focus_rep] writes [StorePtrAsElement.storeA p i row_ptr],
-   whose body uses [ptr_size_Z].  The two are convertible, and [fold_arch] is
-   how rules 3-6 above say so. *)
+(* Rules 31/32 expose the focused row through the public storage interface. *)
 
 Lemma CDCL_qcp_strategy31_correctness : CDCL_qcp_strategy31.
 Proof.
   pre_process_default.
-  unfold installed_row_focus_rep, StorePtrAsElement.storeA.
-  fold_arch.
+  unfold installed_row_focus_rep.
   cdcl_entailer.
 Qed.
 
 Lemma CDCL_qcp_strategy32_correctness : CDCL_qcp_strategy32.
 Proof.
   pre_process_default.
-  unfold installed_row_focus_rep, StorePtrAsElement.storeA.
-  fold_arch.
+  unfold installed_row_focus_rep.
   cdcl_entailer.
 Qed.
 
@@ -230,12 +201,13 @@ Qed.
 Lemma CDCL_qcp_strategy19_correctness : CDCL_qcp_strategy19.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   unfold sat_header_rep.
-  repeat cancel.
+  cdcl_entailer.
   Intros_r_any.
   apply_sepcon_adjoint.
   elim_emp.
-  cancel.
+  cdcl_entailer.
 Qed.
 
 Lemma CDCL_qcp_strategy20_correctness : CDCL_qcp_strategy20.
@@ -248,12 +220,13 @@ Qed.
 Lemma CDCL_qcp_strategy21_correctness : CDCL_qcp_strategy21.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   unfold sat_entry_header_rep.
   cdcl_entailer.
   Intros_r_any.
   apply_sepcon_adjoint.
   elim_emp.
-  cancel.
+  cdcl_entailer.
 Qed.
 
 Lemma CDCL_qcp_strategy22_correctness : CDCL_qcp_strategy22.
@@ -320,12 +293,13 @@ Qed.
 Lemma CDCL_qcp_strategy27_correctness : CDCL_qcp_strategy27.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   unfold conflict_levels_rep.
-  repeat cancel.
+  cdcl_entailer.
   do 5 Intros_r_any.
   apply_sepcon_adjoint.
   elim_emp.
-  cancel.
+  cdcl_entailer.
 Qed.
 
 Lemma CDCL_qcp_strategy28_correctness : CDCL_qcp_strategy28.
@@ -682,19 +656,15 @@ Qed.
 Lemma CDCL_qcp_strategy64_correctness : CDCL_qcp_strategy64.
 Proof.
   pre_process_default.
-  (* The slot cells are element-store definitions whose bodies use sizeof(INT)
-     and ptr_size_Z, while the rule emits the raw 4 / Arch32.ptr_size_Z forms.
-     They are convertible; [fold_arch] normalises them, exactly as rules 31/32
-     already do for StorePtrAsElement.storeA. *)
+  cbn [poly_store poly_undef_store].
   unfold solver_install_slot_state, StoreIntAsElement.storeA,
          StorePtrAsElement.undefstoreA.
-  fold_arch.
-  change (sizeof_front_end_type FET_int) with 4.
   Intros pre_snap pre_ranks last.
   Intros old_state old_true_count old_unassigned v_data cl_data.
   Exists pre_snap pre_ranks last.
   Exists old_state old_true_count old_unassigned v_data cl_data.
   cdcl_entailer.
+  cancel.
   apply_sepcon_adjoint. elim_emp. cancel.
 Qed.
 
@@ -710,8 +680,8 @@ Qed.
 Lemma CDCL_qcp_strategy66_correctness : CDCL_qcp_strategy66.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   unfold solver_installed_row_state, StorePtrAsElement.storeA.
-  fold_arch.
   Intros pre_snap installed_snap pre_ranks last.
   Intros v_data cl_data.
   Exists pre_snap installed_snap pre_ranks last.
@@ -821,15 +791,6 @@ Proof.
   cdcl_entailer.
 Qed.
 
-(* Rules 79/80: bcp's clause-update head (design ruling A9).  Same shape as
-   63/64: the definition carries an element-store cell
-   (StoreIntAsElement.storeA) whose body uses sizeof(INT) while the rule
-   emits the raw data_at form, so the unfold direction normalises it with
-   fold_arch + the sizeof(FET_int) change exactly as rule 64 does; the fold
-   direction needs no normalisation (compare 63/65, whose definitions also
-   carry storeA cells).  The two EX binders are the struct-pointer
-   intermediates, as everywhere in this family. *)
-
 Lemma CDCL_qcp_strategy79_correctness : CDCL_qcp_strategy79.
 Proof.
   pre_process_default.
@@ -841,9 +802,8 @@ Qed.
 Lemma CDCL_qcp_strategy80_correctness : CDCL_qcp_strategy80.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   unfold bcp_clause_update_state, StoreIntAsElement.storeA.
-  fold_arch.
-  change (sizeof_front_end_type FET_int) with 4.
   Intros v_data cl_data.
   Exists v_data cl_data.
   cdcl_entailer.

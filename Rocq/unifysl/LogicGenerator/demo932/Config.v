@@ -12,6 +12,7 @@ Definition how_connectives :=
   ; FROM_model_TO_orp
   ; FROM_model_TO_andp
   ; FROM_model_TO_impp
+  ; FROM_model_TO_falsep
   ; FROM_model_TO_exp
   ; FROM_model_TO_allp
   ; FROM_unit_TO_emp
@@ -25,7 +26,8 @@ Definition how_connectives :=
 Definition how_judgements :=
   [ FROM_model_TO_derivable1;
     FROM_derivable1_TO_provable;
-    FROM_derivable1_TO_logic_equiv
+    FROM_derivable1_TO_logic_equiv;
+    FROM_join_TO_corable
   ].
 
 Definition transparent_names :=

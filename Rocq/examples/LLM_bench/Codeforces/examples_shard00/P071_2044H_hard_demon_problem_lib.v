@@ -804,7 +804,7 @@ Proof.
         (Zrange 0 r)) +
     ListLib.sum (map (fun y => f r y) (Zrange 0 c))).
   rewrite (Zrange_zero_snoc__prefix_update r Hr), flat_map_app, sum_app.
-  simpl [flat_map]. rewrite ?app_nil_r. reflexivity.
+  simpl. rewrite ?app_nil_r. reflexivity.
 Qed.
 Lemma rectangle_sum_step__prefix_update :
   forall (f : Z -> Z -> Z) r c,

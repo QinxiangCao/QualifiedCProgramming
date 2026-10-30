@@ -59,7 +59,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def solver_safety_wit_1 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000)) ,
+  forall (n_pre : Int) (out_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000)) ,
   ((( &( "k" ) )) # Int |->_)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
@@ -69,7 +69,7 @@ noncomputable def solver_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_2 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000)) ,
+  forall (n_pre : Int) (out_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000)) ,
   ((( &( "used" ) )) # Int64 |->_)
   ** ((( &( "k" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -80,7 +80,7 @@ noncomputable def solver_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_3 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (used : Int) (k : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((0 : Int) <= k)) (PreH4 : (k <= n_pre)) (PreH5 : (used = (triangular (k)))) (PreH6 : ((0 : Int) <= used)) (PreH7 : (used <= n_pre)) ,
+  forall (n_pre : Int) (out_pre : Int) (used : Int) (k : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((0 : Int) <= k)) (PreH4 : (k <= n_pre)) (PreH5 : (used = (triangular (k)))) (PreH6 : ((0 : Int) <= used)) (PreH7 : (used <= n_pre)) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
   ** ((( &( "k" ) )) # Int |-> (k))
@@ -91,7 +91,7 @@ noncomputable def solver_safety_wit_3 : Prop :=
   “ ((-9223372036854775808) <= (used + (k + 1))) ”
 
 noncomputable def solver_safety_wit_4 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (used : Int) (k : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((0 : Int) <= k)) (PreH4 : (k <= n_pre)) (PreH5 : (used = (triangular (k)))) (PreH6 : ((0 : Int) <= used)) (PreH7 : (used <= n_pre)) ,
+  forall (n_pre : Int) (out_pre : Int) (used : Int) (k : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((0 : Int) <= k)) (PreH4 : (k <= n_pre)) (PreH5 : (used = (triangular (k)))) (PreH6 : ((0 : Int) <= used)) (PreH7 : (used <= n_pre)) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
   ** ((( &( "k" ) )) # Int |-> (k))
@@ -102,7 +102,7 @@ noncomputable def solver_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (k + 1)) ”
 
 noncomputable def solver_safety_wit_5 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (used : Int) (k : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((0 : Int) <= k)) (PreH4 : (k <= n_pre)) (PreH5 : (used = (triangular (k)))) (PreH6 : ((0 : Int) <= used)) (PreH7 : (used <= n_pre)) ,
+  forall (n_pre : Int) (out_pre : Int) (used : Int) (k : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((0 : Int) <= k)) (PreH4 : (k <= n_pre)) (PreH5 : (used = (triangular (k)))) (PreH6 : ((0 : Int) <= used)) (PreH7 : (used <= n_pre)) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
   ** ((( &( "k" ) )) # Int |-> (k))
@@ -113,7 +113,7 @@ noncomputable def solver_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_6 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (used : Int) (k : Int) (PreH1 : ((used + (k + 1)) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((0 : Int) <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) ,
+  forall (n_pre : Int) (out_pre : Int) (used : Int) (k : Int) (PreH1 : ((used + (k + 1)) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((0 : Int) <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
   ** ((( &( "k" ) )) # Int |-> (k))
@@ -124,7 +124,7 @@ noncomputable def solver_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (k + 1)) ”
 
 noncomputable def solver_safety_wit_7 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (used : Int) (k : Int) (PreH1 : ((used + (k + 1)) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((0 : Int) <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) ,
+  forall (n_pre : Int) (out_pre : Int) (used : Int) (k : Int) (PreH1 : ((used + (k + 1)) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((0 : Int) <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
   ** ((( &( "k" ) )) # Int |-> ((k + 1)))
@@ -135,7 +135,7 @@ noncomputable def solver_safety_wit_7 : Prop :=
   “ ((-9223372036854775808) <= (used + (k + 1))) ”
 
 noncomputable def solver_safety_wit_8 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (used : Int) (k : Int) (PreH1 : ((used + (k + 1)) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((0 : Int) <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) ,
+  forall (n_pre : Int) (out_pre : Int) (used : Int) (k : Int) (PreH1 : ((used + (k + 1)) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((0 : Int) <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
@@ -147,7 +147,7 @@ noncomputable def solver_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_9 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i < k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
+  forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i < k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
   (intArray.seg out_pre (0 : Int) (i + 1) (written ++ ((i + 1) :: (@List.nil Int))))
   ** (intArray.undef_seg out_pre (i + 1) n_pre)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -160,7 +160,7 @@ noncomputable def solver_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solver_safety_wit_10 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i < k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
+  forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i < k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
   ** ((( &( "k" ) )) # Int |-> (k))
@@ -173,7 +173,7 @@ noncomputable def solver_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solver_safety_wit_11 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i < k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
+  forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i < k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
   ** ((( &( "k" ) )) # Int |-> (k))
@@ -186,7 +186,7 @@ noncomputable def solver_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_12 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
+  forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
   ** ((( &( "k" ) )) # Int |-> (k))
@@ -198,7 +198,7 @@ noncomputable def solver_safety_wit_12 : Prop :=
   “ ((INT_MIN) <= (k - 1)) ”
 
 noncomputable def solver_safety_wit_13 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
+  forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
   ** ((( &( "k" ) )) # Int |-> (k))
@@ -211,7 +211,7 @@ noncomputable def solver_safety_wit_13 : Prop :=
 
 noncomputable def solver_safety_wit_14 : Prop :=
   (
-forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
+forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
   (intArray.seg out_pre (0 : Int) i written)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
@@ -223,7 +223,7 @@ forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : In
   “ ((INT_MIN) <= ((Znth ((k - 1) - (0 : Int)) written (0 : Int)) + (n_pre - used))) ”
 ) \/
 (
-forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
+forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
   (intArray.seg out_pre (0 : Int) i written)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
@@ -236,7 +236,7 @@ forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : In
 )
 
 noncomputable def solver_safety_wit_14_split_goal_1 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
+  forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
   (intArray.seg out_pre (0 : Int) i written)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
@@ -247,7 +247,7 @@ noncomputable def solver_safety_wit_14_split_goal_1 : Prop :=
   “ (((Znth ((k - 1) - (0 : Int)) written (0 : Int)) + (n_pre - used)) <= INT_MAX) ”
 
 noncomputable def solver_safety_wit_14_split_goal_2 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
+  forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
   (intArray.seg out_pre (0 : Int) i written)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
@@ -258,7 +258,7 @@ noncomputable def solver_safety_wit_14_split_goal_2 : Prop :=
   “ ((INT_MIN) <= ((Znth ((k - 1) - (0 : Int)) written (0 : Int)) + (n_pre - used))) ”
 
 noncomputable def solver_safety_wit_15 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
+  forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
   (intArray.seg out_pre (0 : Int) i written)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
@@ -271,7 +271,7 @@ noncomputable def solver_safety_wit_15 : Prop :=
 
 noncomputable def solver_entail_wit_1 : Prop :=
   (
-forall (out_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000)) ,
+forall (n_pre : Int) (out_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000)) ,
   (intArray.undef_full out_pre n_pre)
 |--
   “ (1 <= n_pre) ” &&
@@ -297,7 +297,7 @@ noncomputable def solver_entail_wit_1_split_goal_1 : Prop :=
 
 noncomputable def solver_entail_wit_2 : Prop :=
   (
-forall (out_pre : Int) (n_pre : Int) (used : Int) (k : Int) (PreH1 : ((used + (k + 1)) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((0 : Int) <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) ,
+forall (n_pre : Int) (out_pre : Int) (used : Int) (k : Int) (PreH1 : ((used + (k + 1)) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((0 : Int) <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) ,
   (intArray.undef_full out_pre n_pre)
 |--
   “ (1 <= n_pre) ” &&
@@ -323,7 +323,7 @@ noncomputable def solver_entail_wit_2_split_goal_1 : Prop :=
 
 noncomputable def solver_entail_wit_3 : Prop :=
   (
-forall (out_pre : Int) (n_pre : Int) (used : Int) (k : Int) (PreH1 : ((used + (k + 1)) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((0 : Int) <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) ,
+forall (n_pre : Int) (out_pre : Int) (used : Int) (k : Int) (PreH1 : ((used + (k + 1)) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((0 : Int) <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) ,
   (intArray.undef_full out_pre n_pre)
 |--
   EX written : (List Int),
@@ -360,7 +360,7 @@ noncomputable def solver_entail_wit_3_split_goal_2 : Prop :=
 
 noncomputable def solver_entail_wit_4 : Prop :=
   (
-forall (out_pre : Int) (n_pre : Int) (written_2 : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i < k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written_2)) ,
+forall (n_pre : Int) (out_pre : Int) (written_2 : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i < k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written_2)) ,
   (intArray.seg out_pre (0 : Int) (i + 1) (written_2 ++ ((i + 1) :: (@List.nil Int))))
   ** (intArray.undef_seg out_pre (i + 1) n_pre)
 |--
@@ -393,7 +393,7 @@ noncomputable def solver_entail_wit_4_split_goal_1 : Prop :=
 
 noncomputable def solver_entail_wit_5 : Prop :=
   (
-forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
+forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
   (intArray.full out_pre i (replace_Znth ((k - 1)) (((Znth ((k - 1) - (0 : Int)) written (0 : Int)) + (n_pre - used))) (written)))
   ** (intArray.undef_seg out_pre i n_pre)
 |--
@@ -412,7 +412,7 @@ forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : In
   ** (intArray.undef_seg out_pre k n_pre)
 ) \/
 (
-forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
+forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
   (intArray.full out_pre i (replace_Znth ((k - 1)) (((Znth ((k - 1) - (0 : Int)) written (0 : Int)) + (n_pre - used))) (written)))
 |--
   EX out_spec : (List Int),
@@ -431,7 +431,7 @@ forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : In
 
 noncomputable def solver_return_wit_1 : Prop :=
   (
-forall (out_pre : Int) (n_pre : Int) (out_spec_2 : (List Int)) (k : Int) (used : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (1 <= k)) (PreH4 : (k <= n_pre)) (PreH5 : (used = (triangular (k)))) (PreH6 : ((0 : Int) <= used)) (PreH7 : (used <= n_pre)) (PreH8 : (n_pre < (used + (k + 1)))) (PreH9 : (GreedyCandyPlan n_pre k out_spec_2)) (PreH10 : (Spec n_pre out_spec_2)) ,
+forall (n_pre : Int) (out_pre : Int) (out_spec_2 : (List Int)) (k : Int) (used : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (1 <= k)) (PreH4 : (k <= n_pre)) (PreH5 : (used = (triangular (k)))) (PreH6 : ((0 : Int) <= used)) (PreH7 : (used <= n_pre)) (PreH8 : (n_pre < (used + (k + 1)))) (PreH9 : (GreedyCandyPlan n_pre k out_spec_2)) (PreH10 : (Spec n_pre out_spec_2)) ,
   (intArray.full out_pre k out_spec_2)
   ** (intArray.undef_seg out_pre k n_pre)
 |--
@@ -442,7 +442,7 @@ forall (out_pre : Int) (n_pre : Int) (out_spec_2 : (List Int)) (k : Int) (used :
   ** (intArray.undef_seg out_pre (Zlength (out_spec)) n_pre)
 ) \/
 (
-forall (out_pre : Int) (n_pre : Int) (out_spec_2 : (List Int)) (k : Int) (used : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (1 <= k)) (PreH4 : (k <= n_pre)) (PreH5 : (used = (triangular (k)))) (PreH6 : ((0 : Int) <= used)) (PreH7 : (used <= n_pre)) (PreH8 : (n_pre < (used + (k + 1)))) (PreH9 : (GreedyCandyPlan n_pre k out_spec_2)) (PreH10 : (Spec n_pre out_spec_2)) ,
+forall (n_pre : Int) (out_pre : Int) (out_spec_2 : (List Int)) (k : Int) (used : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (1 <= k)) (PreH4 : (k <= n_pre)) (PreH5 : (used = (triangular (k)))) (PreH6 : ((0 : Int) <= used)) (PreH7 : (used <= n_pre)) (PreH8 : (n_pre < (used + (k + 1)))) (PreH9 : (GreedyCandyPlan n_pre k out_spec_2)) (PreH10 : (Spec n_pre out_spec_2)) ,
   (intArray.full out_pre k out_spec_2)
   ** (intArray.undef_seg out_pre k n_pre)
 |--
@@ -454,7 +454,7 @@ forall (out_pre : Int) (n_pre : Int) (out_spec_2 : (List Int)) (k : Int) (used :
 )
 
 noncomputable def solver_partial_solve_wit_1 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i < k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
+  forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i < k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
   (intArray.seg out_pre (0 : Int) i written)
   ** (intArray.undef_seg out_pre i n_pre)
 |--
@@ -475,7 +475,7 @@ noncomputable def solver_partial_solve_wit_1 : Prop :=
   ** (intArray.seg out_pre (0 : Int) i written)
 
 noncomputable def solver_partial_solve_wit_2 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
+  forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
   (intArray.seg out_pre (0 : Int) i written)
   ** (intArray.undef_seg out_pre i n_pre)
 |--
@@ -496,7 +496,7 @@ noncomputable def solver_partial_solve_wit_2 : Prop :=
   ** (intArray.undef_seg out_pre i n_pre)
 
 noncomputable def solver_partial_solve_wit_3 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
+  forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (used : Int) (k : Int) (PreH1 : (i >= k)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= k)) (PreH5 : (k <= n_pre)) (PreH6 : (used = (triangular (k)))) (PreH7 : ((0 : Int) <= used)) (PreH8 : (used <= n_pre)) (PreH9 : (n_pre < (used + (k + 1)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= k)) (PreH12 : (CandyPrefix i written)) ,
   (intArray.seg out_pre (0 : Int) i written)
   ** (intArray.undef_seg out_pre i n_pre)
 |--

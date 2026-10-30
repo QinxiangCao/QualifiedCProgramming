@@ -43,6 +43,6 @@ def VC_Correctness : SimpleC.EE.QCP_demos_LLM.generated.bst_fp_delete_goal.VC_Co
   proof_of_Delete_return_wit_3 := proof_of_Delete_return_wit_3
   proof_of_Delete_return_wit_4 := proof_of_Delete_return_wit_4
   proof_of_Delete_return_wit_5 := proof_of_Delete_return_wit_5
-  proof_of_Delete_derive_high_level_spec_by_low_level_spec := proof_of_Delete_derive_high_level_spec_by_low_level_spec
+  proof_of_Delete_low_level_spec_entail_high_level_spec := proof_of_Delete_low_level_spec_entail_high_level_spec
 
 end SimpleC.EE.QCP_demos_LLM.generated.bst_fp_delete_goal_check

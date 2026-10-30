@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.maximum_subarray Require Import maximum_subarray_goal.
 From SimpleC.EE.LLM_bench.Algorithms.maximum_subarray Require Import maximum_subarray_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.maximum_subarray.maximum_subarray_lib.
 Local Open Scope sac.
@@ -33,38 +17,38 @@ Qed.
 
 Lemma proof_of_max_return_wit_1_split_goal_1 : max_return_wit_1_split_goal_1.
 Proof.
-  unfold max_return_wit_1_split_goal_1; intros; unfold max_Z; rewrite Z.max_l by lia; reflexivity.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  unfold max_Z; rewrite Z.max_l by lia; reflexivity.
 Qed.
 
 Lemma proof_of_max_return_wit_1 : max_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_max_return_wit_1_split_goal_1.
-
+  - Goal_apply proof_of_max_return_wit_1_split_goal_1.
 Qed. 
 
 Lemma proof_of_max_return_wit_2_split_goal_1 : max_return_wit_2_split_goal_1.
 Proof.
-  unfold max_return_wit_2_split_goal_1; intros; unfold max_Z; rewrite Z.max_r by lia; reflexivity.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  unfold max_Z; rewrite Z.max_r by lia; reflexivity.
 Qed.
 
 Lemma proof_of_max_return_wit_2 : max_return_wit_2.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_max_return_wit_2_split_goal_1.
-
+  - Goal_apply proof_of_max_return_wit_2_split_goal_1.
 Qed. 
 
 Lemma proof_of_max_sub_array_safety_wit_6_split_goal_1 : max_sub_array_safety_wit_6_split_goal_1.
 Proof.
-  unfold max_sub_array_safety_wit_6_split_goal_1; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof (input_Znth_bounds l i PreH13 PreH14 ltac:(lia)).
   entailer!.
 Qed.
 
 Lemma proof_of_max_sub_array_safety_wit_6_split_goal_2 : max_sub_array_safety_wit_6_split_goal_2.
 Proof.
-  unfold max_sub_array_safety_wit_6_split_goal_2; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof (input_Znth_bounds l i PreH13 PreH14 ltac:(lia)).
   entailer!.
 Qed.
@@ -74,42 +58,41 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_max_sub_array_safety_wit_6_split_goal_1.
   - Goal_apply proof_of_max_sub_array_safety_wit_6_split_goal_2.
-
 Qed. 
 
 Lemma proof_of_max_sub_array_entail_wit_1_split_goal_1 : max_sub_array_entail_wit_1_split_goal_1.
 Proof.
-  unfold max_sub_array_entail_wit_1_split_goal_1; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   apply MaxSubarraySumPrefix_single; lia.
 Qed.
 
 Lemma proof_of_max_sub_array_entail_wit_1_split_goal_2 : max_sub_array_entail_wit_1_split_goal_2.
 Proof.
-  unfold max_sub_array_entail_wit_1_split_goal_2; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   apply MaxSuffixSumPrefix_single; lia.
 Qed.
 
 Lemma proof_of_max_sub_array_entail_wit_1_split_goal_3 : max_sub_array_entail_wit_1_split_goal_3.
 Proof.
-  unfold max_sub_array_entail_wit_1_split_goal_3; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof (input_Znth_bounds l 0 PreH5 PreH6 ltac:(lia)); lia.
 Qed.
 
 Lemma proof_of_max_sub_array_entail_wit_1_split_goal_4 : max_sub_array_entail_wit_1_split_goal_4.
 Proof.
-  unfold max_sub_array_entail_wit_1_split_goal_4; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof (input_Znth_bounds l 0 PreH5 PreH6 ltac:(lia)); lia.
 Qed.
 
 Lemma proof_of_max_sub_array_entail_wit_1_split_goal_5 : max_sub_array_entail_wit_1_split_goal_5.
 Proof.
-  unfold max_sub_array_entail_wit_1_split_goal_5; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof (input_Znth_bounds l 0 PreH5 PreH6 ltac:(lia)); lia.
 Qed.
 
 Lemma proof_of_max_sub_array_entail_wit_1_split_goal_6 : max_sub_array_entail_wit_1_split_goal_6.
 Proof.
-  unfold max_sub_array_entail_wit_1_split_goal_6; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof (input_Znth_bounds l 0 PreH5 PreH6 ltac:(lia)); lia.
 Qed.
 
@@ -122,12 +105,11 @@ Proof.
   - Goal_apply proof_of_max_sub_array_entail_wit_1_split_goal_4.
   - Goal_apply proof_of_max_sub_array_entail_wit_1_split_goal_5.
   - Goal_apply proof_of_max_sub_array_entail_wit_1_split_goal_6.
-
 Qed. 
 
 Lemma proof_of_max_sub_array_entail_wit_2_split_goal_1 : max_sub_array_entail_wit_2_split_goal_1.
 Proof.
-  unfold max_sub_array_entail_wit_2_split_goal_1; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hsuffix : MaxSuffixSumPrefix l (i + 1) retval).
   { subst retval. apply MaxSuffixSumPrefix_step; try lia; assumption. }
   subst retval_2; apply MaxSubarraySumPrefix_step; assumption.
@@ -135,7 +117,7 @@ Qed.
 
 Lemma proof_of_max_sub_array_entail_wit_2_split_goal_2 : max_sub_array_entail_wit_2_split_goal_2.
 Proof.
-  unfold max_sub_array_entail_wit_2_split_goal_2; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hsuffix : MaxSuffixSumPrefix l (i + 1) retval).
   { subst retval. apply MaxSuffixSumPrefix_step; try lia; assumption. }
   exact Hsuffix.
@@ -143,7 +125,7 @@ Qed.
 
 Lemma proof_of_max_sub_array_entail_wit_2_split_goal_3 : max_sub_array_entail_wit_2_split_goal_3.
 Proof.
-  unfold max_sub_array_entail_wit_2_split_goal_3; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hsuffix : MaxSuffixSumPrefix l (i + 1) retval).
   { subst retval. apply MaxSuffixSumPrefix_step; try lia; assumption. }
   assert (Hbound : retval <= 1000000000).
@@ -154,7 +136,7 @@ Qed.
 
 Lemma proof_of_max_sub_array_entail_wit_2_split_goal_4 : max_sub_array_entail_wit_2_split_goal_4.
 Proof.
-  unfold max_sub_array_entail_wit_2_split_goal_4; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hsuffix : MaxSuffixSumPrefix l (i + 1) retval).
   { subst retval. apply MaxSuffixSumPrefix_step; try lia; assumption. }
   subst retval_2; unfold max_Z; pose proof (Z.le_max_l res retval); lia.
@@ -162,7 +144,7 @@ Qed.
 
 Lemma proof_of_max_sub_array_entail_wit_2_split_goal_5 : max_sub_array_entail_wit_2_split_goal_5.
 Proof.
-  unfold max_sub_array_entail_wit_2_split_goal_5; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hsuffix : MaxSuffixSumPrefix l (i + 1) retval).
   { subst retval. apply MaxSuffixSumPrefix_step; try lia; assumption. }
   assert (Hbound : retval <= 1000000000).
@@ -173,7 +155,7 @@ Qed.
 
 Lemma proof_of_max_sub_array_entail_wit_2_split_goal_6 : max_sub_array_entail_wit_2_split_goal_6.
 Proof.
-  unfold max_sub_array_entail_wit_2_split_goal_6; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hsuffix : MaxSuffixSumPrefix l (i + 1) retval).
   { subst retval. apply MaxSuffixSumPrefix_step; try lia; assumption. }
   pose proof (input_Znth_bounds l i PreH15 PreH16 ltac:(lia)).
@@ -189,18 +171,16 @@ Proof.
   - Goal_apply proof_of_max_sub_array_entail_wit_2_split_goal_4.
   - Goal_apply proof_of_max_sub_array_entail_wit_2_split_goal_5.
   - Goal_apply proof_of_max_sub_array_entail_wit_2_split_goal_6.
-
 Qed. 
 
 Lemma proof_of_max_sub_array_return_wit_1_split_goal_1 : max_sub_array_return_wit_1_split_goal_1.
 Proof.
-  unfold max_sub_array_return_wit_1_split_goal_1; intros. assert (i = n_pre) by lia. subst i; assumption.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  assert (i = n_pre) by lia. subst i; assumption.
 Qed.
 
 Lemma proof_of_max_sub_array_return_wit_1 : max_sub_array_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_max_sub_array_return_wit_1_split_goal_1.
-
+  - Goal_apply proof_of_max_sub_array_return_wit_1_split_goal_1.
 Qed. 
-

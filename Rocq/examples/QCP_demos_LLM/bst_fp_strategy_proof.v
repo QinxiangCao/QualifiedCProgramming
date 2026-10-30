@@ -1,12 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.QCP_demos_LLM Require Import bst_fp_strategy_goal.
 From SimpleC.EE.QCP_demos_LLM Require Import bst_fp_lib.
 Import naive_C_Rules.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 
@@ -38,6 +33,7 @@ Qed.
 Lemma bst_fp_strategy2_correctness : bst_fp_strategy2.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   cancel.
   Intros_r tr0.
   Intros_r tr1.

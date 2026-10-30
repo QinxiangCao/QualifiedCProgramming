@@ -1,15 +1,9 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.Applications_human.convex_hull Require Import safeexec_strategy_goal.
 From SimpleC.EE.QCP_demos_LLM Require Import sll_merge_rel_lib.
 Local Open Scope monad.
 From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
 Import naive_C_Rules.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 

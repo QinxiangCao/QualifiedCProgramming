@@ -20,14 +20,14 @@ Import ListNotations.
 Local Open Scope list.
 
 Module Type Array2LibSig
-  (Arch : CArchSig)
+  (ArchImpl : CArchSig)
   (Endian : CEndianSig)
   (CRules: SeparationLogicSig)
-  (DePredSig : DerivedPredSig Arch Endian CRules)
-  (SLibSig : StoreLibSig Arch Endian CRules DePredSig)
-  (ALibSig : ArrayLibSig Arch Endian CRules DePredSig SLibSig).
+  (DePredSig : DerivedPredSig ArchImpl Endian CRules)
+  (SLibSig : StoreLibSig ArchImpl Endian CRules DePredSig)
+  (ALibSig : ArrayLibSig ArchImpl Endian CRules DePredSig SLibSig).
 
-Include Array2LibCoreSig Arch Endian CRules DePredSig SLibSig ALibSig.
+Include Array2LibCoreSig ArchImpl Endian CRules DePredSig SLibSig ALibSig.
 
 Import CRules.
 Import DePredSig.

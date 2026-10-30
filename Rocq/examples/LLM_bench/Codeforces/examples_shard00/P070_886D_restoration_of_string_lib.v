@@ -1767,7 +1767,7 @@ Lemma path_prefix_member_bounds__path_exits_head_skip :
     0 <= x < 26.
 Proof.
   intros next start path current x Hpath.
-  induction Hpath as [s|p c succ Hp IH Hc Hedge]; intro Hin.
+  induction Hpath as [|p c succ Hp IH Hc Hedge]; intro Hin.
   - contradiction.
   - apply in_app_or in Hin. destruct Hin as [Hin | Hin].
     + apply IH. exact Hin.
@@ -1787,12 +1787,12 @@ Proof.
     PathPrefix next start path current -> 0 <= current < 26 ->
     NextReach next start current).
   { intros next0 start0 path0 current0 Hp0 Hcurrent0.
-    induction Hp0 as [s|p cur succ Hp IH Hcur Hedge].
+    induction Hp0 as [|p cur succ Hp IH Hcur Hedge].
     - constructor.
     - eapply Htrans. apply IH. exact Hcur.
       eapply next_reach_step. exact Hedge. exact Hcurrent0. constructor. }
   intros next start path current x Hpath.
-  induction Hpath as [s|p c succ Hp IH Hc Hedge]; intro Hin.
+  induction Hpath as [|p c succ Hp IH Hc Hedge]; intro Hin.
   - contradiction.
   - apply in_app_or in Hin. destruct Hin as [Hin | Hin].
     + apply IH. exact Hin.
@@ -1809,7 +1809,7 @@ Proof.
   intros words next prev used start path current head
     Henc Hstart Hhead Hpath.
   destruct Hstart as [Hstartb [Hstartu Hstartp]].
-  induction Hpath as [s|p cur succ Hp IH Hcur Hedge]; intro Hreach.
+  induction Hpath as [|p cur succ Hp IH Hcur Hedge]; intro Hreach.
   - destruct Hhead as [Hheadb [Hheadu Hheadp]].
     destruct (next_reach_last__path_exits_head_skip
       next head start Hheadb Hreach) as [Heq | (pred & Hrp & Hpred & Hsb & Hlast)].
@@ -1844,7 +1844,7 @@ Lemma path_prefix_first__path_exits_head_skip :
       PathPrefix next successor rest current.
 Proof.
   intros next start path current Hpath.
-  induction Hpath as [s|p cur succ Hp IH Hcur Hedge].
+  induction Hpath as [|p cur succ Hp IH Hcur Hedge].
   - left. auto.
   - destruct IH as [[-> ->] | (rest & first & Heq & Hfirst & Hsuffix)].
     + right. exists (@nil Z), succ. simpl. repeat split; try assumption.
@@ -1883,7 +1883,7 @@ Lemma path_prefix_member_prefix__path_exits_head_skip :
       PathPrefix next start before x.
 Proof.
   intros next start path current x Hpath.
-  induction Hpath as [s|p cur succ Hp IH Hcur Hedge]; intro Hin.
+  induction Hpath as [|p cur succ Hp IH Hcur Hedge]; intro Hin.
   - contradiction.
   - apply in_app_or in Hin. destruct Hin as [Hin | Hin].
     + destruct (IH Hin) as (before & after & Heq & Hpre).
@@ -1905,7 +1905,7 @@ Proof.
     apply app_eq_nil in Heq. destruct Heq as [_ Hbad]. discriminate. }
   intros words next prev used start path current Henc Hhead Hpath.
   destruct Hhead as [Hstartb [Hstartu Hstartprev]].
-  induction Hpath as [s|p cur succ Hp IH Hcur Hedge].
+  induction Hpath as [|p cur succ Hp IH Hcur Hedge].
   - split. constructor. intro H. exact H.
   - destruct IH as [Hnd Hfresh].
     assert (Hndfull : NoDup (p ++ cur :: @nil Z)).

@@ -1,29 +1,13 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P030_1220C_substring_game_in_the_lesson_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P030_1220C_substring_game_in_the_lesson_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P030_1220C_substring_game_in_the_lesson_lib.
 Local Open Scope sac.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold SpecPrefix.
   split.
   - rewrite Zlength_nil. lia.
@@ -32,7 +16,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PrefixMinimum.
   split.
   - rewrite <- PreH4. lia.
@@ -41,7 +25,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_3 : solver_entail_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH3. assumption.
 Qed.
 
@@ -55,7 +39,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_1_split_goal_1 : solver_entail_wit_2_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply spec_prefix_snoc__prefix_transitions.
   - exact PreH11.
   - lia.
@@ -70,7 +54,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_1_split_goal_2 : solver_entail_wit_2_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hchar : Znth k text 0 <= 122).
   { specialize (PreH6 k ltac:(lia)). lia. }
   pose proof (prefix_minimum_step__prefix_transitions
@@ -88,7 +72,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_2_split_goal_1 : solver_entail_wit_2_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply spec_prefix_snoc__prefix_transitions.
   - exact PreH11.
   - lia.
@@ -103,7 +87,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_2_split_goal_2 : solver_entail_wit_2_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hchar : Znth k text 0 <= 122).
   { specialize (PreH6 k ltac:(lia)). lia. }
   pose proof (prefix_minimum_step__prefix_transitions
@@ -121,7 +105,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_3_split_goal_1 : solver_entail_wit_2_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply spec_prefix_snoc__prefix_transitions.
   - exact PreH11.
   - lia.
@@ -135,7 +119,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_3_split_goal_2 : solver_entail_wit_2_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hchar : Znth k text 0 <= 122).
   { specialize (PreH6 k ltac:(lia)). lia. }
   pose proof (prefix_minimum_step__prefix_transitions
@@ -153,7 +137,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1 : solver_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (k = n_pre) by lia.
   subst k.
   Exists out_2.

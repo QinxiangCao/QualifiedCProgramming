@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P089_946G_almost_increasing_array_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P089_946G_almost_increasing_array_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P089_946G_almost_increasing_array_lib.
 Local Open Scope sac.
@@ -25,7 +9,7 @@ Local Open Scope sac.
 
 Lemma proof_of_solver_entail_wit_12_8 : solver_entail_wit_12_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hcim : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).
   rewrite Hci in PreH34, PreH31.
@@ -146,7 +130,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_9 : solver_entail_wit_12_9.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hcim : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).
   rewrite Hci in PreH34, PreH31.
@@ -267,7 +251,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_10 : solver_entail_wit_12_10.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hcim : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).
   rewrite Hci in PreH34, PreH31.
@@ -388,7 +372,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_11 : solver_entail_wit_12_11.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hcim : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).
   rewrite Hci in PreH34, PreH31.
@@ -509,7 +493,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_12 : solver_entail_wit_12_12.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hcim : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).
   rewrite Hci in PreH34, PreH31.
@@ -630,7 +614,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_13 : solver_entail_wit_12_13.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (dp_body_master__dp_body_branches_k2 values vals_l_2 c_l_2 dp0_l_2
      (replace_Znth i (retval + 1) dp0_l_2) m0_2 m1_2 mX_2
      i n_pre nvals retval_3 retval_4 retval_6 retval retval_2 retval_5
@@ -657,7 +641,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_14 : solver_entail_wit_12_14.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (dp_body_master__dp_body_branches_k2 values vals_l_2 c_l_2 dp0_l_2
      (replace_Znth i (0 + 1) dp0_l_2) m0_2 m1_2 mX_2
      i n_pre nvals retval_2 retval_3 retval_6 retval_4 retval retval_5
@@ -684,7 +668,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_15 : solver_entail_wit_12_15.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (dp_body_master__dp_body_branches_k2 values vals_l_2 c_l_2 dp0_l_2
      (replace_Znth i (retval + 1) dp0_l_2) m0_2 m1_2 mX_2
      i n_pre nvals retval_2 retval_3 retval_6 retval retval_4 retval_5
@@ -711,7 +695,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_16 : solver_entail_wit_12_16.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (dp_body_master__dp_body_branches_k2 values vals_l_2 c_l_2 dp0_l_2
      (replace_Znth i (0 + 1) dp0_l_2) m0_2 m1_2 mX_2
      i n_pre nvals retval retval_2 retval_6 retval_3 retval_4 retval_5
@@ -738,7 +722,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_17 : solver_entail_wit_12_17.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (dp_body_master__dp_body_branches_k2 values vals_l_2 c_l_2 dp0_l_2
      (replace_Znth i (retval + 1) dp0_l_2) m0_2 m1_2 mX_2
      i n_pre nvals retval_2 retval_3 retval_6 retval retval_4 retval_5
@@ -765,7 +749,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_18 : solver_entail_wit_12_18.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (dp_body_master__dp_body_branches_k2 values vals_l_2 c_l_2 dp0_l_2
      (replace_Znth i (0 + 1) dp0_l_2) m0_2 m1_2 mX_2
      i n_pre nvals retval retval_2 retval_6 retval_3 retval_4 retval_5
@@ -792,7 +776,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_19 : solver_entail_wit_12_19.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (dp_body_master__dp_body_branches_k2 values vals_l_2 c_l_2 dp0_l_2
      (replace_Znth i (retval + 1) dp0_l_2) m0_2 m1_2 mX_2
      i n_pre nvals retval_2 retval_3 retval_6 retval retval_4 retval_5
@@ -819,7 +803,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_20 : solver_entail_wit_12_20.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (dp_body_master__dp_body_branches_k2 values vals_l_2 c_l_2 dp0_l_2
      (replace_Znth i (0 + 1) dp0_l_2) m0_2 m1_2 mX_2
      i n_pre nvals retval retval_2 retval_6 retval_3 retval_4 retval_5
@@ -846,7 +830,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_21 : solver_entail_wit_12_21.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (dp_body_master__dp_body_branches_k2 values vals_l_2 c_l_2 dp0_l_2
      (replace_Znth i (retval + 1) dp0_l_2) m0_2 m1_2 mX_2
      i n_pre nvals retval_2 retval_3 retval_6 retval retval_4 retval_5
@@ -873,7 +857,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_22 : solver_entail_wit_12_22.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (dp_body_master__dp_body_branches_k2 values vals_l_2 c_l_2 dp0_l_2
      (replace_Znth i (0 + 1) dp0_l_2) m0_2 m1_2 mX_2
      i n_pre nvals retval retval_2 retval_6 retval_3 retval_4 retval_5
@@ -900,7 +884,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_23 : solver_entail_wit_12_23.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (dp_body_master__dp_body_branches_k2 values vals_l_2 c_l_2 dp0_l_2
      (replace_Znth i (retval + 1) dp0_l_2) m0_2 m1_2 mX_2
      i n_pre nvals retval_2 retval_3 retval_6 retval retval_4 retval_5
@@ -927,7 +911,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_24 : solver_entail_wit_12_24.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (dp_body_master__dp_body_branches_k2 values vals_l_2 c_l_2 dp0_l_2
      (replace_Znth i (0 + 1) dp0_l_2) m0_2 m1_2 mX_2
      i n_pre nvals retval retval_2 retval_6 retval_3 retval_4 retval_5
@@ -954,7 +938,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_25 : solver_entail_wit_12_25.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (dp_core__dp_body_branches_k3 values vals_l_2 c_l_2 dp0_l_2
               m0_2 m1_2 mX_2 (replace_Znth i (retval + 1) dp0_l_2)
               n_pre nvals i retval_2 retval_3 retval_6 (retval + 1) (retval_5 + 1)
@@ -1026,7 +1010,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_26 : solver_entail_wit_12_26.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (dp_core__dp_body_branches_k3 values vals_l_2 c_l_2 dp0_l_2
               m0_2 m1_2 mX_2 (replace_Znth i (0 + 1) dp0_l_2)
               n_pre nvals i retval retval_2 retval_6 (0 + 1) (retval_5 + 1)
@@ -1098,7 +1082,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_27 : solver_entail_wit_12_27.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (dp_core__dp_body_branches_k3 values vals_l_2 c_l_2 dp0_l_2
               m0_2 m1_2 mX_2 (replace_Znth i (retval + 1) dp0_l_2)
               n_pre nvals i retval_2 retval_3 retval_6 (retval + 1) (retval_5 + 1)
@@ -1170,7 +1154,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_28 : solver_entail_wit_12_28.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (dp_core__dp_body_branches_k3 values vals_l_2 c_l_2 dp0_l_2
               m0_2 m1_2 mX_2 (replace_Znth i (0 + 1) dp0_l_2)
               n_pre nvals i retval retval_2 retval_6 (0 + 1) (retval_5 + 1)
@@ -1242,7 +1226,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_29 : solver_entail_wit_12_29.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (dp_core__dp_body_branches_k3 values vals_l_2 c_l_2 dp0_l_2
               m0_2 m1_2 mX_2 (replace_Znth i (retval + 1) dp0_l_2)
               n_pre nvals i retval_2 retval_3 retval_6 (retval + 1) (retval_4 + 1)
@@ -1314,7 +1298,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_30 : solver_entail_wit_12_30.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (dp_core__dp_body_branches_k3 values vals_l_2 c_l_2 dp0_l_2
               m0_2 m1_2 mX_2 (replace_Znth i (0 + 1) dp0_l_2)
               n_pre nvals i retval retval_2 retval_6 (0 + 1) (retval_4 + 1)
@@ -1386,7 +1370,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_31 : solver_entail_wit_12_31.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (dp_core__dp_body_branches_k3 values vals_l_2 c_l_2 dp0_l_2
               m0_2 m1_2 mX_2 (replace_Znth i (retval + 1) dp0_l_2)
               n_pre nvals i retval_2 retval_3 retval_6 (retval + 1) (0 + 1)
@@ -1458,7 +1442,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_32 : solver_entail_wit_12_32.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (dp_core__dp_body_branches_k3 values vals_l_2 c_l_2 dp0_l_2
               m0_2 m1_2 mX_2 (replace_Znth i (0 + 1) dp0_l_2)
               n_pre nvals i retval retval_2 retval_6 (0 + 1) (0 + 1)
@@ -1530,7 +1514,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_33 : solver_entail_wit_12_33.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (dp_core__dp_body_branches_k3 values vals_l_2 c_l_2 dp0_l_2
               m0_2 m1_2 mX_2 (replace_Znth i (retval + 1) dp0_l_2)
               n_pre nvals i retval_3 retval_4 retval_6 (retval + 1) (retval_2 + 1)
@@ -1602,7 +1586,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_34 : solver_entail_wit_12_34.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (dp_core__dp_body_branches_k3 values vals_l_2 c_l_2 dp0_l_2
               m0_2 m1_2 mX_2 (replace_Znth i (0 + 1) dp0_l_2)
               n_pre nvals i retval_2 retval_3 retval_6 (0 + 1) (retval + 1)
@@ -1674,7 +1658,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_35 : solver_entail_wit_12_35.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (dp_core__dp_body_branches_k3 values vals_l_2 c_l_2 dp0_l_2
               m0_2 m1_2 mX_2 (replace_Znth i (retval + 1) dp0_l_2)
               n_pre nvals i retval_3 retval_4 retval_6 (retval + 1) (retval_2 + 1)
@@ -1746,7 +1730,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_36 : solver_entail_wit_12_36.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (dp_core__dp_body_branches_k3 values vals_l_2 c_l_2 dp0_l_2
               m0_2 m1_2 mX_2 (replace_Znth i (0 + 1) dp0_l_2)
               n_pre nvals i retval_2 retval_3 retval_6 (0 + 1) (retval + 1)
@@ -1818,7 +1802,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_37 : solver_entail_wit_12_37.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hsi : StrictIncPrefix vals_l_2 nvals) by (destruct PreH53 as [HH _]; exact HH).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hci1 : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).

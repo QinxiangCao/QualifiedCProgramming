@@ -58,7 +58,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def Always_positive_simple_safety_wit_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (INT_MIN < a_pre)) (PreH2 : (a_pre <= INT_MAX)) (PreH3 : (INT_MIN < b_pre)) (PreH4 : (b_pre <= INT_MAX)) (PreH5 : (INT_MIN < c_pre)) (PreH6 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (INT_MIN < a_pre)) (PreH2 : (a_pre <= INT_MAX)) (PreH3 : (INT_MIN < b_pre)) (PreH4 : (b_pre <= INT_MAX)) (PreH5 : (INT_MIN < c_pre)) (PreH6 : (c_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "c" ) )) # Int |-> (c_pre))
@@ -67,7 +67,7 @@ noncomputable def Always_positive_simple_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_simple_safety_wit_2 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "c" ) )) # Int |-> (c_pre))
@@ -76,7 +76,7 @@ noncomputable def Always_positive_simple_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_simple_safety_wit_3 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "delta2" ) )) # Int64 |->_)
   ** ((( &( "delta1" ) )) # Int64 |->_)
   ** ((( &( "a" ) )) # Int |-> (a_pre))
@@ -87,7 +87,7 @@ noncomputable def Always_positive_simple_safety_wit_3 : Prop :=
   “ (4 ≠ (0 : Int)) ”
 
 noncomputable def Always_positive_simple_safety_wit_4 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "delta2" ) )) # Int64 |->_)
   ** ((( &( "delta1" ) )) # Int64 |->_)
   ** ((( &( "a" ) )) # Int |-> (a_pre))
@@ -98,7 +98,7 @@ noncomputable def Always_positive_simple_safety_wit_4 : Prop :=
   “ ((-9223372036854775808) <= (b_pre * b_pre)) ”
 
 noncomputable def Always_positive_simple_safety_wit_5 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "delta2" ) )) # Int64 |->_)
   ** ((( &( "delta1" ) )) # Int64 |->_)
   ** ((( &( "a" ) )) # Int |-> (a_pre))
@@ -109,7 +109,7 @@ noncomputable def Always_positive_simple_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= 4) ”
 
 noncomputable def Always_positive_simple_safety_wit_6 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "delta2" ) )) # Int64 |->_)
   ** ((( &( "delta1" ) )) # Int64 |-> ((Z.quot (b_pre * b_pre) 4)))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
@@ -120,7 +120,7 @@ noncomputable def Always_positive_simple_safety_wit_6 : Prop :=
   “ ((-9223372036854775808) <= (a_pre * c_pre)) ”
 
 noncomputable def Always_positive_simple_safety_wit_7 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((Z.quot (b_pre * b_pre) 4) >= (a_pre * c_pre))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((Z.quot (b_pre * b_pre) 4) >= (a_pre * c_pre))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   ((( &( "delta2" ) )) # Int64 |-> ((a_pre * c_pre)))
   ** ((( &( "delta1" ) )) # Int64 |-> ((Z.quot (b_pre * b_pre) 4)))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
@@ -131,7 +131,7 @@ noncomputable def Always_positive_simple_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_simple_safety_wit_8 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   ((( &( "delta2" ) )) # Int64 |-> ((a_pre * c_pre)))
   ** ((( &( "delta1" ) )) # Int64 |-> ((Z.quot (b_pre * b_pre) 4)))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
@@ -142,7 +142,7 @@ noncomputable def Always_positive_simple_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_simple_safety_wit_9 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre > (0 : Int))) (PreH2 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre > (0 : Int))) (PreH2 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
   ((( &( "delta2" ) )) # Int64 |-> ((a_pre * c_pre)))
   ** ((( &( "delta1" ) )) # Int64 |-> ((Z.quot (b_pre * b_pre) 4)))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
@@ -153,7 +153,7 @@ noncomputable def Always_positive_simple_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def Always_positive_simple_safety_wit_10 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre <= (0 : Int))) (PreH2 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre <= (0 : Int))) (PreH2 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
   ((( &( "delta2" ) )) # Int64 |-> ((a_pre * c_pre)))
   ** ((( &( "delta1" ) )) # Int64 |-> ((Z.quot (b_pre * b_pre) 4)))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
@@ -165,14 +165,14 @@ noncomputable def Always_positive_simple_safety_wit_10 : Prop :=
 
 noncomputable def Always_positive_simple_return_wit_1 : Prop :=
   (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre <= (0 : Int))) (PreH2 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre <= (0 : Int))) (PreH2 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre))) ”
   &&  emp
 ) \/
 (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre <= (0 : Int))) (PreH2 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre <= (0 : Int))) (PreH2 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre))) ”
@@ -180,19 +180,19 @@ forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre <= (0 : Int))) 
 )
 
 noncomputable def Always_positive_simple_return_wit_1_split_goal_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre <= (0 : Int))) (PreH2 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre <= (0 : Int))) (PreH2 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
   ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre)))
 
 noncomputable def Always_positive_simple_return_wit_2 : Prop :=
   (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre > (0 : Int))) (PreH2 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre > (0 : Int))) (PreH2 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ (1 = (Always_pos (a_pre) (b_pre) (c_pre))) ”
   &&  emp
 ) \/
 (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre > (0 : Int))) (PreH2 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre > (0 : Int))) (PreH2 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ (1 = (Always_pos (a_pre) (b_pre) (c_pre))) ”
@@ -200,19 +200,19 @@ forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre > (0 : Int))) (
 )
 
 noncomputable def Always_positive_simple_return_wit_2_split_goal_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre > (0 : Int))) (PreH2 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre > (0 : Int))) (PreH2 : ((Z.quot (b_pre * b_pre) 4) < (a_pre * c_pre))) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
   (1 = (Always_pos (a_pre) (b_pre) (c_pre)))
 
 noncomputable def Always_positive_simple_return_wit_3 : Prop :=
   (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((Z.quot (b_pre * b_pre) 4) >= (a_pre * c_pre))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((Z.quot (b_pre * b_pre) 4) >= (a_pre * c_pre))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre))) ”
   &&  emp
 ) \/
 (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((Z.quot (b_pre * b_pre) 4) >= (a_pre * c_pre))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((Z.quot (b_pre * b_pre) 4) >= (a_pre * c_pre))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre))) ”
@@ -220,19 +220,19 @@ forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((Z.quot (b_pre * b_pr
 )
 
 noncomputable def Always_positive_simple_return_wit_3_split_goal_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((Z.quot (b_pre * b_pre) 4) >= (a_pre * c_pre))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((Z.quot (b_pre * b_pre) 4) >= (a_pre * c_pre))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre)))
 
 noncomputable def Always_positive_simple_return_wit_4 : Prop :=
   (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre))) ”
   &&  emp
 ) \/
 (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Always_pos ((0 : Int)) (b_pre) (c_pre))) ”
@@ -240,11 +240,11 @@ forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre = (0 : Int))) (
 )
 
 noncomputable def Always_positive_simple_return_wit_4_split_goal_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((0 : Int) = (Always_pos ((0 : Int)) (b_pre) (c_pre)))
 
 noncomputable def Always_positive_safety_wit_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (INT_MIN < a_pre)) (PreH2 : (a_pre <= INT_MAX)) (PreH3 : (INT_MIN < b_pre)) (PreH4 : (b_pre <= INT_MAX)) (PreH5 : (INT_MIN < c_pre)) (PreH6 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (INT_MIN < a_pre)) (PreH2 : (a_pre <= INT_MAX)) (PreH3 : (INT_MIN < b_pre)) (PreH4 : (b_pre <= INT_MAX)) (PreH5 : (INT_MIN < c_pre)) (PreH6 : (c_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "c" ) )) # Int |-> (c_pre))
@@ -253,7 +253,7 @@ noncomputable def Always_positive_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_safety_wit_2 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "c" ) )) # Int |-> (c_pre))
@@ -262,7 +262,7 @@ noncomputable def Always_positive_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_safety_wit_3 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "d" ) )) # Int |->_)
   ** ((( &( "delta2" ) )) # Int64 |->_)
   ** ((( &( "delta1" ) )) # Int64 |->_)
@@ -275,7 +275,7 @@ noncomputable def Always_positive_safety_wit_3 : Prop :=
   “ ((-9223372036854775808) <= (b_pre * b_pre)) ”
 
 noncomputable def Always_positive_safety_wit_4 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "d" ) )) # Int |->_)
   ** ((( &( "delta2" ) )) # Int64 |->_)
   ** ((( &( "delta1" ) )) # Int64 |-> ((b_pre * b_pre)))
@@ -288,7 +288,7 @@ noncomputable def Always_positive_safety_wit_4 : Prop :=
   “ ((-9223372036854775808) <= (a_pre * c_pre)) ”
 
 noncomputable def Always_positive_safety_wit_5 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "d" ) )) # Int |->_)
   ** ((( &( "delta2" ) )) # Int64 |-> ((a_pre * c_pre)))
   ** ((( &( "delta1" ) )) # Int64 |-> ((b_pre * b_pre)))
@@ -301,7 +301,7 @@ noncomputable def Always_positive_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_safety_wit_6 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((a_pre * c_pre) <= (0 : Int))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((a_pre * c_pre) <= (0 : Int))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   ((( &( "d" ) )) # Int |->_)
   ** ((( &( "delta2" ) )) # Int64 |-> ((a_pre * c_pre)))
   ** ((( &( "delta1" ) )) # Int64 |-> ((b_pre * b_pre)))
@@ -314,7 +314,7 @@ noncomputable def Always_positive_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_safety_wit_7 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((a_pre * c_pre) > (0 : Int))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((a_pre * c_pre) > (0 : Int))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   ((( &( "d" ) )) # Int |->_)
   ** ((( &( "delta2" ) )) # Int64 |-> ((a_pre * c_pre)))
   ** ((( &( "delta1" ) )) # Int64 |-> ((b_pre * b_pre)))
@@ -327,7 +327,7 @@ noncomputable def Always_positive_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= 4) ”
 
 noncomputable def Always_positive_safety_wit_8 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (delta2 <= delta1)) (PreH2 : ((0 : Int) < d)) (PreH3 : (d <= 4)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) (PreH10 : ((0 : Int) < (a_pre * c_pre))) (PreH11 : (delta0 = (b_pre * b_pre))) (PreH12 : (delta2 = (a_pre * c_pre))) (PreH13 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (delta2 <= delta1)) (PreH2 : ((0 : Int) < d)) (PreH3 : (d <= 4)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) (PreH10 : ((0 : Int) < (a_pre * c_pre))) (PreH11 : (delta0 = (b_pre * b_pre))) (PreH12 : (delta2 = (a_pre * c_pre))) (PreH13 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((( &( "d" ) )) # Int |-> (d))
   ** ((( &( "delta0" ) )) # Int64 |-> (delta0))
   ** ((( &( "delta2" ) )) # Int64 |-> (delta2))
@@ -340,7 +340,7 @@ noncomputable def Always_positive_safety_wit_8 : Prop :=
   “ ((-9223372036854775808) <= (delta1 - delta2)) ”
 
 noncomputable def Always_positive_safety_wit_9 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (delta2 <= delta1)) (PreH2 : ((0 : Int) < d)) (PreH3 : (d <= 4)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) (PreH10 : ((0 : Int) < (a_pre * c_pre))) (PreH11 : (delta0 = (b_pre * b_pre))) (PreH12 : (delta2 = (a_pre * c_pre))) (PreH13 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (delta2 <= delta1)) (PreH2 : ((0 : Int) < d)) (PreH3 : (d <= 4)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) (PreH10 : ((0 : Int) < (a_pre * c_pre))) (PreH11 : (delta0 = (b_pre * b_pre))) (PreH12 : (delta2 = (a_pre * c_pre))) (PreH13 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((( &( "d" ) )) # Int |-> (d))
   ** ((( &( "delta0" ) )) # Int64 |-> (delta0))
   ** ((( &( "delta2" ) )) # Int64 |-> (delta2))
@@ -353,7 +353,7 @@ noncomputable def Always_positive_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= (d - 1)) ”
 
 noncomputable def Always_positive_safety_wit_10 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (delta2 <= delta1)) (PreH2 : ((0 : Int) < d)) (PreH3 : (d <= 4)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) (PreH10 : ((0 : Int) < (a_pre * c_pre))) (PreH11 : (delta0 = (b_pre * b_pre))) (PreH12 : (delta2 = (a_pre * c_pre))) (PreH13 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (delta2 <= delta1)) (PreH2 : ((0 : Int) < d)) (PreH3 : (d <= 4)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) (PreH10 : ((0 : Int) < (a_pre * c_pre))) (PreH11 : (delta0 = (b_pre * b_pre))) (PreH12 : (delta2 = (a_pre * c_pre))) (PreH13 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((( &( "d" ) )) # Int |-> (d))
   ** ((( &( "delta0" ) )) # Int64 |-> (delta0))
   ** ((( &( "delta2" ) )) # Int64 |-> (delta2))
@@ -366,7 +366,7 @@ noncomputable def Always_positive_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def Always_positive_safety_wit_11 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (delta2 <= delta1)) (PreH2 : ((0 : Int) < d)) (PreH3 : (d <= 4)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) (PreH10 : ((0 : Int) < (a_pre * c_pre))) (PreH11 : (delta0 = (b_pre * b_pre))) (PreH12 : (delta2 = (a_pre * c_pre))) (PreH13 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (delta2 <= delta1)) (PreH2 : ((0 : Int) < d)) (PreH3 : (d <= 4)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) (PreH10 : ((0 : Int) < (a_pre * c_pre))) (PreH11 : (delta0 = (b_pre * b_pre))) (PreH12 : (delta2 = (a_pre * c_pre))) (PreH13 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((( &( "d" ) )) # Int |-> ((d - 1)))
   ** ((( &( "delta0" ) )) # Int64 |-> (delta0))
   ** ((( &( "delta2" ) )) # Int64 |-> (delta2))
@@ -379,7 +379,7 @@ noncomputable def Always_positive_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_safety_wit_12 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((d - 1) = (0 : Int))) (PreH2 : (delta2 <= delta1)) (PreH3 : ((0 : Int) < d)) (PreH4 : (d <= 4)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) (PreH9 : (INT_MIN < c_pre)) (PreH10 : (c_pre <= INT_MAX)) (PreH11 : ((0 : Int) < (a_pre * c_pre))) (PreH12 : (delta0 = (b_pre * b_pre))) (PreH13 : (delta2 = (a_pre * c_pre))) (PreH14 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((d - 1) = (0 : Int))) (PreH2 : (delta2 <= delta1)) (PreH3 : ((0 : Int) < d)) (PreH4 : (d <= 4)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) (PreH9 : (INT_MIN < c_pre)) (PreH10 : (c_pre <= INT_MAX)) (PreH11 : ((0 : Int) < (a_pre * c_pre))) (PreH12 : (delta0 = (b_pre * b_pre))) (PreH13 : (delta2 = (a_pre * c_pre))) (PreH14 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((( &( "d" ) )) # Int |-> ((d - 1)))
   ** ((( &( "delta0" ) )) # Int64 |-> (delta0))
   ** ((( &( "delta2" ) )) # Int64 |-> (delta2))
@@ -392,7 +392,7 @@ noncomputable def Always_positive_safety_wit_12 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_safety_wit_13 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((delta1 - delta2) < (0 : Int))) (PreH2 : ((d - 1) = (0 : Int))) (PreH3 : (delta2 <= delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((delta1 - delta2) < (0 : Int))) (PreH2 : ((d - 1) = (0 : Int))) (PreH3 : (delta2 <= delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((( &( "d" ) )) # Int |-> ((d - 1)))
   ** ((( &( "delta0" ) )) # Int64 |-> (delta0))
   ** ((( &( "delta2" ) )) # Int64 |-> (delta2))
@@ -404,7 +404,7 @@ noncomputable def Always_positive_safety_wit_13 : Prop :=
   “ False ”
 
 noncomputable def Always_positive_safety_wit_14 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((delta1 - delta2) >= (0 : Int))) (PreH2 : ((d - 1) = (0 : Int))) (PreH3 : (delta2 <= delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((delta1 - delta2) >= (0 : Int))) (PreH2 : ((d - 1) = (0 : Int))) (PreH3 : (delta2 <= delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((( &( "d" ) )) # Int |-> ((d - 1)))
   ** ((( &( "delta0" ) )) # Int64 |-> (delta0))
   ** ((( &( "delta2" ) )) # Int64 |-> (delta2))
@@ -417,7 +417,7 @@ noncomputable def Always_positive_safety_wit_14 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_safety_wit_15 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((a_pre * c_pre) <= (0 : Int))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((a_pre * c_pre) <= (0 : Int))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   ((( &( "d" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "delta2" ) )) # Int64 |-> ((a_pre * c_pre)))
   ** ((( &( "delta1" ) )) # Int64 |-> ((b_pre * b_pre)))
@@ -430,7 +430,7 @@ noncomputable def Always_positive_safety_wit_15 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_safety_wit_16 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (delta2 > delta1)) (PreH2 : ((0 : Int) < d)) (PreH3 : (d <= 4)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) (PreH10 : ((0 : Int) < (a_pre * c_pre))) (PreH11 : (delta0 = (b_pre * b_pre))) (PreH12 : (delta2 = (a_pre * c_pre))) (PreH13 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (delta2 > delta1)) (PreH2 : ((0 : Int) < d)) (PreH3 : (d <= 4)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) (PreH10 : ((0 : Int) < (a_pre * c_pre))) (PreH11 : (delta0 = (b_pre * b_pre))) (PreH12 : (delta2 = (a_pre * c_pre))) (PreH13 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((( &( "d" ) )) # Int |-> (d))
   ** ((( &( "delta0" ) )) # Int64 |-> (delta0))
   ** ((( &( "delta2" ) )) # Int64 |-> (delta2))
@@ -443,7 +443,7 @@ noncomputable def Always_positive_safety_wit_16 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_safety_wit_17 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((delta1 - delta2) >= (0 : Int))) (PreH2 : ((d - 1) = (0 : Int))) (PreH3 : (delta2 <= delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((delta1 - delta2) >= (0 : Int))) (PreH2 : ((d - 1) = (0 : Int))) (PreH3 : (delta2 <= delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((( &( "d" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "delta0" ) )) # Int64 |-> (delta0))
   ** ((( &( "delta2" ) )) # Int64 |-> (delta2))
@@ -456,7 +456,7 @@ noncomputable def Always_positive_safety_wit_17 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_safety_wit_18 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (d = (0 : Int))) (PreH2 : (delta2 > delta1)) (PreH3 : ((0 : Int) < d)) (PreH4 : (d <= 4)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) (PreH9 : (INT_MIN < c_pre)) (PreH10 : (c_pre <= INT_MAX)) (PreH11 : ((0 : Int) < (a_pre * c_pre))) (PreH12 : (delta0 = (b_pre * b_pre))) (PreH13 : (delta2 = (a_pre * c_pre))) (PreH14 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (d = (0 : Int))) (PreH2 : (delta2 > delta1)) (PreH3 : ((0 : Int) < d)) (PreH4 : (d <= 4)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) (PreH9 : (INT_MIN < c_pre)) (PreH10 : (c_pre <= INT_MAX)) (PreH11 : ((0 : Int) < (a_pre * c_pre))) (PreH12 : (delta0 = (b_pre * b_pre))) (PreH13 : (delta2 = (a_pre * c_pre))) (PreH14 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((( &( "d" ) )) # Int |-> (d))
   ** ((( &( "delta0" ) )) # Int64 |-> (delta0))
   ** ((( &( "delta2" ) )) # Int64 |-> (delta2))
@@ -468,7 +468,7 @@ noncomputable def Always_positive_safety_wit_18 : Prop :=
   “ False ”
 
 noncomputable def Always_positive_safety_wit_19 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((a_pre * c_pre) <= (0 : Int))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((a_pre * c_pre) <= (0 : Int))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   ((( &( "d" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "delta2" ) )) # Int64 |-> ((a_pre * c_pre)))
   ** ((( &( "delta1" ) )) # Int64 |-> ((b_pre * b_pre)))
@@ -481,7 +481,7 @@ noncomputable def Always_positive_safety_wit_19 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_safety_wit_20 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((delta1 - delta2) >= (0 : Int))) (PreH2 : ((d - 1) = (0 : Int))) (PreH3 : (delta2 <= delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((delta1 - delta2) >= (0 : Int))) (PreH2 : ((d - 1) = (0 : Int))) (PreH3 : (delta2 <= delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((( &( "d" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "delta0" ) )) # Int64 |-> (delta0))
   ** ((( &( "delta2" ) )) # Int64 |-> (delta2))
@@ -494,7 +494,7 @@ noncomputable def Always_positive_safety_wit_20 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_safety_wit_21 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (d ≠ (0 : Int))) (PreH2 : (delta2 > delta1)) (PreH3 : ((0 : Int) < d)) (PreH4 : (d <= 4)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) (PreH9 : (INT_MIN < c_pre)) (PreH10 : (c_pre <= INT_MAX)) (PreH11 : ((0 : Int) < (a_pre * c_pre))) (PreH12 : (delta0 = (b_pre * b_pre))) (PreH13 : (delta2 = (a_pre * c_pre))) (PreH14 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (d ≠ (0 : Int))) (PreH2 : (delta2 > delta1)) (PreH3 : ((0 : Int) < d)) (PreH4 : (d <= 4)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) (PreH9 : (INT_MIN < c_pre)) (PreH10 : (c_pre <= INT_MAX)) (PreH11 : ((0 : Int) < (a_pre * c_pre))) (PreH12 : (delta0 = (b_pre * b_pre))) (PreH13 : (delta2 = (a_pre * c_pre))) (PreH14 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((( &( "d" ) )) # Int |-> (d))
   ** ((( &( "delta0" ) )) # Int64 |-> (delta0))
   ** ((( &( "delta2" ) )) # Int64 |-> (delta2))
@@ -507,7 +507,7 @@ noncomputable def Always_positive_safety_wit_21 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_safety_wit_22 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (a_pre > (0 : Int))) (PreH2 : (d ≠ (0 : Int))) (PreH3 : (delta2 > delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (a_pre > (0 : Int))) (PreH2 : (d ≠ (0 : Int))) (PreH3 : (delta2 > delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((( &( "d" ) )) # Int |-> (d))
   ** ((( &( "delta0" ) )) # Int64 |-> (delta0))
   ** ((( &( "delta2" ) )) # Int64 |-> (delta2))
@@ -520,7 +520,7 @@ noncomputable def Always_positive_safety_wit_22 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def Always_positive_safety_wit_23 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (a_pre <= (0 : Int))) (PreH2 : (d ≠ (0 : Int))) (PreH3 : (delta2 > delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (a_pre <= (0 : Int))) (PreH2 : (d ≠ (0 : Int))) (PreH3 : (delta2 > delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((( &( "d" ) )) # Int |-> (d))
   ** ((( &( "delta0" ) )) # Int64 |-> (delta0))
   ** ((( &( "delta2" ) )) # Int64 |-> (delta2))
@@ -533,7 +533,7 @@ noncomputable def Always_positive_safety_wit_23 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def Always_positive_entail_wit_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((a_pre * c_pre) > (0 : Int))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((a_pre * c_pre) > (0 : Int))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((0 : Int) < 4) ” &&
@@ -552,7 +552,7 @@ noncomputable def Always_positive_entail_wit_1 : Prop :=
 
 noncomputable def Always_positive_entail_wit_2 : Prop :=
   (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((d - 1) ≠ (0 : Int))) (PreH2 : (delta2 <= delta1)) (PreH3 : ((0 : Int) < d)) (PreH4 : (d <= 4)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) (PreH9 : (INT_MIN < c_pre)) (PreH10 : (c_pre <= INT_MAX)) (PreH11 : ((0 : Int) < (a_pre * c_pre))) (PreH12 : (delta0 = (b_pre * b_pre))) (PreH13 : (delta2 = (a_pre * c_pre))) (PreH14 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((d - 1) ≠ (0 : Int))) (PreH2 : (delta2 <= delta1)) (PreH3 : ((0 : Int) < d)) (PreH4 : (d <= 4)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) (PreH9 : (INT_MIN < c_pre)) (PreH10 : (c_pre <= INT_MAX)) (PreH11 : ((0 : Int) < (a_pre * c_pre))) (PreH12 : (delta0 = (b_pre * b_pre))) (PreH13 : (delta2 = (a_pre * c_pre))) (PreH14 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   TT && emp 
 |--
   “ ((0 : Int) < (d - 1)) ” &&
@@ -570,7 +570,7 @@ forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (
   &&  emp
 ) \/
 (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((d - 1) ≠ (0 : Int))) (PreH2 : (delta2 <= delta1)) (PreH3 : ((0 : Int) < d)) (PreH4 : (d <= 4)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) (PreH9 : (INT_MIN < c_pre)) (PreH10 : (c_pre <= INT_MAX)) (PreH11 : ((0 : Int) < (a_pre * c_pre))) (PreH12 : (delta0 = (b_pre * b_pre))) (PreH13 : (delta2 = (a_pre * c_pre))) (PreH14 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((d - 1) ≠ (0 : Int))) (PreH2 : (delta2 <= delta1)) (PreH3 : ((0 : Int) < d)) (PreH4 : (d <= 4)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) (PreH9 : (INT_MIN < c_pre)) (PreH10 : (c_pre <= INT_MAX)) (PreH11 : ((0 : Int) < (a_pre * c_pre))) (PreH12 : (delta0 = (b_pre * b_pre))) (PreH13 : (delta2 = (a_pre * c_pre))) (PreH14 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   TT && emp 
 |--
   “ ((b_pre * b_pre) = ((delta1 - (a_pre * c_pre)) + ((4 - (d - 1)) * (a_pre * c_pre)))) ”
@@ -578,19 +578,19 @@ forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (
 )
 
 noncomputable def Always_positive_entail_wit_2_split_goal_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((d - 1) ≠ (0 : Int))) (PreH2 : (delta2 <= delta1)) (PreH3 : ((0 : Int) < d)) (PreH4 : (d <= 4)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) (PreH9 : (INT_MIN < c_pre)) (PreH10 : (c_pre <= INT_MAX)) (PreH11 : ((0 : Int) < (a_pre * c_pre))) (PreH12 : (delta0 = (b_pre * b_pre))) (PreH13 : (delta2 = (a_pre * c_pre))) (PreH14 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((d - 1) ≠ (0 : Int))) (PreH2 : (delta2 <= delta1)) (PreH3 : ((0 : Int) < d)) (PreH4 : (d <= 4)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) (PreH9 : (INT_MIN < c_pre)) (PreH10 : (c_pre <= INT_MAX)) (PreH11 : ((0 : Int) < (a_pre * c_pre))) (PreH12 : (delta0 = (b_pre * b_pre))) (PreH13 : (delta2 = (a_pre * c_pre))) (PreH14 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((b_pre * b_pre) = ((delta1 - (a_pre * c_pre)) + ((4 - (d - 1)) * (a_pre * c_pre))))
 
 noncomputable def Always_positive_return_wit_1 : Prop :=
   (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (a_pre <= (0 : Int))) (PreH2 : (d ≠ (0 : Int))) (PreH3 : (delta2 > delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (a_pre <= (0 : Int))) (PreH2 : (d ≠ (0 : Int))) (PreH3 : (delta2 > delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre))) ”
   &&  emp
 ) \/
 (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (a_pre <= (0 : Int))) (PreH2 : (d ≠ (0 : Int))) (PreH3 : (delta2 > delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (a_pre <= (0 : Int))) (PreH2 : (d ≠ (0 : Int))) (PreH3 : (delta2 > delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre))) ”
@@ -598,19 +598,19 @@ forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (
 )
 
 noncomputable def Always_positive_return_wit_1_split_goal_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (a_pre <= (0 : Int))) (PreH2 : (d ≠ (0 : Int))) (PreH3 : (delta2 > delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (a_pre <= (0 : Int))) (PreH2 : (d ≠ (0 : Int))) (PreH3 : (delta2 > delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre)))
 
 noncomputable def Always_positive_return_wit_2 : Prop :=
   (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (a_pre > (0 : Int))) (PreH2 : (d ≠ (0 : Int))) (PreH3 : (delta2 > delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (a_pre > (0 : Int))) (PreH2 : (d ≠ (0 : Int))) (PreH3 : (delta2 > delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   TT && emp 
 |--
   “ (1 = (Always_pos (a_pre) (b_pre) (c_pre))) ”
   &&  emp
 ) \/
 (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (a_pre > (0 : Int))) (PreH2 : (d ≠ (0 : Int))) (PreH3 : (delta2 > delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (a_pre > (0 : Int))) (PreH2 : (d ≠ (0 : Int))) (PreH3 : (delta2 > delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   TT && emp 
 |--
   “ (1 = (Always_pos (a_pre) (b_pre) (c_pre))) ”
@@ -618,19 +618,19 @@ forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (
 )
 
 noncomputable def Always_positive_return_wit_2_split_goal_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (a_pre > (0 : Int))) (PreH2 : (d ≠ (0 : Int))) (PreH3 : (delta2 > delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : (a_pre > (0 : Int))) (PreH2 : (d ≠ (0 : Int))) (PreH3 : (delta2 > delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   (1 = (Always_pos (a_pre) (b_pre) (c_pre)))
 
 noncomputable def Always_positive_return_wit_3 : Prop :=
   (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((a_pre * c_pre) <= (0 : Int))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((a_pre * c_pre) <= (0 : Int))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre))) ”
   &&  emp
 ) \/
 (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((a_pre * c_pre) <= (0 : Int))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((a_pre * c_pre) <= (0 : Int))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre))) ”
@@ -638,19 +638,19 @@ forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((a_pre * c_pre) <= (0
 )
 
 noncomputable def Always_positive_return_wit_3_split_goal_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((a_pre * c_pre) <= (0 : Int))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((a_pre * c_pre) <= (0 : Int))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre)))
 
 noncomputable def Always_positive_return_wit_4 : Prop :=
   (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((delta1 - delta2) >= (0 : Int))) (PreH2 : ((d - 1) = (0 : Int))) (PreH3 : (delta2 <= delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((delta1 - delta2) >= (0 : Int))) (PreH2 : ((d - 1) = (0 : Int))) (PreH3 : (delta2 <= delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre))) ”
   &&  emp
 ) \/
 (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((delta1 - delta2) >= (0 : Int))) (PreH2 : ((d - 1) = (0 : Int))) (PreH3 : (delta2 <= delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((delta1 - delta2) >= (0 : Int))) (PreH2 : ((d - 1) = (0 : Int))) (PreH3 : (delta2 <= delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre))) ”
@@ -658,19 +658,19 @@ forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (
 )
 
 noncomputable def Always_positive_return_wit_4_split_goal_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((delta1 - delta2) >= (0 : Int))) (PreH2 : ((d - 1) = (0 : Int))) (PreH3 : (delta2 <= delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (delta1 : Int) (delta2 : Int) (delta0 : Int) (d : Int) (PreH1 : ((delta1 - delta2) >= (0 : Int))) (PreH2 : ((d - 1) = (0 : Int))) (PreH3 : (delta2 <= delta1)) (PreH4 : ((0 : Int) < d)) (PreH5 : (d <= 4)) (PreH6 : (INT_MIN < a_pre)) (PreH7 : (a_pre <= INT_MAX)) (PreH8 : (INT_MIN < b_pre)) (PreH9 : (b_pre <= INT_MAX)) (PreH10 : (INT_MIN < c_pre)) (PreH11 : (c_pre <= INT_MAX)) (PreH12 : ((0 : Int) < (a_pre * c_pre))) (PreH13 : (delta0 = (b_pre * b_pre))) (PreH14 : (delta2 = (a_pre * c_pre))) (PreH15 : (delta0 = (delta1 + ((4 - d) * delta2)))) ,
   ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre)))
 
 noncomputable def Always_positive_return_wit_5 : Prop :=
   (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Always_pos (a_pre) (b_pre) (c_pre))) ”
   &&  emp
 ) \/
 (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Always_pos ((0 : Int)) (b_pre) (c_pre))) ”
@@ -678,7 +678,7 @@ forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre = (0 : Int))) (
 )
 
 noncomputable def Always_positive_return_wit_5_split_goal_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((0 : Int) = (Always_pos ((0 : Int)) (b_pre) (c_pre)))
 
 

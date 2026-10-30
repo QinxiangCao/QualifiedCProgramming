@@ -93,7 +93,7 @@ private theorem zero_annotation_back (l : List Int) (hi total : Int)
 
 theorem proof_of_digits_sum_init_safety_wit_8_split_goal_1 : digits_sum_init_safety_wit_8_split_goal_1 := by
   unfold digits_sum_init_safety_wit_8_split_goal_1
-  intro power_pre dp_pre power_l i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+  intro dp_pre power_pre power_l i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
   first
   | assumption
   | omega
@@ -108,7 +108,7 @@ theorem proof_of_digits_sum_init_safety_wit_8_split_goal_1 : digits_sum_init_saf
 
 theorem proof_of_digits_sum_init_safety_wit_8_split_goal_2 : digits_sum_init_safety_wit_8_split_goal_2 := by
   unfold digits_sum_init_safety_wit_8_split_goal_2
-  intro power_pre dp_pre power_l i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+  intro dp_pre power_pre power_l i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
   first
   | assumption
   | omega
@@ -124,7 +124,7 @@ theorem proof_of_digits_sum_init_safety_wit_8_split_goal_2 : digits_sum_init_saf
 theorem proof_of_digits_sum_init_safety_wit_8 : digits_sum_init_safety_wit_8 := by
   unfold digits_sum_init_safety_wit_8
   right
-  intro power_pre dp_pre power_l i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+  intro dp_pre power_pre power_l i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
   have PreH1 : (i < 20) := NewPreH1
   have PreH2 : (1 <= i) := NewPreH2
   have PreH3 : (i <= 20) := NewPreH3
@@ -134,13 +134,13 @@ theorem proof_of_digits_sum_init_safety_wit_8 : digits_sum_init_safety_wit_8 := 
     | assumption
     | omega
     | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-    | exact proof_of_digits_sum_init_safety_wit_8_split_goal_1 power_pre dp_pre power_l i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
-    | exact proof_of_digits_sum_init_safety_wit_8_split_goal_2 power_pre dp_pre power_l i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+    | exact proof_of_digits_sum_init_safety_wit_8_split_goal_1 dp_pre power_pre power_l i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+    | exact proof_of_digits_sum_init_safety_wit_8_split_goal_2 dp_pre power_pre power_l i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
 
 
 theorem proof_of_digits_sum_init_safety_wit_36_split_goal_1 : digits_sum_init_safety_wit_36_split_goal_1 := by
   unfold digits_sum_init_safety_wit_36_split_goal_1
-  intro power_pre dp_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro dp_pre power_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   first
   | assumption
   | omega
@@ -162,7 +162,7 @@ theorem proof_of_digits_sum_init_safety_wit_36_split_goal_1 : digits_sum_init_sa
 
 theorem proof_of_digits_sum_init_safety_wit_36_split_goal_2 : digits_sum_init_safety_wit_36_split_goal_2 := by
   unfold digits_sum_init_safety_wit_36_split_goal_2
-  intro power_pre dp_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro dp_pre power_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   first
   | assumption
   | omega
@@ -185,7 +185,7 @@ theorem proof_of_digits_sum_init_safety_wit_36_split_goal_2 : digits_sum_init_sa
 theorem proof_of_digits_sum_init_safety_wit_36 : digits_sum_init_safety_wit_36 := by
   unfold digits_sum_init_safety_wit_36
   right
-  intro power_pre dp_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro dp_pre power_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   have PreH1 : (k < 10) := NewPreH1
   have PreH2 : (2 <= i) := NewPreH2
   have PreH3 : (i < 20) := NewPreH3
@@ -201,13 +201,13 @@ theorem proof_of_digits_sum_init_safety_wit_36 : digits_sum_init_safety_wit_36 :
     | assumption
     | omega
     | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-    | exact proof_of_digits_sum_init_safety_wit_36_split_goal_1 power_pre dp_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
-    | exact proof_of_digits_sum_init_safety_wit_36_split_goal_2 power_pre dp_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+    | exact proof_of_digits_sum_init_safety_wit_36_split_goal_1 dp_pre power_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+    | exact proof_of_digits_sum_init_safety_wit_36_split_goal_2 dp_pre power_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
 
 
 theorem proof_of_digits_sum_init_safety_wit_38_split_goal_1 : digits_sum_init_safety_wit_38_split_goal_1 := by
   unfold digits_sum_init_safety_wit_38_split_goal_1
-  intro power_pre dp_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro dp_pre power_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   first
   | assumption
   | omega
@@ -225,7 +225,7 @@ theorem proof_of_digits_sum_init_safety_wit_38_split_goal_1 : digits_sum_init_sa
 
 theorem proof_of_digits_sum_init_safety_wit_38_split_goal_2 : digits_sum_init_safety_wit_38_split_goal_2 := by
   unfold digits_sum_init_safety_wit_38_split_goal_2
-  intro power_pre dp_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro dp_pre power_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   first
   | assumption
   | omega
@@ -244,7 +244,7 @@ theorem proof_of_digits_sum_init_safety_wit_38_split_goal_2 : digits_sum_init_sa
 theorem proof_of_digits_sum_init_safety_wit_38 : digits_sum_init_safety_wit_38 := by
   unfold digits_sum_init_safety_wit_38
   right
-  intro power_pre dp_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro dp_pre power_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   have PreH1 : (k < 10) := NewPreH1
   have PreH2 : (2 <= i) := NewPreH2
   have PreH3 : (i < 20) := NewPreH3
@@ -260,13 +260,13 @@ theorem proof_of_digits_sum_init_safety_wit_38 : digits_sum_init_safety_wit_38 :
     | assumption
     | omega
     | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-    | exact proof_of_digits_sum_init_safety_wit_38_split_goal_1 power_pre dp_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
-    | exact proof_of_digits_sum_init_safety_wit_38_split_goal_2 power_pre dp_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+    | exact proof_of_digits_sum_init_safety_wit_38_split_goal_1 dp_pre power_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+    | exact proof_of_digits_sum_init_safety_wit_38_split_goal_2 dp_pre power_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
 
 
 theorem proof_of_digits_sum_init_safety_wit_47_split_goal_1 : digits_sum_init_safety_wit_47_split_goal_1 := by
   unfold digits_sum_init_safety_wit_47_split_goal_1
-  intro power_pre dp_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro dp_pre power_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   first
   | assumption
   | omega
@@ -288,7 +288,7 @@ theorem proof_of_digits_sum_init_safety_wit_47_split_goal_1 : digits_sum_init_sa
 
 theorem proof_of_digits_sum_init_safety_wit_47_split_goal_2 : digits_sum_init_safety_wit_47_split_goal_2 := by
   unfold digits_sum_init_safety_wit_47_split_goal_2
-  intro power_pre dp_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro dp_pre power_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   first
   | assumption
   | omega
@@ -311,7 +311,7 @@ theorem proof_of_digits_sum_init_safety_wit_47_split_goal_2 : digits_sum_init_sa
 theorem proof_of_digits_sum_init_safety_wit_47 : digits_sum_init_safety_wit_47 := by
   unfold digits_sum_init_safety_wit_47
   right
-  intro power_pre dp_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro dp_pre power_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   have PreH1 : (k < 10) := NewPreH1
   have PreH2 : (2 <= i) := NewPreH2
   have PreH3 : (i < 20) := NewPreH3
@@ -327,8 +327,8 @@ theorem proof_of_digits_sum_init_safety_wit_47 : digits_sum_init_safety_wit_47 :
     | assumption
     | omega
     | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-    | exact proof_of_digits_sum_init_safety_wit_47_split_goal_1 power_pre dp_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
-    | exact proof_of_digits_sum_init_safety_wit_47_split_goal_2 power_pre dp_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+    | exact proof_of_digits_sum_init_safety_wit_47_split_goal_1 dp_pre power_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+    | exact proof_of_digits_sum_init_safety_wit_47_split_goal_2 dp_pre power_pre power_l dp_l k j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
 
 
 theorem proof_of_digits_sum_init_entail_wit_1 : digits_sum_init_entail_wit_1 := by
@@ -849,7 +849,7 @@ theorem proof_of_digits_sum_init_return_wit_1 : digits_sum_init_return_wit_1 := 
 
 theorem proof_of_prefix_digits_sum_safety_wit_17_split_goal_1 : prefix_digits_sum_safety_wit_17_split_goal_1 := by
   unfold prefix_digits_sum_safety_wit_17_split_goal_1
-  intro digits_pre dp_pre x_pre dp_l power_ll digits_l m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro dp_l x_pre dp_pre digits_pre power_ll digits_l m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -865,7 +865,7 @@ theorem proof_of_prefix_digits_sum_safety_wit_17_split_goal_1 : prefix_digits_su
 
 theorem proof_of_prefix_digits_sum_safety_wit_17_split_goal_2 : prefix_digits_sum_safety_wit_17_split_goal_2 := by
   unfold prefix_digits_sum_safety_wit_17_split_goal_2
-  intro digits_pre dp_pre x_pre dp_l power_ll digits_l m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro dp_l x_pre dp_pre digits_pre power_ll digits_l m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -882,7 +882,7 @@ theorem proof_of_prefix_digits_sum_safety_wit_17_split_goal_2 : prefix_digits_su
 theorem proof_of_prefix_digits_sum_safety_wit_17 : prefix_digits_sum_safety_wit_17 := by
   unfold prefix_digits_sum_safety_wit_17
   right
-  intro digits_pre dp_pre x_pre dp_l power_ll digits_l m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro dp_l x_pre dp_pre digits_pre power_ll digits_l m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   have PreH1 : (i < m) := NewPreH1
   have PreH2 : (1 <= x_pre) := NewPreH2
   have PreH3 : (x_pre <= 1000000000000000000) := NewPreH3
@@ -901,13 +901,13 @@ theorem proof_of_prefix_digits_sum_safety_wit_17 : prefix_digits_sum_safety_wit_
     | assumption
     | omega
     | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-    | exact proof_of_prefix_digits_sum_safety_wit_17_split_goal_1 digits_pre dp_pre x_pre dp_l power_ll digits_l m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
-    | exact proof_of_prefix_digits_sum_safety_wit_17_split_goal_2 digits_pre dp_pre x_pre dp_l power_ll digits_l m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+    | exact proof_of_prefix_digits_sum_safety_wit_17_split_goal_1 dp_l x_pre dp_pre digits_pre power_ll digits_l m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+    | exact proof_of_prefix_digits_sum_safety_wit_17_split_goal_2 dp_l x_pre dp_pre digits_pre power_ll digits_l m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
 
 
 theorem proof_of_prefix_digits_sum_safety_wit_23_split_goal_1 : prefix_digits_sum_safety_wit_23_split_goal_1 := by
   unfold prefix_digits_sum_safety_wit_23_split_goal_1
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -922,7 +922,7 @@ theorem proof_of_prefix_digits_sum_safety_wit_23_split_goal_1 : prefix_digits_su
 
 theorem proof_of_prefix_digits_sum_safety_wit_23_split_goal_2 : prefix_digits_sum_safety_wit_23_split_goal_2 := by
   unfold prefix_digits_sum_safety_wit_23_split_goal_2
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -938,7 +938,7 @@ theorem proof_of_prefix_digits_sum_safety_wit_23_split_goal_2 : prefix_digits_su
 theorem proof_of_prefix_digits_sum_safety_wit_23 : prefix_digits_sum_safety_wit_23 := by
   unfold prefix_digits_sum_safety_wit_23
   right
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   have PreH1 : (j < (Znth i digits_l (0 : Int))) := NewPreH1
   have PreH2 : (1 <= x_pre) := NewPreH2
   have PreH3 : (x_pre <= 1000000000000000000) := NewPreH3
@@ -962,13 +962,13 @@ theorem proof_of_prefix_digits_sum_safety_wit_23 : prefix_digits_sum_safety_wit_
     | assumption
     | omega
     | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-    | exact proof_of_prefix_digits_sum_safety_wit_23_split_goal_1 digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
-    | exact proof_of_prefix_digits_sum_safety_wit_23_split_goal_2 digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+    | exact proof_of_prefix_digits_sum_safety_wit_23_split_goal_1 dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+    | exact proof_of_prefix_digits_sum_safety_wit_23_split_goal_2 dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
 
 
 theorem proof_of_prefix_digits_sum_safety_wit_30_split_goal_1 : prefix_digits_sum_safety_wit_30_split_goal_1 := by
   unfold prefix_digits_sum_safety_wit_30_split_goal_1
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -980,7 +980,7 @@ theorem proof_of_prefix_digits_sum_safety_wit_30_split_goal_1 : prefix_digits_su
 
 theorem proof_of_prefix_digits_sum_safety_wit_30_split_goal_2 : prefix_digits_sum_safety_wit_30_split_goal_2 := by
   unfold prefix_digits_sum_safety_wit_30_split_goal_2
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -995,7 +995,7 @@ theorem proof_of_prefix_digits_sum_safety_wit_30_split_goal_2 : prefix_digits_su
 theorem proof_of_prefix_digits_sum_safety_wit_30 : prefix_digits_sum_safety_wit_30 := by
   unfold prefix_digits_sum_safety_wit_30
   right
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   have PreH1 : (j >= (Znth i digits_l (0 : Int))) := NewPreH1
   have PreH2 : (1 <= x_pre) := NewPreH2
   have PreH3 : (x_pre <= 1000000000000000000) := NewPreH3
@@ -1019,13 +1019,13 @@ theorem proof_of_prefix_digits_sum_safety_wit_30 : prefix_digits_sum_safety_wit_
     | assumption
     | omega
     | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-    | exact proof_of_prefix_digits_sum_safety_wit_30_split_goal_1 digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
-    | exact proof_of_prefix_digits_sum_safety_wit_30_split_goal_2 digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+    | exact proof_of_prefix_digits_sum_safety_wit_30_split_goal_1 dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+    | exact proof_of_prefix_digits_sum_safety_wit_30_split_goal_2 dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
 
 
 theorem proof_of_prefix_digits_sum_safety_wit_33_split_goal_1 : prefix_digits_sum_safety_wit_33_split_goal_1 := by
   unfold prefix_digits_sum_safety_wit_33_split_goal_1
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -1045,7 +1045,7 @@ theorem proof_of_prefix_digits_sum_safety_wit_33_split_goal_1 : prefix_digits_su
 
 theorem proof_of_prefix_digits_sum_safety_wit_33_split_goal_2 : prefix_digits_sum_safety_wit_33_split_goal_2 := by
   unfold prefix_digits_sum_safety_wit_33_split_goal_2
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -1066,7 +1066,7 @@ theorem proof_of_prefix_digits_sum_safety_wit_33_split_goal_2 : prefix_digits_su
 theorem proof_of_prefix_digits_sum_safety_wit_33 : prefix_digits_sum_safety_wit_33 := by
   unfold prefix_digits_sum_safety_wit_33
   right
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   have PreH1 : (j >= (Znth i digits_l (0 : Int))) := NewPreH1
   have PreH2 : (1 <= x_pre) := NewPreH2
   have PreH3 : (x_pre <= 1000000000000000000) := NewPreH3
@@ -1090,13 +1090,13 @@ theorem proof_of_prefix_digits_sum_safety_wit_33 : prefix_digits_sum_safety_wit_
     | assumption
     | omega
     | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-    | exact proof_of_prefix_digits_sum_safety_wit_33_split_goal_1 digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
-    | exact proof_of_prefix_digits_sum_safety_wit_33_split_goal_2 digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+    | exact proof_of_prefix_digits_sum_safety_wit_33_split_goal_1 dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+    | exact proof_of_prefix_digits_sum_safety_wit_33_split_goal_2 dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
 
 
 theorem proof_of_prefix_digits_sum_safety_wit_34_split_goal_1 : prefix_digits_sum_safety_wit_34_split_goal_1 := by
   unfold prefix_digits_sum_safety_wit_34_split_goal_1
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -1108,7 +1108,7 @@ theorem proof_of_prefix_digits_sum_safety_wit_34_split_goal_1 : prefix_digits_su
 
 theorem proof_of_prefix_digits_sum_safety_wit_34_split_goal_2 : prefix_digits_sum_safety_wit_34_split_goal_2 := by
   unfold prefix_digits_sum_safety_wit_34_split_goal_2
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -1123,7 +1123,7 @@ theorem proof_of_prefix_digits_sum_safety_wit_34_split_goal_2 : prefix_digits_su
 theorem proof_of_prefix_digits_sum_safety_wit_34 : prefix_digits_sum_safety_wit_34 := by
   unfold prefix_digits_sum_safety_wit_34
   right
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   have PreH1 : (j >= (Znth i digits_l (0 : Int))) := NewPreH1
   have PreH2 : (1 <= x_pre) := NewPreH2
   have PreH3 : (x_pre <= 1000000000000000000) := NewPreH3
@@ -1147,13 +1147,13 @@ theorem proof_of_prefix_digits_sum_safety_wit_34 : prefix_digits_sum_safety_wit_
     | assumption
     | omega
     | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-    | exact proof_of_prefix_digits_sum_safety_wit_34_split_goal_1 digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
-    | exact proof_of_prefix_digits_sum_safety_wit_34_split_goal_2 digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+    | exact proof_of_prefix_digits_sum_safety_wit_34_split_goal_1 dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+    | exact proof_of_prefix_digits_sum_safety_wit_34_split_goal_2 dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
 
 
 theorem proof_of_prefix_digits_sum_safety_wit_38_split_goal_1 : prefix_digits_sum_safety_wit_38_split_goal_1 := by
   unfold prefix_digits_sum_safety_wit_38_split_goal_1
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -1174,7 +1174,7 @@ theorem proof_of_prefix_digits_sum_safety_wit_38_split_goal_1 : prefix_digits_su
 
 theorem proof_of_prefix_digits_sum_safety_wit_38_split_goal_2 : prefix_digits_sum_safety_wit_38_split_goal_2 := by
   unfold prefix_digits_sum_safety_wit_38_split_goal_2
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -1196,7 +1196,7 @@ theorem proof_of_prefix_digits_sum_safety_wit_38_split_goal_2 : prefix_digits_su
 theorem proof_of_prefix_digits_sum_safety_wit_38 : prefix_digits_sum_safety_wit_38 := by
   unfold prefix_digits_sum_safety_wit_38
   right
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   have PreH1 : (j >= (Znth i digits_l (0 : Int))) := NewPreH1
   have PreH2 : (1 <= x_pre) := NewPreH2
   have PreH3 : (x_pre <= 1000000000000000000) := NewPreH3
@@ -1220,13 +1220,13 @@ theorem proof_of_prefix_digits_sum_safety_wit_38 : prefix_digits_sum_safety_wit_
     | assumption
     | omega
     | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-    | exact proof_of_prefix_digits_sum_safety_wit_38_split_goal_1 digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
-    | exact proof_of_prefix_digits_sum_safety_wit_38_split_goal_2 digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+    | exact proof_of_prefix_digits_sum_safety_wit_38_split_goal_1 dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+    | exact proof_of_prefix_digits_sum_safety_wit_38_split_goal_2 dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
 
 
 theorem proof_of_prefix_digits_sum_safety_wit_41_split_goal_1 : prefix_digits_sum_safety_wit_41_split_goal_1 := by
   unfold prefix_digits_sum_safety_wit_41_split_goal_1
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -1247,7 +1247,7 @@ theorem proof_of_prefix_digits_sum_safety_wit_41_split_goal_1 : prefix_digits_su
 
 theorem proof_of_prefix_digits_sum_safety_wit_41_split_goal_2 : prefix_digits_sum_safety_wit_41_split_goal_2 := by
   unfold prefix_digits_sum_safety_wit_41_split_goal_2
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -1269,7 +1269,7 @@ theorem proof_of_prefix_digits_sum_safety_wit_41_split_goal_2 : prefix_digits_su
 theorem proof_of_prefix_digits_sum_safety_wit_41 : prefix_digits_sum_safety_wit_41 := by
   unfold prefix_digits_sum_safety_wit_41
   right
-  intro digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   have PreH1 : (j >= (Znth i digits_l (0 : Int))) := NewPreH1
   have PreH2 : (1 <= x_pre) := NewPreH2
   have PreH3 : (x_pre <= 1000000000000000000) := NewPreH3
@@ -1293,14 +1293,14 @@ theorem proof_of_prefix_digits_sum_safety_wit_41 : prefix_digits_sum_safety_wit_
     | assumption
     | omega
     | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-    | exact proof_of_prefix_digits_sum_safety_wit_41_split_goal_1 digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
-    | exact proof_of_prefix_digits_sum_safety_wit_41_split_goal_2 digits_pre dp_pre x_pre dp_l power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+    | exact proof_of_prefix_digits_sum_safety_wit_41_split_goal_1 dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+    | exact proof_of_prefix_digits_sum_safety_wit_41_split_goal_2 dp_l x_pre dp_pre digits_pre power_ll answer_before ans j digits_l m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
 
 
 theorem proof_of_prefix_digits_sum_entail_wit_1 : prefix_digits_sum_entail_wit_1 := by
   unfold prefix_digits_sum_entail_wit_1
   right
-  intro x_pre dp_l NewPreH1 NewPreH2 NewPreH3 NewPreH4
+  intro dp_l x_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -1321,7 +1321,7 @@ theorem aux_prefix_digits_sum_entail_wit_2_split_goal_1 : (forall (x_pre : Int) 
 theorem proof_of_prefix_digits_sum_entail_wit_2 : prefix_digits_sum_entail_wit_2 := by
   unfold prefix_digits_sum_entail_wit_2
   right
-  intro x_pre dp_l digits_l_2 i power_ll ans m NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11
+  intro dp_l x_pre digits_l_2 i power_ll ans m NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11
   have PreH1 : (i < 20) := NewPreH1
   have PreH2 : (1 <= x_pre) := NewPreH2
   have PreH3 : (x_pre <= 1000000000000000000) := NewPreH3
@@ -1345,7 +1345,7 @@ theorem proof_of_prefix_digits_sum_entail_wit_2 : prefix_digits_sum_entail_wit_2
 
 theorem proof_of_prefix_digits_sum_entail_wit_3_split_goal_1 : prefix_digits_sum_entail_wit_3_split_goal_1 := by
   unfold prefix_digits_sum_entail_wit_3_split_goal_1
-  intro x_pre dp_l digits_l_2 i power_ll ans m NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11
+  intro dp_l x_pre digits_l_2 i power_ll ans m NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11
   first
   | assumption
   | omega
@@ -1360,7 +1360,7 @@ theorem proof_of_prefix_digits_sum_entail_wit_3_split_goal_1 : prefix_digits_sum
 theorem proof_of_prefix_digits_sum_entail_wit_3 : prefix_digits_sum_entail_wit_3 := by
   unfold prefix_digits_sum_entail_wit_3
   right
-  intro x_pre dp_l digits_l_2 i power_ll ans m NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11
+  intro dp_l x_pre digits_l_2 i power_ll ans m NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11
   have PreH1 : (i >= 20) := NewPreH1
   have PreH2 : (1 <= x_pre) := NewPreH2
   have PreH3 : (x_pre <= 1000000000000000000) := NewPreH3
@@ -1379,12 +1379,12 @@ theorem proof_of_prefix_digits_sum_entail_wit_3 : prefix_digits_sum_entail_wit_3
       | (solve | simp only [Zlength_replace_Znth]; omega)
       | omega
       | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-      | exact proof_of_prefix_digits_sum_entail_wit_3_split_goal_1 x_pre dp_l digits_l_2 i power_ll ans m NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11
+      | exact proof_of_prefix_digits_sum_entail_wit_3_split_goal_1 dp_l x_pre digits_l_2 i power_ll ans m NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11
 
 
 theorem proof_of_prefix_digits_sum_entail_wit_4_split_goal_1 : prefix_digits_sum_entail_wit_4_split_goal_1 := by
   unfold prefix_digits_sum_entail_wit_4_split_goal_1
-  intro x_pre dp_l digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro dp_l x_pre digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -1420,7 +1420,7 @@ theorem proof_of_prefix_digits_sum_entail_wit_4_split_goal_1 : prefix_digits_sum
 
 theorem proof_of_prefix_digits_sum_entail_wit_4_split_goal_3 : prefix_digits_sum_entail_wit_4_split_goal_3 := by
   unfold prefix_digits_sum_entail_wit_4_split_goal_3
-  intro x_pre dp_l digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro dp_l x_pre digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -1451,7 +1451,7 @@ theorem proof_of_prefix_digits_sum_entail_wit_4_split_goal_3 : prefix_digits_sum
 
 theorem proof_of_prefix_digits_sum_entail_wit_4_split_goal_4 : prefix_digits_sum_entail_wit_4_split_goal_4 := by
   unfold prefix_digits_sum_entail_wit_4_split_goal_4
-  intro x_pre dp_l digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro dp_l x_pre digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -1479,7 +1479,7 @@ theorem proof_of_prefix_digits_sum_entail_wit_4_split_goal_4 : prefix_digits_sum
 
 theorem proof_of_prefix_digits_sum_entail_wit_4_split_goal_5 : prefix_digits_sum_entail_wit_4_split_goal_5 := by
   unfold prefix_digits_sum_entail_wit_4_split_goal_5
-  intro x_pre dp_l digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro dp_l x_pre digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -1491,7 +1491,7 @@ theorem proof_of_prefix_digits_sum_entail_wit_4_split_goal_5 : prefix_digits_sum
 theorem proof_of_prefix_digits_sum_entail_wit_4 : prefix_digits_sum_entail_wit_4 := by
   unfold prefix_digits_sum_entail_wit_4
   right
-  intro x_pre dp_l digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro dp_l x_pre digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   have PreH1 : (1 <= x_pre) := NewPreH1
   have PreH2 : (x_pre <= 1000000000000000000) := NewPreH2
   have PreH3 : (ans = (0 : Int)) := NewPreH3
@@ -1513,15 +1513,15 @@ theorem proof_of_prefix_digits_sum_entail_wit_4 : prefix_digits_sum_entail_wit_4
       | (solve | simp only [Zlength_replace_Znth]; omega)
       | omega
       | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-      | exact proof_of_prefix_digits_sum_entail_wit_4_split_goal_1 x_pre dp_l digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
-      | exact proof_of_prefix_digits_sum_entail_wit_4_split_goal_3 x_pre dp_l digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
-      | exact proof_of_prefix_digits_sum_entail_wit_4_split_goal_4 x_pre dp_l digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
-      | exact proof_of_prefix_digits_sum_entail_wit_4_split_goal_5 x_pre dp_l digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+      | exact proof_of_prefix_digits_sum_entail_wit_4_split_goal_1 dp_l x_pre digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+      | exact proof_of_prefix_digits_sum_entail_wit_4_split_goal_3 dp_l x_pre digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+      | exact proof_of_prefix_digits_sum_entail_wit_4_split_goal_4 dp_l x_pre digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+      | exact proof_of_prefix_digits_sum_entail_wit_4_split_goal_5 dp_l x_pre digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
 
 
 theorem proof_of_prefix_digits_sum_entail_wit_5_split_goal_1 : prefix_digits_sum_entail_wit_5_split_goal_1 := by
   unfold prefix_digits_sum_entail_wit_5_split_goal_1
-  intro x_pre dp_l digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro dp_l x_pre digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -1545,7 +1545,7 @@ theorem aux_prefix_digits_sum_entail_wit_5_split_goal_2 : (forall (x_pre : Int) 
 
 theorem proof_of_prefix_digits_sum_entail_wit_5_split_goal_2 : prefix_digits_sum_entail_wit_5_split_goal_2 := by
   unfold prefix_digits_sum_entail_wit_5_split_goal_2
-  intro x_pre dp_l digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro dp_l x_pre digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -1556,7 +1556,7 @@ theorem proof_of_prefix_digits_sum_entail_wit_5_split_goal_2 : prefix_digits_sum
 theorem proof_of_prefix_digits_sum_entail_wit_5 : prefix_digits_sum_entail_wit_5 := by
   unfold prefix_digits_sum_entail_wit_5
   right
-  intro x_pre dp_l digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro dp_l x_pre digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   have PreH1 : (1 <= x_pre) := NewPreH1
   have PreH2 : (x_pre <= 1000000000000000000) := NewPreH2
   have PreH3 : (ans = (0 : Int)) := NewPreH3
@@ -1578,14 +1578,14 @@ theorem proof_of_prefix_digits_sum_entail_wit_5 : prefix_digits_sum_entail_wit_5
       | (solve | simp only [Zlength_replace_Znth]; omega)
       | omega
       | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-      | exact proof_of_prefix_digits_sum_entail_wit_5_split_goal_1 x_pre dp_l digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+      | exact proof_of_prefix_digits_sum_entail_wit_5_split_goal_1 dp_l x_pre digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
       | exact aux_prefix_digits_sum_entail_wit_5_split_goal_2 x_pre dp_l digits_l_2 tmpx m power_ll ans PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-      | exact proof_of_prefix_digits_sum_entail_wit_5_split_goal_2 x_pre dp_l digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+      | exact proof_of_prefix_digits_sum_entail_wit_5_split_goal_2 dp_l x_pre digits_l_2 tmpx m power_ll ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
 
 
 theorem proof_of_prefix_digits_sum_entail_wit_6_split_goal_1 : prefix_digits_sum_entail_wit_6_split_goal_1 := by
   unfold prefix_digits_sum_entail_wit_6_split_goal_1
-  intro x_pre dp_l power_ll digits_l_2 m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro dp_l x_pre power_ll digits_l_2 m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -1598,7 +1598,7 @@ theorem proof_of_prefix_digits_sum_entail_wit_6_split_goal_1 : prefix_digits_sum
 theorem proof_of_prefix_digits_sum_entail_wit_6 : prefix_digits_sum_entail_wit_6 := by
   unfold prefix_digits_sum_entail_wit_6
   right
-  intro x_pre dp_l power_ll digits_l_2 m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro dp_l x_pre power_ll digits_l_2 m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   have PreH1 : (i < m) := NewPreH1
   have PreH2 : (1 <= x_pre) := NewPreH2
   have PreH3 : (x_pre <= 1000000000000000000) := NewPreH3
@@ -1620,12 +1620,12 @@ theorem proof_of_prefix_digits_sum_entail_wit_6 : prefix_digits_sum_entail_wit_6
       | (solve | simp only [Zlength_replace_Znth]; omega)
       | omega
       | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-      | exact proof_of_prefix_digits_sum_entail_wit_6_split_goal_1 x_pre dp_l power_ll digits_l_2 m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+      | exact proof_of_prefix_digits_sum_entail_wit_6_split_goal_1 dp_l x_pre power_ll digits_l_2 m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
 
 
 theorem proof_of_prefix_digits_sum_entail_wit_7_split_goal_1 : prefix_digits_sum_entail_wit_7_split_goal_1 := by
   unfold prefix_digits_sum_entail_wit_7_split_goal_1
-  intro x_pre dp_l power_ll digits_l_2 m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro dp_l x_pre power_ll digits_l_2 m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -1639,7 +1639,7 @@ theorem proof_of_prefix_digits_sum_entail_wit_7_split_goal_1 : prefix_digits_sum
 theorem proof_of_prefix_digits_sum_entail_wit_7 : prefix_digits_sum_entail_wit_7 := by
   unfold prefix_digits_sum_entail_wit_7
   right
-  intro x_pre dp_l power_ll digits_l_2 m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro dp_l x_pre power_ll digits_l_2 m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   have PreH1 : (i >= m) := NewPreH1
   have PreH2 : (1 <= x_pre) := NewPreH2
   have PreH3 : (x_pre <= 1000000000000000000) := NewPreH3
@@ -1661,13 +1661,13 @@ theorem proof_of_prefix_digits_sum_entail_wit_7 : prefix_digits_sum_entail_wit_7
       | (solve | simp only [Zlength_replace_Znth]; omega)
       | omega
       | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-      | exact proof_of_prefix_digits_sum_entail_wit_7_split_goal_1 x_pre dp_l power_ll digits_l_2 m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+      | exact proof_of_prefix_digits_sum_entail_wit_7_split_goal_1 dp_l x_pre power_ll digits_l_2 m i tmpx ans NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
 
 
 theorem proof_of_prefix_digits_sum_entail_wit_8 : prefix_digits_sum_entail_wit_8 := by
   unfold prefix_digits_sum_entail_wit_8
   right
-  intro x_pre dp_l power_ll digits_l_2 ans m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
+  intro dp_l x_pre power_ll digits_l_2 ans m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
   have PreH8 : ((0 : Int) <= ans) := NewPreH8
   have PreH9 : (ans < 1000000007) := NewPreH9
   have PreH10 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int)) := NewPreH11
@@ -1689,7 +1689,7 @@ theorem proof_of_prefix_digits_sum_entail_wit_8 : prefix_digits_sum_entail_wit_8
 theorem proof_of_prefix_digits_sum_entail_wit_9 : prefix_digits_sum_entail_wit_9 := by
   unfold prefix_digits_sum_entail_wit_9
   right
-  intro x_pre dp_l power_ll answer_before_2 ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre power_ll answer_before_2 ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   have PreH10 : ((0 : Int) <= j) := NewPreH10
   have PreH16 : (InnerCandidateDigitProgress dp_l i j answer_before_2 ans) := NewPreH17
   have PreH19 : (DigitDPTable dp_l) := NewPreH20
@@ -1715,7 +1715,7 @@ theorem proof_of_prefix_digits_sum_entail_wit_9 : prefix_digits_sum_entail_wit_9
 
 theorem proof_of_prefix_digits_sum_entail_wit_10_split_goal_1 : prefix_digits_sum_entail_wit_10_split_goal_1 := by
   unfold prefix_digits_sum_entail_wit_10_split_goal_1
-  intro x_pre dp_l power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -1727,7 +1727,7 @@ theorem proof_of_prefix_digits_sum_entail_wit_10_split_goal_1 : prefix_digits_su
 
 theorem proof_of_prefix_digits_sum_entail_wit_10_split_goal_2 : prefix_digits_sum_entail_wit_10_split_goal_2 := by
   unfold prefix_digits_sum_entail_wit_10_split_goal_2
-  intro x_pre dp_l power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -1769,7 +1769,7 @@ theorem aux_prefix_digits_sum_entail_wit_10_split_goal_3 : (forall (x_pre : Int)
 
 theorem proof_of_prefix_digits_sum_entail_wit_10_split_goal_3 : prefix_digits_sum_entail_wit_10_split_goal_3 := by
   unfold prefix_digits_sum_entail_wit_10_split_goal_3
-  intro x_pre dp_l power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -1788,7 +1788,7 @@ theorem proof_of_prefix_digits_sum_entail_wit_10_split_goal_3 : prefix_digits_su
 
 theorem proof_of_prefix_digits_sum_entail_wit_10_split_goal_4 : prefix_digits_sum_entail_wit_10_split_goal_4 := by
   unfold prefix_digits_sum_entail_wit_10_split_goal_4
-  intro x_pre dp_l power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -1808,7 +1808,7 @@ theorem proof_of_prefix_digits_sum_entail_wit_10_split_goal_4 : prefix_digits_su
 theorem proof_of_prefix_digits_sum_entail_wit_10 : prefix_digits_sum_entail_wit_10 := by
   unfold prefix_digits_sum_entail_wit_10
   right
-  intro x_pre dp_l power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro dp_l x_pre power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   have PreH1 : (j >= (Znth i digits_l_2 (0 : Int))) := NewPreH1
   have PreH2 : (1 <= x_pre) := NewPreH2
   have PreH3 : (x_pre <= 1000000000000000000) := NewPreH3
@@ -1836,16 +1836,16 @@ theorem proof_of_prefix_digits_sum_entail_wit_10 : prefix_digits_sum_entail_wit_
       | (solve | simp only [Zlength_replace_Znth]; omega)
       | omega
       | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-      | exact proof_of_prefix_digits_sum_entail_wit_10_split_goal_1 x_pre dp_l power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
-      | exact proof_of_prefix_digits_sum_entail_wit_10_split_goal_2 x_pre dp_l power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+      | exact proof_of_prefix_digits_sum_entail_wit_10_split_goal_1 dp_l x_pre power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+      | exact proof_of_prefix_digits_sum_entail_wit_10_split_goal_2 dp_l x_pre power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
       | exact aux_prefix_digits_sum_entail_wit_10_split_goal_3 x_pre dp_l power_ll answer_before ans j digits_l_2 m i tmpx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
-      | exact proof_of_prefix_digits_sum_entail_wit_10_split_goal_3 x_pre dp_l power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
-      | exact proof_of_prefix_digits_sum_entail_wit_10_split_goal_4 x_pre dp_l power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+      | exact proof_of_prefix_digits_sum_entail_wit_10_split_goal_3 dp_l x_pre power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+      | exact proof_of_prefix_digits_sum_entail_wit_10_split_goal_4 dp_l x_pre power_ll answer_before ans j digits_l_2 m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
 
 
 theorem proof_of_prefix_digits_sum_return_wit_1_split_goal_1 : prefix_digits_sum_return_wit_1_split_goal_1 := by
   unfold prefix_digits_sum_return_wit_1_split_goal_1
-  intro digits_pre x_pre dp_l power_ll digits_l ans m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
+  intro dp_l x_pre digits_pre power_ll digits_l ans m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
   first
   | assumption
   | omega
@@ -1859,14 +1859,14 @@ theorem proof_of_prefix_digits_sum_return_wit_1_split_goal_1 : prefix_digits_sum
 
 theorem proof_of_prefix_digits_sum_return_wit_1_split_goal_spatial : prefix_digits_sum_return_wit_1_split_goal_spatial := by
   unfold prefix_digits_sum_return_wit_1_split_goal_spatial
-  intro digits_pre x_pre dp_l power_ll digits_l ans m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
+  intro dp_l x_pre digits_pre power_ll digits_l ans m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
   exact intArray.full_to_undef_full digits_pre 20 digits_l
 
 
 theorem proof_of_prefix_digits_sum_return_wit_1 : prefix_digits_sum_return_wit_1 := by
   unfold prefix_digits_sum_return_wit_1
   right
-  intro digits_pre x_pre dp_l power_ll digits_l ans m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
+  intro dp_l x_pre digits_pre power_ll digits_l ans m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
   have PreH1 : (i <= (0 : Int)) := NewPreH1
   have PreH2 : (1 <= x_pre) := NewPreH2
   have PreH3 : (x_pre <= 1000000000000000000) := NewPreH3
@@ -1882,13 +1882,13 @@ theorem proof_of_prefix_digits_sum_return_wit_1 : prefix_digits_sum_return_wit_1
   have PreH14 : (OuterDigitPositionPower i power_ll) := NewPreH14
   have PreH15 : (DigitDPTable dp_l) := NewPreH15
   split_pure_spatial
-  · exact proof_of_prefix_digits_sum_return_wit_1_split_goal_spatial digits_pre x_pre dp_l power_ll digits_l ans m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
-  · exact proof_of_prefix_digits_sum_return_wit_1_split_goal_1 digits_pre x_pre dp_l power_ll digits_l ans m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
+  · exact proof_of_prefix_digits_sum_return_wit_1_split_goal_spatial dp_l x_pre digits_pre power_ll digits_l ans m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
+  · exact proof_of_prefix_digits_sum_return_wit_1_split_goal_1 dp_l x_pre digits_pre power_ll digits_l ans m i tmpx NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
 
 
 theorem proof_of_prefix_digits_sum_return_wit_2_split_goal_1 : prefix_digits_sum_return_wit_2_split_goal_1 := by
   unfold prefix_digits_sum_return_wit_2_split_goal_1
-  intro x_pre dp_l NewPreH1 NewPreH2 NewPreH3 NewPreH4
+  intro dp_l x_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4
   first
   | assumption
   | omega
@@ -1899,7 +1899,7 @@ theorem proof_of_prefix_digits_sum_return_wit_2_split_goal_1 : prefix_digits_sum
 theorem proof_of_prefix_digits_sum_return_wit_2 : prefix_digits_sum_return_wit_2 := by
   unfold prefix_digits_sum_return_wit_2
   right
-  intro x_pre dp_l NewPreH1 NewPreH2 NewPreH3 NewPreH4
+  intro dp_l x_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4
   have PreH1 : (x_pre < 1) := NewPreH1
   have PreH2 : ((0 : Int) <= x_pre) := NewPreH2
   have PreH3 : (x_pre <= 1000000000000000000) := NewPreH3
@@ -1912,13 +1912,13 @@ theorem proof_of_prefix_digits_sum_return_wit_2 : prefix_digits_sum_return_wit_2
       | (solve | simp only [Zlength_replace_Znth]; omega)
       | omega
       | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-      | exact proof_of_prefix_digits_sum_return_wit_2_split_goal_1 x_pre dp_l NewPreH1 NewPreH2 NewPreH3 NewPreH4
+      | exact proof_of_prefix_digits_sum_return_wit_2_split_goal_1 dp_l x_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4
 
 
 theorem proof_of_interval_digits_sum_return_wit_1 : interval_digits_sum_return_wit_1 := by
   unfold interval_digits_sum_return_wit_1
   right
-  intro y_pre x_pre ans1 ans2 PreH1 PreH2 PreH3 PreH4 PreH5
+  intro x_pre y_pre ans1 ans2 PreH1 PreH2 PreH3 PreH4 PreH5
   split_pure_spatial
   · cancel
   · dump_pre_spatial
@@ -1930,14 +1930,14 @@ theorem proof_of_interval_digits_sum_return_wit_1 : interval_digits_sum_return_w
 theorem proof_of_interval_digits_sum_safety_wit_10 : interval_digits_sum_safety_wit_10 := by
   unfold interval_digits_sum_safety_wit_10
   right
-  intro y_pre x_pre ans1 ans2 PreH1 PreH2 PreH3 PreH4 PreH5
+  intro x_pre y_pre ans1 ans2 PreH1 PreH2 PreH3 PreH4 PreH5
   have hr := rem_bounds (ans1-ans2) 1000000007 (by decide)
   split_pures <;> dump_pre_spatial <;> simp only [INT_MIN, INT_MAX] <;> omega
 
 theorem proof_of_interval_digits_sum_safety_wit_12 : interval_digits_sum_safety_wit_12 := by
   unfold interval_digits_sum_safety_wit_12
   right
-  intro y_pre x_pre ans1 ans2 PreH1 PreH2 PreH3 PreH4 PreH5
+  intro x_pre y_pre ans1 ans2 PreH1 PreH2 PreH3 PreH4 PreH5
   have h1 := PrefixDigitSum_range y_pre ans1 PreH4
   have h2 := PrefixDigitSum_range (x_pre-1) ans2 PreH5
   simp only [digit_sum_modulus] at h1 h2
@@ -1946,14 +1946,14 @@ theorem proof_of_interval_digits_sum_safety_wit_12 : interval_digits_sum_safety_
 theorem proof_of_interval_digits_sum_entail_wit_1 : interval_digits_sum_entail_wit_1 := by
   unfold interval_digits_sum_entail_wit_1
   right
-  intro y_pre x_pre PreH1 PreH2 PreH3
+  intro x_pre y_pre PreH1 PreH2 PreH3
   simp only [Int.zero_mul, Int.add_zero]
   cancel
 
 theorem proof_of_interval_digits_sum_entail_wit_2 : interval_digits_sum_entail_wit_2 := by
   unfold interval_digits_sum_entail_wit_2
   right
-  intro y_pre x_pre power_l dp_l retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro x_pre y_pre power_l dp_l retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   simp only [Int.zero_mul, Int.add_zero]
   change (intArray.full (&("dp")) 200 dp_l ** intArray.undef_full (&("digits")) 20) **
       intArray.full (&("power")) 20 power_l

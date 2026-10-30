@@ -60,16 +60,16 @@ private theorem greedy_nonempty_step (values : List Int) (i total prev p : Int)
   · intro h; rfl
 
 theorem proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1 := by
-  intro n values h1 h2 h3 h4
+  intro values n h1 h2 h3 h4
   rw [show n-1+1=Zlength values by omega]
   exact ⟨[],dominant_purchase_empty__initialization values,rfl,fun _ => rfl,fun h => False.elim (by omega)⟩
 
 theorem proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2 := by
-  intro n values h1 h2 h3 h4
+  intro values n h1 h2 h3 h4
   exact h3
 
 theorem proof_of_solver_entail_wit_2_1_split_goal_1 : solver_entail_wit_2_1_split_goal_1 := by
-  intro n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13
+  intro values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13
   rw [show n-1-1+1=i by omega,←h1]
   have hstock := h6 i ⟨h2,h8⟩
   apply suffix_dominant_prepend__backward_transitions values i total prev (Znth i values 0) ⟨h2,by omega⟩ h13 ⟨by omega,le_refl _⟩
@@ -83,12 +83,12 @@ theorem proof_of_solver_entail_wit_2_1_split_goal_1 : solver_entail_wit_2_1_spli
     simpa only [Znth0_cons] using hh.2
 
 theorem proof_of_solver_entail_wit_2_2_split_goal_1 : solver_entail_wit_2_2_split_goal_1 := by
-  intro n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
+  intro values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
   have hs := h8 i ⟨h4,h10⟩
   omega
 
 theorem proof_of_solver_entail_wit_2_3_split_goal_1 : solver_entail_wit_2_3_split_goal_1 := by
-  intro n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
+  intro values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
   rw [sub_add_cancel]
   have hs := h8 i ⟨h4,h10⟩
   apply greedy_nonempty_step values i total prev 0 ⟨h4,by omega⟩ h15 ⟨le_refl _,by omega⟩ (Or.inl rfl)
@@ -96,7 +96,7 @@ theorem proof_of_solver_entail_wit_2_3_split_goal_1 : solver_entail_wit_2_3_spli
   rcases hh with hz|hlt <;> omega
 
 theorem proof_of_solver_entail_wit_2_4_split_goal_1 : solver_entail_wit_2_4_split_goal_1 := by
-  intro n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
+  intro values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
   rw [sub_add_cancel]
   apply greedy_nonempty_step values i total prev (Znth i values 0) ⟨h4,by omega⟩ h15
     ⟨h1,le_refl _⟩ (Or.inr (by omega))
@@ -104,7 +104,7 @@ theorem proof_of_solver_entail_wit_2_4_split_goal_1 : solver_entail_wit_2_4_spli
   exact hc
 
 theorem proof_of_solver_entail_wit_2_5_split_goal_1 : solver_entail_wit_2_5_split_goal_1 := by
-  intro n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
+  intro values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
   rw [sub_add_cancel]
   apply greedy_nonempty_step values i total prev (prev-1) ⟨h4,by omega⟩ h15
     ⟨h1,h2⟩ (Or.inr (by omega))
@@ -112,73 +112,73 @@ theorem proof_of_solver_entail_wit_2_5_split_goal_1 : solver_entail_wit_2_5_spli
   rcases hh with hz|hlt <;> omega
 
 theorem proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1 := by
-  intro n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
+  intro values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
   apply suffix_dominant_state_to_spec__final_result values total prev
   simpa only [show i+1=0 by omega] using h12
 
 theorem proof_of_solver_entail_wit_1 : solver_entail_wit_1 := by
   unfold solver_entail_wit_1
   right
-  intro n values h1 h2 h3 h4
+  intro values n h1 h2 h3 h4
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_1_split_goal_1 n values h1 h2 h3 h4
-      | exact proof_of_solver_entail_wit_1_split_goal_2 n values h1 h2 h3 h4
+      | exact proof_of_solver_entail_wit_1_split_goal_1 values n h1 h2 h3 h4
+      | exact proof_of_solver_entail_wit_1_split_goal_2 values n h1 h2 h3 h4
 
 theorem proof_of_solver_entail_wit_2_1 : solver_entail_wit_2_1 := by
   unfold solver_entail_wit_2_1
   right
-  intro n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13
+  intro values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    exact proof_of_solver_entail_wit_2_1_split_goal_1 n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13
+    exact proof_of_solver_entail_wit_2_1_split_goal_1 values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13
 
 theorem proof_of_solver_entail_wit_2_2 : solver_entail_wit_2_2 := by
   unfold solver_entail_wit_2_2
   right
-  intro n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
+  intro values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    exact proof_of_solver_entail_wit_2_2_split_goal_1 n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
+    exact proof_of_solver_entail_wit_2_2_split_goal_1 values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
 
 theorem proof_of_solver_entail_wit_2_3 : solver_entail_wit_2_3 := by
   unfold solver_entail_wit_2_3
   right
-  intro n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
+  intro values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    exact proof_of_solver_entail_wit_2_3_split_goal_1 n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
+    exact proof_of_solver_entail_wit_2_3_split_goal_1 values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
 
 theorem proof_of_solver_entail_wit_2_4 : solver_entail_wit_2_4 := by
   unfold solver_entail_wit_2_4
   right
-  intro n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
+  intro values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    exact proof_of_solver_entail_wit_2_4_split_goal_1 n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
+    exact proof_of_solver_entail_wit_2_4_split_goal_1 values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
 
 theorem proof_of_solver_entail_wit_2_5 : solver_entail_wit_2_5 := by
   unfold solver_entail_wit_2_5
   right
-  intro n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
+  intro values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    exact proof_of_solver_entail_wit_2_5_split_goal_1 n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
+    exact proof_of_solver_entail_wit_2_5_split_goal_1 values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
 
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   unfold solver_return_wit_1
   right
-  intro n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
+  intro values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    exact proof_of_solver_return_wit_1_split_goal_1 n values prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
+    exact proof_of_solver_return_wit_1_split_goal_1 values n prev total i h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
 
 end SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P012_1139B_chocolates_proof_manual

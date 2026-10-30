@@ -1,0 +1,5 @@
+From SimpleC.EE.Applications_human.gmp.minigmp Require Import mpz_div_qr_strategy_goal mpz_div_qr_strategy_proof.
+
+Module mpz_div_qr_Strategy_Correctness : mpz_div_qr_Strategy_Correct.
+  Include mpz_div_qr_strategy_proof.
+End mpz_div_qr_Strategy_Correctness.

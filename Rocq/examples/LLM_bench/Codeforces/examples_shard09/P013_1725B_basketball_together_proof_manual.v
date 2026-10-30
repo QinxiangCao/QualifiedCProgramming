@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P013_1725B_basketball_together_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P013_1725B_basketball_together_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import AUXLib.MonotonicList.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P013_1725B_basketball_together_lib.
@@ -24,7 +8,7 @@ Local Open Scope sac.
 
 Lemma proof_of_solver_safety_wit_4_split_goal_1 : solver_safety_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (PreH7 i ltac:(lia)) as Hpower.
   rewrite zdiv_equiv by lia.
@@ -37,7 +21,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_4_split_goal_2 : solver_safety_wit_4_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (PreH7 i ltac:(lia)) as Hpower.
   rewrite zdiv_equiv by lia.
@@ -55,7 +39,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_7_split_goal_1 : solver_safety_wit_7_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (PreH7 i ltac:(lia)) as Hpower.
   rewrite zdiv_equiv by lia.
@@ -68,7 +52,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_7_split_goal_2 : solver_safety_wit_7_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (PreH7 i ltac:(lia)) as Hpower.
   rewrite zdiv_equiv by lia.
@@ -86,12 +70,12 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply permutation_preserves_zindexed_bounds__greedy_initialization.
   - exact PreH1.
   - intros i Hi. apply PreH7. rewrite PreH8. exact Hi.
@@ -105,7 +89,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_3 : solver_entail_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Zlength_correct.
   rewrite <- (Permutation_length PreH1).
   rewrite <- Zlength_correct.
@@ -123,7 +107,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst wins.
   eapply basketball_greedy_prefix_cutoff_spec__terminal_correctness;
     try eassumption; try lia.
@@ -135,7 +119,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_2 : solver_entail_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH8. assumption.
 Qed.
 
@@ -148,7 +132,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst wins.
   specialize (PreH8 i ltac:(lia)) as [Hpower _].
   rewrite Z.quot_div_nonneg by lia.
@@ -158,7 +142,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_2 : solver_entail_wit_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst wins.
   specialize (PreH8 i ltac:(lia)) as [Hpower _].
   rewrite Z.quot_div_nonneg by lia.
@@ -176,7 +160,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst wins.
   assert (i = n_pre) by lia. subst i.
   eapply basketball_greedy_prefix_complete_spec__terminal_correctness;

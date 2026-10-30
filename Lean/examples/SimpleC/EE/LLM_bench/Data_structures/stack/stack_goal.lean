@@ -59,14 +59,14 @@ private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def push_return_wit_1 : Prop :=
   (
-forall (x_pre : Int) (n_pre : Int) (stack_pre : Int) (before : sll) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < stack_capacity)) ,
+forall (before : sll) (stack_pre : Int) (n_pre : Int) (x_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < stack_capacity)) ,
   (((stack_pre + (n_pre * sizeof(INT)))) # Int |-> (x_pre))
   ** (store_stack stack_pre before n_pre)
 |--
   (store_stack stack_pre (sll_cons (x_pre) (before)) (n_pre + 1))
 ) \/
 (
-forall (x_pre : Int) (n_pre : Int) (stack_pre : Int) (before : sll) (PreH1 : (x_pre <= INT_MAX)) (PreH2 : (x_pre >= INT_MIN)) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre < stack_capacity)) ,
+forall (before : sll) (stack_pre : Int) (n_pre : Int) (x_pre : Int) (PreH1 : (x_pre <= INT_MAX)) (PreH2 : (x_pre >= INT_MIN)) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre < stack_capacity)) ,
   (((stack_pre + (n_pre * sizeof(INT)))) # Int |-> (x_pre))
   ** (store_stack stack_pre before n_pre)
 |--
@@ -74,14 +74,14 @@ forall (x_pre : Int) (n_pre : Int) (stack_pre : Int) (before : sll) (PreH1 : (x_
 )
 
 noncomputable def push_return_wit_1_split_goal_spatial : Prop :=
-  forall (x_pre : Int) (n_pre : Int) (stack_pre : Int) (before : sll) (PreH1 : (x_pre <= INT_MAX)) (PreH2 : (x_pre >= INT_MIN)) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre < stack_capacity)) ,
+  forall (before : sll) (stack_pre : Int) (n_pre : Int) (x_pre : Int) (PreH1 : (x_pre <= INT_MAX)) (PreH2 : (x_pre >= INT_MIN)) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre < stack_capacity)) ,
   (((stack_pre + (n_pre * sizeof(INT)))) # Int |-> (x_pre))
   ** (store_stack stack_pre before n_pre)
 |--
   (store_stack stack_pre (sll_cons (x_pre) (before)) (n_pre + 1))
 
 noncomputable def push_partial_solve_wit_1 : Prop :=
-  forall (n_pre : Int) (stack_pre : Int) (before : sll) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < stack_capacity)) ,
+  forall (before : sll) (stack_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < stack_capacity)) ,
   (store_stack stack_pre before n_pre)
   ** (intArray.undef_seg stack_pre n_pre (n_pre + 1))
 |--
@@ -91,7 +91,7 @@ noncomputable def push_partial_solve_wit_1 : Prop :=
   ** (store_stack stack_pre before n_pre)
 
 noncomputable def pop_safety_wit_1 : Prop :=
-  forall (n_pre : Int) (stack_pre : Int) (rest : sll) (top : Int) (concrete : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (stack_representation (sll_cons (top) (rest)) concrete n_pre)) ,
+  forall (rest : sll) (top : Int) (stack_pre : Int) (n_pre : Int) (concrete : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (stack_representation (sll_cons (top) (rest)) concrete n_pre)) ,
   ((( &( "ret" ) )) # Int |->_)
   ** ((( &( "stack" ) )) # Ptr |-> (stack_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -101,7 +101,7 @@ noncomputable def pop_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (n_pre - 1)) ”
 
 noncomputable def pop_safety_wit_2 : Prop :=
-  forall (n_pre : Int) (stack_pre : Int) (rest : sll) (top : Int) (concrete : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (stack_representation (sll_cons (top) (rest)) concrete n_pre)) ,
+  forall (rest : sll) (top : Int) (stack_pre : Int) (n_pre : Int) (concrete : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (stack_representation (sll_cons (top) (rest)) concrete n_pre)) ,
   ((( &( "ret" ) )) # Int |->_)
   ** ((( &( "stack" ) )) # Ptr |-> (stack_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -112,7 +112,7 @@ noncomputable def pop_safety_wit_2 : Prop :=
 
 noncomputable def pop_entail_wit_1 : Prop :=
   (
-forall (n_pre : Int) (stack_pre : Int) (rest : sll) (top : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) ,
+forall (rest : sll) (top : Int) (stack_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) ,
   (store_stack stack_pre (sll_cons (top) (rest)) n_pre)
 |--
   EX concrete : (List Int),
@@ -122,7 +122,7 @@ forall (n_pre : Int) (stack_pre : Int) (rest : sll) (top : Int) (PreH1 : (1 <= n
   &&  (intArray.full stack_pre n_pre concrete)
 ) \/
 (
-forall (n_pre : Int) (stack_pre : Int) (rest : sll) (top : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) ,
+forall (rest : sll) (top : Int) (stack_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) ,
   (store_stack stack_pre (sll_cons (top) (rest)) n_pre)
 |--
   EX concrete : (List Int),
@@ -134,7 +134,7 @@ forall (n_pre : Int) (stack_pre : Int) (rest : sll) (top : Int) (PreH1 : (1 <= n
 
 noncomputable def pop_return_wit_1 : Prop :=
   (
-forall (n_pre : Int) (stack_pre : Int) (rest : sll) (top : Int) (concrete : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (stack_representation (sll_cons (top) (rest)) concrete n_pre)) ,
+forall (rest : sll) (top : Int) (stack_pre : Int) (n_pre : Int) (concrete : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (stack_representation (sll_cons (top) (rest)) concrete n_pre)) ,
   (intArray.full stack_pre n_pre concrete)
 |--
   “ ((Znth (n_pre - 1) concrete (0 : Int)) = top) ”
@@ -142,7 +142,7 @@ forall (n_pre : Int) (stack_pre : Int) (rest : sll) (top : Int) (concrete : (Lis
   ** (intArray.undef_seg stack_pre (n_pre - 1) n_pre)
 ) \/
 (
-forall (n_pre : Int) (stack_pre : Int) (rest : sll) (top : Int) (concrete : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (stack_representation (sll_cons (top) (rest)) concrete n_pre)) ,
+forall (rest : sll) (top : Int) (stack_pre : Int) (n_pre : Int) (concrete : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (stack_representation (sll_cons (top) (rest)) concrete n_pre)) ,
   (intArray.full stack_pre n_pre concrete)
 |--
   “ ((Znth (n_pre - 1) concrete (0 : Int)) = top) ”
@@ -151,20 +151,20 @@ forall (n_pre : Int) (stack_pre : Int) (rest : sll) (top : Int) (concrete : (Lis
 )
 
 noncomputable def pop_return_wit_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (stack_pre : Int) (rest : sll) (top : Int) (concrete : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (stack_representation (sll_cons (top) (rest)) concrete n_pre)) ,
+  forall (rest : sll) (top : Int) (stack_pre : Int) (n_pre : Int) (concrete : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (stack_representation (sll_cons (top) (rest)) concrete n_pre)) ,
   (intArray.full stack_pre n_pre concrete)
 |--
   “ ((Znth (n_pre - 1) concrete (0 : Int)) = top) ”
 
 noncomputable def pop_return_wit_1_split_goal_spatial : Prop :=
-  forall (n_pre : Int) (stack_pre : Int) (rest : sll) (top : Int) (concrete : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (stack_representation (sll_cons (top) (rest)) concrete n_pre)) ,
+  forall (rest : sll) (top : Int) (stack_pre : Int) (n_pre : Int) (concrete : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (stack_representation (sll_cons (top) (rest)) concrete n_pre)) ,
   (intArray.full stack_pre n_pre concrete)
 |--
   (store_stack stack_pre rest (n_pre - 1))
   ** (intArray.undef_seg stack_pre (n_pre - 1) n_pre)
 
 noncomputable def pop_partial_solve_wit_1 : Prop :=
-  forall (n_pre : Int) (stack_pre : Int) (rest : sll) (top : Int) (concrete : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (stack_representation (sll_cons (top) (rest)) concrete n_pre)) ,
+  forall (rest : sll) (top : Int) (stack_pre : Int) (n_pre : Int) (concrete : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (stack_representation (sll_cons (top) (rest)) concrete n_pre)) ,
   (intArray.full stack_pre n_pre concrete)
 |--
   “ (1 <= n_pre) ” &&
@@ -174,7 +174,7 @@ noncomputable def pop_partial_solve_wit_1 : Prop :=
   ** (intArray.missing_i stack_pre (n_pre - 1) (0 : Int) n_pre concrete)
 
 noncomputable def build_safety_wit_1 : Prop :=
-  forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) ,
+  forall (input : (List Int)) (stack_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "stack" ) )) # Ptr |-> (stack_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -184,7 +184,7 @@ noncomputable def build_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def build_safety_wit_2 : Prop :=
-  forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre = (0 : Int))) (PreH3 : (i = 1)) ,
+  forall (input : (List Int)) (stack_pre : Int) (n_pre : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre = (0 : Int))) (PreH3 : (i = 1)) ,
   ((( &( "stack" ) )) # Ptr |-> (stack_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -193,7 +193,7 @@ noncomputable def build_safety_wit_2 : Prop :=
   “ False ”
 
 noncomputable def build_safety_wit_3 : Prop :=
-  forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) («prefix» : sll) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix «prefix» input i)) ,
+  forall (input : (List Int)) (stack_pre : Int) (n_pre : Int) («prefix» : sll) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix «prefix» input i)) ,
   (store_stack stack_pre (sll_cons (x) («prefix»)) (i + 1))
   ** ((( &( "stack" ) )) # Ptr |-> (stack_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -204,7 +204,7 @@ noncomputable def build_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def build_entail_wit_1 : Prop :=
-  forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) ,
+  forall (input : (List Int)) (stack_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) ,
   (intArray.full stack_pre n_pre input)
 |--
   (“ (n_pre = (0 : Int)) ” &&
@@ -223,7 +223,7 @@ noncomputable def build_entail_wit_1 : Prop :=
 
 noncomputable def build_entail_wit_2 : Prop :=
   (
-forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) (prefix_2 : sll) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= stack_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix prefix_2 input i)) ,
+forall (input : (List Int)) (stack_pre : Int) (n_pre : Int) (prefix_2 : sll) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= stack_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix prefix_2 input i)) ,
   (intArray.seg stack_pre i n_pre (sublist (i) (n_pre) (input)))
   ** (store_stack stack_pre prefix_2 i)
 |--
@@ -240,7 +240,7 @@ forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) (prefix_2 : sll) (i 
   ** (intArray.seg stack_pre (i + 1) n_pre (sublist ((i + 1)) (n_pre) (input)))
 ) \/
 (
-forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) (prefix_2 : sll) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= stack_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix prefix_2 input i)) ,
+forall (input : (List Int)) (stack_pre : Int) (n_pre : Int) (prefix_2 : sll) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= stack_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix prefix_2 input i)) ,
   (intArray.seg stack_pre i n_pre (sublist (i) (n_pre) (input)))
   ** (store_stack stack_pre prefix_2 i)
 |--
@@ -259,7 +259,7 @@ forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) (prefix_2 : sll) (i 
 
 noncomputable def build_entail_wit_3 : Prop :=
   (
-forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) (prefix_2 : sll) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix prefix_2 input i)) ,
+forall (input : (List Int)) (stack_pre : Int) (n_pre : Int) (prefix_2 : sll) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix prefix_2 input i)) ,
   (store_stack stack_pre (sll_cons (x) (prefix_2)) (i + 1))
   ** (intArray.seg stack_pre (i + 1) n_pre (sublist ((i + 1)) (n_pre) (input)))
 |--
@@ -274,7 +274,7 @@ forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) (prefix_2 : sll) (i 
   ** (intArray.seg stack_pre (i + 1) n_pre (sublist ((i + 1)) (n_pre) (input)))
 ) \/
 (
-forall (n_pre : Int) (input : (List Int)) (prefix_2 : sll) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix prefix_2 input i)) ,
+forall (input : (List Int)) (n_pre : Int) (prefix_2 : sll) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix prefix_2 input i)) ,
   TT && emp 
 |--
   “ (BuildStackPrefix (sll_cons (x) (prefix_2)) input (i + 1)) ”
@@ -282,39 +282,39 @@ forall (n_pre : Int) (input : (List Int)) (prefix_2 : sll) (i : Int) (x : Int) (
 )
 
 noncomputable def build_entail_wit_3_split_goal_1 : Prop :=
-  forall (n_pre : Int) (input : (List Int)) (prefix_2 : sll) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix prefix_2 input i)) ,
+  forall (input : (List Int)) (n_pre : Int) (prefix_2 : sll) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix prefix_2 input i)) ,
   (BuildStackPrefix (sll_cons (x) (prefix_2)) input (i + 1))
 
 noncomputable def build_return_wit_1 : Prop :=
   (
-forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre = (0 : Int))) (PreH3 : (i = 1)) ,
+forall (input : (List Int)) (stack_pre : Int) (n_pre : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre = (0 : Int))) (PreH3 : (i = 1)) ,
   (intArray.full stack_pre n_pre input)
 |--
   (store_stack stack_pre (sll_from_array (input)) n_pre)
 ) \/
 (
-forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre = (0 : Int))) (PreH3 : (i = 1)) ,
+forall (input : (List Int)) (stack_pre : Int) (n_pre : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre = (0 : Int))) (PreH3 : (i = 1)) ,
   (intArray.full stack_pre n_pre input)
 |--
   (store_stack stack_pre (sll_from_array (input)) n_pre)
 )
 
 noncomputable def build_return_wit_1_split_goal_spatial : Prop :=
-  forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre = (0 : Int))) (PreH3 : (i = 1)) ,
+  forall (input : (List Int)) (stack_pre : Int) (n_pre : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre = (0 : Int))) (PreH3 : (i = 1)) ,
   (intArray.full stack_pre n_pre input)
 |--
   (store_stack stack_pre (sll_from_array (input)) n_pre)
 
 noncomputable def build_return_wit_2 : Prop :=
   (
-forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) («prefix» : sll) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= stack_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix «prefix» input i)) ,
+forall (input : (List Int)) (stack_pre : Int) (n_pre : Int) («prefix» : sll) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= stack_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix «prefix» input i)) ,
   (store_stack stack_pre «prefix» i)
   ** (intArray.seg stack_pre i n_pre (sublist (i) (n_pre) (input)))
 |--
   (store_stack stack_pre (sll_from_array (input)) n_pre)
 ) \/
 (
-forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) («prefix» : sll) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= stack_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix «prefix» input i)) ,
+forall (input : (List Int)) (stack_pre : Int) (n_pre : Int) («prefix» : sll) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= stack_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix «prefix» input i)) ,
   (store_stack stack_pre «prefix» i)
   ** (intArray.seg stack_pre i n_pre (sublist (i) (n_pre) (input)))
 |--
@@ -322,14 +322,14 @@ forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) («prefix» : sll) (
 )
 
 noncomputable def build_return_wit_2_split_goal_spatial : Prop :=
-  forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) («prefix» : sll) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= stack_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix «prefix» input i)) ,
+  forall (input : (List Int)) (stack_pre : Int) (n_pre : Int) («prefix» : sll) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= stack_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix «prefix» input i)) ,
   (store_stack stack_pre «prefix» i)
   ** (intArray.seg stack_pre i n_pre (sublist (i) (n_pre) (input)))
 |--
   (store_stack stack_pre (sll_from_array (input)) n_pre)
 
 noncomputable def build_partial_solve_wit_1 : Prop :=
-  forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) («prefix» : sll) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= stack_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix «prefix» input i)) ,
+  forall (input : (List Int)) (stack_pre : Int) (n_pre : Int) («prefix» : sll) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= stack_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix «prefix» input i)) ,
   (store_stack stack_pre «prefix» i)
   ** (intArray.seg stack_pre i n_pre (sublist (i) (n_pre) (input)))
 |--
@@ -345,7 +345,7 @@ noncomputable def build_partial_solve_wit_1 : Prop :=
   ** (store_stack stack_pre «prefix» i)
 
 noncomputable def build_partial_solve_wit_2_pure : Prop :=
-  forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) («prefix» : sll) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix «prefix» input i)) ,
+  forall (input : (List Int)) (stack_pre : Int) (n_pre : Int) («prefix» : sll) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix «prefix» input i)) ,
   ((( &( "stack" ) )) # Ptr |-> (stack_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -358,7 +358,7 @@ noncomputable def build_partial_solve_wit_2_pure : Prop :=
   “ (i < stack_capacity) ”
 
 noncomputable def build_partial_solve_wit_2_aux : Prop :=
-  forall (n_pre : Int) (stack_pre : Int) (input : (List Int)) («prefix» : sll) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix «prefix» input i)) ,
+  forall (input : (List Int)) (stack_pre : Int) (n_pre : Int) («prefix» : sll) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= stack_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildStackPrefix «prefix» input i)) ,
   (store_stack stack_pre «prefix» i)
   ** (intArray.undef_seg stack_pre i (i + 1))
   ** (intArray.seg stack_pre (i + 1) n_pre (sublist ((i + 1)) (n_pre) (input)))

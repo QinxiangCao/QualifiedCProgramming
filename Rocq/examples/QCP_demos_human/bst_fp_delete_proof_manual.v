@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.QCP_demos_human Require Import bst_fp_delete_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 Import naive_C_Rules.
 From SimpleC.EE.QCP_demos_human Require Import bst_fp_lib.
 Local Open Scope sac.
@@ -22,7 +7,7 @@ Local Open Scope sac.
 Lemma proof_of_replace_min_entail_wit_1 : replace_min_entail_wit_1.
 Proof.
 	LLM_pre_process ltac:(int_auto).
-	Exists b_pre_v.
+	Exists b_v.
 	Exists nil.
 	Exists tr.
 	simpl.
@@ -56,7 +41,7 @@ Qed.
 Lemma proof_of_replace_min_entail_wit_2 : replace_min_entail_wit_2.
 Proof.
 	LLM_pre_process ltac:(int_auto).
-	sep_apply (store_tree_not_zero b_v_left b_v_2 l0);
+	sep_apply (store_tree_not_zero b_v_left b_v_3 l0);
 	  [ | exact PreH1 ].
 	Intros l1.
 	  Intros k0.
@@ -64,7 +49,7 @@ Proof.
 	  Intros r1.
 	  Intros b_v_left_left.
 	  Intros b_v_left_right.
-	  sep_apply (store_ptb_LH b b_v_2 b_v_right fa b_v_key b_v_value r0);
+	  sep_apply (store_ptb_LH b b_v_3 b_v_right fa b_v_key b_v_value r0);
 	    [ | lia | exact PreH8 ].
 	  sep_apply store_ptb_app.
 	  Exists b_v_left.
@@ -72,17 +57,17 @@ Proof.
 	  Exists (make_tree l1 k0 v0 r1).
 	  split_pure_spatial.
 	  + sep_apply_l_atomic (store_tree_make_tree b_v_left k0 v0
-	      b_v_left_left b_v_left_right b_v_2 l1 r1).
+	      b_v_left_left b_v_left_right b_v_3 l1 r1).
 	    * dump_pre_spatial.
 	      exact H2.
 	    * dump_pre_spatial.
 	      lia.
 	    * change ((LH b_v_key b_v_value r0 :: nil) ++ pt0_2) with
 	        (LH b_v_key b_v_value r0 :: pt0_2).
-	      cancel (&((b_v_2)  # "tree" ->ₛ "left") # Ptr |-> b_v_left).
-	      cancel (store_ptb &((b_v_2)  # "tree" ->ₛ "left") b_pre b_v_2
+	      cancel (&((b_v_3)  # "tree" ->ₛ "left") # Ptr |-> b_v_left).
+	      cancel (store_ptb &((b_v_3)  # "tree" ->ₛ "left") b_pre b_v_3
 	        ptr_pre (LH b_v_key b_v_value r0 :: pt0_2)).
-	      cancel (store_tree b_v_left b_v_2 (make_tree l1 k0 v0 r1)).
+	      cancel (store_tree b_v_left b_v_3 (make_tree l1 k0 v0 r1)).
 	      cancel (&((ptr_pre)  # "tree" ->ₛ "key") # Int |-> k).
 	      cancel (&((ptr_pre)  # "tree" ->ₛ "value") # Int |-> v).
 	  + split_pures.
@@ -121,7 +106,7 @@ Proof.
 	  b_v_right_left b_v_right_right fa l0_2 r0_2);
 	  [ | lia | exact PreH4 ].
 	rewrite <- PreH3.
-	sep_apply (store_tree_zero b_v_left b_v l0);
+	sep_apply (store_tree_zero b_v_left b_v_3 l0);
 	  [ | exact PreH5 ].
 	Intros_p Hempty.
 	sep_apply store_ptb_store_tree.
@@ -155,12 +140,12 @@ Qed.
 Lemma proof_of_replace_min_return_wit_2 : replace_min_return_wit_2.
 Proof.
 	LLM_pre_process ltac:(int_auto).
-	sep_apply_l_atomic (store_tree_zero b_v_right b_v r0).
+	sep_apply_l_atomic (store_tree_zero b_v_right b_v_3 r0).
 	- dump_pre_spatial.
 	  tauto.
 	- Intros_p Hr0empty.
 	  rewrite PreH1.
-	  sep_apply_l_atomic (store_tree_zero b_v_left b_v l0).
+	  sep_apply_l_atomic (store_tree_zero b_v_left b_v_3 l0).
 	  {
 	    dump_pre_spatial.
 	    tauto.
@@ -259,13 +244,13 @@ Qed.
 Lemma proof_of_Delete_entail_wit_1 : Delete_entail_wit_1.
 Proof.
 	LLM_pre_process ltac:(int_auto).
-	Exists b_pre_v.
+	Exists b_v_2.
 	Exists nil.
 	Exists tr_low_level_spec.
 	split_pure_spatial.
 	- simpl.
-	  cancel (b_pre # Ptr |-> b_pre_v).
-	  cancel (store_tree b_pre_v 0 tr_low_level_spec).
+	  cancel (b_pre # Ptr |-> b_v_2).
+	  cancel (store_tree b_v_2 0 tr_low_level_spec).
 	  split_pure_spatial.
 	  + cancel.
 	  + split_pures.
@@ -350,7 +335,7 @@ Proof.
 	  try exact PreH4; exact PreH7.
 	- dump_pre_spatial.
 	  exact Hleft_key.
-	- sep_apply_l_atomic (store_tree_zero b_v_right b_v r0).
+	- sep_apply_l_atomic (store_tree_zero b_v_right b_v_2 r0).
 	  + dump_pre_spatial.
 	    try exact PreH5; exact PreH8.
 	  + Intros_p Hempty.
@@ -383,11 +368,11 @@ Qed.
 Lemma proof_of_Delete_return_wit_5 : Delete_return_wit_5.
 Proof.
 	LLM_pre_process ltac:(int_auto).
-	sep_apply_l_atomic (store_tree_zero b_v_right b_v r0).
+	sep_apply_l_atomic (store_tree_zero b_v_right b_v_2 r0).
 	- dump_pre_spatial.
 	  exact PreH2.
 	- Intros_p Hempty_r.
-	  sep_apply_l_atomic (store_tree_zero b_v_left b_v l0).
+	  sep_apply_l_atomic (store_tree_zero b_v_left b_v_2 l0).
 	  + dump_pre_spatial.
 	    exact PreH1.
 	  + Intros_p Hempty_l.
@@ -434,7 +419,7 @@ Proof.
 	  try exact PreH4; try exact PreH7; exact PreH9.
 	- dump_pre_spatial.
 	  exact Hright_key.
-	- sep_apply_l_atomic (store_tree_zero b_v_left b_v l0).
+	- sep_apply_l_atomic (store_tree_zero b_v_left b_v_2 l0).
 	  + dump_pre_spatial.
 	    try exact PreH5; exact PreH8.
 	  + Intros_p Hempty.
@@ -467,8 +452,8 @@ Qed.
 Lemma proof_of_Delete_return_wit_2 : Delete_return_wit_2.
 Proof.
 	LLM_pre_process ltac:(int_auto).
-	assert (Hkey : INT_MIN <= ptr_callee_key <= INT_MAX) by lia.
-	sep_apply (store_tree_not_zero b_v_left b_v l0);
+	assert (Hkey : INT_MIN <= ptr_key <= INT_MAX) by lia.
+	sep_apply (store_tree_not_zero b_v_left b_v_2 l0);
 	  [ | try exact PreH8; exact PreH11 ].
 	Intros l_left.
 	Intros k_left.
@@ -477,14 +462,14 @@ Proof.
 	Intros p_left_left.
 	Intros p_left_right.
 	sep_apply_l_atomic (store_tree_make_tree b_v_left k_left v_left
-	  p_left_left p_left_right b_v l_left r_left).
+	  p_left_left p_left_right b_v_2 l_left r_left).
 	- dump_pre_spatial.
 	  try exact H2; lia.
 	- dump_pre_spatial.
 	  lia.
 	-
-	sep_apply_l_atomic (store_tree_make_tree b_v ptr_callee_key ptr_callee_value
-	  b_v_left b_callee_v fa (make_tree l_left k_left v_left r_left)
+	sep_apply_l_atomic (store_tree_make_tree b_v_2 ptr_key ptr_value
+	  b_v_left b_v_3 fa (make_tree l_left k_left v_left r_left)
 	  (delete_min (make_tree l0_2 b_v_right_key b_v_right_value r0_2))).
 	+ dump_pre_spatial.
 	  try exact PreH15; exact PreH18.
@@ -495,7 +480,7 @@ Proof.
 	  Exists p_root.
 	  assert (Hcombine_delete : combine_tree pt0
 	    (make_tree (make_tree l_left k_left v_left r_left)
-	      ptr_callee_key ptr_callee_value
+	      ptr_key ptr_value
 	      (delete_min (make_tree l0_2 b_v_right_key b_v_right_value r0_2))) =
 	    tree_delete x_pre tr_low_level_spec).
 	  {
@@ -523,12 +508,12 @@ Proof.
 		Key.order.
 		+ simpl.
 		  match goal with
-		  | H : ptr_callee_key =
+		  | H : ptr_key =
 		      min_key b_v_key (make_tree l0_2 b_v_right_key b_v_right_value r0_2)
 		    |- _ => rewrite H
 		  end.
 		  match goal with
-		  | H : ptr_callee_value =
+		  | H : ptr_value =
 		      min_value b_v_value (make_tree l0_2 b_v_right_key b_v_right_value r0_2)
 		    |- _ => rewrite H
 		  end.
@@ -541,9 +526,9 @@ Qed.
 Lemma proof_of_Delete_return_wit_1 : Delete_return_wit_1.
 Proof.
 	LLM_pre_process ltac:(int_auto).
-	sep_apply (store_tree_zero b_v fa tr0 PreH1).
+	sep_apply (store_tree_zero b_v_2 fa tr0 PreH1).
 	Intros_p Htr0.
-	assert (Hb : (b # Ptr |-> b_v) |-- (b # Ptr |-> b_v ** store_tree b_v fa tr0)).
+	assert (Hb : (b # Ptr |-> b_v_2) |-- (b # Ptr |-> b_v_2 ** store_tree b_v_2 fa tr0)).
 	{
 	  rewrite PreH1.
 	  rewrite Htr0.
@@ -659,9 +644,11 @@ Proof.
     + dump_pre_spatial. exact H0.
 Qed.
 
-Lemma proof_of_Delete_derive_high_level_spec_by_low_level_spec : Delete_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_Delete_low_level_spec_entail_high_level_spec : Delete_low_level_spec_entail_high_level_spec.
 Proof.
-	LLM_pre_process ltac:(int_auto).
+	unfold Delete_low_level_spec_entail_high_level_spec.
+  intros b_pre x_pre m_high_level_spec.
+  LLM_pre_process ltac:(int_auto).
 	Intros b_pre_v.
 	unfold Bst.store_map.
 	Intros tr.

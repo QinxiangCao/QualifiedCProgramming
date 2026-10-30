@@ -10,7 +10,7 @@ from controller_state import (
 )
 from file_integrity import _lexical_regular_file_snapshot, _snapshot_text
 from group_plan_utils import group_entries_from_plan
-from proof_manual_utils import coq_token_text, lemma_proof_parts, parse_manual
+from proof_manual_utils import coq_token_text, lemma_proof_parts, manual_vc_index, parse_manual
 from spec_freeze import extract_spec_surface, spec_freeze_findings
 
 
@@ -46,6 +46,24 @@ def debug_manual_errors(state: dict, task: dict) -> list[str]:
     return []
 
 
+def _annotation_obligations(state: dict) -> dict:
+    """Index current identities, including goals moved to generated auto output.
+
+    This is comparison bookkeeping, not proof acceptance. Manual grouping stays
+    unchanged and the complete generated proof family is checked at publication.
+    """
+    manual = _manual_obligations(state)
+    snapshot = _lexical_regular_file_snapshot(
+        root=Path(state["main_root"]),
+        relative=state["target_files"]["proof_auto_file"],
+        label="current generated auto proof",
+    )
+    if snapshot.get("state") == "missing":
+        return manual
+    automatic = manual_vc_index(_snapshot_text(snapshot, label="current generated auto proof"))
+    return {**manual, "by_name": {**automatic["by_name"], **manual["by_name"]}}
+
+
 def annotation_accept(state: dict, task: dict) -> dict:
     from controller_tools import library_check, refresh_annotation
     paths = attempt_paths(state, task)
@@ -60,7 +78,7 @@ def annotation_accept(state: dict, task: dict) -> dict:
     generated = refresh_annotation(state, task, progress_name="symexec-progress-acceptance.json")
     if generated["status"] != "passed":
         return generated
-    errors = annotation_plan_errors(plan, failed_vcs=task["failed_vcs"], current_vcs=_manual_obligations(state))
+    errors = annotation_plan_errors(plan, failed_vcs=task["failed_vcs"], current_vcs=_annotation_obligations(state))
     if errors:
         return _failure(errors)
     files = {role: target[role] for role in ("c_file", "formal_case_lib", *GENERATED_KEYS)}

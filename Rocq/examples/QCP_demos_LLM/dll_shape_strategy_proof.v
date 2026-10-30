@@ -1,13 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.QCP_demos_LLM Require Import dll_shape_strategy_goal.
 From SimpleC.EE.QCP_demos_LLM Require Import dll_shape_lib.
 Import naive_C_Rules.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 
@@ -123,6 +117,7 @@ Qed.
 Lemma dll_shape_strategy14_correctness : dll_shape_strategy14.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   assert (Hpm : p <> m).
   {
     intro Heq.
@@ -183,6 +178,7 @@ Qed.
 Lemma dll_shape_strategy5_correctness : dll_shape_strategy5.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   rewrite <- logic_equiv_coq_prop_or.
   Intros_p Hnz.
   assert (Hp : p <> 0).
@@ -208,7 +204,6 @@ Proof.
     Intros_r q.
     apply_sepcon_adjoint.
     cancel ((&(p # "list" ->ₛ "data") # Int |-> q) || (&(p # "list" ->ₛ "next") # Ptr |-> q) || (&(p # "list" ->ₛ "prev") # Ptr |-> q)).
-    normalize.
     cancel.
   - dump_pre_spatial.
     exact Hnz.
@@ -247,6 +242,7 @@ Qed.
 Lemma dll_shape_strategy16_correctness : dll_shape_strategy16.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   assert (Hqs : q <> s).
   {
     intro Heq.

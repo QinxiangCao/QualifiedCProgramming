@@ -1,28 +1,12 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.Dijkstra Require Import Dijkstra_linked_forward_star_index_queue_goal.
 From SimpleC.EE.LLM_bench.Algorithms.Dijkstra Require Import Dijkstra_linked_forward_star_index_queue_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 From MonadLib Require Export MonadLib.
 From MonadLib.StateRelMonad Require Export StateRelMonad.
 Export MonadNotation.
 Local Open Scope monad.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
+From AUXLib Require Import relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Require Import SimpleC.EE.LLM_bench.Data_structures.priority_queue_index.priority_queue_index_lib.
 Require Import Algorithms.Dijkstra.Dijkstra.
@@ -174,7 +158,7 @@ Qed.
 Lemma proof_of_dijkstra_linked_forward_star_init_entail_wit_1 : dijkstra_linked_forward_star_init_entail_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_dijkstra_linked_forward_star_init_entail_wit_1_split_goal_1.
+  - Goal_apply proof_of_dijkstra_linked_forward_star_init_entail_wit_1_split_goal_1.
 Qed. 
 
 Lemma proof_of_dijkstra_linked_forward_star_init_entail_wit_2_split_goal_1 : dijkstra_linked_forward_star_init_entail_wit_2_split_goal_1.
@@ -186,7 +170,7 @@ Qed.
 Lemma proof_of_dijkstra_linked_forward_star_init_entail_wit_2 : dijkstra_linked_forward_star_init_entail_wit_2.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_dijkstra_linked_forward_star_init_entail_wit_2_split_goal_1.
+  - Goal_apply proof_of_dijkstra_linked_forward_star_init_entail_wit_2_split_goal_1.
 Qed. 
 
 Lemma proof_of_dijkstra_linked_forward_star_init_return_wit_1_split_goal_1 : dijkstra_linked_forward_star_init_return_wit_1_split_goal_1.
@@ -199,7 +183,7 @@ Qed.
 Lemma proof_of_dijkstra_linked_forward_star_init_return_wit_1 : dijkstra_linked_forward_star_init_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_dijkstra_linked_forward_star_init_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_dijkstra_linked_forward_star_init_return_wit_1_split_goal_1.
 Qed. 
 
 Lemma proof_of_dijkstra_linked_forward_star_index_queue_entail_wit_1 : dijkstra_linked_forward_star_index_queue_entail_wit_1.
@@ -287,7 +271,7 @@ Proof.
   LLM_pre_process ltac:(int_auto).
   destruct popped as [pop_key pop_data].
   simpl in *.
-  subst key_out_callee_v data_out_callee_v.
+  subst key_out_v data_out_v.
   assert (Hpop :
     index_queue_pop_result queue_set_2
       (multiset_remove queue_set_2 (pop_key, pop_data))
@@ -968,19 +952,17 @@ Qed.
 
 Lemma proof_of_dijkstra_linked_forward_star_index_queue_partial_solve_wit_1_pure : dijkstra_linked_forward_star_index_queue_partial_solve_wit_1_pure.
 Proof.
-  right.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  pose proof
-    (graph_has_size_vertex_valid_bounds
-      g_low_level_spec vertex_count_pre source_pre PreH7 PreH8)
-    as (Hvertex_count_bounds & Hsource_bounds).
-  destruct Hvertex_count_bounds as (Hvertex_count_pos & Hvertex_count_upper).
-  split_pures; dump_pre_spatial.
-  all: unfold DijkstraGraph.max_vertices in *; lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_dijkstra_linked_forward_star_index_queue_partial_solve_wit_1_pure_split_goal_1.
+  - Goal_apply proof_of_dijkstra_linked_forward_star_index_queue_partial_solve_wit_1_pure_split_goal_2.
+  - Goal_apply proof_of_dijkstra_linked_forward_star_index_queue_partial_solve_wit_1_pure_split_goal_3.
+  - Goal_apply proof_of_dijkstra_linked_forward_star_index_queue_partial_solve_wit_1_pure_split_goal_4.
 Qed. 
 
-Lemma proof_of_dijkstra_linked_forward_star_index_queue_derive_high_level_spec_by_low_level_spec : dijkstra_linked_forward_star_index_queue_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_dijkstra_linked_forward_star_index_queue_low_level_spec_entail_high_level_spec : dijkstra_linked_forward_star_index_queue_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold dijkstra_linked_forward_star_index_queue_low_level_spec_entail_high_level_spec.
+  intros vertex_count_pre source_pre edge_count_pre head_pre to_pre weight_pre next_pre dist_pre g_high_level_spec dist0_high_level_spec.
   LLM_pre_process ltac:(int_auto).
   rename H into Hsize_high_level_spec.
   rename H0 into Hsource_valid_high_level_spec.
@@ -1084,4 +1066,3 @@ Proof.
     + split_pures; dump_pre_spatial; auto.
   - split_pures; dump_pre_spatial; auto.
 Qed. 
-

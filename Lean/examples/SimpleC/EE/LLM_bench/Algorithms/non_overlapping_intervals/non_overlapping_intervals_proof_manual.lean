@@ -68,7 +68,7 @@ private theorem pair_bounds_iff (st ed : List Int) (ps : List interval) (hp : Pa
 theorem proof_of_swap_intervals_return_wit_1 : swap_intervals_return_wit_1 := by
   unfold swap_intervals_return_wit_1
   left
-  intro j_pre i_pre ed_pre st_pre ps ed_l st_l n PreH1 PreH2 PreH3 PreH4 PreH5
+  intro ps ed_l st_l n st_pre ed_pre i_pre j_pre PreH1 PreH2 PreH3 PreH4 PreH5
   prop_apply (intArray.full_Zlength st_pre n (replace_Znth j_pre (Znth i_pre st_l 0) (replace_Znth i_pre (Znth j_pre st_l 0) st_l)))
   Intros_p harr
   change Zlength (replace_Znth j_pre (Znth i_pre st_l 0) (replace_Znth i_pre (Znth j_pre st_l 0) st_l)) = n at harr
@@ -84,7 +84,7 @@ theorem proof_of_swap_intervals_return_wit_1 : swap_intervals_return_wit_1 := by
 theorem proof_of_partition_intervals_entail_wit_1 : partition_intervals_entail_wit_1 := by
   unfold partition_intervals_entail_wit_1
   left
-  intro high_pre low_pre intervalsSize_pre ed_pre st_pre ps ed_l st_l PreH1 PreH2 PreH3 PreH4
+  intro ps ed_l st_l st_pre ed_pre intervalsSize_pre low_pre high_pre PreH1 PreH2 PreH3 PreH4
   prop_apply (intArray.full_Zlength st_pre intervalsSize_pre st_l)
   Intros_p harr
   change Zlength st_l = intervalsSize_pre at harr
@@ -98,7 +98,7 @@ theorem proof_of_partition_intervals_entail_wit_1 : partition_intervals_entail_w
 theorem proof_of_partition_intervals_entail_wit_2_1 : partition_intervals_entail_wit_2_1 := by
   unfold partition_intervals_entail_wit_2_1
   left
-  intro high_pre low_pre intervalsSize_pre ed_pre st_pre ps pivot_end j i st1_2 ed1_2 ps1_2 st1_3 ed1_3 ps1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro ps st_pre ed_pre intervalsSize_pre low_pre high_pre pivot_end j i st1_2 ed1_2 ps1_2 st1_3 ed1_3 ps1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   prop_apply (intArray.full_Zlength st_pre intervalsSize_pre st1_3)
   Intros_p harr
   change Zlength st1_3 = intervalsSize_pre at harr
@@ -121,7 +121,7 @@ theorem proof_of_partition_intervals_entail_wit_2_1 : partition_intervals_entail
 theorem proof_of_partition_intervals_entail_wit_2_2 : partition_intervals_entail_wit_2_2 := by
   unfold partition_intervals_entail_wit_2_2
   left
-  intro high_pre low_pre intervalsSize_pre ed_pre st_pre ps pivot_end j i st1_2 ed1_2 ps1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro ps st_pre ed_pre intervalsSize_pre low_pre high_pre pivot_end j i st1_2 ed1_2 ps1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   prop_apply (intArray.full_Zlength st_pre intervalsSize_pre st1_2)
   Intros_p harr
   change Zlength st1_2 = intervalsSize_pre at harr
@@ -138,7 +138,7 @@ theorem proof_of_partition_intervals_entail_wit_2_2 : partition_intervals_entail
 theorem proof_of_partition_intervals_return_wit_1 : partition_intervals_return_wit_1 := by
   unfold partition_intervals_return_wit_1
   left
-  intro high_pre low_pre intervalsSize_pre ed_pre st_pre ps pivot_end j i st1_2 ed1_2 ps1_2 st1_3 ed1_3 ps1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro ps st_pre ed_pre intervalsSize_pre low_pre high_pre pivot_end j i st1_2 ed1_2 ps1_2 st1_3 ed1_3 ps1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   prop_apply (intArray.full_Zlength st_pre intervalsSize_pre st1_3)
   Intros_p harr
   change Zlength st1_3 = intervalsSize_pre at harr
@@ -155,7 +155,7 @@ theorem proof_of_partition_intervals_return_wit_1 : partition_intervals_return_w
 theorem proof_of_quicksort_intervals_range_entail_wit_1_1 : quicksort_intervals_range_entail_wit_1_1 := by
   unfold quicksort_intervals_range_entail_wit_1_1
   left
-  intro right_pre left_pre intervalsSize_pre ed_pre st_pre ps ed_l st_l retval st1 ed1 ps1 st1_2 ed1_2 ps1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro ps ed_l st_l st_pre ed_pre intervalsSize_pre left_pre right_pre retval st1 ed1 ps1 st1_2 ed1_2 ps1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   prop_apply (intArray.full_Zlength st_pre intervalsSize_pre st1_2)
   Intros_p harr
   change Zlength st1_2 = intervalsSize_pre at harr
@@ -174,7 +174,7 @@ theorem proof_of_quicksort_intervals_range_entail_wit_1_1 : quicksort_intervals_
 theorem proof_of_quicksort_intervals_range_entail_wit_1_2 : quicksort_intervals_range_entail_wit_1_2 := by
   unfold quicksort_intervals_range_entail_wit_1_2
   left
-  intro right_pre left_pre intervalsSize_pre ed_pre st_pre ps ed_l st_l retval st1 ed1 ps1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro ps ed_l st_l st_pre ed_pre intervalsSize_pre left_pre right_pre retval st1 ed1 ps1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have hpiv := PreH5.1
   have hs := sorted_range_empty__quicksort_left ps1 left_pre (retval-1) (by omega)
   Exists st1 ed1 ps1
@@ -186,7 +186,7 @@ theorem proof_of_quicksort_intervals_range_entail_wit_1_2 : quicksort_intervals_
 theorem proof_of_quicksort_intervals_range_return_wit_1 : quicksort_intervals_range_return_wit_1 := by
   unfold quicksort_intervals_range_return_wit_1
   left
-  intro right_pre left_pre intervalsSize_pre ed_pre st_pre ps pivot current_st current_ed current_ps st1_2 ed1_2 ps1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro ps st_pre ed_pre intervalsSize_pre left_pre right_pre pivot current_st current_ed current_ps st1_2 ed1_2 ps1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   prop_apply (intArray.full_Zlength st_pre intervalsSize_pre st1_2)
   Intros_p harr
   change Zlength st1_2 = intervalsSize_pre at harr
@@ -206,7 +206,7 @@ theorem proof_of_quicksort_intervals_range_return_wit_1 : quicksort_intervals_ra
 theorem proof_of_quicksort_intervals_range_return_wit_2 : quicksort_intervals_range_return_wit_2 := by
   unfold quicksort_intervals_range_return_wit_2
   left
-  intro right_pre left_pre intervalsSize_pre ed_pre st_pre ps pivot current_st current_ed current_ps PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro ps st_pre ed_pre intervalsSize_pre left_pre right_pre pivot current_st current_ed current_ps PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have hright := sorted_range_trivial__quicksort_finish current_ps (pivot+1) right_pre (by omega)
   have hs := partition_merge_sorted_ranges__quicksort_finish current_ps left_pre right_pre pivot PreH11 PreH12 hright
   Exists current_st current_ed current_ps
@@ -218,7 +218,7 @@ theorem proof_of_quicksort_intervals_range_return_wit_2 : quicksort_intervals_ra
 theorem proof_of_quicksort_intervals_range_return_wit_3 : quicksort_intervals_range_return_wit_3 := by
   unfold quicksort_intervals_range_return_wit_3
   left
-  intro right_pre left_pre intervalsSize_pre ed_pre st_pre ps ed_l st_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
+  intro ps ed_l st_l st_pre ed_pre intervalsSize_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
   have ho := same_outside_refl__quicksort_finish ps left_pre right_pre
   have hs := sorted_range_trivial__quicksort_finish ps left_pre right_pre PreH1
   have hp : IntervalPermutation ps ps := List.Perm.refl _
@@ -231,7 +231,7 @@ theorem proof_of_quicksort_intervals_range_return_wit_3 : quicksort_intervals_ra
 theorem proof_of_quicksort_intervals_return_wit_1 : quicksort_intervals_return_wit_1 := by
   unfold quicksort_intervals_return_wit_1
   left
-  intro intervalsSize_pre ed_pre st_pre ps ed_l st_l st1_2 ed1_2 ps1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
+  intro ps ed_l st_l st_pre ed_pre intervalsSize_pre st1_2 ed1_2 ps1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
   prop_apply (intArray.full_Zlength st_pre intervalsSize_pre st1_2)
   Intros_p harr
   change Zlength st1_2 = intervalsSize_pre at harr
@@ -246,7 +246,7 @@ theorem proof_of_quicksort_intervals_return_wit_1 : quicksort_intervals_return_w
 theorem proof_of_eraseOverlapIntervals_entail_wit_1 : eraseOverlapIntervals_entail_wit_1 := by
   unfold eraseOverlapIntervals_entail_wit_1
   left
-  intro intervalsSize_pre ed_pre st_pre ps ed_l st_l st1 ed1 ps1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro ps ed_l st_l st_pre ed_pre intervalsSize_pre st1 ed1 ps1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   prop_apply (intArray.full_Zlength st_pre intervalsSize_pre st1)
   Intros_p harr
   change Zlength st1 = intervalsSize_pre at harr
@@ -265,7 +265,7 @@ theorem proof_of_eraseOverlapIntervals_entail_wit_1 : eraseOverlapIntervals_enta
 theorem proof_of_eraseOverlapIntervals_entail_wit_2_1 : eraseOverlapIntervals_entail_wit_2_1 := by
   unfold eraseOverlapIntervals_entail_wit_2_1
   left
-  intro intervalsSize_pre ed_pre st_pre ps last_end sorted_st_2 sorted_ed_2 sorted_ps_2 kept i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro ps st_pre ed_pre intervalsSize_pre last_end sorted_st_2 sorted_ed_2 sorted_ps_2 kept i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   prop_apply (intArray.full_Zlength st_pre intervalsSize_pre sorted_st_2)
   Intros_p harr
   change Zlength sorted_st_2 = intervalsSize_pre at harr
@@ -284,7 +284,7 @@ theorem proof_of_eraseOverlapIntervals_entail_wit_2_1 : eraseOverlapIntervals_en
 theorem proof_of_eraseOverlapIntervals_entail_wit_2_2 : eraseOverlapIntervals_entail_wit_2_2 := by
   unfold eraseOverlapIntervals_entail_wit_2_2
   left
-  intro intervalsSize_pre ed_pre st_pre ps last_end sorted_st_2 sorted_ed_2 sorted_ps_2 kept i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro ps st_pre ed_pre intervalsSize_pre last_end sorted_st_2 sorted_ed_2 sorted_ps_2 kept i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   prop_apply (intArray.full_Zlength st_pre intervalsSize_pre sorted_st_2)
   Intros_p harr
   change Zlength sorted_st_2 = intervalsSize_pre at harr
@@ -302,7 +302,7 @@ theorem proof_of_eraseOverlapIntervals_entail_wit_2_2 : eraseOverlapIntervals_en
 theorem proof_of_eraseOverlapIntervals_return_wit_1 : eraseOverlapIntervals_return_wit_1 := by
   unfold eraseOverlapIntervals_return_wit_1
   left
-  intro intervalsSize_pre ed_pre st_pre ps last_end sorted_st sorted_ed sorted_ps kept i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro ps st_pre ed_pre intervalsSize_pre last_end sorted_st sorted_ed sorted_ps kept i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   prop_apply (intArray.full_Zlength st_pre intervalsSize_pre sorted_st)
   Intros_p harr
   change Zlength sorted_st = intervalsSize_pre at harr
@@ -321,7 +321,7 @@ theorem proof_of_eraseOverlapIntervals_return_wit_1 : eraseOverlapIntervals_retu
 theorem proof_of_eraseOverlapIntervals_return_wit_2 : eraseOverlapIntervals_return_wit_2 := by
   unfold eraseOverlapIntervals_return_wit_2
   left
-  intro intervalsSize_pre ed_pre st_pre ps ed_l st_l st1_2 ed1_2 ps1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro ps ed_l st_l st_pre ed_pre intervalsSize_pre st1_2 ed1_2 ps1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   prop_apply (intArray.full_Zlength st_pre intervalsSize_pre st1_2)
   Intros_p harr
   change Zlength st1_2 = intervalsSize_pre at harr
@@ -337,7 +337,7 @@ theorem proof_of_eraseOverlapIntervals_return_wit_2 : eraseOverlapIntervals_retu
 theorem proof_of_quicksort_intervals_range_partial_solve_wit_2_pure : quicksort_intervals_range_partial_solve_wit_2_pure := by
   unfold quicksort_intervals_range_partial_solve_wit_2_pure
   right
-  intro right_pre left_pre intervalsSize_pre ed_pre st_pre ps ed_l st_l retval st1 ed1 ps1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro ps ed_l st_l st_pre ed_pre intervalsSize_pre left_pre right_pre retval st1 ed1 ps1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hp := PreH13.1
   split_pures <;> dump_pre_spatial
   all_goals first | assumption | omega

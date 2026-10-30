@@ -15,16 +15,16 @@ local instance : SacContext := ⟨naive_C_Rules⟩
 
 theorem proof_of_modular_inverse_return_wit_1 : modular_inverse_return_wit_1 := by
   pre_process
-  have hr := rem_bounds x_callee_v modulus_pre (by omega)
-  have hq := Z.quot_rem x_callee_v modulus_pre (by omega)
+  have hr := rem_bounds x_v modulus_pre (by omega)
+  have hq := Z.quot_rem x_v modulus_pre (by omega)
   entailer!
-  all_goals first | (unfold ModularInverse; refine ⟨a_pre * Z.quot x_callee_v modulus_pre + y_callee_v - a_pre, ?_⟩; grind) | grind
+  all_goals first | (unfold ModularInverse; refine ⟨a_pre * Z.quot x_v modulus_pre + y_v - a_pre, ?_⟩; grind) | grind
 
 theorem proof_of_modular_inverse_return_wit_2 : modular_inverse_return_wit_2 := by
   pre_process
-  have hr := rem_bounds x_callee_v modulus_pre (by omega)
-  have hq := Z.quot_rem x_callee_v modulus_pre (by omega)
+  have hr := rem_bounds x_v modulus_pre (by omega)
+  have hq := Z.quot_rem x_v modulus_pre (by omega)
   entailer!
-  all_goals first | (unfold ModularInverse; refine ⟨a_pre * Z.quot x_callee_v modulus_pre + y_callee_v, ?_⟩; grind) | grind
+  all_goals first | (unfold ModularInverse; refine ⟨a_pre * Z.quot x_v modulus_pre + y_v, ?_⟩; grind) | grind
 
 end SimpleC.EE.LLM_bench.Algorithms.modular_inverse.modular_inverse_proof_manual

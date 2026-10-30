@@ -57,13 +57,13 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def swap_return_wit_1_eq : Prop :=
-  forall (py_pre : Int) (px_pre : Int) (x_eq : Int) (PreH1 : (px_pre = py_pre)) ,
+  forall (x_eq : Int) (px_pre : Int) (py_pre : Int) (PreH1 : (px_pre = py_pre)) ,
   ((py_pre) # Int |-> (x_eq))
 |--
   ((px_pre) # Int |-> (x_eq))
 
 noncomputable def swap_return_wit_2_neq : Prop :=
-  forall (py_pre : Int) (px_pre : Int) (y_neq : Int) (x_neq : Int) ,
+  forall (y_neq : Int) (x_neq : Int) (px_pre : Int) (py_pre : Int) ,
   ((px_pre) # Int |-> (y_neq))
   ** ((py_pre) # Int |-> (x_neq))
 |--
@@ -71,72 +71,72 @@ noncomputable def swap_return_wit_2_neq : Prop :=
   ** ((py_pre) # Int |-> (x_neq))
 
 noncomputable def swap_partial_solve_wit_1_eq : Prop :=
-  forall (py_pre : Int) (px_pre : Int) (x_eq : Int) (PreH1 : (px_pre = py_pre)) ,
+  forall (x_eq : Int) (px_pre : Int) (py_pre : Int) (PreH1 : (px_pre = py_pre)) ,
   ((px_pre) # Int |-> (x_eq))
 |--
   “ (px_pre = py_pre) ”
   &&  ((py_pre) # Int |-> (x_eq))
 
 noncomputable def swap_partial_solve_wit_2_eq : Prop :=
-  forall (py_pre : Int) (px_pre : Int) (x_eq : Int) (PreH1 : (px_pre = py_pre)) ,
+  forall (x_eq : Int) (px_pre : Int) (py_pre : Int) (PreH1 : (px_pre = py_pre)) ,
   ((py_pre) # Int |-> (x_eq))
 |--
   “ (px_pre = py_pre) ”
   &&  ((px_pre) # Int |->_)
 
 noncomputable def swap_partial_solve_wit_3_eq : Prop :=
-  forall (py_pre : Int) (px_pre : Int) (x_eq : Int) (PreH1 : (px_pre = py_pre)) ,
+  forall (x_eq : Int) (px_pre : Int) (py_pre : Int) (PreH1 : (px_pre = py_pre)) ,
   ((px_pre) # Int |-> (x_eq))
 |--
   “ (px_pre = py_pre) ”
   &&  ((py_pre) # Int |->_)
 
 noncomputable def swap_test1_return_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (x_pre_v_2 : Int) (y_pre_v_2 : Int) (PreH1 : (x_pre ≠ y_pre)) (PreH2 : (x_pre_v_2 = 1)) (PreH3 : (y_pre_v_2 = 2)) ,
-  ((x_pre) # Int |-> (y_pre_v_2))
-  ** ((y_pre) # Int |-> (x_pre_v_2))
+  forall (x_pre : Int) (y_pre : Int) (x_v_2 : Int) (y_v_2 : Int) (PreH1 : (x_pre ≠ y_pre)) (PreH2 : (x_v_2 = 1)) (PreH3 : (y_v_2 = 2)) ,
+  ((x_pre) # Int |-> (y_v_2))
+  ** ((y_pre) # Int |-> (x_v_2))
 |--
-  EX x_pre_v : Int, EX y_pre_v : Int,
-  “ (y_pre_v = 1) ” &&
-  “ (x_pre_v = 2) ”
-  &&  ((y_pre) # Int |-> (y_pre_v))
-  ** ((x_pre) # Int |-> (x_pre_v))
+  EX x_v : Int, EX y_v : Int,
+  “ (y_v = 1) ” &&
+  “ (x_v = 2) ”
+  &&  ((y_pre) # Int |-> (y_v))
+  ** ((x_pre) # Int |-> (x_v))
 
 noncomputable def swap_test1_partial_solve_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (x_pre_v : Int) (y_pre_v : Int) (PreH1 : (x_pre ≠ y_pre)) (PreH2 : (x_pre_v = 1)) (PreH3 : (y_pre_v = 2)) ,
-  ((x_pre) # Int |-> (x_pre_v))
-  ** ((y_pre) # Int |-> (y_pre_v))
+  forall (x_pre : Int) (y_pre : Int) (x_v : Int) (y_v : Int) (PreH1 : (x_pre ≠ y_pre)) (PreH2 : (x_v = 1)) (PreH3 : (y_v = 2)) ,
+  ((x_pre) # Int |-> (x_v))
+  ** ((y_pre) # Int |-> (y_v))
 |--
   “ (x_pre ≠ y_pre) ” &&
-  “ (x_pre_v = 1) ” &&
-  “ (y_pre_v = 2) ”
-  &&  ((x_pre) # Int |-> (x_pre_v))
-  ** ((y_pre) # Int |-> (y_pre_v))
+  “ (x_v = 1) ” &&
+  “ (y_v = 2) ”
+  &&  ((x_pre) # Int |-> (x_v))
+  ** ((y_pre) # Int |-> (y_v))
 
 noncomputable def swap_test2_return_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (x_pre_v : Int) (PreH1 : (x_pre = y_pre)) (PreH2 : (x_pre_v = 1)) ,
-  ((x_pre) # Int |-> (x_pre_v))
+  forall (x_pre : Int) (y_pre : Int) (x_v : Int) (PreH1 : (x_pre = y_pre)) (PreH2 : (x_v = 1)) ,
+  ((x_pre) # Int |-> (x_v))
 |--
-  EX y_pre_v : Int,
-  “ (y_pre_v = 1) ”
-  &&  ((y_pre) # Int |-> (y_pre_v))
+  EX y_v : Int,
+  “ (y_v = 1) ”
+  &&  ((y_pre) # Int |-> (y_v))
 
 noncomputable def swap_test2_partial_solve_wit_1_pure : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (x_pre_v : Int) (PreH1 : (x_pre = y_pre)) (PreH2 : (x_pre_v = 1)) ,
+  forall (x_pre : Int) (y_pre : Int) (x_v : Int) (PreH1 : (x_pre = y_pre)) (PreH2 : (x_v = 1)) ,
   ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
-  ** ((x_pre) # Int |-> (x_pre_v))
+  ** ((x_pre) # Int |-> (x_v))
 |--
   “ (x_pre = y_pre) ”
 
 noncomputable def swap_test2_partial_solve_wit_1_aux : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (x_pre_v : Int) (PreH1 : (x_pre = y_pre)) (PreH2 : (x_pre_v = 1)) ,
-  ((x_pre) # Int |-> (x_pre_v))
+  forall (x_pre : Int) (y_pre : Int) (x_v : Int) (PreH1 : (x_pre = y_pre)) (PreH2 : (x_v = 1)) ,
+  ((x_pre) # Int |-> (x_v))
 |--
   “ (x_pre = y_pre) ” &&
   “ (x_pre = y_pre) ” &&
-  “ (x_pre_v = 1) ”
-  &&  ((x_pre) # Int |-> (x_pre_v))
+  “ (x_v = 1) ”
+  &&  ((x_pre) # Int |-> (x_v))
 
 noncomputable def swap_test2_partial_solve_wit_1 : Prop := swap_test2_partial_solve_wit_1_pure -> swap_test2_partial_solve_wit_1_aux
 

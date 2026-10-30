@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P087_1513F_swapping_problem_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P087_1513F_swapping_problem_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P087_1513F_swapping_problem_lib.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P087_1513F_swapping_problem_lib.
@@ -24,7 +8,7 @@ Local Open Scope sac.
 
 Lemma proof_of_overlap_safety_wit_23_split_goal_1 : overlap_safety_wit_23_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (prefix_right_maxima_value_bounds__priority_overlap_safety_bounds
        sorted prefix nb_pre (lo - 1) PreH15 PreH19 PreH21 ltac:(lia))
@@ -40,7 +24,7 @@ Qed.
 
 Lemma proof_of_overlap_safety_wit_23_split_goal_2 : overlap_safety_wit_23_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (prefix_right_maxima_value_bounds__priority_overlap_safety_bounds
        sorted prefix nb_pre (lo - 1) PreH15 PreH19 PreH21 ltac:(lia))
@@ -63,7 +47,7 @@ Qed.
 
 Lemma proof_of_overlap_safety_wit_24_split_goal_1 : overlap_safety_wit_24_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (segments_bounded_znth_bounds__priority_overlap_safety_bounds
        left i __default__Prod_Z_Z PreH17 ltac:(lia)) as Hleft_bounds.
@@ -74,7 +58,7 @@ Qed.
 
 Lemma proof_of_overlap_safety_wit_24_split_goal_2 : overlap_safety_wit_24_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (segments_bounded_znth_bounds__priority_overlap_safety_bounds
        left i __default__Prod_Z_Z PreH17 ltac:(lia)) as Hleft_bounds.
@@ -92,7 +76,7 @@ Qed.
 
 Lemma proof_of_overlap_entail_wit_1 : overlap_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists sorted_2 (@nil Z).
   unfold PrefixRightMaxima.
   simpl Zlength.
@@ -112,7 +96,7 @@ Qed.
 
 Lemma proof_of_overlap_entail_wit_2 : overlap_entail_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists sorted_2 prefix_2.
   split_pure_spatial.
   - cancel (SegArray.full a_pre na_pre left).
@@ -168,7 +152,7 @@ Qed.
 
 Lemma proof_of_overlap_entail_wit_3_1 : overlap_entail_wit_3_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists sorted_2
     (prefix_2 ++ (Znth (i - 1) prefix_2 0 :: nil)).
   split_pure_spatial.
@@ -245,7 +229,7 @@ Qed.
 
 Lemma proof_of_overlap_entail_wit_3_2 : overlap_entail_wit_3_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hnth :
     Znth i sorted_2 __default__Prod_Z_Z = Znth i sorted_2 (0, 0)).
   { apply Znth_indep. lia. }
@@ -326,7 +310,7 @@ Qed.
 
 Lemma proof_of_overlap_entail_wit_3_3 : overlap_entail_wit_3_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hnth :
     Znth i sorted_2 __default__Prod_Z_Z = Znth i sorted_2 (0, 0)).
   { apply Znth_indep. lia. }
@@ -407,7 +391,7 @@ Proof.
   unfold overlap_entail_wit_4.
   left.
   intros.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = nb_pre) by lia.
   subst i.
   Exists prefix_2 sorted_2.
@@ -426,7 +410,7 @@ Qed.
 
 Lemma proof_of_overlap_entail_wit_5_split_goal_1 : overlap_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite <- PreH12.
   apply upper_bound_bracket_initial__overlap_binary_search.
 Qed.
@@ -439,7 +423,7 @@ Qed.
 
 Lemma proof_of_overlap_entail_wit_6 : overlap_entail_wit_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hmid_bounds : lo <= (lo + hi) ÷ 2 < hi).
   {
     rewrite zdiv_equiv by lia.
@@ -486,7 +470,7 @@ Qed.
 
 Lemma proof_of_overlap_entail_wit_7_1 : overlap_entail_wit_7_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hmd_default :
     Znth md sorted_2 __default__Prod_Z_Z = Znth md sorted_2 (0, 0)).
   {
@@ -527,7 +511,7 @@ Qed.
 
 Lemma proof_of_overlap_entail_wit_7_2 : overlap_entail_wit_7_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hmd_default :
     Znth md sorted_2 __default__Prod_Z_Z = Znth md sorted_2 (0, 0)).
   {
@@ -568,7 +552,7 @@ Qed.
 
 Lemma proof_of_overlap_entail_wit_8 : overlap_entail_wit_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists prefix_2 sorted_2.
   split_pure_spatial.
   - sep_apply_l_atomic
@@ -592,7 +576,7 @@ Qed.
 
 Lemma proof_of_overlap_entail_wit_9_1 : overlap_entail_wit_9_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hz : Znth i left __default__Prod_Z_Z = Znth i left (0, 0)).
   { apply Znth_indep. lia. }
   rewrite Hz in *.
@@ -630,7 +614,7 @@ Qed.
 
 Lemma proof_of_overlap_entail_wit_9_2 : overlap_entail_wit_9_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hz : Znth i left __default__Prod_Z_Z = Znth i left (0, 0)).
   { apply Znth_indep. lia. }
   rewrite Hz in *.
@@ -656,7 +640,7 @@ Qed.
 
 Lemma proof_of_overlap_entail_wit_9_3 : overlap_entail_wit_9_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hz : Znth i left __default__Prod_Z_Z = Znth i left (0, 0)).
   { apply Znth_indep. lia. }
   rewrite Hz in *.
@@ -680,7 +664,7 @@ Qed.
 
 Lemma proof_of_overlap_entail_wit_9_4 : overlap_entail_wit_9_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hz : Znth i left __default__Prod_Z_Z = Znth i left (0, 0)).
   { apply Znth_indep. lia. }
   rewrite Hz in *.
@@ -704,7 +688,7 @@ Qed.
 
 Lemma proof_of_overlap_entail_wit_9_5 : overlap_entail_wit_9_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hz : Znth i left __default__Prod_Z_Z = Znth i left (0, 0)).
   { apply Znth_indep. lia. }
   rewrite Hz in *.
@@ -727,7 +711,7 @@ Qed.
 
 Lemma proof_of_overlap_return_wit_1_split_goal_1 : overlap_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold DirectedOverlapMaximum.
   rewrite <- PreH2.
   replace i with na_pre in PreH19 by lia.
@@ -742,7 +726,7 @@ Qed.
 
 Lemma proof_of_overlap_return_wit_2_split_goal_1 : overlap_return_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply directed_overlap_maximum_empty_left__overlap_returns_and_contract.
   lia.
 Qed.
@@ -761,7 +745,7 @@ Qed.
 
 Lemma proof_of_overlap_return_wit_3_split_goal_1 : overlap_return_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply directed_overlap_maximum_empty_right__overlap_returns_and_contract.
   lia.
 Qed.
@@ -780,7 +764,7 @@ Qed.
 
 Lemma proof_of_overlap_partial_solve_wit_1_pure_split_goal_1 : overlap_partial_solve_wit_1_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold SegmentAllocationSize.
   dump_pre_spatial.
   lia.
@@ -794,7 +778,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1 : solver_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (@nil (Z * Z)) (@nil (Z * Z)).
   pose proof
     (solver_scan_state_zero__solver_initialization_and_frame values b_data)
@@ -817,7 +801,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2 : solver_entail_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists decreasing_2 increasing_2.
   unfold SegArray.undef_full, store_undef_array in *.
   replace (Z.to_nat (n_pre - nx))
@@ -853,7 +837,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3 : solver_entail_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists decreasing_2 increasing_2.
   unfold SegArray.undef_full, store_undef_array in *.
   replace (Z.to_nat (n_pre - ny))
@@ -889,7 +873,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_1 : solver_entail_wit_4_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hlt : Znth i values 0 < Znth i b_data 0) by lia.
   pose proof (PreH5 i ltac:(lia)) as Haval.
   pose proof (PreH6 i ltac:(lia)) as Hbval.
@@ -925,7 +909,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_2 : solver_entail_wit_4_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hgt : Znth i b_data 0 < Znth i values 0) by lia.
   pose proof (PreH5 i ltac:(lia)) as Haval.
   pose proof (PreH6 i ltac:(lia)) as Hbval.
@@ -962,7 +946,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_3_split_goal_1 : solver_entail_wit_4_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply solver_scan_state_step_eq__solver_scan_transitions_and_exit;
     try assumption; lia.
 Qed.
@@ -975,7 +959,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_1 : solver_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = n_pre) by lia.
   pose proof (solver_scan_state_at_length__solver_scan_transitions_and_exit
     values b_data i base increasing decreasing (eq_trans Hi PreH2) PreH18)
@@ -988,7 +972,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_2 : solver_entail_wit_5_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = n_pre) by lia.
   pose proof (solver_scan_state_at_length__solver_scan_transitions_and_exit
     values b_data i base increasing decreasing (eq_trans Hi PreH2) PreH18)
@@ -1001,7 +985,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_3 : solver_entail_wit_5_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = n_pre) by lia.
   pose proof (solver_scan_state_at_length__solver_scan_transitions_and_exit
     values b_data i base increasing decreasing (eq_trans Hi PreH2) PreH18)
@@ -1013,7 +997,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_4 : solver_entail_wit_5_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = n_pre) by lia.
   pose proof (solver_scan_state_at_length__solver_scan_transitions_and_exit
     values b_data i base increasing decreasing (eq_trans Hi PreH2) PreH18)
@@ -1026,7 +1010,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_5 : solver_entail_wit_5_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = n_pre) by lia.
   pose proof (solver_scan_state_at_length__solver_scan_transitions_and_exit
     values b_data i base increasing decreasing (eq_trans Hi PreH2) PreH18)
@@ -1039,17 +1023,17 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_6 : solver_entail_wit_5_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_7 : solver_entail_wit_5_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_spatial : solver_entail_wit_5_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = n_pre) by lia.
   pose proof (solver_scan_state_at_length__solver_scan_transitions_and_exit
     values b_data i base increasing decreasing (eq_trans Hi PreH2) PreH18)
@@ -1074,7 +1058,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_1_split_goal_1 : solver_entail_wit_6_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst n_pre.
   assert (Hreverse : DirectedOverlapMaximum
     (DecreasingIntervals values b_data (Zlength values))
@@ -1091,7 +1075,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_1_split_goal_2 : solver_entail_wit_6_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst n_pre.
   assert (Hreverse : DirectedOverlapMaximum
     (DecreasingIntervals values b_data (Zlength values))
@@ -1112,7 +1096,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_2_split_goal_1 : solver_entail_wit_6_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst n_pre.
   assert (Hreverse : DirectedOverlapMaximum
     (DecreasingIntervals values b_data (Zlength values))
@@ -1129,7 +1113,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_2_split_goal_2 : solver_entail_wit_6_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst n_pre.
   assert (Hreverse : DirectedOverlapMaximum
     (DecreasingIntervals values b_data (Zlength values))
@@ -1150,7 +1134,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_1_pure_split_goal_1 : solver_partial_solve_wit_1_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_1_pure : solver_partial_solve_wit_1_pure.
@@ -1161,7 +1145,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_2_pure_split_goal_1 : solver_partial_solve_wit_2_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_2_pure : solver_partial_solve_wit_2_pure.
@@ -1177,7 +1161,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_11_pure_split_goal_2 : solver_partial_solve_wit_11_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold SegArray.undef_full at 2.
   unfold store_undef_array.
   destruct (Z_le_gt_dec 0 (n_pre - ny)) as [Hnonneg | Hneg].
@@ -1204,7 +1188,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_12_pure_split_goal_2 : solver_partial_solve_wit_12_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold SegArray.undef_full.
   unfold store_undef_array.
   destruct (Z_le_gt_dec 0 (n_pre - nx)) as [Hnonneg | Hneg].

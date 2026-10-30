@@ -58,7 +58,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def modular_power_safety_wit_1 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((0 : Int) <= a_pre)) (PreH2 : (a_pre < modulus_pre)) (PreH3 : ((0 : Int) <= b_pre)) (PreH4 : (2 <= modulus_pre)) (PreH5 : (modulus_pre <= 100000)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (PreH1 : ((0 : Int) <= a_pre)) (PreH2 : (a_pre < modulus_pre)) (PreH3 : ((0 : Int) <= b_pre)) (PreH4 : (2 <= modulus_pre)) (PreH5 : (modulus_pre <= 100000)) ,
   ((( &( "result" ) )) # Int |->_)
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
@@ -68,7 +68,7 @@ noncomputable def modular_power_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def modular_power_safety_wit_2 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : (2 <= modulus_pre)) (PreH2 : (modulus_pre <= 100000)) (PreH3 : ((0 : Int) <= a)) (PreH4 : (a < modulus_pre)) (PreH5 : ((0 : Int) <= b)) (PreH6 : ((0 : Int) <= result)) (PreH7 : (result < modulus_pre)) (PreH8 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : (2 <= modulus_pre)) (PreH2 : (modulus_pre <= 100000)) (PreH3 : ((0 : Int) <= a)) (PreH4 : (a < modulus_pre)) (PreH5 : ((0 : Int) <= b)) (PreH6 : ((0 : Int) <= result)) (PreH7 : (result < modulus_pre)) (PreH8 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "a" ) )) # Int |-> (a))
   ** ((( &( "b" ) )) # Int |-> (b))
@@ -78,7 +78,7 @@ noncomputable def modular_power_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def modular_power_safety_wit_3 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : (b > (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 100000)) (PreH4 : ((0 : Int) <= a)) (PreH5 : (a < modulus_pre)) (PreH6 : ((0 : Int) <= b)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : (b > (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 100000)) (PreH4 : ((0 : Int) <= a)) (PreH5 : (a < modulus_pre)) (PreH6 : ((0 : Int) <= b)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "a" ) )) # Int |-> (a))
   ** ((( &( "b" ) )) # Int |-> (b))
@@ -88,7 +88,7 @@ noncomputable def modular_power_safety_wit_3 : Prop :=
   “ (2 ≠ (0 : Int)) ”
 
 noncomputable def modular_power_safety_wit_4 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : (b > (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 100000)) (PreH4 : ((0 : Int) <= a)) (PreH5 : (a < modulus_pre)) (PreH6 : ((0 : Int) <= b)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : (b > (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 100000)) (PreH4 : ((0 : Int) <= a)) (PreH5 : (a < modulus_pre)) (PreH6 : ((0 : Int) <= b)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "a" ) )) # Int |-> (a))
   ** ((( &( "b" ) )) # Int |-> (b))
@@ -98,7 +98,7 @@ noncomputable def modular_power_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def modular_power_safety_wit_5 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : (b > (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 100000)) (PreH4 : ((0 : Int) <= a)) (PreH5 : (a < modulus_pre)) (PreH6 : ((0 : Int) <= b)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : (b > (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 100000)) (PreH4 : ((0 : Int) <= a)) (PreH5 : (a < modulus_pre)) (PreH6 : ((0 : Int) <= b)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "a" ) )) # Int |-> (a))
   ** ((( &( "b" ) )) # Int |-> (b))
@@ -108,7 +108,7 @@ noncomputable def modular_power_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def modular_power_safety_wit_6 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "a" ) )) # Int |-> (a))
   ** ((( &( "b" ) )) # Int |-> (b))
@@ -118,7 +118,7 @@ noncomputable def modular_power_safety_wit_6 : Prop :=
   “ (modulus_pre ≠ (0 : Int)) ”
 
 noncomputable def modular_power_safety_wit_7 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "a" ) )) # Int |-> (a))
   ** ((( &( "b" ) )) # Int |-> (b))
@@ -128,7 +128,7 @@ noncomputable def modular_power_safety_wit_7 : Prop :=
   “ ((-9223372036854775808) <= (result * a)) ”
 
 noncomputable def modular_power_safety_wit_8 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "a" ) )) # Int |-> (a))
   ** ((( &( "b" ) )) # Int |-> (b))
@@ -138,7 +138,7 @@ noncomputable def modular_power_safety_wit_8 : Prop :=
   “ (modulus_pre ≠ (0 : Int)) ”
 
 noncomputable def modular_power_safety_wit_9 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "a" ) )) # Int |-> (a))
   ** ((( &( "b" ) )) # Int |-> (b))
@@ -148,7 +148,7 @@ noncomputable def modular_power_safety_wit_9 : Prop :=
   “ ((-9223372036854775808) <= (a * a)) ”
 
 noncomputable def modular_power_safety_wit_10 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "a" ) )) # Int |-> (a))
   ** ((( &( "b" ) )) # Int |-> (b))
@@ -158,7 +158,7 @@ noncomputable def modular_power_safety_wit_10 : Prop :=
   “ (modulus_pre ≠ (0 : Int)) ”
 
 noncomputable def modular_power_safety_wit_11 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "a" ) )) # Int |-> (a))
   ** ((( &( "b" ) )) # Int |-> (b))
@@ -168,7 +168,7 @@ noncomputable def modular_power_safety_wit_11 : Prop :=
   “ ((-9223372036854775808) <= (a * a)) ”
 
 noncomputable def modular_power_safety_wit_12 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "a" ) )) # Int |-> ((signed_last_nbits ((Z.rem (a * a) modulus_pre)) (32))))
   ** ((( &( "b" ) )) # Int |-> (b))
@@ -178,7 +178,7 @@ noncomputable def modular_power_safety_wit_12 : Prop :=
   “ (2 ≠ (0 : Int)) ”
 
 noncomputable def modular_power_safety_wit_13 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "a" ) )) # Int |-> ((signed_last_nbits ((Z.rem (a * a) modulus_pre)) (32))))
   ** ((( &( "b" ) )) # Int |-> (b))
@@ -188,7 +188,7 @@ noncomputable def modular_power_safety_wit_13 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def modular_power_safety_wit_14 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "a" ) )) # Int |-> ((signed_last_nbits ((Z.rem (a * a) modulus_pre)) (32))))
   ** ((( &( "b" ) )) # Int |-> (b))
@@ -198,7 +198,7 @@ noncomputable def modular_power_safety_wit_14 : Prop :=
   “ (2 ≠ (0 : Int)) ”
 
 noncomputable def modular_power_safety_wit_15 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "a" ) )) # Int |-> ((signed_last_nbits ((Z.rem (a * a) modulus_pre)) (32))))
   ** ((( &( "b" ) )) # Int |-> (b))
@@ -209,7 +209,7 @@ noncomputable def modular_power_safety_wit_15 : Prop :=
 
 noncomputable def modular_power_entail_wit_1 : Prop :=
   (
-forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((0 : Int) <= a_pre)) (PreH2 : (a_pre < modulus_pre)) (PreH3 : ((0 : Int) <= b_pre)) (PreH4 : (2 <= modulus_pre)) (PreH5 : (modulus_pre <= 100000)) ,
+forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (PreH1 : ((0 : Int) <= a_pre)) (PreH2 : (a_pre < modulus_pre)) (PreH3 : ((0 : Int) <= b_pre)) (PreH4 : (2 <= modulus_pre)) (PreH5 : (modulus_pre <= 100000)) ,
   TT && emp 
 |--
   “ (2 <= modulus_pre) ” &&
@@ -223,7 +223,7 @@ forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((0 : Int) <= a_
   &&  emp
 ) \/
 (
-forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((0 : Int) <= a_pre)) (PreH2 : (a_pre < modulus_pre)) (PreH3 : ((0 : Int) <= b_pre)) (PreH4 : (2 <= modulus_pre)) (PreH5 : (modulus_pre <= 100000)) ,
+forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (PreH1 : ((0 : Int) <= a_pre)) (PreH2 : (a_pre < modulus_pre)) (PreH3 : ((0 : Int) <= b_pre)) (PreH4 : (2 <= modulus_pre)) (PreH5 : (modulus_pre <= 100000)) ,
   TT && emp 
 |--
   “ (ModularPowerProgress a_pre b_pre modulus_pre a_pre b_pre 1) ”
@@ -231,12 +231,12 @@ forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((0 : Int) <= a_
 )
 
 noncomputable def modular_power_entail_wit_1_split_goal_1 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((0 : Int) <= a_pre)) (PreH2 : (a_pre < modulus_pre)) (PreH3 : ((0 : Int) <= b_pre)) (PreH4 : (2 <= modulus_pre)) (PreH5 : (modulus_pre <= 100000)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (PreH1 : ((0 : Int) <= a_pre)) (PreH2 : (a_pre < modulus_pre)) (PreH3 : ((0 : Int) <= b_pre)) (PreH4 : (2 <= modulus_pre)) (PreH5 : (modulus_pre <= 100000)) ,
   (ModularPowerProgress a_pre b_pre modulus_pre a_pre b_pre 1)
 
 noncomputable def modular_power_entail_wit_2_1 : Prop :=
   (
-forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   TT && emp 
 |--
   “ (2 <= modulus_pre) ” &&
@@ -250,7 +250,7 @@ forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) 
   &&  emp
 ) \/
 (
-forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   TT && emp 
 |--
   “ (ModularPowerProgress a_pre b_pre modulus_pre (signed_last_nbits ((Z.rem (a * a) modulus_pre)) (32)) (Z.quot b 2) (signed_last_nbits ((Z.rem (result * a) modulus_pre)) (32))) ” &&
@@ -263,32 +263,32 @@ forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) 
 )
 
 noncomputable def modular_power_entail_wit_2_1_split_goal_1 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   (ModularPowerProgress a_pre b_pre modulus_pre (signed_last_nbits ((Z.rem (a * a) modulus_pre)) (32)) (Z.quot b 2) (signed_last_nbits ((Z.rem (result * a) modulus_pre)) (32)))
 
 noncomputable def modular_power_entail_wit_2_1_split_goal_2 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((signed_last_nbits ((Z.rem (result * a) modulus_pre)) (32)) < modulus_pre)
 
 noncomputable def modular_power_entail_wit_2_1_split_goal_3 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((0 : Int) <= (signed_last_nbits ((Z.rem (result * a) modulus_pre)) (32)))
 
 noncomputable def modular_power_entail_wit_2_1_split_goal_4 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((0 : Int) <= (Z.quot b 2))
 
 noncomputable def modular_power_entail_wit_2_1_split_goal_5 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((signed_last_nbits ((Z.rem (a * a) modulus_pre)) (32)) < modulus_pre)
 
 noncomputable def modular_power_entail_wit_2_1_split_goal_6 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) = 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((0 : Int) <= (signed_last_nbits ((Z.rem (a * a) modulus_pre)) (32)))
 
 noncomputable def modular_power_entail_wit_2_2 : Prop :=
   (
-forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   TT && emp 
 |--
   “ (2 <= modulus_pre) ” &&
@@ -302,7 +302,7 @@ forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) 
   &&  emp
 ) \/
 (
-forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   TT && emp 
 |--
   “ (ModularPowerProgress a_pre b_pre modulus_pre (signed_last_nbits ((Z.rem (a * a) modulus_pre)) (32)) (Z.quot b 2) result) ” &&
@@ -313,31 +313,31 @@ forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) 
 )
 
 noncomputable def modular_power_entail_wit_2_2_split_goal_1 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   (ModularPowerProgress a_pre b_pre modulus_pre (signed_last_nbits ((Z.rem (a * a) modulus_pre)) (32)) (Z.quot b 2) result)
 
 noncomputable def modular_power_entail_wit_2_2_split_goal_2 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((0 : Int) <= (Z.quot b 2))
 
 noncomputable def modular_power_entail_wit_2_2_split_goal_3 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((signed_last_nbits ((Z.rem (a * a) modulus_pre)) (32)) < modulus_pre)
 
 noncomputable def modular_power_entail_wit_2_2_split_goal_4 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : ((Z.rem b 2) ≠ 1)) (PreH2 : (b > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 100000)) (PreH5 : ((0 : Int) <= a)) (PreH6 : (a < modulus_pre)) (PreH7 : ((0 : Int) <= b)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   ((0 : Int) <= (signed_last_nbits ((Z.rem (a * a) modulus_pre)) (32)))
 
 noncomputable def modular_power_return_wit_1 : Prop :=
   (
-forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : (b <= (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 100000)) (PreH4 : ((0 : Int) <= a)) (PreH5 : (a < modulus_pre)) (PreH6 : ((0 : Int) <= b)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : (b <= (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 100000)) (PreH4 : ((0 : Int) <= a)) (PreH5 : (a < modulus_pre)) (PreH6 : ((0 : Int) <= b)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   TT && emp 
 |--
   “ (ModularPower a_pre b_pre modulus_pre result) ”
   &&  emp
 ) \/
 (
-forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : (b <= (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 100000)) (PreH4 : ((0 : Int) <= a)) (PreH5 : (a < modulus_pre)) (PreH6 : ((0 : Int) <= b)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : (b <= (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 100000)) (PreH4 : ((0 : Int) <= a)) (PreH5 : (a < modulus_pre)) (PreH6 : ((0 : Int) <= b)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   TT && emp 
 |--
   “ (ModularPower a_pre b_pre modulus_pre result) ”
@@ -345,7 +345,7 @@ forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) 
 )
 
 noncomputable def modular_power_return_wit_1_split_goal_1 : Prop :=
-  forall (modulus_pre : Int) (b_pre : Int) (a_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : (b <= (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 100000)) (PreH4 : ((0 : Int) <= a)) (PreH5 : (a < modulus_pre)) (PreH6 : ((0 : Int) <= b)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
+  forall (a_pre : Int) (b_pre : Int) (modulus_pre : Int) (result : Int) (b : Int) (a : Int) (PreH1 : (b <= (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 100000)) (PreH4 : ((0 : Int) <= a)) (PreH5 : (a < modulus_pre)) (PreH6 : ((0 : Int) <= b)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (ModularPowerProgress a_pre b_pre modulus_pre a b result)) ,
   (ModularPower a_pre b_pre modulus_pre result)
 
 

@@ -15,6 +15,7 @@ inductive front_end_type : Type where
   | FET_union (x : String)
   | FET_enum (x : String)
   | FET_alias (x : String)
+  | FET_bool
   | FET_int
   | FET_char
   | FET_int64
@@ -31,7 +32,7 @@ inductive front_end_type : Type where
   | FET_ptr
 
 export front_end_type
-  (FET_struct FET_union FET_enum FET_alias FET_int FET_char FET_int64 FET_short
+  (FET_struct FET_union FET_enum FET_alias FET_bool FET_int FET_char FET_int64 FET_short
    FET_uint FET_uchar FET_uint64 FET_int128 FET_uint128 FET_ushort FET_float
    FET_double FET_long_double FET_ptr)
 
@@ -65,6 +66,7 @@ noncomputable def sizeof_front_end_type_of_ptr_size
   | FET_union x => sizeof_union_type x
   | FET_enum x => sizeof_enum_type x
   | FET_alias x => sizeof_alias_type x
+  | FET_bool => 1
   | FET_int => 4
   | FET_char => 1
   | FET_int64 => 8
@@ -144,6 +146,7 @@ scoped instance : HSub rvalue_expr Nat rvalue_expr where
   hSub p i := RE_sub_pi p (Int.ofNat i)
 
 scoped notation:70 p:71 " # " "INT" => RE_const p FET_int
+scoped notation:70 p:71 " # " "BOOL" => RE_const p FET_bool
 scoped notation:70 p:71 " # " "CHAR" => RE_const p FET_char
 scoped notation:70 p:71 " # " "INT64" => RE_const p FET_int64
 scoped notation:70 p:71 " # " "SHORT" => RE_const p FET_short
@@ -231,6 +234,9 @@ noncomputable def sizeof_front_end_type
     (Arch : SimpleC.SL.CArch.CArchSig) (ty : front_end_type) : Int :=
   sizeof_front_end_type_of_ptr_size
     (SimpleC.SL.CArch.CArchSig.ptr_size_Z Arch) ty
+
+theorem sizeof_bool (Arch : SimpleC.SL.CArch.CArchSig) :
+    sizeof_front_end_type Arch FET_bool = 1 := rfl
 
 theorem sizeof_int (Arch : SimpleC.SL.CArch.CArchSig) :
     sizeof_front_end_type Arch FET_int = 4 := rfl
@@ -362,6 +368,8 @@ end CNotationContext
 noncomputable abbrev sizeof_front_end_type : front_end_type -> Int :=
   sizeof_front_end_type_of_ptr_size 4
 
+theorem sizeof_bool : sizeof_front_end_type FET_bool = 1 := rfl
+
 theorem sizeof_int : sizeof_front_end_type FET_int = 4 := rfl
 
 theorem sizeof_char : sizeof_front_end_type FET_char = 1 := rfl
@@ -432,6 +440,8 @@ open SL.CNotation
 
 scoped notation "sizeof" "(" "INT" ")" =>
   CNotationContext.sizeof_front_end_type FET_int
+scoped notation "sizeof" "(" "BOOL" ")" =>
+  CNotationContext.sizeof_front_end_type FET_bool
 scoped notation "sizeof" "(" "CHAR" ")" =>
   CNotationContext.sizeof_front_end_type FET_char
 scoped notation "sizeof" "(" "INT64" ")" =>

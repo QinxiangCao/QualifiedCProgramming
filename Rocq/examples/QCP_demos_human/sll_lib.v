@@ -204,7 +204,7 @@ Proof.
   - Intros. Intros y.
     sep_apply IHl.
     sep_apply store_int_align4.
-    sep_apply store_ptr_align4_32.
+    sep_apply (store_ptr_align4 (&(x # "list" ->ₛ "next")) y ltac:(solve_arch) ltac:(exists 1; reflexivity)).
     sep_apply store_align4_merge.
     sep_apply (store_align4_merge (1 + 1) (Zlength l * 2)).
     assert ( 1 + 1 + Zlength l * 2 = Zlength (a :: l) * 2) by (rewrite Zlength_cons ; lia).
@@ -218,6 +218,6 @@ Proof.
   sep_apply sll_length.
   prop_apply store_align4_n_valid.
   Intros.
-  rewrite addr_max_unsigned_eq_int in H.
+  replace addr_max_unsigned with Int.max_unsigned in H by solve_arch.
   entailer!.
 Qed. 

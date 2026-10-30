@@ -1,0 +1,5 @@
+From SimpleC.Verification.BuiltIn Require Import mixed_bool_array_strategy_goal mixed_bool_array_strategy_proof.
+
+Module mixed_bool_array_Strategy_Correctness : mixed_bool_array_Strategy_Correct.
+  Include mixed_bool_array_strategy_proof.
+End mixed_bool_array_Strategy_Correctness.

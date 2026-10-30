@@ -107,6 +107,18 @@ private theorem undef_align4_as_align
   rw [hsize]
   exact h
 
+noncomputable abbrev StoreBoolAsElement (Arch : CArchSig) (Endian : CEndianSig) (CRules : SeparationLogicSig)
+    (DePredSig : DerivedPredSig Arch Endian CRules)
+    (SLibSig : StoreLibSig Arch Endian CRules DePredSig) :
+    ELEMENT_STORE Arch Endian CRules DePredSig SLibSig :=
+  mkElementStore Arch Endian CRules DePredSig SLibSig
+    (sizeof_front_end_type Arch FET_bool) (sizeof_front_end_type Arch FET_bool) rfl
+    (store_bool Arch CRules) (undef_store_bool Arch CRules)
+    (store_bool_undef_store_bool (Arch := Arch) CRules)
+    (by intro p a; simpa [DerivedPredSig.sizeof_bool Arch] using store_bool_align CRules p a)
+    (by intro p; simpa [DerivedPredSig.sizeof_bool Arch] using undef_store_bool_align CRules p)
+    (by rw [DerivedPredSig.sizeof_bool Arch]; constructor <;> decide)
+
 noncomputable abbrev StoreCharAsElement (Arch : CArchSig) (Endian : CEndianSig) (CRules : SeparationLogicSig)
     (DePredSig : DerivedPredSig Arch Endian CRules)
     (SLibSig : StoreLibSig Arch Endian CRules DePredSig) :
@@ -420,6 +432,12 @@ structure ArrayFacade (Arch : CArchSig) (Endian : CEndianSig) (CRules : Separati
     (DePredSig : DerivedPredSig Arch Endian CRules)
     (SLibSig : StoreLibSig Arch Endian CRules DePredSig) where
   elementStore : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig
+
+noncomputable abbrev BoolArray (Arch : CArchSig) (Endian : CEndianSig) (CRules : SeparationLogicSig)
+    (DePredSig : DerivedPredSig Arch Endian CRules)
+    (SLibSig : StoreLibSig Arch Endian CRules DePredSig) :
+    ArrayFacade Arch Endian CRules DePredSig SLibSig :=
+  ⟨StoreBoolAsElement Arch Endian CRules DePredSig SLibSig⟩
 
 noncomputable abbrev CharArray (Arch : CArchSig) (Endian : CEndianSig) (CRules : SeparationLogicSig)
     (DePredSig : DerivedPredSig Arch Endian CRules)
@@ -1070,13 +1088,13 @@ end ArrayFacade
 end ArrayLibSig
 
 export ArrayLibSig
-  (StoreCharAsElement StoreUCharAsElement StoreShortAsElement
+  (StoreBoolAsElement StoreCharAsElement StoreUCharAsElement StoreShortAsElement
     StoreUShortAsElement StoreIntAsElement StoreUIntAsElement
     StoreInt64AsElement StoreUInt64AsElement StoreInt128AsElement
     StoreUInt128AsElement StorePtrAsElement StoreFloatAsElement
     StoreDoubleAsElement StoreLongDoubleAsElement StoreFiniteFloatAsElement
     StoreFiniteDoubleAsElement StoreFiniteLongDoubleAsElement
-    CharArray UCharArray ShortArray UShortArray IntArray UIntArray
+    BoolArray CharArray UCharArray ShortArray UShortArray IntArray UIntArray
     Int64Array UInt64Array Int128Array UInt128Array PtrArray FloatArray
     DoubleArray LongDoubleArray FiniteFloatArray FiniteDoubleArray
     FiniteLongDoubleArray)

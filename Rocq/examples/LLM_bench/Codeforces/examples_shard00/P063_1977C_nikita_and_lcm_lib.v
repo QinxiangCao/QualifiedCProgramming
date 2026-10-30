@@ -878,7 +878,7 @@ Proof.
   - rewrite Znth0_cons in Hd. subst d.
     unfold EnumeratedDivisor. simpl. tauto.
   - rewrite Znth_cons in Hd by lia. rewrite Znth0_cons in Hd. subst d.
-    unfold EnumeratedDivisor. simpl. intuition; lia.
+    unfold EnumeratedDivisor. simpl. intuition (auto with *); lia.
 Qed.
 Lemma enumerated_score_step__candidate_update : forall values mx q z d score,
   0 <= z < 2 -> mx mod q = 0 -> q * q <= mx ->

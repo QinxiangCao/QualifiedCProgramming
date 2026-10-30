@@ -18,7 +18,7 @@ Definition boxp {worlds: Type} {R: KM.Relation worlds} (X: Ensemble worlds): Ens
 
 End Semantics.
 
-Class KripkeModalSemantics (L: Language) {minL: MinimumLanguage L} {mL: ModalLanguage L} (MD: Model) {kMD: KripkeModel MD} (M: Kmodel) {R: Relation (Kworlds M)} (SM: Semantics L MD): Type := {
+Class KripkeModalSemantics (L: Language) {minL: MinimumLanguage L} {mL: ModalLanguage L} (MD: Model) {kMD: KripkeModel MD} (M: Kmodel) {R: Relation (Kworlds M)} (SM: Semantics L MD) := {
   denote_boxp: forall x: expr, Same_set _ (Kdenotation M (boxp x)) (Semantics.boxp (Kdenotation M x))
 }.
 

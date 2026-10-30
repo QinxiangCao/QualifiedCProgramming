@@ -144,23 +144,15 @@ Lemma matrix_ptr_split_merge__dfs_2darray :
     |-- IntPtrArray2.full matrix n rows.
 Proof.
   intros matrix n rows i j row_ptr d Hi Hj.
-  prop_apply (IntArray.missing_i_Zlength
-    row_ptr j 0 n (Znth i rows d)).
-  Intros. rename H into Hrowlen.
-  sep_apply (IntArray.missing_i_merge_to_full
-    row_ptr j n
-    (Znth j (Znth i rows d) 0) (Znth i rows d)); try lia.
-  rewrite replace_Znth_Znth by lia.
-  pose proof (IntPtrArray2.missing_i_merge_to_full
-    matrix i n row_ptr rows (Znth i rows d)) as Hmerge_rows.
-  change (IntPtrArray2.ElemArray.full row_ptr
-    (Zlength (Znth i rows d)) (Znth i rows d)) with
-    (IntArray.full row_ptr (Zlength (Znth i rows d))
-      (Znth i rows d)) in Hmerge_rows.
+  prop_apply (IntArray.missing_i_Zlength row_ptr j 0 n (Znth i rows d)).
+  Intros.
+  sep_apply (IntArray.missing_i_merge_to_full row_ptr j n (Znth j (Znth i rows d) 0) (Znth i rows d) Hj).
+  rewrite replace_Znth_Znth.
   replace n with (Zlength (Znth i rows d)) at 1 by lia.
-  sep_apply Hmerge_rows; try lia.
-  rewrite replace_Znth_Znth by lia.
-  cancel.
+  pose proof (IntPtrArray2.missing_i_merge_to_full matrix i n row_ptr rows (Znth i rows d) Hi) as Hmerge_rows.
+  rewrite replace_Znth_Znth in Hmerge_rows.
+  sep_apply_r_atomic Hmerge_rows.
+  entailer!.
 Qed.
 
 Lemma adjacency_matrix_model_row_length__dfs_2darray_core :

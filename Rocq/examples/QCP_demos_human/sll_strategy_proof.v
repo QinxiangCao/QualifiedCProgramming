@@ -1,14 +1,8 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.QCP_demos_human Require Import sll_strategy_goal.
-From SimpleC.EE.QCP_demos_human Require Import sll_lib.
 Import naive_C_Rules.
-Local Open Scope Z_scope.
+Require Import SimpleC.EE.QCP_demos_human.sll_lib.
 Local Open Scope sac.
-Local Open Scope string.
 
 Lemma sll_strategy3_correctness : sll_strategy3.
   pre_process_default.
@@ -99,6 +93,7 @@ Qed.
 
 Lemma sll_strategy21_correctness : sll_strategy21.
   pre_process_default.
+  simpl.
   rewrite <- logic_equiv_coq_prop_or.
   Intros.
   assert (p <> 0) by (destruct H; congruence).
@@ -113,6 +108,7 @@ Qed.
 
 Lemma sll_strategy22_correctness : sll_strategy22.
   pre_process_default.
+  simpl.
   rewrite <- logic_equiv_coq_prop_or.
   Intros.
   assert (p <> 0) by (destruct H; congruence).

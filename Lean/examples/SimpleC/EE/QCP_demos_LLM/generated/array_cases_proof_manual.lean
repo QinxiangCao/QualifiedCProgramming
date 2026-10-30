@@ -23,9 +23,6 @@ example : SimpleC.EE.QCP_demos_LLM.generated.array_cases_goal.array_copy1_entail
 example : SimpleC.EE.QCP_demos_LLM.generated.array_cases_goal.array_copy1_entail_wit_2_split_goal_1 := by
   sorry
 
-example : SimpleC.EE.QCP_demos_LLM.generated.array_cases_goal.array_copy1_return_wit_1_split_goal_spatial := by
-  sorry
-
 example : SimpleC.EE.QCP_demos_LLM.generated.array_cases_goal.array_concat_entail_wit_1_split_goal_1 := by
   sorry
 
@@ -36,9 +33,6 @@ example : SimpleC.EE.QCP_demos_LLM.generated.array_cases_goal.array_concat_entai
   sorry
 
 example : SimpleC.EE.QCP_demos_LLM.generated.array_cases_goal.array_concat_entail_wit_4_split_goal_spatial := by
-  sorry
-
-example : SimpleC.EE.QCP_demos_LLM.generated.array_cases_goal.array_concat_return_wit_1_split_goal_spatial := by
   sorry
 
 example : SimpleC.EE.QCP_demos_LLM.generated.array_cases_goal.array_swap_entail_wit_1_split_goal_1 := by

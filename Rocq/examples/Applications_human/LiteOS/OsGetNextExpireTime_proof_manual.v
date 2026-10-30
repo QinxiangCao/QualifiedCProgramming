@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.Applications_human.LiteOS Require Import OsGetNextExpireTime_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.glob_vars_and_defs.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.Los_Verify_State_def.
@@ -71,9 +56,9 @@ Proof.
     Goal_apply proof_of_OsGetNextExpireTime_return_wit_1_split_goal_1.
 Qed.
 
-Lemma proof_of_GetSortLinkNextExpireTime_derive_swmtrSpec_by_highSpec : GetSortLinkNextExpireTime_derive_swmtrSpec_by_highSpec.
+Lemma proof_of_GetSortLinkNextExpireTime_highSpec_entail_swmtrSpec : GetSortLinkNextExpireTime_highSpec_entail_swmtrSpec.
 Proof. 
-    unfold GetSortLinkNextExpireTime_derive_swmtrSpec_by_highSpec.
+    unfold GetSortLinkNextExpireTime_highSpec_entail_swmtrSpec.
     LLM_pre_process ltac:(int_auto).
     intros.
     Exists Z.
@@ -89,9 +74,9 @@ Proof.
    match goal with
    | |- ?P |-- ?P ** _ => cancel P
    end.
-   rewrite <- derivable1_wand_sepcon_adjoint.
-   Intros retval_2.
-   Exists retval_2.
+   Intros_r retval.
+    rewrite <- derivable1_wand_sepcon_adjoint.
+   Intros.
    rewrite H1.
    csimpl.
    cancel.
@@ -102,9 +87,9 @@ Proof.
    - split_pures; dump_pre_spatial; reflexivity.
 Qed.
 
-Lemma proof_of_GetSortLinkNextExpireTime_derive_taskSpec_by_highSpec : GetSortLinkNextExpireTime_derive_taskSpec_by_highSpec.
+Lemma proof_of_GetSortLinkNextExpireTime_highSpec_entail_taskSpec : GetSortLinkNextExpireTime_highSpec_entail_taskSpec.
 Proof. 
-    unfold GetSortLinkNextExpireTime_derive_taskSpec_by_highSpec.
+    unfold GetSortLinkNextExpireTime_highSpec_entail_taskSpec.
     LLM_pre_process ltac:(int_auto).
     intros.
     Exists Z (fun (p : addr) (taskID : glob_vars_and_defs.TaskID) =>
@@ -119,9 +104,9 @@ Proof.
    rewrite H0.
    csimpl.
    cancel.
-   rewrite <- derivable1_wand_sepcon_adjoint. 
-   Intros retval_2.
-   Exists retval_2.
+   Intros_r retval.
+    rewrite <- derivable1_wand_sepcon_adjoint.
+   Intros.
    rewrite H1.
    csimpl.
    cancel.

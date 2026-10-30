@@ -1,29 +1,13 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.kosaraju Require Import kosaraju_rel_goal.
 From SimpleC.EE.LLM_bench.Algorithms.kosaraju Require Import kosaraju_rel_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 From MonadLib Require Export MonadLib.
 From MonadLib.MonadErr Require Export StateRelMonadErr.
 From MonadLib.MonadErr Require Import MonadErrHoare.
 Export MonadNotation.
 Local Open Scope monad.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
+From AUXLib Require Import relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Require Import SimpleC.EE.LLM_bench.Algorithms.kosaraju.Kosaraju.
 Require Import SimpleC.EE.LLM_bench.Algorithms.kosaraju.kosaraju_rel_lib.
@@ -120,7 +104,6 @@ Ltac dfs2_solve_replace_neq_once :=
   end.
 
 Ltac dfs2_solve_split :=
-  LLM_pre_process ltac:(lia || nia || int_auto);
   subst;
   repeat match goal with
   | H : _ /\ _ |- _ => destruct H
@@ -161,14 +144,9 @@ Qed.
 
 Lemma proof_of_transpose_safety_wit_5 : transpose_safety_wit_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  split_pures.
-  - dump_pre_spatial.
-    specialize (PreH21 v ltac:(lia)).
-    lia.
-  - dump_pre_spatial.
-    specialize (PreH21 v ltac:(lia)).
-    lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_transpose_safety_wit_5_split_goal_1.
+  - Goal_apply proof_of_transpose_safety_wit_5_split_goal_2.
 Qed. 
 
 Lemma proof_of_transpose_entail_wit_1_split_goal_1 : transpose_entail_wit_1_split_goal_1.
@@ -178,15 +156,8 @@ Qed.
 
 Lemma proof_of_transpose_entail_wit_1 : transpose_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  Exists radj_row_l_low_level_spec.
-  split_pure_spatial.
-  - cancel (IntArray.full fadj_col_pre (m_of fadj_row_l_low_level_spec) fadj_col_l_low_level_spec).
-    cancel (IntArray.full fadj_row_pre (n_pre + 1) fadj_row_l_low_level_spec).
-    cancel (IntArray.full radj_col_pre (m_of fadj_row_l_low_level_spec) radj_col_l_low_level_spec).
-    cancel (IntArray.full radj_row_pre (n_pre + 1) radj_row_l_low_level_spec).
-    cancel (IntArray.full pos_pre n_pre pos_l_low_level_spec).
-  - split_pures; dump_pre_spatial; try assumption; try lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_transpose_entail_wit_1_split_goal_1.
 Qed. 
 
 Lemma proof_of_transpose_entail_wit_2_split_goal_1 : transpose_entail_wit_2_split_goal_1.
@@ -198,21 +169,8 @@ Qed.
 
 Lemma proof_of_transpose_entail_wit_2 : transpose_entail_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  Exists (replace_Znth v 0 rr_m_2).
-  split_pure_spatial.
-  - cancel (IntArray.full fadj_col_pre (m_of fadj_row_l_low_level_spec) fadj_col_l_low_level_spec).
-    cancel (IntArray.full fadj_row_pre (n_pre + 1) fadj_row_l_low_level_spec).
-    cancel (IntArray.full radj_col_pre (m_of fadj_row_l_low_level_spec) radj_col_l_low_level_spec).
-    cancel (IntArray.full radj_row_pre (n_pre + 1) (replace_Znth v 0 rr_m_2)).
-    cancel (IntArray.full pos_pre n_pre pos_l_low_level_spec).
-  - split_pures; dump_pre_spatial; try assumption; try lia.
-    + rewrite Zlength_replace_Znth. exact PreH16.
-    + intros k Hk.
-      destruct (Z.eq_dec k v) as [-> | Hneq].
-      * rewrite Znth_replace_Znth_Same by lia. reflexivity.
-      * rewrite Znth_replace_Znth_Diff by lia.
-        apply PreH17. lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_transpose_entail_wit_2_split_goal_1.
 Qed. 
 
 Lemma proof_of_transpose_entail_wit_3_split_goal_1 : transpose_entail_wit_3_split_goal_1.
@@ -239,20 +197,10 @@ Qed.
 
 Lemma proof_of_transpose_entail_wit_3 : transpose_entail_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  Exists rr_m_2.
-  split_pure_spatial.
-  - cancel (IntArray.full fadj_col_pre (m_of fadj_row_l_low_level_spec) fadj_col_l_low_level_spec).
-    cancel (IntArray.full fadj_row_pre (n_pre + 1) fadj_row_l_low_level_spec).
-    cancel (IntArray.full radj_col_pre (m_of fadj_row_l_low_level_spec) radj_col_l_low_level_spec).
-    cancel (IntArray.full radj_row_pre (n_pre + 1) rr_m_2).
-    cancel (IntArray.full pos_pre n_pre pos_l_low_level_spec).
-  - split_pures; dump_pre_spatial; try assumption; try lia.
-    + apply transpose_count_ready_zero; [lia|].
-      intros k0 Hk0. apply PreH17. lia.
-    + apply transpose_count_values_zero.
-      intros k0 Hk0. apply PreH17. lia.
-    + intros k0 Hk0. specialize (PreH17 k0 ltac:(lia)). lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_transpose_entail_wit_3_split_goal_1.
+  - Goal_apply proof_of_transpose_entail_wit_3_split_goal_2.
+  - Goal_apply proof_of_transpose_entail_wit_3_split_goal_3.
 Qed. 
 
 Lemma proof_of_transpose_entail_wit_4_split_goal_1 : transpose_entail_wit_4_split_goal_1.
@@ -285,19 +233,10 @@ Qed.
 
 Lemma proof_of_transpose_entail_wit_4 : transpose_entail_wit_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  pose proof PreH9 as Hcore.
-  unfold csr_wf2_core in Hcore.
-  destruct Hcore as [_ [_ [_ [_ [_ [Hcol _]]]]]].
-  specialize (Hcol j ltac:(rewrite <- PreH3; lia)).
-  rewrite PreH13 in Hcol.
-  split_pure_spatial.
-  - cancel (IntArray.full fadj_col_pre (m_of fadj_row_l_low_level_spec) fadj_col_l_low_level_spec).
-    cancel (IntArray.full fadj_row_pre (n_pre + 1) fadj_row_l_low_level_spec).
-    cancel (IntArray.full radj_col_pre (m_of fadj_row_l_low_level_spec) radj_col_l_low_level_spec).
-    cancel (IntArray.full radj_row_pre (n_pre + 1) rr_m).
-    cancel (IntArray.full pos_pre n_pre pos_l_low_level_spec).
-  - split_pures; dump_pre_spatial; try assumption; try lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_transpose_entail_wit_4_split_goal_1.
+  - Goal_apply proof_of_transpose_entail_wit_4_split_goal_2.
+  - Goal_apply proof_of_transpose_entail_wit_4_split_goal_3.
 Qed. 
 
 Lemma proof_of_transpose_entail_wit_5_split_goal_1 : transpose_entail_wit_5_split_goal_1.
@@ -344,40 +283,11 @@ Qed.
 
 Lemma proof_of_transpose_entail_wit_5 : transpose_entail_wit_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  prop_apply_p (IntArray.full_Zlength radj_row_pre (n_pre + 1)
-    (replace_Znth v (Znth v rr_m_2 0 + 1) rr_m_2)).
-  Intros_p Hlen.
-  rewrite Zlength_replace_Znth in Hlen.
-  Exists (replace_Znth v (Znth v rr_m_2 0 + 1) rr_m_2).
-  split_pure_spatial.
-  - cancel (IntArray.full fadj_col_pre (m_of fadj_row_l_low_level_spec) fadj_col_l_low_level_spec).
-    cancel (IntArray.full fadj_row_pre (n_pre + 1) fadj_row_l_low_level_spec).
-    cancel (IntArray.full radj_col_pre (m_of fadj_row_l_low_level_spec) radj_col_l_low_level_spec).
-    cancel (IntArray.full radj_row_pre (n_pre + 1)
-      (replace_Znth v (Znth v rr_m_2 0 + 1) rr_m_2)).
-    cancel (IntArray.full pos_pre n_pre pos_l_low_level_spec).
-  - split_pures; dump_pre_spatial; try assumption; try lia.
-    + rewrite Zlength_replace_Znth.
-      exact PreH18.
-    + eapply transpose_count_ready_step.
-      * lia.
-      * lia.
-      * lia.
-      * exact PreH19.
-    + eapply transpose_count_values_step.
-      * exact PreH20.
-      * lia.
-      * lia.
-      * lia.
-      * lia.
-      * symmetry. exact PreH9.
-    + intros k0 Hk0.
-      destruct (Z.eq_dec k0 v) as [->|Hneq].
-      * rewrite Znth_replace_Znth_Same by lia.
-        specialize (PreH21 v ltac:(lia)). lia.
-      * rewrite Znth_replace_Znth_Diff by lia.
-        specialize (PreH21 k0 Hk0). lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_transpose_entail_wit_5_split_goal_1.
+  - Goal_apply proof_of_transpose_entail_wit_5_split_goal_2.
+  - Goal_apply proof_of_transpose_entail_wit_5_split_goal_3.
+  - Goal_apply proof_of_transpose_entail_wit_5_split_goal_4.
 Qed. 
 
 Lemma proof_of_transpose_entail_wit_6 : transpose_entail_wit_6.
@@ -582,59 +492,13 @@ Qed.
 
 Lemma proof_of_transpose_entail_wit_8 : transpose_entail_wit_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  prop_apply_p (IntArray.full_Zlength radj_col_pre
-    (m_of fadj_row_l_low_level_spec) radj_col_l_low_level_spec).
-  Intros_p Hrc_len.
-  assert (v = n_pre) as Hv by lia.
-  subst v.
-  pose proof PreH16 as Hinv_parts.
-  unfold transpose_prefix_inv in Hinv_parts.
-  destruct Hinv_parts as [Htotal [Hsum [Hnonneg Htail]]].
-  assert (Hsum_m : sum = m) by lia.
-  assert (Hrr_index : 0 <= n_pre < Zlength rr_m_2) by lia.
-  assert (Hrr'_len : Zlength (replace_Znth n_pre sum rr_m_2) = n_pre + 1).
-  { rewrite Zlength_replace_Znth. exact PreH19. }
-  assert (Hrr_last : Znth n_pre (replace_Znth n_pre sum rr_m_2) 0 = m).
-  { rewrite Znth_replace_Znth_Same by exact Hrr_index. exact Hsum_m. }
-  assert (Hlo0 : csr_lo 0 (replace_Znth n_pre sum rr_m_2) = 0).
-  { unfold csr_lo.
-    rewrite Znth_replace_Znth_Diff by lia.
-    apply PreH20. lia. }
-  assert (Hpref' : transpose_prefix_inv n_pre m n_pre m
-    (replace_Znth n_pre sum rr_m_2) cnt_m).
-  { unfold transpose_prefix_inv.
-    split; [exact Htotal|].
-    split; [lia|].
-    split; [exact Hnonneg|].
-    intros k0 Hk0. lia. }
-  assert (Hoffs' : transpose_prefix_offsets n_pre n_pre
-    (replace_Znth n_pre sum rr_m_2) pos_m_2 cnt_m).
-  { unfold transpose_prefix_offsets in PreH18 |- *.
-    destruct PreH18 as [Hrr_n [Hpos_n [Hdone Htail_off]]].
-    split.
-    - rewrite Zlength_replace_Znth. exact Hrr_n.
-    - split; [exact Hpos_n|].
-      split.
-      + intros k0 Hk0. specialize (Hdone k0 Hk0) as [Hrr Hpos].
-        split; [|exact Hpos].
-        rewrite Znth_replace_Znth_Diff by lia. exact Hrr.
-      + intros k0 Hk0. lia. }
-  assert (Hscatter : transpose_scatter_inv n_pre m 0
-    fadj_col_l_low_level_spec (replace_Znth n_pre sum rr_m_2) pos_m_2).
-  { eapply transpose_scatter_inv_from_prefix; eauto. }
-  assert (Hrows : transpose_scatter_rows n_pre m fadj_col_l_low_level_spec
-    (replace_Znth n_pre sum rr_m_2)).
-  { eapply transpose_scatter_rows_from_prefix; eauto. }
-  assert (Hcontents : transpose_scatter_contents g_low_level_spec n_pre 0
-    fadj_row_l_low_level_spec fadj_col_l_low_level_spec
-    (replace_Znth n_pre sum rr_m_2) radj_col_l_low_level_spec).
-  { apply transpose_scatter_contents_start. }
-  Exists (replace_Znth n_pre sum rr_m_2) pos_m_2 radj_col_l_low_level_spec.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial; try assumption; try lia.
-    all: rewrite PreH10; assumption.
+  aggressive_pre_process.
+  - Goal_apply proof_of_transpose_entail_wit_8_split_goal_1.
+  - Goal_apply proof_of_transpose_entail_wit_8_split_goal_2.
+  - Goal_apply proof_of_transpose_entail_wit_8_split_goal_3.
+  - Goal_apply proof_of_transpose_entail_wit_8_split_goal_4.
+  - Goal_apply proof_of_transpose_entail_wit_8_split_goal_5.
+  - Goal_apply proof_of_transpose_entail_wit_8_split_goal_6.
 Qed. 
 
 Lemma proof_of_transpose_entail_wit_9_split_goal_1 : transpose_entail_wit_9_split_goal_1.
@@ -695,17 +559,14 @@ Qed.
 
 Lemma proof_of_transpose_entail_wit_9 : transpose_entail_wit_9.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  pose proof PreH15 as Hcore.
-  unfold csr_wf2_core in Hcore.
-  destruct Hcore as [_ [_ [_ [Hlo [Hhi [_ [Horder _]]]]]]].
-  pose proof (Hlo u ltac:(rewrite PreH19; lia)) as Hulo.
-  pose proof (Hhi u ltac:(rewrite PreH19; lia)) as Huhi.
-  pose proof (Horder u ltac:(rewrite PreH19; lia)) as Huorder.
-  Exists rr_m_2 pos_m_2 rc_m_2.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial; try assumption; try reflexivity; try lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_transpose_entail_wit_9_split_goal_1.
+  - Goal_apply proof_of_transpose_entail_wit_9_split_goal_2.
+  - Goal_apply proof_of_transpose_entail_wit_9_split_goal_3.
+  - Goal_apply proof_of_transpose_entail_wit_9_split_goal_4.
+  - Goal_apply proof_of_transpose_entail_wit_9_split_goal_5.
+  - Goal_apply proof_of_transpose_entail_wit_9_split_goal_6.
+  - Goal_apply proof_of_transpose_entail_wit_9_split_goal_7.
 Qed. 
 
 Lemma proof_of_transpose_entail_wit_10_split_goal_1 : transpose_entail_wit_10_split_goal_1.
@@ -730,16 +591,9 @@ Qed.
 
 Lemma proof_of_transpose_entail_wit_10 : transpose_entail_wit_10.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  pose proof PreH14 as Hcore.
-  unfold csr_wf2_core in Hcore.
-  destruct Hcore as [_ [_ [_ [_ [_ [Hcol [_ _]]]]]]].
-  pose proof (Hcol j ltac:(lia)) as Hjcol.
-  rewrite PreH18 in Hjcol.
-  Exists rr_m_2 pos_m_2 rc_m_2.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial; try assumption; try reflexivity; try lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_transpose_entail_wit_10_split_goal_1.
+  - Goal_apply proof_of_transpose_entail_wit_10_split_goal_2.
 Qed. 
 
 Lemma proof_of_transpose_entail_wit_11_split_goal_1 : transpose_entail_wit_11_split_goal_1.
@@ -762,18 +616,9 @@ Qed.
 
 Lemma proof_of_transpose_entail_wit_11 : transpose_entail_wit_11.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (Hbound : 0 <= Znth v pos_m 0 < m).
-  { eapply transpose_scatter_inv_current_bound; try eassumption; lia. }
-  Exists rr_m_2 rc_m_2 pos_m.
-  split_pure_spatial.
-  - cancel (IntArray.full pos_pre n_pre pos_m).
-    cancel (IntArray.full fadj_col_pre (m_of fadj_row_l_low_level_spec)
-      fadj_col_l_low_level_spec).
-    cancel (IntArray.full fadj_row_pre (n_pre + 1) fadj_row_l_low_level_spec).
-    cancel (IntArray.full radj_col_pre (m_of fadj_row_l_low_level_spec) rc_m_2).
-    cancel (IntArray.full radj_row_pre (n_pre + 1) rr_m_2).
-  - split_pures; try (dump_pre_spatial; eauto; lia).
+  aggressive_pre_process.
+  - Goal_apply proof_of_transpose_entail_wit_11_split_goal_1.
+  - Goal_apply proof_of_transpose_entail_wit_11_split_goal_2.
 Qed. 
 
 Lemma proof_of_transpose_entail_wit_12_split_goal_1 : transpose_entail_wit_12_split_goal_1.
@@ -816,30 +661,12 @@ Qed.
 
 Lemma proof_of_transpose_entail_wit_12 : transpose_entail_wit_12.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (Hcontents : transpose_scatter_contents g_low_level_spec n_pre (j + 1)
-    fadj_row_l_low_level_spec fadj_col_l_low_level_spec rr_m_2
-    (replace_Znth p u rc_m_2)).
-  { subst p.
-    eapply transpose_scatter_contents_step; try eassumption; try lia.
-    intros src1 src2 t Hsrc1 Hsrc2 Hrow1 Hrow2.
-    eapply csr_wf2_core_row_owner; eassumption. }
-  assert (Hinv : transpose_scatter_inv n_pre m (j + 1)
-    fadj_col_l_low_level_spec rr_m_2
-    (replace_Znth v (p + 1) pos_m_2)).
-  { subst p.
-    eapply transpose_scatter_inv_step; try eassumption; lia. }
-  Exists rr_m_2 (replace_Znth v (p + 1) pos_m_2)
-    (replace_Znth p u rc_m_2).
-  split_pure_spatial.
-  - cancel (IntArray.full fadj_col_pre (m_of fadj_row_l_low_level_spec)
-      fadj_col_l_low_level_spec).
-    cancel (IntArray.full fadj_row_pre (n_pre + 1) fadj_row_l_low_level_spec).
-    cancel (IntArray.full radj_col_pre (m_of fadj_row_l_low_level_spec)
-      (replace_Znth p u rc_m_2)).
-    cancel (IntArray.full radj_row_pre (n_pre + 1) rr_m_2).
-    cancel (IntArray.full pos_pre n_pre (replace_Znth v (p + 1) pos_m_2)).
-  - split_pures; try (dump_pre_spatial; try rewrite Zlength_replace_Znth; eauto; lia).
+  aggressive_pre_process.
+  - Goal_apply proof_of_transpose_entail_wit_12_split_goal_1.
+  - Goal_apply proof_of_transpose_entail_wit_12_split_goal_2.
+  - Goal_apply proof_of_transpose_entail_wit_12_split_goal_3.
+  - Goal_apply proof_of_transpose_entail_wit_12_split_goal_4.
+  - Goal_apply proof_of_transpose_entail_wit_12_split_goal_5.
 Qed. 
 
 Lemma proof_of_transpose_entail_wit_13_split_goal_1 : transpose_entail_wit_13_split_goal_1.
@@ -870,20 +697,10 @@ Qed.
 
 Lemma proof_of_transpose_entail_wit_13 : transpose_entail_wit_13.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (Hcursor : csr_lo (u + 1) fadj_row_l_low_level_spec = j).
-  { unfold csr_lo, csr_hi in *. lia. }
-  assert (Hrrlen : Zlength rr_m_2 = n_pre + 1).
-  { unfold transpose_scatter_rows in PreH28. tauto. }
-  Exists rr_m_2 pos_m_2 rc_m_2.
-  split_pure_spatial.
-  - cancel (IntArray.full fadj_col_pre (m_of fadj_row_l_low_level_spec)
-      fadj_col_l_low_level_spec).
-    cancel (IntArray.full fadj_row_pre (n_pre + 1) fadj_row_l_low_level_spec).
-    cancel (IntArray.full radj_col_pre (m_of fadj_row_l_low_level_spec) rc_m_2).
-    cancel (IntArray.full radj_row_pre (n_pre + 1) rr_m_2).
-    cancel (IntArray.full pos_pre n_pre pos_m_2).
-  - split_pures; try (dump_pre_spatial; try rewrite Hcursor; eauto; lia).
+  aggressive_pre_process.
+  - Goal_apply proof_of_transpose_entail_wit_13_split_goal_1.
+  - Goal_apply proof_of_transpose_entail_wit_13_split_goal_2.
+  - Goal_apply proof_of_transpose_entail_wit_13_split_goal_3.
 Qed. 
 
 
@@ -940,14 +757,9 @@ Qed.
 
 Lemma proof_of_kosaraju_entail_wit_2 : kosaraju_entail_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  subst m.
-  prop_apply (IntArray.full_Zlength vis1 n_pre vis1_l0).
-  Intros_p Hvis1_len.
-  Exists vis2_l0 vis1_l0.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial; try lia; try assumption.
+  aggressive_pre_process.
+  - Goal_apply proof_of_kosaraju_entail_wit_2_split_goal_1.
+  - Goal_apply proof_of_kosaraju_entail_wit_2_split_goal_2.
 Qed. 
 
 Lemma proof_of_kosaraju_entail_wit_3_split_goal_1 : kosaraju_entail_wit_3_split_goal_1.
@@ -966,18 +778,9 @@ Qed.
 
 Lemma proof_of_kosaraju_entail_wit_3 : kosaraju_entail_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  subst m.
-  Exists (replace_Znth u 0 vm2_2) (replace_Znth u 0 vm_2).
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures.
-    all: dump_pre_spatial.
-    all: try lia; try assumption; try (rewrite Zlength_replace_Znth; lia).
-    all: intros i Hi; destruct (Z.eq_dec i u) as [-> | Hne].
-    all: try (rewrite Znth_replace_Znth_Same by (rewrite ?PreH10, ?PreH11; lia); reflexivity).
-    all: rewrite Znth_replace_Znth_Diff by (rewrite ?PreH10, ?PreH11; lia).
-    all: first [eapply PreH12 | eapply PreH13]; lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_kosaraju_entail_wit_3_split_goal_1.
+  - Goal_apply proof_of_kosaraju_entail_wit_3_split_goal_2.
 Qed. 
 
 Lemma proof_of_kosaraju_entail_wit_4_split_goal_1 : kosaraju_entail_wit_4_split_goal_1.
@@ -1007,16 +810,10 @@ Qed.
 
 Lemma proof_of_kosaraju_entail_wit_4 : kosaraju_entail_wit_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  subst m.
-  prop_apply (IntArray.full_Zlength sid_pre n_pre sid_l_high_level_spec).
-  Intros_p Hsid_len.
-  Exists vm2 vm.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial; try lia; try assumption.
-    + intros i Hi. apply PreH12. lia.
-    + intros i Hi. apply PreH13. lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_kosaraju_entail_wit_4_split_goal_spatial.
+  - Goal_apply proof_of_kosaraju_entail_wit_4_split_goal_1.
+  - Goal_apply proof_of_kosaraju_entail_wit_4_split_goal_2.
 Qed. 
 
 Lemma proof_of_kosaraju_entail_wit_5 : kosaraju_entail_wit_5.
@@ -1099,29 +896,14 @@ Qed.
 
 Lemma proof_of_kosaraju_entail_wit_6 : kosaraju_entail_wit_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  pose proof PreH13 as Hphase1.
-  destruct Hphase1 as [Hready _].
-  destruct Hready as [Hwf1 [Hfaith1 Htimer_bounds]].
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial; try solve [assumption | reflexivity | lia].
-    + unfold dfs1_sequence_state_ready.
-      exact (conj Hwf1 (conj Hfaith1 Htimer_bounds)).
-    + exact (proof_of_kosaraju_entail_wit_6_split_goal_3
-        n_pre sid_l_high_level_spec fadj_row_l_high_level_spec
-        fadj_col_l_high_level_spec g_high_level_spec fin_l0 vis1_zero
-        vis2_zero timer u m vis1_m fin_m radj_col_l radj_row_l
-        PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-        PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-        PreH18 PreH19 PreH20).
-    + exact (proof_of_kosaraju_entail_wit_6_split_goal_1
-        n_pre sid_l_high_level_spec fadj_row_l_high_level_spec
-        fadj_col_l_high_level_spec g_high_level_spec fin_l0 vis1_zero
-        vis2_zero timer u m vis1_m fin_m radj_col_l radj_row_l
-        PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-        PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-        PreH18 PreH19 PreH20).
+  aggressive_pre_process.
+  - Goal_apply proof_of_kosaraju_entail_wit_6_split_goal_1.
+  - Goal_apply proof_of_kosaraju_entail_wit_6_split_goal_2.
+  - Goal_apply proof_of_kosaraju_entail_wit_6_split_goal_3.
+  - Goal_apply proof_of_kosaraju_entail_wit_6_split_goal_4.
+  - Goal_apply proof_of_kosaraju_entail_wit_6_split_goal_5.
+  - Goal_apply proof_of_kosaraju_entail_wit_6_split_goal_6.
+  - Goal_apply proof_of_kosaraju_entail_wit_6_split_goal_7.
 Qed. 
 
 Lemma proof_of_kosaraju_entail_wit_7_split_goal_1 : kosaraju_entail_wit_7_split_goal_1.
@@ -1147,20 +929,10 @@ Qed.
 
 Lemma proof_of_kosaraju_entail_wit_7 : kosaraju_entail_wit_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  Exists vis1_l_ fin_l_.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial; try solve [assumption | reflexivity | lia].
-    + exact (proof_of_kosaraju_entail_wit_7_split_goal_1
-        n_pre sid_l_high_level_spec fadj_row_l_high_level_spec
-        fadj_col_l_high_level_spec g_high_level_spec fin_l0 vis1_zero
-        vis2_zero vis1_m fin_m radj_col_l radj_row_l m timer u
-        timer_v_ vis1_l_ fin_l_ PreH1 PreH2 PreH3 PreH4 PreH5
-        PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-        PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
-        PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
-        PreH30 PreH31 PreH32 PreH33).
+  aggressive_pre_process.
+  - Goal_apply proof_of_kosaraju_entail_wit_7_split_goal_1.
+  - Goal_apply proof_of_kosaraju_entail_wit_7_split_goal_2.
+  - Goal_apply proof_of_kosaraju_entail_wit_7_split_goal_3.
 Qed. 
 
 
@@ -1197,18 +969,8 @@ Qed.
 
 Lemma proof_of_kosaraju_entail_wit_8_2 : kosaraju_entail_wit_8_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  Exists pos_l_2 radj_col_l_2 fin_m_2 vis1_m_2 radj_row_l_2.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial; try solve [assumption | reflexivity | lia].
-    exact (proof_of_kosaraju_entail_wit_8_2_split_goal_1
-      n_pre sid_l_high_level_spec fadj_row_l_high_level_spec
-      fadj_col_l_high_level_spec g_high_level_spec fin_l0 vis1_zero
-      vis2_zero timer u m vis1_m_2 fin_m_2 radj_col_l_2 radj_row_l_2
-      PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-      PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-      PreH18 PreH19 PreH20).
+  aggressive_pre_process.
+  - Goal_apply proof_of_kosaraju_entail_wit_8_2_split_goal_1.
 Qed. 
 
 
@@ -1256,23 +1018,8 @@ Qed.
 
 Lemma proof_of_kosaraju_entail_wit_10 : kosaraju_entail_wit_10.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  Exists radj_col_l_2 sid_m_2 vis2_m_2 vis1_m_2
-    (replace_Znth i (Znth (n_pre - 1 - i) fin_m_2 0) order_l_2)
-    fin_m_2 radj_row_l_2.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial;
-      try solve [assumption | reflexivity | lia |
-        rewrite Zlength_replace_Znth; assumption].
-    intros u Hu.
-    destruct (Z.eq_dec u i) as [Hu_i | Hu_i].
-    + subst u.
-      rewrite Znth_replace_Znth_Same by lia.
-      reflexivity.
-    + rewrite Znth_replace_Znth_Diff by lia.
-      apply PreH14.
-      lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_kosaraju_entail_wit_10_split_goal_1.
 Qed. 
 
 Lemma proof_of_kosaraju_entail_wit_11_split_goal_1 : kosaraju_entail_wit_11_split_goal_1.
@@ -1322,24 +1069,8 @@ Qed.
 
 Lemma proof_of_kosaraju_entail_wit_11 : kosaraju_entail_wit_11.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (i = n_pre) by lia.
-  subst i.
-  Exists radj_col_l_2 fin_m_2 order_l_2 vis1_m_2 vis2_m_2 sid_m_2
-    radj_row_l_2.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial;
-      try solve [assumption | reflexivity | lia |
-        intros u Hu; lia |
-        intros Hzero; lia].
-    exact (proof_of_kosaraju_entail_wit_11_split_goal_1
-      n_pre fadj_row_l_high_level_spec fadj_col_l_high_level_spec
-      g_high_level_spec fin_l0 vis1_zero radj_col_l_2 sid_m_2 vis2_m_2
-      vis1_m_2 order_l_2 fin_m_2 timer_m n_pre radj_row_l_2 m
-      PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-      PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-      PreH18 PreH19 PreH20 PreH21).
+  aggressive_pre_process.
+  - Goal_apply proof_of_kosaraju_entail_wit_11_split_goal_1.
 Qed. 
 
 Lemma proof_of_kosaraju_entail_wit_12_split_goal_1 : kosaraju_entail_wit_12_split_goal_1.
@@ -1362,17 +1093,9 @@ Qed.
 
 Lemma proof_of_kosaraju_entail_wit_12 : kosaraju_entail_wit_12.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (Hroot_range : 0 <= Znth k order_l 0 < n_pre).
-  {
-    unfold phase2_sequence_residual_refinement in PreH8.
-    destruct PreH8 as [_ [_ [_ [_ [_ [_ [_ [Hrange _]]]]]]]].
-    apply Hrange.
-    lia.
-  }
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial; try solve [assumption | reflexivity | lia].
+  aggressive_pre_process.
+  - Goal_apply proof_of_kosaraju_entail_wit_12_split_goal_1.
+  - Goal_apply proof_of_kosaraju_entail_wit_12_split_goal_2.
 Qed. 
 
 Lemma proof_of_kosaraju_entail_wit_13_split_goal_1 : kosaraju_entail_wit_13_split_goal_1.
@@ -1393,21 +1116,9 @@ Qed.
 
 Lemma proof_of_kosaraju_entail_wit_13 : kosaraju_entail_wit_13.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (Hsid_len : Zlength sid_m = n_pre).
-  {
-    pose proof PreH17 as Hwf.
-    unfold csr_wf2 in Hwf.
-    destruct Hwf as [_ [_ [_ [Hsid_len _]]]].
-    lia.
-  }
-  Exists (replace_Znth root root sid_m).
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial;
-      try solve [assumption | reflexivity | lia |
-        rewrite Znth_replace_Znth_Same by (rewrite Hsid_len; lia); reflexivity |
-        eapply csr_wf2_sid_replace_Znth; eauto; rewrite PreH14; lia].
+  aggressive_pre_process.
+  - Goal_apply proof_of_kosaraju_entail_wit_13_split_goal_1.
+  - Goal_apply proof_of_kosaraju_entail_wit_13_split_goal_2.
 Qed. 
 
 Lemma proof_of_kosaraju_entail_wit_15_1_split_goal_1 : kosaraju_entail_wit_15_1_split_goal_1.
@@ -1420,17 +1131,8 @@ Qed.
 
 Lemma proof_of_kosaraju_entail_wit_15_1 : kosaraju_entail_wit_15_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  Exists radj_col_l_2 fin_m_2 order_l_2 vis1_m_2 vis2_m_ sid_m_ radj_row_l_2.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial;
-      try solve [assumption | reflexivity | lia |
-        let Hres := fresh "Hres" in
-        pose proof PreH20 as Hres;
-        unfold phase2_sequence_residual_refinement in Hres;
-        repeat (destruct Hres as [_ Hres]);
-        exact Hres].
+  aggressive_pre_process.
+  - Goal_apply proof_of_kosaraju_entail_wit_15_1_split_goal_1.
 Qed. 
 
 Lemma proof_of_kosaraju_entail_wit_15_2_split_goal_1 : kosaraju_entail_wit_15_2_split_goal_1.
@@ -1455,32 +1157,9 @@ Qed.
 
 Lemma proof_of_kosaraju_entail_wit_15_2 : kosaraju_entail_wit_15_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (Hstep :
-    phase2_sequence_residual_refinement g_high_level_spec fin_m_2
-      order_l_2 vis1_m_2 vis2_m_2 sid_m_2 timer_m n_pre (k + 1)).
-  {
-    eapply phase2_sequence_residual_step_from_marked; eauto; lia.
-  }
-  assert (Hfinal :
-    (k + 1 = n_pre) ->
-    forall u : Z, 0 <= u < n_pre ->
-    forall v : Z, 0 <= v < n_pre ->
-      (Znth u sid_m_2 0 = Znth v sid_m_2 0 ->
-       mutually_reachable g_high_level_spec u v) /\
-      (mutually_reachable g_high_level_spec u v ->
-       Znth u sid_m_2 0 = Znth v sid_m_2 0)).
-  {
-    pose proof Hstep as Hres.
-    unfold phase2_sequence_residual_refinement in Hres.
-    repeat (destruct Hres as [_ Hres]).
-    exact Hres.
-  }
-  Exists radj_col_l_2 fin_m_2 order_l_2 vis1_m_2 vis2_m_2 sid_m_2 radj_row_l_2.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial;
-      try solve [assumption | reflexivity | lia | exact Hstep | exact Hfinal].
+  aggressive_pre_process.
+  - Goal_apply proof_of_kosaraju_entail_wit_15_2_split_goal_1.
+  - Goal_apply proof_of_kosaraju_entail_wit_15_2_split_goal_2.
 Qed. 
 
 Lemma proof_of_kosaraju_entail_wit_16 : kosaraju_entail_wit_16.
@@ -1504,11 +1183,8 @@ Qed.
 
 Lemma proof_of_kosaraju_return_wit_1 : kosaraju_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  Exists sid_m.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial; assumption.
+  aggressive_pre_process.
+  - Goal_apply proof_of_kosaraju_return_wit_1_split_goal_1.
 Qed. 
 
 Lemma proof_of_kosaraju_partial_solve_wit_2_pure_split_goal_1 : kosaraju_partial_solve_wit_2_pure_split_goal_1.
@@ -1522,15 +1198,8 @@ Qed.
 
 Lemma proof_of_kosaraju_partial_solve_wit_2_pure : kosaraju_partial_solve_wit_2_pure.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  apply derivable1s_coq_prop_r.
-  match goal with
-  | Hcore : csr_wf2_core ?g ?fc ?fr,
-    Hverts : adj_verts ?g = ?n,
-    Hpos : m_of ?fr > 0 |- _ =>
-      rewrite <- (csr_wf2_core_m_of_last g fc fr n Hcore Hverts);
-      exact Hpos
-  end.
+  aggressive_pre_process.
+  - Goal_apply proof_of_kosaraju_partial_solve_wit_2_pure_split_goal_1.
 Qed. 
 
 
@@ -1590,31 +1259,14 @@ Qed.
 
 Lemma proof_of_kosaraju_partial_solve_wit_12_pure : kosaraju_partial_solve_wit_12_pure.
 Proof.
-  unfold kosaraju_partial_solve_wit_12_pure.
-  left.
-  intros.
-  assert (Hvis_len : Zlength vis1_m = n_pre).
-  {
-    match goal with
-    | Hwf : csr_wf1 _ _ _ vis1_m _ |- _ =>
-        unfold csr_wf1 in Hwf;
-        destruct Hwf as [_ [_ [Hvis_len _]]];
-        lia
-    end.
-  }
-  assert (Htimer_lt : timer < n_pre).
-  {
-    match goal with
-    | Hz : Znth u vis1_m 0 = 0 |- _ =>
-        pose proof (count_nonzero_lt_Zlength_with_zero vis1_m u ltac:(lia) Hz);
-        lia
-    end.
-  }
-  split_pures; dump_pre_spatial; try solve [assumption | reflexivity | lia].
+  aggressive_pre_process.
+  - Goal_apply proof_of_kosaraju_partial_solve_wit_12_pure_split_goal_1.
 Qed. 
 
-Lemma proof_of_transpose_derive_high_level_spec_by_low_level_spec : transpose_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_transpose_low_level_spec_entail_high_level_spec : transpose_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold transpose_low_level_spec_entail_high_level_spec.
+  intros n m fadj_col fadj_row radj_col radj_row pos g_high_level_spec fadj_col_l_high_level_spec fadj_row_l_high_level_spec radj_col_l_high_level_spec radj_row_l_high_level_spec pos_l_high_level_spec.
   LLM_pre_process ltac:(lia || nia || int_auto).
   Exists g_high_level_spec fadj_col_l_high_level_spec fadj_row_l_high_level_spec
     radj_col_l_high_level_spec radj_row_l_high_level_spec pos_l_high_level_spec.
@@ -1632,8 +1284,10 @@ Proof.
     + split_pures; dump_pre_spatial; try assumption; try reflexivity; try lia.
 Qed. 
 
-Lemma proof_of_dfs2_derive_bind_spec_by_low_level_spec : dfs2_derive_bind_spec_by_low_level_spec.
+Lemma proof_of_dfs2_low_level_spec_entail_bind_spec : dfs2_low_level_spec_entail_bind_spec.
 Proof.
+  unfold dfs2_low_level_spec_entail_bind_spec.
+  intros B root u_pre n_pre fadj_col_pre fadj_row_pre vis2_pre sid_pre g_bind_spec fadj_col_l_bind_spec fadj_row_l_bind_spec vis2_l_bind_spec sid_l_bind_spec root_v_bind_spec root0_bind_spec X_bind_spec f_bind_spec.
   LLM_pre_process ltac:(lia || nia || int_auto).
   match goal with
   | Hsafe : safeExec _ (bind _ _) _ |- _ =>
@@ -1672,8 +1326,10 @@ Proof.
       end.
 Qed. 
 
-Lemma proof_of_dfs2_derive_phase2_spec_by_low_level_spec : dfs2_derive_phase2_spec_by_low_level_spec.
+Lemma proof_of_dfs2_low_level_spec_entail_phase2_spec : dfs2_low_level_spec_entail_phase2_spec.
 Proof.
+  unfold dfs2_low_level_spec_entail_phase2_spec.
+  intros root_pre u_pre n_pre fadj_col_pre fadj_row_pre vis2_pre sid_pre g_phase2_spec fadj_col_l_phase2_spec fadj_row_l_phase2_spec vis1_l_phase2_spec vis2_l_phase2_spec sid_before_l_phase2_spec sid_l_phase2_spec fin_l_phase2_spec order_l_phase2_spec timer_v_phase2_spec k_phase2_spec.
   LLM_pre_process ltac:(lia || nia || int_auto).
   Exists g_phase2_spec fadj_col_l_phase2_spec
     fadj_row_l_phase2_spec vis2_l_phase2_spec
@@ -1755,8 +1411,10 @@ Proof.
           exact (proj2 Hphase2_pair)].
 Qed. 
 
-Lemma proof_of_dfs2_derive_high_level_spec_by_low_level_spec : dfs2_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_dfs2_low_level_spec_entail_high_level_spec : dfs2_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold dfs2_low_level_spec_entail_high_level_spec.
+  intros root_pre u_pre n_pre fadj_col_pre fadj_row_pre vis2_pre sid_pre g_high_level_spec fadj_col_l_high_level_spec fadj_row_l_high_level_spec vis2_l_high_level_spec sid_l_high_level_spec.
   LLM_pre_process ltac:(lia || nia || int_auto).
   Exists g_high_level_spec fadj_col_l_high_level_spec
     fadj_row_l_high_level_spec vis2_l_high_level_spec
@@ -1821,8 +1479,10 @@ Proof.
           eapply dfs2_low_level_to_high_level; eauto; lia].
 Qed. 
 
-Lemma proof_of_dfs1_derive_bind_spec_by_low_level_spec : dfs1_derive_bind_spec_by_low_level_spec.
+Lemma proof_of_dfs1_low_level_spec_entail_bind_spec : dfs1_low_level_spec_entail_bind_spec.
 Proof.
+  unfold dfs1_low_level_spec_entail_bind_spec.
+  intros B u n_pre radj_col_pre radj_row_pre vis1_pre fin_pre timer_p_pre g_bind_spec radj_col_l_bind_spec radj_row_l_bind_spec vis1_l_bind_spec fin_l_bind_spec timer_v_bind_spec X_bind_spec f_bind_spec.
   LLM_pre_process ltac:(lia || nia || int_auto).
   match goal with
   | Hsafe : safeExec _ (bind _ _) _ |- _ =>
@@ -1858,8 +1518,10 @@ Proof.
   - split_pures; dump_pre_spatial; try assumption.
 Qed. 
 
-Lemma proof_of_dfs1_derive_high_level_spec_by_low_level_spec : dfs1_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_dfs1_low_level_spec_entail_high_level_spec : dfs1_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold dfs1_low_level_spec_entail_high_level_spec.
+  intros u n_pre radj_col_pre radj_row_pre vis1_pre fin_pre timer_p_pre g_high_level_spec radj_col_l_high_level_spec radj_row_l_high_level_spec vis1_l_high_level_spec fin_l_high_level_spec timer_v_high_level_spec X_high_level_spec.
   LLM_pre_process ltac:(lia || nia || int_auto).
   Exists g_high_level_spec radj_col_l_high_level_spec
     radj_row_l_high_level_spec vis1_l_high_level_spec
@@ -1886,4 +1548,3 @@ Proof.
     + split_pures; dump_pre_spatial; assumption.
   - split_pures; dump_pre_spatial; assumption.
 Qed. 
-

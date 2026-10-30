@@ -4,32 +4,19 @@
 #include "mini-gmp.h"
 
 int gmp_abs(int x)
-/*@
-  Require INT_MIN < x && x <= INT_MAX
-  Ensure __return == Zabs(x)
-*/
+/*@ default */
 {
   return x >= 0 ? x : -x;
 }
 
 int gmp_max(int a, int b)
-/*@
-  Require emp
-  Ensure __return == Z::max(a, b)
-*/
+/*@ default */
 {
   return a > b ? a : b;
 }
 
 int gmp_cmp(int a, int b)
-/*@
-  Require emp
-  Ensure 
-    emp * 
-    (a > b && __return == 1 || 
-    a == b && __return == 0 ||
-    a < b && __return == -1)
-*/
+/*@ default */
 {
   return (a > b) - (a < b);
 }
@@ -39,15 +26,7 @@ int gmp_cmp(int a, int b)
 /* 从 低地址向高地址 顺序复制 */
 void
 mpn_copyi (unsigned int *d, unsigned int *s, int n)
-/*@
-  With val
-  Require
-    mpd_store_Z(UINT_MOD, s, val, n) *
-    UIntArray::undef_full(d, n)
-  Ensure 
-    mpd_store_Z(UINT_MOD,s, val, n) *
-    mpd_store_Z(UINT_MOD,d, val, n)
-*/
+/*@ default */
 {
   /*@
     mpd_store_Z(UINT_MOD, s, val, n)
@@ -72,19 +51,7 @@ mpn_copyi (unsigned int *d, unsigned int *s, int n)
 /* 大于返回1，小于返回-1，等于返回0 */
 int
 mpn_cmp (unsigned int *ap, unsigned int *bp, int n)
-/*@
-  With val1 val2
-  Require
-    0 <= n &&
-    mpd_store_Z_compact(UINT_MOD, ap, val1, n) *
-    mpd_store_Z_compact(UINT_MOD, bp, val2, n)  
-  Ensure
-    (val1 > val2 && __return == 1 ||
-    val1 == val2 && __return == 0 ||
-    val1 < val2 && __return == -1) &&
-    mpd_store_Z_compact(UINT_MOD, ap, val1, n) *
-    mpd_store_Z_compact(UINT_MOD, bp, val2, n)
-*/
+/*@ default */
 {
   /*@
     mpd_store_Z_compact(UINT_MOD, ap, val1, n) * mpd_store_Z_compact(UINT_MOD, bp, val2, n)
@@ -123,19 +90,7 @@ mpn_cmp (unsigned int *ap, unsigned int *bp, int n)
 /*处理位数不同的情况*/
 static int
 mpn_cmp4 (unsigned int *ap, int an, unsigned int *bp, int bn)
-/*@
-  With val1 val2
-  Require
-    an >= 0 && bn >= 0 && 
-    mpd_store_Z_compact(UINT_MOD, ap, val1, an) *
-    mpd_store_Z_compact(UINT_MOD, bp, val2, bn)
-  Ensure
-    (val1 > val2 && __return == 1 ||
-    val1 == val2 && __return == 0 ||
-    val1 < val2 && __return == -1) &&
-    mpd_store_Z_compact(UINT_MOD, ap, val1, an) *
-    mpd_store_Z_compact(UINT_MOD, bp, val2, bn)
-*/
+/*@ default */
 {
   if (an != bn)
     return an < bn ? -1 : 1;
@@ -148,16 +103,7 @@ mpn_cmp4 (unsigned int *ap, int an, unsigned int *bp, int bn)
 /*返回非0的位数*/
 static int
 mpn_normalized_size (unsigned int *xp, int n)
-/*@
-  With val
-  Require
-    0 <= n && 
-    mpd_store_Z(UINT_MOD, xp, val, n) 
-  Ensure
-    0 <= __return && __return <= n &&
-    mpd_store_Z_compact(UINT_MOD, xp, val, __return) * 
-    UIntArray::undef_seg(xp, __return, n)
-*/
+/*@ default */
 {
   /*@
     mpd_store_Z(UINT_MOD, xp, val, n)
@@ -185,18 +131,7 @@ mpn_normalized_size (unsigned int *xp, int n)
 /* 多精度数ap 加上单精度数b，返回最后产生的进位 */
 unsigned int
 mpn_add_1 (unsigned int *rp, unsigned int *ap, int n, unsigned int b)
-/*@
-  With val
-  Require
-    n > 0 && 0 <= b && b <= UINT_MAX &&
-    mpd_store_Z(UINT_MOD,ap, val, n) *
-    UIntArray::undef_full(rp, n)
-  Ensure
-    exists val',
-    mpd_store_Z(UINT_MOD, ap, val, n) *
-    mpd_store_Z(UINT_MOD, rp, val', n) &&
-    (val' + __return * Z::pow(UINT_MOD, n) == val + b)
-*/
+/*@ default */
 {
   /*@
     mpd_store_Z(UINT_MOD,ap, val, n)
@@ -241,7 +176,7 @@ mpn_add_1 (unsigned int *rp, unsigned int *ap, int n, unsigned int b)
 /* 位数相同的多精度数ap 加上多精度数bp，返回最后产生的进位 */
 unsigned int
 mpn_add_n (unsigned int *rp, unsigned int *ap, unsigned int *bp, int n)
-/*@
+/*@ implementation
  With val_a val_b
  Require
    n >= 0 &&
@@ -301,20 +236,7 @@ mpn_add_n (unsigned int *rp, unsigned int *ap, unsigned int *bp, int n)
 /*不同位数的多精度数相加，返回最后的进位*/
 unsigned int
 mpn_add (unsigned int *rp, unsigned int *ap, int an, unsigned int *bp, int bn)
-/*@
- With val_a val_b
- Require
-   an >= bn && an >= 0 && bn >= 0 &&
-   mpd_store_Z(UINT_MOD, ap, val_a, an) *
-   mpd_store_Z(UINT_MOD, bp, val_b, bn) *
-   UIntArray::undef_full(rp, an)
- Ensure
-   exists val_r_out,
-   (val_r_out + __return * Z::pow(UINT_MOD, an) == val_a + val_b) &&
-   mpd_store_Z(UINT_MOD, ap, val_a, an) *
-   mpd_store_Z(UINT_MOD, bp, val_b, bn) *
-   mpd_store_Z(UINT_MOD, rp, val_r_out, an)
-*/
+/*@ default */
 {
   unsigned int cy;
   /*@
@@ -333,7 +255,7 @@ mpn_add (unsigned int *rp, unsigned int *ap, int an, unsigned int *bp, int bn)
     UIntArray::undef_full(rp, bn) *
     UIntArray::undef_full(rp + bn * sizeof(unsigned int), an - bn)
   */
-  cy = mpn_add_n (rp, ap, bp, bn) /*@ where val_a=val_a_low, val_b=val_b*/ ;
+  cy = mpn_add_n (rp, ap, bp, bn) /*@ where(implementation) val_a=val_a_low, val_b=val_b*/ ;
   /*@
   exists val_r_out, mpd_store_Z(UINT_MOD,rp, val_r_out, bn)
   which implies
@@ -453,18 +375,7 @@ unsigned int mpn_mul_1(unsigned int * rp, unsigned int * up, int n, unsigned int
 
 unsigned int
 mpn_sub_1 (unsigned int *rp, unsigned int *ap, int n, unsigned int b)
-/*@
-  With val
-  Require
-    n > 0 && 0 <= b && b <= UINT_MAX &&
-    mpd_store_Z(UINT_MOD, ap, val, n) *
-    UIntArray::undef_full(rp, n)
-  Ensure
-    exists val',
-    mpd_store_Z(UINT_MOD, ap, val, n) *
-    mpd_store_Z(UINT_MOD, rp, val', n) &&
-    (val' - __return * Z::pow(UINT_MOD, n) == val - b@pre)
-*/
+/*@ default */
 {
   /*@
     mpd_store_Z(UINT_MOD, ap, val, n)
@@ -510,7 +421,7 @@ mpn_sub_1 (unsigned int *rp, unsigned int *ap, int n, unsigned int b)
 
 unsigned int
 mpn_sub_n (unsigned int *rp, unsigned int *ap, unsigned int *bp, int n)
-/*@
+/*@ implementation
   With val_a val_b
   Require
     n >= 0 &&
@@ -573,7 +484,7 @@ mpn_sub_n (unsigned int *rp, unsigned int *ap, unsigned int *bp, int n)
 
 unsigned int
 mpn_sub (unsigned int *rp, unsigned int *ap, int an, unsigned int *bp, int bn)
-/*@
+/*@ implementation
  With val_a val_b
  Require
    an >= bn && an > 0 && bn >= 0 &&
@@ -605,7 +516,7 @@ mpn_sub (unsigned int *rp, unsigned int *ap, int an, unsigned int *bp, int bn)
       UIntArray::undef_full(rp, bn) *
       UIntArray::undef_full(rp + (bn * sizeof(unsigned int)), an - bn)
   */
-  cy = mpn_sub_n (rp, ap, bp, bn) /*@ where val_a=val_a_lo, val_b=val_b */;
+  cy = mpn_sub_n (rp, ap, bp, bn) /*@ where(implementation) val_a=val_a_lo, val_b=val_b */;
   /*@
     exists val_r_out, mpd_store_Z(UINT_MOD, rp, val_r_out, bn)
     which implies
@@ -626,15 +537,7 @@ mpn_sub (unsigned int *rp, unsigned int *ap, int an, unsigned int *bp, int bn)
 
 void
 mpz_clear (mpz_t r)
-/*@
-  With
-    n
-  Require
-    store_Z(r, n)
-  Ensure
-    exists size cap ptr,
-      r -> _mp_size == size && r -> _mp_alloc == cap && r -> _mp_d == ptr
-*/
+/*@ default */
 {
   if (r->_mp_alloc)
     gmp_free_limbs (r->_mp_d, r->_mp_alloc) ;
@@ -642,23 +545,7 @@ mpz_clear (mpz_t r)
 
 static unsigned int *
 mpz_realloc (mpz_t r, int size)
-/*@
-  With
-    ptr old cap n
-  Require
-    size >= cap && size <= INT_MAX && cap >= 0 && cap <= INT_MAX &&
-    Zabs(old) <= cap && same_sign(n, old) &&
-    mpd_store_Z_compact(UINT_MOD,ptr, Zabs(n), Zabs(old)) * UIntArray::undef_seg(ptr, Zabs(old), cap) &&
-      r -> _mp_size == old &&
-      r -> _mp_alloc == cap &&
-      r -> _mp_d == ptr
-  Ensure 
-    same_sign(n, old) &&
-    mpd_store_Z_compact(UINT_MOD,__return, Zabs(n), Zabs(old)) * UIntArray::undef_seg(__return, Zabs(old), Z::max(size,1)) &&
-    r -> _mp_size == old &&
-    r -> _mp_alloc == Z::max(size,1) &&
-    r -> _mp_d == __return
-*/
+/*@ default */
 {
   size = gmp_max (size, 1);
 
@@ -676,23 +563,7 @@ mpz_realloc (mpz_t r, int size)
 
 /* Realloc for an mpz_t WHAT if it has less than NEEDED limbs.  */
 unsigned int *mrz_realloc_if(mpz_t z,int n)
-/*@
-  With
-    ptr old cap m
-  Require
-    cap >= 0 && cap <= INT_MAX && n >= 1 && n <= INT_MAX &&
-    Zabs(old) <= cap && same_sign(m, old) &&
-    mpd_store_Z_compact(UINT_MOD,ptr, Zabs(m), Zabs(old)) * UIntArray::undef_seg(ptr, Zabs(old), cap) &&
-      z -> _mp_size == old &&
-      z -> _mp_alloc == cap &&
-      z -> _mp_d == ptr
-  Ensure
-    same_sign(m, old) &&
-    mpd_store_Z_compact(UINT_MOD,__return, Zabs(m), Zabs(old)) * UIntArray::undef_seg(__return, Zabs(old), Z::max(Z::max(n,1),cap)) &&
-    z -> _mp_size == old &&
-    z -> _mp_alloc == Z::max(Z::max(n,1),cap) &&
-    z -> _mp_d == __return
-*/
+/*@ default */
 {
   if (n > z->_mp_alloc) return mpz_realloc(z, n);
   return z->_mp_d;
@@ -703,16 +574,7 @@ unsigned int *mrz_realloc_if(mpz_t z,int n)
 /* MPZ comparisons and the like. */
 int
 mpz_sgn (const mpz_t u)
-/*@
-  With
-    n
-  Require
-    store_Z(u, n)
-  Ensure
-    store_Z(u, n) &&
-    (n > 0 && __return == 1 || n == 0 && __return == 0 ||
-      n < 0 && __return == -1)
-*/
+/*@ default */
 {
   return gmp_cmp (u->_mp_size, 0);
 }
@@ -876,7 +738,7 @@ mpz_abs_sub (mpz_t r, const mpz_t a, const mpz_t b)
       UIntArray::undef_full(rp, an) *
       UIntArray::undef_seg(rp, an, Z::max(Z::max(an, 1), rcap))   
       */
-      mpn_sub (rp, a->_mp_d, an, b->_mp_d, bn);
+      mpn_sub (rp, a->_mp_d, an, b->_mp_d, bn) /*@ where(implementation) */;
       return mpn_normalized_size (rp, an);
     }
   else if (cmp < 0)
@@ -927,7 +789,7 @@ mpz_abs_sub (mpz_t r, const mpz_t a, const mpz_t b)
       UIntArray::undef_full(rp, bn) *
       UIntArray::undef_seg(rp, bn, Z::max(Z::max(bn, 1), rcap))   
       */
-      mpn_sub (rp, b->_mp_d, bn, a->_mp_d, an);
+      mpn_sub (rp, b->_mp_d, bn, a->_mp_d, an) /*@ where(implementation) */;
       return -mpn_normalized_size (rp, bn);
     }
   else

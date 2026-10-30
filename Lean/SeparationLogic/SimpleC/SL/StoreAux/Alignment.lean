@@ -22,6 +22,8 @@ local notation "store_char" => DerivedPredSig.store_char Arch
 local notation "undef_store_char" => DerivedPredSig.undef_store_char Arch
 local notation "store_uchar" => DerivedPredSig.store_uchar Arch
 local notation "undef_store_uchar" => DerivedPredSig.undef_store_uchar Arch
+local notation "store_bool" => DerivedPredSig.store_bool Arch
+local notation "undef_store_bool" => DerivedPredSig.undef_store_bool Arch
 local notation "store_short" => DerivedPredSig.store_short Arch Endian
 local notation "undef_store_short" => DerivedPredSig.undef_store_short Arch
 local notation "store_ushort" => DerivedPredSig.store_ushort Arch Endian
@@ -284,6 +286,16 @@ theorem store_uchar_align (CRules : SeparationLogicSig) (x v : Int) :
   intro state h
   exact undef_store_uchar_align CRules x state
     (store_uchar_undef_store_uchar CRules x v state h)
+
+theorem undef_store_bool_align (CRules : SeparationLogicSig) (x : Int) :
+    CRules.derivable1 (undef_store_bool CRules x) (store_align_n CRules 1) :=
+  undef_store_uchar_align CRules x
+
+theorem store_bool_align (CRules : SeparationLogicSig) (x v : Int) :
+    CRules.derivable1 (store_bool CRules x v) (store_align_n CRules 1) := by
+  intro state h
+  exact undef_store_bool_align CRules x state
+    (store_bool_undef_store_bool CRules x v state h)
 
 private theorem undef_store_word_align4 (CRules : SeparationLogicSig) (x : Int)
     (state : CRules.model)

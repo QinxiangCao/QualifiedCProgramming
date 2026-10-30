@@ -12,7 +12,7 @@
 Require Import Coq.ZArith.ZArith.
 Require Import SetsClass.SetsClass.
 From MonadLib.MonadErr Require Import MonadErrBasic MonadErrLoop.
-Import Monad MonadNotation SetsNotation.
+Import Monad MonadNotation MonadErrProgNotations SetsNotation.
 Local Open Scope Z_scope.
 Local Open Scope monad_scope.
 Local Open Scope progerr_scope.

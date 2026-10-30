@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P062_1492D_geniuss_gambit_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P062_1492D_geniuss_gambit_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.StdLib.string_lib.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P062_1492D_geniuss_gambit_lib.
@@ -35,7 +19,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   symmetry.
   unfold repeat_Z.
   apply repeat_Z_succ_app__initialization.
@@ -50,7 +34,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_spatial : solver_entail_wit_3_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = b_pre) by lia.
   subst i.
   replace (b_pre - b_pre) with 0 by lia.
@@ -68,7 +52,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_1 : solver_entail_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (i + 1 - b_pre) with ((i - b_pre) + 1) by lia.
   unfold repeat_Z.
   rewrite repeat_Z_succ_app__initialization by lia.
@@ -84,7 +68,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_1 : solver_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite !Zlength_app, !Zlength_cons, Zlength_nil.
   unfold repeat_Z.
@@ -95,7 +79,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_2 : solver_entail_wit_5_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   unfold all_ascii.
   intros j Hj.
@@ -134,7 +118,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_spatial : solver_entail_wit_5_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = n) by lia.
   subst i.
   replace (n - b_pre) with a_pre by lia.
@@ -152,7 +136,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_split_goal_1 : solver_entail_wit_6_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold CanonicalGambit, GambitY.
   rewrite Z.eqb_refl.
   apply gambit_pair_zero__canonical_construction; lia.
@@ -166,7 +150,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_1 : solver_entail_wit_7_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Right.
   split_pure_spatial.
   - cancel.
@@ -177,7 +161,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_2 : solver_entail_wit_7_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Right.
   split_pure_spatial.
   - cancel.
@@ -188,7 +172,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_3_split_goal_1 : solver_entail_wit_7_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply (gambit_impossible_span__impossibility a_pre b_pre k_pre n); lia.
 Qed.
 
@@ -200,7 +184,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9_1_split_goal_1 : solver_entail_wit_9_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply gambit_pair_le__canonical_construction; lia.
 Qed.
 
@@ -212,7 +196,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9_2_split_goal_1 : solver_entail_wit_9_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply gambit_pair_gt__canonical_construction; lia.
 Qed.
 
@@ -224,7 +208,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1 : solver_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst n. subst j. subst i_2.
   destruct (encode_gambit_x__successful_returns a_pre b_pre) as
       [HX [HLX HPX]]; try lia.
@@ -280,7 +264,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_2 : solver_return_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst n. subst i_2. subst j.
   destruct (encode_gambit_x__successful_returns a_pre b_pre) as
       [HX [HLX HPX]]; try lia.
@@ -336,15 +320,15 @@ Qed.
 
 Lemma proof_of_solver_return_wit_3_split_goal_1 : solver_return_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   apply spec_none_of_impossible__impossible_returns.
-  exact PreH10.
+  auto.
 Qed.
 
 Lemma proof_of_solver_return_wit_3_split_goal_spatial : solver_return_wit_3_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst n.
   sep_apply_l_atomic
     (CharArray.full_to_full_shape x_pre (a_pre + b_pre + 1)
@@ -364,15 +348,15 @@ Qed.
 
 Lemma proof_of_solver_return_wit_4_split_goal_1 : solver_return_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   apply spec_none_of_impossible__impossible_returns.
-  exact PreH10.
+  auto.
 Qed.
 
 Lemma proof_of_solver_return_wit_4_split_goal_spatial : solver_return_wit_4_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst n.
   sep_apply_l_atomic
     (CharArray.full_to_full_shape x_pre (a_pre + b_pre + 1)
@@ -392,16 +376,16 @@ Qed.
 
 Lemma proof_of_solver_return_wit_5_split_goal_1 : solver_return_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst a_pre.
   dump_pre_spatial.
   apply spec_none_of_impossible__impossible_returns.
-  exact PreH10.
+  auto.
 Qed.
 
 Lemma proof_of_solver_return_wit_5_split_goal_spatial : solver_return_wit_5_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst n.
   sep_apply_l_atomic
     (CharArray.full_to_full_shape x_pre (a_pre + b_pre + 1)
@@ -421,7 +405,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_6 : solver_return_wit_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst n. subst k_pre.
   destruct (encode_gambit_x__successful_returns a_pre b_pre) as
       [HX [HLX HPX]]; try lia.

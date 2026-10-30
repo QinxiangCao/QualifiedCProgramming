@@ -57,6 +57,82 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 
+noncomputable def undef_uint_array_strategy13 : Prop :=
+  forall (i : Int) (y : Int) (x : Int) (p : Int),
+    TT &&
+    (“ (i = x) ”) &&
+    (“ (i < y) ”) &&
+    emp **
+    ((uintArray.undef_missing_i p i x y))
+    |--
+    (
+    TT &&
+    emp **
+    ((uintArray.undef_seg p (x + (1 : Int)) y))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
+noncomputable def undef_uint_array_strategy14 : Prop :=
+  forall (x : Int) (i : Int) (y : Int) (p : Int),
+    TT &&
+    (“ ((i + (1 : Int)) = y) ”) &&
+    (“ (x <= i) ”) &&
+    emp **
+    ((uintArray.undef_missing_i p i x y))
+    |--
+    (
+    TT &&
+    emp **
+    ((uintArray.undef_seg p x i))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
+noncomputable def undef_uint_array_strategy16 : Prop :=
+  forall (p : Int) (n : Int),
+    TT &&
+    emp **
+    ((uintArray.undef_full p n))
+    |--
+    (
+    TT &&
+    emp
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp **
+    ((uintArray.undef_full p n)))
+    )
+
+noncomputable def undef_uint_array_strategy17 : Prop :=
+  forall (p : Int) (y : Int) (x : Int),
+    TT &&
+    emp **
+    ((uintArray.undef_seg p x y))
+    |--
+    (
+    TT &&
+    emp
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp **
+    ((uintArray.undef_seg p x y)))
+    )
+
 noncomputable def undef_uint_array_strategy3 : Prop :=
   forall (x : Int) (y : Int) (p : Int),
     TT &&
@@ -78,6 +154,27 @@ noncomputable def undef_uint_array_strategy3 : Prop :=
     )
 
 noncomputable def undef_uint_array_strategy4 : Prop :=
+  forall (i : Int) (y : Int) (x : Int) (p : Int),
+    TT &&
+    (“ (x <= i) ”) &&
+    (“ (i < y) ”) &&
+    emp **
+    ((uintArray.undef_seg p x y))
+    |--
+    (
+    TT &&
+    emp **
+    ((uintArray.undef_missing_i p i x y))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp **
+    (((p + i * sizeof(UINT)) # UINT |->_)))
+    )
+
+noncomputable def undef_uint_array_strategy6 : Prop :=
   forall (x : Int) (y : Int) (z : Int) (p : Int),
     TT &&
     (“ (y <= z) ”) &&
@@ -98,7 +195,7 @@ noncomputable def undef_uint_array_strategy4 : Prop :=
     ((uintArray.undef_seg p x z)))
     )
 
-noncomputable def undef_uint_array_strategy5 : Prop :=
+noncomputable def undef_uint_array_strategy7 : Prop :=
   forall (x : Int) (y : Int) (z : Int) (p : Int),
     TT &&
     (“ (y <= z) ”) &&
@@ -119,7 +216,7 @@ noncomputable def undef_uint_array_strategy5 : Prop :=
     ((uintArray.undef_seg p y z)))
     )
 
-noncomputable def undef_uint_array_strategy6 : Prop :=
+noncomputable def undef_uint_array_strategy8 : Prop :=
   TT &&
   emp
   |--
@@ -136,7 +233,7 @@ noncomputable def undef_uint_array_strategy6 : Prop :=
     ((uintArray.undef_seg p x x)))
     )
 
-noncomputable def undef_uint_array_strategy7 : Prop :=
+noncomputable def undef_uint_array_strategy9 : Prop :=
   forall (p : Int) (n : Int),
     TT &&
     emp **
@@ -154,7 +251,7 @@ noncomputable def undef_uint_array_strategy7 : Prop :=
     ((uintArray.undef_seg p (0 : Int) n)))
     )
 
-noncomputable def undef_uint_array_strategy8 : Prop :=
+noncomputable def undef_uint_array_strategy10 : Prop :=
   forall (n : Int),
     TT &&
     (“ (n = (0 : Int)) ”) &&
@@ -173,7 +270,7 @@ noncomputable def undef_uint_array_strategy8 : Prop :=
       ((uintArray.undef_full p n)))
       )
 
-noncomputable def undef_uint_array_strategy9 : Prop :=
+noncomputable def undef_uint_array_strategy11 : Prop :=
   forall (x : Int) (y : Int) (p : Int),
     TT &&
     (“ (x = y) ”) &&
@@ -191,7 +288,7 @@ noncomputable def undef_uint_array_strategy9 : Prop :=
     emp)
     )
 
-noncomputable def undef_uint_array_strategy10 : Prop :=
+noncomputable def undef_uint_array_strategy12 : Prop :=
   forall (x1 : Int) (x : Int) (y : Int) (y1 : Int) (p : Int),
     TT &&
     (“ (y1 = y) ”) &&
@@ -211,161 +308,7 @@ noncomputable def undef_uint_array_strategy10 : Prop :=
     ((uintArray.undef_seg p x1 y1)))
     )
 
-noncomputable def undef_uint_array_strategy13 : Prop :=
-  forall (x : Int) (y : Int) (p : Int),
-    TT &&
-    (“ (x < y) ”) &&
-    emp **
-    ((intArray.undef_seg p x y))
-    |--
-    (
-    TT &&
-    emp **
-    ((intArray.undef_seg p (x + (1 : Int)) y))
-    ) ** (
-(
-    TT &&
-    emp) -* (
-    TT &&
-    emp **
-    (((p + x * sizeof(INT)) # INT |->_)))
-    )
-
-noncomputable def undef_uint_array_strategy14 : Prop :=
-  forall (x : Int) (y : Int) (z : Int) (p : Int),
-    TT &&
-    (“ (y <= z) ”) &&
-    (“ (x <= y) ”) &&
-    emp **
-    ((intArray.undef_seg p x y)) **
-    ((intArray.undef_seg p y z))
-    |--
-    (
-    TT &&
-    emp
-    ) ** (
-(
-    TT &&
-    emp) -* (
-    TT &&
-    emp **
-    ((intArray.undef_seg p x z)))
-    )
-
 noncomputable def undef_uint_array_strategy15 : Prop :=
-  forall (x : Int) (y : Int) (z : Int) (p : Int),
-    TT &&
-    (“ (y <= z) ”) &&
-    (“ (x <= y) ”) &&
-    emp **
-    ((intArray.undef_seg p x z))
-    |--
-    (
-    TT &&
-    emp
-    ) ** (
-(
-    TT &&
-    emp) -* (
-    TT &&
-    emp **
-    ((intArray.undef_seg p x y)) **
-    ((intArray.undef_seg p y z)))
-    )
-
-noncomputable def undef_uint_array_strategy16 : Prop :=
-  TT &&
-  emp
-  |--
-  (
-  TT &&
-  emp
-  ) ** (
-  ALL p : Int, ALL x : Int, 
-(
-    TT &&
-    emp) -* (
-    TT &&
-    emp **
-    ((intArray.undef_seg p x x)))
-    )
-
-noncomputable def undef_uint_array_strategy17 : Prop :=
-  forall (p : Int) (n : Int),
-    TT &&
-    emp **
-    ((intArray.undef_full p n))
-    |--
-    (
-    TT &&
-    emp
-    ) ** (
-(
-    TT &&
-    emp) -* (
-    TT &&
-    emp **
-    ((intArray.undef_seg p (0 : Int) n)))
-    )
-
-noncomputable def undef_uint_array_strategy18 : Prop :=
-  forall (n : Int),
-    TT &&
-    (“ (n = (0 : Int)) ”) &&
-    emp
-    |--
-    (
-    TT &&
-    emp
-    ) ** (
-    ALL p : Int, 
-(
-      TT &&
-      emp) -* (
-      TT &&
-      emp **
-      ((intArray.undef_full p n)))
-      )
-
-noncomputable def undef_uint_array_strategy19 : Prop :=
-  forall (x : Int) (y : Int) (p : Int),
-    TT &&
-    (“ (x = y) ”) &&
-    emp **
-    ((intArray.undef_seg p x y))
-    |--
-    (
-    TT &&
-    emp
-    ) ** (
-(
-    TT &&
-    emp) -* (
-    TT &&
-    emp)
-    )
-
-noncomputable def undef_uint_array_strategy20 : Prop :=
-  forall (x1 : Int) (x : Int) (y : Int) (y1 : Int) (p : Int),
-    TT &&
-    (“ (y1 = y) ”) &&
-    (“ (x1 = x) ”) &&
-    emp **
-    ((intArray.undef_seg p x y))
-    |--
-    (
-    TT &&
-    emp
-    ) ** (
-(
-    TT &&
-    emp) -* (
-    TT &&
-    emp **
-    ((intArray.undef_seg p x1 y1)))
-    )
-
-noncomputable def undef_uint_array_strategy21 : Prop :=
   forall (n : Int) (p : Int),
     TT &&
     (“ ((0 : Int) < n) ”) &&
@@ -383,26 +326,6 @@ noncomputable def undef_uint_array_strategy21 : Prop :=
     TT &&
     emp **
     (((p + (0 : Int) * sizeof(UINT)) # UINT |->_)))
-    )
-
-noncomputable def undef_uint_array_strategy22 : Prop :=
-  forall (n : Int) (p : Int),
-    TT &&
-    (“ ((0 : Int) < n) ”) &&
-    emp **
-    ((intArray.undef_full p n))
-    |--
-    (
-    TT &&
-    emp **
-    ((intArray.undef_seg p (1 : Int) n))
-    ) ** (
-(
-    TT &&
-    emp) -* (
-    TT &&
-    emp **
-    (((p + (0 : Int) * sizeof(INT)) # INT |->_)))
     )
 
 noncomputable def undef_uint_array_strategy2 : Prop :=
@@ -426,19 +349,19 @@ noncomputable def undef_uint_array_strategy2 : Prop :=
     emp)
     )
 
-noncomputable def undef_uint_array_strategy12 : Prop :=
-  forall (i : Int) (n : Int) (p : Int),
+noncomputable def undef_uint_array_strategy5 : Prop :=
+  forall (i : Int) (y : Int) (x : Int) (p : Int),
     TT &&
-    (“ ((0 : Int) <= i) ”) &&
-    (“ (i < n) ”) &&
+    (“ (x <= i) ”) &&
+    (“ (i < y) ”) &&
     emp **
-    ((intArray.undef_missing_i p i (0 : Int) n)) **
-    (((p + i * sizeof(INT)) # INT |->_))
+    ((uintArray.undef_missing_i p i x y)) **
+    (((p + i * sizeof(UINT)) # UINT |->_))
     |--
     (
     TT &&
     emp **
-    ((intArray.undef_full p n))
+    ((uintArray.undef_seg p x y))
     ) ** (
 (
     TT &&
@@ -468,49 +391,23 @@ noncomputable def undef_uint_array_strategy1 : Prop :=
     (((p + i * sizeof(UINT)) # UINT |->_)))
     )
 
-noncomputable def undef_uint_array_strategy11 : Prop :=
-  forall (i : Int) (n : Int) (p : Int),
-    TT &&
-    (“ ((0 : Int) <= i) ”) &&
-    (“ (i < n) ”) &&
-    emp **
-    ((intArray.undef_full p n))
-    |--
-    (
-    TT &&
-    emp **
-    ((intArray.undef_missing_i p i (0 : Int) n))
-    ) ** (
-(
-    TT &&
-    emp) -* (
-    TT &&
-    emp **
-    (((p + i * sizeof(INT)) # INT |->_)))
-    )
-
 structure undef_uint_array_Strategy_Correct : Type where
+  undef_uint_array_strategy13_correctness : undef_uint_array_strategy13
+  undef_uint_array_strategy14_correctness : undef_uint_array_strategy14
+  undef_uint_array_strategy16_correctness : undef_uint_array_strategy16
+  undef_uint_array_strategy17_correctness : undef_uint_array_strategy17
   undef_uint_array_strategy3_correctness : undef_uint_array_strategy3
   undef_uint_array_strategy4_correctness : undef_uint_array_strategy4
-  undef_uint_array_strategy5_correctness : undef_uint_array_strategy5
   undef_uint_array_strategy6_correctness : undef_uint_array_strategy6
   undef_uint_array_strategy7_correctness : undef_uint_array_strategy7
   undef_uint_array_strategy8_correctness : undef_uint_array_strategy8
   undef_uint_array_strategy9_correctness : undef_uint_array_strategy9
   undef_uint_array_strategy10_correctness : undef_uint_array_strategy10
-  undef_uint_array_strategy13_correctness : undef_uint_array_strategy13
-  undef_uint_array_strategy14_correctness : undef_uint_array_strategy14
-  undef_uint_array_strategy15_correctness : undef_uint_array_strategy15
-  undef_uint_array_strategy16_correctness : undef_uint_array_strategy16
-  undef_uint_array_strategy17_correctness : undef_uint_array_strategy17
-  undef_uint_array_strategy18_correctness : undef_uint_array_strategy18
-  undef_uint_array_strategy19_correctness : undef_uint_array_strategy19
-  undef_uint_array_strategy20_correctness : undef_uint_array_strategy20
-  undef_uint_array_strategy21_correctness : undef_uint_array_strategy21
-  undef_uint_array_strategy22_correctness : undef_uint_array_strategy22
-  undef_uint_array_strategy2_correctness : undef_uint_array_strategy2
-  undef_uint_array_strategy12_correctness : undef_uint_array_strategy12
-  undef_uint_array_strategy1_correctness : undef_uint_array_strategy1
   undef_uint_array_strategy11_correctness : undef_uint_array_strategy11
+  undef_uint_array_strategy12_correctness : undef_uint_array_strategy12
+  undef_uint_array_strategy15_correctness : undef_uint_array_strategy15
+  undef_uint_array_strategy2_correctness : undef_uint_array_strategy2
+  undef_uint_array_strategy5_correctness : undef_uint_array_strategy5
+  undef_uint_array_strategy1_correctness : undef_uint_array_strategy1
 
 end SimpleC.EE.QCP_demos_LLM.generated.undef_uint_array_strategy_goal

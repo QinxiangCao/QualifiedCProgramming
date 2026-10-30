@@ -352,7 +352,7 @@ noncomputable def reverse_partial_solve_wit_1 : Prop :=
   ** (dlistrep_shape w v)
 
 noncomputable def append_safety_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) ,
+  forall (x_pre : Int) (y_pre : Int) ,
   ((( &( "u" ) )) # Ptr |->_)
   ** ((( &( "t" ) )) # Ptr |->_)
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -364,7 +364,7 @@ noncomputable def append_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def append_entail_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (x : Int) (y : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (x : Int) (y : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
   ((&((x_pre # "list")  ->ₛ "next")) # Ptr |-> (y))
   ** (dlistrep_shape y x_pre)
   ** ((&((x_pre # "list")  ->ₛ "prev")) # Ptr |-> ((0 : Int)))
@@ -382,7 +382,7 @@ noncomputable def append_entail_wit_1 : Prop :=
   ** (dllseg_shape x_pre (0 : Int) t_prev x_pre)
 
 noncomputable def append_entail_wit_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (t_prev_2 : Int) (t_next_2 : Int) (u : Int) (v_2 : Int) (t : Int) (x : Int) (y : Int) (PreH1 : (u = t_next_2)) (PreH2 : (t ≠ (0 : Int))) (PreH3 : (u ≠ (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (t_prev_2 : Int) (t_next_2 : Int) (u : Int) (v_2 : Int) (t : Int) (x : Int) (y : Int) (PreH1 : (u = t_next_2)) (PreH2 : (t ≠ (0 : Int))) (PreH3 : (u ≠ (0 : Int))) ,
   ((&((u # "list")  ->ₛ "next")) # Ptr |-> (y))
   ** (dlistrep_shape y u)
   ** ((&((u # "list")  ->ₛ "prev")) # Ptr |-> (t))
@@ -404,7 +404,7 @@ noncomputable def append_entail_wit_2 : Prop :=
   ** (dllseg_shape x_pre (0 : Int) t_prev u)
 
 noncomputable def append_return_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (t_prev : Int) (t_next : Int) (u : Int) (v : Int) (t : Int) (x : Int) (y : Int) (PreH1 : (u = t_next)) (PreH2 : (t ≠ (0 : Int))) (PreH3 : (u = (0 : Int))) (PreH4 : (y_pre ≠ (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (t_prev : Int) (t_next : Int) (u : Int) (v : Int) (t : Int) (x : Int) (y : Int) (PreH1 : (u = t_next)) (PreH2 : (t ≠ (0 : Int))) (PreH3 : (u = (0 : Int))) (PreH4 : (y_pre ≠ (0 : Int))) ,
   ((&((y_pre # "list")  ->ₛ "prev")) # Ptr |-> (t))
   ** (dlistrep_shape y y_pre)
   ** ((&((y_pre # "list")  ->ₛ "next")) # Ptr |-> (y))
@@ -417,7 +417,7 @@ noncomputable def append_return_wit_1 : Prop :=
   (dlistrep_shape x_pre (0 : Int))
 
 noncomputable def append_return_wit_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (t_prev : Int) (t_next : Int) (u : Int) (v : Int) (t : Int) (PreH1 : (u = t_next)) (PreH2 : (t ≠ (0 : Int))) (PreH3 : (u = (0 : Int))) (PreH4 : (y_pre = (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (t_prev : Int) (t_next : Int) (u : Int) (v : Int) (t : Int) (PreH1 : (u = t_next)) (PreH2 : (t ≠ (0 : Int))) (PreH3 : (u = (0 : Int))) (PreH4 : (y_pre = (0 : Int))) ,
   ((&((t # "list")  ->ₛ "data")) # Int |-> (v))
   ** ((&((t # "list")  ->ₛ "next")) # Ptr |-> (y_pre))
   ** (dlistrep_shape y_pre (0 : Int))
@@ -428,14 +428,14 @@ noncomputable def append_return_wit_2 : Prop :=
   (dlistrep_shape x_pre (0 : Int))
 
 noncomputable def append_return_wit_3 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
   (dlistrep_shape x_pre (0 : Int))
   ** (dlistrep_shape y_pre (0 : Int))
 |--
   (dlistrep_shape y_pre (0 : Int))
 
 noncomputable def append_partial_solve_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
   (dlistrep_shape x_pre (0 : Int))
   ** (dlistrep_shape y_pre (0 : Int))
 |--
@@ -448,7 +448,7 @@ noncomputable def append_partial_solve_wit_1 : Prop :=
   ** (dlistrep_shape y_pre (0 : Int))
 
 noncomputable def append_partial_solve_wit_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (t_prev : Int) (t_next : Int) (u : Int) (v : Int) (t : Int) (PreH1 : (u = t_next)) (PreH2 : (t ≠ (0 : Int))) (PreH3 : (u ≠ (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (t_prev : Int) (t_next : Int) (u : Int) (v : Int) (t : Int) (PreH1 : (u = t_next)) (PreH2 : (t ≠ (0 : Int))) (PreH3 : (u ≠ (0 : Int))) ,
   ((&((t # "list")  ->ₛ "data")) # Int |-> (v))
   ** ((&((t # "list")  ->ₛ "next")) # Ptr |-> (t_next))
   ** (dlistrep_shape y_pre (0 : Int))
@@ -471,7 +471,7 @@ noncomputable def append_partial_solve_wit_2 : Prop :=
   ** (dllseg_shape x_pre (0 : Int) t_prev t)
 
 noncomputable def append_partial_solve_wit_3 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (t_prev : Int) (t_next : Int) (u : Int) (v : Int) (t : Int) (PreH1 : (u = t_next)) (PreH2 : (t ≠ (0 : Int))) (PreH3 : (u = (0 : Int))) (PreH4 : (y_pre ≠ (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (t_prev : Int) (t_next : Int) (u : Int) (v : Int) (t : Int) (PreH1 : (u = t_next)) (PreH2 : (t ≠ (0 : Int))) (PreH3 : (u = (0 : Int))) (PreH4 : (y_pre ≠ (0 : Int))) ,
   ((&((t # "list")  ->ₛ "data")) # Int |-> (v))
   ** ((&((t # "list")  ->ₛ "next")) # Ptr |-> (y_pre))
   ** (dlistrep_shape y_pre (0 : Int))
@@ -534,7 +534,7 @@ noncomputable def iter_partial_solve_wit_1 : Prop :=
   ** (dllseg_shape l_pre (0 : Int) p_prev p)
 
 noncomputable def iter_back_safety_wit_1 : Prop :=
-  forall (head_pre : Int) (l_pre : Int) (l_prev : Int) (PreH1 : (head_pre ≠ (0 : Int))) ,
+  forall (l_prev : Int) (l_pre : Int) (head_pre : Int) (PreH1 : (head_pre ≠ (0 : Int))) ,
   ((( &( "p" ) )) # Ptr |->_)
   ** ((( &( "l" ) )) # Ptr |-> (l_pre))
   ** ((( &( "head" ) )) # Ptr |-> (head_pre))
@@ -545,7 +545,7 @@ noncomputable def iter_back_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def iter_back_entail_wit_1 : Prop :=
-  forall (head_pre : Int) (l_pre : Int) (l_prev : Int) (PreH1 : (l_pre ≠ (0 : Int))) (PreH2 : (head_pre ≠ (0 : Int))) ,
+  forall (l_prev : Int) (l_pre : Int) (head_pre : Int) (PreH1 : (l_pre ≠ (0 : Int))) (PreH2 : (head_pre ≠ (0 : Int))) ,
   (dllseg_shape head_pre (0 : Int) l_prev l_pre)
   ** (dlistrep_shape l_pre l_prev)
 |--
@@ -584,14 +584,14 @@ noncomputable def iter_back_return_wit_1 : Prop :=
   (dlistrep_shape p (0 : Int))
 
 noncomputable def iter_back_return_wit_2 : Prop :=
-  forall (head_pre : Int) (l_pre : Int) (l_prev : Int) (PreH1 : (l_pre = (0 : Int))) (PreH2 : (head_pre ≠ (0 : Int))) ,
+  forall (l_prev : Int) (l_pre : Int) (head_pre : Int) (PreH1 : (l_pre = (0 : Int))) (PreH2 : (head_pre ≠ (0 : Int))) ,
   (dllseg_shape head_pre (0 : Int) l_prev l_pre)
   ** (dlistrep_shape l_pre l_prev)
 |--
   (dlistrep_shape head_pre (0 : Int))
 
 noncomputable def iter_back_2_entail_wit_1 : Prop :=
-  forall (tail_pre : Int) (head_pre : Int) (tail_prev : Int) (tail_node : Int) (head_node : Int) (PreH1 : (head_node ≠ tail_node)) (PreH2 : (head_node ≠ (0 : Int))) (PreH3 : (tail_node ≠ (0 : Int))) ,
+  forall (tail_prev : Int) (tail_node : Int) (head_node : Int) (head_pre : Int) (tail_pre : Int) (PreH1 : (head_node ≠ tail_node)) (PreH2 : (head_node ≠ (0 : Int))) (PreH3 : (tail_node ≠ (0 : Int))) ,
   ((head_pre) # Ptr |-> (head_node))
   ** ((tail_pre) # Ptr |-> (tail_node))
   ** (dllseg_shape head_node (0 : Int) tail_prev tail_node)
@@ -608,7 +608,7 @@ noncomputable def iter_back_2_entail_wit_1 : Prop :=
   ** (dlistrep_shape p_next tail_node)
 
 noncomputable def iter_back_2_entail_wit_2 : Prop :=
-  forall (tail_pre : Int) (head_pre : Int) (tail_node : Int) (head_node : Int) (p_next_2 : Int) (p_prev_2 : Int) (v_2 : Int) (p : Int) (PreH1 : (p ≠ head_node)) (PreH2 : (p ≠ (0 : Int))) ,
+  forall (tail_node : Int) (head_node : Int) (head_pre : Int) (tail_pre : Int) (p_next_2 : Int) (p_prev_2 : Int) (v_2 : Int) (p : Int) (PreH1 : (p ≠ head_node)) (PreH2 : (p ≠ (0 : Int))) ,
   ((head_pre) # Ptr |-> (head_node))
   ** ((tail_pre) # Ptr |-> (tail_node))
   ** ((&((p # "list")  ->ₛ "data")) # Int |-> (v_2))
@@ -628,7 +628,7 @@ noncomputable def iter_back_2_entail_wit_2 : Prop :=
   ** (dlistrep_shape p_next p_prev_2)
 
 noncomputable def iter_back_2_return_wit_1 : Prop :=
-  forall (tail_pre : Int) (head_pre : Int) (tail_node : Int) (head_node : Int) (p_next : Int) (p_prev : Int) (v : Int) (p : Int) (PreH1 : (p = head_node)) (PreH2 : (p ≠ (0 : Int))) ,
+  forall (tail_node : Int) (head_node : Int) (head_pre : Int) (tail_pre : Int) (p_next : Int) (p_prev : Int) (v : Int) (p : Int) (PreH1 : (p = head_node)) (PreH2 : (p ≠ (0 : Int))) ,
   ((head_pre) # Ptr |-> (head_node))
   ** ((tail_pre) # Ptr |-> (tail_node))
   ** ((&((p # "list")  ->ₛ "data")) # Int |-> (v))
@@ -642,7 +642,7 @@ noncomputable def iter_back_2_return_wit_1 : Prop :=
   ** (dlistrep_shape p (0 : Int))
 
 noncomputable def iter_back_2_return_wit_2 : Prop :=
-  forall (tail_pre : Int) (head_pre : Int) (tail_prev : Int) (tail_node : Int) (head_node : Int) (PreH1 : (head_node = tail_node)) (PreH2 : (head_node ≠ (0 : Int))) (PreH3 : (tail_node ≠ (0 : Int))) ,
+  forall (tail_prev : Int) (tail_node : Int) (head_node : Int) (head_pre : Int) (tail_pre : Int) (PreH1 : (head_node = tail_node)) (PreH2 : (head_node ≠ (0 : Int))) (PreH3 : (tail_node ≠ (0 : Int))) ,
   ((head_pre) # Ptr |-> (head_node))
   ** ((tail_pre) # Ptr |-> (tail_node))
   ** (dllseg_shape head_node (0 : Int) tail_prev tail_node)
@@ -653,7 +653,7 @@ noncomputable def iter_back_2_return_wit_2 : Prop :=
   ** (dlistrep_shape tail_node (0 : Int))
 
 noncomputable def multi_merge_safety_wit_1 : Prop :=
-  forall (z_pre : Int) (y_pre : Int) (x_pre : Int) ,
+  forall (x_pre : Int) (y_pre : Int) (z_pre : Int) ,
   ((( &( "u" ) )) # Ptr |->_)
   ** ((( &( "t" ) )) # Ptr |->_)
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -747,7 +747,7 @@ noncomputable def multi_merge_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def multi_merge_entail_wit_1 : Prop :=
-  forall (z_pre : Int) (y_pre : Int) (x_pre : Int) (x : Int) (y : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (z_pre : Int) (x : Int) (y : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
   ((&((x_pre # "list")  ->ₛ "next")) # Ptr |-> (y))
   ** (dlistrep_shape y x_pre)
   ** ((&((x_pre # "list")  ->ₛ "prev")) # Ptr |-> ((0 : Int)))
@@ -962,7 +962,7 @@ noncomputable def multi_merge_return_wit_6 : Prop :=
   (dlistrep_shape retval (0 : Int))
 
 noncomputable def multi_merge_partial_solve_wit_1 : Prop :=
-  forall (z_pre : Int) (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (z_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
   (dlistrep_shape x_pre (0 : Int))
   ** (dlistrep_shape y_pre (0 : Int))
   ** (dlistrep_shape z_pre (0 : Int))
@@ -972,7 +972,7 @@ noncomputable def multi_merge_partial_solve_wit_1 : Prop :=
   ** (dlistrep_shape z_pre (0 : Int))
 
 noncomputable def multi_merge_partial_solve_wit_2 : Prop :=
-  forall (z_pre : Int) (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (z_pre : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
   (dlistrep_shape x_pre (0 : Int))
   ** (dlistrep_shape y_pre (0 : Int))
   ** (dlistrep_shape z_pre (0 : Int))
@@ -1397,7 +1397,7 @@ noncomputable def multi_merge_partial_solve_wit_14 : Prop :=
   ** (dllseg_shape x_pre (0 : Int) t_prev t)
 
 noncomputable def multi_rev_safety_wit_1 : Prop :=
-  forall (q_pre : Int) (p_pre : Int) ,
+  forall (p_pre : Int) (q_pre : Int) ,
   ((( &( "y" ) )) # Ptr |->_)
   ** ((( &( "x" ) )) # Ptr |->_)
   ** ((( &( "v" ) )) # Ptr |->_)
@@ -1412,7 +1412,7 @@ noncomputable def multi_rev_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def multi_rev_safety_wit_2 : Prop :=
-  forall (q_pre : Int) (p_pre : Int) ,
+  forall (p_pre : Int) (q_pre : Int) ,
   ((( &( "y" ) )) # Ptr |->_)
   ** ((( &( "x" ) )) # Ptr |->_)
   ** ((( &( "v" ) )) # Ptr |->_)
@@ -1427,7 +1427,7 @@ noncomputable def multi_rev_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def multi_rev_safety_wit_3 : Prop :=
-  forall (q_pre : Int) (p_pre : Int) (x : Int) (y : Int) (w : Int) (v : Int) ,
+  forall (p_pre : Int) (q_pre : Int) (x : Int) (y : Int) (w : Int) (v : Int) ,
   ((( &( "t" ) )) # Ptr |->_)
   ** ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** ((( &( "q" ) )) # Ptr |-> (q_pre))
@@ -1444,7 +1444,7 @@ noncomputable def multi_rev_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def multi_rev_entail_wit_1 : Prop :=
-  forall (q_pre : Int) (p_pre : Int) ,
+  forall (p_pre : Int) (q_pre : Int) ,
   (dlistrep_shape p_pre (0 : Int))
   ** (dlistrep_shape q_pre (0 : Int))
 |--

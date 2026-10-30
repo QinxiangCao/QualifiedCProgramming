@@ -1,29 +1,13 @@
-﻿Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+﻿From SimpleC.Verification Require Import VCPrelude.
 Require Import SimpleC.EE.QCP_demos_LLM.graph_matrix_lib.
 From SimpleC.EE.LLM_bench.Algorithms.Floyd Require Import Floyd_adjacency_matrix_goal.
 From SimpleC.EE.LLM_bench.Algorithms.Floyd Require Import Floyd_adjacency_matrix_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 From MonadLib Require Export MonadLib.
 From MonadLib.StateRelMonad Require Export StateRelMonad.
 Export MonadNotation.
 Local Open Scope monad.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
+From AUXLib Require Import relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Require Import Algorithms.Floyd.Floyd.
 Require Import SimpleC.EE.LLM_bench.Algorithms.Floyd.Floyd_adjacency_matrix_lib.
@@ -364,9 +348,11 @@ Proof.
   - dump_pre_spatial; auto; lia.
 Qed.
 
-Lemma proof_of_floyd_adjacency_matrix_derive_high_level_spec_by_low_level_spec :
-  floyd_adjacency_matrix_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_floyd_adjacency_matrix_low_level_spec_entail_high_level_spec :
+  floyd_adjacency_matrix_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold floyd_adjacency_matrix_low_level_spec_entail_high_level_spec.
+  intros n_pre dist_pre g_high_level_spec dist0_high_level_spec.
   LLM_pre_process ltac:(lia || int_auto).
   rename H into Hsize.
   rename H0 into Hinitial_state.

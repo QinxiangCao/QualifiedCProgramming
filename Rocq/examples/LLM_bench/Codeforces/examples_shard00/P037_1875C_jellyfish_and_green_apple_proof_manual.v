@@ -1,29 +1,13 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P037_1875C_jellyfish_and_green_apple_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P037_1875C_jellyfish_and_green_apple_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P037_1875C_jellyfish_and_green_apple_lib.
 Local Open Scope sac.
 
 Lemma proof_of_gcdll_entail_wit_2_split_goal_1 : gcdll_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GcdValue in *.
   rewrite (Z.gcd_comm b (a % ( b ))).
   rewrite (Z.gcd_rem a b PreH6).
@@ -33,7 +17,7 @@ Qed.
 
 Lemma proof_of_gcdll_entail_wit_2_split_goal_2 : gcdll_entail_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (0 < b) as Hb by lia.
   assert (0 <= a % ( b ) < b) as Hmod by
       (apply Z.rem_bound_pos; lia).
@@ -43,7 +27,7 @@ Qed.
 
 Lemma proof_of_gcdll_entail_wit_2_split_goal_3 : gcdll_entail_wit_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (0 < b) as Hb by lia.
   assert (0 <= a % ( b ) < b) as Hmod by
       (apply Z.rem_bound_pos; lia).
@@ -61,7 +45,7 @@ Qed.
 
 Lemma proof_of_gcdll_return_wit_1_split_goal_1 : gcdll_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GcdValue in *.
   subst b.
   rewrite Z.gcd_0_r in PreH5.
@@ -77,7 +61,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_1_split_goal_1 : solver_safety_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_safety_wit_1_split_goal_2 : solver_safety_wit_1_split_goal_2.
@@ -97,7 +81,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_2_split_goal_1 : solver_safety_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   unfold GcdValue in *.
   subst retval.
@@ -107,7 +91,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_2_split_goal_2 : solver_safety_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   unfold GcdValue in *.
   subst retval.
@@ -124,7 +108,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold DyadicRemainderPrefix.
   exists 0.
   unfold DyadicResidue, Zmap_range.
@@ -145,7 +129,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite rem_mod_pos__solver_setup by lia.
   pose proof (Z.mod_pos_bound n_pre m_pre ltac:(lia)).
   lia.
@@ -153,7 +137,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_3 : solver_entail_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite rem_mod_pos__solver_setup by lia.
   pose proof (Z.mod_pos_bound n_pre m_pre ltac:(lia)).
   lia.
@@ -161,7 +145,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_4 : solver_entail_wit_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GcdValue in *.
   subst retval.
   pose proof (positive_gcd_quotient_bounds__solver_setup n_pre m_pre ltac:(lia) ltac:(lia)) as Hbounds.
@@ -182,7 +166,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   repeat rewrite Z.rem_mod_nonneg in PreH11 |- * by lia.
   rewrite (Z.rem_mod_nonneg (2 * n) m_pre) by lia.
   eapply dyadic_prefix_step__dyadic_transition.
@@ -192,7 +176,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_2 : solver_entail_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst d.
   rewrite Z.rem_mod_nonneg in PreH11 by lia.
   eapply dyadic_prefix_total_bound__dyadic_transition.
@@ -206,7 +190,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_3 : solver_entail_wit_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.rem_mod_nonneg by lia.
   pose proof (Z.mod_pos_bound (2 * n) m_pre ltac:(lia)).
   lia.
@@ -214,7 +198,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_4 : solver_entail_wit_2_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.rem_mod_nonneg by lia.
   pose proof (Z.mod_pos_bound (2 * n) m_pre ltac:(lia)).
   lia.
@@ -231,7 +215,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst n.
   unfold Spec.
   left.
@@ -250,7 +234,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_2_split_goal_1 : solver_return_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst retval.
   unfold Spec.
   right.

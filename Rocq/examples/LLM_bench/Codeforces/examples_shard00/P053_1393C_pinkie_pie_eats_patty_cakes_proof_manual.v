@@ -1,29 +1,13 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P053_1393C_pinkie_pie_eats_patty_cakes_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P053_1393C_pinkie_pie_eats_patty_cakes_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.
 Local Open Scope sac.
 
 Lemma proof_of_solver_safety_wit_13_split_goal_1 : solver_safety_wit_13_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof
     (terminal_frequency_bounds__terminal_result
@@ -40,7 +24,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_13_split_goal_2 : solver_safety_wit_13_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof
     (terminal_frequency_bounds__terminal_result
@@ -78,7 +62,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_14_split_goal_2 : solver_safety_wit_14_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof
     (terminal_frequency_bounds__terminal_result
@@ -98,7 +82,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold repeat_Z.
   rewrite Znth_repeat.
   lia.
@@ -106,7 +90,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold CountPrefix.
   split.
   - unfold repeat_Z.
@@ -122,7 +106,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_3 : solver_entail_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH4.
   exact H.
 Qed.
@@ -137,7 +121,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply count_prefix_step__counting_invariant.
   - lia.
   - pose proof (PreH8 i ltac:(lia)) as Hvalue.
@@ -153,14 +137,14 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH13 k_2 ltac:(lia)).
   lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_2 : solver_entail_wit_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply maximum_frequency_prefix_zero__counting_invariant.
   unfold CountPrefix in PreH12.
   destruct PreH12 as [Hlength _].
@@ -169,14 +153,14 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_3 : solver_entail_wit_3_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace n_pre with i by lia.
   exact PreH12.
 Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_4 : solver_entail_wit_3_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH8.
   exact H.
 Qed.
@@ -192,7 +176,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_1_split_goal_1 : solver_entail_wit_4_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply (maximum_frequency_prefix_raise__frequency_transitions counts_2 i mx c);
     try assumption; try lia.
   unfold CountPrefix in PreH15.
@@ -208,7 +192,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_2_split_goal_1 : solver_entail_wit_4_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply (maximum_frequency_prefix_tie__frequency_transitions counts_2 i mx c);
     try assumption; try lia.
   unfold CountPrefix in PreH16.
@@ -224,7 +208,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_3_split_goal_1 : solver_entail_wit_4_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply (maximum_frequency_prefix_below__frequency_transitions counts_2 i mx c);
     try assumption; try lia.
   - unfold CountPrefix in PreH16.
@@ -242,7 +226,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_1 : solver_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = n_pre + 1) by lia.
   pose proof (terminal_frequency_bounds__terminal_result
     values counts_2 n_pre i mx c
@@ -258,7 +242,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_2 : solver_entail_wit_5_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = n_pre + 1) by lia.
   rewrite <- Hi.
   exact PreH15.
@@ -266,7 +250,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_3 : solver_entail_wit_5_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (terminal_frequency_bounds__terminal_result
     values counts_2 n_pre i mx c
     PreH3 PreH7 PreH8 PreH9 PreH1 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15)
@@ -276,7 +260,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_4 : solver_entail_wit_5_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (terminal_frequency_bounds__terminal_result
     values counts_2 n_pre i mx c
     PreH3 PreH7 PreH8 PreH9 PreH1 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15)
@@ -286,7 +270,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_5 : solver_entail_wit_5_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   exact (PreH6 k H).
 Qed.
 

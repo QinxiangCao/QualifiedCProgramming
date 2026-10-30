@@ -201,10 +201,10 @@ unsigned int mpn_add_1 (unsigned int *rp, unsigned int *ap, int n, unsigned int 
     (val' + __return * Z::pow(UINT_MOD, n) == val + b)
 */;
 unsigned int mpn_add_n (unsigned int *rp, unsigned int *ap, unsigned int *bp, int n)
-/*@
+/*@ default <= implementation
  With val_a val_b
  Require
-   n > 0 &&
+   n >= 0 &&
    mpd_store_Z(UINT_MOD, ap, val_a, n) *
    mpd_store_Z(UINT_MOD, bp, val_b, n) *
    UIntArray::undef_full(rp, n) 
@@ -240,36 +240,36 @@ unsigned int mpn_sub_1 (unsigned int *rp, unsigned int *ap, int n, unsigned int 
   With val
   Require
     n > 0 && 0 <= b && b <= UINT_MAX &&
-    mpd_store_Z(UINT_MOD,ap, val, n) *
+    mpd_store_Z(UINT_MOD, ap, val, n) *
     UIntArray::undef_full(rp, n)
   Ensure
     exists val',
     mpd_store_Z(UINT_MOD, ap, val, n) *
     mpd_store_Z(UINT_MOD, rp, val', n) &&
-    (val' - __return * Z::pow(UINT_MOD, n) == val - b)
+    (val' - __return * Z::pow(UINT_MOD, n) == val - b@pre)
 */;
 
 unsigned int mpn_sub_n (unsigned int *rp, unsigned int *ap, unsigned int *bp, int n)
-/*@
- With val_a val_b
- Require
-   n > 0 &&
-   mpd_store_Z(UINT_MOD, ap, val_a, n) *
-   mpd_store_Z(UINT_MOD, bp, val_b, n) *
-   UIntArray::undef_full(rp, n) 
- Ensure
-   exists val_r_out,
-   (val_r_out - __return * Z::pow(UINT_MOD, n) == val_a - val_b) &&
-   mpd_store_Z(UINT_MOD, ap, val_a, n) *
-   mpd_store_Z(UINT_MOD, bp, val_b, n) *
-   mpd_store_Z(UINT_MOD, rp, val_r_out, n) 
+/*@ default <= implementation
+  With val_a val_b
+  Require
+    n >= 0 &&
+    mpd_store_Z(UINT_MOD, ap, val_a, n) *
+    mpd_store_Z(UINT_MOD, bp, val_b, n) *
+    UIntArray::undef_full(rp, n)
+  Ensure
+    exists val_r,
+    mpd_store_Z(UINT_MOD, ap, val_a, n) *
+    mpd_store_Z(UINT_MOD, bp, val_b, n) *
+    mpd_store_Z(UINT_MOD, rp, val_r, n) &&
+    (val_r - __return * Z::pow(UINT_MOD, n) == val_a - val_b)
 */;
 
 unsigned int mpn_sub (unsigned int *rp, unsigned int *ap, int an, unsigned int *bp, int bn)
-/*@
+/*@ default <= implementation
  With val_a val_b
  Require
-   an >= bn && an >= 0 && bn >= 0 &&
+   an >= bn && an > 0 && bn >= 0 &&
    mpd_store_Z(UINT_MOD, ap, val_a, an) *
    mpd_store_Z(UINT_MOD, bp, val_b, bn) *
    UIntArray::undef_full(rp, an)
@@ -312,7 +312,7 @@ void mpz_neg (mpz_t u, const mpz_t v)
   Require
     store_Z(u, n) * store_Z(v, m)
   Ensure
-    store_Z(u, m) * store_Z(v, n)
+    store_Z(u, -m) * store_Z(v, m)
 */;
 void mpz_swap (mpz_t u, mpz_t v);
 
@@ -346,22 +346,21 @@ mpz_realloc (mpz_t r, int size)
 
 /* Realloc for an mpz_t WHAT if it has less than NEEDED limbs.  */
 unsigned int *mrz_realloc_if(mpz_t z,int n)
-/*@ 
+/*@
   With
     ptr old cap m
   Require
-    cap >= 0 && cap <= INT_MAX && n >= 1 && n <= INT_MAX &&
+    cap >= 0 && cap <= INT_MAX && n >= 0 && n <= INT_MAX &&
     Zabs(old) <= cap && same_sign(m, old) &&
-    mpd_store_Z_compact(UINT_MOD,ptr, Zabs(m), Zabs(old)) *
-    UIntArray::undef_seg(ptr, Zabs(old), cap) &&
+    mpd_store_Z_compact(UINT_MOD,ptr, Zabs(m), Zabs(old)) * UIntArray::undef_seg(ptr, Zabs(old), cap) &&
       z -> _mp_size == old &&
       z -> _mp_alloc == cap &&
       z -> _mp_d == ptr
   Ensure
     same_sign(m, old) &&
-    mpd_store_Z_compact(UINT_MOD,__return, Zabs(m), Zabs(old)) * UIntArray::undef_seg(__return, Zabs(old), Z::max(Z::max(n,1),cap)) &&
+    mpd_store_Z_compact(UINT_MOD,__return, Zabs(m), Zabs(old)) * UIntArray::undef_seg(__return, Zabs(old), Z::max(n,cap)) &&
     z -> _mp_size == old &&
-    z -> _mp_alloc == Z::max(Z::max(n,1),cap) &&
+    z -> _mp_alloc == Z::max(n,cap) &&
     z -> _mp_d == __return
 */;
 

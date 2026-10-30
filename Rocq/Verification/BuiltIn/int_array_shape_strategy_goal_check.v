@@ -1,0 +1,5 @@
+From SimpleC.Verification.BuiltIn Require Import int_array_shape_strategy_goal int_array_shape_strategy_proof.
+
+Module int_array_shape_Strategy_Correctness : int_array_shape_Strategy_Correct.
+  Include int_array_shape_strategy_proof.
+End int_array_shape_Strategy_Correctness.

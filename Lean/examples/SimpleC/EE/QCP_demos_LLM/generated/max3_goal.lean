@@ -57,7 +57,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def max3_return_wit_1 : Prop :=
-  forall (z_pre : Int) (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre >= z_pre)) (PreH2 : (x_pre >= y_pre)) (PreH3 : (INT_MIN <= x_pre)) (PreH4 : (x_pre <= INT_MAX)) (PreH5 : (INT_MIN <= y_pre)) (PreH6 : (y_pre <= INT_MAX)) (PreH7 : (INT_MIN <= z_pre)) (PreH8 : (z_pre <= INT_MAX)) ,
+  forall (x_pre : Int) (y_pre : Int) (z_pre : Int) (PreH1 : (x_pre >= z_pre)) (PreH2 : (x_pre >= y_pre)) (PreH3 : (INT_MIN <= x_pre)) (PreH4 : (x_pre <= INT_MAX)) (PreH5 : (INT_MIN <= y_pre)) (PreH6 : (y_pre <= INT_MAX)) (PreH7 : (INT_MIN <= z_pre)) (PreH8 : (z_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ (x_pre >= x_pre) ” &&
@@ -66,7 +66,7 @@ noncomputable def max3_return_wit_1 : Prop :=
   &&  emp
 
 noncomputable def max3_return_wit_2 : Prop :=
-  forall (z_pre : Int) (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre < z_pre)) (PreH2 : (x_pre >= y_pre)) (PreH3 : (INT_MIN <= x_pre)) (PreH4 : (x_pre <= INT_MAX)) (PreH5 : (INT_MIN <= y_pre)) (PreH6 : (y_pre <= INT_MAX)) (PreH7 : (INT_MIN <= z_pre)) (PreH8 : (z_pre <= INT_MAX)) ,
+  forall (x_pre : Int) (y_pre : Int) (z_pre : Int) (PreH1 : (x_pre < z_pre)) (PreH2 : (x_pre >= y_pre)) (PreH3 : (INT_MIN <= x_pre)) (PreH4 : (x_pre <= INT_MAX)) (PreH5 : (INT_MIN <= y_pre)) (PreH6 : (y_pre <= INT_MAX)) (PreH7 : (INT_MIN <= z_pre)) (PreH8 : (z_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ (z_pre >= x_pre) ” &&
@@ -75,7 +75,7 @@ noncomputable def max3_return_wit_2 : Prop :=
   &&  emp
 
 noncomputable def max3_return_wit_3 : Prop :=
-  forall (z_pre : Int) (y_pre : Int) (x_pre : Int) (PreH1 : (y_pre >= z_pre)) (PreH2 : (x_pre < y_pre)) (PreH3 : (INT_MIN <= x_pre)) (PreH4 : (x_pre <= INT_MAX)) (PreH5 : (INT_MIN <= y_pre)) (PreH6 : (y_pre <= INT_MAX)) (PreH7 : (INT_MIN <= z_pre)) (PreH8 : (z_pre <= INT_MAX)) ,
+  forall (x_pre : Int) (y_pre : Int) (z_pre : Int) (PreH1 : (y_pre >= z_pre)) (PreH2 : (x_pre < y_pre)) (PreH3 : (INT_MIN <= x_pre)) (PreH4 : (x_pre <= INT_MAX)) (PreH5 : (INT_MIN <= y_pre)) (PreH6 : (y_pre <= INT_MAX)) (PreH7 : (INT_MIN <= z_pre)) (PreH8 : (z_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ (y_pre >= x_pre) ” &&
@@ -84,7 +84,7 @@ noncomputable def max3_return_wit_3 : Prop :=
   &&  emp
 
 noncomputable def max3_return_wit_4 : Prop :=
-  forall (z_pre : Int) (y_pre : Int) (x_pre : Int) (PreH1 : (y_pre < z_pre)) (PreH2 : (x_pre < y_pre)) (PreH3 : (INT_MIN <= x_pre)) (PreH4 : (x_pre <= INT_MAX)) (PreH5 : (INT_MIN <= y_pre)) (PreH6 : (y_pre <= INT_MAX)) (PreH7 : (INT_MIN <= z_pre)) (PreH8 : (z_pre <= INT_MAX)) ,
+  forall (x_pre : Int) (y_pre : Int) (z_pre : Int) (PreH1 : (y_pre < z_pre)) (PreH2 : (x_pre < y_pre)) (PreH3 : (INT_MIN <= x_pre)) (PreH4 : (x_pre <= INT_MAX)) (PreH5 : (INT_MIN <= y_pre)) (PreH6 : (y_pre <= INT_MAX)) (PreH7 : (INT_MIN <= z_pre)) (PreH8 : (z_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ (z_pre >= x_pre) ” &&

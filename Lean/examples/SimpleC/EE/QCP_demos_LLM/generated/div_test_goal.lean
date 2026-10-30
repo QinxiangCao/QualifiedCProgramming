@@ -58,7 +58,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def div_test_safety_wit_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (INT_MIN < a_pre)) (PreH2 : (a_pre <= INT_MAX)) (PreH3 : (INT_MIN < b_pre)) (PreH4 : (b_pre <= INT_MAX)) (PreH5 : (INT_MIN < c_pre)) (PreH6 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (INT_MIN < a_pre)) (PreH2 : (a_pre <= INT_MAX)) (PreH3 : (INT_MIN < b_pre)) (PreH4 : (b_pre <= INT_MAX)) (PreH5 : (INT_MIN < c_pre)) (PreH6 : (c_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "c" ) )) # Int |-> (c_pre))
@@ -67,7 +67,7 @@ noncomputable def div_test_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def div_test_safety_wit_2 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (c_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (c_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "c" ) )) # Int |-> (c_pre))
@@ -76,7 +76,7 @@ noncomputable def div_test_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def div_test_safety_wit_3 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (c_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (c_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "d" ) )) # Int64 |->_)
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
@@ -86,7 +86,7 @@ noncomputable def div_test_safety_wit_3 : Prop :=
   “ (c_pre ≠ (0 : Int)) ”
 
 noncomputable def div_test_safety_wit_4 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (c_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (c_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "d" ) )) # Int64 |->_)
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
@@ -96,7 +96,7 @@ noncomputable def div_test_safety_wit_4 : Prop :=
   “ ((-9223372036854775808) <= (a_pre * b_pre)) ”
 
 noncomputable def div_test_safety_wit_5 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (c_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (c_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "d" ) )) # Int64 |-> ((Z.quot (a_pre * b_pre) c_pre)))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
@@ -106,7 +106,7 @@ noncomputable def div_test_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def div_test_safety_wit_6 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((Z.quot (a_pre * b_pre) c_pre) < (0 : Int))) (PreH2 : (c_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((Z.quot (a_pre * b_pre) c_pre) < (0 : Int))) (PreH2 : (c_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   ((( &( "d" ) )) # Int64 |-> ((Z.quot (a_pre * b_pre) c_pre)))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
@@ -117,14 +117,14 @@ noncomputable def div_test_safety_wit_6 : Prop :=
 
 noncomputable def div_test_return_wit_1 : Prop :=
   (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((Z.quot (a_pre * b_pre) c_pre) >= (0 : Int))) (PreH2 : (c_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((Z.quot (a_pre * b_pre) c_pre) >= (0 : Int))) (PreH2 : (c_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((Z.quot (a_pre * b_pre) c_pre) = (Pos_Div ((a_pre * b_pre)) (c_pre) ((0 : Int)))) ”
   &&  emp
 ) \/
 (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((Z.quot (a_pre * b_pre) c_pre) >= (0 : Int))) (PreH2 : (c_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((Z.quot (a_pre * b_pre) c_pre) >= (0 : Int))) (PreH2 : (c_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((Z.quot (a_pre * b_pre) c_pre) = (Pos_Div ((a_pre * b_pre)) (c_pre) ((0 : Int)))) ”
@@ -132,19 +132,19 @@ forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((Z.quot (a_pre * b_pr
 )
 
 noncomputable def div_test_return_wit_1_split_goal_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((Z.quot (a_pre * b_pre) c_pre) >= (0 : Int))) (PreH2 : (c_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((Z.quot (a_pre * b_pre) c_pre) >= (0 : Int))) (PreH2 : (c_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   ((Z.quot (a_pre * b_pre) c_pre) = (Pos_Div ((a_pre * b_pre)) (c_pre) ((0 : Int))))
 
 noncomputable def div_test_return_wit_2 : Prop :=
   (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((Z.quot (a_pre * b_pre) c_pre) < (0 : Int))) (PreH2 : (c_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((Z.quot (a_pre * b_pre) c_pre) < (0 : Int))) (PreH2 : (c_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Pos_Div ((a_pre * b_pre)) (c_pre) ((0 : Int)))) ”
   &&  emp
 ) \/
 (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((Z.quot (a_pre * b_pre) c_pre) < (0 : Int))) (PreH2 : (c_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((Z.quot (a_pre * b_pre) c_pre) < (0 : Int))) (PreH2 : (c_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Pos_Div ((a_pre * b_pre)) (c_pre) ((0 : Int)))) ”
@@ -152,19 +152,19 @@ forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((Z.quot (a_pre * b_pr
 )
 
 noncomputable def div_test_return_wit_2_split_goal_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((Z.quot (a_pre * b_pre) c_pre) < (0 : Int))) (PreH2 : (c_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : ((Z.quot (a_pre * b_pre) c_pre) < (0 : Int))) (PreH2 : (c_pre ≠ (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   ((0 : Int) = (Pos_Div ((a_pre * b_pre)) (c_pre) ((0 : Int))))
 
 noncomputable def div_test_return_wit_3 : Prop :=
   (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (c_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (c_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Pos_Div ((a_pre * b_pre)) (c_pre) ((0 : Int)))) ”
   &&  emp
 ) \/
 (
-forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (c_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (c_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((0 : Int) = (Pos_Div ((a_pre * b_pre)) ((0 : Int)) ((0 : Int)))) ”
@@ -172,7 +172,7 @@ forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (c_pre = (0 : Int))) (
 )
 
 noncomputable def div_test_return_wit_3_split_goal_1 : Prop :=
-  forall (c_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (c_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (c_pre : Int) (PreH1 : (c_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((0 : Int) = (Pos_Div ((a_pre * b_pre)) ((0 : Int)) ((0 : Int))))
 
 

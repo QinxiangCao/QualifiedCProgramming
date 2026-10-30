@@ -109,6 +109,33 @@ Definition mem_join (m1 m2 m: mem) : Prop :=
   (exists n, m1 p = Noperm /\ m2 p = value n /\ m p = value n) \/
   (exists n, m1 p = value n /\ m2 p = Noperm /\ m p = value n).
 
+(* Pointwise characterization of [mem_join]. *)
+Lemma mem_join_iff : forall m1 m2 m,
+  mem_join m1 m2 m <->
+  (forall p,
+    match m1 p, m2 p, m p with
+    | Noperm, Noperm, Noperm => True
+    | Noperm, Noninit, Noninit => True
+    | Noninit, Noperm, Noninit => True
+    | Noperm, value a, value b => a = b
+    | value a, Noperm, value b => a = b
+    | _, _, _ => False
+    end).
+Proof.
+  intros. unfold mem_join.
+  split.
+  - intros H p.
+    specialize (H p).
+    destruct H as [H | [H | [H | [H | H]]]].
+    1-3: destruct H as [H1 [H2 H3]]; rewrite H1, H2, H3; tauto.
+    1-2: destruct H as [n [H1 [H2 H3]]]; rewrite H1, H2, H3; tauto.
+  - intros H p.
+    specialize (H p).
+    destruct (m1 p), (m2 p), (m p); simpl in H; try tauto; subst.
+    + do 3 right. left. eexists. repeat split; auto.
+    + do 3 right. right. eexists. repeat split; auto.
+Qed.
+
 #[export] Instance mem_join_congr :
   Proper (f_eq ==> f_eq ==> f_eq ==> iff) mem_join.
 Proof.
@@ -122,6 +149,69 @@ Qed.
 
 Definition mem_incl (m1 m2 : mem) : Prop :=
   forall p, m1 p <> Noperm -> m2 p = m1 p.
+
+Definition mem_domain_eq (m1 m2 : mem) : Prop :=
+  forall p,
+    match m1 p, m2 p with
+    | Noperm, Noperm => True
+    | Noperm, _ => False
+    | _, Noperm => False
+    | _, _ => True
+    end.
+
+Lemma mem_domain_eq_iff :
+  forall m1 m2,
+    mem_domain_eq m1 m2 <->
+    forall p, m1 p = Noperm <-> m2 p = Noperm.
+Proof.
+  unfold mem_domain_eq.
+  split.
+  - intros H p.
+    specialize (H p).
+    destruct (m1 p), (m2 p); simpl in H; try contradiction;
+      split; intros; congruence.
+  - intros H p.
+    specialize (H p).
+    destruct H as [H1 H2].
+    destruct (m1 p), (m2 p); simpl; try exact I.
+    + specialize (H1 eq_refl). congruence.
+    + specialize (H1 eq_refl). congruence.
+    + specialize (H2 eq_refl). congruence.
+    + specialize (H2 eq_refl). congruence.
+Qed.
+
+Lemma mem_domain_eq_join : forall m1 m1' m2 m2' m m',
+  mem_domain_eq m1 m1' ->
+  mem_domain_eq m2 m2' ->
+  mem_join m1 m2 m ->
+  mem_join m1' m2' m' ->
+  mem_domain_eq m m'.
+Proof.
+  intros * H H' Hjoin Hjoin' a.
+  rewrite mem_join_iff in Hjoin, Hjoin'.
+  specialize (H a). specialize (H' a).
+  specialize (Hjoin a). specialize (Hjoin' a).
+  destruct (m1 a), (m2 a), (m a); simpl in *; try tauto.
+  all: destruct (m1' a), (m2' a), (m' a); simpl in *; tauto.
+Qed.
+
+Lemma mem_domain_eq_None1 : forall m1 m2 p,
+  mem_domain_eq m1 m2 ->
+  m1 p = Noperm ->
+  m2 p = Noperm.
+Proof.
+  intros m1 m2 p Hdomain Hnoperm.
+  exact (proj1 (proj1 (mem_domain_eq_iff m1 m2) Hdomain p) Hnoperm).
+Qed.
+
+Lemma mem_domain_eq_None2 : forall m1 m2 p,
+  mem_domain_eq m1 m2 ->
+  m2 p = Noperm ->
+  m1 p = Noperm.
+Proof.
+  intros m1 m2 p Hdomain Hnoperm.
+  exact (proj2 (proj1 (mem_domain_eq_iff m1 m2) Hdomain p) Hnoperm).
+Qed.
 
 Lemma empty_mem_empty : mem_empty empty_mem.
 Proof.
@@ -594,6 +684,24 @@ Proof.
 Qed.
 
 Arguments mem_join_eq_r [m1] [m2] [m2'] [m].
+
+Lemma mem_join_domain_eq_cancel :
+  forall m1 m2 r1 r2 m,
+    mem_domain_eq m1 m2 ->
+    mem_join m1 r1 m ->
+    mem_join m2 r2 m ->
+    r1 = r2.
+Proof.
+  intros m1 m2 r1 r2 m Hsame Hjoin1 Hjoin2.
+  apply fun_ext1. intros p.
+  rewrite mem_join_iff in Hjoin1, Hjoin2.
+  specialize (Hsame p).
+  specialize (Hjoin1 p). specialize (Hjoin2 p).
+  destruct (m1 p), (r1 p), (m p); simpl in *; try tauto.
+  all: destruct (m2 p), (r2 p); simpl in *; try tauto; congruence.
+Qed.
+
+Arguments mem_join_domain_eq_cancel [m1] [m2] [r1] [r2] [m].
 
 Lemma mem_join_Some_eq_l : forall m1 m2 m3 x v1 v2,
   mem_join m1 m2 m3 ->

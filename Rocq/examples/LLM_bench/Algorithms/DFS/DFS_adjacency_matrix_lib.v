@@ -277,24 +277,11 @@ Lemma matrix_split_merge__dfs_core :
     |-- IntArray2.full matrix n n rows.
 Proof.
   intros matrix n rows i j d Hi Hj.
-  replace (matrix + (i * n + j) * sizeof (INT))
-    with ((matrix + i * n * sizeof (INT)) + j * sizeof (INT)) by lia.
-  prop_apply (IntArray.missing_i_Zlength
-    (matrix + i * n * sizeof (INT)) j 0 n (Znth i rows d)).
-  Intros. rename H into Hrowlen.
-  prop_apply (IntArray2.missing_i_Zlength matrix i 0 n n rows).
-  Intros. rename H into Hrowslen.
-  sep_apply (IntArray.missing_i_merge_to_full
-    (matrix + i * n * sizeof (INT)) j n
-    (Znth j (Znth i rows d) 0) (Znth i rows d)); try lia.
-  rewrite replace_Znth_Znth by lia.
-  pose proof (IntArray2.missing_i_merge_to_full
-    matrix i n n rows (Znth i rows d)) as Hmerge_rows.
-  change (IntArray2.ElemArray.full (IntArray2.row_addr matrix n i)
-    n (Znth i rows d))
-    with (IntArray.full (matrix + i * n * sizeof (INT))
-      n (Znth i rows d)) in Hmerge_rows.
-  sep_apply Hmerge_rows; try lia.
-  rewrite replace_Znth_Znth by lia.
-  cancel.
+  replace (matrix + (i * n + j) * sizeof (INT)) with ((matrix + i * n * sizeof (INT)) + j * sizeof (INT)) by lia.
+  sep_apply (IntArray.missing_i_merge_to_full (matrix + i * n * sizeof (INT)) j n (Znth j (Znth i rows d) 0) (Znth i rows d) Hj).
+  rewrite replace_Znth_Znth.
+  pose proof (IntArray2.missing_i_merge_to_full matrix i n n rows (Znth i rows d) Hi) as Hmerge_rows.
+  rewrite replace_Znth_Znth in Hmerge_rows.
+  sep_apply_r_atomic Hmerge_rows.
+  cancel; reflexivity.
 Qed.

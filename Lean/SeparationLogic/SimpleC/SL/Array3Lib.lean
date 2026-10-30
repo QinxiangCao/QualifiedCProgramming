@@ -42,6 +42,12 @@ structure Array3Facade
     (SLibSig : StoreLibSig Arch Endian CRules DePredSig) where
   elementStore : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig
 
+noncomputable abbrev BoolArray3 (Arch : CArchSig) (Endian : CEndianSig)
+    (CRules : SeparationLogicSig) (DePredSig : DerivedPredSig Arch Endian CRules)
+    (SLibSig : StoreLibSig Arch Endian CRules DePredSig) :
+    Array3Facade Arch Endian CRules DePredSig SLibSig :=
+  ⟨StoreBoolAsElement Arch Endian CRules DePredSig SLibSig⟩
+
 noncomputable def CharArray3 (Arch : CArchSig) (Endian : CEndianSig)
     (CRules : SeparationLogicSig) (DePredSig : DerivedPredSig Arch Endian CRules)
     (SLibSig : StoreLibSig Arch Endian CRules DePredSig) :

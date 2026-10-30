@@ -18,7 +18,7 @@ from path_utils import fixed_path_under, path_is_link_like
 from process_adapter import CONTROL_SIGNAL_ENV, ProcessCancelled, control_signal_requests_stop, tool_progress
 from coq_tooling_common import (
     FIXED_LOAD_PATH_MAPPINGS, COQ_SIDE_PRODUCT_SUFFIXES, CoqBuildPlanError,
-    dependency_closure, fixed_source, run_tool,
+    current_sources, dependency_closure, fixed_source, run_tool,
 )
 
 BUILD_MODE = "dune"
@@ -216,11 +216,9 @@ def prepare_native(
         graph = _read_rules(root, rules)
         selected = dependency_closure(graph, targets)
         graph = {source: graph[source] for source in selected}
-        base = set(graph) - family
+        base = set(graph) - current_sources(graph, family)
         for source in selected:
             fixed_source(root, source)
-            if source in base and set(graph[source]) & family:
-                raise ValueError(f"Base module depends on the current case: {source}")
         if base:
             run_tool([dune, "build", "--root", str(root), "--display=short",
                       *(source.with_suffix(".vo").as_posix() for source in sorted(base))],

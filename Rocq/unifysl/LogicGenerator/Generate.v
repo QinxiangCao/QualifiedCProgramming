@@ -30,14 +30,17 @@ Require Import Logic.SeparationLogic.ProofTheory.RewriteClass.
 Require Import Logic.SeparationLogic.ProofTheory.DerivedRules.
 Require Import Logic.SeparationLogic.ProofTheory.IterSepcon.
 Require Import Logic.SeparationLogic.ProofTheory.TheoryOfCancel.
+Require Import Logic.Extensions.ProofTheory.Stable.
 Require Import Logic.SeparationLogic.ProofTheory.TheoryOfSeparationAxioms.
 Require Import Logic.SeparationLogic.ProofTheory.Corable.
 Require Import Logic.SeparationLogic.ProofTheory.Deduction.
+Require Import Logic.Extensions.ProofTheory.Corable.
 Require Import Logic.SeparationLogic.Model.SeparationAlgebra.
 Require Import Logic.GeneralLogic.ShallowEmbedded.ModelLanguage.
 Require Import Logic.MinimumLogic.ShallowEmbedded.ModelLanguageMinimumLogic.
 Require Import Logic.PropositionalLogic.ShallowEmbedded.ModelLanguagePropositionalLogic.
 Require Import Logic.SeparationLogic.ShallowEmbedded.ModelLanguageSeparationLogic.
+Require Import Logic.Extensions.ShallowEmbedded.ModelLanguageCorableStable.
 Require Import Logic.SeparationLogic.ShallowEmbedded.PredicateSeparationLogic.
 Require Import Logic.MetaLogicInj.ShallowEmbedded.ModelLanguageMetaLogic.
 Require Import Logic.ShallowQuantifierLogic.Syntax.
@@ -177,6 +180,12 @@ Context {L: Language}
         {empE: EmpLogicEquiv_iffp L GammaE}
         {CorAX: Corable_withAxiomatization L GammaP Cor}
         {coq_prop_Cor: CoqPropCorable L Cor}
+        {corable_imp_stable: ImpStable L corable}
+        {corable_and_stable: AndStable L corable}
+        {corable_or_stable: OrStable L corable}
+        {corable_false_stable: FalseStable L corable}
+        {corable_separation_stable: SeparationStable L corable}
+        {corable_separation_absorb_stable: SeparationAbsorbStable L GammaP corable}
 
         (* new *)
         {M : Model}
@@ -189,6 +198,7 @@ Context {L: Language}
         {minL_modelL : MinimumLanguage Model_L}
         {andpL_modelL : AndLanguage Model_L}
         {orpL_modelL: OrLanguage Model_L}
+        {falsepL_modelL: FalseLanguage Model_L}
         {coq_prop_modelL : CoqPropLanguage Model_L}
         {sepconL_modelL: SepconLanguage Model_L}
         {GammaP_modelL : Provable Model_L}
@@ -196,9 +206,12 @@ Context {L: Language}
         {sepconAX_modelL : SepconAxiomatization Model_L GammaP_modelL}
         {empL_modelL : EmpLanguage Model_L}
         {imppDef_model : ImppDefinition_Model minL_modelL}
+        {iffpL_modelL : IffLanguage Model_L}
+        {iffpDef_model : IffpDefinition_Model iffpL_modelL}
         {provableDef_model: ProvableDefinition_Model GammaP_modelL}
         {andpDef_model : AndpDefinition_Model andpL_modelL}
         {orpDef_model : OrpDefinition_Model orpL_modelL}
+        {falsepDef_model : FalsepDefinition_Model falsepL_modelL}
         {coqpropDef_model : CoqPropDefinition_Model coq_prop_modelL}
         {truepDef_model : TrueDefinition_Model truepL_modelL}
         {empDef_unit : EmpDefinition_Unit Unit2Emp}
@@ -209,6 +222,8 @@ Context {L: Language}
         {allpD : ShallowForallDeduction L GammaD1}
         {exp_andpD : deduction_exp_and}
         {wandDef_join : WandDefinition_Join Join2Wand}
+        {Cor_modelL : Corable Model_L}
+        {corableDef_join : CorableDefinition_Join Cor_modelL}
         {GammaD1_modelL : Derivable1 Model_L}
         {derivable1Def_model : Derivable1Definition_Model GammaD1_modelL}
         {sepconD1_modelL : SepconDeduction Model_L GammaD1_modelL}
@@ -476,16 +491,19 @@ Ltac two_stage_print :=
   idtac "Require Import Logic.SeparationLogic.ProofTheory.RewriteClass.";
   idtac "Require Import Logic.SeparationLogic.ProofTheory.DerivedRules.";
   idtac "Require Import Logic.SeparationLogic.ProofTheory.TheoryOfCancel.";
+  idtac "Require Import Logic.Extensions.ProofTheory.Stable.";
   idtac "Require Import Logic.SeparationLogic.ProofTheory.TheoryOfSeparationAxioms.";
   idtac "Require Import Logic.SeparationLogic.ProofTheory.IterSepcon.";
   idtac "Require Import Logic.SeparationLogic.ProofTheory.Corable.";
   idtac "Require Import Logic.SeparationLogic.ProofTheory.Deduction.";
   idtac "Require Import Logic.GeneralLogic.ProofTheory.BasicLogicEquiv.";
+  idtac "Require Import Logic.Extensions.ProofTheory.Corable.";
   idtac "Require Import Logic.SeparationLogic.Model.SeparationAlgebra.";
   idtac "Require Import Logic.GeneralLogic.ShallowEmbedded.ModelLanguage.";
   idtac "Require Import Logic.MinimumLogic.ShallowEmbedded.ModelLanguageMinimumLogic.";
   idtac "Require Import Logic.PropositionalLogic.ShallowEmbedded.ModelLanguagePropositionalLogic.";
   idtac "Require Import Logic.SeparationLogic.ShallowEmbedded.ModelLanguageSeparationLogic.";
+  idtac "Require Import Logic.Extensions.ShallowEmbedded.ModelLanguageCorableStable.";
   idtac "Require Import Logic.MetaLogicInj.ShallowEmbedded.ModelLanguageMetaLogic.";
   idtac "Require Import Logic.GeneralLogic.ShallowEmbedded.PredicateAsLang.";
   idtac "Require Import Logic.SeparationLogic.ShallowEmbedded.PredicateSeparationLogic.";

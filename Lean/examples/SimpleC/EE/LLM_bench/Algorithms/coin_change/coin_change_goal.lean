@@ -59,7 +59,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def coinChange_safety_wit_1 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (PreH1 : ((0 : Int) <= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (INT_MAX)) coins_l)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (PreH1 : ((0 : Int) <= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (INT_MAX)) coins_l)) ,
   (intArray.undef_full ( &( "dp" ) ) 100001)
   ** ((( &( "coins" ) )) # Ptr |-> (coins_pre))
   ** ((( &( "coinsSize" ) )) # Int |-> (coinsSize_pre))
@@ -70,7 +70,7 @@ noncomputable def coinChange_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def coinChange_safety_wit_2 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (PreH1 : ((0 : Int) <= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (INT_MAX)) coins_l)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (PreH1 : ((0 : Int) <= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (INT_MAX)) coins_l)) ,
   (intArray.undef_full ( &( "dp" ) ) 100001)
   ** ((( &( "coins" ) )) # Ptr |-> (coins_pre))
   ** ((( &( "coinsSize" ) )) # Int |-> (coinsSize_pre))
@@ -81,7 +81,7 @@ noncomputable def coinChange_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def coinChange_safety_wit_3 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (PreH1 : ((0 : Int) <= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (INT_MAX)) coins_l)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (PreH1 : ((0 : Int) <= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (INT_MAX)) coins_l)) ,
   ((( &( "j" ) )) # Int |->_)
   ** (((( &( "dp" ) ) + ((0 : Int) * sizeof(INT)))) # Int |-> (1))
   ** (intArray.undef_seg ( &( "dp" ) ) 1 100001)
@@ -94,7 +94,7 @@ noncomputable def coinChange_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def coinChange_safety_wit_4 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (j : Int) (PreH1 : (j <= amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l j)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (j : Int) (PreH1 : (j <= amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l j)) ,
   ((( &( "coins" ) )) # Ptr |-> (coins_pre))
   ** ((( &( "coinsSize" ) )) # Int |-> (coinsSize_pre))
   ** ((( &( "amount" ) )) # Int |-> (amount_pre))
@@ -108,7 +108,7 @@ noncomputable def coinChange_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def coinChange_safety_wit_5 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (j : Int) (PreH1 : (j <= amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l j)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (j : Int) (PreH1 : (j <= amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l j)) ,
   (intArray.seg ( &( "dp" ) ) (0 : Int) (j + 1) (dp_l ++ ((0 : Int) :: (@List.nil Int))))
   ** (intArray.undef_seg ( &( "dp" ) ) (j + 1) (amount_pre + 1))
   ** ((( &( "coins" ) )) # Ptr |-> (coins_pre))
@@ -122,7 +122,7 @@ noncomputable def coinChange_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (j + 1)) ”
 
 noncomputable def coinChange_safety_wit_6 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (j : Int) (PreH1 : (j > amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l j)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (j : Int) (PreH1 : (j > amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l j)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "coins" ) )) # Ptr |-> (coins_pre))
   ** ((( &( "coinsSize" ) )) # Int |-> (coinsSize_pre))
@@ -136,7 +136,7 @@ noncomputable def coinChange_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def coinChange_safety_wit_7 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : (j <= amount_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : (amount_pre <= 100000)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i < coinsSize_pre)) (PreH6 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH7 : (coin = (Znth i coins_l (0 : Int)))) (PreH8 : (1 <= coin)) (PreH9 : (coin <= amount_pre)) (PreH10 : (coin <= j)) (PreH11 : (j <= (amount_pre + 1))) (PreH12 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l j amount_pre)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : (j <= amount_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : (amount_pre <= 100000)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i < coinsSize_pre)) (PreH6 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH7 : (coin = (Znth i coins_l (0 : Int)))) (PreH8 : (1 <= coin)) (PreH9 : (coin <= amount_pre)) (PreH10 : (coin <= j)) (PreH11 : (j <= (amount_pre + 1))) (PreH12 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l j amount_pre)) ,
   ((( &( "coins" ) )) # Ptr |-> (coins_pre))
   ** ((( &( "coinsSize" ) )) # Int |-> (coinsSize_pre))
   ** ((( &( "amount" ) )) # Int |-> (amount_pre))
@@ -151,7 +151,7 @@ noncomputable def coinChange_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= (j - coin)) ”
 
 noncomputable def coinChange_safety_wit_8 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : (j <= amount_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : (amount_pre <= 100000)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i < coinsSize_pre)) (PreH6 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH7 : (coin = (Znth i coins_l (0 : Int)))) (PreH8 : (1 <= coin)) (PreH9 : (coin <= amount_pre)) (PreH10 : (coin <= j)) (PreH11 : (j <= (amount_pre + 1))) (PreH12 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l j amount_pre)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : (j <= amount_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : (amount_pre <= 100000)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i < coinsSize_pre)) (PreH6 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH7 : (coin = (Znth i coins_l (0 : Int)))) (PreH8 : (1 <= coin)) (PreH9 : (coin <= amount_pre)) (PreH10 : (coin <= j)) (PreH11 : (j <= (amount_pre + 1))) (PreH12 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l j amount_pre)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** ((( &( "coins" ) )) # Ptr |-> (coins_pre))
   ** ((( &( "coinsSize" ) )) # Int |-> (coinsSize_pre))
@@ -166,7 +166,7 @@ noncomputable def coinChange_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def coinChange_safety_wit_9 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l (0 : Int)) ≠ (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l j amount_pre)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l (0 : Int)) ≠ (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l j amount_pre)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** ((( &( "coins" ) )) # Ptr |-> (coins_pre))
   ** ((( &( "coinsSize" ) )) # Int |-> (coinsSize_pre))
@@ -181,7 +181,7 @@ noncomputable def coinChange_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def coinChange_safety_wit_10 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l (0 : Int)) ≠ (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l j amount_pre)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l (0 : Int)) ≠ (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l j amount_pre)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) (replace_Znth (j) (1) (dp_l)))
   ** ((( &( "coins" ) )) # Ptr |-> (coins_pre))
   ** ((( &( "coinsSize" ) )) # Int |-> (coinsSize_pre))
@@ -196,7 +196,7 @@ noncomputable def coinChange_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= (j + 1)) ”
 
 noncomputable def coinChange_safety_wit_11 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l (0 : Int)) = (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l j amount_pre)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l (0 : Int)) = (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l j amount_pre)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** ((( &( "coins" ) )) # Ptr |-> (coins_pre))
   ** ((( &( "coinsSize" ) )) # Int |-> (coinsSize_pre))
@@ -211,7 +211,7 @@ noncomputable def coinChange_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= (j + 1)) ”
 
 noncomputable def coinChange_safety_wit_12 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : (j > amount_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : (amount_pre <= 100000)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i < coinsSize_pre)) (PreH6 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH7 : (coin = (Znth i coins_l (0 : Int)))) (PreH8 : (1 <= coin)) (PreH9 : (coin <= amount_pre)) (PreH10 : (coin <= j)) (PreH11 : (j <= (amount_pre + 1))) (PreH12 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l j amount_pre)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : (j > amount_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : (amount_pre <= 100000)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i < coinsSize_pre)) (PreH6 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH7 : (coin = (Znth i coins_l (0 : Int)))) (PreH8 : (1 <= coin)) (PreH9 : (coin <= amount_pre)) (PreH10 : (coin <= j)) (PreH11 : (j <= (amount_pre + 1))) (PreH12 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l j amount_pre)) ,
   ((( &( "coins" ) )) # Ptr |-> (coins_pre))
   ** ((( &( "coinsSize" ) )) # Int |-> (coinsSize_pre))
   ** ((( &( "amount" ) )) # Int |-> (amount_pre))
@@ -224,7 +224,7 @@ noncomputable def coinChange_safety_wit_12 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def coinChange_safety_wit_13 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (i : Int) (PreH1 : ((Znth i coins_l (0 : Int)) > amount_pre)) (PreH2 : (i < coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : ((0 : Int) <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= coinsSize_pre)) (PreH8 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l (amount_pre + 1))) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (i : Int) (PreH1 : ((Znth i coins_l (0 : Int)) > amount_pre)) (PreH2 : (i < coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : ((0 : Int) <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= coinsSize_pre)) (PreH8 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l (amount_pre + 1))) ,
   (intArray.full coins_pre coinsSize_pre coins_l)
   ** ((( &( "coins" ) )) # Ptr |-> (coins_pre))
   ** ((( &( "coinsSize" ) )) # Int |-> (coinsSize_pre))
@@ -237,7 +237,7 @@ noncomputable def coinChange_safety_wit_13 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def coinChange_safety_wit_14 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (res : Int) (PreH1 : ((0 : Int) <= res)) (PreH2 : (res <= amount_pre)) (PreH3 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH4 : (NoReachableAbove coins_l amount_pre res)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (res : Int) (PreH1 : ((0 : Int) <= res)) (PreH2 : (res <= amount_pre)) (PreH3 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH4 : (NoReachableAbove coins_l amount_pre res)) ,
   ((( &( "coins" ) )) # Ptr |-> (coins_pre))
   ** ((( &( "coinsSize" ) )) # Int |-> (coinsSize_pre))
   ** ((( &( "amount" ) )) # Int |-> (amount_pre))
@@ -250,7 +250,7 @@ noncomputable def coinChange_safety_wit_14 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def coinChange_safety_wit_15 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (res : Int) (PreH1 : (res > (0 : Int))) (PreH2 : ((0 : Int) <= res)) (PreH3 : (res <= amount_pre)) (PreH4 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH5 : (NoReachableAbove coins_l amount_pre res)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (res : Int) (PreH1 : (res > (0 : Int))) (PreH2 : ((0 : Int) <= res)) (PreH3 : (res <= amount_pre)) (PreH4 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH5 : (NoReachableAbove coins_l amount_pre res)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** ((( &( "coins" ) )) # Ptr |-> (coins_pre))
   ** ((( &( "coinsSize" ) )) # Int |-> (coinsSize_pre))
@@ -263,7 +263,7 @@ noncomputable def coinChange_safety_wit_15 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def coinChange_safety_wit_16 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (res : Int) (PreH1 : ((Znth res dp_l (0 : Int)) = (0 : Int))) (PreH2 : (res > (0 : Int))) (PreH3 : ((0 : Int) <= res)) (PreH4 : (res <= amount_pre)) (PreH5 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH6 : (NoReachableAbove coins_l amount_pre res)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (res : Int) (PreH1 : ((Znth res dp_l (0 : Int)) = (0 : Int))) (PreH2 : (res > (0 : Int))) (PreH3 : ((0 : Int) <= res)) (PreH4 : (res <= amount_pre)) (PreH5 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH6 : (NoReachableAbove coins_l amount_pre res)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** ((( &( "coins" ) )) # Ptr |-> (coins_pre))
   ** ((( &( "coinsSize" ) )) # Int |-> (coinsSize_pre))
@@ -277,7 +277,7 @@ noncomputable def coinChange_safety_wit_16 : Prop :=
 
 noncomputable def coinChange_entail_wit_1 : Prop :=
   (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (PreH1 : ((0 : Int) <= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (INT_MAX)) coins_l)) ,
+forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (PreH1 : ((0 : Int) <= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (INT_MAX)) coins_l)) ,
   (((( &( "dp" ) ) + ((0 : Int) * sizeof(INT)))) # Int |-> (1))
   ** (intArray.undef_seg ( &( "dp" ) ) 1 100001)
   ** (intArray.full coins_pre coinsSize_pre coins_l)
@@ -296,7 +296,7 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (Li
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 ) \/
 (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (PreH1 : (1 <= INT_MAX)) (PreH2 : (1 >= INT_MIN)) (PreH3 : ((0 : Int) <= coinsSize_pre)) (PreH4 : (coinsSize_pre <= 100000)) (PreH5 : ((0 : Int) <= amount_pre)) (PreH6 : (amount_pre <= 100000)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (Forall ((GE.ge (α := Int)) (INT_MAX)) coins_l)) ,
+forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (PreH1 : (1 <= INT_MAX)) (PreH2 : (1 >= INT_MIN)) (PreH3 : ((0 : Int) <= coinsSize_pre)) (PreH4 : (coinsSize_pre <= 100000)) (PreH5 : ((0 : Int) <= amount_pre)) (PreH6 : (amount_pre <= 100000)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (Forall ((GE.ge (α := Int)) (INT_MAX)) coins_l)) ,
   (((( &( "dp" ) ) + ((0 : Int) * sizeof(INT)))) # Int |-> (1))
 |--
   EX dp_l : (List Int),
@@ -312,7 +312,7 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (PreH1 : 
 
 noncomputable def coinChange_entail_wit_2 : Prop :=
   (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (j : Int) (PreH1 : (j <= amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l_2 j)) ,
+forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (j : Int) (PreH1 : (j <= amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l_2 j)) ,
   (intArray.seg ( &( "dp" ) ) (0 : Int) (j + 1) (dp_l_2 ++ ((0 : Int) :: (@List.nil Int))))
   ** (intArray.undef_seg ( &( "dp" ) ) (j + 1) (amount_pre + 1))
   ** (intArray.full coins_pre coinsSize_pre coins_l)
@@ -332,7 +332,7 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (Li
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 ) \/
 (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (j : Int) (PreH1 : (j <= amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l_2 j)) ,
+forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (j : Int) (PreH1 : (j <= amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l_2 j)) ,
   TT && emp 
 |--
   “ (DpPrefixZeroed (dp_l_2 ++ ((0 : Int) :: (@List.nil Int))) (j + 1)) ”
@@ -340,12 +340,12 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 :
 )
 
 noncomputable def coinChange_entail_wit_2_split_goal_1 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (j : Int) (PreH1 : (j <= amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l_2 j)) ,
+  forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (j : Int) (PreH1 : (j <= amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l_2 j)) ,
   (DpPrefixZeroed (dp_l_2 ++ ((0 : Int) :: (@List.nil Int))) (j + 1))
 
 noncomputable def coinChange_entail_wit_3 : Prop :=
   (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (j : Int) (PreH1 : (j > amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l_2 j)) ,
+forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (j : Int) (PreH1 : (j > amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l_2 j)) ,
   (intArray.full coins_pre coinsSize_pre coins_l)
   ** (intArray.seg ( &( "dp" ) ) (0 : Int) j dp_l_2)
   ** (intArray.undef_seg ( &( "dp" ) ) j (amount_pre + 1))
@@ -364,23 +364,20 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (Li
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 ) \/
 (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (j : Int) (PreH1 : (j > amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l_2 j)) ,
-  (intArray.seg ( &( "dp" ) ) (0 : Int) j dp_l_2)
+forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (j : Int) (PreH1 : (j > amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l_2 j)) ,
+  TT && emp 
 |--
-  EX dp_l : (List Int),
-  “ (coinsSize_pre <= 100000) ” &&
-  “ ((0 : Int) <= amount_pre) ” &&
-  “ (amount_pre <= 100000) ” &&
-  “ ((0 : Int) <= (0 : Int)) ” &&
-  “ ((0 : Int) <= coinsSize_pre) ” &&
-  “ (Forall ((LE.le (α := Int)) (1)) coins_l) ” &&
-  “ (DpReachableTable (sublist ((0 : Int)) ((0 : Int)) (coins_l)) dp_l (amount_pre + 1)) ”
-  &&  (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
+  “ (DpReachableTable (sublist ((0 : Int)) ((0 : Int)) (coins_l)) dp_l_2 (amount_pre + 1)) ”
+  &&  emp
 )
+
+noncomputable def coinChange_entail_wit_3_split_goal_1 : Prop :=
+  forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (j : Int) (PreH1 : (j > amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l_2 j)) ,
+  (DpReachableTable (sublist ((0 : Int)) ((0 : Int)) (coins_l)) dp_l_2 (amount_pre + 1))
 
 noncomputable def coinChange_entail_wit_4 : Prop :=
   (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : ((Znth i coins_l (0 : Int)) <= amount_pre)) (PreH2 : (i < coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : ((0 : Int) <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= coinsSize_pre)) (PreH8 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
+forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (i : Int) (PreH1 : ((Znth i coins_l (0 : Int)) <= amount_pre)) (PreH2 : (i < coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : ((0 : Int) <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= coinsSize_pre)) (PreH8 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
   (intArray.full coins_pre coinsSize_pre coins_l)
   ** (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l_2)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
@@ -402,7 +399,7 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (Li
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 ) \/
 (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : ((Znth i coins_l (0 : Int)) <= amount_pre)) (PreH2 : (i < coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : ((0 : Int) <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= coinsSize_pre)) (PreH8 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
+forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (i : Int) (PreH1 : ((Znth i coins_l (0 : Int)) <= amount_pre)) (PreH2 : (i < coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : ((0 : Int) <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= coinsSize_pre)) (PreH8 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
   TT && emp 
 |--
   “ (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) (Znth i coins_l (0 : Int)) dp_l_2 (Znth i coins_l (0 : Int)) amount_pre) ” &&
@@ -411,16 +408,16 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 :
 )
 
 noncomputable def coinChange_entail_wit_4_split_goal_1 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : ((Znth i coins_l (0 : Int)) <= amount_pre)) (PreH2 : (i < coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : ((0 : Int) <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= coinsSize_pre)) (PreH8 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
+  forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (i : Int) (PreH1 : ((Znth i coins_l (0 : Int)) <= amount_pre)) (PreH2 : (i < coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : ((0 : Int) <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= coinsSize_pre)) (PreH8 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
   (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) (Znth i coins_l (0 : Int)) dp_l_2 (Znth i coins_l (0 : Int)) amount_pre)
 
 noncomputable def coinChange_entail_wit_4_split_goal_2 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : ((Znth i coins_l (0 : Int)) <= amount_pre)) (PreH2 : (i < coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : ((0 : Int) <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= coinsSize_pre)) (PreH8 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
+  forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (i : Int) (PreH1 : ((Znth i coins_l (0 : Int)) <= amount_pre)) (PreH2 : (i < coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : ((0 : Int) <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= coinsSize_pre)) (PreH8 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
   (1 <= (Znth i coins_l (0 : Int)))
 
 noncomputable def coinChange_entail_wit_5_1 : Prop :=
   (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l_2 (0 : Int)) ≠ (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
+forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l_2 (0 : Int)) ≠ (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) (replace_Znth (j) (1) (dp_l_2)))
   ** (intArray.full coins_pre coinsSize_pre coins_l)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
@@ -442,7 +439,7 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (Li
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 ) \/
 (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l_2 (0 : Int)) ≠ (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
+forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l_2 (0 : Int)) ≠ (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
   TT && emp 
 |--
   “ (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin (replace_Znth (j) (1) (dp_l_2)) (j + 1) amount_pre) ”
@@ -450,12 +447,12 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 :
 )
 
 noncomputable def coinChange_entail_wit_5_1_split_goal_1 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l_2 (0 : Int)) ≠ (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
+  forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l_2 (0 : Int)) ≠ (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
   (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin (replace_Znth (j) (1) (dp_l_2)) (j + 1) amount_pre)
 
 noncomputable def coinChange_entail_wit_5_2 : Prop :=
   (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l_2 (0 : Int)) = (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
+forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l_2 (0 : Int)) = (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l_2)
   ** (intArray.full coins_pre coinsSize_pre coins_l)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
@@ -477,7 +474,7 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (Li
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 ) \/
 (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l_2 (0 : Int)) = (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
+forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l_2 (0 : Int)) = (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
   TT && emp 
 |--
   “ (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 (j + 1) amount_pre) ”
@@ -485,12 +482,12 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 :
 )
 
 noncomputable def coinChange_entail_wit_5_2_split_goal_1 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l_2 (0 : Int)) = (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
+  forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l_2 (0 : Int)) = (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
   (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 (j + 1) amount_pre)
 
 noncomputable def coinChange_entail_wit_6_1 : Prop :=
   (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : (j > amount_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : (amount_pre <= 100000)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i < coinsSize_pre)) (PreH6 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH7 : (coin = (Znth i coins_l (0 : Int)))) (PreH8 : (1 <= coin)) (PreH9 : (coin <= amount_pre)) (PreH10 : (coin <= j)) (PreH11 : (j <= (amount_pre + 1))) (PreH12 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
+forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : (j > amount_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : (amount_pre <= 100000)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i < coinsSize_pre)) (PreH6 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH7 : (coin = (Znth i coins_l (0 : Int)))) (PreH8 : (1 <= coin)) (PreH9 : (coin <= amount_pre)) (PreH10 : (coin <= j)) (PreH11 : (j <= (amount_pre + 1))) (PreH12 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
   (intArray.full coins_pre coinsSize_pre coins_l)
   ** (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l_2)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
@@ -508,7 +505,7 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (Li
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 ) \/
 (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : (j > amount_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : (amount_pre <= 100000)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i < coinsSize_pre)) (PreH6 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH7 : (coin = (Znth i coins_l (0 : Int)))) (PreH8 : (1 <= coin)) (PreH9 : (coin <= amount_pre)) (PreH10 : (coin <= j)) (PreH11 : (j <= (amount_pre + 1))) (PreH12 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
+forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : (j > amount_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : (amount_pre <= 100000)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i < coinsSize_pre)) (PreH6 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH7 : (coin = (Znth i coins_l (0 : Int)))) (PreH8 : (1 <= coin)) (PreH9 : (coin <= amount_pre)) (PreH10 : (coin <= j)) (PreH11 : (j <= (amount_pre + 1))) (PreH12 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
   TT && emp 
 |--
   “ (DpReachableTable (sublist ((0 : Int)) ((i + 1)) (coins_l)) dp_l_2 (amount_pre + 1)) ”
@@ -516,12 +513,12 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 :
 )
 
 noncomputable def coinChange_entail_wit_6_1_split_goal_1 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : (j > amount_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : (amount_pre <= 100000)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i < coinsSize_pre)) (PreH6 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH7 : (coin = (Znth i coins_l (0 : Int)))) (PreH8 : (1 <= coin)) (PreH9 : (coin <= amount_pre)) (PreH10 : (coin <= j)) (PreH11 : (j <= (amount_pre + 1))) (PreH12 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
+  forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : (j > amount_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : (amount_pre <= 100000)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i < coinsSize_pre)) (PreH6 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH7 : (coin = (Znth i coins_l (0 : Int)))) (PreH8 : (1 <= coin)) (PreH9 : (coin <= amount_pre)) (PreH10 : (coin <= j)) (PreH11 : (j <= (amount_pre + 1))) (PreH12 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l_2 j amount_pre)) ,
   (DpReachableTable (sublist ((0 : Int)) ((i + 1)) (coins_l)) dp_l_2 (amount_pre + 1))
 
 noncomputable def coinChange_entail_wit_6_2 : Prop :=
   (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : ((Znth i coins_l (0 : Int)) > amount_pre)) (PreH2 : (i < coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : ((0 : Int) <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= coinsSize_pre)) (PreH8 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
+forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (i : Int) (PreH1 : ((Znth i coins_l (0 : Int)) > amount_pre)) (PreH2 : (i < coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : ((0 : Int) <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= coinsSize_pre)) (PreH8 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
   (intArray.full coins_pre coinsSize_pre coins_l)
   ** (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l_2)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
@@ -539,7 +536,7 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (Li
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 ) \/
 (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : ((Znth i coins_l (0 : Int)) > amount_pre)) (PreH2 : (i < coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : ((0 : Int) <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= coinsSize_pre)) (PreH8 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
+forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (i : Int) (PreH1 : ((Znth i coins_l (0 : Int)) > amount_pre)) (PreH2 : (i < coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : ((0 : Int) <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= coinsSize_pre)) (PreH8 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
   TT && emp 
 |--
   “ (DpReachableTable (sublist ((0 : Int)) ((i + 1)) (coins_l)) dp_l_2 (amount_pre + 1)) ”
@@ -547,12 +544,12 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 :
 )
 
 noncomputable def coinChange_entail_wit_6_2_split_goal_1 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : ((Znth i coins_l (0 : Int)) > amount_pre)) (PreH2 : (i < coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : ((0 : Int) <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= coinsSize_pre)) (PreH8 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
+  forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (i : Int) (PreH1 : ((Znth i coins_l (0 : Int)) > amount_pre)) (PreH2 : (i < coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : ((0 : Int) <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= coinsSize_pre)) (PreH8 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
   (DpReachableTable (sublist ((0 : Int)) ((i + 1)) (coins_l)) dp_l_2 (amount_pre + 1))
 
 noncomputable def coinChange_entail_wit_7 : Prop :=
   (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : (i >= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
+forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (i : Int) (PreH1 : (i >= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
   (intArray.full coins_pre coinsSize_pre coins_l)
   ** (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l_2)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
@@ -567,7 +564,7 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (Li
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 ) \/
 (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : (i >= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
+forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (i : Int) (PreH1 : (i >= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
   TT && emp 
 |--
   “ (NoReachableAbove coins_l amount_pre amount_pre) ” &&
@@ -576,16 +573,16 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 :
 )
 
 noncomputable def coinChange_entail_wit_7_split_goal_1 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : (i >= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
+  forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (i : Int) (PreH1 : (i >= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
   (NoReachableAbove coins_l amount_pre amount_pre)
 
 noncomputable def coinChange_entail_wit_7_split_goal_2 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : (i >= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
+  forall (coins_l : (List Int)) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (i : Int) (PreH1 : (i >= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1))) ,
   (DpReachableTable coins_l dp_l_2 (amount_pre + 1))
 
 noncomputable def coinChange_entail_wit_8 : Prop :=
   (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (res : Int) (PreH1 : ((Znth res dp_l_2 (0 : Int)) = (0 : Int))) (PreH2 : (res > (0 : Int))) (PreH3 : ((0 : Int) <= res)) (PreH4 : (res <= amount_pre)) (PreH5 : (DpReachableTable coins_l dp_l_2 (amount_pre + 1))) (PreH6 : (NoReachableAbove coins_l amount_pre res)) ,
+forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l_2 : (List Int)) (res : Int) (PreH1 : ((Znth res dp_l_2 (0 : Int)) = (0 : Int))) (PreH2 : (res > (0 : Int))) (PreH3 : ((0 : Int) <= res)) (PreH4 : (res <= amount_pre)) (PreH5 : (DpReachableTable coins_l dp_l_2 (amount_pre + 1))) (PreH6 : (NoReachableAbove coins_l amount_pre res)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l_2)
   ** (intArray.full coins_pre coinsSize_pre coins_l)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
@@ -600,7 +597,7 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (Li
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 ) \/
 (
-forall (amount_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (res : Int) (PreH1 : ((Znth res dp_l_2 (0 : Int)) = (0 : Int))) (PreH2 : (res > (0 : Int))) (PreH3 : ((0 : Int) <= res)) (PreH4 : (res <= amount_pre)) (PreH5 : (DpReachableTable coins_l dp_l_2 (amount_pre + 1))) (PreH6 : (NoReachableAbove coins_l amount_pre res)) ,
+forall (coins_l : (List Int)) (amount_pre : Int) (dp_l_2 : (List Int)) (res : Int) (PreH1 : ((Znth res dp_l_2 (0 : Int)) = (0 : Int))) (PreH2 : (res > (0 : Int))) (PreH3 : ((0 : Int) <= res)) (PreH4 : (res <= amount_pre)) (PreH5 : (DpReachableTable coins_l dp_l_2 (amount_pre + 1))) (PreH6 : (NoReachableAbove coins_l amount_pre res)) ,
   TT && emp 
 |--
   “ (NoReachableAbove coins_l amount_pre (res - 1)) ”
@@ -608,12 +605,12 @@ forall (amount_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (res : In
 )
 
 noncomputable def coinChange_entail_wit_8_split_goal_1 : Prop :=
-  forall (amount_pre : Int) (coins_l : (List Int)) (dp_l_2 : (List Int)) (res : Int) (PreH1 : ((Znth res dp_l_2 (0 : Int)) = (0 : Int))) (PreH2 : (res > (0 : Int))) (PreH3 : ((0 : Int) <= res)) (PreH4 : (res <= amount_pre)) (PreH5 : (DpReachableTable coins_l dp_l_2 (amount_pre + 1))) (PreH6 : (NoReachableAbove coins_l amount_pre res)) ,
+  forall (coins_l : (List Int)) (amount_pre : Int) (dp_l_2 : (List Int)) (res : Int) (PreH1 : ((Znth res dp_l_2 (0 : Int)) = (0 : Int))) (PreH2 : (res > (0 : Int))) (PreH3 : ((0 : Int) <= res)) (PreH4 : (res <= amount_pre)) (PreH5 : (DpReachableTable coins_l dp_l_2 (amount_pre + 1))) (PreH6 : (NoReachableAbove coins_l amount_pre res)) ,
   (NoReachableAbove coins_l amount_pre (res - 1))
 
 noncomputable def coinChange_entail_wit_9_1 : Prop :=
   (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (res : Int) (PreH1 : (res <= (0 : Int))) (PreH2 : ((0 : Int) <= res)) (PreH3 : (res <= amount_pre)) (PreH4 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH5 : (NoReachableAbove coins_l amount_pre res)) ,
+forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (res : Int) (PreH1 : (res <= (0 : Int))) (PreH2 : ((0 : Int) <= res)) (PreH3 : (res <= amount_pre)) (PreH4 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH5 : (NoReachableAbove coins_l amount_pre res)) ,
   (intArray.full coins_pre coinsSize_pre coins_l)
   ** (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
@@ -623,7 +620,7 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (Li
   ** (intArray.undef_full ( &( "dp" ) ) 100001)
 ) \/
 (
-forall (amount_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (res : Int) (PreH1 : (res <= (0 : Int))) (PreH2 : ((0 : Int) <= res)) (PreH3 : (res <= amount_pre)) (PreH4 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH5 : (NoReachableAbove coins_l amount_pre res)) ,
+forall (coins_l : (List Int)) (amount_pre : Int) (dp_l : (List Int)) (res : Int) (PreH1 : (res <= (0 : Int))) (PreH2 : ((0 : Int) <= res)) (PreH3 : (res <= amount_pre)) (PreH4 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH5 : (NoReachableAbove coins_l amount_pre res)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 |--
@@ -632,14 +629,14 @@ forall (amount_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (res : Int)
 )
 
 noncomputable def coinChange_entail_wit_9_1_split_goal_1 : Prop :=
-  forall (amount_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (res : Int) (PreH1 : (res <= (0 : Int))) (PreH2 : ((0 : Int) <= res)) (PreH3 : (res <= amount_pre)) (PreH4 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH5 : (NoReachableAbove coins_l amount_pre res)) ,
+  forall (coins_l : (List Int)) (amount_pre : Int) (dp_l : (List Int)) (res : Int) (PreH1 : (res <= (0 : Int))) (PreH2 : ((0 : Int) <= res)) (PreH3 : (res <= amount_pre)) (PreH4 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH5 : (NoReachableAbove coins_l amount_pre res)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 |--
   “ (MaxReachableAmount coins_l amount_pre res) ”
 
 noncomputable def coinChange_entail_wit_9_1_split_goal_spatial : Prop :=
-  forall (amount_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (res : Int) (PreH1 : (res <= (0 : Int))) (PreH2 : ((0 : Int) <= res)) (PreH3 : (res <= amount_pre)) (PreH4 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH5 : (NoReachableAbove coins_l amount_pre res)) ,
+  forall (coins_l : (List Int)) (amount_pre : Int) (dp_l : (List Int)) (res : Int) (PreH1 : (res <= (0 : Int))) (PreH2 : ((0 : Int) <= res)) (PreH3 : (res <= amount_pre)) (PreH4 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH5 : (NoReachableAbove coins_l amount_pre res)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 |--
@@ -647,7 +644,7 @@ noncomputable def coinChange_entail_wit_9_1_split_goal_spatial : Prop :=
 
 noncomputable def coinChange_entail_wit_9_2 : Prop :=
   (
-forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (res : Int) (PreH1 : ((Znth res dp_l (0 : Int)) ≠ (0 : Int))) (PreH2 : (res > (0 : Int))) (PreH3 : ((0 : Int) <= res)) (PreH4 : (res <= amount_pre)) (PreH5 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH6 : (NoReachableAbove coins_l amount_pre res)) ,
+forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (res : Int) (PreH1 : ((Znth res dp_l (0 : Int)) ≠ (0 : Int))) (PreH2 : (res > (0 : Int))) (PreH3 : ((0 : Int) <= res)) (PreH4 : (res <= amount_pre)) (PreH5 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH6 : (NoReachableAbove coins_l amount_pre res)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** (intArray.full coins_pre coinsSize_pre coins_l)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
@@ -657,7 +654,7 @@ forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (Li
   ** (intArray.undef_full ( &( "dp" ) ) 100001)
 ) \/
 (
-forall (amount_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (res : Int) (PreH1 : ((Znth res dp_l (0 : Int)) ≠ (0 : Int))) (PreH2 : (res > (0 : Int))) (PreH3 : ((0 : Int) <= res)) (PreH4 : (res <= amount_pre)) (PreH5 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH6 : (NoReachableAbove coins_l amount_pre res)) ,
+forall (coins_l : (List Int)) (amount_pre : Int) (dp_l : (List Int)) (res : Int) (PreH1 : ((Znth res dp_l (0 : Int)) ≠ (0 : Int))) (PreH2 : (res > (0 : Int))) (PreH3 : ((0 : Int) <= res)) (PreH4 : (res <= amount_pre)) (PreH5 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH6 : (NoReachableAbove coins_l amount_pre res)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 |--
@@ -666,28 +663,28 @@ forall (amount_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (res : Int)
 )
 
 noncomputable def coinChange_entail_wit_9_2_split_goal_1 : Prop :=
-  forall (amount_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (res : Int) (PreH1 : ((Znth res dp_l (0 : Int)) ≠ (0 : Int))) (PreH2 : (res > (0 : Int))) (PreH3 : ((0 : Int) <= res)) (PreH4 : (res <= amount_pre)) (PreH5 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH6 : (NoReachableAbove coins_l amount_pre res)) ,
+  forall (coins_l : (List Int)) (amount_pre : Int) (dp_l : (List Int)) (res : Int) (PreH1 : ((Znth res dp_l (0 : Int)) ≠ (0 : Int))) (PreH2 : (res > (0 : Int))) (PreH3 : ((0 : Int) <= res)) (PreH4 : (res <= amount_pre)) (PreH5 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH6 : (NoReachableAbove coins_l amount_pre res)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 |--
   “ (MaxReachableAmount coins_l amount_pre res) ”
 
 noncomputable def coinChange_entail_wit_9_2_split_goal_spatial : Prop :=
-  forall (amount_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (res : Int) (PreH1 : ((Znth res dp_l (0 : Int)) ≠ (0 : Int))) (PreH2 : (res > (0 : Int))) (PreH3 : ((0 : Int) <= res)) (PreH4 : (res <= amount_pre)) (PreH5 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH6 : (NoReachableAbove coins_l amount_pre res)) ,
+  forall (coins_l : (List Int)) (amount_pre : Int) (dp_l : (List Int)) (res : Int) (PreH1 : ((Znth res dp_l (0 : Int)) ≠ (0 : Int))) (PreH2 : (res > (0 : Int))) (PreH3 : ((0 : Int) <= res)) (PreH4 : (res <= amount_pre)) (PreH5 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH6 : (NoReachableAbove coins_l amount_pre res)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 |--
   (intArray.undef_full ( &( "dp" ) ) 100001)
 
 noncomputable def coinChange_return_wit_1 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (res : Int) (PreH1 : (MaxReachableAmount coins_l amount_pre res)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (res : Int) (PreH1 : (MaxReachableAmount coins_l amount_pre res)) ,
   (intArray.full coins_pre coinsSize_pre coins_l)
 |--
   “ (MaxReachableAmount coins_l amount_pre res) ”
   &&  (intArray.full coins_pre coinsSize_pre coins_l)
 
 noncomputable def coinChange_partial_solve_wit_1 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (PreH1 : ((0 : Int) <= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (INT_MAX)) coins_l)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (PreH1 : ((0 : Int) <= coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (INT_MAX)) coins_l)) ,
   (intArray.undef_full ( &( "dp" ) ) 100001)
   ** (intArray.full coins_pre coinsSize_pre coins_l)
 |--
@@ -702,7 +699,7 @@ noncomputable def coinChange_partial_solve_wit_1 : Prop :=
   ** (intArray.full coins_pre coinsSize_pre coins_l)
 
 noncomputable def coinChange_partial_solve_wit_2 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (j : Int) (PreH1 : (j <= amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l j)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (j : Int) (PreH1 : (j <= amount_pre)) (PreH2 : ((0 : Int) <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : (1 <= j)) (PreH6 : (j <= (amount_pre + 1))) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpPrefixZeroed dp_l j)) ,
   (intArray.full coins_pre coinsSize_pre coins_l)
   ** (intArray.seg ( &( "dp" ) ) (0 : Int) j dp_l)
   ** (intArray.undef_seg ( &( "dp" ) ) j (amount_pre + 1))
@@ -723,7 +720,7 @@ noncomputable def coinChange_partial_solve_wit_2 : Prop :=
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 
 noncomputable def coinChange_partial_solve_wit_3 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (i : Int) (PreH1 : (i < coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l (amount_pre + 1))) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (i : Int) (PreH1 : (i < coinsSize_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : ((0 : Int) <= amount_pre)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l (amount_pre + 1))) ,
   (intArray.full coins_pre coinsSize_pre coins_l)
   ** (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
@@ -742,7 +739,7 @@ noncomputable def coinChange_partial_solve_wit_3 : Prop :=
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 
 noncomputable def coinChange_partial_solve_wit_4 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : (j <= amount_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : (amount_pre <= 100000)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i < coinsSize_pre)) (PreH6 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH7 : (coin = (Znth i coins_l (0 : Int)))) (PreH8 : (1 <= coin)) (PreH9 : (coin <= amount_pre)) (PreH10 : (coin <= j)) (PreH11 : (j <= (amount_pre + 1))) (PreH12 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l j amount_pre)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : (j <= amount_pre)) (PreH2 : (coinsSize_pre <= 100000)) (PreH3 : (amount_pre <= 100000)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i < coinsSize_pre)) (PreH6 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH7 : (coin = (Znth i coins_l (0 : Int)))) (PreH8 : (1 <= coin)) (PreH9 : (coin <= amount_pre)) (PreH10 : (coin <= j)) (PreH11 : (j <= (amount_pre + 1))) (PreH12 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l j amount_pre)) ,
   (intArray.full coins_pre coinsSize_pre coins_l)
   ** (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
@@ -765,7 +762,7 @@ noncomputable def coinChange_partial_solve_wit_4 : Prop :=
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 
 noncomputable def coinChange_partial_solve_wit_5 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l (0 : Int)) ≠ (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l j amount_pre)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (j : Int) (coin : Int) (i : Int) (PreH1 : ((Znth (j - coin) dp_l (0 : Int)) ≠ (0 : Int))) (PreH2 : (j <= amount_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (amount_pre <= 100000)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i < coinsSize_pre)) (PreH7 : (Forall ((LE.le (α := Int)) (1)) coins_l)) (PreH8 : (coin = (Znth i coins_l (0 : Int)))) (PreH9 : (1 <= coin)) (PreH10 : (coin <= amount_pre)) (PreH11 : (coin <= j)) (PreH12 : (j <= (amount_pre + 1))) (PreH13 : (DpCoinInnerProgress (sublist ((0 : Int)) (i) (coins_l)) coin dp_l j amount_pre)) ,
   (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** (intArray.full coins_pre coinsSize_pre coins_l)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
@@ -789,7 +786,7 @@ noncomputable def coinChange_partial_solve_wit_5 : Prop :=
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)
 
 noncomputable def coinChange_partial_solve_wit_6 : Prop :=
-  forall (amount_pre : Int) (coinsSize_pre : Int) (coins_pre : Int) (coins_l : (List Int)) (dp_l : (List Int)) (res : Int) (PreH1 : (res > (0 : Int))) (PreH2 : ((0 : Int) <= res)) (PreH3 : (res <= amount_pre)) (PreH4 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH5 : (NoReachableAbove coins_l amount_pre res)) ,
+  forall (coins_l : (List Int)) (coins_pre : Int) (coinsSize_pre : Int) (amount_pre : Int) (dp_l : (List Int)) (res : Int) (PreH1 : (res > (0 : Int))) (PreH2 : ((0 : Int) <= res)) (PreH3 : (res <= amount_pre)) (PreH4 : (DpReachableTable coins_l dp_l (amount_pre + 1))) (PreH5 : (NoReachableAbove coins_l amount_pre res)) ,
   (intArray.full coins_pre coinsSize_pre coins_l)
   ** (intArray.full ( &( "dp" ) ) (amount_pre + 1) dp_l)
   ** (intArray.undef_seg ( &( "dp" ) ) (amount_pre + 1) 100001)

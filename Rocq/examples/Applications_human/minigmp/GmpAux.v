@@ -343,27 +343,14 @@ Lemma store_array_rec_snoc: forall (l: list Z) (v: Z) (rp lo hi: Z),
 Proof.
   intros l.
   induction l; intros.
-  - simpl.
-    rewrite Zlength_nil in H0.
+  - rewrite Zlength_nil in H0.
     subst hi.
-    simpl.
     replace (lo + 0) with lo by lia.
-    replace (lo + 0 + 1) with (lo + 1) by lia.
-    split_pure_spatial.
-    + Intros_p Hlo_eq.
-      Intros_p Hnil_eq.
-      cancel.
-    + split_pures; dump_pre_spatial; auto.
+    simpl.
+    entailer!.
   - simpl.
     rewrite Zlength_cons in H0.
-    unfold Z.succ in H0.
-    assert (Hhi: hi = lo + 1 + Zlength l) by lia.
-    change (fun (x : addr) (lo0 a0 : Z) => (x + lo0 * 4) # UInt |-> a0)
-      with (fun (x : addr) (lo0 a0 : Z) =>
-        (x + lo0 * sizeof (UINT)) # UInt |-> a0).
-    replace (rp + hi * 4) with (rp + hi * sizeof (UINT))
-      by (rewrite sizeof_uint; lia).
-    sep_apply (IHl v rp (lo + 1) hi ltac:(lia) Hhi).
+    sep_apply (IHl v rp (lo + 1) hi); try lia.
     cancel.
 Qed.
 
@@ -383,9 +370,8 @@ Lemma UIntArray_full_snoc': forall (l: list Z) (v: Z) (rp n: Z),
   |-- UIntArray.full rp (n + 1) (l ++ v :: nil).
 Proof.
   intros.
-  unfold UIntArray.full, store_array.
-  sep_apply (store_array_rec_snoc l v rp 0 n); try lia.
-  cancel.
+  subst n.
+  apply UIntArray_full_snoc.
 Qed.
 
 (* 保留数组的同时提取长度信息 *)
@@ -751,8 +737,8 @@ Proof.
     rewrite Hx1'_eq.
     pose proof (Z_div_mod_eq_full (x1 + Z.shiftr x0 16) (2^32)) as Hdiv.
     destruct Hx1'_carry_or_not as [Hcase0 | Hcase1].
-    - left. rewrite Hcase0 in Hdiv. nia.
-    - right. rewrite Hcase1 in Hdiv. nia.
+    - left. rewrite Hcase0 in Hdiv. lia.
+    - right. rewrite Hcase1 in Hdiv. lia.
   }
   
   (* 现在分情况证明 *)
@@ -932,8 +918,8 @@ Proof.
       (* 证明 (S mod 2^16) * 2^16 + x0 mod 2^16 < 2^32 *)
       assert (Hmod_S_bound: 0 <= (x1 + x0 / 2^16 + x2) mod 2^16 < 2^16) by (apply Z.mod_pos_bound; lia).
       assert (Hmod_x0_bound: 0 <= x0 mod 2^16 < 2^16) by (apply Z.mod_pos_bound; lia).
-      assert (Hsum_bound: (x1 + x0 / 2^16 + x2) mod 2^16 * 2^16 + x0 mod 2^16 < 2^32) by nia.
-      assert (Hsum_nonneg: 0 <= (x1 + x0 / 2^16 + x2) mod 2^16 * 2^16 + x0 mod 2^16) by nia.
+      assert (Hsum_bound: (x1 + x0 / 2^16 + x2) mod 2^16 * 2^16 + x0 mod 2^16 < 2^32) by lia.
+      assert (Hsum_nonneg: 0 <= (x1 + x0 / 2^16 + x2) mod 2^16 * 2^16 + x0 mod 2^16) by lia.
       apply Z.mod_small. lia.
     }
     
@@ -959,7 +945,7 @@ Proof.
       {
         (* 情况2：x3 + 2^16 >= 2^32 *)
         assert (Hx3_mod: (x3 + 2^16) mod 2^32 = x3 + 2^16 - 2^32). {
-          assert (Hlt: x3 + 2^16 < 2 * 2^32) by nia.
+          assert (Hlt: x3 + 2^16 < 2 * 2^32) by lia.
           assert (Hge: x3 + 2^16 >= 2^32) by lia.
           rewrite Z.mod_eq by lia.
           (* (x3 + 2^16) / 2^32 = 1 因为 2^32 <= x3 + 2^16 < 2 * 2^32 *)
@@ -1400,7 +1386,7 @@ Proof.
     assert (Hx1'_bounds: 0 <= ul * vh + (ul * vl) / 2^16 < 2^32).
     {
       split.
-      - apply Z.add_nonneg_nonneg; try nia.
+      - apply Z.add_nonneg_nonneg; try lia.
         apply Z.div_pos; lia.
       - apply Hx1'_bound.
     }

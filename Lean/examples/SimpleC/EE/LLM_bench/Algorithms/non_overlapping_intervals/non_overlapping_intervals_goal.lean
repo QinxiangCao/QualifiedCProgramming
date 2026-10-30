@@ -60,7 +60,7 @@ private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def swap_intervals_return_wit_1 : Prop :=
   (
-forall (j_pre : Int) (i_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (st_pre : Int) (ed_pre : Int) (i_pre : Int) (j_pre : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full ed_pre n (replace_Znth (j_pre) ((Znth i_pre ed_l (0 : Int))) ((replace_Znth (i_pre) ((Znth j_pre ed_l (0 : Int))) (ed_l)))))
   ** (intArray.full st_pre n (replace_Znth (j_pre) ((Znth i_pre st_l (0 : Int))) ((replace_Znth (i_pre) ((Znth j_pre st_l (0 : Int))) (st_l)))))
 |--
@@ -71,7 +71,7 @@ forall (j_pre : Int) (i_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List int
   ** (intArray.full ed_pre n ed1)
 ) \/
 (
-forall (j_pre : Int) (i_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (i_pre : Int) (j_pre : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
   TT && emp 
 |--
   EX ps1 : (List interval),
@@ -81,7 +81,7 @@ forall (j_pre : Int) (i_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (s
 )
 
 noncomputable def swap_intervals_partial_solve_wit_1 : Prop :=
-  forall (j_pre : Int) (i_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (st_pre : Int) (ed_pre : Int) (i_pre : Int) (j_pre : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre n st_l)
   ** (intArray.full ed_pre n ed_l)
 |--
@@ -95,7 +95,7 @@ noncomputable def swap_intervals_partial_solve_wit_1 : Prop :=
   ** (intArray.full ed_pre n ed_l)
 
 noncomputable def swap_intervals_partial_solve_wit_2 : Prop :=
-  forall (j_pre : Int) (i_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (st_pre : Int) (ed_pre : Int) (i_pre : Int) (j_pre : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre n st_l)
   ** (intArray.full ed_pre n ed_l)
 |--
@@ -109,7 +109,7 @@ noncomputable def swap_intervals_partial_solve_wit_2 : Prop :=
   ** (intArray.full st_pre n st_l)
 
 noncomputable def swap_intervals_partial_solve_wit_3 : Prop :=
-  forall (j_pre : Int) (i_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (st_pre : Int) (ed_pre : Int) (i_pre : Int) (j_pre : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full ed_pre n ed_l)
   ** (intArray.full st_pre n st_l)
 |--
@@ -123,7 +123,7 @@ noncomputable def swap_intervals_partial_solve_wit_3 : Prop :=
   ** (intArray.full ed_pre n ed_l)
 
 noncomputable def swap_intervals_partial_solve_wit_4 : Prop :=
-  forall (j_pre : Int) (i_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (st_pre : Int) (ed_pre : Int) (i_pre : Int) (j_pre : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre n st_l)
   ** (intArray.full ed_pre n ed_l)
 |--
@@ -137,7 +137,7 @@ noncomputable def swap_intervals_partial_solve_wit_4 : Prop :=
   ** (intArray.full ed_pre n ed_l)
 
 noncomputable def swap_intervals_partial_solve_wit_5 : Prop :=
-  forall (j_pre : Int) (i_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (st_pre : Int) (ed_pre : Int) (i_pre : Int) (j_pre : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre n (replace_Znth (i_pre) ((Znth j_pre st_l (0 : Int))) (st_l)))
   ** (intArray.full ed_pre n ed_l)
 |--
@@ -151,7 +151,7 @@ noncomputable def swap_intervals_partial_solve_wit_5 : Prop :=
   ** (intArray.full st_pre n (replace_Znth (i_pre) ((Znth j_pre st_l (0 : Int))) (st_l)))
 
 noncomputable def swap_intervals_partial_solve_wit_6 : Prop :=
-  forall (j_pre : Int) (i_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (st_pre : Int) (ed_pre : Int) (i_pre : Int) (j_pre : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full ed_pre n ed_l)
   ** (intArray.full st_pre n (replace_Znth (i_pre) ((Znth j_pre st_l (0 : Int))) (st_l)))
 |--
@@ -165,7 +165,7 @@ noncomputable def swap_intervals_partial_solve_wit_6 : Prop :=
   ** (intArray.full st_pre n (replace_Znth (i_pre) ((Znth j_pre st_l (0 : Int))) (st_l)))
 
 noncomputable def swap_intervals_partial_solve_wit_7 : Prop :=
-  forall (j_pre : Int) (i_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (st_pre : Int) (ed_pre : Int) (i_pre : Int) (j_pre : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full ed_pre n (replace_Znth (i_pre) ((Znth j_pre ed_l (0 : Int))) (ed_l)))
   ** (intArray.full st_pre n (replace_Znth (i_pre) ((Znth j_pre st_l (0 : Int))) (st_l)))
 |--
@@ -179,7 +179,7 @@ noncomputable def swap_intervals_partial_solve_wit_7 : Prop :=
   ** (intArray.full ed_pre n (replace_Znth (i_pre) ((Znth j_pre ed_l (0 : Int))) (ed_l)))
 
 noncomputable def swap_intervals_partial_solve_wit_8 : Prop :=
-  forall (j_pre : Int) (i_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (n : Int) (st_pre : Int) (ed_pre : Int) (i_pre : Int) (j_pre : Int) (PreH1 : ((0 : Int) <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : ((0 : Int) <= j_pre)) (PreH4 : (j_pre < n)) (PreH5 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre n (replace_Znth (j_pre) ((Znth i_pre st_l (0 : Int))) ((replace_Znth (i_pre) ((Znth j_pre st_l (0 : Int))) (st_l)))))
   ** (intArray.full ed_pre n (replace_Znth (i_pre) ((Znth j_pre ed_l (0 : Int))) (ed_l)))
 |--
@@ -193,7 +193,7 @@ noncomputable def swap_intervals_partial_solve_wit_8 : Prop :=
   ** (intArray.full st_pre n (replace_Znth (j_pre) ((Znth i_pre st_l (0 : Int))) ((replace_Znth (i_pre) ((Znth j_pre st_l (0 : Int))) (st_l)))))
 
 noncomputable def partition_intervals_safety_wit_1 : Prop :=
-  forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (PreH1 : ((0 : Int) <= low_pre)) (PreH2 : (low_pre <= high_pre)) (PreH3 : (high_pre < intervalsSize_pre)) (PreH4 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (PreH1 : ((0 : Int) <= low_pre)) (PreH2 : (low_pre <= high_pre)) (PreH3 : (high_pre < intervalsSize_pre)) (PreH4 : (PairIntervals st_l ed_l ps)) ,
   ((( &( "i" ) )) # Int |->_)
   ** (intArray.full ed_pre intervalsSize_pre ed_l)
   ** ((( &( "pivot_end" ) )) # Int |-> ((Znth high_pre ed_l (0 : Int))))
@@ -208,7 +208,7 @@ noncomputable def partition_intervals_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (low_pre - 1)) ”
 
 noncomputable def partition_intervals_safety_wit_2 : Prop :=
-  forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (PreH1 : ((0 : Int) <= low_pre)) (PreH2 : (low_pre <= high_pre)) (PreH3 : (high_pre < intervalsSize_pre)) (PreH4 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (PreH1 : ((0 : Int) <= low_pre)) (PreH2 : (low_pre <= high_pre)) (PreH3 : (high_pre < intervalsSize_pre)) (PreH4 : (PairIntervals st_l ed_l ps)) ,
   ((( &( "i" ) )) # Int |->_)
   ** (intArray.full ed_pre intervalsSize_pre ed_l)
   ** ((( &( "pivot_end" ) )) # Int |-> ((Znth high_pre ed_l (0 : Int))))
@@ -223,7 +223,7 @@ noncomputable def partition_intervals_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def partition_intervals_safety_wit_3 : Prop :=
-  forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : ((Znth j ed1 (0 : Int)) <= pivot_end)) (PreH2 : (j < high_pre)) (PreH3 : ((0 : Int) <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < intervalsSize_pre)) (PreH6 : ((low_pre - 1) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH10 : (PairIntervals st1 ed1 ps1)) (PreH11 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : ((Znth j ed1 (0 : Int)) <= pivot_end)) (PreH2 : (j < high_pre)) (PreH3 : ((0 : Int) <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < intervalsSize_pre)) (PreH6 : ((low_pre - 1) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH10 : (PairIntervals st1 ed1 ps1)) (PreH11 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
   (intArray.full ed_pre intervalsSize_pre ed1)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
@@ -239,7 +239,7 @@ noncomputable def partition_intervals_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def partition_intervals_safety_wit_4 : Prop :=
-  forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalSwappedAt ps1 ps1_2 (i + 1) j)) (PreH3 : ((Znth j ed1 (0 : Int)) <= pivot_end)) (PreH4 : (j < high_pre)) (PreH5 : ((0 : Int) <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < intervalsSize_pre)) (PreH8 : ((low_pre - 1) <= i)) (PreH9 : (i < j)) (PreH10 : (j <= high_pre)) (PreH11 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH12 : (PairIntervals st1 ed1 ps1)) (PreH13 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalSwappedAt ps1 ps1_2 (i + 1) j)) (PreH3 : ((Znth j ed1 (0 : Int)) <= pivot_end)) (PreH4 : (j < high_pre)) (PreH5 : ((0 : Int) <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < intervalsSize_pre)) (PreH8 : ((low_pre - 1) <= i)) (PreH9 : (i < j)) (PreH10 : (j <= high_pre)) (PreH11 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH12 : (PairIntervals st1 ed1 ps1)) (PreH13 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
   (intArray.full st_pre intervalsSize_pre st1_2)
   ** (intArray.full ed_pre intervalsSize_pre ed1_2)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
@@ -255,7 +255,7 @@ noncomputable def partition_intervals_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (j + 1)) ”
 
 noncomputable def partition_intervals_safety_wit_5 : Prop :=
-  forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : ((Znth j ed1 (0 : Int)) > pivot_end)) (PreH2 : (j < high_pre)) (PreH3 : ((0 : Int) <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < intervalsSize_pre)) (PreH6 : ((low_pre - 1) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH10 : (PairIntervals st1 ed1 ps1)) (PreH11 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : ((Znth j ed1 (0 : Int)) > pivot_end)) (PreH2 : (j < high_pre)) (PreH3 : ((0 : Int) <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < intervalsSize_pre)) (PreH6 : ((low_pre - 1) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH10 : (PairIntervals st1 ed1 ps1)) (PreH11 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
   (intArray.full ed_pre intervalsSize_pre ed1)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
@@ -271,7 +271,7 @@ noncomputable def partition_intervals_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (j + 1)) ”
 
 noncomputable def partition_intervals_safety_wit_6 : Prop :=
-  forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (j >= high_pre)) (PreH2 : ((0 : Int) <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < intervalsSize_pre)) (PreH5 : ((low_pre - 1) <= i)) (PreH6 : (i < j)) (PreH7 : (j <= high_pre)) (PreH8 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH9 : (PairIntervals st1 ed1 ps1)) (PreH10 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (j >= high_pre)) (PreH2 : ((0 : Int) <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < intervalsSize_pre)) (PreH5 : ((low_pre - 1) <= i)) (PreH6 : (i < j)) (PreH7 : (j <= high_pre)) (PreH8 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH9 : (PairIntervals st1 ed1 ps1)) (PreH10 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
   ** ((( &( "intervalsSize" ) )) # Int |-> (intervalsSize_pre))
@@ -286,7 +286,7 @@ noncomputable def partition_intervals_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def partition_intervals_safety_wit_7 : Prop :=
-  forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (j >= high_pre)) (PreH2 : ((0 : Int) <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < intervalsSize_pre)) (PreH5 : ((low_pre - 1) <= i)) (PreH6 : (i < j)) (PreH7 : (j <= high_pre)) (PreH8 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH9 : (PairIntervals st1 ed1 ps1)) (PreH10 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (j >= high_pre)) (PreH2 : ((0 : Int) <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < intervalsSize_pre)) (PreH5 : ((low_pre - 1) <= i)) (PreH6 : (i < j)) (PreH7 : (j <= high_pre)) (PreH8 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH9 : (PairIntervals st1 ed1 ps1)) (PreH10 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
   ** ((( &( "intervalsSize" ) )) # Int |-> (intervalsSize_pre))
@@ -301,7 +301,7 @@ noncomputable def partition_intervals_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def partition_intervals_safety_wit_8 : Prop :=
-  forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalSwappedAt ps1 ps1_2 (i + 1) high_pre)) (PreH3 : (j >= high_pre)) (PreH4 : ((0 : Int) <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < intervalsSize_pre)) (PreH7 : ((low_pre - 1) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH11 : (PairIntervals st1 ed1 ps1)) (PreH12 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalSwappedAt ps1 ps1_2 (i + 1) high_pre)) (PreH3 : (j >= high_pre)) (PreH4 : ((0 : Int) <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < intervalsSize_pre)) (PreH7 : ((low_pre - 1) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH11 : (PairIntervals st1 ed1 ps1)) (PreH12 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
   (intArray.full st_pre intervalsSize_pre st1_2)
   ** (intArray.full ed_pre intervalsSize_pre ed1_2)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
@@ -316,7 +316,7 @@ noncomputable def partition_intervals_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def partition_intervals_safety_wit_9 : Prop :=
-  forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalSwappedAt ps1 ps1_2 (i + 1) high_pre)) (PreH3 : (j >= high_pre)) (PreH4 : ((0 : Int) <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < intervalsSize_pre)) (PreH7 : ((low_pre - 1) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH11 : (PairIntervals st1 ed1 ps1)) (PreH12 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalSwappedAt ps1 ps1_2 (i + 1) high_pre)) (PreH3 : (j >= high_pre)) (PreH4 : ((0 : Int) <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < intervalsSize_pre)) (PreH7 : ((low_pre - 1) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH11 : (PairIntervals st1 ed1 ps1)) (PreH12 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
   (intArray.full st_pre intervalsSize_pre st1_2)
   ** (intArray.full ed_pre intervalsSize_pre ed1_2)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
@@ -332,7 +332,7 @@ noncomputable def partition_intervals_safety_wit_9 : Prop :=
 
 noncomputable def partition_intervals_entail_wit_1 : Prop :=
   (
-forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (PreH1 : ((0 : Int) <= low_pre)) (PreH2 : (low_pre <= high_pre)) (PreH3 : (high_pre < intervalsSize_pre)) (PreH4 : (PairIntervals st_l ed_l ps)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (PreH1 : ((0 : Int) <= low_pre)) (PreH2 : (low_pre <= high_pre)) (PreH3 : (high_pre < intervalsSize_pre)) (PreH4 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full ed_pre intervalsSize_pre ed_l)
   ** (intArray.full st_pre intervalsSize_pre st_l)
 |--
@@ -350,7 +350,7 @@ forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
 ) \/
 (
-forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (PreH1 : ((0 : Int) <= low_pre)) (PreH2 : (low_pre <= high_pre)) (PreH3 : (high_pre < intervalsSize_pre)) (PreH4 : (PairIntervals st_l ed_l ps)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (PreH1 : ((0 : Int) <= low_pre)) (PreH2 : (low_pre <= high_pre)) (PreH3 : (high_pre < intervalsSize_pre)) (PreH4 : (PairIntervals st_l ed_l ps)) ,
   TT && emp 
 |--
   EX ps1 : (List interval),
@@ -363,7 +363,7 @@ forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ps : (List in
 
 noncomputable def partition_intervals_entail_wit_2_1 : Prop :=
   (
-forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (st1_3 : (List Int)) (ed1_3 : (List Int)) (ps1_3 : (List interval)) (PreH1 : (PairIntervals st1_3 ed1_3 ps1_3)) (PreH2 : (IntervalSwappedAt ps1_2 ps1_3 (i + 1) j)) (PreH3 : ((Znth j ed1_2 (0 : Int)) <= pivot_end)) (PreH4 : (j < high_pre)) (PreH5 : ((0 : Int) <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < intervalsSize_pre)) (PreH8 : ((low_pre - 1) <= i)) (PreH9 : (i < j)) (PreH10 : (j <= high_pre)) (PreH11 : (pivot_end = (Znth high_pre ed1_2 (0 : Int)))) (PreH12 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH13 : (LomutoScanState ps ps1_2 low_pre high_pre i j pivot_end)) ,
+forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (st1_3 : (List Int)) (ed1_3 : (List Int)) (ps1_3 : (List interval)) (PreH1 : (PairIntervals st1_3 ed1_3 ps1_3)) (PreH2 : (IntervalSwappedAt ps1_2 ps1_3 (i + 1) j)) (PreH3 : ((Znth j ed1_2 (0 : Int)) <= pivot_end)) (PreH4 : (j < high_pre)) (PreH5 : ((0 : Int) <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < intervalsSize_pre)) (PreH8 : ((low_pre - 1) <= i)) (PreH9 : (i < j)) (PreH10 : (j <= high_pre)) (PreH11 : (pivot_end = (Znth high_pre ed1_2 (0 : Int)))) (PreH12 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH13 : (LomutoScanState ps ps1_2 low_pre high_pre i j pivot_end)) ,
   (intArray.full st_pre intervalsSize_pre st1_3)
   ** (intArray.full ed_pre intervalsSize_pre ed1_3)
 |--
@@ -381,7 +381,7 @@ forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
 ) \/
 (
-forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (st1_3 : (List Int)) (ed1_3 : (List Int)) (ps1_3 : (List interval)) (PreH1 : (PairIntervals st1_3 ed1_3 ps1_3)) (PreH2 : (IntervalSwappedAt ps1_2 ps1_3 (i + 1) j)) (PreH3 : ((Znth j ed1_2 (0 : Int)) <= pivot_end)) (PreH4 : (j < high_pre)) (PreH5 : ((0 : Int) <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < intervalsSize_pre)) (PreH8 : ((low_pre - 1) <= i)) (PreH9 : (i < j)) (PreH10 : (j <= high_pre)) (PreH11 : (pivot_end = (Znth high_pre ed1_2 (0 : Int)))) (PreH12 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH13 : (LomutoScanState ps ps1_2 low_pre high_pre i j pivot_end)) ,
+forall (ps : (List interval)) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (st1_3 : (List Int)) (ed1_3 : (List Int)) (ps1_3 : (List interval)) (PreH1 : (PairIntervals st1_3 ed1_3 ps1_3)) (PreH2 : (IntervalSwappedAt ps1_2 ps1_3 (i + 1) j)) (PreH3 : ((Znth j ed1_2 (0 : Int)) <= pivot_end)) (PreH4 : (j < high_pre)) (PreH5 : ((0 : Int) <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < intervalsSize_pre)) (PreH8 : ((low_pre - 1) <= i)) (PreH9 : (i < j)) (PreH10 : (j <= high_pre)) (PreH11 : (pivot_end = (Znth high_pre ed1_2 (0 : Int)))) (PreH12 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH13 : (LomutoScanState ps ps1_2 low_pre high_pre i j pivot_end)) ,
   TT && emp 
 |--
   EX ps1 : (List interval),
@@ -396,7 +396,7 @@ forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ps : (List in
 
 noncomputable def partition_intervals_entail_wit_2_2 : Prop :=
   (
-forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : ((Znth j ed1_2 (0 : Int)) > pivot_end)) (PreH2 : (j < high_pre)) (PreH3 : ((0 : Int) <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < intervalsSize_pre)) (PreH6 : ((low_pre - 1) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (pivot_end = (Znth high_pre ed1_2 (0 : Int)))) (PreH10 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH11 : (LomutoScanState ps ps1_2 low_pre high_pre i j pivot_end)) ,
+forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : ((Znth j ed1_2 (0 : Int)) > pivot_end)) (PreH2 : (j < high_pre)) (PreH3 : ((0 : Int) <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < intervalsSize_pre)) (PreH6 : ((low_pre - 1) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (pivot_end = (Znth high_pre ed1_2 (0 : Int)))) (PreH10 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH11 : (LomutoScanState ps ps1_2 low_pre high_pre i j pivot_end)) ,
   (intArray.full ed_pre intervalsSize_pre ed1_2)
   ** (intArray.full st_pre intervalsSize_pre st1_2)
 |--
@@ -414,7 +414,7 @@ forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
 ) \/
 (
-forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : ((Znth j ed1_2 (0 : Int)) > pivot_end)) (PreH2 : (j < high_pre)) (PreH3 : ((0 : Int) <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < intervalsSize_pre)) (PreH6 : ((low_pre - 1) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (pivot_end = (Znth high_pre ed1_2 (0 : Int)))) (PreH10 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH11 : (LomutoScanState ps ps1_2 low_pre high_pre i j pivot_end)) ,
+forall (ps : (List interval)) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : ((Znth j ed1_2 (0 : Int)) > pivot_end)) (PreH2 : (j < high_pre)) (PreH3 : ((0 : Int) <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < intervalsSize_pre)) (PreH6 : ((low_pre - 1) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (pivot_end = (Znth high_pre ed1_2 (0 : Int)))) (PreH10 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH11 : (LomutoScanState ps ps1_2 low_pre high_pre i j pivot_end)) ,
   TT && emp 
 |--
   EX ps1 : (List interval),
@@ -427,7 +427,7 @@ forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ps : (List in
 
 noncomputable def partition_intervals_return_wit_1 : Prop :=
   (
-forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (st1_3 : (List Int)) (ed1_3 : (List Int)) (ps1_3 : (List interval)) (PreH1 : (PairIntervals st1_3 ed1_3 ps1_3)) (PreH2 : (IntervalSwappedAt ps1_2 ps1_3 (i + 1) high_pre)) (PreH3 : (j >= high_pre)) (PreH4 : ((0 : Int) <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < intervalsSize_pre)) (PreH7 : ((low_pre - 1) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (pivot_end = (Znth high_pre ed1_2 (0 : Int)))) (PreH11 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH12 : (LomutoScanState ps ps1_2 low_pre high_pre i j pivot_end)) ,
+forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (st1_3 : (List Int)) (ed1_3 : (List Int)) (ps1_3 : (List interval)) (PreH1 : (PairIntervals st1_3 ed1_3 ps1_3)) (PreH2 : (IntervalSwappedAt ps1_2 ps1_3 (i + 1) high_pre)) (PreH3 : (j >= high_pre)) (PreH4 : ((0 : Int) <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < intervalsSize_pre)) (PreH7 : ((low_pre - 1) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (pivot_end = (Znth high_pre ed1_2 (0 : Int)))) (PreH11 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH12 : (LomutoScanState ps ps1_2 low_pre high_pre i j pivot_end)) ,
   (intArray.full st_pre intervalsSize_pre st1_3)
   ** (intArray.full ed_pre intervalsSize_pre ed1_3)
 |--
@@ -440,7 +440,7 @@ forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
 ) \/
 (
-forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (st1_3 : (List Int)) (ed1_3 : (List Int)) (ps1_3 : (List interval)) (PreH1 : (PairIntervals st1_3 ed1_3 ps1_3)) (PreH2 : (IntervalSwappedAt ps1_2 ps1_3 (i + 1) high_pre)) (PreH3 : (j >= high_pre)) (PreH4 : ((0 : Int) <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < intervalsSize_pre)) (PreH7 : ((low_pre - 1) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (pivot_end = (Znth high_pre ed1_2 (0 : Int)))) (PreH11 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH12 : (LomutoScanState ps ps1_2 low_pre high_pre i j pivot_end)) ,
+forall (ps : (List interval)) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (st1_3 : (List Int)) (ed1_3 : (List Int)) (ps1_3 : (List interval)) (PreH1 : (PairIntervals st1_3 ed1_3 ps1_3)) (PreH2 : (IntervalSwappedAt ps1_2 ps1_3 (i + 1) high_pre)) (PreH3 : (j >= high_pre)) (PreH4 : ((0 : Int) <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < intervalsSize_pre)) (PreH7 : ((low_pre - 1) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (pivot_end = (Znth high_pre ed1_2 (0 : Int)))) (PreH11 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH12 : (LomutoScanState ps ps1_2 low_pre high_pre i j pivot_end)) ,
   TT && emp 
 |--
   EX ps1 : (List interval),
@@ -452,7 +452,7 @@ forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ps : (List in
 )
 
 noncomputable def partition_intervals_partial_solve_wit_1 : Prop :=
-  forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (PreH1 : ((0 : Int) <= low_pre)) (PreH2 : (low_pre <= high_pre)) (PreH3 : (high_pre < intervalsSize_pre)) (PreH4 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (PreH1 : ((0 : Int) <= low_pre)) (PreH2 : (low_pre <= high_pre)) (PreH3 : (high_pre < intervalsSize_pre)) (PreH4 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre intervalsSize_pre st_l)
   ** (intArray.full ed_pre intervalsSize_pre ed_l)
 |--
@@ -465,7 +465,7 @@ noncomputable def partition_intervals_partial_solve_wit_1 : Prop :=
   ** (intArray.full st_pre intervalsSize_pre st_l)
 
 noncomputable def partition_intervals_partial_solve_wit_2 : Prop :=
-  forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (j < high_pre)) (PreH2 : ((0 : Int) <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < intervalsSize_pre)) (PreH5 : ((low_pre - 1) <= i)) (PreH6 : (i < j)) (PreH7 : (j <= high_pre)) (PreH8 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH9 : (PairIntervals st1 ed1 ps1)) (PreH10 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (j < high_pre)) (PreH2 : ((0 : Int) <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < intervalsSize_pre)) (PreH5 : ((low_pre - 1) <= i)) (PreH6 : (i < j)) (PreH7 : (j <= high_pre)) (PreH8 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH9 : (PairIntervals st1 ed1 ps1)) (PreH10 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
   (intArray.full st_pre intervalsSize_pre st1)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
 |--
@@ -484,7 +484,7 @@ noncomputable def partition_intervals_partial_solve_wit_2 : Prop :=
   ** (intArray.full st_pre intervalsSize_pre st1)
 
 noncomputable def partition_intervals_partial_solve_wit_3_pure : Prop :=
-  forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : ((Znth j ed1 (0 : Int)) <= pivot_end)) (PreH2 : (j < high_pre)) (PreH3 : ((0 : Int) <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < intervalsSize_pre)) (PreH6 : ((low_pre - 1) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH10 : (PairIntervals st1 ed1 ps1)) (PreH11 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : ((Znth j ed1 (0 : Int)) <= pivot_end)) (PreH2 : (j < high_pre)) (PreH3 : ((0 : Int) <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < intervalsSize_pre)) (PreH6 : ((low_pre - 1) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH10 : (PairIntervals st1 ed1 ps1)) (PreH11 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
   (intArray.full ed_pre intervalsSize_pre ed1)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
@@ -503,7 +503,7 @@ noncomputable def partition_intervals_partial_solve_wit_3_pure : Prop :=
   “ (PairIntervals st1 ed1 ps1) ”
 
 noncomputable def partition_intervals_partial_solve_wit_3_aux : Prop :=
-  forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : ((Znth j ed1 (0 : Int)) <= pivot_end)) (PreH2 : (j < high_pre)) (PreH3 : ((0 : Int) <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < intervalsSize_pre)) (PreH6 : ((low_pre - 1) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH10 : (PairIntervals st1 ed1 ps1)) (PreH11 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : ((Znth j ed1 (0 : Int)) <= pivot_end)) (PreH2 : (j < high_pre)) (PreH3 : ((0 : Int) <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < intervalsSize_pre)) (PreH6 : ((low_pre - 1) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH10 : (PairIntervals st1 ed1 ps1)) (PreH11 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
   (intArray.full ed_pre intervalsSize_pre ed1)
   ** (intArray.full st_pre intervalsSize_pre st1)
 |--
@@ -529,7 +529,7 @@ noncomputable def partition_intervals_partial_solve_wit_3_aux : Prop :=
 noncomputable def partition_intervals_partial_solve_wit_3 : Prop := partition_intervals_partial_solve_wit_3_pure -> partition_intervals_partial_solve_wit_3_aux
 
 noncomputable def partition_intervals_partial_solve_wit_4_pure : Prop :=
-  forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (j >= high_pre)) (PreH2 : ((0 : Int) <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < intervalsSize_pre)) (PreH5 : ((low_pre - 1) <= i)) (PreH6 : (i < j)) (PreH7 : (j <= high_pre)) (PreH8 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH9 : (PairIntervals st1 ed1 ps1)) (PreH10 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (j >= high_pre)) (PreH2 : ((0 : Int) <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < intervalsSize_pre)) (PreH5 : ((low_pre - 1) <= i)) (PreH6 : (i < j)) (PreH7 : (j <= high_pre)) (PreH8 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH9 : (PairIntervals st1 ed1 ps1)) (PreH10 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
   ** ((( &( "intervalsSize" ) )) # Int |-> (intervalsSize_pre))
@@ -547,7 +547,7 @@ noncomputable def partition_intervals_partial_solve_wit_4_pure : Prop :=
   “ (PairIntervals st1 ed1 ps1) ”
 
 noncomputable def partition_intervals_partial_solve_wit_4_aux : Prop :=
-  forall (high_pre : Int) (low_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (j >= high_pre)) (PreH2 : ((0 : Int) <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < intervalsSize_pre)) (PreH5 : ((low_pre - 1) <= i)) (PreH6 : (i < j)) (PreH7 : (j <= high_pre)) (PreH8 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH9 : (PairIntervals st1 ed1 ps1)) (PreH10 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (low_pre : Int) (high_pre : Int) (pivot_end : Int) (j : Int) (i : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (j >= high_pre)) (PreH2 : ((0 : Int) <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < intervalsSize_pre)) (PreH5 : ((low_pre - 1) <= i)) (PreH6 : (i < j)) (PreH7 : (j <= high_pre)) (PreH8 : (pivot_end = (Znth high_pre ed1 (0 : Int)))) (PreH9 : (PairIntervals st1 ed1 ps1)) (PreH10 : (LomutoScanState ps ps1 low_pre high_pre i j pivot_end)) ,
   (intArray.full st_pre intervalsSize_pre st1)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
 |--
@@ -572,7 +572,7 @@ noncomputable def partition_intervals_partial_solve_wit_4_aux : Prop :=
 noncomputable def partition_intervals_partial_solve_wit_4 : Prop := partition_intervals_partial_solve_wit_4_pure -> partition_intervals_partial_solve_wit_4_aux
 
 noncomputable def quicksort_intervals_range_safety_wit_1 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (retval > left_pre)) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH5 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH6 : (left_pre < right_pre)) (PreH7 : ((0 : Int) <= intervalsSize_pre)) (PreH8 : ((0 : Int) <= left_pre)) (PreH9 : ((-1) <= right_pre)) (PreH10 : (right_pre < intervalsSize_pre)) (PreH11 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (retval > left_pre)) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH5 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH6 : (left_pre < right_pre)) (PreH7 : ((0 : Int) <= intervalsSize_pre)) (PreH8 : ((0 : Int) <= left_pre)) (PreH9 : ((-1) <= right_pre)) (PreH10 : (right_pre < intervalsSize_pre)) (PreH11 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre intervalsSize_pre st1)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
   ** ((( &( "pivot" ) )) # Int |-> (retval))
@@ -586,7 +586,7 @@ noncomputable def quicksort_intervals_range_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (retval - 1)) ”
 
 noncomputable def quicksort_intervals_range_safety_wit_2 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (retval > left_pre)) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH5 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH6 : (left_pre < right_pre)) (PreH7 : ((0 : Int) <= intervalsSize_pre)) (PreH8 : ((0 : Int) <= left_pre)) (PreH9 : ((-1) <= right_pre)) (PreH10 : (right_pre < intervalsSize_pre)) (PreH11 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (retval > left_pre)) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH5 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH6 : (left_pre < right_pre)) (PreH7 : ((0 : Int) <= intervalsSize_pre)) (PreH8 : ((0 : Int) <= left_pre)) (PreH9 : ((-1) <= right_pre)) (PreH10 : (right_pre < intervalsSize_pre)) (PreH11 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre intervalsSize_pre st1)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
   ** ((( &( "pivot" ) )) # Int |-> (retval))
@@ -600,7 +600,7 @@ noncomputable def quicksort_intervals_range_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def quicksort_intervals_range_safety_wit_3 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot : Int) (current_st : (List Int)) (current_ed : (List Int)) (current_ps : (List interval)) (PreH1 : (pivot < right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : (left_pre < right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (left_pre <= pivot)) (PreH7 : (pivot <= right_pre)) (PreH8 : (PairIntervals current_st current_ed current_ps)) (PreH9 : (IntervalPermutation ps current_ps)) (PreH10 : (IntervalSameOutsideRange ps current_ps left_pre right_pre)) (PreH11 : (IntervalPartitionedAt current_ps left_pre right_pre pivot)) (PreH12 : (IntervalsEndSortedRange current_ps left_pre (pivot - 1))) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (pivot : Int) (current_st : (List Int)) (current_ed : (List Int)) (current_ps : (List interval)) (PreH1 : (pivot < right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : (left_pre < right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (left_pre <= pivot)) (PreH7 : (pivot <= right_pre)) (PreH8 : (PairIntervals current_st current_ed current_ps)) (PreH9 : (IntervalPermutation ps current_ps)) (PreH10 : (IntervalSameOutsideRange ps current_ps left_pre right_pre)) (PreH11 : (IntervalPartitionedAt current_ps left_pre right_pre pivot)) (PreH12 : (IntervalsEndSortedRange current_ps left_pre (pivot - 1))) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
   ** ((( &( "intervalsSize" ) )) # Int |-> (intervalsSize_pre))
@@ -614,7 +614,7 @@ noncomputable def quicksort_intervals_range_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (pivot + 1)) ”
 
 noncomputable def quicksort_intervals_range_safety_wit_4 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot : Int) (current_st : (List Int)) (current_ed : (List Int)) (current_ps : (List interval)) (PreH1 : (pivot < right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : (left_pre < right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (left_pre <= pivot)) (PreH7 : (pivot <= right_pre)) (PreH8 : (PairIntervals current_st current_ed current_ps)) (PreH9 : (IntervalPermutation ps current_ps)) (PreH10 : (IntervalSameOutsideRange ps current_ps left_pre right_pre)) (PreH11 : (IntervalPartitionedAt current_ps left_pre right_pre pivot)) (PreH12 : (IntervalsEndSortedRange current_ps left_pre (pivot - 1))) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (pivot : Int) (current_st : (List Int)) (current_ed : (List Int)) (current_ps : (List interval)) (PreH1 : (pivot < right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : (left_pre < right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (left_pre <= pivot)) (PreH7 : (pivot <= right_pre)) (PreH8 : (PairIntervals current_st current_ed current_ps)) (PreH9 : (IntervalPermutation ps current_ps)) (PreH10 : (IntervalSameOutsideRange ps current_ps left_pre right_pre)) (PreH11 : (IntervalPartitionedAt current_ps left_pre right_pre pivot)) (PreH12 : (IntervalsEndSortedRange current_ps left_pre (pivot - 1))) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
   ** ((( &( "intervalsSize" ) )) # Int |-> (intervalsSize_pre))
@@ -629,7 +629,7 @@ noncomputable def quicksort_intervals_range_safety_wit_4 : Prop :=
 
 noncomputable def quicksort_intervals_range_entail_wit_1_1 : Prop :=
   (
-forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalPermutation ps1 ps1_2)) (PreH3 : (IntervalSameOutsideRange ps1 ps1_2 left_pre (retval - 1))) (PreH4 : (IntervalsEndSortedRange ps1_2 left_pre (retval - 1))) (PreH5 : (retval > left_pre)) (PreH6 : (PairIntervals st1 ed1 ps1)) (PreH7 : (IntervalPermutation ps ps1)) (PreH8 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH9 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH10 : (left_pre < right_pre)) (PreH11 : ((0 : Int) <= intervalsSize_pre)) (PreH12 : ((0 : Int) <= left_pre)) (PreH13 : ((-1) <= right_pre)) (PreH14 : (right_pre < intervalsSize_pre)) (PreH15 : (PairIntervals st_l ed_l ps)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalPermutation ps1 ps1_2)) (PreH3 : (IntervalSameOutsideRange ps1 ps1_2 left_pre (retval - 1))) (PreH4 : (IntervalsEndSortedRange ps1_2 left_pre (retval - 1))) (PreH5 : (retval > left_pre)) (PreH6 : (PairIntervals st1 ed1 ps1)) (PreH7 : (IntervalPermutation ps ps1)) (PreH8 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH9 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH10 : (left_pre < right_pre)) (PreH11 : ((0 : Int) <= intervalsSize_pre)) (PreH12 : ((0 : Int) <= left_pre)) (PreH13 : ((-1) <= right_pre)) (PreH14 : (right_pre < intervalsSize_pre)) (PreH15 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre intervalsSize_pre st1_2)
   ** (intArray.full ed_pre intervalsSize_pre ed1_2)
 |--
@@ -649,7 +649,7 @@ forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : In
   ** (intArray.full ed_pre intervalsSize_pre current_ed)
 ) \/
 (
-forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalPermutation ps1 ps1_2)) (PreH3 : (IntervalSameOutsideRange ps1 ps1_2 left_pre (retval - 1))) (PreH4 : (IntervalsEndSortedRange ps1_2 left_pre (retval - 1))) (PreH5 : (retval > left_pre)) (PreH6 : (PairIntervals st1 ed1 ps1)) (PreH7 : (IntervalPermutation ps ps1)) (PreH8 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH9 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH10 : (left_pre < right_pre)) (PreH11 : ((0 : Int) <= intervalsSize_pre)) (PreH12 : ((0 : Int) <= left_pre)) (PreH13 : ((-1) <= right_pre)) (PreH14 : (right_pre < intervalsSize_pre)) (PreH15 : (PairIntervals st_l ed_l ps)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalPermutation ps1 ps1_2)) (PreH3 : (IntervalSameOutsideRange ps1 ps1_2 left_pre (retval - 1))) (PreH4 : (IntervalsEndSortedRange ps1_2 left_pre (retval - 1))) (PreH5 : (retval > left_pre)) (PreH6 : (PairIntervals st1 ed1 ps1)) (PreH7 : (IntervalPermutation ps ps1)) (PreH8 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH9 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH10 : (left_pre < right_pre)) (PreH11 : ((0 : Int) <= intervalsSize_pre)) (PreH12 : ((0 : Int) <= left_pre)) (PreH13 : ((-1) <= right_pre)) (PreH14 : (right_pre < intervalsSize_pre)) (PreH15 : (PairIntervals st_l ed_l ps)) ,
   TT && emp 
 |--
   EX current_ps : (List interval),
@@ -665,7 +665,7 @@ forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ps : (List 
 
 noncomputable def quicksort_intervals_range_entail_wit_1_2 : Prop :=
   (
-forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (retval <= left_pre)) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH5 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH6 : (left_pre < right_pre)) (PreH7 : ((0 : Int) <= intervalsSize_pre)) (PreH8 : ((0 : Int) <= left_pre)) (PreH9 : ((-1) <= right_pre)) (PreH10 : (right_pre < intervalsSize_pre)) (PreH11 : (PairIntervals st_l ed_l ps)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (retval <= left_pre)) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH5 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH6 : (left_pre < right_pre)) (PreH7 : ((0 : Int) <= intervalsSize_pre)) (PreH8 : ((0 : Int) <= left_pre)) (PreH9 : ((-1) <= right_pre)) (PreH10 : (right_pre < intervalsSize_pre)) (PreH11 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre intervalsSize_pre st1)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
 |--
@@ -685,7 +685,7 @@ forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : In
   ** (intArray.full ed_pre intervalsSize_pre current_ed)
 ) \/
 (
-forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (retval <= left_pre)) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH5 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH6 : (left_pre < right_pre)) (PreH7 : ((0 : Int) <= intervalsSize_pre)) (PreH8 : ((0 : Int) <= left_pre)) (PreH9 : ((-1) <= right_pre)) (PreH10 : (right_pre < intervalsSize_pre)) (PreH11 : (PairIntervals st_l ed_l ps)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (retval <= left_pre)) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH5 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH6 : (left_pre < right_pre)) (PreH7 : ((0 : Int) <= intervalsSize_pre)) (PreH8 : ((0 : Int) <= left_pre)) (PreH9 : ((-1) <= right_pre)) (PreH10 : (right_pre < intervalsSize_pre)) (PreH11 : (PairIntervals st_l ed_l ps)) ,
   TT && emp 
 |--
   EX current_ps : (List interval),
@@ -701,7 +701,7 @@ forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ps : (List 
 
 noncomputable def quicksort_intervals_range_return_wit_1 : Prop :=
   (
-forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot : Int) (current_st : (List Int)) (current_ed : (List Int)) (current_ps : (List interval)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalPermutation current_ps ps1_2)) (PreH3 : (IntervalSameOutsideRange current_ps ps1_2 (pivot + 1) right_pre)) (PreH4 : (IntervalsEndSortedRange ps1_2 (pivot + 1) right_pre)) (PreH5 : (pivot < right_pre)) (PreH6 : ((0 : Int) <= intervalsSize_pre)) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre < right_pre)) (PreH9 : (right_pre < intervalsSize_pre)) (PreH10 : (left_pre <= pivot)) (PreH11 : (pivot <= right_pre)) (PreH12 : (PairIntervals current_st current_ed current_ps)) (PreH13 : (IntervalPermutation ps current_ps)) (PreH14 : (IntervalSameOutsideRange ps current_ps left_pre right_pre)) (PreH15 : (IntervalPartitionedAt current_ps left_pre right_pre pivot)) (PreH16 : (IntervalsEndSortedRange current_ps left_pre (pivot - 1))) ,
+forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (pivot : Int) (current_st : (List Int)) (current_ed : (List Int)) (current_ps : (List interval)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalPermutation current_ps ps1_2)) (PreH3 : (IntervalSameOutsideRange current_ps ps1_2 (pivot + 1) right_pre)) (PreH4 : (IntervalsEndSortedRange ps1_2 (pivot + 1) right_pre)) (PreH5 : (pivot < right_pre)) (PreH6 : ((0 : Int) <= intervalsSize_pre)) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre < right_pre)) (PreH9 : (right_pre < intervalsSize_pre)) (PreH10 : (left_pre <= pivot)) (PreH11 : (pivot <= right_pre)) (PreH12 : (PairIntervals current_st current_ed current_ps)) (PreH13 : (IntervalPermutation ps current_ps)) (PreH14 : (IntervalSameOutsideRange ps current_ps left_pre right_pre)) (PreH15 : (IntervalPartitionedAt current_ps left_pre right_pre pivot)) (PreH16 : (IntervalsEndSortedRange current_ps left_pre (pivot - 1))) ,
   (intArray.full st_pre intervalsSize_pre st1_2)
   ** (intArray.full ed_pre intervalsSize_pre ed1_2)
 |--
@@ -714,7 +714,7 @@ forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : In
   ** (intArray.full ed_pre intervalsSize_pre ed1)
 ) \/
 (
-forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ps : (List interval)) (pivot : Int) (current_st : (List Int)) (current_ed : (List Int)) (current_ps : (List interval)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalPermutation current_ps ps1_2)) (PreH3 : (IntervalSameOutsideRange current_ps ps1_2 (pivot + 1) right_pre)) (PreH4 : (IntervalsEndSortedRange ps1_2 (pivot + 1) right_pre)) (PreH5 : (pivot < right_pre)) (PreH6 : ((0 : Int) <= intervalsSize_pre)) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre < right_pre)) (PreH9 : (right_pre < intervalsSize_pre)) (PreH10 : (left_pre <= pivot)) (PreH11 : (pivot <= right_pre)) (PreH12 : (PairIntervals current_st current_ed current_ps)) (PreH13 : (IntervalPermutation ps current_ps)) (PreH14 : (IntervalSameOutsideRange ps current_ps left_pre right_pre)) (PreH15 : (IntervalPartitionedAt current_ps left_pre right_pre pivot)) (PreH16 : (IntervalsEndSortedRange current_ps left_pre (pivot - 1))) ,
+forall (ps : (List interval)) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (pivot : Int) (current_st : (List Int)) (current_ed : (List Int)) (current_ps : (List interval)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalPermutation current_ps ps1_2)) (PreH3 : (IntervalSameOutsideRange current_ps ps1_2 (pivot + 1) right_pre)) (PreH4 : (IntervalsEndSortedRange ps1_2 (pivot + 1) right_pre)) (PreH5 : (pivot < right_pre)) (PreH6 : ((0 : Int) <= intervalsSize_pre)) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre < right_pre)) (PreH9 : (right_pre < intervalsSize_pre)) (PreH10 : (left_pre <= pivot)) (PreH11 : (pivot <= right_pre)) (PreH12 : (PairIntervals current_st current_ed current_ps)) (PreH13 : (IntervalPermutation ps current_ps)) (PreH14 : (IntervalSameOutsideRange ps current_ps left_pre right_pre)) (PreH15 : (IntervalPartitionedAt current_ps left_pre right_pre pivot)) (PreH16 : (IntervalsEndSortedRange current_ps left_pre (pivot - 1))) ,
   TT && emp 
 |--
   EX ps1 : (List interval),
@@ -727,7 +727,7 @@ forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ps : (List 
 
 noncomputable def quicksort_intervals_range_return_wit_2 : Prop :=
   (
-forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot : Int) (current_st : (List Int)) (current_ed : (List Int)) (current_ps : (List interval)) (PreH1 : (pivot >= right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : (left_pre < right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (left_pre <= pivot)) (PreH7 : (pivot <= right_pre)) (PreH8 : (PairIntervals current_st current_ed current_ps)) (PreH9 : (IntervalPermutation ps current_ps)) (PreH10 : (IntervalSameOutsideRange ps current_ps left_pre right_pre)) (PreH11 : (IntervalPartitionedAt current_ps left_pre right_pre pivot)) (PreH12 : (IntervalsEndSortedRange current_ps left_pre (pivot - 1))) ,
+forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (pivot : Int) (current_st : (List Int)) (current_ed : (List Int)) (current_ps : (List interval)) (PreH1 : (pivot >= right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : (left_pre < right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (left_pre <= pivot)) (PreH7 : (pivot <= right_pre)) (PreH8 : (PairIntervals current_st current_ed current_ps)) (PreH9 : (IntervalPermutation ps current_ps)) (PreH10 : (IntervalSameOutsideRange ps current_ps left_pre right_pre)) (PreH11 : (IntervalPartitionedAt current_ps left_pre right_pre pivot)) (PreH12 : (IntervalsEndSortedRange current_ps left_pre (pivot - 1))) ,
   (intArray.full st_pre intervalsSize_pre current_st)
   ** (intArray.full ed_pre intervalsSize_pre current_ed)
 |--
@@ -740,7 +740,7 @@ forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : In
   ** (intArray.full ed_pre intervalsSize_pre ed1)
 ) \/
 (
-forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ps : (List interval)) (pivot : Int) (current_st : (List Int)) (current_ed : (List Int)) (current_ps : (List interval)) (PreH1 : (pivot >= right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : (left_pre < right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (left_pre <= pivot)) (PreH7 : (pivot <= right_pre)) (PreH8 : (PairIntervals current_st current_ed current_ps)) (PreH9 : (IntervalPermutation ps current_ps)) (PreH10 : (IntervalSameOutsideRange ps current_ps left_pre right_pre)) (PreH11 : (IntervalPartitionedAt current_ps left_pre right_pre pivot)) (PreH12 : (IntervalsEndSortedRange current_ps left_pre (pivot - 1))) ,
+forall (ps : (List interval)) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (pivot : Int) (current_st : (List Int)) (current_ed : (List Int)) (current_ps : (List interval)) (PreH1 : (pivot >= right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : (left_pre < right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (left_pre <= pivot)) (PreH7 : (pivot <= right_pre)) (PreH8 : (PairIntervals current_st current_ed current_ps)) (PreH9 : (IntervalPermutation ps current_ps)) (PreH10 : (IntervalSameOutsideRange ps current_ps left_pre right_pre)) (PreH11 : (IntervalPartitionedAt current_ps left_pre right_pre pivot)) (PreH12 : (IntervalsEndSortedRange current_ps left_pre (pivot - 1))) ,
   TT && emp 
 |--
   EX ps1 : (List interval),
@@ -753,7 +753,7 @@ forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ps : (List 
 
 noncomputable def quicksort_intervals_range_return_wit_3 : Prop :=
   (
-forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (PreH1 : (left_pre >= right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : ((-1) <= right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (PairIntervals st_l ed_l ps)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (PreH1 : (left_pre >= right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : ((-1) <= right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre intervalsSize_pre st_l)
   ** (intArray.full ed_pre intervalsSize_pre ed_l)
 |--
@@ -766,7 +766,7 @@ forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : In
   ** (intArray.full ed_pre intervalsSize_pre ed1)
 ) \/
 (
-forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (PreH1 : (left_pre >= right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : ((-1) <= right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (PairIntervals st_l ed_l ps)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (PreH1 : (left_pre >= right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : ((-1) <= right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (PairIntervals st_l ed_l ps)) ,
   TT && emp 
 |--
   EX ps1 : (List interval),
@@ -778,7 +778,7 @@ forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ps : (List 
 )
 
 noncomputable def quicksort_intervals_range_partial_solve_wit_1_pure : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (PreH1 : (left_pre < right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : ((-1) <= right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (PreH1 : (left_pre < right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : ((-1) <= right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (PairIntervals st_l ed_l ps)) ,
   ((( &( "pivot" ) )) # Int |->_)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
@@ -794,7 +794,7 @@ noncomputable def quicksort_intervals_range_partial_solve_wit_1_pure : Prop :=
   “ (PairIntervals st_l ed_l ps) ”
 
 noncomputable def quicksort_intervals_range_partial_solve_wit_1_aux : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (PreH1 : (left_pre < right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : ((-1) <= right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (PreH1 : (left_pre < right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : ((-1) <= right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre intervalsSize_pre st_l)
   ** (intArray.full ed_pre intervalsSize_pre ed_l)
 |--
@@ -815,7 +815,7 @@ noncomputable def quicksort_intervals_range_partial_solve_wit_1 : Prop := quicks
 
 noncomputable def quicksort_intervals_range_partial_solve_wit_2_pure : Prop :=
   (
-forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (retval > left_pre)) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH5 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH6 : (left_pre < right_pre)) (PreH7 : ((0 : Int) <= intervalsSize_pre)) (PreH8 : ((0 : Int) <= left_pre)) (PreH9 : ((-1) <= right_pre)) (PreH10 : (right_pre < intervalsSize_pre)) (PreH11 : (PairIntervals st_l ed_l ps)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (retval > left_pre)) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH5 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH6 : (left_pre < right_pre)) (PreH7 : ((0 : Int) <= intervalsSize_pre)) (PreH8 : ((0 : Int) <= left_pre)) (PreH9 : ((-1) <= right_pre)) (PreH10 : (right_pre < intervalsSize_pre)) (PreH11 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre intervalsSize_pre st1)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
   ** ((( &( "pivot" ) )) # Int |-> (retval))
@@ -832,7 +832,7 @@ forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : In
   “ ((retval - 1) < intervalsSize_pre) ”
 ) \/
 (
-forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (right_pre <= INT_MAX)) (PreH2 : (left_pre <= INT_MAX)) (PreH3 : (intervalsSize_pre <= INT_MAX)) (PreH4 : (retval <= INT_MAX)) (PreH5 : (right_pre >= INT_MIN)) (PreH6 : (left_pre >= INT_MIN)) (PreH7 : (intervalsSize_pre >= INT_MIN)) (PreH8 : (retval >= INT_MIN)) (PreH9 : (retval > left_pre)) (PreH10 : (PairIntervals st1 ed1 ps1)) (PreH11 : (IntervalPermutation ps ps1)) (PreH12 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH13 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH14 : (left_pre < right_pre)) (PreH15 : ((0 : Int) <= intervalsSize_pre)) (PreH16 : ((0 : Int) <= left_pre)) (PreH17 : ((-1) <= right_pre)) (PreH18 : (right_pre < intervalsSize_pre)) (PreH19 : (PairIntervals st_l ed_l ps)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (right_pre <= INT_MAX)) (PreH2 : (left_pre <= INT_MAX)) (PreH3 : (intervalsSize_pre <= INT_MAX)) (PreH4 : (retval <= INT_MAX)) (PreH5 : (right_pre >= INT_MIN)) (PreH6 : (left_pre >= INT_MIN)) (PreH7 : (intervalsSize_pre >= INT_MIN)) (PreH8 : (retval >= INT_MIN)) (PreH9 : (retval > left_pre)) (PreH10 : (PairIntervals st1 ed1 ps1)) (PreH11 : (IntervalPermutation ps ps1)) (PreH12 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH13 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH14 : (left_pre < right_pre)) (PreH15 : ((0 : Int) <= intervalsSize_pre)) (PreH16 : ((0 : Int) <= left_pre)) (PreH17 : ((-1) <= right_pre)) (PreH18 : (right_pre < intervalsSize_pre)) (PreH19 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre intervalsSize_pre st1)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
   ** ((( &( "pivot" ) )) # Int |-> (retval))
@@ -846,7 +846,7 @@ forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : In
 )
 
 noncomputable def quicksort_intervals_range_partial_solve_wit_2_pure_split_goal_1 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (right_pre <= INT_MAX)) (PreH2 : (left_pre <= INT_MAX)) (PreH3 : (intervalsSize_pre <= INT_MAX)) (PreH4 : (retval <= INT_MAX)) (PreH5 : (right_pre >= INT_MIN)) (PreH6 : (left_pre >= INT_MIN)) (PreH7 : (intervalsSize_pre >= INT_MIN)) (PreH8 : (retval >= INT_MIN)) (PreH9 : (retval > left_pre)) (PreH10 : (PairIntervals st1 ed1 ps1)) (PreH11 : (IntervalPermutation ps ps1)) (PreH12 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH13 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH14 : (left_pre < right_pre)) (PreH15 : ((0 : Int) <= intervalsSize_pre)) (PreH16 : ((0 : Int) <= left_pre)) (PreH17 : ((-1) <= right_pre)) (PreH18 : (right_pre < intervalsSize_pre)) (PreH19 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (right_pre <= INT_MAX)) (PreH2 : (left_pre <= INT_MAX)) (PreH3 : (intervalsSize_pre <= INT_MAX)) (PreH4 : (retval <= INT_MAX)) (PreH5 : (right_pre >= INT_MIN)) (PreH6 : (left_pre >= INT_MIN)) (PreH7 : (intervalsSize_pre >= INT_MIN)) (PreH8 : (retval >= INT_MIN)) (PreH9 : (retval > left_pre)) (PreH10 : (PairIntervals st1 ed1 ps1)) (PreH11 : (IntervalPermutation ps ps1)) (PreH12 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH13 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH14 : (left_pre < right_pre)) (PreH15 : ((0 : Int) <= intervalsSize_pre)) (PreH16 : ((0 : Int) <= left_pre)) (PreH17 : ((-1) <= right_pre)) (PreH18 : (right_pre < intervalsSize_pre)) (PreH19 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre intervalsSize_pre st1)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
   ** ((( &( "pivot" ) )) # Int |-> (retval))
@@ -859,7 +859,7 @@ noncomputable def quicksort_intervals_range_partial_solve_wit_2_pure_split_goal_
   “ ((retval - 1) < intervalsSize_pre) ”
 
 noncomputable def quicksort_intervals_range_partial_solve_wit_2_aux : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (retval > left_pre)) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH5 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH6 : (left_pre < right_pre)) (PreH7 : ((0 : Int) <= intervalsSize_pre)) (PreH8 : ((0 : Int) <= left_pre)) (PreH9 : ((-1) <= right_pre)) (PreH10 : (right_pre < intervalsSize_pre)) (PreH11 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (retval : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (retval > left_pre)) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalSameOutsideRange ps ps1 left_pre right_pre)) (PreH5 : (IntervalPartitionedAt ps1 left_pre right_pre retval)) (PreH6 : (left_pre < right_pre)) (PreH7 : ((0 : Int) <= intervalsSize_pre)) (PreH8 : ((0 : Int) <= left_pre)) (PreH9 : ((-1) <= right_pre)) (PreH10 : (right_pre < intervalsSize_pre)) (PreH11 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre intervalsSize_pre st1)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
 |--
@@ -885,7 +885,7 @@ noncomputable def quicksort_intervals_range_partial_solve_wit_2_aux : Prop :=
 noncomputable def quicksort_intervals_range_partial_solve_wit_2 : Prop := quicksort_intervals_range_partial_solve_wit_2_pure -> quicksort_intervals_range_partial_solve_wit_2_aux
 
 noncomputable def quicksort_intervals_range_partial_solve_wit_3_pure : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot : Int) (current_st : (List Int)) (current_ed : (List Int)) (current_ps : (List interval)) (PreH1 : (pivot < right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : (left_pre < right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (left_pre <= pivot)) (PreH7 : (pivot <= right_pre)) (PreH8 : (PairIntervals current_st current_ed current_ps)) (PreH9 : (IntervalPermutation ps current_ps)) (PreH10 : (IntervalSameOutsideRange ps current_ps left_pre right_pre)) (PreH11 : (IntervalPartitionedAt current_ps left_pre right_pre pivot)) (PreH12 : (IntervalsEndSortedRange current_ps left_pre (pivot - 1))) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (pivot : Int) (current_st : (List Int)) (current_ed : (List Int)) (current_ps : (List interval)) (PreH1 : (pivot < right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : (left_pre < right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (left_pre <= pivot)) (PreH7 : (pivot <= right_pre)) (PreH8 : (PairIntervals current_st current_ed current_ps)) (PreH9 : (IntervalPermutation ps current_ps)) (PreH10 : (IntervalSameOutsideRange ps current_ps left_pre right_pre)) (PreH11 : (IntervalPartitionedAt current_ps left_pre right_pre pivot)) (PreH12 : (IntervalsEndSortedRange current_ps left_pre (pivot - 1))) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
   ** ((( &( "intervalsSize" ) )) # Int |-> (intervalsSize_pre))
@@ -902,7 +902,7 @@ noncomputable def quicksort_intervals_range_partial_solve_wit_3_pure : Prop :=
   “ (PairIntervals current_st current_ed current_ps) ”
 
 noncomputable def quicksort_intervals_range_partial_solve_wit_3_aux : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (pivot : Int) (current_st : (List Int)) (current_ed : (List Int)) (current_ps : (List interval)) (PreH1 : (pivot < right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : (left_pre < right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (left_pre <= pivot)) (PreH7 : (pivot <= right_pre)) (PreH8 : (PairIntervals current_st current_ed current_ps)) (PreH9 : (IntervalPermutation ps current_ps)) (PreH10 : (IntervalSameOutsideRange ps current_ps left_pre right_pre)) (PreH11 : (IntervalPartitionedAt current_ps left_pre right_pre pivot)) (PreH12 : (IntervalsEndSortedRange current_ps left_pre (pivot - 1))) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (left_pre : Int) (right_pre : Int) (pivot : Int) (current_st : (List Int)) (current_ed : (List Int)) (current_ps : (List interval)) (PreH1 : (pivot < right_pre)) (PreH2 : ((0 : Int) <= intervalsSize_pre)) (PreH3 : ((0 : Int) <= left_pre)) (PreH4 : (left_pre < right_pre)) (PreH5 : (right_pre < intervalsSize_pre)) (PreH6 : (left_pre <= pivot)) (PreH7 : (pivot <= right_pre)) (PreH8 : (PairIntervals current_st current_ed current_ps)) (PreH9 : (IntervalPermutation ps current_ps)) (PreH10 : (IntervalSameOutsideRange ps current_ps left_pre right_pre)) (PreH11 : (IntervalPartitionedAt current_ps left_pre right_pre pivot)) (PreH12 : (IntervalsEndSortedRange current_ps left_pre (pivot - 1))) ,
   (intArray.full st_pre intervalsSize_pre current_st)
   ** (intArray.full ed_pre intervalsSize_pre current_ed)
 |--
@@ -929,7 +929,7 @@ noncomputable def quicksort_intervals_range_partial_solve_wit_3_aux : Prop :=
 noncomputable def quicksort_intervals_range_partial_solve_wit_3 : Prop := quicksort_intervals_range_partial_solve_wit_3_pure -> quicksort_intervals_range_partial_solve_wit_3_aux
 
 noncomputable def quicksort_intervals_safety_wit_1 : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (PreH1 : ((0 : Int) <= intervalsSize_pre)) (PreH2 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (PreH1 : ((0 : Int) <= intervalsSize_pre)) (PreH2 : (PairIntervals st_l ed_l ps)) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
   ** ((( &( "intervalsSize" ) )) # Int |-> (intervalsSize_pre))
@@ -940,7 +940,7 @@ noncomputable def quicksort_intervals_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (intervalsSize_pre - 1)) ”
 
 noncomputable def quicksort_intervals_safety_wit_2 : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (PreH1 : ((0 : Int) <= intervalsSize_pre)) (PreH2 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (PreH1 : ((0 : Int) <= intervalsSize_pre)) (PreH2 : (PairIntervals st_l ed_l ps)) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
   ** ((( &( "intervalsSize" ) )) # Int |-> (intervalsSize_pre))
@@ -951,7 +951,7 @@ noncomputable def quicksort_intervals_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def quicksort_intervals_safety_wit_3 : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (PreH1 : ((0 : Int) <= intervalsSize_pre)) (PreH2 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (PreH1 : ((0 : Int) <= intervalsSize_pre)) (PreH2 : (PairIntervals st_l ed_l ps)) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
   ** ((( &( "intervalsSize" ) )) # Int |-> (intervalsSize_pre))
@@ -963,7 +963,7 @@ noncomputable def quicksort_intervals_safety_wit_3 : Prop :=
 
 noncomputable def quicksort_intervals_return_wit_1 : Prop :=
   (
-forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalPermutation ps ps1_2)) (PreH3 : (IntervalSameOutsideRange ps ps1_2 (0 : Int) (intervalsSize_pre - 1))) (PreH4 : (IntervalsEndSortedRange ps1_2 (0 : Int) (intervalsSize_pre - 1))) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (PairIntervals st_l ed_l ps)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalPermutation ps ps1_2)) (PreH3 : (IntervalSameOutsideRange ps ps1_2 (0 : Int) (intervalsSize_pre - 1))) (PreH4 : (IntervalsEndSortedRange ps1_2 (0 : Int) (intervalsSize_pre - 1))) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre intervalsSize_pre st1_2)
   ** (intArray.full ed_pre intervalsSize_pre ed1_2)
 |--
@@ -975,7 +975,7 @@ forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List inter
   ** (intArray.full ed_pre intervalsSize_pre ed1)
 ) \/
 (
-forall (intervalsSize_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalPermutation ps ps1_2)) (PreH3 : (IntervalSameOutsideRange ps ps1_2 (0 : Int) (intervalsSize_pre - 1))) (PreH4 : (IntervalsEndSortedRange ps1_2 (0 : Int) (intervalsSize_pre - 1))) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (PairIntervals st_l ed_l ps)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (intervalsSize_pre : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1_2 : (List interval)) (PreH1 : (PairIntervals st1_2 ed1_2 ps1_2)) (PreH2 : (IntervalPermutation ps ps1_2)) (PreH3 : (IntervalSameOutsideRange ps ps1_2 (0 : Int) (intervalsSize_pre - 1))) (PreH4 : (IntervalsEndSortedRange ps1_2 (0 : Int) (intervalsSize_pre - 1))) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (PairIntervals st_l ed_l ps)) ,
   TT && emp 
 |--
   EX ps1 : (List interval),
@@ -986,7 +986,7 @@ forall (intervalsSize_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_
 )
 
 noncomputable def quicksort_intervals_partial_solve_wit_1_pure : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (PreH1 : ((0 : Int) <= intervalsSize_pre)) (PreH2 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (PreH1 : ((0 : Int) <= intervalsSize_pre)) (PreH2 : (PairIntervals st_l ed_l ps)) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
   ** ((( &( "intervalsSize" ) )) # Int |-> (intervalsSize_pre))
@@ -1000,7 +1000,7 @@ noncomputable def quicksort_intervals_partial_solve_wit_1_pure : Prop :=
   “ (PairIntervals st_l ed_l ps) ”
 
 noncomputable def quicksort_intervals_partial_solve_wit_1_aux : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (PreH1 : ((0 : Int) <= intervalsSize_pre)) (PreH2 : (PairIntervals st_l ed_l ps)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (PreH1 : ((0 : Int) <= intervalsSize_pre)) (PreH2 : (PairIntervals st_l ed_l ps)) ,
   (intArray.full st_pre intervalsSize_pre st_l)
   ** (intArray.full ed_pre intervalsSize_pre ed_l)
 |--
@@ -1017,7 +1017,7 @@ noncomputable def quicksort_intervals_partial_solve_wit_1_aux : Prop :=
 noncomputable def quicksort_intervals_partial_solve_wit_1 : Prop := quicksort_intervals_partial_solve_wit_1_pure -> quicksort_intervals_partial_solve_wit_1_aux
 
 noncomputable def eraseOverlapIntervals_safety_wit_1 : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (PairIntervals st1 ed1 ps1)) (PreH2 : (IntervalPermutation ps ps1)) (PreH3 : (IntervalsEndSorted ps1)) (PreH4 : ((0 : Int) <= intervalsSize_pre)) (PreH5 : (intervalsSize_pre <= 1000)) (PreH6 : (PairIntervals st_l ed_l ps)) (PreH7 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH8 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH9 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (PairIntervals st1 ed1 ps1)) (PreH2 : (IntervalPermutation ps ps1)) (PreH3 : (IntervalsEndSorted ps1)) (PreH4 : ((0 : Int) <= intervalsSize_pre)) (PreH5 : (intervalsSize_pre <= 1000)) (PreH6 : (PairIntervals st_l ed_l ps)) (PreH7 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH8 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH9 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
   (intArray.full st_pre intervalsSize_pre st1)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
@@ -1028,7 +1028,7 @@ noncomputable def eraseOverlapIntervals_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def eraseOverlapIntervals_safety_wit_2 : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre = (0 : Int))) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre = (0 : Int))) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
   (intArray.full st_pre intervalsSize_pre st1)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
@@ -1039,7 +1039,7 @@ noncomputable def eraseOverlapIntervals_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def eraseOverlapIntervals_safety_wit_3 : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre ≠ (0 : Int))) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre ≠ (0 : Int))) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
   ((( &( "kept" ) )) # Int |->_)
   ** (intArray.full st_pre intervalsSize_pre st1)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
@@ -1051,7 +1051,7 @@ noncomputable def eraseOverlapIntervals_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def eraseOverlapIntervals_safety_wit_4 : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre ≠ (0 : Int))) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre ≠ (0 : Int))) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
   ((( &( "last_end" ) )) # Int |->_)
   ** ((( &( "kept" ) )) # Int |-> (1))
   ** (intArray.full st_pre intervalsSize_pre st1)
@@ -1064,7 +1064,7 @@ noncomputable def eraseOverlapIntervals_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def eraseOverlapIntervals_safety_wit_5 : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre ≠ (0 : Int))) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre ≠ (0 : Int))) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
   ((( &( "i" ) )) # Int |->_)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
   ** ((( &( "last_end" ) )) # Int |-> ((Znth (0 : Int) ed1 (0 : Int))))
@@ -1078,7 +1078,7 @@ noncomputable def eraseOverlapIntervals_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def eraseOverlapIntervals_safety_wit_6 : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : ((Znth i sorted_st (0 : Int)) >= last_end)) (PreH2 : (i < intervalsSize_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= intervalsSize_pre)) (PreH5 : (1 <= kept)) (PreH6 : (kept <= i)) (PreH7 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH9 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH11 : (IntervalPermutation ps sorted_ps)) (PreH12 : (IntervalsEndSorted sorted_ps)) (PreH13 : (GreedyPrefixState sorted_ps i kept last_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : ((Znth i sorted_st (0 : Int)) >= last_end)) (PreH2 : (i < intervalsSize_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= intervalsSize_pre)) (PreH5 : (1 <= kept)) (PreH6 : (kept <= i)) (PreH7 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH9 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH11 : (IntervalPermutation ps sorted_ps)) (PreH12 : (IntervalsEndSorted sorted_ps)) (PreH13 : (GreedyPrefixState sorted_ps i kept last_end)) ,
   (intArray.full st_pre intervalsSize_pre sorted_st)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
@@ -1092,7 +1092,7 @@ noncomputable def eraseOverlapIntervals_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (kept + 1)) ”
 
 noncomputable def eraseOverlapIntervals_safety_wit_7 : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : ((Znth i sorted_st (0 : Int)) >= last_end)) (PreH2 : (i < intervalsSize_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= intervalsSize_pre)) (PreH5 : (1 <= kept)) (PreH6 : (kept <= i)) (PreH7 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH9 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH11 : (IntervalPermutation ps sorted_ps)) (PreH12 : (IntervalsEndSorted sorted_ps)) (PreH13 : (GreedyPrefixState sorted_ps i kept last_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : ((Znth i sorted_st (0 : Int)) >= last_end)) (PreH2 : (i < intervalsSize_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= intervalsSize_pre)) (PreH5 : (1 <= kept)) (PreH6 : (kept <= i)) (PreH7 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH9 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH11 : (IntervalPermutation ps sorted_ps)) (PreH12 : (IntervalsEndSorted sorted_ps)) (PreH13 : (GreedyPrefixState sorted_ps i kept last_end)) ,
   (intArray.full ed_pre intervalsSize_pre sorted_ed)
   ** (intArray.full st_pre intervalsSize_pre sorted_st)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
@@ -1106,7 +1106,7 @@ noncomputable def eraseOverlapIntervals_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def eraseOverlapIntervals_safety_wit_8 : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : ((Znth i sorted_st (0 : Int)) < last_end)) (PreH2 : (i < intervalsSize_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= intervalsSize_pre)) (PreH5 : (1 <= kept)) (PreH6 : (kept <= i)) (PreH7 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH9 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH11 : (IntervalPermutation ps sorted_ps)) (PreH12 : (IntervalsEndSorted sorted_ps)) (PreH13 : (GreedyPrefixState sorted_ps i kept last_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : ((Znth i sorted_st (0 : Int)) < last_end)) (PreH2 : (i < intervalsSize_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= intervalsSize_pre)) (PreH5 : (1 <= kept)) (PreH6 : (kept <= i)) (PreH7 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH9 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH11 : (IntervalPermutation ps sorted_ps)) (PreH12 : (IntervalsEndSorted sorted_ps)) (PreH13 : (GreedyPrefixState sorted_ps i kept last_end)) ,
   (intArray.full st_pre intervalsSize_pre sorted_st)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
@@ -1120,7 +1120,7 @@ noncomputable def eraseOverlapIntervals_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def eraseOverlapIntervals_safety_wit_9 : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : (i >= intervalsSize_pre)) (PreH2 : (1 <= i)) (PreH3 : (i <= intervalsSize_pre)) (PreH4 : (1 <= kept)) (PreH5 : (kept <= i)) (PreH6 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH7 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH8 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH9 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH10 : (IntervalPermutation ps sorted_ps)) (PreH11 : (IntervalsEndSorted sorted_ps)) (PreH12 : (GreedyPrefixState sorted_ps i kept last_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : (i >= intervalsSize_pre)) (PreH2 : (1 <= i)) (PreH3 : (i <= intervalsSize_pre)) (PreH4 : (1 <= kept)) (PreH5 : (kept <= i)) (PreH6 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH7 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH8 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH9 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH10 : (IntervalPermutation ps sorted_ps)) (PreH11 : (IntervalsEndSorted sorted_ps)) (PreH12 : (GreedyPrefixState sorted_ps i kept last_end)) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
   ** ((( &( "intervalsSize" ) )) # Int |-> (intervalsSize_pre))
@@ -1134,7 +1134,7 @@ noncomputable def eraseOverlapIntervals_safety_wit_9 : Prop :=
 
 noncomputable def eraseOverlapIntervals_entail_wit_1 : Prop :=
   (
-forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre ≠ (0 : Int))) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre ≠ (0 : Int))) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
   (intArray.full ed_pre intervalsSize_pre ed1)
   ** (intArray.full st_pre intervalsSize_pre st1)
 |--
@@ -1154,7 +1154,7 @@ forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List inter
   ** (intArray.full ed_pre intervalsSize_pre sorted_ed)
 ) \/
 (
-forall (intervalsSize_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre ≠ (0 : Int))) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (intervalsSize_pre : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre ≠ (0 : Int))) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
   TT && emp 
 |--
   EX sorted_ps : (List interval),
@@ -1174,7 +1174,7 @@ forall (intervalsSize_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_
 
 noncomputable def eraseOverlapIntervals_entail_wit_2_1 : Prop :=
   (
-forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (last_end : Int) (sorted_st_2 : (List Int)) (sorted_ed_2 : (List Int)) (sorted_ps_2 : (List interval)) (kept : Int) (i : Int) (PreH1 : ((Znth i sorted_st_2 (0 : Int)) >= last_end)) (PreH2 : (i < intervalsSize_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= intervalsSize_pre)) (PreH5 : (1 <= kept)) (PreH6 : (kept <= i)) (PreH7 : (PairIntervals sorted_st_2 sorted_ed_2 sorted_ps_2)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st_2)) (PreH9 : (Forall2 (LT.lt (α := Int)) sorted_st_2 sorted_ed_2)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed_2)) (PreH11 : (IntervalPermutation ps sorted_ps_2)) (PreH12 : (IntervalsEndSorted sorted_ps_2)) (PreH13 : (GreedyPrefixState sorted_ps_2 i kept last_end)) ,
+forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (last_end : Int) (sorted_st_2 : (List Int)) (sorted_ed_2 : (List Int)) (sorted_ps_2 : (List interval)) (kept : Int) (i : Int) (PreH1 : ((Znth i sorted_st_2 (0 : Int)) >= last_end)) (PreH2 : (i < intervalsSize_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= intervalsSize_pre)) (PreH5 : (1 <= kept)) (PreH6 : (kept <= i)) (PreH7 : (PairIntervals sorted_st_2 sorted_ed_2 sorted_ps_2)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st_2)) (PreH9 : (Forall2 (LT.lt (α := Int)) sorted_st_2 sorted_ed_2)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed_2)) (PreH11 : (IntervalPermutation ps sorted_ps_2)) (PreH12 : (IntervalsEndSorted sorted_ps_2)) (PreH13 : (GreedyPrefixState sorted_ps_2 i kept last_end)) ,
   (intArray.full ed_pre intervalsSize_pre sorted_ed_2)
   ** (intArray.full st_pre intervalsSize_pre sorted_st_2)
 |--
@@ -1194,7 +1194,7 @@ forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List inter
   ** (intArray.full ed_pre intervalsSize_pre sorted_ed)
 ) \/
 (
-forall (intervalsSize_pre : Int) (ps : (List interval)) (last_end : Int) (sorted_st_2 : (List Int)) (sorted_ed_2 : (List Int)) (sorted_ps_2 : (List interval)) (kept : Int) (i : Int) (PreH1 : ((Znth i sorted_st_2 (0 : Int)) >= last_end)) (PreH2 : (i < intervalsSize_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= intervalsSize_pre)) (PreH5 : (1 <= kept)) (PreH6 : (kept <= i)) (PreH7 : (PairIntervals sorted_st_2 sorted_ed_2 sorted_ps_2)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st_2)) (PreH9 : (Forall2 (LT.lt (α := Int)) sorted_st_2 sorted_ed_2)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed_2)) (PreH11 : (IntervalPermutation ps sorted_ps_2)) (PreH12 : (IntervalsEndSorted sorted_ps_2)) (PreH13 : (GreedyPrefixState sorted_ps_2 i kept last_end)) ,
+forall (ps : (List interval)) (intervalsSize_pre : Int) (last_end : Int) (sorted_st_2 : (List Int)) (sorted_ed_2 : (List Int)) (sorted_ps_2 : (List interval)) (kept : Int) (i : Int) (PreH1 : ((Znth i sorted_st_2 (0 : Int)) >= last_end)) (PreH2 : (i < intervalsSize_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= intervalsSize_pre)) (PreH5 : (1 <= kept)) (PreH6 : (kept <= i)) (PreH7 : (PairIntervals sorted_st_2 sorted_ed_2 sorted_ps_2)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st_2)) (PreH9 : (Forall2 (LT.lt (α := Int)) sorted_st_2 sorted_ed_2)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed_2)) (PreH11 : (IntervalPermutation ps sorted_ps_2)) (PreH12 : (IntervalsEndSorted sorted_ps_2)) (PreH13 : (GreedyPrefixState sorted_ps_2 i kept last_end)) ,
   TT && emp 
 |--
   EX sorted_ps : (List interval),
@@ -1211,7 +1211,7 @@ forall (intervalsSize_pre : Int) (ps : (List interval)) (last_end : Int) (sorted
 
 noncomputable def eraseOverlapIntervals_entail_wit_2_2 : Prop :=
   (
-forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (last_end : Int) (sorted_st_2 : (List Int)) (sorted_ed_2 : (List Int)) (sorted_ps_2 : (List interval)) (kept : Int) (i : Int) (PreH1 : ((Znth i sorted_st_2 (0 : Int)) < last_end)) (PreH2 : (i < intervalsSize_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= intervalsSize_pre)) (PreH5 : (1 <= kept)) (PreH6 : (kept <= i)) (PreH7 : (PairIntervals sorted_st_2 sorted_ed_2 sorted_ps_2)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st_2)) (PreH9 : (Forall2 (LT.lt (α := Int)) sorted_st_2 sorted_ed_2)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed_2)) (PreH11 : (IntervalPermutation ps sorted_ps_2)) (PreH12 : (IntervalsEndSorted sorted_ps_2)) (PreH13 : (GreedyPrefixState sorted_ps_2 i kept last_end)) ,
+forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (last_end : Int) (sorted_st_2 : (List Int)) (sorted_ed_2 : (List Int)) (sorted_ps_2 : (List interval)) (kept : Int) (i : Int) (PreH1 : ((Znth i sorted_st_2 (0 : Int)) < last_end)) (PreH2 : (i < intervalsSize_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= intervalsSize_pre)) (PreH5 : (1 <= kept)) (PreH6 : (kept <= i)) (PreH7 : (PairIntervals sorted_st_2 sorted_ed_2 sorted_ps_2)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st_2)) (PreH9 : (Forall2 (LT.lt (α := Int)) sorted_st_2 sorted_ed_2)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed_2)) (PreH11 : (IntervalPermutation ps sorted_ps_2)) (PreH12 : (IntervalsEndSorted sorted_ps_2)) (PreH13 : (GreedyPrefixState sorted_ps_2 i kept last_end)) ,
   (intArray.full st_pre intervalsSize_pre sorted_st_2)
   ** (intArray.full ed_pre intervalsSize_pre sorted_ed_2)
 |--
@@ -1231,7 +1231,7 @@ forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List inter
   ** (intArray.full ed_pre intervalsSize_pre sorted_ed)
 ) \/
 (
-forall (intervalsSize_pre : Int) (ps : (List interval)) (last_end : Int) (sorted_st_2 : (List Int)) (sorted_ed_2 : (List Int)) (sorted_ps_2 : (List interval)) (kept : Int) (i : Int) (PreH1 : ((Znth i sorted_st_2 (0 : Int)) < last_end)) (PreH2 : (i < intervalsSize_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= intervalsSize_pre)) (PreH5 : (1 <= kept)) (PreH6 : (kept <= i)) (PreH7 : (PairIntervals sorted_st_2 sorted_ed_2 sorted_ps_2)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st_2)) (PreH9 : (Forall2 (LT.lt (α := Int)) sorted_st_2 sorted_ed_2)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed_2)) (PreH11 : (IntervalPermutation ps sorted_ps_2)) (PreH12 : (IntervalsEndSorted sorted_ps_2)) (PreH13 : (GreedyPrefixState sorted_ps_2 i kept last_end)) ,
+forall (ps : (List interval)) (intervalsSize_pre : Int) (last_end : Int) (sorted_st_2 : (List Int)) (sorted_ed_2 : (List Int)) (sorted_ps_2 : (List interval)) (kept : Int) (i : Int) (PreH1 : ((Znth i sorted_st_2 (0 : Int)) < last_end)) (PreH2 : (i < intervalsSize_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= intervalsSize_pre)) (PreH5 : (1 <= kept)) (PreH6 : (kept <= i)) (PreH7 : (PairIntervals sorted_st_2 sorted_ed_2 sorted_ps_2)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st_2)) (PreH9 : (Forall2 (LT.lt (α := Int)) sorted_st_2 sorted_ed_2)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed_2)) (PreH11 : (IntervalPermutation ps sorted_ps_2)) (PreH12 : (IntervalsEndSorted sorted_ps_2)) (PreH13 : (GreedyPrefixState sorted_ps_2 i kept last_end)) ,
   TT && emp 
 |--
   EX sorted_ps : (List interval),
@@ -1247,7 +1247,7 @@ forall (intervalsSize_pre : Int) (ps : (List interval)) (last_end : Int) (sorted
 
 noncomputable def eraseOverlapIntervals_return_wit_1 : Prop :=
   (
-forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : (i >= intervalsSize_pre)) (PreH2 : (1 <= i)) (PreH3 : (i <= intervalsSize_pre)) (PreH4 : (1 <= kept)) (PreH5 : (kept <= i)) (PreH6 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH7 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH8 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH9 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH10 : (IntervalPermutation ps sorted_ps)) (PreH11 : (IntervalsEndSorted sorted_ps)) (PreH12 : (GreedyPrefixState sorted_ps i kept last_end)) ,
+forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : (i >= intervalsSize_pre)) (PreH2 : (1 <= i)) (PreH3 : (i <= intervalsSize_pre)) (PreH4 : (1 <= kept)) (PreH5 : (kept <= i)) (PreH6 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH7 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH8 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH9 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH10 : (IntervalPermutation ps sorted_ps)) (PreH11 : (IntervalsEndSorted sorted_ps)) (PreH12 : (GreedyPrefixState sorted_ps i kept last_end)) ,
   (intArray.full st_pre intervalsSize_pre sorted_st)
   ** (intArray.full ed_pre intervalsSize_pre sorted_ed)
 |--
@@ -1257,7 +1257,7 @@ forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List inter
   ** (intArray.full ed_pre intervalsSize_pre ed1)
 ) \/
 (
-forall (intervalsSize_pre : Int) (ps : (List interval)) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : (i >= intervalsSize_pre)) (PreH2 : (1 <= i)) (PreH3 : (i <= intervalsSize_pre)) (PreH4 : (1 <= kept)) (PreH5 : (kept <= i)) (PreH6 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH7 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH8 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH9 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH10 : (IntervalPermutation ps sorted_ps)) (PreH11 : (IntervalsEndSorted sorted_ps)) (PreH12 : (GreedyPrefixState sorted_ps i kept last_end)) ,
+forall (ps : (List interval)) (intervalsSize_pre : Int) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : (i >= intervalsSize_pre)) (PreH2 : (1 <= i)) (PreH3 : (i <= intervalsSize_pre)) (PreH4 : (1 <= kept)) (PreH5 : (kept <= i)) (PreH6 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH7 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH8 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH9 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH10 : (IntervalPermutation ps sorted_ps)) (PreH11 : (IntervalsEndSorted sorted_ps)) (PreH12 : (GreedyPrefixState sorted_ps i kept last_end)) ,
   TT && emp 
 |--
   “ (MinimumRemovals ps (intervalsSize_pre - kept)) ”
@@ -1265,12 +1265,12 @@ forall (intervalsSize_pre : Int) (ps : (List interval)) (last_end : Int) (sorted
 )
 
 noncomputable def eraseOverlapIntervals_return_wit_1_split_goal_1 : Prop :=
-  forall (intervalsSize_pre : Int) (ps : (List interval)) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : (i >= intervalsSize_pre)) (PreH2 : (1 <= i)) (PreH3 : (i <= intervalsSize_pre)) (PreH4 : (1 <= kept)) (PreH5 : (kept <= i)) (PreH6 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH7 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH8 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH9 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH10 : (IntervalPermutation ps sorted_ps)) (PreH11 : (IntervalsEndSorted sorted_ps)) (PreH12 : (GreedyPrefixState sorted_ps i kept last_end)) ,
+  forall (ps : (List interval)) (intervalsSize_pre : Int) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : (i >= intervalsSize_pre)) (PreH2 : (1 <= i)) (PreH3 : (i <= intervalsSize_pre)) (PreH4 : (1 <= kept)) (PreH5 : (kept <= i)) (PreH6 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH7 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH8 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH9 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH10 : (IntervalPermutation ps sorted_ps)) (PreH11 : (IntervalsEndSorted sorted_ps)) (PreH12 : (GreedyPrefixState sorted_ps i kept last_end)) ,
   (MinimumRemovals ps (intervalsSize_pre - kept))
 
 noncomputable def eraseOverlapIntervals_return_wit_2 : Prop :=
   (
-forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre = (0 : Int))) (PreH2 : (PairIntervals st1_2 ed1_2 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre = (0 : Int))) (PreH2 : (PairIntervals st1_2 ed1_2 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
   (intArray.full st_pre intervalsSize_pre st1_2)
   ** (intArray.full ed_pre intervalsSize_pre ed1_2)
 |--
@@ -1280,7 +1280,7 @@ forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List inter
   ** (intArray.full ed_pre intervalsSize_pre ed1)
 ) \/
 (
-forall (intervalsSize_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre = (0 : Int))) (PreH2 : (PairIntervals st1_2 ed1_2 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
+forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (intervalsSize_pre : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre = (0 : Int))) (PreH2 : (PairIntervals st1_2 ed1_2 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
   TT && emp 
 |--
   “ (MinimumRemovals ps (0 : Int)) ”
@@ -1288,11 +1288,11 @@ forall (intervalsSize_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_
 )
 
 noncomputable def eraseOverlapIntervals_return_wit_2_split_goal_1 : Prop :=
-  forall (intervalsSize_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre = (0 : Int))) (PreH2 : (PairIntervals st1_2 ed1_2 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (intervalsSize_pre : Int) (st1_2 : (List Int)) (ed1_2 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre = (0 : Int))) (PreH2 : (PairIntervals st1_2 ed1_2 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
   (MinimumRemovals ps (0 : Int))
 
 noncomputable def eraseOverlapIntervals_partial_solve_wit_1_pure : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (PreH1 : ((0 : Int) <= intervalsSize_pre)) (PreH2 : (intervalsSize_pre <= 1000)) (PreH3 : (PairIntervals st_l ed_l ps)) (PreH4 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH5 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (PreH1 : ((0 : Int) <= intervalsSize_pre)) (PreH2 : (intervalsSize_pre <= 1000)) (PreH3 : (PairIntervals st_l ed_l ps)) (PreH4 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH5 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "ed" ) )) # Ptr |-> (ed_pre))
   ** ((( &( "intervalsSize" ) )) # Int |-> (intervalsSize_pre))
@@ -1303,7 +1303,7 @@ noncomputable def eraseOverlapIntervals_partial_solve_wit_1_pure : Prop :=
   “ (PairIntervals st_l ed_l ps) ”
 
 noncomputable def eraseOverlapIntervals_partial_solve_wit_1_aux : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (PreH1 : ((0 : Int) <= intervalsSize_pre)) (PreH2 : (intervalsSize_pre <= 1000)) (PreH3 : (PairIntervals st_l ed_l ps)) (PreH4 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH5 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (PreH1 : ((0 : Int) <= intervalsSize_pre)) (PreH2 : (intervalsSize_pre <= 1000)) (PreH3 : (PairIntervals st_l ed_l ps)) (PreH4 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH5 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
   (intArray.full st_pre intervalsSize_pre st_l)
   ** (intArray.full ed_pre intervalsSize_pre ed_l)
 |--
@@ -1321,7 +1321,7 @@ noncomputable def eraseOverlapIntervals_partial_solve_wit_1_aux : Prop :=
 noncomputable def eraseOverlapIntervals_partial_solve_wit_1 : Prop := eraseOverlapIntervals_partial_solve_wit_1_pure -> eraseOverlapIntervals_partial_solve_wit_1_aux
 
 noncomputable def eraseOverlapIntervals_partial_solve_wit_2 : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre ≠ (0 : Int))) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
+  forall (ps : (List interval)) (ed_l : (List Int)) (st_l : (List Int)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (st1 : (List Int)) (ed1 : (List Int)) (ps1 : (List interval)) (PreH1 : (intervalsSize_pre ≠ (0 : Int))) (PreH2 : (PairIntervals st1 ed1 ps1)) (PreH3 : (IntervalPermutation ps ps1)) (PreH4 : (IntervalsEndSorted ps1)) (PreH5 : ((0 : Int) <= intervalsSize_pre)) (PreH6 : (intervalsSize_pre <= 1000)) (PreH7 : (PairIntervals st_l ed_l ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) st_l)) (PreH9 : (Forall2 (LT.lt (α := Int)) st_l ed_l)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) ed_l)) ,
   (intArray.full st_pre intervalsSize_pre st1)
   ** (intArray.full ed_pre intervalsSize_pre ed1)
 |--
@@ -1340,7 +1340,7 @@ noncomputable def eraseOverlapIntervals_partial_solve_wit_2 : Prop :=
   ** (intArray.full st_pre intervalsSize_pre st1)
 
 noncomputable def eraseOverlapIntervals_partial_solve_wit_3 : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : (i < intervalsSize_pre)) (PreH2 : (1 <= i)) (PreH3 : (i <= intervalsSize_pre)) (PreH4 : (1 <= kept)) (PreH5 : (kept <= i)) (PreH6 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH7 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH8 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH9 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH10 : (IntervalPermutation ps sorted_ps)) (PreH11 : (IntervalsEndSorted sorted_ps)) (PreH12 : (GreedyPrefixState sorted_ps i kept last_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : (i < intervalsSize_pre)) (PreH2 : (1 <= i)) (PreH3 : (i <= intervalsSize_pre)) (PreH4 : (1 <= kept)) (PreH5 : (kept <= i)) (PreH6 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH7 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH8 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH9 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH10 : (IntervalPermutation ps sorted_ps)) (PreH11 : (IntervalsEndSorted sorted_ps)) (PreH12 : (GreedyPrefixState sorted_ps i kept last_end)) ,
   (intArray.full st_pre intervalsSize_pre sorted_st)
   ** (intArray.full ed_pre intervalsSize_pre sorted_ed)
 |--
@@ -1361,7 +1361,7 @@ noncomputable def eraseOverlapIntervals_partial_solve_wit_3 : Prop :=
   ** (intArray.full ed_pre intervalsSize_pre sorted_ed)
 
 noncomputable def eraseOverlapIntervals_partial_solve_wit_4 : Prop :=
-  forall (intervalsSize_pre : Int) (ed_pre : Int) (st_pre : Int) (ps : (List interval)) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : ((Znth i sorted_st (0 : Int)) >= last_end)) (PreH2 : (i < intervalsSize_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= intervalsSize_pre)) (PreH5 : (1 <= kept)) (PreH6 : (kept <= i)) (PreH7 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH9 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH11 : (IntervalPermutation ps sorted_ps)) (PreH12 : (IntervalsEndSorted sorted_ps)) (PreH13 : (GreedyPrefixState sorted_ps i kept last_end)) ,
+  forall (ps : (List interval)) (st_pre : Int) (ed_pre : Int) (intervalsSize_pre : Int) (last_end : Int) (sorted_st : (List Int)) (sorted_ed : (List Int)) (sorted_ps : (List interval)) (kept : Int) (i : Int) (PreH1 : ((Znth i sorted_st (0 : Int)) >= last_end)) (PreH2 : (i < intervalsSize_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= intervalsSize_pre)) (PreH5 : (1 <= kept)) (PreH6 : (kept <= i)) (PreH7 : (PairIntervals sorted_st sorted_ed sorted_ps)) (PreH8 : (Forall ((LE.le (α := Int)) ((-10000))) sorted_st)) (PreH9 : (Forall2 (LT.lt (α := Int)) sorted_st sorted_ed)) (PreH10 : (Forall ((GE.ge (α := Int)) (10000)) sorted_ed)) (PreH11 : (IntervalPermutation ps sorted_ps)) (PreH12 : (IntervalsEndSorted sorted_ps)) (PreH13 : (GreedyPrefixState sorted_ps i kept last_end)) ,
   (intArray.full st_pre intervalsSize_pre sorted_st)
   ** (intArray.full ed_pre intervalsSize_pre sorted_ed)
 |--

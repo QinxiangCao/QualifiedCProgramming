@@ -122,7 +122,7 @@ void split_rec(struct list * x, struct list * * p, struct list * * q)
       which implies
       safeExec(ATrue, bind(split_rec_rel(l_new, l2, cons(x_data, l1)), reversepair) , X) && sll(* p, cons(x_data, l1)) * sll(t,l_new)
   */
-  split_rec(t, q, p) /*@ where(low_level_spec_aux) l1 = l2, c = reversepair,  X = X; B = (list Z) * (list Z) */; 
+  split_rec(t, q, p) /*@ where(low_level_spec_aux) {B = (list Z) * (list Z)} l1 = l2, c = reversepair,  X = X */;
 }
 
 struct list * merge_sort(struct list * x)
@@ -164,14 +164,14 @@ struct list * merge_sort(struct list * x)
       which implies
       sll(q, nil) */
   /*@ safeExec(ATrue, bind(split_rel(l), mergesortrec_loc0), X) && emp */
-  split_rec(x, &p, &q) /*@ where(low_level_spec_aux) X = X, c = mergesortrec_loc0; B = (list Z) */;
+  split_rec(x, &p, &q) /*@ where(low_level_spec_aux) {B = (list Z)} X = X, c = mergesortrec_loc0 */;
   if (q == (void *)0) {
     return p;
   }
   /*@ exists l1 l2, safeExec(ATrue, bind(mergesortrec(l1), mergesortrec_loc1(l2)), X) && sll(p, l1) * sll(q, l2)  */
-  p = merge_sort(p) /*@ where(low_level_spec_aux) X = X; B = (list Z) */;
+  p = merge_sort(p) /*@ where(low_level_spec_aux) {B = (list Z)} X = X */;
   /*@ exists l1 l2, safeExec(ATrue, bind(mergesortrec(l2), mergesortrec_loc2(l1)), X) && sll(p, l1) * sll(q, l2)  */
-  q = merge_sort(q) /*@ where(low_level_spec_aux) X = X; B = (list Z) */;
+  q = merge_sort(q) /*@ where(low_level_spec_aux) {B = (list Z)} X = X */;
   /*@ exists l1 l2, safeExec(ATrue, merge_rel(l1, l2), X) && sll(p, l1) * sll(q, l2) */
   return merge(p, q) /*@ where X = X */;
 }
@@ -264,11 +264,11 @@ struct list * merge_sort3(struct list * x)
       which implies
       sll(q, nil) */
   /*@ safeExec(ATrue, bind(split_rel(l), gmergesortrec_loc0), X) && emp */
-  split_rec(x, &p, &q) /*@ where(low_level_spec_aux) X = X, c = gmergesortrec_loc0; B = (list Z) */;
+  split_rec(x, &p, &q) /*@ where(low_level_spec_aux) {B = (list Z)} X = X, c = gmergesortrec_loc0 */;
   /*@ exists l1 l2, safeExec(ATrue, bind(gmergesortrec(l1), gmergesortrec_loc1(l2)), X) && sll(p, l1) * sll(q, l2) */
-  p = merge_sort2(p) /*@ where(low_level_spec_aux) X = X; B = (list Z) */;
+  p = merge_sort2(p) /*@ where(low_level_spec_aux) {B = (list Z)} X = X */;
   /*@ exists l1 l2, safeExec(ATrue, bind(gmergesortrec(l2), mergesortrec_loc2(l1)), X) && sll(p, l1) * sll(q, l2) */
-  q = merge_sort2(q) /*@ where(low_level_spec_aux) X = X; B = (list Z) */;
+  q = merge_sort2(q) /*@ where(low_level_spec_aux) {B = (list Z)} X = X */;
   /*@ exists l1 l2, safeExec(ATrue, merge_rel(l1, l2), X) && sll(p, l1) * sll(q, l2) */
   return merge(p, q) /*@ where X = X */;
 }

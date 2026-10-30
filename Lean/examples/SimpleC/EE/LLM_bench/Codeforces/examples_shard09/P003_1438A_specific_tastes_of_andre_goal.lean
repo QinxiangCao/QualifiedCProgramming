@@ -59,7 +59,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def solver_safety_wit_1 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100)) ,
+  forall (n_pre : Int) (out_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
@@ -69,7 +69,7 @@ noncomputable def solver_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_2 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (written)) = i)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < i)) -> ((Znth k written (0 : Int)) = 1))) ,
+  forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (written)) = i)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < i)) -> ((Znth k written (0 : Int)) = 1))) ,
   (intArray.seg out_pre (0 : Int) (i + 1) (written ++ (1 :: (@List.nil Int))))
   ** (intArray.undef_seg out_pre (i + 1) n_pre)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -80,7 +80,7 @@ noncomputable def solver_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solver_safety_wit_3 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (written)) = i)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < i)) -> ((Znth k written (0 : Int)) = 1))) ,
+  forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (written)) = i)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < i)) -> ((Znth k written (0 : Int)) = 1))) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "out" ) )) # Ptr |-> (out_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -92,7 +92,7 @@ noncomputable def solver_safety_wit_3 : Prop :=
 
 noncomputable def solver_entail_wit_1 : Prop :=
   (
-forall (out_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100)) ,
+forall (n_pre : Int) (out_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100)) ,
   (intArray.undef_full out_pre n_pre)
 |--
   EX written : (List Int),
@@ -124,7 +124,7 @@ noncomputable def solver_entail_wit_1_split_goal_2 : Prop :=
 
 noncomputable def solver_entail_wit_2 : Prop :=
   (
-forall (out_pre : Int) (n_pre : Int) (written_2 : (List Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (written_2)) = i)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < i)) -> ((Znth k written_2 (0 : Int)) = 1))) ,
+forall (n_pre : Int) (out_pre : Int) (written_2 : (List Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (written_2)) = i)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < i)) -> ((Znth k written_2 (0 : Int)) = 1))) ,
   (intArray.seg out_pre (0 : Int) (i + 1) (written_2 ++ (1 :: (@List.nil Int))))
   ** (intArray.undef_seg out_pre (i + 1) n_pre)
 |--
@@ -152,7 +152,7 @@ noncomputable def solver_entail_wit_2_split_goal_1 : Prop :=
 
 noncomputable def solver_return_wit_1 : Prop :=
   (
-forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (written)) = i)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < i)) -> ((Znth k written (0 : Int)) = 1))) ,
+forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (written)) = i)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < i)) -> ((Znth k written (0 : Int)) = 1))) ,
   (intArray.seg out_pre (0 : Int) i written)
   ** (intArray.undef_seg out_pre i n_pre)
 |--
@@ -161,16 +161,19 @@ forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (PreH1 : (
   &&  (intArray.full out_pre n_pre out_spec)
 ) \/
 (
-forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (written)) = i)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < i)) -> ((Znth k written (0 : Int)) = 1))) ,
-  (intArray.seg out_pre (0 : Int) i written)
+forall (n_pre : Int) (written : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (written)) = i)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < i)) -> ((Znth k written (0 : Int)) = 1))) ,
+  TT && emp 
 |--
-  EX out_spec : (List Int),
-  “ (Spec n_pre out_spec) ”
-  &&  (intArray.full out_pre n_pre out_spec)
+  “ (Spec n_pre written) ”
+  &&  emp
 )
 
+noncomputable def solver_return_wit_1_split_goal_1 : Prop :=
+  forall (n_pre : Int) (written : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (written)) = i)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < i)) -> ((Znth k written (0 : Int)) = 1))) ,
+  (Spec n_pre written)
+
 noncomputable def solver_partial_solve_wit_1 : Prop :=
-  forall (out_pre : Int) (n_pre : Int) (written : (List Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (written)) = i)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < i)) -> ((Znth k written (0 : Int)) = 1))) ,
+  forall (n_pre : Int) (out_pre : Int) (written : (List Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (written)) = i)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < i)) -> ((Znth k written (0 : Int)) = 1))) ,
   (intArray.seg out_pre (0 : Int) i written)
   ** (intArray.undef_seg out_pre i n_pre)
 |--

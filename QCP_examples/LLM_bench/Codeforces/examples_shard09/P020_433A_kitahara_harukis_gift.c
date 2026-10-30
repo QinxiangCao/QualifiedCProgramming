@@ -77,7 +77,7 @@ static int solver(const int *w, int n)
           0 <= sizeof(char[205]) && sizeof(char[205]) < INT_MAX &&
           IntArray::full(w@pre, n@pre, weights) *
           CharArray::undef_full(
-            pointer_offset(reach, 0, sizeof(char), signed char),
+            pointer_offset(reach, 0, signed char),
             sizeof(char[205]))
     */
     memset(reach, 0, sizeof reach);

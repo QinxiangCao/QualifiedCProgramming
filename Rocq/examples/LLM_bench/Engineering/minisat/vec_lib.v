@@ -90,7 +90,7 @@ Definition vecp_raw
     buf <> 0 /\
     0 <= Zlength xs /\ Zlength xs <= cap /\
     4 <= cap /\ cap <= Int.max_signed /\
-    vec_alloc_ok ptr_size_Z cap ” &&
+    vec_alloc_ok (sizeof(PTR)) cap ” &&
   (vecp_header v (Zlength xs) cap buf **
    vecp_buffer buf xs cap).
 
@@ -142,7 +142,7 @@ Proof.
   intros.
   sep_apply (PtrArray.full_split_to_seg buf k (Zlength xs) xs); try lia.
   sep_apply (PtrArray.seg_to_full buf 0 k (sublist 0 k xs)).
-  replace (buf + 0 * ptr_size_Z) with buf by lia.
+  replace (buf + 0 * (sizeof(PTR))) with buf by lia.
   replace (k - 0) with k by lia.
   sep_apply (PtrArray.seg_to_undef_seg
     buf k (Zlength xs) (sublist k (Zlength xs) xs)).

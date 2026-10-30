@@ -54,11 +54,11 @@ private theorem prefix_succ (l : List Int) (i : Int) (hi : 0 ≤ i ∧ i < Zleng
   rw [sublist_split 0 (i+1) i l (by omega) (by omega),sublist_single 0 i l hi]
 
 theorem proof_of_hpush_entail_wit_1_split_goal_1 : hpush_entail_wit_1_split_goal_1 := by
-  intro v_pre sm hs l cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro sm hs l cap v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   exact push_sift_state_init__hpush_sift_up l hs v_pre PreH1 (by omega) PreH5
 
 theorem proof_of_hpush_entail_wit_1_split_goal_2 : hpush_entail_wit_1_split_goal_2 := by
-  intro v_pre sm hs l cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro sm hs l cap v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   intro q hq
   by_cases he : q = hs
   · subst q
@@ -68,37 +68,37 @@ theorem proof_of_hpush_entail_wit_1_split_goal_2 : hpush_entail_wit_1_split_goal
     exact PreH7 q (by omega)
 
 theorem proof_of_hpush_entail_wit_1_split_goal_3 : hpush_entail_wit_1_split_goal_3 := by
-  intro v_pre sm hs l cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro sm hs l cap v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   simpa only [Zlength_replace_Znth] using PreH4
 
 theorem proof_of_hpush_entail_wit_1 : hpush_entail_wit_1 := by
   unfold hpush_entail_wit_1
   right
-  intro v_pre sm hs l cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro sm hs l cap v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_hpush_entail_wit_1_split_goal_1 v_pre sm hs l cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-      | exact proof_of_hpush_entail_wit_1_split_goal_2 v_pre sm hs l cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-      | exact proof_of_hpush_entail_wit_1_split_goal_3 v_pre sm hs l cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_hpush_entail_wit_1_split_goal_1 sm hs l cap v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_hpush_entail_wit_1_split_goal_2 sm hs l cap v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_hpush_entail_wit_1_split_goal_3 sm hs l cap v_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 theorem proof_of_hpush_entail_wit_2_split_goal_1 : hpush_entail_wit_2_split_goal_1 := by
-  intro v_pre sm hs l cap i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro sm hs l cap v_pre i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   exact PreH13
 
 theorem proof_of_hpush_entail_wit_2_split_goal_2 : hpush_entail_wit_2_split_goal_2 := by
-  intro v_pre sm hs l cap i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro sm hs l cap v_pre i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   rfl
 
 theorem proof_of_hpush_entail_wit_2_split_goal_3 : hpush_entail_wit_2_split_goal_3 := by
-  intro v_pre sm hs l cap i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro sm hs l cap v_pre i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   have h := heap_parent_range__hpush_sift_up i PreH1
   change 0 ≤ Z.quot (i-1) 2 ∧ Z.quot (i-1) 2 < i at h
   omega
 
 theorem proof_of_hpush_entail_wit_2_split_goal_4 : hpush_entail_wit_2_split_goal_4 := by
-  intro v_pre sm hs l cap i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro sm hs l cap v_pre i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   have h := heap_parent_range__hpush_sift_up i PreH1
   change 0 ≤ Z.quot (i-1) 2 ∧ Z.quot (i-1) 2 < i at h
   omega
@@ -106,22 +106,22 @@ theorem proof_of_hpush_entail_wit_2_split_goal_4 : hpush_entail_wit_2_split_goal
 theorem proof_of_hpush_entail_wit_2 : hpush_entail_wit_2 := by
   unfold hpush_entail_wit_2
   right
-  intro v_pre sm hs l cap i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro sm hs l cap v_pre i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_hpush_entail_wit_2_split_goal_1 v_pre sm hs l cap i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
-      | exact proof_of_hpush_entail_wit_2_split_goal_2 v_pre sm hs l cap i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
-      | exact proof_of_hpush_entail_wit_2_split_goal_3 v_pre sm hs l cap i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
-      | exact proof_of_hpush_entail_wit_2_split_goal_4 v_pre sm hs l cap i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+      | exact proof_of_hpush_entail_wit_2_split_goal_1 sm hs l cap v_pre i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+      | exact proof_of_hpush_entail_wit_2_split_goal_2 sm hs l cap v_pre i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+      | exact proof_of_hpush_entail_wit_2_split_goal_3 sm hs l cap v_pre i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+      | exact proof_of_hpush_entail_wit_2_split_goal_4 sm hs l cap v_pre i cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
 
 theorem proof_of_hpush_entail_wit_3_split_goal_1 : hpush_entail_wit_3_split_goal_1 := by
-  intro v_pre sm hs l cap cur_2 i p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro sm hs l cap v_pre cur_2 i p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   exact push_sift_state_swap__hpush_sift_up l cur_2 hs i p v_pre PreH2 (by omega) PreH7 PreH8 PreH11 PreH1 PreH17
 
 theorem proof_of_hpush_entail_wit_3_split_goal_2 : hpush_entail_wit_3_split_goal_2 := by
-  intro v_pre sm hs l cap cur_2 i p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro sm hs l cap v_pre cur_2 i p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   intro q hq
   have hz := Zlength_replace_Znth cur_2 p (Znth i cur_2 0)
   by_cases he : q = i
@@ -137,56 +137,56 @@ theorem proof_of_hpush_entail_wit_3_split_goal_2 : hpush_entail_wit_3_split_goal
       exact PreH16 q hq
 
 theorem proof_of_hpush_entail_wit_3_split_goal_3 : hpush_entail_wit_3_split_goal_3 := by
-  intro v_pre sm hs l cap cur_2 i p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro sm hs l cap v_pre cur_2 i p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   simpa only [Zlength_replace_Znth] using PreH6
 
 theorem proof_of_hpush_entail_wit_3 : hpush_entail_wit_3 := by
   unfold hpush_entail_wit_3
   right
-  intro v_pre sm hs l cap cur_2 i p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro sm hs l cap v_pre cur_2 i p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_hpush_entail_wit_3_split_goal_1 v_pre sm hs l cap cur_2 i p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-      | exact proof_of_hpush_entail_wit_3_split_goal_2 v_pre sm hs l cap cur_2 i p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-      | exact proof_of_hpush_entail_wit_3_split_goal_3 v_pre sm hs l cap cur_2 i p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+      | exact proof_of_hpush_entail_wit_3_split_goal_1 sm hs l cap v_pre cur_2 i p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+      | exact proof_of_hpush_entail_wit_3_split_goal_2 sm hs l cap v_pre cur_2 i p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+      | exact proof_of_hpush_entail_wit_3_split_goal_3 sm hs l cap v_pre cur_2 i p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
 
 theorem proof_of_hpush_return_wit_1_split_goal_1 : hpush_return_wit_1_split_goal_1 := by
-  intro v_pre sm hs l cap i_2 cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro sm hs l cap v_pre i_2 cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   exact PreH13
 
 theorem proof_of_hpush_return_wit_1_split_goal_2 : hpush_return_wit_1_split_goal_2 := by
-  intro v_pre sm hs l cap i_2 cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro sm hs l cap v_pre i_2 cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   exact PreH14.2.2.1
 
 theorem proof_of_hpush_return_wit_1_split_goal_3 : hpush_return_wit_1_split_goal_3 := by
-  intro v_pre sm hs l cap i_2 cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro sm hs l cap v_pre i_2 cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   apply push_sift_state_to_heap_ordered__hpush_sift_up l cur hs i_2 v_pre PreH14
   exact Or.inl (by omega)
 
 theorem proof_of_hpush_return_wit_1 : hpush_return_wit_1 := by
   unfold hpush_return_wit_1
   right
-  intro v_pre sm hs l cap i_2 cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro sm hs l cap v_pre i_2 cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_hpush_return_wit_1_split_goal_1 v_pre sm hs l cap i_2 cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
-      | exact proof_of_hpush_return_wit_1_split_goal_2 v_pre sm hs l cap i_2 cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
-      | exact proof_of_hpush_return_wit_1_split_goal_3 v_pre sm hs l cap i_2 cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+      | exact proof_of_hpush_return_wit_1_split_goal_1 sm hs l cap v_pre i_2 cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+      | exact proof_of_hpush_return_wit_1_split_goal_2 sm hs l cap v_pre i_2 cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+      | exact proof_of_hpush_return_wit_1_split_goal_3 sm hs l cap v_pre i_2 cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
 
 theorem proof_of_hpush_return_wit_2_split_goal_1 : hpush_return_wit_2_split_goal_1 := by
-  intro v_pre sm hs l cap cur i_2 p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro sm hs l cap v_pre cur i_2 p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   exact PreH16
 
 theorem proof_of_hpush_return_wit_2_split_goal_2 : hpush_return_wit_2_split_goal_2 := by
-  intro v_pre sm hs l cap cur i_2 p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro sm hs l cap v_pre cur i_2 p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   exact PreH17.2.2.1
 
 theorem proof_of_hpush_return_wit_2_split_goal_3 : hpush_return_wit_2_split_goal_3 := by
-  intro v_pre sm hs l cap cur i_2 p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro sm hs l cap v_pre cur i_2 p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   apply push_sift_state_to_heap_ordered__hpush_sift_up l cur hs i_2 v_pre PreH17
   right
   simpa only [← PreH11] using PreH1
@@ -194,17 +194,17 @@ theorem proof_of_hpush_return_wit_2_split_goal_3 : hpush_return_wit_2_split_goal
 theorem proof_of_hpush_return_wit_2 : hpush_return_wit_2 := by
   unfold hpush_return_wit_2
   right
-  intro v_pre sm hs l cap cur i_2 p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro sm hs l cap v_pre cur i_2 p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_hpush_return_wit_2_split_goal_1 v_pre sm hs l cap cur i_2 p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-      | exact proof_of_hpush_return_wit_2_split_goal_2 v_pre sm hs l cap cur i_2 p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-      | exact proof_of_hpush_return_wit_2_split_goal_3 v_pre sm hs l cap cur i_2 p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+      | exact proof_of_hpush_return_wit_2_split_goal_1 sm hs l cap v_pre cur i_2 p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+      | exact proof_of_hpush_return_wit_2_split_goal_2 sm hs l cap v_pre cur i_2 p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+      | exact proof_of_hpush_return_wit_2_split_goal_3 sm hs l cap v_pre cur i_2 p PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
 
 theorem proof_of_hpop_entail_wit_1 : hpop_entail_wit_1 := by
-  intro hsum_pre hsize_pre heap_pre sm hs l cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro sm hs l cap heap_pre hsize_pre hsum_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   Left
   Exists (replace_Znth 0 (Znth (hs-1) l 0) l)
   split_pure_spatial
@@ -565,26 +565,26 @@ theorem proof_of_hpop_return_wit_6 : hpop_return_wit_6 := by
       | exact proof_of_hpop_return_wit_6_split_goal_4 sm hs l cap i_3 cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
 
 theorem proof_of_sift_candidates_entail_wit_1_split_goal_1 : sift_candidates_entail_wit_1_split_goal_1 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   exact sift_state_init__sift_cand_step t0 b0 (hi_pre+1) root_pre (by omega) PreH7
 
 theorem proof_of_sift_candidates_entail_wit_1_split_goal_2 : sift_candidates_entail_wit_1_split_goal_2 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   exact PreH8
 
 theorem proof_of_sift_candidates_entail_wit_1 : sift_candidates_entail_wit_1 := by
   unfold sift_candidates_entail_wit_1
   right
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_sift_candidates_entail_wit_1_split_goal_1 hi_pre root_pre bhi blo thi tlo b0 t0 cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
-      | exact proof_of_sift_candidates_entail_wit_1_split_goal_2 hi_pre root_pre bhi blo thi tlo b0 t0 cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+      | exact proof_of_sift_candidates_entail_wit_1_split_goal_1 bhi blo thi tlo b0 t0 cap root_pre hi_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+      | exact proof_of_sift_candidates_entail_wit_1_split_goal_2 bhi blo thi tlo b0 t0 cap root_pre hi_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
 
 theorem proof_of_sift_candidates_entail_wit_2_1_split_goal_1 : sift_candidates_entail_wit_2_1_split_goal_1 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   have hz := PreH13.1.2.1
   apply sift_state_swap__sift_cand_step t0 b0 t_2 b_2 (hi_pre+1) root_pre root (2*root+1+1)
   all_goals first
@@ -599,29 +599,29 @@ theorem proof_of_sift_candidates_entail_wit_2_1_split_goal_1 : sift_candidates_e
          rw [hcanon] <;> omega)
 
 theorem proof_of_sift_candidates_entail_wit_2_1_split_goal_2 : sift_candidates_entail_wit_2_1_split_goal_2 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   simp only [Zlength_replace_Znth]
   omega
 
 theorem proof_of_sift_candidates_entail_wit_2_1_split_goal_3 : sift_candidates_entail_wit_2_1_split_goal_3 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   simp only [Zlength_replace_Znth]
   omega
 
 theorem proof_of_sift_candidates_entail_wit_2_1 : sift_candidates_entail_wit_2_1 := by
   unfold sift_candidates_entail_wit_2_1
   right
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_sift_candidates_entail_wit_2_1_split_goal_1 hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-      | exact proof_of_sift_candidates_entail_wit_2_1_split_goal_2 hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-      | exact proof_of_sift_candidates_entail_wit_2_1_split_goal_3 hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sift_candidates_entail_wit_2_1_split_goal_1 bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sift_candidates_entail_wit_2_1_split_goal_2 bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sift_candidates_entail_wit_2_1_split_goal_3 bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
 
 theorem proof_of_sift_candidates_entail_wit_2_2_split_goal_1 : sift_candidates_entail_wit_2_2_split_goal_1 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have hz := PreH12.1.2.1
   apply sift_state_swap__sift_cand_step t0 b0 t_2 b_2 (hi_pre+1) root_pre root (2*root+1)
   all_goals first
@@ -637,29 +637,29 @@ theorem proof_of_sift_candidates_entail_wit_2_2_split_goal_1 : sift_candidates_e
          omega)
 
 theorem proof_of_sift_candidates_entail_wit_2_2_split_goal_2 : sift_candidates_entail_wit_2_2_split_goal_2 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   simp only [Zlength_replace_Znth]
   omega
 
 theorem proof_of_sift_candidates_entail_wit_2_2_split_goal_3 : sift_candidates_entail_wit_2_2_split_goal_3 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   simp only [Zlength_replace_Znth]
   omega
 
 theorem proof_of_sift_candidates_entail_wit_2_2 : sift_candidates_entail_wit_2_2 := by
   unfold sift_candidates_entail_wit_2_2
   right
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_sift_candidates_entail_wit_2_2_split_goal_1 hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
-      | exact proof_of_sift_candidates_entail_wit_2_2_split_goal_2 hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
-      | exact proof_of_sift_candidates_entail_wit_2_2_split_goal_3 hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+      | exact proof_of_sift_candidates_entail_wit_2_2_split_goal_1 bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+      | exact proof_of_sift_candidates_entail_wit_2_2_split_goal_2 bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+      | exact proof_of_sift_candidates_entail_wit_2_2_split_goal_3 bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
 
 theorem proof_of_sift_candidates_entail_wit_2_3_split_goal_1 : sift_candidates_entail_wit_2_3_split_goal_1 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   have hz := PreH13.1.2.1
   apply sift_state_swap__sift_cand_step t0 b0 t_2 b_2 (hi_pre+1) root_pre root (2*root+1)
   all_goals first
@@ -675,50 +675,50 @@ theorem proof_of_sift_candidates_entail_wit_2_3_split_goal_1 : sift_candidates_e
          omega)
 
 theorem proof_of_sift_candidates_entail_wit_2_3_split_goal_2 : sift_candidates_entail_wit_2_3_split_goal_2 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   simp only [Zlength_replace_Znth]
   omega
 
 theorem proof_of_sift_candidates_entail_wit_2_3_split_goal_3 : sift_candidates_entail_wit_2_3_split_goal_3 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   simp only [Zlength_replace_Znth]
   omega
 
 theorem proof_of_sift_candidates_entail_wit_2_3 : sift_candidates_entail_wit_2_3 := by
   unfold sift_candidates_entail_wit_2_3
   right
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_sift_candidates_entail_wit_2_3_split_goal_1 hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-      | exact proof_of_sift_candidates_entail_wit_2_3_split_goal_2 hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-      | exact proof_of_sift_candidates_entail_wit_2_3_split_goal_3 hi_pre root_pre bhi blo thi tlo b0 t0 cap b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sift_candidates_entail_wit_2_3_split_goal_1 bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sift_candidates_entail_wit_2_3_split_goal_2 bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sift_candidates_entail_wit_2_3_split_goal_3 bhi blo thi tlo b0 t0 cap root_pre hi_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
 
 theorem proof_of_sift_candidates_return_wit_1_split_goal_1 : sift_candidates_return_wit_1_split_goal_1 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   exact PreH12
 
 theorem proof_of_sift_candidates_return_wit_1_split_goal_2 : sift_candidates_return_wit_1_split_goal_2 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   have h1 := PreH13.1.1
   have h2 := PreH13.1.2.1
   have hz : cap = Zlength b0 := by omega
   simpa only [hz] using PreH13.2.2.1
 
 theorem proof_of_sift_candidates_return_wit_1_split_goal_3 : sift_candidates_return_wit_1_split_goal_3 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   have h2 := PreH13.1.2.1
   have hz : cap = Zlength t0 := by omega
   simpa only [hz] using PreH13.2.1
 
 theorem proof_of_sift_candidates_return_wit_1_split_goal_4 : sift_candidates_return_wit_1_split_goal_4 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   exact PreH13.1
 
 theorem proof_of_sift_candidates_return_wit_1_split_goal_5 : sift_candidates_return_wit_1_split_goal_5 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   apply sift_state_exit__sift_cand_exit t0 b0 t b (hi_pre+1) root_pre root PreH13
   intro child hc0 hcs hp
   rcases heap_parent_children__sift_cand_exit child root hc0 hp with he | he
@@ -728,40 +728,40 @@ theorem proof_of_sift_candidates_return_wit_1_split_goal_5 : sift_candidates_ret
 theorem proof_of_sift_candidates_return_wit_1 : sift_candidates_return_wit_1 := by
   unfold sift_candidates_return_wit_1
   right
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_sift_candidates_return_wit_1_split_goal_1 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-      | exact proof_of_sift_candidates_return_wit_1_split_goal_2 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-      | exact proof_of_sift_candidates_return_wit_1_split_goal_3 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-      | exact proof_of_sift_candidates_return_wit_1_split_goal_4 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-      | exact proof_of_sift_candidates_return_wit_1_split_goal_5 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sift_candidates_return_wit_1_split_goal_1 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sift_candidates_return_wit_1_split_goal_2 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sift_candidates_return_wit_1_split_goal_3 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sift_candidates_return_wit_1_split_goal_4 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sift_candidates_return_wit_1_split_goal_5 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
 
 theorem proof_of_sift_candidates_return_wit_2_split_goal_1 : sift_candidates_return_wit_2_split_goal_1 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   exact PreH11
 
 theorem proof_of_sift_candidates_return_wit_2_split_goal_2 : sift_candidates_return_wit_2_split_goal_2 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have h1 := PreH12.1.1
   have h2 := PreH12.1.2.1
   have hz : cap = Zlength b0 := by omega
   simpa only [hz] using PreH12.2.2.1
 
 theorem proof_of_sift_candidates_return_wit_2_split_goal_3 : sift_candidates_return_wit_2_split_goal_3 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have h2 := PreH12.1.2.1
   have hz : cap = Zlength t0 := by omega
   simpa only [hz] using PreH12.2.1
 
 theorem proof_of_sift_candidates_return_wit_2_split_goal_4 : sift_candidates_return_wit_2_split_goal_4 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   exact PreH12.1
 
 theorem proof_of_sift_candidates_return_wit_2_split_goal_5 : sift_candidates_return_wit_2_split_goal_5 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   apply sift_state_exit__sift_cand_exit t0 b0 t b (hi_pre+1) root_pre root PreH12
   intro child hc0 hcs hp
   rcases heap_parent_children__sift_cand_exit child root hc0 hp with he | he
@@ -771,40 +771,40 @@ theorem proof_of_sift_candidates_return_wit_2_split_goal_5 : sift_candidates_ret
 theorem proof_of_sift_candidates_return_wit_2 : sift_candidates_return_wit_2 := by
   unfold sift_candidates_return_wit_2
   right
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_sift_candidates_return_wit_2_split_goal_1 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
-      | exact proof_of_sift_candidates_return_wit_2_split_goal_2 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
-      | exact proof_of_sift_candidates_return_wit_2_split_goal_3 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
-      | exact proof_of_sift_candidates_return_wit_2_split_goal_4 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
-      | exact proof_of_sift_candidates_return_wit_2_split_goal_5 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+      | exact proof_of_sift_candidates_return_wit_2_split_goal_1 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+      | exact proof_of_sift_candidates_return_wit_2_split_goal_2 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+      | exact proof_of_sift_candidates_return_wit_2_split_goal_3 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+      | exact proof_of_sift_candidates_return_wit_2_split_goal_4 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+      | exact proof_of_sift_candidates_return_wit_2_split_goal_5 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
 
 theorem proof_of_sift_candidates_return_wit_3_split_goal_1 : sift_candidates_return_wit_3_split_goal_1 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   exact PreH12
 
 theorem proof_of_sift_candidates_return_wit_3_split_goal_2 : sift_candidates_return_wit_3_split_goal_2 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   have h1 := PreH13.1.1
   have h2 := PreH13.1.2.1
   have hz : cap = Zlength b0 := by omega
   simpa only [hz] using PreH13.2.2.1
 
 theorem proof_of_sift_candidates_return_wit_3_split_goal_3 : sift_candidates_return_wit_3_split_goal_3 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   have h2 := PreH13.1.2.1
   have hz : cap = Zlength t0 := by omega
   simpa only [hz] using PreH13.2.1
 
 theorem proof_of_sift_candidates_return_wit_3_split_goal_4 : sift_candidates_return_wit_3_split_goal_4 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   exact PreH13.1
 
 theorem proof_of_sift_candidates_return_wit_3_split_goal_5 : sift_candidates_return_wit_3_split_goal_5 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   apply sift_state_exit__sift_cand_exit t0 b0 t b (hi_pre+1) root_pre root PreH13
   intro child hc0 hcs hp
   rcases heap_parent_children__sift_cand_exit child root hc0 hp with he | he
@@ -814,40 +814,40 @@ theorem proof_of_sift_candidates_return_wit_3_split_goal_5 : sift_candidates_ret
 theorem proof_of_sift_candidates_return_wit_3 : sift_candidates_return_wit_3 := by
   unfold sift_candidates_return_wit_3
   right
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_sift_candidates_return_wit_3_split_goal_1 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-      | exact proof_of_sift_candidates_return_wit_3_split_goal_2 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-      | exact proof_of_sift_candidates_return_wit_3_split_goal_3 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-      | exact proof_of_sift_candidates_return_wit_3_split_goal_4 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-      | exact proof_of_sift_candidates_return_wit_3_split_goal_5 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sift_candidates_return_wit_3_split_goal_1 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sift_candidates_return_wit_3_split_goal_2 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sift_candidates_return_wit_3_split_goal_3 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sift_candidates_return_wit_3_split_goal_4 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sift_candidates_return_wit_3_split_goal_5 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
 
 theorem proof_of_sift_candidates_return_wit_4_split_goal_1 : sift_candidates_return_wit_4_split_goal_1 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   exact PreH9
 
 theorem proof_of_sift_candidates_return_wit_4_split_goal_2 : sift_candidates_return_wit_4_split_goal_2 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   have h1 := PreH10.1.1
   have h2 := PreH10.1.2.1
   have hz : cap = Zlength b0 := by omega
   simpa only [hz] using PreH10.2.2.1
 
 theorem proof_of_sift_candidates_return_wit_4_split_goal_3 : sift_candidates_return_wit_4_split_goal_3 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   have h2 := PreH10.1.2.1
   have hz : cap = Zlength t0 := by omega
   simpa only [hz] using PreH10.2.1
 
 theorem proof_of_sift_candidates_return_wit_4_split_goal_4 : sift_candidates_return_wit_4_split_goal_4 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   exact PreH10.1
 
 theorem proof_of_sift_candidates_return_wit_4_split_goal_5 : sift_candidates_return_wit_4_split_goal_5 := by
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   apply sift_state_exit__sift_cand_exit t0 b0 t b (hi_pre+1) root_pre root PreH10
   intro child hc0 hcs hp
   rcases heap_parent_children__sift_cand_exit child root hc0 hp with he | he
@@ -857,26 +857,26 @@ theorem proof_of_sift_candidates_return_wit_4_split_goal_5 : sift_candidates_ret
 theorem proof_of_sift_candidates_return_wit_4 : sift_candidates_return_wit_4 := by
   unfold sift_candidates_return_wit_4
   right
-  intro hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_sift_candidates_return_wit_4_split_goal_1 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-      | exact proof_of_sift_candidates_return_wit_4_split_goal_2 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-      | exact proof_of_sift_candidates_return_wit_4_split_goal_3 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-      | exact proof_of_sift_candidates_return_wit_4_split_goal_4 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-      | exact proof_of_sift_candidates_return_wit_4_split_goal_5 hi_pre root_pre bhi blo thi tlo b0 t0 cap b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_sift_candidates_return_wit_4_split_goal_1 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_sift_candidates_return_wit_4_split_goal_2 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_sift_candidates_return_wit_4_split_goal_3 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_sift_candidates_return_wit_4_split_goal_4 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_sift_candidates_return_wit_4_split_goal_5 bhi blo thi tlo b0 t0 cap root_pre hi_pre b t root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
 
 theorem proof_of_sort_candidates_safety_wit_1_split_goal_1 : sort_candidates_safety_wit_1_split_goal_1 := by
-  intro n_pre cand_base_pre cand_t_pre bhi blo thi tlo b0 t0 PreH1 PreH2 PreH3 PreH4 PreH5
+  intro bhi blo thi tlo b0 t0 cand_t_pre cand_base_pre n_pre PreH1 PreH2 PreH3 PreH4 PreH5
   dump_pre_spatial
   have h := quot2_bounds__sort_build_phase n_pre PreH1
   change Z.quot n_pre 2 - 1 ≤ 2147483647
   omega
 
 theorem proof_of_sort_candidates_safety_wit_1_split_goal_2 : sort_candidates_safety_wit_1_split_goal_2 := by
-  intro n_pre cand_base_pre cand_t_pre bhi blo thi tlo b0 t0 PreH1 PreH2 PreH3 PreH4 PreH5
+  intro bhi blo thi tlo b0 t0 cand_t_pre cand_base_pre n_pre PreH1 PreH2 PreH3 PreH4 PreH5
   dump_pre_spatial
   have h := quot2_bounds__sort_build_phase n_pre PreH1
   change -2147483648 ≤ Z.quot n_pre 2 - 1
@@ -885,151 +885,151 @@ theorem proof_of_sort_candidates_safety_wit_1_split_goal_2 : sort_candidates_saf
 theorem proof_of_sort_candidates_safety_wit_1 : sort_candidates_safety_wit_1 := by
   unfold sort_candidates_safety_wit_1
   right
-  intro n_pre cand_base_pre cand_t_pre bhi blo thi tlo b0 t0 PreH1 PreH2 PreH3 PreH4 PreH5
+  intro bhi blo thi tlo b0 t0 cand_t_pre cand_base_pre n_pre PreH1 PreH2 PreH3 PreH4 PreH5
   split_pures
   all_goals first
-    | exact proof_of_sort_candidates_safety_wit_1_split_goal_1 n_pre cand_base_pre cand_t_pre bhi blo thi tlo b0 t0 PreH1 PreH2 PreH3 PreH4 PreH5
-    | exact proof_of_sort_candidates_safety_wit_1_split_goal_2 n_pre cand_base_pre cand_t_pre bhi blo thi tlo b0 t0 PreH1 PreH2 PreH3 PreH4 PreH5
+    | exact proof_of_sort_candidates_safety_wit_1_split_goal_1 bhi blo thi tlo b0 t0 cand_t_pre cand_base_pre n_pre PreH1 PreH2 PreH3 PreH4 PreH5
+    | exact proof_of_sort_candidates_safety_wit_1_split_goal_2 bhi blo thi tlo b0 t0 cand_t_pre cand_base_pre n_pre PreH1 PreH2 PreH3 PreH4 PreH5
 
 theorem proof_of_sort_candidates_entail_wit_1_split_goal_1 : sort_candidates_entail_wit_1_split_goal_1 := by
-  intro n_pre bhi blo thi tlo b0 t0 PreH1 PreH2 PreH3 PreH4 PreH5
+  intro bhi blo thi tlo b0 t0 n_pre PreH1 PreH2 PreH3 PreH4 PreH5
   apply heap_ordered_from_half__sort_build_phase t0 n_pre _ PreH1
   omega
 
 theorem proof_of_sort_candidates_entail_wit_1_split_goal_2 : sort_candidates_entail_wit_1_split_goal_2 := by
-  intro n_pre bhi blo thi tlo b0 t0 PreH1 PreH2 PreH3 PreH4 PreH5
+  intro bhi blo thi tlo b0 t0 n_pre PreH1 PreH2 PreH3 PreH4 PreH5
   exact zip_perm_refl__sort_build_phase t0 b0 (by omega)
 
 theorem proof_of_sort_candidates_entail_wit_1_split_goal_3 : sort_candidates_entail_wit_1_split_goal_3 := by
-  intro n_pre bhi blo thi tlo b0 t0 PreH1 PreH2 PreH3 PreH4 PreH5
+  intro bhi blo thi tlo b0 t0 n_pre PreH1 PreH2 PreH3 PreH4 PreH5
   exact PreH5
 
 theorem proof_of_sort_candidates_entail_wit_1_split_goal_4 : sort_candidates_entail_wit_1_split_goal_4 := by
-  intro n_pre bhi blo thi tlo b0 t0 PreH1 PreH2 PreH3 PreH4 PreH5
+  intro bhi blo thi tlo b0 t0 n_pre PreH1 PreH2 PreH3 PreH4 PreH5
   have h := quot2_bounds__sort_build_phase n_pre PreH1
   omega
 
 theorem proof_of_sort_candidates_entail_wit_1 : sort_candidates_entail_wit_1 := by
   unfold sort_candidates_entail_wit_1
   right
-  intro n_pre bhi blo thi tlo b0 t0 PreH1 PreH2 PreH3 PreH4 PreH5
+  intro bhi blo thi tlo b0 t0 n_pre PreH1 PreH2 PreH3 PreH4 PreH5
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_sort_candidates_entail_wit_1_split_goal_1 n_pre bhi blo thi tlo b0 t0 PreH1 PreH2 PreH3 PreH4 PreH5
-      | exact proof_of_sort_candidates_entail_wit_1_split_goal_2 n_pre bhi blo thi tlo b0 t0 PreH1 PreH2 PreH3 PreH4 PreH5
-      | exact proof_of_sort_candidates_entail_wit_1_split_goal_3 n_pre bhi blo thi tlo b0 t0 PreH1 PreH2 PreH3 PreH4 PreH5
-      | exact proof_of_sort_candidates_entail_wit_1_split_goal_4 n_pre bhi blo thi tlo b0 t0 PreH1 PreH2 PreH3 PreH4 PreH5
+      | exact proof_of_sort_candidates_entail_wit_1_split_goal_1 bhi blo thi tlo b0 t0 n_pre PreH1 PreH2 PreH3 PreH4 PreH5
+      | exact proof_of_sort_candidates_entail_wit_1_split_goal_2 bhi blo thi tlo b0 t0 n_pre PreH1 PreH2 PreH3 PreH4 PreH5
+      | exact proof_of_sort_candidates_entail_wit_1_split_goal_3 bhi blo thi tlo b0 t0 n_pre PreH1 PreH2 PreH3 PreH4 PreH5
+      | exact proof_of_sort_candidates_entail_wit_1_split_goal_4 bhi blo thi tlo b0 t0 n_pre PreH1 PreH2 PreH3 PreH4 PreH5
 
 theorem proof_of_sort_candidates_entail_wit_2_split_goal_1 : sort_candidates_entail_wit_2_split_goal_1 := by
-  intro n_pre bhi blo thi tlo b0 t0 b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bhi blo thi tlo b0 t0 n_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   simpa only [Int.sub_add_cancel] using PreH10
 
 theorem proof_of_sort_candidates_entail_wit_2_split_goal_2 : sort_candidates_entail_wit_2_split_goal_2 := by
-  intro n_pre bhi blo thi tlo b0 t0 b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bhi blo thi tlo b0 t0 n_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   exact PreH8
 
 theorem proof_of_sort_candidates_entail_wit_2_split_goal_3 : sort_candidates_entail_wit_2_split_goal_3 := by
-  intro n_pre bhi blo thi tlo b0 t0 b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bhi blo thi tlo b0 t0 n_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   have h := quot2_bounds__sort_build_phase n_pre (by omega)
   omega
 
 theorem proof_of_sort_candidates_entail_wit_2 : sort_candidates_entail_wit_2 := by
   unfold sort_candidates_entail_wit_2
   right
-  intro n_pre bhi blo thi tlo b0 t0 b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bhi blo thi tlo b0 t0 n_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_sort_candidates_entail_wit_2_split_goal_1 n_pre bhi blo thi tlo b0 t0 b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-      | exact proof_of_sort_candidates_entail_wit_2_split_goal_2 n_pre bhi blo thi tlo b0 t0 b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-      | exact proof_of_sort_candidates_entail_wit_2_split_goal_3 n_pre bhi blo thi tlo b0 t0 b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_sort_candidates_entail_wit_2_split_goal_1 bhi blo thi tlo b0 t0 n_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_sort_candidates_entail_wit_2_split_goal_2 bhi blo thi tlo b0 t0 n_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_sort_candidates_entail_wit_2_split_goal_3 bhi blo thi tlo b0 t0 n_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
 
 theorem proof_of_sort_candidates_entail_wit_3_split_goal_1 : sort_candidates_entail_wit_3_split_goal_1 := by
-  intro n_pre bhi blo thi tlo b0 t0 t_2 b_2 root b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro bhi blo thi tlo b0 t0 n_pre t_2 b_2 root b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   simpa only [Int.sub_add_cancel] using PreH3
 
 theorem proof_of_sort_candidates_entail_wit_3_split_goal_2 : sort_candidates_entail_wit_3_split_goal_2 := by
-  intro n_pre bhi blo thi tlo b0 t0 t_2 b_2 root b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro bhi blo thi tlo b0 t0 n_pre t_2 b_2 root b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   exact zip_perm_trans__sort_build_phase t0 b0 t_2 b_2 t1 b1 PreH16 PreH4
 
 theorem proof_of_sort_candidates_entail_wit_3_split_goal_3 : sort_candidates_entail_wit_3_split_goal_3 := by
-  intro n_pre bhi blo thi tlo b0 t0 t_2 b_2 root b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro bhi blo thi tlo b0 t0 n_pre t_2 b_2 root b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   exact PreH7
 
 theorem proof_of_sort_candidates_entail_wit_3 : sort_candidates_entail_wit_3 := by
   unfold sort_candidates_entail_wit_3
   right
-  intro n_pre bhi blo thi tlo b0 t0 t_2 b_2 root b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro bhi blo thi tlo b0 t0 n_pre t_2 b_2 root b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_sort_candidates_entail_wit_3_split_goal_1 n_pre bhi blo thi tlo b0 t0 t_2 b_2 root b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-      | exact proof_of_sort_candidates_entail_wit_3_split_goal_2 n_pre bhi blo thi tlo b0 t0 t_2 b_2 root b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-      | exact proof_of_sort_candidates_entail_wit_3_split_goal_3 n_pre bhi blo thi tlo b0 t0 t_2 b_2 root b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+      | exact proof_of_sort_candidates_entail_wit_3_split_goal_1 bhi blo thi tlo b0 t0 n_pre t_2 b_2 root b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+      | exact proof_of_sort_candidates_entail_wit_3_split_goal_2 bhi blo thi tlo b0 t0 n_pre t_2 b_2 root b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+      | exact proof_of_sort_candidates_entail_wit_3_split_goal_3 bhi blo thi tlo b0 t0 n_pre t_2 b_2 root b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
 
 theorem proof_of_sort_candidates_entail_wit_4_split_goal_1 : sort_candidates_entail_wit_4_split_goal_1 := by
-  intro n_pre bhi blo thi tlo b0 t0 b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bhi blo thi tlo b0 t0 n_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   exact heap_sort_state_full__sort_build_phase t_2 n_pre (by omega)
 
 theorem proof_of_sort_candidates_entail_wit_4_split_goal_2 : sort_candidates_entail_wit_4_split_goal_2 := by
-  intro n_pre bhi blo thi tlo b0 t0 b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bhi blo thi tlo b0 t0 n_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   unfold HeapOrdered
   have he : root+1=0 := by omega
   simpa only [he] using PreH10
 
 theorem proof_of_sort_candidates_entail_wit_4_split_goal_3 : sort_candidates_entail_wit_4_split_goal_3 := by
-  intro n_pre bhi blo thi tlo b0 t0 b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bhi blo thi tlo b0 t0 n_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   exact PreH8
 
 theorem proof_of_sort_candidates_entail_wit_4 : sort_candidates_entail_wit_4 := by
   unfold sort_candidates_entail_wit_4
   right
-  intro n_pre bhi blo thi tlo b0 t0 b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bhi blo thi tlo b0 t0 n_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_sort_candidates_entail_wit_4_split_goal_1 n_pre bhi blo thi tlo b0 t0 b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-      | exact proof_of_sort_candidates_entail_wit_4_split_goal_2 n_pre bhi blo thi tlo b0 t0 b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-      | exact proof_of_sort_candidates_entail_wit_4_split_goal_3 n_pre bhi blo thi tlo b0 t0 b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_sort_candidates_entail_wit_4_split_goal_1 bhi blo thi tlo b0 t0 n_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_sort_candidates_entail_wit_4_split_goal_2 bhi blo thi tlo b0 t0 n_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_sort_candidates_entail_wit_4_split_goal_3 bhi blo thi tlo b0 t0 n_pre b_2 t_2 root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
 
 theorem proof_of_sort_candidates_entail_wit_5_split_goal_1 : sort_candidates_entail_wit_5_split_goal_1 := by
-  intro n_pre bhi blo thi tlo b0 t0 t_2 b_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro bhi blo thi tlo b0 t0 n_pre t_2 b_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   simpa only [Int.sub_add_cancel] using PreH7
 
 theorem proof_of_sort_candidates_entail_wit_5_split_goal_2 : sort_candidates_entail_wit_5_split_goal_2 := by
-  intro n_pre bhi blo thi tlo b0 t0 t_2 b_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro bhi blo thi tlo b0 t0 n_pre t_2 b_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   exact PreH5
 
 theorem proof_of_sort_candidates_entail_wit_5 : sort_candidates_entail_wit_5 := by
   unfold sort_candidates_entail_wit_5
   right
-  intro n_pre bhi blo thi tlo b0 t0 t_2 b_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro bhi blo thi tlo b0 t0 n_pre t_2 b_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_sort_candidates_entail_wit_5_split_goal_1 n_pre bhi blo thi tlo b0 t0 t_2 b_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
-      | exact proof_of_sort_candidates_entail_wit_5_split_goal_2 n_pre bhi blo thi tlo b0 t0 t_2 b_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+      | exact proof_of_sort_candidates_entail_wit_5_split_goal_1 bhi blo thi tlo b0 t0 n_pre t_2 b_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+      | exact proof_of_sort_candidates_entail_wit_5_split_goal_2 bhi blo thi tlo b0 t0 n_pre t_2 b_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
 
 theorem proof_of_sort_candidates_entail_wit_6_split_goal_1 : sort_candidates_entail_wit_6_split_goal_1 := by
-  intro n_pre bhi blo thi tlo b0 t0 b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro bhi blo thi tlo b0 t0 n_pre b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   exact heap_sort_state_swap__sort_extract_phase t_2 n_pre hi PreH6 (by omega) PreH5 PreH10 PreH11
 
 theorem proof_of_sort_candidates_entail_wit_6_split_goal_2 : sort_candidates_entail_wit_6_split_goal_2 := by
-  intro n_pre bhi blo thi tlo b0 t0 b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro bhi blo thi tlo b0 t0 n_pre b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   simpa only [Int.sub_add_cancel,Int.zero_add] using heap_ordered_from_swap__sort_extract_phase t_2 n_pre hi PreH6 (by omega) PreH5 PreH10
 
 theorem proof_of_sort_candidates_entail_wit_6_split_goal_3 : sort_candidates_entail_wit_6_split_goal_3 := by
-  intro n_pre bhi blo thi tlo b0 t0 b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro bhi blo thi tlo b0 t0 n_pre b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   exact zip_perm_swap0__sort_extract_phase t0 b0 t_2 b hi PreH9 (by omega)
 
 theorem proof_of_sort_candidates_entail_wit_6_split_goal_4 : sort_candidates_entail_wit_6_split_goal_4 := by
-  intro n_pre bhi blo thi tlo b0 t0 b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro bhi blo thi tlo b0 t0 n_pre b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   intro q hq
   have ht := Zlength_replace_Znth t_2 0 (Znth hi t_2 0)
   have hb := Zlength_replace_Znth b 0 (Znth hi b 0)
@@ -1048,15 +1048,15 @@ theorem proof_of_sort_candidates_entail_wit_6_split_goal_4 : sort_candidates_ent
       exact PreH8 q hq
 
 theorem proof_of_sort_candidates_entail_wit_6_split_goal_5 : sort_candidates_entail_wit_6_split_goal_5 := by
-  intro n_pre bhi blo thi tlo b0 t0 b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro bhi blo thi tlo b0 t0 n_pre b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   simpa only [Zlength_replace_Znth] using PreH7
 
 theorem proof_of_sort_candidates_entail_wit_6_split_goal_6 : sort_candidates_entail_wit_6_split_goal_6 := by
-  intro n_pre bhi blo thi tlo b0 t0 b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro bhi blo thi tlo b0 t0 n_pre b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   simpa only [Zlength_replace_Znth] using PreH6
 
 theorem proof_of_sort_candidates_entail_wit_6_split_goal_7 : sort_candidates_entail_wit_6_split_goal_7 := by
-  intro n_pre bhi blo thi tlo b0 t0 b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro bhi blo thi tlo b0 t0 n_pre b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   symm
   apply Znth_replace_Znth_Same
   simp only [Zlength_replace_Znth]
@@ -1065,94 +1065,94 @@ theorem proof_of_sort_candidates_entail_wit_6_split_goal_7 : sort_candidates_ent
 theorem proof_of_sort_candidates_entail_wit_6 : sort_candidates_entail_wit_6 := by
   unfold sort_candidates_entail_wit_6
   right
-  intro n_pre bhi blo thi tlo b0 t0 b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro bhi blo thi tlo b0 t0 n_pre b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_sort_candidates_entail_wit_6_split_goal_1 n_pre bhi blo thi tlo b0 t0 b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-      | exact proof_of_sort_candidates_entail_wit_6_split_goal_2 n_pre bhi blo thi tlo b0 t0 b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-      | exact proof_of_sort_candidates_entail_wit_6_split_goal_3 n_pre bhi blo thi tlo b0 t0 b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-      | exact proof_of_sort_candidates_entail_wit_6_split_goal_4 n_pre bhi blo thi tlo b0 t0 b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-      | exact proof_of_sort_candidates_entail_wit_6_split_goal_5 n_pre bhi blo thi tlo b0 t0 b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-      | exact proof_of_sort_candidates_entail_wit_6_split_goal_6 n_pre bhi blo thi tlo b0 t0 b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-      | exact proof_of_sort_candidates_entail_wit_6_split_goal_7 n_pre bhi blo thi tlo b0 t0 b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_sort_candidates_entail_wit_6_split_goal_1 bhi blo thi tlo b0 t0 n_pre b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_sort_candidates_entail_wit_6_split_goal_2 bhi blo thi tlo b0 t0 n_pre b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_sort_candidates_entail_wit_6_split_goal_3 bhi blo thi tlo b0 t0 n_pre b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_sort_candidates_entail_wit_6_split_goal_4 bhi blo thi tlo b0 t0 n_pre b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_sort_candidates_entail_wit_6_split_goal_5 bhi blo thi tlo b0 t0 n_pre b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_sort_candidates_entail_wit_6_split_goal_6 bhi blo thi tlo b0 t0 n_pre b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_sort_candidates_entail_wit_6_split_goal_7 bhi blo thi tlo b0 t0 n_pre b t_2 hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 theorem proof_of_sort_candidates_entail_wit_7_split_goal_1 : sort_candidates_entail_wit_7_split_goal_1 := by
-  intro n_pre bhi blo thi tlo b0 t0 t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro bhi blo thi tlo b0 t0 n_pre t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   simp only [Int.sub_add_cancel] at PreH5 PreH6
   exact heap_sort_state_after_sift__sort_extract_phase t_2 b_2 t1 b1 n_pre hi PreH13 PreH14 PreH1 PreH2 (by omega) PreH4.2.2.2 PreH5 PreH6 PreH18
 
 theorem proof_of_sort_candidates_entail_wit_7_split_goal_2 : sort_candidates_entail_wit_7_split_goal_2 := by
-  intro n_pre bhi blo thi tlo b0 t0 t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro bhi blo thi tlo b0 t0 n_pre t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   exact PreH3
 
 theorem proof_of_sort_candidates_entail_wit_7_split_goal_3 : sort_candidates_entail_wit_7_split_goal_3 := by
-  intro n_pre bhi blo thi tlo b0 t0 t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro bhi blo thi tlo b0 t0 n_pre t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   exact zip_perm_trans__sort_extract_phase t0 b0 t_2 b_2 t1 b1 PreH16 PreH4
 
 theorem proof_of_sort_candidates_entail_wit_7_split_goal_4 : sort_candidates_entail_wit_7_split_goal_4 := by
-  intro n_pre bhi blo thi tlo b0 t0 t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro bhi blo thi tlo b0 t0 n_pre t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   exact PreH7
 
 theorem proof_of_sort_candidates_entail_wit_7 : sort_candidates_entail_wit_7 := by
   unfold sort_candidates_entail_wit_7
   right
-  intro n_pre bhi blo thi tlo b0 t0 t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro bhi blo thi tlo b0 t0 n_pre t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_sort_candidates_entail_wit_7_split_goal_1 n_pre bhi blo thi tlo b0 t0 t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-      | exact proof_of_sort_candidates_entail_wit_7_split_goal_2 n_pre bhi blo thi tlo b0 t0 t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-      | exact proof_of_sort_candidates_entail_wit_7_split_goal_3 n_pre bhi blo thi tlo b0 t0 t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-      | exact proof_of_sort_candidates_entail_wit_7_split_goal_4 n_pre bhi blo thi tlo b0 t0 t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+      | exact proof_of_sort_candidates_entail_wit_7_split_goal_1 bhi blo thi tlo b0 t0 n_pre t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+      | exact proof_of_sort_candidates_entail_wit_7_split_goal_2 bhi blo thi tlo b0 t0 n_pre t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+      | exact proof_of_sort_candidates_entail_wit_7_split_goal_3 bhi blo thi tlo b0 t0 n_pre t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+      | exact proof_of_sort_candidates_entail_wit_7_split_goal_4 bhi blo thi tlo b0 t0 n_pre t_2 b_2 hi v b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
 
 theorem proof_of_sort_candidates_return_wit_1_split_goal_1 : sort_candidates_return_wit_1_split_goal_1 := by
-  intro n_pre bhi blo thi tlo b0 t0 b t hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro bhi blo thi tlo b0 t0 n_pre b t hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   exact PreH8
 
 theorem proof_of_sort_candidates_return_wit_1_split_goal_2 : sort_candidates_return_wit_1_split_goal_2 := by
-  intro n_pre bhi blo thi tlo b0 t0 b t hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro bhi blo thi tlo b0 t0 n_pre b t hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   exact heap_sort_done_nondecreasing__sort_extract_phase t n_pre hi PreH6 PreH4 PreH1 PreH11
 
 theorem proof_of_sort_candidates_return_wit_1 : sort_candidates_return_wit_1 := by
   unfold sort_candidates_return_wit_1
   right
-  intro n_pre bhi blo thi tlo b0 t0 b t hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro bhi blo thi tlo b0 t0 n_pre b t hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_sort_candidates_return_wit_1_split_goal_1 n_pre bhi blo thi tlo b0 t0 b t hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-      | exact proof_of_sort_candidates_return_wit_1_split_goal_2 n_pre bhi blo thi tlo b0 t0 b t hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_sort_candidates_return_wit_1_split_goal_1 bhi blo thi tlo b0 t0 n_pre b t hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_sort_candidates_return_wit_1_split_goal_2 bhi blo thi tlo b0 t0 n_pre b t hi PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 theorem proof_of_sort_candidates_partial_solve_wit_1_pure_split_goal_1 : sort_candidates_partial_solve_wit_1_pure_split_goal_1 := by
-  intro n_pre cand_base_pre cand_t_pre bhi blo thi tlo b0 t0 t b root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro bhi blo thi tlo b0 t0 cand_t_pre cand_base_pre n_pre t b root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   dump_pre_spatial
   exact PreH12
 
 theorem proof_of_sort_candidates_partial_solve_wit_1_pure : sort_candidates_partial_solve_wit_1_pure := by
   unfold sort_candidates_partial_solve_wit_1_pure
   right
-  intro n_pre cand_base_pre cand_t_pre bhi blo thi tlo b0 t0 t b root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro bhi blo thi tlo b0 t0 cand_t_pre cand_base_pre n_pre t b root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   all_goals first
-    | exact proof_of_sort_candidates_partial_solve_wit_1_pure_split_goal_1 n_pre cand_base_pre cand_t_pre bhi blo thi tlo b0 t0 t b root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+    | exact proof_of_sort_candidates_partial_solve_wit_1_pure_split_goal_1 bhi blo thi tlo b0 t0 cand_t_pre cand_base_pre n_pre t b root PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
 
 theorem proof_of_sort_candidates_partial_solve_wit_10_pure_split_goal_1 : sort_candidates_partial_solve_wit_10_pure_split_goal_1 := by
-  intro n_pre cand_base_pre cand_t_pre bhi blo thi tlo b0 t0 t b hi v PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro bhi blo thi tlo b0 t0 cand_t_pre cand_base_pre n_pre t b hi v PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   dump_pre_spatial
   exact PreH14
 
 theorem proof_of_sort_candidates_partial_solve_wit_10_pure : sort_candidates_partial_solve_wit_10_pure := by
   unfold sort_candidates_partial_solve_wit_10_pure
   right
-  intro n_pre cand_base_pre cand_t_pre bhi blo thi tlo b0 t0 t b hi v PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro bhi blo thi tlo b0 t0 cand_t_pre cand_base_pre n_pre t b hi v PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   all_goals first
-    | exact proof_of_sort_candidates_partial_solve_wit_10_pure_split_goal_1 n_pre cand_base_pre cand_t_pre bhi blo thi tlo b0 t0 t b hi v PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_sort_candidates_partial_solve_wit_10_pure_split_goal_1 bhi blo thi tlo b0 t0 cand_t_pre cand_base_pre n_pre t b hi v PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
 
 theorem proof_of_solver_safety_wit_20_split_goal_1 : solver_safety_wit_20_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   dump_pre_spatial
   change (((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) <= 9223372036854775807)
   have hsh := PreH25 i (by omega)
@@ -1160,7 +1160,7 @@ theorem proof_of_solver_safety_wit_20_split_goal_1 : solver_safety_wit_20_split_
   omega
 
 theorem proof_of_solver_safety_wit_20_split_goal_2 : solver_safety_wit_20_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   dump_pre_spatial
   change ((-9223372036854775808) <= ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5))
   have hsh := PreH25 i (by omega)
@@ -1170,14 +1170,14 @@ theorem proof_of_solver_safety_wit_20_split_goal_2 : solver_safety_wit_20_split_
 theorem proof_of_solver_safety_wit_20 : solver_safety_wit_20 := by
   unfold solver_safety_wit_20
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_20_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
-    | exact proof_of_solver_safety_wit_20_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+    | exact proof_of_solver_safety_wit_20_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+    | exact proof_of_solver_safety_wit_20_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
 
 theorem proof_of_solver_safety_wit_27_split_goal_1 : solver_safety_wit_27_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   dump_pre_spatial
   change (((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) <= 9223372036854775807)
   have hsh := PreH24 i (by omega)
@@ -1185,7 +1185,7 @@ theorem proof_of_solver_safety_wit_27_split_goal_1 : solver_safety_wit_27_split_
   omega
 
 theorem proof_of_solver_safety_wit_27_split_goal_2 : solver_safety_wit_27_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   dump_pre_spatial
   change ((-9223372036854775808) <= ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5))
   have hsh := PreH24 i (by omega)
@@ -1195,14 +1195,14 @@ theorem proof_of_solver_safety_wit_27_split_goal_2 : solver_safety_wit_27_split_
 theorem proof_of_solver_safety_wit_27 : solver_safety_wit_27 := by
   unfold solver_safety_wit_27
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_27_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
-    | exact proof_of_solver_safety_wit_27_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+    | exact proof_of_solver_safety_wit_27_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+    | exact proof_of_solver_safety_wit_27_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
 
 theorem proof_of_solver_safety_wit_33_split_goal_1 : solver_safety_wit_33_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   dump_pre_spatial
   change (((Znth i sh (0 : Int)) + (Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5)) <= 9223372036854775807)
   have hsh := PreH25 i (by omega)
@@ -1210,7 +1210,7 @@ theorem proof_of_solver_safety_wit_33_split_goal_1 : solver_safety_wit_33_split_
   omega
 
 theorem proof_of_solver_safety_wit_33_split_goal_2 : solver_safety_wit_33_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   dump_pre_spatial
   change ((-9223372036854775808) <= ((Znth i sh (0 : Int)) + (Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5)))
   have hsh := PreH25 i (by omega)
@@ -1220,14 +1220,14 @@ theorem proof_of_solver_safety_wit_33_split_goal_2 : solver_safety_wit_33_split_
 theorem proof_of_solver_safety_wit_33 : solver_safety_wit_33 := by
   unfold solver_safety_wit_33
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_33_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
-    | exact proof_of_solver_safety_wit_33_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+    | exact proof_of_solver_safety_wit_33_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+    | exact proof_of_solver_safety_wit_33_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
 
 theorem proof_of_solver_safety_wit_34_split_goal_1 : solver_safety_wit_34_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   dump_pre_spatial
   change (((Znth i sh (0 : Int)) + (Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5)) <= 9223372036854775807)
   have hsh := PreH24 i (by omega)
@@ -1235,7 +1235,7 @@ theorem proof_of_solver_safety_wit_34_split_goal_1 : solver_safety_wit_34_split_
   omega
 
 theorem proof_of_solver_safety_wit_34_split_goal_2 : solver_safety_wit_34_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   dump_pre_spatial
   change ((-9223372036854775808) <= ((Znth i sh (0 : Int)) + (Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5)))
   have hsh := PreH24 i (by omega)
@@ -1245,14 +1245,14 @@ theorem proof_of_solver_safety_wit_34_split_goal_2 : solver_safety_wit_34_split_
 theorem proof_of_solver_safety_wit_34 : solver_safety_wit_34 := by
   unfold solver_safety_wit_34
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_34_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
-    | exact proof_of_solver_safety_wit_34_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+    | exact proof_of_solver_safety_wit_34_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+    | exact proof_of_solver_safety_wit_34_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
 
 theorem proof_of_solver_safety_wit_35_split_goal_1 : solver_safety_wit_35_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   dump_pre_spatial
   change ((((Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5) * c_pre) - ((Z.quot (((Znth i sh (0 : Int)) + (Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5)) - j) 5) * W)) <= 9223372036854775807)
   have hsh := PreH25 i (by omega)
@@ -1261,7 +1261,7 @@ theorem proof_of_solver_safety_wit_35_split_goal_1 : solver_safety_wit_35_split_
   nlinarith
 
 theorem proof_of_solver_safety_wit_35_split_goal_2 : solver_safety_wit_35_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   dump_pre_spatial
   change ((-9223372036854775808) <= (((Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5) * c_pre) - ((Z.quot (((Znth i sh (0 : Int)) + (Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5)) - j) 5) * W)))
   have hsh := PreH25 i (by omega)
@@ -1272,14 +1272,14 @@ theorem proof_of_solver_safety_wit_35_split_goal_2 : solver_safety_wit_35_split_
 theorem proof_of_solver_safety_wit_35 : solver_safety_wit_35 := by
   unfold solver_safety_wit_35
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_35_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
-    | exact proof_of_solver_safety_wit_35_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+    | exact proof_of_solver_safety_wit_35_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+    | exact proof_of_solver_safety_wit_35_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
 
 theorem proof_of_solver_safety_wit_36_split_goal_1 : solver_safety_wit_36_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   dump_pre_spatial
   change (((Z.quot (((Znth i sh (0 : Int)) + (Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5)) - j) 5) * W) <= 9223372036854775807)
   have hsh := PreH25 i (by omega)
@@ -1288,7 +1288,7 @@ theorem proof_of_solver_safety_wit_36_split_goal_1 : solver_safety_wit_36_split_
   nlinarith
 
 theorem proof_of_solver_safety_wit_36_split_goal_2 : solver_safety_wit_36_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   dump_pre_spatial
   change ((-9223372036854775808) <= ((Z.quot (((Znth i sh (0 : Int)) + (Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5)) - j) 5) * W))
   have hsh := PreH25 i (by omega)
@@ -1299,21 +1299,21 @@ theorem proof_of_solver_safety_wit_36_split_goal_2 : solver_safety_wit_36_split_
 theorem proof_of_solver_safety_wit_36 : solver_safety_wit_36 := by
   unfold solver_safety_wit_36
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_36_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
-    | exact proof_of_solver_safety_wit_36_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+    | exact proof_of_solver_safety_wit_36_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+    | exact proof_of_solver_safety_wit_36_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
 
 theorem proof_of_solver_safety_wit_39_split_goal_1 : solver_safety_wit_39_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   dump_pre_spatial
   change (((Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5) * c_pre) <= 9223372036854775807)
   have hr := rem5_shift_bounds__solver_safety_cand_b (j-Znth i sh 0)
   nlinarith
 
 theorem proof_of_solver_safety_wit_39_split_goal_2 : solver_safety_wit_39_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   dump_pre_spatial
   change ((-9223372036854775808) <= ((Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5) * c_pre))
   have hr := rem5_shift_bounds__solver_safety_cand_b (j-Znth i sh 0)
@@ -1322,14 +1322,14 @@ theorem proof_of_solver_safety_wit_39_split_goal_2 : solver_safety_wit_39_split_
 theorem proof_of_solver_safety_wit_39 : solver_safety_wit_39 := by
   unfold solver_safety_wit_39
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_39_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
-    | exact proof_of_solver_safety_wit_39_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+    | exact proof_of_solver_safety_wit_39_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+    | exact proof_of_solver_safety_wit_39_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
 
 theorem proof_of_solver_safety_wit_41_split_goal_1 : solver_safety_wit_41_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   dump_pre_spatial
   change ((((Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5) * c_pre) - ((Z.quot (((Znth i sh (0 : Int)) + (Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5)) - j) 5) * W)) <= 9223372036854775807)
   have hsh := PreH24 i (by omega)
@@ -1338,7 +1338,7 @@ theorem proof_of_solver_safety_wit_41_split_goal_1 : solver_safety_wit_41_split_
   nlinarith
 
 theorem proof_of_solver_safety_wit_41_split_goal_2 : solver_safety_wit_41_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   dump_pre_spatial
   change ((-9223372036854775808) <= (((Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5) * c_pre) - ((Z.quot (((Znth i sh (0 : Int)) + (Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5)) - j) 5) * W)))
   have hsh := PreH24 i (by omega)
@@ -1349,14 +1349,14 @@ theorem proof_of_solver_safety_wit_41_split_goal_2 : solver_safety_wit_41_split_
 theorem proof_of_solver_safety_wit_41 : solver_safety_wit_41 := by
   unfold solver_safety_wit_41
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_41_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
-    | exact proof_of_solver_safety_wit_41_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+    | exact proof_of_solver_safety_wit_41_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+    | exact proof_of_solver_safety_wit_41_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
 
 theorem proof_of_solver_safety_wit_42_split_goal_1 : solver_safety_wit_42_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   dump_pre_spatial
   change (((Z.quot (((Znth i sh (0 : Int)) + (Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5)) - j) 5) * W) <= 9223372036854775807)
   have hsh := PreH24 i (by omega)
@@ -1365,7 +1365,7 @@ theorem proof_of_solver_safety_wit_42_split_goal_1 : solver_safety_wit_42_split_
   nlinarith
 
 theorem proof_of_solver_safety_wit_42_split_goal_2 : solver_safety_wit_42_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   dump_pre_spatial
   change ((-9223372036854775808) <= ((Z.quot (((Znth i sh (0 : Int)) + (Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5)) - j) 5) * W))
   have hsh := PreH24 i (by omega)
@@ -1376,21 +1376,21 @@ theorem proof_of_solver_safety_wit_42_split_goal_2 : solver_safety_wit_42_split_
 theorem proof_of_solver_safety_wit_42 : solver_safety_wit_42 := by
   unfold solver_safety_wit_42
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_42_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
-    | exact proof_of_solver_safety_wit_42_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+    | exact proof_of_solver_safety_wit_42_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+    | exact proof_of_solver_safety_wit_42_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
 
 theorem proof_of_solver_safety_wit_45_split_goal_1 : solver_safety_wit_45_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   dump_pre_spatial
   change (((Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5) * c_pre) <= 9223372036854775807)
   have hr := rem5_shift_bounds__solver_safety_cand_b (j-Znth i sh 0)
   nlinarith
 
 theorem proof_of_solver_safety_wit_45_split_goal_2 : solver_safety_wit_45_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   dump_pre_spatial
   change ((-9223372036854775808) <= ((Z.rem ((Z.rem (j - (Znth i sh (0 : Int))) 5) + 5) 5) * c_pre))
   have hr := rem5_shift_bounds__solver_safety_cand_b (j-Znth i sh 0)
@@ -1399,14 +1399,14 @@ theorem proof_of_solver_safety_wit_45_split_goal_2 : solver_safety_wit_45_split_
 theorem proof_of_solver_safety_wit_45 : solver_safety_wit_45 := by
   unfold solver_safety_wit_45
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_45_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
-    | exact proof_of_solver_safety_wit_45_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+    | exact proof_of_solver_safety_wit_45_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+    | exact proof_of_solver_safety_wit_45_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
 
 theorem proof_of_solver_safety_wit_57_split_goal_1 : solver_safety_wit_57_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   dump_pre_spatial
   change ((hsum + ((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) * W)) <= 9223372036854775807)
   have hst := PreH34 i (by omega)
@@ -1414,7 +1414,7 @@ theorem proof_of_solver_safety_wit_57_split_goal_1 : solver_safety_wit_57_split_
   omega
 
 theorem proof_of_solver_safety_wit_57_split_goal_2 : solver_safety_wit_57_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   dump_pre_spatial
   change ((-9223372036854775808) <= (hsum + ((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) * W)))
   have hst := PreH34 i (by omega)
@@ -1424,14 +1424,14 @@ theorem proof_of_solver_safety_wit_57_split_goal_2 : solver_safety_wit_57_split_
 theorem proof_of_solver_safety_wit_57 : solver_safety_wit_57 := by
   unfold solver_safety_wit_57
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_57_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
-    | exact proof_of_solver_safety_wit_57_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+    | exact proof_of_solver_safety_wit_57_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+    | exact proof_of_solver_safety_wit_57_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
 
 theorem proof_of_solver_safety_wit_58_split_goal_1 : solver_safety_wit_58_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   dump_pre_spatial
   change (((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) * W) <= 9223372036854775807)
   have hst := PreH34 i (by omega)
@@ -1439,7 +1439,7 @@ theorem proof_of_solver_safety_wit_58_split_goal_1 : solver_safety_wit_58_split_
   omega
 
 theorem proof_of_solver_safety_wit_58_split_goal_2 : solver_safety_wit_58_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   dump_pre_spatial
   change ((-9223372036854775808) <= ((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) * W))
   have hst := PreH34 i (by omega)
@@ -1449,14 +1449,14 @@ theorem proof_of_solver_safety_wit_58_split_goal_2 : solver_safety_wit_58_split_
 theorem proof_of_solver_safety_wit_58 : solver_safety_wit_58 := by
   unfold solver_safety_wit_58
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_58_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
-    | exact proof_of_solver_safety_wit_58_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+    | exact proof_of_solver_safety_wit_58_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+    | exact proof_of_solver_safety_wit_58_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
 
 theorem proof_of_solver_safety_wit_59_split_goal_1 : solver_safety_wit_59_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   dump_pre_spatial
   change ((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) <= 9223372036854775807)
   have hst := PreH34 i (by omega)
@@ -1464,7 +1464,7 @@ theorem proof_of_solver_safety_wit_59_split_goal_1 : solver_safety_wit_59_split_
   omega
 
 theorem proof_of_solver_safety_wit_59_split_goal_2 : solver_safety_wit_59_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   dump_pre_spatial
   change ((-9223372036854775808) <= (k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)))
   have hst := PreH34 i (by omega)
@@ -1474,14 +1474,14 @@ theorem proof_of_solver_safety_wit_59_split_goal_2 : solver_safety_wit_59_split_
 theorem proof_of_solver_safety_wit_59 : solver_safety_wit_59 := by
   unfold solver_safety_wit_59
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_59_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
-    | exact proof_of_solver_safety_wit_59_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+    | exact proof_of_solver_safety_wit_59_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+    | exact proof_of_solver_safety_wit_59_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
 
 theorem proof_of_solver_safety_wit_63_split_goal_1 : solver_safety_wit_63_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   dump_pre_spatial
   change ((hsum + ((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) * W)) <= 9223372036854775807)
   have hst := PreH36 i (by omega)
@@ -1489,7 +1489,7 @@ theorem proof_of_solver_safety_wit_63_split_goal_1 : solver_safety_wit_63_split_
   omega
 
 theorem proof_of_solver_safety_wit_63_split_goal_2 : solver_safety_wit_63_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   dump_pre_spatial
   change ((-9223372036854775808) <= (hsum + ((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) * W)))
   have hst := PreH36 i (by omega)
@@ -1499,14 +1499,14 @@ theorem proof_of_solver_safety_wit_63_split_goal_2 : solver_safety_wit_63_split_
 theorem proof_of_solver_safety_wit_63 : solver_safety_wit_63 := by
   unfold solver_safety_wit_63
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_63_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
-    | exact proof_of_solver_safety_wit_63_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+    | exact proof_of_solver_safety_wit_63_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+    | exact proof_of_solver_safety_wit_63_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
 
 theorem proof_of_solver_safety_wit_64_split_goal_1 : solver_safety_wit_64_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   dump_pre_spatial
   change (((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) * W) <= 9223372036854775807)
   have hst := PreH36 i (by omega)
@@ -1514,7 +1514,7 @@ theorem proof_of_solver_safety_wit_64_split_goal_1 : solver_safety_wit_64_split_
   omega
 
 theorem proof_of_solver_safety_wit_64_split_goal_2 : solver_safety_wit_64_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   dump_pre_spatial
   change ((-9223372036854775808) <= ((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) * W))
   have hst := PreH36 i (by omega)
@@ -1524,14 +1524,14 @@ theorem proof_of_solver_safety_wit_64_split_goal_2 : solver_safety_wit_64_split_
 theorem proof_of_solver_safety_wit_64 : solver_safety_wit_64 := by
   unfold solver_safety_wit_64
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_64_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
-    | exact proof_of_solver_safety_wit_64_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+    | exact proof_of_solver_safety_wit_64_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+    | exact proof_of_solver_safety_wit_64_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
 
 theorem proof_of_solver_safety_wit_65_split_goal_1 : solver_safety_wit_65_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   dump_pre_spatial
   change ((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) <= 9223372036854775807)
   have hst := PreH36 i (by omega)
@@ -1539,7 +1539,7 @@ theorem proof_of_solver_safety_wit_65_split_goal_1 : solver_safety_wit_65_split_
   omega
 
 theorem proof_of_solver_safety_wit_65_split_goal_2 : solver_safety_wit_65_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   dump_pre_spatial
   change ((-9223372036854775808) <= (k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)))
   have hst := PreH36 i (by omega)
@@ -1549,14 +1549,14 @@ theorem proof_of_solver_safety_wit_65_split_goal_2 : solver_safety_wit_65_split_
 theorem proof_of_solver_safety_wit_65 : solver_safety_wit_65 := by
   unfold solver_safety_wit_65
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_65_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
-    | exact proof_of_solver_safety_wit_65_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+    | exact proof_of_solver_safety_wit_65_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+    | exact proof_of_solver_safety_wit_65_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
 
 theorem proof_of_solver_safety_wit_69_split_goal_1 : solver_safety_wit_69_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   dump_pre_spatial
   change ((hsum + ((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) * W)) <= 9223372036854775807)
   have hst := PreH33 i (by omega)
@@ -1564,7 +1564,7 @@ theorem proof_of_solver_safety_wit_69_split_goal_1 : solver_safety_wit_69_split_
   omega
 
 theorem proof_of_solver_safety_wit_69_split_goal_2 : solver_safety_wit_69_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   dump_pre_spatial
   change ((-9223372036854775808) <= (hsum + ((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) * W)))
   have hst := PreH33 i (by omega)
@@ -1574,14 +1574,14 @@ theorem proof_of_solver_safety_wit_69_split_goal_2 : solver_safety_wit_69_split_
 theorem proof_of_solver_safety_wit_69 : solver_safety_wit_69 := by
   unfold solver_safety_wit_69
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_69_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
-    | exact proof_of_solver_safety_wit_69_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+    | exact proof_of_solver_safety_wit_69_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+    | exact proof_of_solver_safety_wit_69_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
 
 theorem proof_of_solver_safety_wit_70_split_goal_1 : solver_safety_wit_70_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   dump_pre_spatial
   change (((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) * W) <= 9223372036854775807)
   have hst := PreH33 i (by omega)
@@ -1589,7 +1589,7 @@ theorem proof_of_solver_safety_wit_70_split_goal_1 : solver_safety_wit_70_split_
   omega
 
 theorem proof_of_solver_safety_wit_70_split_goal_2 : solver_safety_wit_70_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   dump_pre_spatial
   change ((-9223372036854775808) <= ((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) * W))
   have hst := PreH33 i (by omega)
@@ -1599,14 +1599,14 @@ theorem proof_of_solver_safety_wit_70_split_goal_2 : solver_safety_wit_70_split_
 theorem proof_of_solver_safety_wit_70 : solver_safety_wit_70 := by
   unfold solver_safety_wit_70
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_70_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
-    | exact proof_of_solver_safety_wit_70_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+    | exact proof_of_solver_safety_wit_70_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+    | exact proof_of_solver_safety_wit_70_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
 
 theorem proof_of_solver_safety_wit_71_split_goal_1 : solver_safety_wit_71_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   dump_pre_spatial
   change ((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) <= 9223372036854775807)
   have hst := PreH33 i (by omega)
@@ -1614,7 +1614,7 @@ theorem proof_of_solver_safety_wit_71_split_goal_1 : solver_safety_wit_71_split_
   omega
 
 theorem proof_of_solver_safety_wit_71_split_goal_2 : solver_safety_wit_71_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   dump_pre_spatial
   change ((-9223372036854775808) <= (k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)))
   have hst := PreH33 i (by omega)
@@ -1624,14 +1624,14 @@ theorem proof_of_solver_safety_wit_71_split_goal_2 : solver_safety_wit_71_split_
 theorem proof_of_solver_safety_wit_71 : solver_safety_wit_71 := by
   unfold solver_safety_wit_71
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_71_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
-    | exact proof_of_solver_safety_wit_71_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+    | exact proof_of_solver_safety_wit_71_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+    | exact proof_of_solver_safety_wit_71_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
 
 theorem proof_of_solver_safety_wit_75_split_goal_1 : solver_safety_wit_75_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   dump_pre_spatial
   change ((hsum + ((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) * W)) <= 9223372036854775807)
   have hst := PreH35 i (by omega)
@@ -1639,7 +1639,7 @@ theorem proof_of_solver_safety_wit_75_split_goal_1 : solver_safety_wit_75_split_
   omega
 
 theorem proof_of_solver_safety_wit_75_split_goal_2 : solver_safety_wit_75_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   dump_pre_spatial
   change ((-9223372036854775808) <= (hsum + ((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) * W)))
   have hst := PreH35 i (by omega)
@@ -1649,14 +1649,14 @@ theorem proof_of_solver_safety_wit_75_split_goal_2 : solver_safety_wit_75_split_
 theorem proof_of_solver_safety_wit_75 : solver_safety_wit_75 := by
   unfold solver_safety_wit_75
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_75_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
-    | exact proof_of_solver_safety_wit_75_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+    | exact proof_of_solver_safety_wit_75_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+    | exact proof_of_solver_safety_wit_75_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
 
 theorem proof_of_solver_safety_wit_76_split_goal_1 : solver_safety_wit_76_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   dump_pre_spatial
   change (((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) * W) <= 9223372036854775807)
   have hst := PreH35 i (by omega)
@@ -1664,7 +1664,7 @@ theorem proof_of_solver_safety_wit_76_split_goal_1 : solver_safety_wit_76_split_
   omega
 
 theorem proof_of_solver_safety_wit_76_split_goal_2 : solver_safety_wit_76_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   dump_pre_spatial
   change ((-9223372036854775808) <= ((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) * W))
   have hst := PreH35 i (by omega)
@@ -1674,14 +1674,14 @@ theorem proof_of_solver_safety_wit_76_split_goal_2 : solver_safety_wit_76_split_
 theorem proof_of_solver_safety_wit_76 : solver_safety_wit_76 := by
   unfold solver_safety_wit_76
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_76_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
-    | exact proof_of_solver_safety_wit_76_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+    | exact proof_of_solver_safety_wit_76_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+    | exact proof_of_solver_safety_wit_76_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
 
 theorem proof_of_solver_safety_wit_77_split_goal_1 : solver_safety_wit_77_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   dump_pre_spatial
   change ((k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)) <= 9223372036854775807)
   have hst := PreH35 i (by omega)
@@ -1689,7 +1689,7 @@ theorem proof_of_solver_safety_wit_77_split_goal_1 : solver_safety_wit_77_split_
   omega
 
 theorem proof_of_solver_safety_wit_77_split_goal_2 : solver_safety_wit_77_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   dump_pre_spatial
   change ((-9223372036854775808) <= (k_pre * (Z.quot ((Znth i st (0 : Int)) - j) 5)))
   have hst := PreH35 i (by omega)
@@ -1699,15 +1699,15 @@ theorem proof_of_solver_safety_wit_77_split_goal_2 : solver_safety_wit_77_split_
 theorem proof_of_solver_safety_wit_77 : solver_safety_wit_77 := by
   unfold solver_safety_wit_77
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_77_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
-    | exact proof_of_solver_safety_wit_77_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+    | exact proof_of_solver_safety_wit_77_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+    | exact proof_of_solver_safety_wit_77_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh ct cb st sb hl W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
 
 theorem proof_of_solver_entail_wit_1_1 : solver_entail_wit_1_1 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   sep_apply (shape_full shifted_pre n_pre)
   Intros sh
   sep_apply (shape_full cand_t_pre n_pre)
@@ -1738,7 +1738,7 @@ theorem proof_of_solver_entail_wit_1_1 : solver_entail_wit_1_1 := by
 
 theorem proof_of_solver_entail_wit_1_2 : solver_entail_wit_1_2 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   sep_apply (shape_full shifted_pre n_pre)
   Intros sh
   sep_apply (shape_full cand_t_pre n_pre)
@@ -1768,182 +1768,182 @@ theorem proof_of_solver_entail_wit_1_2 : solver_entail_wit_1_2 := by
       | (intro q hq; omega)
 
 theorem proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_goal_1 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   apply shifted_prefix_step__solver_shift_loop
   · omega
   · exact PreH21
 
 theorem proof_of_solver_entail_wit_2_split_goal_2 : solver_entail_wit_2_split_goal_2 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   simpa only [Zlength_replace_Znth] using PreH17
 
 theorem proof_of_solver_entail_wit_2 : solver_entail_wit_2 := by
   unfold solver_entail_wit_2
   right
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_2_split_goal_1 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
-      | exact proof_of_solver_entail_wit_2_split_goal_2 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+      | exact proof_of_solver_entail_wit_2_split_goal_1 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+      | exact proof_of_solver_entail_wit_2_split_goal_2 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
 
 theorem proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   apply residue_best_zero__solver_shift_loop
 
 theorem proof_of_solver_entail_wit_3_split_goal_2 : solver_entail_wit_3_split_goal_2 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   intro q hq
   rw [PreH21 q (by omega)]
   have hb := PreH10 q (by omega)
   omega
 
 theorem proof_of_solver_entail_wit_3_split_goal_3 : solver_entail_wit_3_split_goal_3 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   have he : n_pre = i := by omega
   simpa only [he] using PreH21
 
 theorem proof_of_solver_entail_wit_3_split_goal_4 : solver_entail_wit_3_split_goal_4 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   exact PreH10
 
 theorem proof_of_solver_entail_wit_3 : solver_entail_wit_3 := by
   unfold solver_entail_wit_3
   right
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_3_split_goal_1 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
-      | exact proof_of_solver_entail_wit_3_split_goal_2 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
-      | exact proof_of_solver_entail_wit_3_split_goal_3 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
-      | exact proof_of_solver_entail_wit_3_split_goal_4 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+      | exact proof_of_solver_entail_wit_3_split_goal_1 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+      | exact proof_of_solver_entail_wit_3_split_goal_2 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+      | exact proof_of_solver_entail_wit_3_split_goal_3 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+      | exact proof_of_solver_entail_wit_3_split_goal_4 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
 
 theorem proof_of_solver_entail_wit_4_1_split_goal_1 : solver_entail_wit_4_1_split_goal_1 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   intro q hq
   omega
 
 theorem proof_of_solver_entail_wit_4_1_split_goal_2 : solver_entail_wit_4_1_split_goal_2 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   intro q hq
   omega
 
 theorem proof_of_solver_entail_wit_4_1_split_goal_3 : solver_entail_wit_4_1_split_goal_3 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   exact PreH23
 
 theorem proof_of_solver_entail_wit_4_1_split_goal_4 : solver_entail_wit_4_1_split_goal_4 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   exact PreH10
 
 theorem proof_of_solver_entail_wit_4_1 : solver_entail_wit_4_1 := by
   unfold solver_entail_wit_4_1
   right
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_4_1_split_goal_1 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
-      | exact proof_of_solver_entail_wit_4_1_split_goal_2 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
-      | exact proof_of_solver_entail_wit_4_1_split_goal_3 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
-      | exact proof_of_solver_entail_wit_4_1_split_goal_4 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+      | exact proof_of_solver_entail_wit_4_1_split_goal_1 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+      | exact proof_of_solver_entail_wit_4_1_split_goal_2 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+      | exact proof_of_solver_entail_wit_4_1_split_goal_3 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+      | exact proof_of_solver_entail_wit_4_1_split_goal_4 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
 
 theorem proof_of_solver_entail_wit_4_2_split_goal_1 : solver_entail_wit_4_2_split_goal_1 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   intro q hq
   omega
 
 theorem proof_of_solver_entail_wit_4_2_split_goal_2 : solver_entail_wit_4_2_split_goal_2 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   intro q hq
   omega
 
 theorem proof_of_solver_entail_wit_4_2_split_goal_3 : solver_entail_wit_4_2_split_goal_3 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   exact PreH22
 
 theorem proof_of_solver_entail_wit_4_2_split_goal_4 : solver_entail_wit_4_2_split_goal_4 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   exact PreH10
 
 theorem proof_of_solver_entail_wit_4_2 : solver_entail_wit_4_2 := by
   unfold solver_entail_wit_4_2
   right
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_4_2_split_goal_1 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
-      | exact proof_of_solver_entail_wit_4_2_split_goal_2 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
-      | exact proof_of_solver_entail_wit_4_2_split_goal_3 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
-      | exact proof_of_solver_entail_wit_4_2_split_goal_4 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+      | exact proof_of_solver_entail_wit_4_2_split_goal_1 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+      | exact proof_of_solver_entail_wit_4_2_split_goal_2 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+      | exact proof_of_solver_entail_wit_4_2_split_goal_3 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+      | exact proof_of_solver_entail_wit_4_2_split_goal_4 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
 
 theorem proof_of_solver_entail_wit_5_1_split_goal_1 : solver_entail_wit_5_1_split_goal_1 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   have hb := PreH25 i (by omega)
   apply cand_prefix_step__solver_cand_fill
   all_goals solve | trivial | assumption | omega
 
 theorem proof_of_solver_entail_wit_5_1_split_goal_2 : solver_entail_wit_5_1_split_goal_2 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   simp only [Zlength_replace_Znth]
   assumption
 
 theorem proof_of_solver_entail_wit_5_1_split_goal_3 : solver_entail_wit_5_1_split_goal_3 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   simp only [Zlength_replace_Znth]
   assumption
 
 theorem proof_of_solver_entail_wit_5_1 : solver_entail_wit_5_1 := by
   unfold solver_entail_wit_5_1
   right
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_5_1_split_goal_1 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
-      | exact proof_of_solver_entail_wit_5_1_split_goal_2 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
-      | exact proof_of_solver_entail_wit_5_1_split_goal_3 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+      | exact proof_of_solver_entail_wit_5_1_split_goal_1 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+      | exact proof_of_solver_entail_wit_5_1_split_goal_2 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+      | exact proof_of_solver_entail_wit_5_1_split_goal_3 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
 
 theorem proof_of_solver_entail_wit_5_2_split_goal_1 : solver_entail_wit_5_2_split_goal_1 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hb := PreH24 i (by omega)
   apply cand_prefix_step__solver_cand_fill
   all_goals solve | trivial | assumption | omega
 
 theorem proof_of_solver_entail_wit_5_2_split_goal_2 : solver_entail_wit_5_2_split_goal_2 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   simp only [Zlength_replace_Znth]
   assumption
 
 theorem proof_of_solver_entail_wit_5_2_split_goal_3 : solver_entail_wit_5_2_split_goal_3 := by
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   simp only [Zlength_replace_Znth]
   assumption
 
 theorem proof_of_solver_entail_wit_5_2 : solver_entail_wit_5_2 := by
   unfold solver_entail_wit_5_2
   right
-  intro c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_5_2_split_goal_1 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
-      | exact proof_of_solver_entail_wit_5_2_split_goal_2 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
-      | exact proof_of_solver_entail_wit_5_2_split_goal_3 c_pre b_pre k_pre n_pre contributions hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+      | exact proof_of_solver_entail_wit_5_2_split_goal_1 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+      | exact proof_of_solver_entail_wit_5_2_split_goal_2 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+      | exact proof_of_solver_entail_wit_5_2_split_goal_3 contributions n_pre k_pre b_pre c_pre hl_2 cb_2 ct_2 sh_2 i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
 
 theorem proof_of_solver_entail_wit_6_1 : solver_entail_wit_6_1 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl_2 cb_2 ct_2 sh_2 i_2 best j W b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
-  have he : i_2=n_pre := by omega
-  subst i_2
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl_2 cb_2 ct_2 sh_2 i best j W b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
+  have he : i=n_pre := by omega
+  subst i
   Exists b1 t1 hl_2 cb_2 ct_2 sh_2
   split_pure_spatial
   · Intros; cancel
@@ -1953,9 +1953,9 @@ theorem proof_of_solver_entail_wit_6_1 : solver_entail_wit_6_1 := by
 
 theorem proof_of_solver_entail_wit_6_2 : solver_entail_wit_6_2 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl_2 cb_2 ct_2 sh_2 i_2 best j W b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
-  have he : i_2=n_pre := by omega
-  subst i_2
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl_2 cb_2 ct_2 sh_2 i best j W b1 t1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
+  have he : i=n_pre := by omega
+  subst i
   Exists b1 t1 hl_2 cb_2 ct_2 sh_2
   split_pure_spatial
   · Intros; cancel
@@ -1965,7 +1965,7 @@ theorem proof_of_solver_entail_wit_6_2 : solver_entail_wit_6_2 := by
 
 theorem proof_of_solver_entail_wit_7_1 : solver_entail_wit_7_1 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh_2 ct_2 cb_2 st_2 sb_2 hl_2 W j best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh_2 ct_2 cb_2 st_2 sb_2 hl_2 W j best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   Exists sb_2 st_2 hl_2 cb_2 ct_2 sh_2 0
   split_pure_spatial
   · Intros; cancel
@@ -1983,7 +1983,7 @@ theorem proof_of_solver_entail_wit_7_1 : solver_entail_wit_7_1 := by
 
 theorem proof_of_solver_entail_wit_7_2 : solver_entail_wit_7_2 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh_2 ct_2 cb_2 st_2 sb_2 hl_2 W j best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh_2 ct_2 cb_2 st_2 sb_2 hl_2 W j best PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   Exists sb_2 st_2 hl_2 cb_2 ct_2 sh_2 0
   split_pure_spatial
   · Intros; cancel
@@ -2001,7 +2001,7 @@ theorem proof_of_solver_entail_wit_7_2 : solver_entail_wit_7_2 := by
 
 theorem proof_of_solver_entail_wit_8_1 : solver_entail_wit_8_1 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb_2 st_2 hl_2 cb_2 ct_2 sh_2 hsum i best j W l1 l1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb_2 st_2 hl_2 cb_2 ct_2 sh_2 hsum i best j W l1 l1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
   simp only [Int.add_sub_cancel] at *
   rcases PreH49 with ⟨hmin,hsum⟩
   have hlen := prefix_length l1 (k_pre+1) (by omega)
@@ -2047,7 +2047,7 @@ theorem proof_of_solver_entail_wit_8_1 : solver_entail_wit_8_1 := by
 
 theorem proof_of_solver_entail_wit_8_2 : solver_entail_wit_8_2 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb_2 st_2 hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W l1 l1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb_2 st_2 hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W l1 l1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
   have hk : hsize=k_pre := by omega
   simp only [hk] at *
   simp only [Int.add_sub_cancel] at *
@@ -2095,7 +2095,7 @@ theorem proof_of_solver_entail_wit_8_2 : solver_entail_wit_8_2 := by
 
 theorem proof_of_solver_entail_wit_8_3 : solver_entail_wit_8_3 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb_2 st_2 hl_2 cb_2 ct_2 sh_2 hsum i best j W l1 l1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb_2 st_2 hl_2 cb_2 ct_2 sh_2 hsum i best j W l1 l1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
   simp only [Int.add_sub_cancel] at *
   rcases PreH48 with ⟨hmin,hsum⟩
   have hlen := prefix_length l1 (k_pre+1) (by omega)
@@ -2141,7 +2141,7 @@ theorem proof_of_solver_entail_wit_8_3 : solver_entail_wit_8_3 := by
 
 theorem proof_of_solver_entail_wit_8_4 : solver_entail_wit_8_4 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb_2 st_2 hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W l1 l1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb_2 st_2 hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W l1 l1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
   have hk : hsize=k_pre := by omega
   simp only [hk] at *
   simp only [Int.add_sub_cancel] at *
@@ -2189,7 +2189,7 @@ theorem proof_of_solver_entail_wit_8_4 : solver_entail_wit_8_4 := by
 
 theorem proof_of_solver_entail_wit_8_5 : solver_entail_wit_8_5 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st_2 hl cb_2 ct_2 sh_2 hsum hsize i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st_2 hl cb_2 ct_2 sh_2 hsum hsize i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46
   subst hsize
   rcases PreH45 with ⟨hmin,hsum⟩
   have hlhl := prefix_length hl i (by omega)
@@ -2226,7 +2226,7 @@ theorem proof_of_solver_entail_wit_8_5 : solver_entail_wit_8_5 := by
 
 theorem proof_of_solver_entail_wit_8_6 : solver_entail_wit_8_6 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st_2 hl cb_2 ct_2 sh_2 hsum hsize i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st_2 hl cb_2 ct_2 sh_2 hsum hsize i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45
   subst hsize
   rcases PreH44 with ⟨hmin,hsum⟩
   have hlhl := prefix_length hl i (by omega)
@@ -2263,7 +2263,7 @@ theorem proof_of_solver_entail_wit_8_6 : solver_entail_wit_8_6 := by
 
 theorem proof_of_solver_entail_wit_9_1 : solver_entail_wit_9_1 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh_2 ct_2 cb_2 st sb_2 hl_2 W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh_2 ct_2 cb_2 st sb_2 hl_2 W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   have hall := tie_cost_from_sweep__solver_sweep_value contributions sh_2 ct_2 cb_2 st sb_2 hl_2 n_pre k_pre b_pre c_pre W j i hsum
   have hv := hall (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega)
   rcases hv with ⟨hks,hsv,htc,hlo,hhi⟩
@@ -2276,7 +2276,7 @@ theorem proof_of_solver_entail_wit_9_1 : solver_entail_wit_9_1 := by
 
 theorem proof_of_solver_entail_wit_9_2 : solver_entail_wit_9_2 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh_2 ct_2 cb_2 st sb_2 hl_2 W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh_2 ct_2 cb_2 st sb_2 hl_2 W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   subst hsize
   have hall := tie_cost_from_sweep__solver_sweep_value contributions sh_2 ct_2 cb_2 st sb_2 hl_2 n_pre k_pre b_pre c_pre W j i hsum
   have hv := hall (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega)
@@ -2290,7 +2290,7 @@ theorem proof_of_solver_entail_wit_9_2 : solver_entail_wit_9_2 := by
 
 theorem proof_of_solver_entail_wit_9_3 : solver_entail_wit_9_3 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh_2 ct_2 cb_2 st sb_2 hl_2 W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh_2 ct_2 cb_2 st sb_2 hl_2 W j best i hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have hall := tie_cost_from_sweep__solver_sweep_value contributions sh_2 ct_2 cb_2 st sb_2 hl_2 n_pre k_pre b_pre c_pre W j i hsum
   have hv := hall (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega)
   rcases hv with ⟨hks,hsv,htc,hlo,hhi⟩
@@ -2303,7 +2303,7 @@ theorem proof_of_solver_entail_wit_9_3 : solver_entail_wit_9_3 := by
 
 theorem proof_of_solver_entail_wit_9_4 : solver_entail_wit_9_4 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh_2 ct_2 cb_2 st sb_2 hl_2 W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh_2 ct_2 cb_2 st sb_2 hl_2 W j best i hsize hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   subst hsize
   have hall := tie_cost_from_sweep__solver_sweep_value contributions sh_2 ct_2 cb_2 st sb_2 hl_2 n_pre k_pre b_pre c_pre W j i hsum
   have hv := hall (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega) (by first | assumption | omega)
@@ -2316,7 +2316,7 @@ theorem proof_of_solver_entail_wit_9_4 : solver_entail_wit_9_4 := by
     all_goals solve | trivial | assumption | omega | rfl
 
 theorem proof_of_solver_entail_wit_10_1 : solver_entail_wit_10_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh_2 ct_2 cb_2 st_2 sb_2 hl_2 W j best i hsum total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh_2 ct_2 cb_2 st_2 sb_2 hl_2 W j best i hsum total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
   have hn : SweepBest contributions k_pre b_pre c_pre j st_2 sb_2 W (i+1) total := by
     apply best_state_step__solver_best_update (SweepSet contributions k_pre b_pre c_pre j st_2 sb_2 W i) (SweepSet contributions k_pre b_pre c_pre j st_2 sb_2 W (i+1)) best total
     · exact PreH44
@@ -2340,7 +2340,7 @@ theorem proof_of_solver_entail_wit_10_1 : solver_entail_wit_10_1 := by
       all_goals solve | trivial | assumption | omega | tauto
 
 theorem proof_of_solver_entail_wit_10_2 : solver_entail_wit_10_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh_2 ct_2 cb_2 st_2 sb_2 hl_2 W j best i hsum total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh_2 ct_2 cb_2 st_2 sb_2 hl_2 W j best i hsum total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46
   have hn : SweepBest contributions k_pre b_pre c_pre j st_2 sb_2 W (i+1) total := by
     apply best_state_step__solver_best_update (SweepSet contributions k_pre b_pre c_pre j st_2 sb_2 W i) (SweepSet contributions k_pre b_pre c_pre j st_2 sb_2 W (i+1)) best total
     · exact PreH46
@@ -2364,7 +2364,7 @@ theorem proof_of_solver_entail_wit_10_2 : solver_entail_wit_10_2 := by
       all_goals solve | trivial | assumption | omega | tauto
 
 theorem proof_of_solver_entail_wit_10_3 : solver_entail_wit_10_3 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh_2 ct_2 cb_2 st_2 sb_2 hl_2 W j best i hsum total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh_2 ct_2 cb_2 st_2 sb_2 hl_2 W j best i hsum total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46
   have hn : SweepBest contributions k_pre b_pre c_pre j st_2 sb_2 W (i+1) best := by
     apply best_state_keep__solver_best_update (SweepSet contributions k_pre b_pre c_pre j st_2 sb_2 W i) (SweepSet contributions k_pre b_pre c_pre j st_2 sb_2 W (i+1)) best total
     · exact PreH46
@@ -2389,7 +2389,7 @@ theorem proof_of_solver_entail_wit_10_3 : solver_entail_wit_10_3 := by
 
 theorem proof_of_solver_entail_wit_10_4 : solver_entail_wit_10_4 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh_2 ct_2 cb_2 st_2 sb_2 hl_2 W j best i hsize_3 hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh_2 ct_2 cb_2 st_2 sb_2 hl_2 W j best i hsize_3 hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   have hn : SweepBest contributions k_pre b_pre c_pre j st_2 sb_2 W (i+1) best := by
     apply best_state_same__solver_best_update (SweepSet contributions k_pre b_pre c_pre j st_2 sb_2 W i) (SweepSet contributions k_pre b_pre c_pre j st_2 sb_2 W (i+1)) best
     · exact sweep_set_stall__solver_best_update contributions k_pre b_pre c_pre j st_2 sb_2 W i (by omega)
@@ -2403,7 +2403,7 @@ theorem proof_of_solver_entail_wit_10_4 : solver_entail_wit_10_4 := by
 
 theorem proof_of_solver_entail_wit_10_5 : solver_entail_wit_10_5 := by
   left
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sh_2 ct_2 cb_2 st_2 sb_2 hl_2 W j best i hsize_3 hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sh_2 ct_2 cb_2 st_2 sb_2 hl_2 W j best i hsize_3 hsum PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   have hn : SweepBest contributions k_pre b_pre c_pre j st_2 sb_2 W (i+1) best := by
     apply best_state_same__solver_best_update (SweepSet contributions k_pre b_pre c_pre j st_2 sb_2 W i) (SweepSet contributions k_pre b_pre c_pre j st_2 sb_2 W (i+1)) best
     · exact sweep_set_stall__solver_best_update contributions k_pre b_pre c_pre j st_2 sb_2 W i (by omega)
@@ -2416,61 +2416,61 @@ theorem proof_of_solver_entail_wit_10_5 : solver_entail_wit_10_5 := by
     all_goals solve | trivial | assumption | omega | tauto
 
 theorem proof_of_solver_entail_wit_11_1_split_goal_1 : solver_entail_wit_11_1_split_goal_1 := by
-  intro c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   have he : i=n_pre := by omega
   rw [he] at PreH40
   apply residue_best_of_sweep_best__solver_residue_rollup contributions sh_2 ct_2 cb_2 st sb n_pre k_pre b_pre c_pre j W best
   all_goals solve | trivial | assumption | omega
 
 theorem proof_of_solver_entail_wit_11_1_split_goal_2 : solver_entail_wit_11_1_split_goal_2 := by
-  intro c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   assumption
 
 theorem proof_of_solver_entail_wit_11_1_split_goal_3 : solver_entail_wit_11_1_split_goal_3 := by
-  intro c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   assumption
 
 theorem proof_of_solver_entail_wit_11_1 : solver_entail_wit_11_1 := by
   unfold solver_entail_wit_11_1
   right
-  intro c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_11_1_split_goal_1 c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
-      | exact proof_of_solver_entail_wit_11_1_split_goal_2 c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
-      | exact proof_of_solver_entail_wit_11_1_split_goal_3 c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+      | exact proof_of_solver_entail_wit_11_1_split_goal_1 contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+      | exact proof_of_solver_entail_wit_11_1_split_goal_2 contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+      | exact proof_of_solver_entail_wit_11_1_split_goal_3 contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
 
 theorem proof_of_solver_entail_wit_11_2_split_goal_1 : solver_entail_wit_11_2_split_goal_1 := by
-  intro c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   have he : i=n_pre := by omega
   rw [he] at PreH41
   apply residue_best_of_sweep_best__solver_residue_rollup contributions sh_2 ct_2 cb_2 st sb n_pre k_pre b_pre c_pre j W best
   all_goals solve | trivial | assumption | omega
 
 theorem proof_of_solver_entail_wit_11_2_split_goal_2 : solver_entail_wit_11_2_split_goal_2 := by
-  intro c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   assumption
 
 theorem proof_of_solver_entail_wit_11_2_split_goal_3 : solver_entail_wit_11_2_split_goal_3 := by
-  intro c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   assumption
 
 theorem proof_of_solver_entail_wit_11_2 : solver_entail_wit_11_2 := by
   unfold solver_entail_wit_11_2
   right
-  intro c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_11_2_split_goal_1 c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
-      | exact proof_of_solver_entail_wit_11_2_split_goal_2 c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
-      | exact proof_of_solver_entail_wit_11_2_split_goal_3 c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+      | exact proof_of_solver_entail_wit_11_2_split_goal_1 contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+      | exact proof_of_solver_entail_wit_11_2_split_goal_2 contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+      | exact proof_of_solver_entail_wit_11_2_split_goal_3 contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
 
 theorem proof_of_solver_entail_wit_11_3_split_goal_1 : solver_entail_wit_11_3_split_goal_1 := by
-  intro c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   have he : i=n_pre := by omega
   rw [he] at PreH39
   rcases PreH39 with ⟨heq,hnone⟩ | ⟨hge,hm⟩
@@ -2479,27 +2479,27 @@ theorem proof_of_solver_entail_wit_11_3_split_goal_1 : solver_entail_wit_11_3_sp
   · omega
 
 theorem proof_of_solver_entail_wit_11_3_split_goal_2 : solver_entail_wit_11_3_split_goal_2 := by
-  intro c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   assumption
 
 theorem proof_of_solver_entail_wit_11_3_split_goal_3 : solver_entail_wit_11_3_split_goal_3 := by
-  intro c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   assumption
 
 theorem proof_of_solver_entail_wit_11_3 : solver_entail_wit_11_3 := by
   unfold solver_entail_wit_11_3
   right
-  intro c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_11_3_split_goal_1 c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
-      | exact proof_of_solver_entail_wit_11_3_split_goal_2 c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
-      | exact proof_of_solver_entail_wit_11_3_split_goal_3 c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+      | exact proof_of_solver_entail_wit_11_3_split_goal_1 contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+      | exact proof_of_solver_entail_wit_11_3_split_goal_2 contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+      | exact proof_of_solver_entail_wit_11_3_split_goal_3 contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
 
 theorem proof_of_solver_entail_wit_11_4_split_goal_1 : solver_entail_wit_11_4_split_goal_1 := by
-  intro c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   have he : i=n_pre := by omega
   rw [he] at PreH40
   rcases PreH40 with ⟨heq,hnone⟩ | ⟨hge,hm⟩
@@ -2508,27 +2508,27 @@ theorem proof_of_solver_entail_wit_11_4_split_goal_1 : solver_entail_wit_11_4_sp
   · omega
 
 theorem proof_of_solver_entail_wit_11_4_split_goal_2 : solver_entail_wit_11_4_split_goal_2 := by
-  intro c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   assumption
 
 theorem proof_of_solver_entail_wit_11_4_split_goal_3 : solver_entail_wit_11_4_split_goal_3 := by
-  intro c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   assumption
 
 theorem proof_of_solver_entail_wit_11_4 : solver_entail_wit_11_4 := by
   unfold solver_entail_wit_11_4
   right
-  intro c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_11_4_split_goal_1 c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
-      | exact proof_of_solver_entail_wit_11_4_split_goal_2 c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
-      | exact proof_of_solver_entail_wit_11_4_split_goal_3 c_pre b_pre k_pre n_pre contributions sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+      | exact proof_of_solver_entail_wit_11_4_split_goal_1 contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+      | exact proof_of_solver_entail_wit_11_4_split_goal_2 contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+      | exact proof_of_solver_entail_wit_11_4_split_goal_3 contributions n_pre k_pre b_pre c_pre sb st hl_2 cb_2 ct_2 sh_2 hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
 
 theorem proof_of_solver_entail_wit_12_1_split_goal_1 : solver_entail_wit_12_1_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre contributions hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro contributions n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   dump_pre_spatial
   have hj : j=5 := by omega
   subst j
@@ -2538,7 +2538,7 @@ theorem proof_of_solver_entail_wit_12_1_split_goal_1 : solver_entail_wit_12_1_sp
     exact tie_cost_residue_cover__solver_final_spec contributions k_pre b_pre c_pre
 
 theorem proof_of_solver_entail_wit_12_1_split_goal_spatial : solver_entail_wit_12_1_split_goal_spatial := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre contributions hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro contributions n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   sep_apply (int64Array.full_to_full_shape shifted_pre n_pre sh)
   sep_apply (int64Array.full_to_full_shape cand_t_pre n_pre ct)
   sep_apply (int64Array.full_to_full_shape cand_base_pre n_pre cb)
@@ -2547,13 +2547,13 @@ theorem proof_of_solver_entail_wit_12_1_split_goal_spatial : solver_entail_wit_1
 
 theorem proof_of_solver_entail_wit_12_1 : solver_entail_wit_12_1 := by
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre contributions hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro contributions n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   split_pure_spatial
-  · exact proof_of_solver_entail_wit_12_1_split_goal_spatial heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre contributions hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
-  · exact proof_of_solver_entail_wit_12_1_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre contributions hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  · exact proof_of_solver_entail_wit_12_1_split_goal_spatial contributions n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  · exact proof_of_solver_entail_wit_12_1_split_goal_1 contributions n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
 
 theorem proof_of_solver_entail_wit_12_2_split_goal_1 : solver_entail_wit_12_2_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre contributions hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro contributions n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   dump_pre_spatial
   have hj : j=5 := by omega
   subst j
@@ -2563,7 +2563,7 @@ theorem proof_of_solver_entail_wit_12_2_split_goal_1 : solver_entail_wit_12_2_sp
   · omega
 
 theorem proof_of_solver_entail_wit_12_2_split_goal_spatial : solver_entail_wit_12_2_split_goal_spatial := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre contributions hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro contributions n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   sep_apply (int64Array.full_to_full_shape shifted_pre n_pre sh)
   sep_apply (int64Array.full_to_full_shape cand_t_pre n_pre ct)
   sep_apply (int64Array.full_to_full_shape cand_base_pre n_pre cb)
@@ -2572,13 +2572,13 @@ theorem proof_of_solver_entail_wit_12_2_split_goal_spatial : solver_entail_wit_1
 
 theorem proof_of_solver_entail_wit_12_2 : solver_entail_wit_12_2 := by
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre contributions hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro contributions n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   split_pure_spatial
-  · exact proof_of_solver_entail_wit_12_2_split_goal_spatial heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre contributions hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
-  · exact proof_of_solver_entail_wit_12_2_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre contributions hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  · exact proof_of_solver_entail_wit_12_2_split_goal_spatial contributions n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  · exact proof_of_solver_entail_wit_12_2_split_goal_1 contributions n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
 
 theorem proof_of_solver_partial_solve_wit_11_pure_split_goal_1 : solver_partial_solve_wit_11_pure_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
   dump_pre_spatial
   intro i hi
   have hb := PreH41 i (by omega)
@@ -2587,12 +2587,12 @@ theorem proof_of_solver_partial_solve_wit_11_pure_split_goal_1 : solver_partial_
 theorem proof_of_solver_partial_solve_wit_11_pure : solver_partial_solve_wit_11_pure := by
   unfold solver_partial_solve_wit_11_pure
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
   all_goals first
-    | exact proof_of_solver_partial_solve_wit_11_pure_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
+    | exact proof_of_solver_partial_solve_wit_11_pure_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
 
 theorem proof_of_solver_partial_solve_wit_12_pure_split_goal_1 : solver_partial_solve_wit_12_pure_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   dump_pre_spatial
   intro i hi
   have hb := PreH40 i (by omega)
@@ -2601,12 +2601,12 @@ theorem proof_of_solver_partial_solve_wit_12_pure_split_goal_1 : solver_partial_
 theorem proof_of_solver_partial_solve_wit_12_pure : solver_partial_solve_wit_12_pure := by
   unfold solver_partial_solve_wit_12_pure
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   all_goals first
-    | exact proof_of_solver_partial_solve_wit_12_pure_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions hl cb ct sh i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+    | exact proof_of_solver_partial_solve_wit_12_pure_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre hl cb ct sh i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
 
 theorem proof_of_solver_partial_solve_wit_17_pure_split_goal_1 : solver_partial_solve_wit_17_pure_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58
   dump_pre_spatial
   intro i hi
   have hb := PreH54 i (by omega)
@@ -2615,12 +2615,12 @@ theorem proof_of_solver_partial_solve_wit_17_pure_split_goal_1 : solver_partial_
 theorem proof_of_solver_partial_solve_wit_17_pure : solver_partial_solve_wit_17_pure := by
   unfold solver_partial_solve_wit_17_pure
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58
   all_goals first
-    | exact proof_of_solver_partial_solve_wit_17_pure_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58
+    | exact proof_of_solver_partial_solve_wit_17_pure_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58
 
 theorem proof_of_solver_partial_solve_wit_18_pure_split_goal_1 : solver_partial_solve_wit_18_pure_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum hsize i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61
   dump_pre_spatial
   intro i hi
   have hb := PreH57 i (by omega)
@@ -2629,12 +2629,12 @@ theorem proof_of_solver_partial_solve_wit_18_pure_split_goal_1 : solver_partial_
 theorem proof_of_solver_partial_solve_wit_18_pure : solver_partial_solve_wit_18_pure := by
   unfold solver_partial_solve_wit_18_pure
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum hsize i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61
   all_goals first
-    | exact proof_of_solver_partial_solve_wit_18_pure_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum hsize i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61
+    | exact proof_of_solver_partial_solve_wit_18_pure_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61
 
 theorem proof_of_solver_partial_solve_wit_19_pure_split_goal_1 : solver_partial_solve_wit_19_pure_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57
   dump_pre_spatial
   intro i hi
   have hb := PreH53 i (by omega)
@@ -2643,12 +2643,12 @@ theorem proof_of_solver_partial_solve_wit_19_pure_split_goal_1 : solver_partial_
 theorem proof_of_solver_partial_solve_wit_19_pure : solver_partial_solve_wit_19_pure := by
   unfold solver_partial_solve_wit_19_pure
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57
   all_goals first
-    | exact proof_of_solver_partial_solve_wit_19_pure_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57
+    | exact proof_of_solver_partial_solve_wit_19_pure_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57
 
 theorem proof_of_solver_partial_solve_wit_20_pure_split_goal_1 : solver_partial_solve_wit_20_pure_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum hsize i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60
   dump_pre_spatial
   intro i hi
   have hb := PreH56 i (by omega)
@@ -2657,68 +2657,68 @@ theorem proof_of_solver_partial_solve_wit_20_pure_split_goal_1 : solver_partial_
 theorem proof_of_solver_partial_solve_wit_20_pure : solver_partial_solve_wit_20_pure := by
   unfold solver_partial_solve_wit_20_pure
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum hsize i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60
   all_goals first
-    | exact proof_of_solver_partial_solve_wit_20_pure_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum hsize i_2 best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60
+    | exact proof_of_solver_partial_solve_wit_20_pure_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum hsize i best j W PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60
 
 theorem proof_of_solver_partial_solve_wit_21_pure_split_goal_1 : solver_partial_solve_wit_21_pure_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
   dump_pre_spatial
   rw [zsum_permutation__solver_hpop_call_pre _ _ PreH24, zsum_cons__solver_hpop_call_pre]
   omega
 
 theorem proof_of_solver_partial_solve_wit_21_pure_split_goal_2 : solver_partial_solve_wit_21_pure_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
   dump_pre_spatial
   rw [zsum_permutation__solver_hpop_call_pre _ _ PreH24, zsum_cons__solver_hpop_call_pre]
   omega
 
 theorem proof_of_solver_partial_solve_wit_21_pure_split_goal_3 : solver_partial_solve_wit_21_pure_split_goal_3 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
   dump_pre_spatial
   rw [zsum_permutation__solver_hpop_call_pre _ _ PreH24, zsum_cons__solver_hpop_call_pre]
   omega
 
 theorem proof_of_solver_partial_solve_wit_21_pure_split_goal_4 : solver_partial_solve_wit_21_pure_split_goal_4 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
   dump_pre_spatial
   rw [zsum_permutation__solver_hpop_call_pre _ _ PreH24, zsum_cons__solver_hpop_call_pre]
   omega
 
 theorem proof_of_solver_partial_solve_wit_21_pure_split_goal_5 : solver_partial_solve_wit_21_pure_split_goal_5 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
   dump_pre_spatial
   assumption
 
 theorem proof_of_solver_partial_solve_wit_21_pure_split_goal_6 : solver_partial_solve_wit_21_pure_split_goal_6 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
   dump_pre_spatial
   rw [zsum_permutation__solver_hpop_call_pre _ _ PreH24, zsum_cons__solver_hpop_call_pre]
   have hz := zsum_range_from_znth__solver_hpop_call_pre hl k_pre (-600000000000) 4000 (by omega) (fun q hq => PreH61 q (by omega))
-  have hb := PreH60 i_2 (by omega)
+  have hb := PreH60 i (by omega)
   omega
 
 theorem proof_of_solver_partial_solve_wit_21_pure_split_goal_7 : solver_partial_solve_wit_21_pure_split_goal_7 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
   dump_pre_spatial
   rw [zsum_permutation__solver_hpop_call_pre _ _ PreH24, zsum_cons__solver_hpop_call_pre]
   have hz := zsum_range_from_znth__solver_hpop_call_pre hl k_pre (-600000000000) 4000 (by omega) (fun q hq => PreH61 q (by omega))
-  have hb := PreH60 i_2 (by omega)
+  have hb := PreH60 i (by omega)
   omega
 
 theorem proof_of_solver_partial_solve_wit_21_pure : solver_partial_solve_wit_21_pure := by
   unfold solver_partial_solve_wit_21_pure
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
   split_pures
   all_goals first
-    | exact proof_of_solver_partial_solve_wit_21_pure_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
-    | exact proof_of_solver_partial_solve_wit_21_pure_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
-    | exact proof_of_solver_partial_solve_wit_21_pure_split_goal_3 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
-    | exact proof_of_solver_partial_solve_wit_21_pure_split_goal_4 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
-    | exact proof_of_solver_partial_solve_wit_21_pure_split_goal_5 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
-    | exact proof_of_solver_partial_solve_wit_21_pure_split_goal_6 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
-    | exact proof_of_solver_partial_solve_wit_21_pure_split_goal_7 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
+    | exact proof_of_solver_partial_solve_wit_21_pure_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
+    | exact proof_of_solver_partial_solve_wit_21_pure_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
+    | exact proof_of_solver_partial_solve_wit_21_pure_split_goal_3 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
+    | exact proof_of_solver_partial_solve_wit_21_pure_split_goal_4 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
+    | exact proof_of_solver_partial_solve_wit_21_pure_split_goal_5 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
+    | exact proof_of_solver_partial_solve_wit_21_pure_split_goal_6 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
+    | exact proof_of_solver_partial_solve_wit_21_pure_split_goal_7 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65
 
 theorem proof_of_solver_partial_solve_wit_22_pure_split_goal_1 : solver_partial_solve_wit_22_pure_split_goal_1 := by
   intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum hsize i_3 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65 PreH66
@@ -2784,63 +2784,63 @@ theorem proof_of_solver_partial_solve_wit_22_pure : solver_partial_solve_wit_22_
     | exact proof_of_solver_partial_solve_wit_22_pure_split_goal_7 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum hsize i_3 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65 PreH66
 
 theorem proof_of_solver_partial_solve_wit_23_pure_split_goal_1 : solver_partial_solve_wit_23_pure_split_goal_1 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
   dump_pre_spatial
   rw [zsum_permutation__solver_hpop_call_pre _ _ PreH24, zsum_cons__solver_hpop_call_pre]
   omega
 
 theorem proof_of_solver_partial_solve_wit_23_pure_split_goal_2 : solver_partial_solve_wit_23_pure_split_goal_2 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
   dump_pre_spatial
   rw [zsum_permutation__solver_hpop_call_pre _ _ PreH24, zsum_cons__solver_hpop_call_pre]
   omega
 
 theorem proof_of_solver_partial_solve_wit_23_pure_split_goal_3 : solver_partial_solve_wit_23_pure_split_goal_3 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
   dump_pre_spatial
   rw [zsum_permutation__solver_hpop_call_pre _ _ PreH24, zsum_cons__solver_hpop_call_pre]
   omega
 
 theorem proof_of_solver_partial_solve_wit_23_pure_split_goal_4 : solver_partial_solve_wit_23_pure_split_goal_4 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
   dump_pre_spatial
   rw [zsum_permutation__solver_hpop_call_pre _ _ PreH24, zsum_cons__solver_hpop_call_pre]
   omega
 
 theorem proof_of_solver_partial_solve_wit_23_pure_split_goal_5 : solver_partial_solve_wit_23_pure_split_goal_5 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
   dump_pre_spatial
   assumption
 
 theorem proof_of_solver_partial_solve_wit_23_pure_split_goal_6 : solver_partial_solve_wit_23_pure_split_goal_6 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
   dump_pre_spatial
   rw [zsum_permutation__solver_hpop_call_pre _ _ PreH24, zsum_cons__solver_hpop_call_pre]
   have hz := zsum_range_from_znth__solver_hpop_call_pre hl k_pre (-600000000000) 4000 (by omega) (fun q hq => PreH60 q (by omega))
-  have hb := PreH59 i_2 (by omega)
+  have hb := PreH59 i (by omega)
   omega
 
 theorem proof_of_solver_partial_solve_wit_23_pure_split_goal_7 : solver_partial_solve_wit_23_pure_split_goal_7 := by
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
   dump_pre_spatial
   rw [zsum_permutation__solver_hpop_call_pre _ _ PreH24, zsum_cons__solver_hpop_call_pre]
   have hz := zsum_range_from_znth__solver_hpop_call_pre hl k_pre (-600000000000) 4000 (by omega) (fun q hq => PreH60 q (by omega))
-  have hb := PreH59 i_2 (by omega)
+  have hb := PreH59 i (by omega)
   omega
 
 theorem proof_of_solver_partial_solve_wit_23_pure : solver_partial_solve_wit_23_pure := by
   unfold solver_partial_solve_wit_23_pure
   right
-  intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
+  intro contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
   split_pures
   all_goals first
-    | exact proof_of_solver_partial_solve_wit_23_pure_split_goal_1 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
-    | exact proof_of_solver_partial_solve_wit_23_pure_split_goal_2 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
-    | exact proof_of_solver_partial_solve_wit_23_pure_split_goal_3 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
-    | exact proof_of_solver_partial_solve_wit_23_pure_split_goal_4 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
-    | exact proof_of_solver_partial_solve_wit_23_pure_split_goal_5 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
-    | exact proof_of_solver_partial_solve_wit_23_pure_split_goal_6 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
-    | exact proof_of_solver_partial_solve_wit_23_pure_split_goal_7 heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum i_2 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
+    | exact proof_of_solver_partial_solve_wit_23_pure_split_goal_1 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
+    | exact proof_of_solver_partial_solve_wit_23_pure_split_goal_2 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
+    | exact proof_of_solver_partial_solve_wit_23_pure_split_goal_3 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
+    | exact proof_of_solver_partial_solve_wit_23_pure_split_goal_4 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
+    | exact proof_of_solver_partial_solve_wit_23_pure_split_goal_5 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
+    | exact proof_of_solver_partial_solve_wit_23_pure_split_goal_6 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
+    | exact proof_of_solver_partial_solve_wit_23_pure_split_goal_7 contributions values_pre n_pre k_pre b_pre c_pre shifted_pre cand_t_pre cand_base_pre heap_pre sb st hl cb ct sh hsum i best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64
 
 theorem proof_of_solver_partial_solve_wit_24_pure_split_goal_1 : solver_partial_solve_wit_24_pure_split_goal_1 := by
   intro heap_pre cand_base_pre cand_t_pre shifted_pre c_pre b_pre k_pre n_pre values_pre contributions sb st hl cb ct sh hsum hsize i_3 best j W l1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65

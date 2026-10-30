@@ -129,6 +129,6 @@ unsigned int OsSortLinkInit(SortLinkAttribute *sortLinkHead)
     Ensure store_dll(storeA, &(sortLinkHead->sortLink), nil) && __return == 0
 */
 {
-    LOS_ListInit(&sortLinkHead->sortLink)/*@ where storeA = storeA; A = A*/;
+    LOS_ListInit(&sortLinkHead->sortLink)/*@ where {A = A} storeA = storeA */;
     return 0;
 }

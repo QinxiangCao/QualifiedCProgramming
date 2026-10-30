@@ -38,7 +38,7 @@ private theorem hands_to_forall (ps : List minister) (h : MinisterHandsBound ps)
 
 theorem proof_of_swap_ministers_return_wit_1_split_goal_1 : swap_ministers_return_wit_1_split_goal_1 := by
   unfold swap_ministers_return_wit_1_split_goal_1
-  intro j_pre i_pre n_pre ps flat PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 fresh13 fresh14 fresh15 fresh16
+  intro ps flat n_pre i_pre j_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 fresh13 fresh14 fresh15 fresh16
   have PreH9 : (MinisterHandsBound ps) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   exact minister_swap_permutation__flat_bubble ps i_pre j_pre ⟨PreH1, by omega⟩ ⟨PreH3, by omega⟩
 
@@ -63,7 +63,7 @@ theorem proof_of_swap_ministers_return_wit_1 : swap_ministers_return_wit_1 := by
 
 theorem proof_of_kings_game_safety_wit_28_split_goal_1 : kings_game_safety_wit_28_split_goal_1 := by
   unfold kings_game_safety_wit_28_split_goal_1
-  intro ans_pre king_right_pre king_left_pre n_pre ministers_pre input input_flat j pass flat_cur cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh20 fresh21 fresh22 fresh23 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 fresh30 fresh31 fresh32 fresh33 PreH18 PreH19 PreH20
+  intro input input_flat ministers_pre n_pre king_left_pre king_right_pre ans_pre j pass flat_cur cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh20 fresh21 fresh22 fresh23 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 fresh30 fresh31 fresh32 fresh33 PreH18 PreH19 PreH20
   have PreH10 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have PreH17 : (MinisterHandsBound cur) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have hb := flat_minister_product_bounds__flat_bubble flat_cur cur (j+1) PreH16 PreH17 ⟨by omega, by omega⟩
@@ -71,7 +71,7 @@ theorem proof_of_kings_game_safety_wit_28_split_goal_1 : kings_game_safety_wit_2
 
 theorem proof_of_kings_game_safety_wit_28_split_goal_2 : kings_game_safety_wit_28_split_goal_2 := by
   unfold kings_game_safety_wit_28_split_goal_2
-  intro ans_pre king_right_pre king_left_pre n_pre ministers_pre input input_flat j pass flat_cur cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh20 fresh21 fresh22 fresh23 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 fresh30 fresh31 fresh32 fresh33 PreH18 PreH19 PreH20
+  intro input input_flat ministers_pre n_pre king_left_pre king_right_pre ans_pre j pass flat_cur cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh20 fresh21 fresh22 fresh23 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 fresh30 fresh31 fresh32 fresh33 PreH18 PreH19 PreH20
   have PreH10 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have PreH17 : (MinisterHandsBound cur) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have hb := flat_minister_product_bounds__flat_bubble flat_cur cur (j+1) PreH16 PreH17 ⟨by omega, by omega⟩
@@ -80,7 +80,7 @@ theorem proof_of_kings_game_safety_wit_28_split_goal_2 : kings_game_safety_wit_2
 theorem proof_of_kings_game_safety_wit_28 : kings_game_safety_wit_28 := by
   unfold kings_game_safety_wit_28
   right
-  intro ans_pre king_right_pre king_left_pre n_pre ministers_pre input input_flat j pass flat_cur cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh20 fresh21 fresh22 fresh23 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 fresh30 fresh31 fresh32 fresh33 PreH18 PreH19 PreH20
+  intro input input_flat ministers_pre n_pre king_left_pre king_right_pre ans_pre j pass flat_cur cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh20 fresh21 fresh22 fresh23 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 fresh30 fresh31 fresh32 fresh33 PreH18 PreH19 PreH20
   have PreH10 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have PreH17 : (MinisterHandsBound cur) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have hb := flat_minister_product_bounds__flat_bubble flat_cur cur (j+1) PreH16 PreH17 ⟨by omega, by omega⟩
@@ -88,7 +88,7 @@ theorem proof_of_kings_game_safety_wit_28 : kings_game_safety_wit_28 := by
 
 theorem proof_of_kings_game_safety_wit_29_split_goal_1 : kings_game_safety_wit_29_split_goal_1 := by
   unfold kings_game_safety_wit_29_split_goal_1
-  intro ans_pre king_right_pre king_left_pre n_pre ministers_pre input input_flat j pass flat_cur cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh20 fresh21 fresh22 fresh23 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 fresh30 fresh31 fresh32 fresh33 PreH18 PreH19 PreH20
+  intro input input_flat ministers_pre n_pre king_left_pre king_right_pre ans_pre j pass flat_cur cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh20 fresh21 fresh22 fresh23 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 fresh30 fresh31 fresh32 fresh33 PreH18 PreH19 PreH20
   have PreH10 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have PreH17 : (MinisterHandsBound cur) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have hb := flat_minister_product_bounds__flat_bubble flat_cur cur j PreH16 PreH17 ⟨by omega, by omega⟩
@@ -96,7 +96,7 @@ theorem proof_of_kings_game_safety_wit_29_split_goal_1 : kings_game_safety_wit_2
 
 theorem proof_of_kings_game_safety_wit_29_split_goal_2 : kings_game_safety_wit_29_split_goal_2 := by
   unfold kings_game_safety_wit_29_split_goal_2
-  intro ans_pre king_right_pre king_left_pre n_pre ministers_pre input input_flat j pass flat_cur cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh20 fresh21 fresh22 fresh23 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 fresh30 fresh31 fresh32 fresh33 PreH18 PreH19 PreH20
+  intro input input_flat ministers_pre n_pre king_left_pre king_right_pre ans_pre j pass flat_cur cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh20 fresh21 fresh22 fresh23 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 fresh30 fresh31 fresh32 fresh33 PreH18 PreH19 PreH20
   have PreH10 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have PreH17 : (MinisterHandsBound cur) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have hb := flat_minister_product_bounds__flat_bubble flat_cur cur j PreH16 PreH17 ⟨by omega, by omega⟩
@@ -105,7 +105,7 @@ theorem proof_of_kings_game_safety_wit_29_split_goal_2 : kings_game_safety_wit_2
 theorem proof_of_kings_game_safety_wit_29 : kings_game_safety_wit_29 := by
   unfold kings_game_safety_wit_29
   right
-  intro ans_pre king_right_pre king_left_pre n_pre ministers_pre input input_flat j pass flat_cur cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh20 fresh21 fresh22 fresh23 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 fresh30 fresh31 fresh32 fresh33 PreH18 PreH19 PreH20
+  intro input input_flat ministers_pre n_pre king_left_pre king_right_pre ans_pre j pass flat_cur cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh20 fresh21 fresh22 fresh23 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 fresh30 fresh31 fresh32 fresh33 PreH18 PreH19 PreH20
   have PreH10 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have PreH17 : (MinisterHandsBound cur) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have hb := flat_minister_product_bounds__flat_bubble flat_cur cur j PreH16 PreH17 ⟨by omega, by omega⟩
@@ -113,20 +113,20 @@ theorem proof_of_kings_game_safety_wit_29 : kings_game_safety_wit_29 := by
 
 theorem proof_of_kings_game_entail_wit_1_split_goal_1 : kings_game_entail_wit_1_split_goal_1 := by
   unfold kings_game_entail_wit_1_split_goal_1
-  intro king_right_pre king_left_pre n_pre input input_flat PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 fresh13 fresh14 fresh15 fresh16
+  intro input input_flat n_pre king_left_pre king_right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 fresh13 fresh14 fresh15 fresh16
   have PreH9 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   rw [flat_ministers_Zlength__flat_bubble input_flat input PreH8, PreH7]
 
 theorem proof_of_kings_game_entail_wit_1_split_goal_2 : kings_game_entail_wit_1_split_goal_2 := by
   unfold kings_game_entail_wit_1_split_goal_2
-  intro king_right_pre king_left_pre n_pre input input_flat PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 fresh13 fresh14 fresh15 fresh16
+  intro input input_flat n_pre king_left_pre king_right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 fresh13 fresh14 fresh15 fresh16
   have PreH9 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   rfl
 
 theorem proof_of_kings_game_entail_wit_1 : kings_game_entail_wit_1 := by
   unfold kings_game_entail_wit_1
   right
-  intro king_right_pre king_left_pre n_pre input input_flat PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 fresh13 fresh14 fresh15 fresh16
+  intro input input_flat n_pre king_left_pre king_right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 fresh13 fresh14 fresh15 fresh16
   have PreH9 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   split_pure_spatial
   · cancel
@@ -134,12 +134,12 @@ theorem proof_of_kings_game_entail_wit_1 : kings_game_entail_wit_1 := by
     all_goals first
       | assumption
       | omega
-      | (apply (proof_of_kings_game_entail_wit_1_split_goal_1 king_right_pre king_left_pre n_pre input input_flat) <;> first | assumption | omega)
-      | (apply (proof_of_kings_game_entail_wit_1_split_goal_2 king_right_pre king_left_pre n_pre input input_flat) <;> first | assumption | omega)
+      | (apply (proof_of_kings_game_entail_wit_1_split_goal_1 input input_flat n_pre king_left_pre king_right_pre) <;> first | assumption | omega)
+      | (apply (proof_of_kings_game_entail_wit_1_split_goal_2 input input_flat n_pre king_left_pre king_right_pre) <;> first | assumption | omega)
 
 theorem proof_of_kings_game_entail_wit_2_split_goal_1 : kings_game_entail_wit_2_split_goal_1 := by
   unfold kings_game_entail_wit_2_split_goal_1
-  intro king_right_pre king_left_pre n_pre input input_flat k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 fresh16 fresh17 fresh18 fresh19 PreH12 PreH13
+  intro input input_flat n_pre king_left_pre king_right_pre k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 fresh16 fresh17 fresh18 fresh19 PreH12 PreH13
   have PreH11 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   rw [sublist_split 0 (k+1) k input_flat ⟨by omega, PreH12⟩ ⟨by omega, by omega⟩,
     sublist_single 0 k input_flat ⟨PreH12, by omega⟩]
@@ -147,7 +147,7 @@ theorem proof_of_kings_game_entail_wit_2_split_goal_1 : kings_game_entail_wit_2_
 theorem proof_of_kings_game_entail_wit_2 : kings_game_entail_wit_2 := by
   unfold kings_game_entail_wit_2
   right
-  intro king_right_pre king_left_pre n_pre input input_flat k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 fresh16 fresh17 fresh18 fresh19 PreH12 PreH13
+  intro input input_flat n_pre king_left_pre king_right_pre k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 fresh16 fresh17 fresh18 fresh19 PreH12 PreH13
   have PreH11 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   split_pure_spatial
   · cancel
@@ -155,27 +155,26 @@ theorem proof_of_kings_game_entail_wit_2 : kings_game_entail_wit_2 := by
     all_goals first
       | assumption
       | omega
-      | (apply (proof_of_kings_game_entail_wit_2_split_goal_1 king_right_pre king_left_pre n_pre input input_flat k) <;> first | assumption | omega)
+      | (apply (proof_of_kings_game_entail_wit_2_split_goal_1 input input_flat n_pre king_left_pre king_right_pre k) <;> first | assumption | omega)
 
 theorem proof_of_kings_game_entail_wit_3 : kings_game_entail_wit_3 := by
   unfold kings_game_entail_wit_3
   right
-  intro ans_pre king_right_pre king_left_pre n_pre input input_flat k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 fresh17 fresh18 fresh19 fresh20 PreH12 PreH13
+  intro input input_flat n_pre king_left_pre king_right_pre k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 fresh17 fresh18 fresh19 fresh20 PreH12 PreH13
   have PreH11 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have he : k = 2*n_pre := by omega
   have hs := bubble_outer_initial__flat_bubble input n_pre PreH8
-  refine Automation.exp_right_rule (CRules := naive_C_Rules) input_flat ?_
   refine Automation.exp_right_rule (CRules := naive_C_Rules) input ?_
-  rw [sublist_self input_flat k (by omega), he]
+  rw [sublist_self input_flat k (by omega), PreH8]
   split_pure_spatial
-  · simpa only [Int.zero_mul, Int.add_zero, Int.sub_zero] using intArray.seg_to_full ans_pre 0 (2*n_pre) input_flat
+  · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first | assumption | exact List.Perm.refl _ | omega
 
 theorem proof_of_kings_game_entail_wit_4 : kings_game_entail_wit_4 := by
   unfold kings_game_entail_wit_4
   right
-  intro king_right_pre king_left_pre n_pre input input_flat flat_cur_2 cur_2 pass PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh17 fresh18 fresh19 fresh20 PreH11 PreH12 PreH13 PreH14 fresh25 fresh26 fresh27 fresh28 PreH16 PreH17
+  intro input input_flat n_pre king_left_pre king_right_pre flat_cur_2 cur_2 pass PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh17 fresh18 fresh19 fresh20 PreH11 PreH12 PreH13 PreH14 fresh25 fresh26 fresh27 fresh28 PreH16 PreH17
   have PreH10 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have PreH15 : (MinisterHandsBound cur_2) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have hscan := bubble_scan_initial__flat_bubble cur_2 n_pre pass (by omega)
@@ -189,7 +188,7 @@ theorem proof_of_kings_game_entail_wit_4 : kings_game_entail_wit_4 := by
 theorem proof_of_kings_game_entail_wit_5_1 : kings_game_entail_wit_5_1 := by
   unfold kings_game_entail_wit_5_1
   right
-  intro king_right_pre king_left_pre n_pre input input_flat j pass flat_cur_2 cur_2 PreH2 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 fresh21 fresh22 fresh23 fresh24 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 fresh31 fresh32 fresh33 fresh34 PreH23 PreH24 PreH25
+  intro input input_flat n_pre king_left_pre king_right_pre j pass flat_cur_2 cur_2 PreH2 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 fresh21 fresh22 fresh23 fresh24 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 fresh31 fresh32 fresh33 fresh34 PreH23 PreH24 PreH25
   have PreH15 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have PreH22 : (MinisterHandsBound cur_2) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have hj : 0 ≤ j ∧ j < Zlength cur_2 := ⟨PreH18, by omega⟩
@@ -215,7 +214,7 @@ theorem proof_of_kings_game_entail_wit_5_1 : kings_game_entail_wit_5_1 := by
 theorem proof_of_kings_game_entail_wit_5_2 : kings_game_entail_wit_5_2 := by
   unfold kings_game_entail_wit_5_2
   right
-  intro king_right_pre king_left_pre n_pre input input_flat j pass flat_cur_2 cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 fresh19 fresh20 fresh21 fresh22 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 fresh29 fresh30 fresh31 fresh32 PreH19 PreH20 PreH21
+  intro input input_flat n_pre king_left_pre king_right_pre j pass flat_cur_2 cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 fresh19 fresh20 fresh21 fresh22 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 fresh29 fresh30 fresh31 fresh32 PreH19 PreH20 PreH21
   have PreH11 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have PreH18 : (MinisterHandsBound cur_2) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have hj : 0 ≤ j ∧ j < Zlength cur_2 := ⟨PreH14, by omega⟩
@@ -235,7 +234,7 @@ theorem proof_of_kings_game_entail_wit_5_2 : kings_game_entail_wit_5_2 := by
 theorem proof_of_kings_game_entail_wit_6 : kings_game_entail_wit_6 := by
   unfold kings_game_entail_wit_6
   right
-  intro king_right_pre king_left_pre n_pre input input_flat flat_cur_2 cur_2 j pass PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh18 fresh19 fresh20 fresh21 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 fresh28 fresh29 fresh30 fresh31 PreH18 PreH19 PreH20
+  intro input input_flat n_pre king_left_pre king_right_pre flat_cur_2 cur_2 j pass PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh18 fresh19 fresh20 fresh21 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 fresh28 fresh29 fresh30 fresh31 PreH18 PreH19 PreH20
   have PreH10 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have PreH17 : (MinisterHandsBound cur_2) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have houter := bubble_outer_finish_pass__flat_bubble cur_2 n_pre pass j (by omega) PreH19 PreH20
@@ -249,7 +248,7 @@ theorem proof_of_kings_game_entail_wit_6 : kings_game_entail_wit_6 := by
 theorem proof_of_kings_game_return_wit_1 : kings_game_return_wit_1 := by
   unfold kings_game_return_wit_1
   right
-  intro king_right_pre king_left_pre n_pre input input_flat flat_cur cur pass PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh17 fresh18 fresh19 fresh20 PreH11 PreH12 PreH13 PreH14 fresh25 fresh26 fresh27 fresh28 PreH16 PreH17
+  intro input input_flat n_pre king_left_pre king_right_pre flat_cur cur pass PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh17 fresh18 fresh19 fresh20 PreH11 PreH12 PreH13 PreH14 fresh25 fresh26 fresh27 fresh28 PreH16 PreH17
   have PreH10 : (MinisterHandsBound input) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have PreH15 : (MinisterHandsBound cur) := hands_from_forall _ (by assumption) (by assumption) (by assumption) (by assumption)
   have hs := bubble_outer_final_sorted__greedy_optimum cur n_pre pass PreH1 PreH12 PreH17

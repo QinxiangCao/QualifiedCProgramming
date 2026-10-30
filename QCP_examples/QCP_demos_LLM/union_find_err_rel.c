@@ -96,7 +96,7 @@ int uf_find_c(int n, int *parent, int *rank, int x)
       IntArray::full(rank, n, rs)
    */
   int r;
-  r = uf_find_c(n, parent, rank, p) /*@ where(low_level_spec_aux) ps = ps, rs = rs, c = uf_find_after_rec(x), X = X; B = Z */;
+  r = uf_find_c(n, parent, rank, p) /*@ where(low_level_spec_aux) {B = Z} ps = ps, rs = rs, c = uf_find_after_rec(x), X = X */;
   /*@ Assert
       exists ps1,
       0 <= n@pre && n@pre <= INT_MAX &&
@@ -165,7 +165,7 @@ void uf_union_c(int n, int *parent, int *rank, int x, int y)
       IntArray::full(parent, n, ps) *
       IntArray::full(rank, n, rs)
    */
-  rx = uf_find_c(n, parent, rank, x) /*@ where(low_level_spec_aux) ps = ps, rs = rs, c = uf_union_after_find_x(y), X = X; B = unit */;
+  rx = uf_find_c(n, parent, rank, x) /*@ where(low_level_spec_aux) {B = unit} ps = ps, rs = rs, c = uf_union_after_find_x(y), X = X */;
   /*@ Assert
       exists ps1 rs1,
       0 <= n@pre && n@pre <= INT_MAX &&
@@ -177,7 +177,7 @@ void uf_union_c(int n, int *parent, int *rank, int x, int y)
       IntArray::full(rank, n, rs1)
    */
   int ry;
-  ry = uf_find_c(n, parent, rank, y) /*@ where(low_level_spec_aux) c = uf_union_after_find_y(rx), X = X; B = unit */;
+  ry = uf_find_c(n, parent, rank, y) /*@ where(low_level_spec_aux) {B = unit} c = uf_union_after_find_y(rx), X = X */;
   /*@ Assert
       exists ps2 rs2,
       0 <= n@pre && n@pre <= INT_MAX &&

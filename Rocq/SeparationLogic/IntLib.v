@@ -1080,7 +1080,7 @@ Proof.
       destruct (zlt j n) ; try lia.
 Qed.
 
-Lemma Ztestbits_signed_high : forall x n m, 0 <= n <= m ->
+Lemma Ztestbits_signed_high_geb : forall x n m, 0 <= n <= m ->
   Z.testbit (signed_last_nbits x n) m = (x mod 2 ^ n >=? 2 ^ (n - 1)).
 Proof.
   intros.
@@ -1088,7 +1088,32 @@ Proof.
   - rewrite Ztestbits_signed_high_ge ; try lia.
   - rewrite Ztestbits_signed_high_lt ; try lia.
 Qed.
-  
+
+Lemma Ztestbits_signed_high : forall x n m, 0 < n <= m ->
+  Z.testbit (signed_last_nbits x n) m = Z.testbit x (n - 1).
+Proof.
+  intros.
+  transitivity (Z.testbit (x mod 2 ^ n) (n - 1)).
+  2: { apply Z.mod_pow2_bits_low ; lia. }
+  set (x mod 2 ^ n) as v.
+  assert (0 <= v < 2 ^ n).
+  {
+    pose proof (Z.mod_pos_bound x (2 ^ n)).
+    lia.
+  }
+  destruct (zlt v (2 ^ (n - 1))) as [Hv|Hv].
+  - rewrite Ztestbits_signed_high_lt; try lia.
+    destruct (Z.eq_dec v 0) as [Hv0|Hv0].
+    1: { rewrite Hv0. rewrite !Z.testbit_0_l. reflexivity. }
+    rewrite Z.bits_above_log2; try lia.
+    apply Z.log2_lt_pow2; lia.
+  - rewrite Ztestbits_signed_high_ge; try lia.
+    pose proof (Z.log2_unique v (n-1) ltac:(lia)) as Hlog.
+    unfold Z.succ in Hlog. replace (n - 1 + 1) with n in Hlog by lia.
+    specialize (Hlog ltac:(lia)). rewrite <- Hlog.
+    rewrite Z.bit_log2; lia.
+Qed.
+
 Theorem unsigned_last_nbits_land_distr : forall x y n, 0 <= n -> unsigned_last_nbits (Z.land x y) n = Z.land (unsigned_last_nbits x n) (unsigned_last_nbits y n).
 Proof.
   intros.
@@ -1101,7 +1126,30 @@ Proof.
   - repeat rewrite Ztestbits_unsigned_high ; try lia.
 Qed.
 
-Theorem unsigned_last_nbits_lor_distr : forall x y n, 0 <= n -> unsigned_last_nbits (Z.lor x y) n = Z.lor (unsigned_last_nbits x n) (unsigned_last_nbits y n).
+Theorem signed_last_nbits_land_distr : forall x y n, 
+  0 <= n -> 
+  signed_last_nbits (Z.land x y) n = 
+  Z.land (signed_last_nbits x n) (signed_last_nbits y n).
+Proof.
+  intros x y n Hn.
+  apply Z.bits_inj'.
+  intros.
+  rewrite Z.land_spec.
+  destruct (n0 <? n) eqn: lt.
+  - repeat rewrite Ztestbits_signed_eq ; try lia.
+    rewrite Z.land_spec. reflexivity.
+  - destruct (Z.eq_dec n 0).
+    { subst n. unfold signed_last_nbits. simpl in *.
+      rewrite !Z.mod_1_r. simpl.
+      destruct (Z.testbit _ _); reflexivity. }  
+    repeat rewrite Ztestbits_signed_high ; try lia.
+    apply Z.land_spec.
+Qed.
+
+Theorem unsigned_last_nbits_lor_distr : forall x y n,
+  0 <= n ->
+  unsigned_last_nbits (Z.lor x y) n =
+  Z.lor (unsigned_last_nbits x n) (unsigned_last_nbits y n).
 Proof.
   intros.
   apply Z.bits_inj'.
@@ -1113,7 +1161,26 @@ Proof.
   - repeat rewrite Ztestbits_unsigned_high ; try lia.
 Qed.
 
-Theorem unsigned_last_nbits_ldiff_distr : forall x y n, 0 <= n -> unsigned_last_nbits (Z.ldiff x y) n = Z.ldiff (unsigned_last_nbits x n) (unsigned_last_nbits y n).
+Theorem signed_last_nbits_lor_distr : forall x y n, 
+  n > 0 -> 
+  signed_last_nbits (Z.lor x y) n = 
+  Z.lor (signed_last_nbits x n) (signed_last_nbits y n).
+Proof.
+  intros x y n Hn.
+  apply Z.bits_inj'.
+  intros.
+  rewrite Z.lor_spec.
+  destruct (n0 <? n) eqn: lt.
+  - repeat rewrite Ztestbits_signed_eq ; try lia.
+    rewrite Z.lor_spec. reflexivity.
+  - repeat rewrite Ztestbits_signed_high ; try lia.
+    apply Z.lor_spec.
+Qed.
+
+Theorem unsigned_last_nbits_ldiff_distr : forall x y n,
+  0 <= n ->
+  unsigned_last_nbits (Z.ldiff x y) n =
+  Z.ldiff (unsigned_last_nbits x n) (unsigned_last_nbits y n).
 Proof.
   intros.
   apply Z.bits_inj'.
@@ -1125,7 +1192,26 @@ Proof.
   - repeat rewrite Ztestbits_unsigned_high ; try lia.
 Qed.
 
-Theorem unsigned_last_nbits_lxor_distr : forall x y n, 0 <= n -> unsigned_last_nbits (Z.lxor x y) n = Z.lxor (unsigned_last_nbits x n) (unsigned_last_nbits y n).
+Theorem signed_last_nbits_ldiff_distr : forall x y n, 
+  n > 0 -> 
+  signed_last_nbits (Z.ldiff x y) n = 
+  Z.ldiff (signed_last_nbits x n) (signed_last_nbits y n).
+Proof.
+  intros x y n Hn.
+  apply Z.bits_inj'.
+  intros.
+  rewrite Z.ldiff_spec.
+  destruct (n0 <? n) eqn: lt.
+  - repeat rewrite Ztestbits_signed_eq ; try lia.
+    rewrite Z.ldiff_spec. reflexivity.
+  - repeat rewrite Ztestbits_signed_high ; try lia.
+    apply Z.ldiff_spec.
+Qed.
+
+Theorem unsigned_last_nbits_lxor_distr : forall x y n,
+  0 <= n ->
+  unsigned_last_nbits (Z.lxor x y) n =
+  Z.lxor (unsigned_last_nbits x n) (unsigned_last_nbits y n).
 Proof.
   intros.
   apply Z.bits_inj'.
@@ -1138,9 +1224,25 @@ Proof.
     reflexivity.
 Qed.
 
+Theorem signed_last_nbits_lxor_distr : forall x y n, 
+  n > 0 -> 
+  signed_last_nbits (Z.lxor x y) n = 
+  Z.lxor (signed_last_nbits x n) (signed_last_nbits y n).
+Proof.
+  intros x y n Hn.
+  apply Z.bits_inj'.
+  intros.
+  rewrite Z.lxor_spec.
+  destruct (n0 <? n) eqn: lt.
+  - repeat rewrite Ztestbits_signed_eq ; try lia.
+    rewrite Z.lxor_spec. reflexivity.
+  - repeat rewrite Ztestbits_signed_high ; try lia.
+    apply Z.lxor_spec.
+Qed.
+
 Theorem unsigned_last_nbits_land_missing_l : forall x y n, 0 <= n -> 
-0 <= x < 2 ^ n -> 
-unsigned_last_nbits (Z.land x y) n = Z.land x y.
+  0 <= x < 2 ^ n -> 
+  unsigned_last_nbits (Z.land x y) n = Z.land x y.
 Proof.
   intros.
   apply Z.bits_inj'.
@@ -1158,8 +1260,8 @@ Proof.
 Qed.
 
 Theorem unsigned_last_nbits_land_missing_r : forall x y n, 0 <= n -> 
-0 <= y < 2 ^ n -> 
-unsigned_last_nbits (Z.land x y) n = Z.land x y.
+  0 <= y < 2 ^ n -> 
+  unsigned_last_nbits (Z.land x y) n = Z.land x y.
 Proof.
   intros.
   rewrite Z.land_comm.
@@ -1167,7 +1269,7 @@ Proof.
 Qed.
 
 Theorem unsigned_last_nbits_land_clear_l : forall x y n, 0 <= n ->
-Z.land (unsigned_last_nbits x n) (unsigned_last_nbits y n) = Z.land x (unsigned_last_nbits y n).
+  Z.land (unsigned_last_nbits x n) (unsigned_last_nbits y n) = Z.land x (unsigned_last_nbits y n).
 Proof.
   intros.
   apply Z.bits_inj'.
@@ -1180,7 +1282,7 @@ Proof.
 Qed. 
 
 Theorem unsigned_last_nbits_land_clear_r : forall x y n, 0 <= n ->
-Z.land (unsigned_last_nbits x n) (unsigned_last_nbits y n) = Z.land (unsigned_last_nbits x n) y.
+  Z.land (unsigned_last_nbits x n) (unsigned_last_nbits y n) = Z.land (unsigned_last_nbits x n) y.
 Proof.
   intros.
   apply Z.bits_inj'.
@@ -1192,8 +1294,8 @@ Proof.
   - repeat rewrite Ztestbits_unsigned_high ; try lia.
 Qed. 
 
-Theorem unsigned_last_nbits_lor_distr_missing : forall x y n, 0 <= n -> 
-0 <= x < 2 ^ n -> 0 <= y < 2 ^ n ->
+Theorem unsigned_last_nbits_lor_distr_missing : forall x y n, 0 <= n ->
+  0 <= x < 2 ^ n -> 0 <= y < 2 ^ n ->
 unsigned_last_nbits (Z.lor x y) n = Z.lor x y.
 Proof.
   intros.

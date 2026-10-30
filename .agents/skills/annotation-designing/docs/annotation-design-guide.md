@@ -71,6 +71,8 @@
 | 最小值和最大值 | MaxMinLib 的 min_value_of_subset、max_value_of_subset |
 | 图 | valid_vpath、reachable |
 | relation 的零步或多步闭包 | clos_refl_trans |
+| 可增长向量（长度、容量、元素缓冲区指针）及其数组 | Rocq/examples/Applications_human/dynvec_lib.v 的 DynVec、VecArray；C 已 include vec_qcp.h 时用其 instance Veci、Vecp、VecpArray |
+| 文字、子句、CNF、可满足性与 SAT/CDCL 求解状态 | CDCLLib 的 literal、clause、cnf、models、cnf_sat、cnf_unsat、cdcl_view |
 
 一个 case 的同类性质只选择一套已有接口。例如单调性统一使用当前依赖中的一套，不再为 annotation 创建另一套同义定义。
 

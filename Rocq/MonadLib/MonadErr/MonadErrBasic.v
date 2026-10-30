@@ -77,7 +77,7 @@ Definition Rec {X: Type} {oLubX: OmegaLub X} {BotX: Bot X}
 
 Arguments Rec: simpl never.
 
-Hint Unfold MonadErr.bind MonadErr.ret : monad_unfold.
+Hint Unfold MonadErr.bind MonadErr.ret MonadErr.nrm_err MonadErr.nrm_nrm : monad_unfold.
 
 
 

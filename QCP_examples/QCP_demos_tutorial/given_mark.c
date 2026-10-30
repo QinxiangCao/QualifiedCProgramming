@@ -9,8 +9,8 @@ int given_of_marked_call()
 /*@ Require emp
     Ensure exists u, __return == (1 << u) && u >= 2 */
 {
-  int x = bounded_power_of_two() /*@ where @mark call_x */;
-  //@ Given t of call_x
+  int x = bounded_power_of_two();
+  //@ Given t
   //@ x == 1 << (t + 2)
   //@ exists u, x == (1 << u) && u >= 2
   return x;
@@ -20,11 +20,10 @@ int given_from_of_two_marked_calls()
 /*@ Require emp
     Ensure emp */
 {
-  int first = bounded_power_of_two() /*@ where @mark first_call */;
-  int second = bounded_power_of_two() /*@ where @mark second_call */;
-
-  //@ Given first_t from t of first_call
-  //@ Given second_t from t of second_call
+  int first = bounded_power_of_two();
+  //@ Given first_t from t
+  int second = bounded_power_of_two();
+  //@ Given second_t from t
   //@ first == 1 << (first_t + 2)
   //@ second == 1 << (second_t + 2)
 

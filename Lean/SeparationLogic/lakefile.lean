@@ -9,18 +9,19 @@ require compcert from "../compcert_lib"
 require flocq from "../flocq"
 require unifysl from "../unifysl"
 require setsclass from "../sets"
+require monadlib from "../MonadLib"
 
 @[default_target]
 lean_lib SeparationLogic where
-  roots := #[`SimpleC.SL]
+  roots := #[`SimpleC.SL, `SimpleC.Common.CTypes, `SimpleC.CoreLang.CTypes]
 
 @[default_target]
 lean_lib SeparationLogicTests where
   roots := #[`SeparationLogicTests, `IntLibTests, `IntLibTacticTests, `FloatLibTests, `CArchTests,
-    `CNotationApiTests, `UnifyslBridgeTests, `CommonAssertionBinderFixture,
+    `CNotationApiTests, `CoqBoolUpdateTests, `UnifyslBridgeTests, `CommonAssertionBinderFixture,
     `CommonAssertionTests, `CommonAssertionArchTests, `FloatVCGoalTests, `FloatVCProofTests,
-    `AssertionTests, `ConAssertionTests, `StoreAuxTests, `ArrayLibCoreTests,
-    `ArrayLibTests, `Array2LibCoreTests, `Array2LibTests, `Array3LibCoreTests,
+    `AssertionTests, `FunAssertionTests, `ConAssertionTests, `StoreAuxTests, `ArrayLibCoreTests,
+    `ArrayLibTests, `ArrayTailRegressionTests, `ArrayLiteralRegressionTests, `Array2LibCoreTests, `Array2LibTests, `Array3LibCoreTests,
     `Array3LibTests, `ArrayArchitectureTests, `MapLibTests,
     `PtrArray2LibCoreTests, `PtrArray2LibTests, `StringLibTests,
     `CriticalSTSTests, `SeparationLogicApiTests, `SeparationLogicAggregateTests,

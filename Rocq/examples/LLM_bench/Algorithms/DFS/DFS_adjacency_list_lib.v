@@ -94,7 +94,7 @@ Definition list_blocks_missing
     (rows : list (list Z)) : Assertion :=
   iter_sepcon
     (map row_block
-      (PtrPtrArray2.remove_Znth u
+      (remove_Znth u
         (combine row_ptrs (combine node_addrs rows)))).
 
 Definition all_visited
@@ -225,31 +225,15 @@ Lemma iter_sepcon_split_remove_Znth__execution_representation :
     0 <= i < Zlength l ->
     iter_sepcon (map P l) |--
       P (Znth i l d) **
-      iter_sepcon (map P (PtrPtrArray2.remove_Znth i l)).
+      iter_sepcon (map P (remove_Znth i l)).
 Proof.
   intros B P i l d Hi.
-  unfold PtrPtrArray2.remove_Znth.
-  rewrite (firstn_skipSn d (Z.to_nat i) l) at 1 by
-    (rewrite Zlength_correct in Hi; lia).
-  unfold Znth.
-  rewrite !map_app.
-  change (map P (firstn (Z.to_nat i) l) ++
-          P (nth (Z.to_nat i) l d) :: map P (skipn (S (Z.to_nat i)) l))
-    with (map P (firstn (Z.to_nat i) l) ++
-          [P (nth (Z.to_nat i) l d)] ++
-          map P (skipn (S (Z.to_nat i)) l)).
-  rewrite derivable1_sepcon_iter_sepcon2.
-  sep_apply (derivable1_sepcon_iter_sepcon2
-    [P (nth (Z.to_nat i) l d)]
-    (map P (skipn (S (Z.to_nat i)) l))).
-  rewrite derivable1_iter_sepcon_l.
-  simpl.
-  rewrite <- derivable1_sepcon_iter_sepcon1.
-  entailer!.
-  all: entailer!.
-  rewrite derivable1_iter_sepcon_l.
-  simpl.
-  entailer!.
+  rewrite map_remove_Znth.
+  rewrite (iter_sepcon_split_remove_Znth i (map P l) (P d)).
+  2: rewrite Zlength_map; lia.
+  cancel.
+  rewrite Znth_map with (d := d); auto.
+  reflexivity.
 Qed.
 Lemma Znth_combine__execution_representation :
   forall {B C : Type} i (l1 : list B) (l2 : list C) d1 d2,
@@ -302,16 +286,13 @@ Proof.
   { unfold ZSimpleGraph.vertex_valid in Hu. exact Hu. }
   assert (Hinner_len :
     Zlength (combine node_addrs rows) = ZSimpleGraph.vertex_count g).
-  { rewrite (PtrPtrArray2.Zlength_combine_eq node_addrs rows).
-    - exact Haddrs.
-    - lia. }
+  { rewrite Zlength_combine; lia. }
   assert (Hcombine :
     0 <= u < Zlength (combine row_ptrs (combine node_addrs rows))).
   { assert (Houter_len :
       Zlength (combine row_ptrs (combine node_addrs rows)) =
       Zlength row_ptrs).
-    { apply PtrPtrArray2.Zlength_combine_eq.
-      exact (eq_trans Hptrs (eq_sym Hinner_len)). }
+    { rewrite Zlength_combine. lia. }
     rewrite Houter_len. change (0 <= u /\ u < Zlength row_ptrs).
     rewrite Hptrs. exact Hi. }
   sep_apply (PtrArray.full_split_to_missing_i adjacency u
@@ -338,8 +319,6 @@ Proof.
   rewrite HZouter, HZinner.
   cbn [fst snd].
   unfold DFSAdjacencyList.row_block.
-  change (sizeof (PTR)) with ptr_size_Z.
-  fold_arch.
   entailer!.
   all: try lia.
   all: entailer!.
@@ -368,16 +347,13 @@ Proof.
   { unfold ZSimpleGraph.vertex_valid in Hu. exact Hu. }
   assert (Hinner_len :
     Zlength (combine node_addrs rows) = ZSimpleGraph.vertex_count g).
-  { rewrite (PtrPtrArray2.Zlength_combine_eq node_addrs rows).
-    - exact Haddrs.
-    - lia. }
+  { rewrite Zlength_combine; lia. }
   assert (Hcombine :
     0 <= u < Zlength (combine row_ptrs (combine node_addrs rows))).
   { assert (Houter_len :
       Zlength (combine row_ptrs (combine node_addrs rows)) =
       Zlength row_ptrs).
-    { apply PtrPtrArray2.Zlength_combine_eq.
-      exact (eq_trans Hptrs (eq_sym Hinner_len)). }
+    { rewrite Zlength_combine. unfold addr in *. lia. }
     rewrite Houter_len. change (0 <= u /\ u < Zlength row_ptrs).
     replace (Zlength row_ptrs) with (ZSimpleGraph.vertex_count g)
       by (symmetry; exact Hptrs).
@@ -397,16 +373,14 @@ Proof.
         by (symmetry; exact Hptrs).
       exact Hi.
     - exact (eq_trans Hptrs (eq_sym Hinner_len)). }
-  change (sizeof (PTR)) with ptr_size_Z.
-  fold_arch.
   eapply derivable1_trans with
     (y :=
-      ((((adjacency + u * ptr_size_Z) # Ptr |-> Znth u row_ptrs 0) **
+      ((((adjacency + u * (sizeof(PTR))) # Ptr |-> Znth u row_ptrs 0) **
         PtrArray.missing_i
           adjacency u 0 (ZSimpleGraph.vertex_count g) row_ptrs) **
        (iter_sepcon
           (map DFSAdjacencyList.row_block
-            (PtrPtrArray2.remove_Znth u
+            (remove_Znth u
               (combine row_ptrs (combine node_addrs rows)))) **
         DFSAdjacencyList.addressed_sll
           (Znth u row_ptrs 0) (Znth u node_addrs nil) (Znth u rows nil)))).
@@ -414,17 +388,19 @@ Proof.
   sep_apply (PtrArray.missing_i_merge_to_full adjacency u
     (ZSimpleGraph.vertex_count g) (Znth u row_ptrs 0) row_ptrs Hi).
   rewrite replace_Znth_Znth by lia.
-  pose proof (PtrPtrArray2.iter_sepcon_merge_remove_Znth
-    DFSAdjacencyList.row_block
-    u (combine row_ptrs (combine node_addrs rows))
-    (Znth u row_ptrs 0,
-      (Znth u node_addrs nil, Znth u rows nil)) Hcombine)
+  pose proof (iter_sepcon_merge_remove_Znth
+    u (map DFSAdjacencyList.row_block
+      (combine row_ptrs (combine node_addrs rows)))
+    (DFSAdjacencyList.row_block (Znth u row_ptrs 0,
+      (Znth u node_addrs nil, Znth u rows nil)))
+    ltac:(rewrite Zlength_map; exact Hcombine))
     as Hmerge_lists.
+  rewrite <- map_remove_Znth, <- map_replace_Znth in Hmerge_lists.
   cbn [fst snd] in Hmerge_lists.
   assert (Horder_lists :
     iter_sepcon
       (map DFSAdjacencyList.row_block
-        (PtrPtrArray2.remove_Znth u
+        (remove_Znth u
           (combine row_ptrs (combine node_addrs rows)))) **
     DFSAdjacencyList.addressed_sll
       (Znth u row_ptrs 0) (Znth u node_addrs nil) (Znth u rows nil) |--
@@ -432,7 +408,7 @@ Proof.
       (Znth u row_ptrs 0) (Znth u node_addrs nil) (Znth u rows nil) **
     iter_sepcon
       (map DFSAdjacencyList.row_block
-        (PtrPtrArray2.remove_Znth u
+        (remove_Znth u
           (combine row_ptrs (combine node_addrs rows))))).
   { entailer!. }
   rewrite Horder_lists.

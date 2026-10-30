@@ -72,7 +72,7 @@ attribute [local irreducible]
 theorem proof_of_maxSlidingWindow_entail_wit_1 : maxSlidingWindow_entail_wit_1 := by
   unfold maxSlidingWindow_entail_wit_1
   right
-  intro k n l hk hkn hn hl hb hu
+  intro l n k hk hkn hn hl hb hu
   split_pure_spatial
   · sep_apply (naive_C_Rules.IntArray.undef_full_split_to_undef_seg (&("q")) n 100000 (by omega))
     cancel
@@ -82,7 +82,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_1 : maxSlidingWindow_entail_wit_1 :
 theorem proof_of_maxSlidingWindow_entail_wit_2 : maxSlidingWindow_entail_wit_2 := by
   unfold maxSlidingWindow_entail_wit_2
   right
-  intro k n l q z hz hk hkn hn hl hb hu hz0 hzn hq
+  intro l n k q z hz hk hkn hn hl hb hu hz0 hzn hq
   split_pure_spatial
   · cancel
   · dump_pre_spatial
@@ -92,13 +92,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_2 : maxSlidingWindow_entail_wit_2 :
 theorem proof_of_maxSlidingWindow_entail_wit_3 : maxSlidingWindow_entail_wit_3 := by
   unfold maxSlidingWindow_entail_wit_3
   right
-  intro k n l q z hz hk hkn hn hl hb hu hz0 hzn hq
-  have he : z = n := by omega
-  subst z
-  change naive_C_Rules.IntArray.seg (&("q")) 0 (Zlength q) q |-- _
-  Exists q
-  sep_apply (naive_C_Rules.IntArray.seg_to_full (&("q")) 0 (Zlength q) q)
-  simp only [Int.zero_mul, Int.add_zero, Int.sub_zero]
+  intro l n k q z hz hk hkn hn hl hb hu hz0 hzn hq
   have hqueue : SWMQueueState l q 0 0 0 k := by
     refine ⟨?_, ?_, ?_, ?_, ?_⟩
     · intro pos hp; omega
@@ -108,8 +102,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_3 : maxSlidingWindow_entail_wit_3 :
     · intro hh; omega
   have hout : SWMOutputPrefix l k 0 [] := by intro idx hi; omega
   split_pure_spatial
-  · simp only [he]
-    exact naive_C_Rules.toContext.derivable1_refl _
+  · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
       | assumption
@@ -153,7 +146,7 @@ private theorem forall_sublist_index {A : Type} (P : A → Prop) (d : A)
 
 theorem proof_of_maxSlidingWindow_entail_wit_4_split_goal_1 : maxSlidingWindow_entail_wit_4_split_goal_1 := by
   unfold maxSlidingWindow_entail_wit_4_split_goal_1
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH17_indexed := (indexed_Forall ((LE.le (α := Int)) ((-10000))) l (0 : Int)).mp PreH17
   have PreH18_indexed := (indexed_Forall ((GE.ge (α := Int)) (10000)) l (0 : Int)).mp PreH18
   have hs : SWMQueueStorageSafe l q_l_2 head tail i := by
@@ -179,7 +172,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_4_split_goal_1 : maxSlidingWindow_e
 
 theorem proof_of_maxSlidingWindow_entail_wit_5_split_goal_3 : maxSlidingWindow_entail_wit_5_split_goal_3 := by
   unfold maxSlidingWindow_entail_wit_5_split_goal_3
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH17_indexed := (indexed_Forall ((LE.le (α := Int)) ((-10000))) l (0 : Int)).mp PreH17
   have PreH18_indexed := (indexed_Forall ((GE.ge (α := Int)) (10000)) l (0 : Int)).mp PreH18
   have hs : SWMQueueStorageSafe l q_l_2 head tail i := by
@@ -205,7 +198,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_5_split_goal_3 : maxSlidingWindow_e
 
 theorem proof_of_maxSlidingWindow_entail_wit_7_split_goal_4 : maxSlidingWindow_entail_wit_7_split_goal_4 := by
   unfold maxSlidingWindow_entail_wit_7_split_goal_4
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   have PreH17_indexed := (indexed_Forall ((LE.le (α := Int)) ((-10000))) l (0 : Int)).mp PreH17
   have PreH18_indexed := (indexed_Forall ((GE.ge (α := Int)) (10000)) l (0 : Int)).mp PreH18
   have hs : SWMQueueStorageSafe l q_l_2 head tail i := by
@@ -231,7 +224,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_7_split_goal_4 : maxSlidingWindow_e
 
 theorem proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_3 : maxSlidingWindow_entail_wit_8_1_split_goal_3 := by
   unfold maxSlidingWindow_entail_wit_8_1_split_goal_3
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH16_indexed := (indexed_Forall ((LE.le (α := Int)) ((-10000))) l (0 : Int)).mp PreH16
   have PreH17_indexed := (indexed_Forall ((GE.ge (α := Int)) (10000)) l (0 : Int)).mp PreH17
   have hs : SWMQueueStorageSafe l q_l_2 head tail i := by
@@ -257,7 +250,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_3 : maxSlidingWindow
 
 theorem proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_3 : maxSlidingWindow_entail_wit_8_2_split_goal_3 := by
   unfold maxSlidingWindow_entail_wit_8_2_split_goal_3
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   have PreH17_indexed := (indexed_Forall ((LE.le (α := Int)) ((-10000))) l (0 : Int)).mp PreH17
   have PreH18_indexed := (indexed_Forall ((GE.ge (α := Int)) (10000)) l (0 : Int)).mp PreH18
   have hs : SWMQueueStorageSafe l q_l_2 head tail i := by
@@ -283,7 +276,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_3 : maxSlidingWindow
 
 theorem proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_4 : maxSlidingWindow_entail_wit_8_1_split_goal_4 := by
   unfold maxSlidingWindow_entail_wit_8_1_split_goal_4
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have PreH16_indexed := (indexed_Forall ((LE.le (α := Int)) ((-10000))) l (0 : Int)).mp PreH16
   have PreH17_indexed := (indexed_Forall ((GE.ge (α := Int)) (10000)) l (0 : Int)).mp PreH17
   have hs : SWMQueueStorageSafe l q_l_2 head tail i := by
@@ -309,7 +302,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_4 : maxSlidingWindow
 
 theorem proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_4 : maxSlidingWindow_entail_wit_8_2_split_goal_4 := by
   unfold maxSlidingWindow_entail_wit_8_2_split_goal_4
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   have PreH17_indexed := (indexed_Forall ((LE.le (α := Int)) ((-10000))) l (0 : Int)).mp PreH17
   have PreH18_indexed := (indexed_Forall ((GE.ge (α := Int)) (10000)) l (0 : Int)).mp PreH18
   have hs : SWMQueueStorageSafe l q_l_2 head tail i := by
@@ -335,7 +328,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_4 : maxSlidingWindow
 
 theorem proof_of_maxSlidingWindow_entail_wit_9_split_goal_1 : maxSlidingWindow_entail_wit_9_split_goal_1 := by
   unfold maxSlidingWindow_entail_wit_9_split_goal_1
-  intro k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have PreH16_indexed := (indexed_Forall ((LE.le (α := Int)) ((-10000))) l (0 : Int)).mp PreH16
   have PreH17_indexed := (indexed_Forall ((GE.ge (α := Int)) (10000)) l (0 : Int)).mp PreH17
   have hs : SWMQueueStorageSafe l q_l_2 head tail (i+1) := by
@@ -361,7 +354,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_9_split_goal_1 : maxSlidingWindow_e
 
 theorem proof_of_maxSlidingWindow_entail_wit_10_1_split_goal_1 : maxSlidingWindow_entail_wit_10_1_split_goal_1 := by
   unfold maxSlidingWindow_entail_wit_10_1_split_goal_1
-  intro k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   have PreH17_indexed := (indexed_Forall ((LE.le (α := Int)) ((-10000))) l (0 : Int)).mp PreH17
   have PreH18_indexed := (indexed_Forall ((GE.ge (α := Int)) (10000)) l (0 : Int)).mp PreH18
   have hs : SWMQueueStorageSafe l q_l_2 head tail (i+1) := by
@@ -393,13 +386,13 @@ private theorem after_drop_pending (l q : List Int) (h t i k : Int)
 
 theorem proof_of_maxSlidingWindow_entail_wit_2_split_goal_1 : maxSlidingWindow_entail_wit_2_split_goal_1 := by
   unfold maxSlidingWindow_entail_wit_2_split_goal_1
-  intro k_pre n_pre l q_init_2 z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro l n_pre k_pre q_init_2 z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   simp only [Zlength_app, Zlength_cons, Zlength_nil]
   omega
 
 theorem proof_of_maxSlidingWindow_entail_wit_5_split_goal_1 : maxSlidingWindow_entail_wit_5_split_goal_1 := by
   unfold maxSlidingWindow_entail_wit_5_split_goal_1
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have hlo := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH22
   have hhi := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH23
   apply (forall_sublist_index _ 0 q_l_2 (head+1) tail (by omega) (by omega)).mpr
@@ -408,7 +401,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_5_split_goal_1 : maxSlidingWindow_e
 
 theorem proof_of_maxSlidingWindow_entail_wit_5_split_goal_2 : maxSlidingWindow_entail_wit_5_split_goal_2 := by
   unfold maxSlidingWindow_entail_wit_5_split_goal_2
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have hlo := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH22
   have hhi := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH23
   apply (forall_sublist_index _ 0 q_l_2 (head+1) tail (by omega) (by omega)).mpr
@@ -417,7 +410,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_5_split_goal_2 : maxSlidingWindow_e
 
 theorem proof_of_maxSlidingWindow_entail_wit_6_1_split_goal_1 : maxSlidingWindow_entail_wit_6_1_split_goal_1 := by
   unfold maxSlidingWindow_entail_wit_6_1_split_goal_1
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hlo := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH21
   have hhi := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH22
   rcases PreH20 with ⟨he, hi, hv, hc⟩
@@ -428,7 +421,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_6_1_split_goal_1 : maxSlidingWindow
 
 theorem proof_of_maxSlidingWindow_entail_wit_6_2_split_goal_1 : maxSlidingWindow_entail_wit_6_2_split_goal_1 := by
   unfold maxSlidingWindow_entail_wit_6_2_split_goal_1
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have hlo := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH22
   have hhi := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH23
   intro hh
@@ -438,7 +431,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_6_2_split_goal_1 : maxSlidingWindow
 
 theorem proof_of_maxSlidingWindow_entail_wit_6_2_split_goal_2 : maxSlidingWindow_entail_wit_6_2_split_goal_2 := by
   unfold maxSlidingWindow_entail_wit_6_2_split_goal_2
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have hlo := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH22
   have hhi := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH23
   apply after_drop_pending
@@ -446,7 +439,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_6_2_split_goal_2 : maxSlidingWindow
 
 theorem proof_of_maxSlidingWindow_entail_wit_7_split_goal_1 : maxSlidingWindow_entail_wit_7_split_goal_1 := by
   unfold maxSlidingWindow_entail_wit_7_split_goal_1
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   have hlo := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH22
   have hhi := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH23
   intro hh
@@ -456,7 +449,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_7_split_goal_1 : maxSlidingWindow_e
 
 theorem proof_of_maxSlidingWindow_entail_wit_7_split_goal_2 : maxSlidingWindow_entail_wit_7_split_goal_2 := by
   unfold maxSlidingWindow_entail_wit_7_split_goal_2
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   have hlo := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH22
   have hhi := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH23
   apply (forall_sublist_index _ 0 q_l_2 head (tail-1) (by omega) (by omega)).mpr
@@ -465,7 +458,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_7_split_goal_2 : maxSlidingWindow_e
 
 theorem proof_of_maxSlidingWindow_entail_wit_7_split_goal_3 : maxSlidingWindow_entail_wit_7_split_goal_3 := by
   unfold maxSlidingWindow_entail_wit_7_split_goal_3
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   have hlo := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH22
   have hhi := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH23
   apply (forall_sublist_index _ 0 q_l_2 head (tail-1) (by omega) (by omega)).mpr
@@ -474,7 +467,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_7_split_goal_3 : maxSlidingWindow_e
 
 theorem proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_1 : maxSlidingWindow_entail_wit_8_1_split_goal_1 := by
   unfold maxSlidingWindow_entail_wit_8_1_split_goal_1
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have hlo := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH21
   have hhi := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH22
   apply (forall_sublist_index _ 0 (replace_Znth tail i q_l_2) head (tail+1) (by omega) (by simpa only [Zlength_replace_Znth] using (show tail+1 ≤ Zlength q_l_2 by omega))).mpr
@@ -484,7 +477,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_1 : maxSlidingWindow
 
 theorem proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_2 : maxSlidingWindow_entail_wit_8_1_split_goal_2 := by
   unfold maxSlidingWindow_entail_wit_8_1_split_goal_2
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have hlo := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH21
   have hhi := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH22
   apply (forall_sublist_index _ 0 (replace_Znth tail i q_l_2) head (tail+1) (by omega) (by simpa only [Zlength_replace_Znth] using (show tail+1 ≤ Zlength q_l_2 by omega))).mpr
@@ -494,7 +487,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_2 : maxSlidingWindow
 
 theorem proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_1 : maxSlidingWindow_entail_wit_8_2_split_goal_1 := by
   unfold maxSlidingWindow_entail_wit_8_2_split_goal_1
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   have hlo := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH22
   have hhi := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH23
   apply (forall_sublist_index _ 0 (replace_Znth tail i q_l_2) head (tail+1) (by omega) (by simpa only [Zlength_replace_Znth] using (show tail+1 ≤ Zlength q_l_2 by omega))).mpr
@@ -504,7 +497,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_1 : maxSlidingWindow
 
 theorem proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_2 : maxSlidingWindow_entail_wit_8_2_split_goal_2 := by
   unfold maxSlidingWindow_entail_wit_8_2_split_goal_2
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   have hlo := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH22
   have hhi := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH23
   apply (forall_sublist_index _ 0 (replace_Znth tail i q_l_2) head (tail+1) (by omega) (by simpa only [Zlength_replace_Znth] using (show tail+1 ≤ Zlength q_l_2 by omega))).mpr
@@ -514,21 +507,21 @@ theorem proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_2 : maxSlidingWindow
 
 theorem proof_of_maxSlidingWindow_entail_wit_9_split_goal_2 : maxSlidingWindow_entail_wit_9_split_goal_2 := by
   unfold maxSlidingWindow_entail_wit_9_split_goal_2
-  intro k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hlo := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH21
   have hhi := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH22
   exact hhi head (by omega)
 
 theorem proof_of_maxSlidingWindow_entail_wit_9_split_goal_3 : maxSlidingWindow_entail_wit_9_split_goal_3 := by
   unfold maxSlidingWindow_entail_wit_9_split_goal_3
-  intro k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hlo := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH21
   have hhi := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH22
   exact hlo head (by omega)
 
 theorem proof_of_maxSlidingWindow_entail_wit_10_1_split_goal_2 : maxSlidingWindow_entail_wit_10_1_split_goal_2 := by
   unfold maxSlidingWindow_entail_wit_10_1_split_goal_2
-  intro k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   have hlo := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH22
   have hhi := (forall_sublist_index _ 0 q_l_2 head tail (by omega) (by omega)).mp PreH23
   simp only [Zlength_app, Zlength_cons, Zlength_nil]
@@ -537,12 +530,12 @@ theorem proof_of_maxSlidingWindow_entail_wit_10_1_split_goal_2 : maxSlidingWindo
 theorem proof_of_maxSlidingWindow_entail_wit_4 : maxSlidingWindow_entail_wit_4 := by
   unfold maxSlidingWindow_entail_wit_4
   right
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_4_split_goal_1 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_maxSlidingWindow_entail_wit_4_split_goal_1 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_4_split_goal_1 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_maxSlidingWindow_entail_wit_4_split_goal_1 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
     | assumption
     | omega
     | trivial
@@ -550,16 +543,16 @@ theorem proof_of_maxSlidingWindow_entail_wit_4 : maxSlidingWindow_entail_wit_4 :
 theorem proof_of_maxSlidingWindow_entail_wit_5 : maxSlidingWindow_entail_wit_5 := by
   unfold maxSlidingWindow_entail_wit_5
   right
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_5_split_goal_1 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_maxSlidingWindow_entail_wit_5_split_goal_1 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_5_split_goal_2 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_maxSlidingWindow_entail_wit_5_split_goal_2 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_5_split_goal_3 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_maxSlidingWindow_entail_wit_5_split_goal_3 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_5_split_goal_1 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_maxSlidingWindow_entail_wit_5_split_goal_1 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_5_split_goal_2 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_maxSlidingWindow_entail_wit_5_split_goal_2 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_5_split_goal_3 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_maxSlidingWindow_entail_wit_5_split_goal_3 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
     | assumption
     | omega
     | trivial
@@ -567,12 +560,12 @@ theorem proof_of_maxSlidingWindow_entail_wit_5 : maxSlidingWindow_entail_wit_5 :
 theorem proof_of_maxSlidingWindow_entail_wit_6_1 : maxSlidingWindow_entail_wit_6_1 := by
   unfold maxSlidingWindow_entail_wit_6_1
   right
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_6_1_split_goal_1 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
-    | exact (proof_of_maxSlidingWindow_entail_wit_6_1_split_goal_1 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_6_1_split_goal_1 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+    | exact (proof_of_maxSlidingWindow_entail_wit_6_1_split_goal_1 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
     | assumption
     | omega
     | trivial
@@ -580,14 +573,14 @@ theorem proof_of_maxSlidingWindow_entail_wit_6_1 : maxSlidingWindow_entail_wit_6
 theorem proof_of_maxSlidingWindow_entail_wit_6_2 : maxSlidingWindow_entail_wit_6_2 := by
   unfold maxSlidingWindow_entail_wit_6_2
   right
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_6_2_split_goal_1 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_maxSlidingWindow_entail_wit_6_2_split_goal_1 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_6_2_split_goal_2 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_maxSlidingWindow_entail_wit_6_2_split_goal_2 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_6_2_split_goal_1 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_maxSlidingWindow_entail_wit_6_2_split_goal_1 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_6_2_split_goal_2 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_maxSlidingWindow_entail_wit_6_2_split_goal_2 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
     | assumption
     | omega
     | trivial
@@ -595,18 +588,18 @@ theorem proof_of_maxSlidingWindow_entail_wit_6_2 : maxSlidingWindow_entail_wit_6
 theorem proof_of_maxSlidingWindow_entail_wit_7 : maxSlidingWindow_entail_wit_7 := by
   unfold maxSlidingWindow_entail_wit_7
   right
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_7_split_goal_1 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
-    | exact (proof_of_maxSlidingWindow_entail_wit_7_split_goal_1 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_7_split_goal_2 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
-    | exact (proof_of_maxSlidingWindow_entail_wit_7_split_goal_2 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_7_split_goal_3 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
-    | exact (proof_of_maxSlidingWindow_entail_wit_7_split_goal_3 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_7_split_goal_4 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
-    | exact (proof_of_maxSlidingWindow_entail_wit_7_split_goal_4 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_7_split_goal_1 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
+    | exact (proof_of_maxSlidingWindow_entail_wit_7_split_goal_1 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_7_split_goal_2 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
+    | exact (proof_of_maxSlidingWindow_entail_wit_7_split_goal_2 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_7_split_goal_3 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
+    | exact (proof_of_maxSlidingWindow_entail_wit_7_split_goal_3 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_7_split_goal_4 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
+    | exact (proof_of_maxSlidingWindow_entail_wit_7_split_goal_4 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
     | assumption
     | omega
     | trivial
@@ -614,18 +607,18 @@ theorem proof_of_maxSlidingWindow_entail_wit_7 : maxSlidingWindow_entail_wit_7 :
 theorem proof_of_maxSlidingWindow_entail_wit_8_1 : maxSlidingWindow_entail_wit_8_1 := by
   unfold maxSlidingWindow_entail_wit_8_1
   right
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_1 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_1 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_2 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_2 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_3 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_3 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_4 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-    | exact (proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_4 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_1 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_1 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_2 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_2 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_3 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_3 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_4 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+    | exact (proof_of_maxSlidingWindow_entail_wit_8_1_split_goal_4 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
     | assumption
     | omega
     | trivial
@@ -633,18 +626,18 @@ theorem proof_of_maxSlidingWindow_entail_wit_8_1 : maxSlidingWindow_entail_wit_8
 theorem proof_of_maxSlidingWindow_entail_wit_8_2 : maxSlidingWindow_entail_wit_8_2 := by
   unfold maxSlidingWindow_entail_wit_8_2
   right
-  intro k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_1 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
-    | exact (proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_1 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_2 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
-    | exact (proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_2 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_3 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
-    | exact (proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_3 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_4 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
-    | exact (proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_4 k_pre n_pre l out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_1 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
+    | exact (proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_1 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_2 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
+    | exact (proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_2 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_3 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
+    | exact (proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_3 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_4 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
+    | exact (proof_of_maxSlidingWindow_entail_wit_8_2_split_goal_4 l n_pre k_pre out_l_2 out_idx tail head i q_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
     | assumption
     | omega
     | trivial
@@ -652,16 +645,16 @@ theorem proof_of_maxSlidingWindow_entail_wit_8_2 : maxSlidingWindow_entail_wit_8
 theorem proof_of_maxSlidingWindow_entail_wit_9 : maxSlidingWindow_entail_wit_9 := by
   unfold maxSlidingWindow_entail_wit_9
   right
-  intro k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_9_split_goal_1 k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
-    | exact (proof_of_maxSlidingWindow_entail_wit_9_split_goal_1 k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_9_split_goal_2 k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
-    | exact (proof_of_maxSlidingWindow_entail_wit_9_split_goal_2 k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_9_split_goal_3 k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
-    | exact (proof_of_maxSlidingWindow_entail_wit_9_split_goal_3 k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_9_split_goal_1 l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+    | exact (proof_of_maxSlidingWindow_entail_wit_9_split_goal_1 l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_9_split_goal_2 l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+    | exact (proof_of_maxSlidingWindow_entail_wit_9_split_goal_2 l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_9_split_goal_3 l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+    | exact (proof_of_maxSlidingWindow_entail_wit_9_split_goal_3 l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
     | assumption
     | omega
     | trivial
@@ -669,21 +662,21 @@ theorem proof_of_maxSlidingWindow_entail_wit_9 : maxSlidingWindow_entail_wit_9 :
 theorem proof_of_maxSlidingWindow_entail_wit_10_1 : maxSlidingWindow_entail_wit_10_1 := by
   unfold maxSlidingWindow_entail_wit_10_1
   right
-  intro k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_10_1_split_goal_1 k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
-    | exact (proof_of_maxSlidingWindow_entail_wit_10_1_split_goal_1 k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
-    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_10_1_split_goal_2 k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
-    | exact (proof_of_maxSlidingWindow_entail_wit_10_1_split_goal_2 k_pre n_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_10_1_split_goal_1 l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
+    | exact (proof_of_maxSlidingWindow_entail_wit_10_1_split_goal_1 l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
+    | (solve | Goal_apply (proof_of_maxSlidingWindow_entail_wit_10_1_split_goal_2 l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24))
+    | exact (proof_of_maxSlidingWindow_entail_wit_10_1_split_goal_2 l n_pre k_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24)
     | assumption
     | omega
     | trivial
 
 theorem proved_auto_solver_maxSlidingWindow_entail_wit_10_2 : maxSlidingWindow_entail_wit_10_2 := by
   unfold maxSlidingWindow_entail_wit_10_2
-  intro out_pre k_pre n_pre nums_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro l nums_pre n_pre k_pre out_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   Exists out_l_2 q_l_2
   split_pure_spatial
   · cancel
@@ -691,7 +684,7 @@ theorem proved_auto_solver_maxSlidingWindow_entail_wit_10_2 : maxSlidingWindow_e
 
 theorem proved_auto_solver_maxSlidingWindow_entail_wit_11 : maxSlidingWindow_entail_wit_11 := by
   unfold maxSlidingWindow_entail_wit_11
-  intro out_pre k_pre n_pre nums_pre l out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro l nums_pre n_pre k_pre out_pre out_l_2 q_l_2 i head tail out_idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   Exists out_l_2 q_l_2
   split_pure_spatial
   · cancel
@@ -700,7 +693,7 @@ theorem proved_auto_solver_maxSlidingWindow_entail_wit_11 : maxSlidingWindow_ent
 theorem proof_of_maxSlidingWindow_entail_wit_12 : maxSlidingWindow_entail_wit_12 := by
   unfold maxSlidingWindow_entail_wit_12
   right
-  intro out k n l out_l out_idx tail head i q hi hk hkn hn hl hq hi0 hin hh hht hti ho hon hok hko hnon hb hu hlen hp hs hqb hqu
+  intro l n k out_l out_idx tail head i q hi hk hkn hn hl hq hi0 hin hh hht hti ho hon hok hko hnon hb hu hlen hp hs hqb hqu
   have he : out_idx = n-k+1 := by
     have hv := hko (show k ≤ i by omega)
     omega
@@ -708,11 +701,9 @@ theorem proof_of_maxSlidingWindow_entail_wit_12 : maxSlidingWindow_entail_wit_12
     refine ⟨by omega, ?_⟩
     intro idx hidx
     exact hp idx (by omega)
-  Exists out_l
   sep_apply (naive_C_Rules.IntArray.full_to_undef_full (&("q")) n q)
   sep_apply (naive_C_Rules.IntArray.undef_full_to_undef_seg (&("q")) n)
   sep_apply (naive_C_Rules.IntArray.undef_seg_merge_to_undef_full (&("q")) 0 n 100000 ⟨by omega, hn⟩)
-  sep_apply (naive_C_Rules.IntArray.seg_to_full out 0 out_idx out_l)
   simp only [Int.zero_mul, Int.add_zero, Int.sub_zero, he]
   split_pure_spatial
   · cancel
@@ -720,7 +711,7 @@ theorem proof_of_maxSlidingWindow_entail_wit_12 : maxSlidingWindow_entail_wit_12
 
 theorem proved_auto_solver_maxSlidingWindow_return_wit_1 : maxSlidingWindow_return_wit_1 := by
   unfold maxSlidingWindow_return_wit_1
-  intro out k n nums l out_l head tail out_idx hh ht ho hp
+  intro l nums n k out out_l head tail out_idx hh ht ho hp
   Exists out_l
   split_pure_spatial
   · cancel

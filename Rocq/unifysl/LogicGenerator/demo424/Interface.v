@@ -37,7 +37,7 @@ Include DerivedNames (Names).
   Axiom derivable1_orp_intros1 : (forall x y : expr, derivable1 x (orp x y)) .
   Axiom derivable1_orp_intros2 : (forall x y : expr, derivable1 y (orp x y)) .
   Axiom derivable1_orp_elim : (forall x y z : expr, derivable1 x z -> derivable1 y z -> derivable1 (orp x y) z) .
-  Axiom derivable1s_truep_intros : (forall x y z : expr, derivable1 x y -> derivable1 x z -> derivable1 x (andp y z)) .
+  Axiom derivable1s_andp_intros : (forall x y z : expr, derivable1 x y -> derivable1 x z -> derivable1 x (andp y z)) .
   Axiom derivable1_andp_elim1 : (forall x y : expr, derivable1 (andp x y) x) .
   Axiom derivable1_andp_elim2 : (forall x y : expr, derivable1 (andp x y) y) .
   Axiom derivable1s_impp_andp_adjoint : (forall x y z : expr, derivable1 x (impp y z) <-> derivable1 (andp x y) z) .
@@ -113,7 +113,7 @@ Include Rules.
   Instance coq_prop_L : (CoqPropLanguage L) := (Build_CoqPropLanguage L coq_prop) .
   Instance truepL : (TrueLanguage L) := (Build_TrueLanguage L truep) .
   Instance GammaD1 : (Derivable1 L) := (Build_Derivable1 L derivable1) .
-  Instance andpD : (AndDeduction L GammaD1) := (Build_AndDeduction L andpL GammaD1 derivable1s_truep_intros derivable1_andp_elim1 derivable1_andp_elim2) .
+  Instance andpD : (AndDeduction L GammaD1) := (Build_AndDeduction L andpL GammaD1 derivable1s_andp_intros derivable1_andp_elim1 derivable1_andp_elim2) .
   Instance adjD : (ImpAndAdjointDeduction L GammaD1) := (Build_ImpAndAdjointDeduction L minL andpL GammaD1 derivable1s_impp_andp_adjoint) .
   Instance orpD : (OrDeduction L GammaD1) := (Build_OrDeduction L orpL GammaD1 derivable1_orp_intros1 derivable1_orp_intros2 derivable1_orp_elim) .
   Instance expD : (ShallowExistsDeduction L GammaD1) := (Build_ShallowExistsDeduction L expL GammaD1 derivable1s_exp_r derivable1s_exp_l) .

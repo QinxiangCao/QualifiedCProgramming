@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.Applications_human.LiteOS Require Import OsSortLinkGetNextExpireTime_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.glob_vars_and_defs.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.sortlink.
@@ -33,6 +18,39 @@ Proof.
     contradiction.
     +
     congruence.
+Qed.
+
+Lemma proof_of_LOS_ListEmpty_highSpec_entail_getfirstSpec :
+  LOS_ListEmpty_highSpec_entail_getfirstSpec.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  Exists A storeA_getfirstSpec l_getfirstSpec.
+  cancel.
+  Intros_r retval_2.
+  wand_elim.
+  normalize.
+  Split.
+  - Intros.
+    unfold store_dll.
+    Intros h pt.
+    unfold dllseg.
+    destruct l_getfirstSpec.
+    + contradiction.
+    + Intros z.
+      Right.
+      Exists d l_getfirstSpec.
+      repeat (split_pure_spatial || split_pures).
+      Exists h pt z.
+      split_pure_spatial.
+      * repeat cancel.
+      * repeat split_pures; dump_pre_spatial;
+          try assumption; try reflexivity; try congruence.
+  - Intros.
+    Left.
+    split_pure_spatial.
+    + cancel.
+    + repeat split_pures; dump_pre_spatial;
+        try assumption; try reflexivity; try congruence.
 Qed.
 
 
@@ -97,34 +115,21 @@ Proof.
 Qed.
 
 Lemma proof_of_OsSortLinkGetNextExpireTime_entail_wit_1 : OsSortLinkGetNextExpireTime_entail_wit_1.
-Proof. 
-    unfold OsSortLinkGetNextExpireTime_entail_wit_1.
-    LLM_pre_process ltac:(int_auto).
-    intros.
-    Intros.
-    destruct l.
-    +
-    unfold obtian_first_pointer.
-    simpl.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  destruct l.
+  - unfold obtian_first_pointer; simpl.
     Intros_p Hnil.
     split_pure_spatial.
-    - destruct Hnil as [Hh _].
-      rewrite Hh.
-      cancel.
-    - repeat split_pures; dump_pre_spatial; try assumption; try reflexivity.
-    +
-    unfold obtian_first_pointer.
-    simpl.
+    + destruct Hnil as [Hh _].
+      rewrite Hh; cancel.
+    + repeat split_pures; dump_pre_spatial; try assumption; try reflexivity.
+  - unfold obtian_first_pointer; simpl.
     Intros z.
     Exists z.
     split_pure_spatial.
-    - rewrite H.
-      cancel (storesortedLinkNode storeA
-        &( ((d.(ptr))) # "SortLinkList" ->ₛ "sortLinkNode") d.(dll_data)).
-      cancel (&( "SysTick") # Ptr |-> SysTick).
-      cancel (storeTick &( "g_archTickTimer") SysTick ts att).
-      cancel.
-    - repeat split_pures; dump_pre_spatial; try assumption; try reflexivity.
+    + rewrite H; repeat cancel.
+    + repeat split_pures; dump_pre_spatial; try assumption; try reflexivity.
 Qed. 
 
 Lemma proof_of_OsSortLinkGetNextExpireTime_return_wit_3 : OsSortLinkGetNextExpireTime_return_wit_3.
@@ -136,11 +141,11 @@ Proof.
     assert (l = nil).
     apply Hmap_nil.
     auto.
-    Exists SysTick_4.
+    Exists SysTick_pre.
     split_pure_spatial.
     - unfold store_sorted_dll.
       split_pure_spatial.
-      + cancel (&( "SysTick") # Ptr |-> SysTick_4).
+      + cancel (&( "SysTick") # Ptr |-> SysTick_pre).
         cancel (store_dll (storesortedLinkNode storeA)
           &( sortLinkHead_pre # "SortLinkAttribute" ->ₛ "sortLink")
           (map sortedLinkNodeMapping l)).
@@ -173,7 +178,7 @@ Proof.
       rewrite <- PreH6.
       exact PreH1.
     }
-    Exists SysTick_5.
+    Exists SysTick_4.
     unfold store_sorted_dll.
     split_pure_spatial.
     - assert (h = &( retval_3 # "SortLinkList" ->ₛ "sortLinkNode")) as Hhead by lia.
@@ -290,7 +295,7 @@ Proof.
     LLM_pre_process ltac:(int_auto).
     Left.
     Left.
-    Exists SysTick_5.
+    Exists SysTick_4.
     assert (Hresp: getFirstNodeResponseTime l =
       getFirstNodeResponseTime (map sortedLinkNodeMapping l)).
     {
@@ -503,107 +508,42 @@ Proof.
   - dump_pre_spatial.
     reflexivity.
 Qed.
-
-Lemma proof_of_OsSortLinkGetTargetExpireTime_derive_lSpec_by_highSpec : OsSortLinkGetTargetExpireTime_derive_lSpec_by_highSpec.
-Proof. 
-    LLM_pre_process ltac:(int_auto).
-    intros.
-    Intros x_pstNext.
-    Exists A storeA_lSpec.
-    rewrite <- H.
-    pose proof dllseg_shift_rev_split_a (storesortedLinkNode storeA_lSpec) x_lSpec x_pstNext l_lSpec.
-    sep_apply H1.
-    Intros a t y l1.
-    Exists a t.
-    cancel (storesortedLinkNode storeA_lSpec
-      x_pstNext
-      (mksortedLinkNode a t)).
-    rewrite <- derivable1_wand_sepcon_adjoint.
-    Split.
-    - Intros x0.
-      Right.
-      Exists x_pstNext x0.
-      split_pure_spatial.
-      + rewrite H3.
-        pose proof dllseg_shift_rev_concat_a (storesortedLinkNode storeA_lSpec)
-          x_lSpec y x_pstNext a t l_lSpec l1.
-        sep_apply H6.
-        cancel.
-        exact H0.
-      + repeat split_pures.
-        * dump_pre_spatial.
-          unfold getFirstNodeResponseTime.
-          simpl.
-          csimpl.
-          destruct l_lSpec.
-          -- congruence.
-          -- assert (Hrt: responseTime d.(dll_data) = t).
-             { inversion H3. simpl. csimpl. lia. }
-             rewrite Hrt.
-             apply Z.lt_gt.
-             exact H4.
-        * dump_pre_spatial.
-          unfold getFirstNodeResponseTime.
-          simpl.
-          csimpl.
-          destruct l_lSpec.
-          -- congruence.
-          -- assert (Hrt: responseTime d.(dll_data) = t).
-             { inversion H3. simpl. csimpl. lia. }
-             rewrite Hrt.
-             exact H5.
-        * dump_pre_spatial.
-          reflexivity.
-    - Intros py0.
-      Left.
-      Exists x_pstNext py0.
-      split_pure_spatial.
-      + rewrite H3.
-        pose proof dllseg_shift_rev_concat_a (storesortedLinkNode storeA_lSpec)
-          x_lSpec y x_pstNext a t l_lSpec l1.
-        sep_apply H6.
-        cancel.
-        exact H0.
-      + repeat split_pures.
-        * dump_pre_spatial.
-          unfold getFirstNodeResponseTime.
-          simpl.
-          csimpl.
-          destruct l_lSpec.
-          -- congruence.
-          -- assert (Hrt: responseTime d.(dll_data) = t).
-             { inversion H3. simpl. csimpl. lia. }
-             rewrite Hrt.
-             lia.
-        * dump_pre_spatial.
-          exact H5.
-        * dump_pre_spatial.
-          reflexivity.
-    - exact H0.
-Qed. 
-
-Lemma proof_of_LOS_ListEmpty_derive_getfirstSpec_by_highSpec : LOS_ListEmpty_derive_getfirstSpec_by_highSpec.
-Proof. 
-    LLM_pre_process ltac:(int_auto).
-    Exists A storeA_getfirstSpec l_getfirstSpec.
-    cancel (store_dll storeA_getfirstSpec node_pre l_getfirstSpec).
-    apply derivable1_wand_sepcon_adjoint.
-    Split.
-    - Intros retval_2.
-      destruct l_getfirstSpec.
-      + exfalso.
-        contradiction.
-      + Right.
-        Exists d l_getfirstSpec retval_2.
-        split_pure_spatial.
-        * cancel.
-        * repeat split_pures; dump_pre_spatial;
-            try assumption; try reflexivity; try congruence.
-    - Intros retval_2.
-      Left.
-      Exists retval_2.
-      split_pure_spatial.
-      + cancel.
-      + repeat split_pures; dump_pre_spatial;
-          try assumption; try reflexivity; try congruence.
+Lemma proof_of_OsSortLinkGetTargetExpireTime_highSpec_entail_lSpec :
+  OsSortLinkGetTargetExpireTime_highSpec_entail_lSpec.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  Intros x_lSpec_pstNext.
+  sep_apply (dllseg_shift_rev_split_a
+    (storesortedLinkNode storeA_lSpec)
+    x_lSpec &( targetSortList_pre # "SortLinkList" ->ₛ "sortLinkNode")
+    l_lSpec ltac:(assumption)).
+  Intros a t y l1.
+  Exists A storeA_lSpec a t.
+  cancel.
+  Intros_r retval.
+  wand_elim.
+  normalize.
+  Split.
+  - Intros.
+    Right.
+    sep_apply (dllseg_shift_rev_concat_a
+      (storesortedLinkNode storeA_lSpec)
+      x_lSpec y
+      &( targetSortList_pre # "SortLinkList" ->ₛ "sortLinkNode")
+      a t l_lSpec l1 ltac:(assumption)).
+    Exists x_lSpec_pstNext.
+    split_pure_spatial.
+    + rewrite H1; cancel.
+    + rewrite H1; simpl; entailer!.
+  - Intros.
+    Left.
+    sep_apply (dllseg_shift_rev_concat_a
+      (storesortedLinkNode storeA_lSpec)
+      x_lSpec y
+      &( targetSortList_pre # "SortLinkList" ->ₛ "sortLinkNode")
+      a t l_lSpec l1 ltac:(assumption)).
+    Exists x_lSpec_pstNext.
+    split_pure_spatial.
+    + rewrite H1; cancel.
+    + rewrite H1; simpl; entailer!.
 Qed.

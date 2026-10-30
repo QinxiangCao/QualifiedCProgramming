@@ -239,11 +239,10 @@ void dfs_adjacency_matrix_2Darray(int **matrix, int vertex_count,
             /*@ Given call_visited_set */
             dfs_adjacency_matrix_2Darray(matrix, vertex_count,
                                          visited, neighbor)
-              /*@ where (bind_spec)
+              /*@ where (bind_spec) {B = unit}
                     g = g, rows = rows, visited_set = call_visited_set,
                     c = DFSAdjacencyMatrix2Darray::dfs_continue(g, vertex),
-                    X = X;
-                    B = unit */;
+                    X = X */;
         }
 
         /*@ Assert

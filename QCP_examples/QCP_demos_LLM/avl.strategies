@@ -64,8 +64,8 @@ action : left_erase(0);
          left_add(store(field_addr(p,tree,key),I32,k));
          left_add(store(field_addr(p,tree,value),I32,v));
          left_add(store(field_addr(p,tree,height),U8,h));
-         left_add(store(field_addr(p,tree,lchild),PTR(struct tree),l));
-         left_add(store(field_addr(p,tree,rchild),PTR(struct tree),r));
+         left_add(store(field_addr(p,tree,lchild),PTR,l));
+         left_add(store(field_addr(p,tree,rchild),PTR,r));
 
 id : 6
 priority : core(4)
@@ -74,16 +74,16 @@ action : right_erase(0);
          right_add(store(field_addr(p,tree,key),I32,k));
          right_add(store(field_addr(p,tree,value),I32,v));
          right_add(store(field_addr(p,tree,height),U8,h));
-         right_add(store(field_addr(p,tree,lchild),PTR(struct tree),l));
-         right_add(store(field_addr(p,tree,rchild),PTR(struct tree),r));
+         right_add(store(field_addr(p,tree,lchild),PTR,l));
+         right_add(store(field_addr(p,tree,rchild),PTR,r));
 
 id : 7
 priority : post(1)
 left : store(field_addr(?p,tree,key),I32,?k) at 0
        store(field_addr(p,tree,value),I32,?v) at 1
        store(field_addr(p,tree,height),U8,?h) at 2
-       store(field_addr(p,tree,lchild),PTR(struct tree),?l) at 3
-       store(field_addr(p,tree,rchild),PTR(struct tree),?r) at 4
+       store(field_addr(p,tree,lchild),PTR,?l) at 3
+       store(field_addr(p,tree,rchild),PTR,?r) at 4
 action : left_erase(0);
          left_erase(1);
          left_erase(2);
@@ -97,8 +97,8 @@ priority : post(1)
 right : store(field_addr(?p,tree,key),I32,?k) at 0
        store(field_addr(p,tree,value),I32,?v) at 1
        store(field_addr(p,tree,height),U8,?h) at 2
-       store(field_addr(p,tree,lchild),PTR(struct tree),?l) at 3
-       store(field_addr(p,tree,rchild),PTR(struct tree),?r) at 4
+       store(field_addr(p,tree,lchild),PTR,?l) at 3
+       store(field_addr(p,tree,rchild),PTR,?r) at 4
 action : right_erase(0);
          right_erase(1);
          right_erase(2);

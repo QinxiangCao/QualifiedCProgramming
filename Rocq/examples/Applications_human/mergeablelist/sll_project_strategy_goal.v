@@ -1,14 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.mergeablelist.sll_project_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
 
 Definition sll_project_strategy3 :=
   forall (p : Z),
@@ -142,14 +135,14 @@ Definition sll_project_strategy40 :=
     (“ (l = (@nil Z)) ”) &&
     emp -*
     TT &&
-    (“ (( map_mult x (@nil Z)) = l) ”) &&
+    (“ ((map_mult x (@nil Z)) = l) ”) &&
     emp
     ).
 
 Definition sll_project_strategy41 :=
   forall (x : Z) (l : (@list Z)),
     TT &&
-    (“ (( map_mult x (@nil Z)) = l) ”) &&
+    (“ ((map_mult x (@nil Z)) = l) ”) &&
     emp
     |--
     (
@@ -177,7 +170,7 @@ Definition sll_project_strategy42 :=
     emp -*
     TT &&
     emp **
-    ((sllseg p p ( map_mult x l)))
+    ((sllseg p p (map_mult x l)))
     ).
 
 Definition sll_project_strategy50 :=
@@ -385,20 +378,20 @@ Definition sll_project_strategy38 :=
 Definition sll_project_strategy72 :=
   forall (x : Z) (y : Z) (p : Z),
     TT &&
-    (“ (Z.lt x y) ”) &&
+    (“ (x < y) ”) &&
     emp **
     ((UIntArray.undef_seg p x y))
     |--
     (
     TT &&
     emp **
-    ((UIntArray.undef_seg p (Z.add x 1) y))
+    ((UIntArray.undef_seg p (x + 1) y))
     ) ** (
     TT &&
     emp -*
     TT &&
     emp **
-    ((poly_undef_store FET_uint (Z.add p (Z.mul x (@sizeof_front_end_type FET_uint)))))
+    ((poly_undef_store FET_uint (p + (x * sizeof(UINT)))))
     ).
 
 Definition sll_project_strategy73 :=
@@ -491,7 +484,7 @@ Definition sll_project_strategy77 :=
 Definition sll_project_strategy78 :=
   forall (n : Z) (p : Z),
     TT &&
-    (“ (Z.lt 0 n) ”) &&
+    (“ (0 < n) ”) &&
     emp **
     ((UIntArray.undef_full p n))
     |--
@@ -504,7 +497,7 @@ Definition sll_project_strategy78 :=
     emp -*
     TT &&
     emp **
-    ((poly_undef_store FET_uint (Z.add p (Z.mul 0 (@sizeof_front_end_type FET_uint)))))
+    ((poly_undef_store FET_uint (p + (0 * sizeof(UINT)))))
     ).
 
 Definition sll_project_strategy80 :=
@@ -649,11 +642,11 @@ Definition sll_project_strategy93 :=
 Definition sll_project_strategy71 :=
   forall (i : Z) (n : Z) (p : Z),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     emp **
     ((UIntArray.undef_missing_i p i 0 n)) **
-    ((poly_undef_store FET_uint (Z.add p (Z.mul i (@sizeof_front_end_type FET_uint)))))
+    ((poly_undef_store FET_uint (p + (i * sizeof(UINT)))))
     |--
     (
     TT &&
@@ -731,8 +724,8 @@ Definition sll_project_strategy36 :=
 Definition sll_project_strategy70 :=
   forall (i : Z) (n : Z) (p : Z),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     emp **
     ((UIntArray.undef_full p n))
     |--
@@ -745,7 +738,7 @@ Definition sll_project_strategy70 :=
     emp -*
     TT &&
     emp **
-    ((poly_undef_store FET_uint (Z.add p (Z.mul i (@sizeof_front_end_type FET_uint)))))
+    ((poly_undef_store FET_uint (p + (i * sizeof(UINT)))))
     ).
 
 Module Type sll_project_Strategy_Correct.

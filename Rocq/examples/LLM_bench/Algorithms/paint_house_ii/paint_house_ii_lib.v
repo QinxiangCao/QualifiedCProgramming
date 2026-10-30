@@ -1,6 +1,6 @@
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.Lists.List.
-From AUXLib Require Import ListLib.
+From AUXLib Require Import ListLib MonotonicList.
 From MaxMinLib Require Import MaxMin Interface.
 From SumLib Require Import Sum ZRange FiniteExtra.
 
@@ -13,9 +13,9 @@ Definition PaintHouseIIInf : Z := 1000000000.
 Definition PaintCostAt (costs : list (list Z)) (row color : Z) : Z :=
   Znth color (Znth row costs nil) 0.
 
-Definition PaintHouseIIValidColoring (k n : Z) (colors : list Z) : Prop :=
+Definition PaintHouseIILegalColoring (k n : Z) (colors : list Z) : Prop :=
   Zlength colors = n /\
-  (forall i, 0 <= i < n -> 0 <= Znth i colors (-1) < k) /\
+  Forall (fun color => 0 <= color < k) colors /\
   (forall i, 0 <= i < n - 1 ->
      Znth i colors (-1) <> Znth (i + 1) colors (-1)).
 
@@ -29,14 +29,6 @@ Definition PaintHouseIIPrefixLastColor
     (row : Z) (colors : list Z) (color : Z) : Prop :=
   (row = 0 /\ color = -1) \/
   (1 <= row /\ color = Znth (row - 1) colors (-1)).
-
-Definition PaintHouseIIValidPrefixColoring
-    (k row : Z) (colors : list Z) : Prop :=
-  Zlength colors = row /\
-  0 <= row /\
-  (forall i, 0 <= i < row -> 0 <= Znth i colors (-1) < k) /\
-  (forall i, 0 <= i < row - 1 ->
-     Znth i colors (-1) <> Znth (i + 1) colors (-1)).
 
 Inductive PaintHouseIIPrefixCost
     (costs : list (list Z)) (n k : Z) : Z -> Z -> Z -> Prop :=
@@ -61,24 +53,19 @@ Definition PaintHouseIIBestColor
     (fun p : Z * Z => snd p)
     value.
 
-Definition PaintHouseIISecondBestForColor
-    (costs : list (list Z)) (n k row color value : Z) : Prop :=
+Definition PaintHouseIIAlternativeMinimum
+  (costs : list (list Z)) (n k row color value : Z) : Prop :=
   (row = 0 /\ color = -1 /\ value = 0) \/
-  (1 <= row <= n /\
-   min_value_of_subset Z.le
-     (fun p : Z * Z =>
-        fst p <> color /\
-        PaintHouseIIPrefixCost costs n k row (fst p) (snd p))
-     (fun p : Z * Z => snd p)
-     value).
+  (1 <= row /\ min_value_of_subset Z.le
+    (fun p : Z * Z => fst p <> color /\
+      PaintHouseIIPrefixCost costs n k row (fst p) (snd p))
+    (fun p : Z * Z => snd p) value).
 
-Definition PaintHouseIIDPState
-    (costs : list (list Z)) (n k row min1 min2 min1_color : Z) : Prop :=
-  (row = 0 /\ min1 = 0 /\ min2 = 0 /\ min1_color = -1) \/
-  (1 <= row <= n /\
-   0 <= min1_color < k /\
-   PaintHouseIIBestColor costs n k row min1_color min1 /\
-   PaintHouseIISecondBestForColor costs n k row min1_color min2).
+Definition PaintHouseIIRowMinima
+  (costs : list (list Z)) (n k row min1 min2 color : Z) : Prop :=
+  (row = 0 /\ min1 = 0 /\ min2 = 0 /\ color = -1) \/
+  (1 <= row /\ PaintHouseIIBestColor costs n k row color min1 /\
+    PaintHouseIIAlternativeMinimum costs n k row color min2).
 
 Definition PaintHouseIIPrevCost
     (costs : list (list Z)) (k row old_min1 old_min2 old_color color : Z) : Z :=
@@ -118,40 +105,29 @@ Definition PaintHouseIIProcessedSecondBest
     (fun p : Z * Z => snd p)
     value.
 
-Definition PaintHouseIIInnerState
-    (costs : list (list Z)) (n k row processed old_min1 old_min2 old_color
-       new_min1 new_min2 new_color : Z) : Prop :=
-  0 <= row < n /\
-  0 <= processed <= k /\
-  PaintHouseIIDPState costs n k row old_min1 old_min2 old_color /\
-  ((processed = 0 /\
-    new_min1 = PaintHouseIIInf /\
-    new_min2 = PaintHouseIIInf /\
-    new_color = -1) \/
-   (1 <= processed <= k /\
-    0 <= new_color < processed /\
-    PaintHouseIIProcessedBestColor
-      costs n k row old_min1 old_min2 old_color processed new_color new_min1 /\
+Definition PaintHouseIIColorMinima
+  (costs : list (list Z)) (n k row processed old_min1 old_min2 old_color
+    new_min1 new_min2 new_color : Z) : Prop :=
+  PaintHouseIIRowMinima costs n k row old_min1 old_min2 old_color /\
+  ((processed = 0 /\ new_min1 = PaintHouseIIInf /\
+      new_min2 = PaintHouseIIInf /\ new_color = -1) \/
+   (1 <= processed /\ 0 <= new_color < processed /\
+    PaintHouseIIProcessedBestColor costs n k row old_min1 old_min2 old_color
+      processed new_color new_min1 /\
     ((processed = 1 /\ new_min2 = PaintHouseIIInf) \/
-     (2 <= processed /\
-      PaintHouseIIProcessedSecondBest
-        costs n k row old_min1 old_min2 old_color processed new_color new_min2)))).
+     (2 <= processed /\ PaintHouseIIProcessedSecondBest costs n k row
+       old_min1 old_min2 old_color processed new_color new_min2)))).
 
-Definition PaintHouseIICompletedRowState
-    (costs : list (list Z)) (n k row old_min1 old_min2 old_color
-       new_min1 new_min2 new_color : Z) : Prop :=
-  PaintHouseIIInnerState
-    costs n k row k old_min1 old_min2 old_color new_min1 new_min2 new_color /\
-  PaintHouseIIDPState costs n k (row + 1) new_min1 new_min2 new_color.
+Definition PaintHouseIICompletedMinima
+  (costs : list (list Z)) (n k row old_min1 old_min2 old_color
+    new_min1 new_min2 new_color : Z) : Prop :=
+  PaintHouseIIColorMinima costs n k row k old_min1 old_min2 old_color
+    new_min1 new_min2 new_color /\
+  PaintHouseIIRowMinima costs n k (row + 1) new_min1 new_min2 new_color.
 
-Definition PaintHouseIIAnswer
-    (costs : list (list Z)) (n k answer : Z) : Prop :=
-  min_value_of_subset Z.le
-    (fun colors : list Z =>
-       PaintHouseIIValidColoring k n colors)
-    (fun colors : list Z =>
-       PaintHouseIIColoringCost costs n colors)
-    answer.
+Definition PaintHouseIIOptimalCost (costs : list (list Z)) (n k answer : Z) : Prop :=
+  min_value_of_subset Z.le (PaintHouseIILegalColoring k n)
+    (PaintHouseIIColoringCost costs n) answer.
 
 Require Import Coq.micromega.Psatz.
 Require Import Coq.micromega.Lia.
@@ -180,20 +156,20 @@ Lemma PaintHouseIIDPState_values_bound__loop_core :
        0 <= r < n ->
        0 <= c < k ->
        0 <= PaintCostAt costs r c <= 10000) ->
-    PaintHouseIIDPState costs n k row min1 min2 min1_color ->
+    PaintHouseIIRowMinima costs n k row min1 min2 min1_color ->
     0 <= min1 <= row * 10000 /\ 0 <= min2 <= row * 10000.
 Proof.
   intros costs n k row min1 min2 min1_color Hn Hcost Hstate.
-  unfold PaintHouseIIDPState in Hstate.
+  unfold PaintHouseIIRowMinima in Hstate.
   destruct Hstate as [[Hrow [Hmin1 [Hmin2 _]]] |
-                      [Hrow_range [_ [Hbest Hsecond]]]].
+                      [Hrow_range [Hbest Hsecond]]].
   - subst. split; lia.
   - unfold PaintHouseIIBestColor in Hbest.
     destruct Hbest as [Hbest_prefix _].
     pose proof (PaintHouseIIPrefixCost_value_bound__loop_core
                   costs n k row min1_color min1 Hn Hcost Hbest_prefix)
       as [_ Hmin1_bound].
-    unfold PaintHouseIISecondBestForColor in Hsecond.
+    unfold PaintHouseIIAlternativeMinimum in Hsecond.
     destruct Hsecond as [[Hrow0 [_ Hmin2]] | [_ Hmin2_min]].
     + subst. lia.
     + unfold min_value_of_subset, min_object_of_subset in Hmin2_min.
@@ -213,15 +189,15 @@ Lemma PaintHouseIIInnerState_values_bound__loop_core :
        0 <= r < n ->
        0 <= c < k ->
        0 <= PaintCostAt costs r c <= 10000) ->
-    PaintHouseIIInnerState costs n k row processed old_min1 old_min2 old_color
-      new_min1 new_min2 new_color ->
+    (0 <= row < n /\ 0 <= processed <= k /\ PaintHouseIIColorMinima costs n k row processed old_min1 old_min2
+      old_color new_min1 new_min2 new_color) ->
     0 <= new_min1 <= 1000000000 /\
     0 <= new_min2 <= 1000000000 /\
     -1 <= new_color < k.
 Proof.
   intros costs n k row processed old_min1 old_min2 old_color
     new_min1 new_min2 new_color Hn Hcost Hinner.
-  unfold PaintHouseIIInnerState in Hinner.
+  unfold PaintHouseIIColorMinima in Hinner.
   destruct Hinner as [Hrow [Hprocessed [_ [Hzero | Hpos]]]].
   - destruct Hzero as [Hprocessed0 [Hnew1 [Hnew2 Hcolor]]].
     subst processed new_min1 new_min2 new_color.
@@ -281,7 +257,7 @@ Lemma PaintHouseIIPrevSelection_min_prefix__loop_core :
   forall costs n k row old_min1 old_min2 old_color color prev,
     0 <= row < n ->
     0 <= color < k ->
-    PaintHouseIIDPState costs n k row old_min1 old_min2 old_color ->
+    PaintHouseIIRowMinima costs n k row old_min1 old_min2 old_color ->
     PaintHouseIIPrevSelection old_min1 old_min2 old_color color prev ->
     (exists prev_color,
        prev_color <> color /\
@@ -293,9 +269,9 @@ Lemma PaintHouseIIPrevSelection_min_prefix__loop_core :
 Proof.
   intros costs n k row old_min1 old_min2 old_color color prev
     Hrow Hcolor Hdp Hsel.
-  unfold PaintHouseIIDPState in Hdp.
+  unfold PaintHouseIIRowMinima in Hdp.
   destruct Hdp as [[Hrow0 [Hold1 [Hold2 Hold_color]]] |
-                   [Hrow_pos [Hold_color_range [Hbest Hsecond]]]].
+                   [Hrow_pos [Hbest Hsecond]]].
   - subst.
     unfold PaintHouseIIPrevSelection in Hsel.
     destruct (Z.eq_dec color (-1)); [lia | subst prev].
@@ -306,7 +282,7 @@ Proof.
   - unfold PaintHouseIIPrevSelection in Hsel.
     destruct (Z.eq_dec color old_color) as [Heq | Hne].
     + subst color. subst prev.
-      unfold PaintHouseIISecondBestForColor in Hsecond.
+      unfold PaintHouseIIAlternativeMinimum in Hsecond.
       destruct Hsecond as [[Hrow0 _] | [_ Hmin]]; [lia |].
       unfold min_value_of_subset, min_object_of_subset in Hmin.
       destruct Hmin as [[best_color best_value] [[Hobj Hleast] Heqv]].
@@ -337,7 +313,7 @@ Lemma PaintHouseIIPrevSelection_prefix_candidate__loop_core :
   forall costs n k row old_min1 old_min2 old_color color prev total,
     0 <= row < n ->
     0 <= color < k ->
-    PaintHouseIIDPState costs n k row old_min1 old_min2 old_color ->
+    PaintHouseIIRowMinima costs n k row old_min1 old_min2 old_color ->
     PaintHouseIIPrevSelection old_min1 old_min2 old_color color prev ->
     total = prev + PaintCostAt costs row color ->
     PaintHouseIIPrefixCost costs n k (row + 1) color total.
@@ -354,7 +330,7 @@ Lemma PaintHouseIIPrevSelection_prefix_min_next__loop_core :
   forall costs n k row old_min1 old_min2 old_color color prev total value,
     0 <= row < n ->
     0 <= color < k ->
-    PaintHouseIIDPState costs n k row old_min1 old_min2 old_color ->
+    PaintHouseIIRowMinima costs n k row old_min1 old_min2 old_color ->
     PaintHouseIIPrevSelection old_min1 old_min2 old_color color prev ->
     total = prev + PaintCostAt costs row color ->
     PaintHouseIIPrefixCost costs n k (row + 1) color value ->
@@ -379,14 +355,14 @@ Lemma PaintHouseIIInnerState_update_best__loop_core :
     total < new_min1 ->
     PaintHouseIIPrevSelection old_min1 old_min2 old_color processed prev ->
     total = prev + PaintCostAt costs row processed ->
-    PaintHouseIIInnerState costs n k row processed old_min1 old_min2 old_color
-      new_min1 new_min2 new_color ->
-    PaintHouseIIInnerState costs n k row (processed + 1)
-      old_min1 old_min2 old_color total new_min1 processed.
+    (0 <= row < n /\ 0 <= processed <= k /\ PaintHouseIIColorMinima costs n k row processed old_min1 old_min2
+      old_color new_min1 new_min2 new_color) ->
+    (0 <= row < n /\ 0 <= (processed + 1) <= k /\ PaintHouseIIColorMinima costs n k row (processed + 1)
+      old_min1 old_min2 old_color total new_min1 processed).
 Proof.
   intros costs n k row processed old_min1 old_min2 old_color
     new_min1 new_min2 new_color prev total Hprocessed Hlt Hsel Htotal Hinner.
-  unfold PaintHouseIIInnerState in *.
+  unfold PaintHouseIIColorMinima in *.
   destruct Hinner as [Hrow [Hprocessed_old [Hdp Hcase]]].
   split; [lia|].
   split; [lia|].
@@ -483,14 +459,14 @@ Lemma PaintHouseIIInnerState_update_second__loop_core :
     total < new_min2 ->
     PaintHouseIIPrevSelection old_min1 old_min2 old_color processed prev ->
     total = prev + PaintCostAt costs row processed ->
-    PaintHouseIIInnerState costs n k row processed old_min1 old_min2 old_color
-      new_min1 new_min2 new_color ->
-    PaintHouseIIInnerState costs n k row (processed + 1)
-      old_min1 old_min2 old_color new_min1 total new_color.
+    (0 <= row < n /\ 0 <= processed <= k /\ PaintHouseIIColorMinima costs n k row processed old_min1 old_min2
+      old_color new_min1 new_min2 new_color) ->
+    (0 <= row < n /\ 0 <= (processed + 1) <= k /\ PaintHouseIIColorMinima costs n k row (processed + 1)
+      old_min1 old_min2 old_color new_min1 total new_color).
 Proof.
   intros costs n k row processed old_min1 old_min2 old_color
     new_min1 new_min2 new_color prev total Hprocessed Hge Hlt Hsel Htotal Hinner.
-  unfold PaintHouseIIInnerState in *.
+  unfold PaintHouseIIColorMinima in *.
   destruct Hinner as [Hrow [Hprocessed_old [Hdp Hcase]]].
   split; [lia|].
   split; [lia|].
@@ -591,15 +567,15 @@ Lemma PaintHouseIIInnerState_keep__loop_core :
     total < PaintHouseIIInf ->
     PaintHouseIIPrevSelection old_min1 old_min2 old_color processed prev ->
     total = prev + PaintCostAt costs row processed ->
-    PaintHouseIIInnerState costs n k row processed old_min1 old_min2 old_color
-      new_min1 new_min2 new_color ->
-    PaintHouseIIInnerState costs n k row (processed + 1)
-      old_min1 old_min2 old_color new_min1 new_min2 new_color.
+    (0 <= row < n /\ 0 <= processed <= k /\ PaintHouseIIColorMinima costs n k row processed old_min1 old_min2
+      old_color new_min1 new_min2 new_color) ->
+    (0 <= row < n /\ 0 <= (processed + 1) <= k /\ PaintHouseIIColorMinima costs n k row (processed + 1)
+      old_min1 old_min2 old_color new_min1 new_min2 new_color).
 Proof.
   intros costs n k row processed old_min1 old_min2 old_color
     new_min1 new_min2 new_color prev total Hprocessed Hge1 Hge2 Htotal_bound
     Hsel Htotal Hinner.
-  unfold PaintHouseIIInnerState in *.
+  unfold PaintHouseIIColorMinima in *.
   destruct Hinner as [Hrow [Hprocessed_old [Hdp Hcase]]].
   split; [lia|].
   split; [lia|].
@@ -696,23 +672,22 @@ Lemma PaintHouseIIInnerState_completed_row__loop_core :
   forall costs n k row old_min1 old_min2 old_color
          new_min1 new_min2 new_color,
     2 <= k ->
-    PaintHouseIIInnerState costs n k row k old_min1 old_min2 old_color
-      new_min1 new_min2 new_color ->
-    PaintHouseIICompletedRowState costs n k row old_min1 old_min2 old_color
+    (0 <= row < n /\ 0 <= k <= k /\ PaintHouseIIColorMinima costs n k row k old_min1 old_min2 old_color
+      new_min1 new_min2 new_color) ->
+    PaintHouseIICompletedMinima costs n k row old_min1 old_min2 old_color
       new_min1 new_min2 new_color.
 Proof.
   intros costs n k row old_min1 old_min2 old_color
     new_min1 new_min2 new_color Hk Hinner.
-  unfold PaintHouseIICompletedRowState.
-  split; [exact Hinner|].
-  unfold PaintHouseIIInnerState in Hinner.
+  unfold PaintHouseIICompletedMinima.
+  split; [exact (proj2 (proj2 Hinner))|].
+  unfold PaintHouseIIColorMinima in Hinner.
   destruct Hinner as [Hrow [Hprocessed [Hdp Hcase]]].
-  unfold PaintHouseIIDPState.
+  unfold PaintHouseIIRowMinima.
   destruct Hcase as [[Hprocessed0 _] |
                      [Hprocessed_pos [Hnew_color_range [Hbest Hsecond]]]].
   - lia.
   - right.
-    split; [lia|].
     split; [lia|].
     split.
     + unfold PaintHouseIIBestColor.
@@ -742,7 +717,7 @@ Proof.
              split; auto)).
            exact Hle.
       * reflexivity.
-    + unfold PaintHouseIISecondBestForColor.
+    + unfold PaintHouseIIAlternativeMinimum.
       right.
       split; [lia|].
       destruct Hsecond as [[Hprocessed1 _] |
@@ -788,7 +763,7 @@ Lemma PaintHouseIIPrefixCost_to_valid_prefix__answer :
   forall costs n k row color value,
     PaintHouseIIPrefixCost costs n k row color value ->
     exists colors,
-      PaintHouseIIValidPrefixColoring k row colors /\
+      PaintHouseIILegalColoring k row colors /\
       PaintHouseIIPrefixLastColor row colors color /\
       value = PaintHouseIIColoringCost costs row colors.
 Proof.
@@ -796,8 +771,8 @@ Proof.
   induction Hprefix.
   - exists nil.
     split.
-    + unfold PaintHouseIIValidPrefixColoring.
-      repeat split; try rewrite Zlength_nil; try lia; intros; lia.
+    + unfold PaintHouseIILegalColoring.
+      split; [reflexivity | split; [constructor | intros; lia]].
     + split.
       * unfold PaintHouseIIPrefixLastColor.
         left; split; lia.
@@ -808,21 +783,14 @@ Proof.
     assert (Hrow_nonneg : 0 <= row).
     { pose proof (PaintHouseIIPrefixCost_row_bounds__answer _ _ _ _ _ _ Hprefix); lia. }
     assert (Hlen : Zlength colors = row).
-    { unfold PaintHouseIIValidPrefixColoring in Hvalid; tauto. }
+    { unfold PaintHouseIILegalColoring in Hvalid; tauto. }
     split.
-    + unfold PaintHouseIIValidPrefixColoring in *.
-      destruct Hvalid as [Hlen0 [Hrow0 [Hbounds Hadj]]].
+    + unfold PaintHouseIILegalColoring in *.
+      destruct Hvalid as [Hlen0 [Hbounds Hadj]].
       split.
       * rewrite Zlength_app, Zlength_cons, Zlength_nil, Hlen0; lia.
-      * split; [lia |].
-        split.
-        -- intros idx Hi.
-           destruct (Z.eq_dec idx row) as [-> | Hneq].
-           ++ rewrite app_Znth2 by lia.
-              replace (row - Zlength colors) with 0 by lia.
-              rewrite Znth0_cons; lia.
-           ++ rewrite app_Znth1 by lia.
-              apply Hbounds; lia.
+      * split.
+        -- apply Forall_app. split; [exact Hbounds | constructor; [assumption | constructor]].
         -- intros idx Hi.
            destruct (Z.eq_dec (idx + 1) row) as [Hsucc | Hsucc].
            ++ assert (idx = row - 1) by lia; subst idx.
@@ -863,10 +831,10 @@ Proof.
            rewrite Znth0_cons.
            reflexivity.
 Qed.
-Lemma PaintHouseIIValidColoring_to_PrefixCost__answer :
+Lemma PaintHouseIILegalColoring_to_PrefixCost__answer :
   forall costs total row k colors,
     0 <= row <= total ->
-    PaintHouseIIValidColoring k row colors ->
+    PaintHouseIILegalColoring k row colors ->
     PaintHouseIIPrefixCost costs total k row
       (Znth (row - 1) colors (-1))
       (PaintHouseIIColoringCost costs row colors).
@@ -879,7 +847,7 @@ Proof.
   revert total colors Hrange Hvalid.
   induction m as [|m IH]; intros total colors Hrange Hvalid.
   - simpl.
-    unfold PaintHouseIIValidColoring in Hvalid.
+    unfold PaintHouseIILegalColoring in Hvalid.
     destruct Hvalid as [Hlen _].
     destruct colors as [|x xs].
     2:{
@@ -894,13 +862,16 @@ Proof.
   - replace (Z.of_nat (S m)) with (Z.of_nat m + 1) by lia.
     replace (Z.of_nat m + 1 - 1) with (Z.of_nat m) by lia.
     pose (prefix := sublist 0 (Z.of_nat m) colors).
-    assert (Hvalid_prefix : PaintHouseIIValidColoring k (Z.of_nat m) prefix).
+    assert (Hvalid_prefix : PaintHouseIILegalColoring k (Z.of_nat m) prefix).
     {
       unfold prefix.
-      unfold PaintHouseIIValidColoring in *.
+      unfold PaintHouseIILegalColoring in *.
+      rewrite (Forall_Znth _ (-1) colors) in Hvalid.
+      rewrite (Forall_Znth _ (-1) (sublist 0 (Z.of_nat m) colors)).
+      rewrite Zlength_sublist by (destruct Hvalid as [Hlen _]; lia).
       destruct Hvalid as [Hlen [Hbounds Hadj]].
       split.
-      - rewrite Zlength_sublist by lia; lia.
+      - lia.
       - split.
         + intros idx Hi.
           rewrite Znth_sublist0 by lia.
@@ -910,14 +881,15 @@ Proof.
           apply Hadj; lia.
     }
     specialize (IH total prefix ltac:(lia) Hvalid_prefix).
-    unfold PaintHouseIIValidColoring in Hvalid.
+    unfold PaintHouseIILegalColoring in Hvalid.
+    rewrite (Forall_Znth _ (-1) colors) in Hvalid.
     destruct Hvalid as [Hlen [Hbounds Hadj]].
     eapply PaintHouseIIPrefixCost_cons with
       (prev_color := Znth (Z.of_nat m - 1) prefix (-1))
       (prev_value := PaintHouseIIColoringCost costs (Z.of_nat m) prefix).
     + lia.
     + apply Hbounds; lia.
-    + 
+    +
       destruct (Z.eq_dec (Z.of_nat m) 0) as [Hrow0 | Hrowpos].
       * unfold prefix.
         rewrite Zsublist_nil by lia.
@@ -947,15 +919,15 @@ Qed.
 Lemma PaintHouseIIDPState_answer__answer :
   forall costs n k min1 min2 min1_color,
     1 <= n ->
-    PaintHouseIIDPState costs n k n min1 min2 min1_color ->
-    PaintHouseIIAnswer costs n k min1.
+    PaintHouseIIRowMinima costs n k n min1 min2 min1_color ->
+    PaintHouseIIOptimalCost costs n k min1.
 Proof.
   intros costs n k min1 min2 min1_color Hn Hdp.
-  unfold PaintHouseIIDPState in Hdp.
-  destruct Hdp as [[Hrow _] | [_ [_ [Hbest _]]]]; [lia |].
+  unfold PaintHouseIIRowMinima in Hdp.
+  destruct Hdp as [[Hrow _] | [_ [Hbest _]]]; [lia |].
   unfold PaintHouseIIBestColor in Hbest.
   destruct Hbest as [_ Hmin].
-  unfold PaintHouseIIAnswer.
+  unfold PaintHouseIIOptimalCost.
   unfold min_value_of_subset, min_object_of_subset in *.
   destruct Hmin as [[best_color best_value] [[Hbest_prefix Hbest_le] Hbest_value]].
   simpl in Hbest_value; subst best_value.
@@ -967,10 +939,7 @@ Proof.
   exists best_colors.
   split.
   - split.
-    + unfold PaintHouseIIValidPrefixColoring in Hbest_valid.
-      unfold PaintHouseIIValidColoring.
-      destruct Hbest_valid as [Hlen [_ [Hbounds Hadj]]].
-      split; [exact Hlen | split; [exact Hbounds | exact Hadj]].
+    + exact Hbest_valid.
     + intros colors Hvalid.
       specialize
         (Hbest_le
@@ -979,50 +948,71 @@ Proof.
       simpl in Hbest_le.
       rewrite <- Hbest_cost.
       apply Hbest_le.
-      apply PaintHouseIIValidColoring_to_PrefixCost__answer; [lia | exact Hvalid].
+      apply PaintHouseIILegalColoring_to_PrefixCost__answer; [lia | exact Hvalid].
   - symmetry; exact Hbest_cost.
 Qed.
 
-(** Mathematical contracts exposed to C; execution bounds remain explicit in
-    the annotation.  Existing proof-support definitions above are unchanged. *)
-Definition PaintHouseIILegalColoring (k n : Z) (colors : list Z) : Prop :=
-  Zlength colors = n /\
-  Forall (fun color => 0 <= color < k) colors /\
-  (forall i, 0 <= i < n - 1 ->
-    Znth i colors (-1) <> Znth (i + 1) colors (-1)).
-Definition PaintHouseIIOptimalCost (costs : list (list Z)) (n k answer : Z) : Prop :=
-  min_value_of_subset Z.le (PaintHouseIILegalColoring k n)
-    (PaintHouseIIColoringCost costs n) answer.
-Definition PaintHouseIIAlternativeMinimum
-  (costs : list (list Z)) (n k row color value : Z) : Prop :=
-  (row = 0 /\ color = -1 /\ value = 0) \/
-  (1 <= row /\ min_value_of_subset Z.le
-    (fun p : Z * Z => fst p <> color /\
-      PaintHouseIIPrefixCost costs n k row (fst p) (snd p))
-    (fun p : Z * Z => snd p) value).
-Definition PaintHouseIIRowMinima
-  (costs : list (list Z)) (n k row min1 min2 color : Z) : Prop :=
-  (row = 0 /\ min1 = 0 /\ min2 = 0 /\ color = -1) \/
-  (1 <= row /\ PaintHouseIIBestColor costs n k row color min1 /\
-    PaintHouseIIAlternativeMinimum costs n k row color min2).
-Definition PaintHouseIIColorMinima
-  (costs : list (list Z)) (n k row processed old_min1 old_min2 old_color
-    new_min1 new_min2 new_color : Z) : Prop :=
-  PaintHouseIIRowMinima costs n k row old_min1 old_min2 old_color /\
-  ((processed = 0 /\ new_min1 = PaintHouseIIInf /\
-      new_min2 = PaintHouseIIInf /\ new_color = -1) \/
-   (1 <= processed /\ 0 <= new_color < processed /\
-    PaintHouseIIProcessedBestColor costs n k row old_min1 old_min2 old_color
-      processed new_color new_min1 /\
-    ((processed = 1 /\ new_min2 = PaintHouseIIInf) \/
-     (2 <= processed /\ PaintHouseIIProcessedSecondBest costs n k row
-       old_min1 old_min2 old_color processed new_color new_min2)))).
-Definition PaintHouseIICompletedMinima
-  (costs : list (list Z)) (n k row old_min1 old_min2 old_color
-    new_min1 new_min2 new_color : Z) : Prop :=
-  PaintHouseIIColorMinima costs n k row k old_min1 old_min2 old_color
-    new_min1 new_min2 new_color /\
-  PaintHouseIIRowMinima costs n k (row + 1) new_min1 new_min2 new_color.
-
 (** Keep the element type implicit when Zlength is passed to map. *)
 Arguments Zlength {A}.
+
+(* List dimensions, element bounds, and row access. *)
+From SimpleC.SL Require Import Mem SeparationLogic.
+Import naive_C_Rules.
+Local Open Scope sac.
+
+Lemma paint_rows_iff : forall (costs : list (list Z)) n k (d : list Z),
+  Zlength costs = n ->
+  (Forall (eq k) (map (@Zlength Z) costs) <->
+   forall r, 0 <= r < n -> Zlength (Znth r costs d) = k).
+Proof.
+  intros costs n k d Hlen. rewrite Forall_map.
+  rewrite (Forall_Znth (fun row => k = Zlength row) d costs).
+  split; intros H r Hr; specialize (H r ltac:(lia)); lia.
+Qed.
+
+Lemma paint_costs_iff : forall (costs : list (list Z)) n k (d : list Z),
+  Zlength costs = n -> Forall (eq k) (map (@Zlength Z) costs) ->
+  ((Forall (Forall (Z.le 0)) costs /\ Forall (Forall (Z.ge 10000)) costs) <->
+   forall r c, 0 <= r < n -> 0 <= c < k ->
+     0 <= Znth c (Znth r costs d) 0 <= 10000).
+Proof.
+  intros costs n k d Hlen Hshape.
+  pose proof ((proj1 (paint_rows_iff costs n k d Hlen)) Hshape) as Hrows.
+  split.
+  - intros [Hlo Hhi] r c Hr Hc.
+    pose proof (proj1 (Forall_Znth (Forall (Z.le 0)) d costs) Hlo r ltac:(lia)) as Hlo_row.
+    pose proof (proj1 (Forall_Znth (Forall (Z.ge 10000)) d costs) Hhi r ltac:(lia)) as Hhi_row.
+    pose proof (Hrows r Hr) as Hrowlen.
+    pose proof (proj1 (Forall_Znth (Z.le 0) 0 (Znth r costs d)) Hlo_row c ltac:(lia)) as Hl.
+    pose proof (proj1 (Forall_Znth (Z.ge 10000) 0 (Znth r costs d)) Hhi_row c ltac:(lia)) as Hh.
+    apply Z.ge_le in Hh. lia.
+  - intros Hbounds. split.
+    + apply (proj2 (Forall_Znth (Forall (Z.le 0)) d costs)). intros r Hr.
+      apply (proj2 (Forall_Znth (Z.le 0) 0 (Znth r costs d))). intros c Hc.
+      pose proof (Hrows r ltac:(lia)) as Hrowlen.
+      specialize (Hbounds r c ltac:(lia) ltac:(lia)). lia.
+    + apply (proj2 (Forall_Znth (Forall (Z.ge 10000)) d costs)). intros r Hr.
+      apply (proj2 (Forall_Znth (Z.ge 10000) 0 (Znth r costs d))). intros c Hc.
+      pose proof (Hrows r ltac:(lia)) as Hrowlen.
+      specialize (Hbounds r c ltac:(lia) ltac:(lia)). apply Z.le_ge. lia.
+Qed.
+
+Lemma paint_open_row : forall costs_pre costs_l n i (d : list Z),
+  Zlength costs_l = n -> 0 <= i < n ->
+  IntPtrArray2.full costs_pre n costs_l |--
+    EX row_ptr,
+      IntPtrArray2.missing_i costs_pre n i row_ptr costs_l **
+      ((costs_pre + i * sizeof(PTR)) # Ptr |-> row_ptr) **
+      IntArray.full row_ptr (Zlength (Znth i costs_l d)) (Znth i costs_l d).
+Proof.
+  intros costs_pre costs_l n i d Hlen Hi.
+  sep_apply_l_atomic (IntPtrArray2.full_split_to_missing_i costs_pre i n costs_l).
+  - dump_pre_spatial; lia.
+  - Intros row_ptr. Exists row_ptr.
+    unfold StorePtrAsElement.storeA.
+    rewrite (Znth_indep costs_l i nil d) by lia.
+    change (IntPtrArray2.ElemArray.full row_ptr
+      (Zlength (Znth i costs_l d)) (Znth i costs_l d)) with
+      (IntArray.full row_ptr (Zlength (Znth i costs_l d)) (Znth i costs_l d)).
+    repeat cancel; try reflexivity.
+Qed.

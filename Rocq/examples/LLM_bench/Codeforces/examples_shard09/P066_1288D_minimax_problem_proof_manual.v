@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P066_1288D_minimax_problem_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P066_1288D_minimax_problem_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.array2_ext_lib.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P066_1288D_minimax_problem_lib.
@@ -24,7 +8,7 @@ Local Open Scope sac.
 
 Lemma proof_of_feasible_safety_wit_1_split_goal_1 : feasible_safety_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hm : m_pre = 1 \/ m_pre = 2 \/ m_pre = 3 \/ m_pre = 4 \/
                m_pre = 5 \/ m_pre = 6 \/ m_pre = 7 \/ m_pre = 8) by lia.
@@ -33,7 +17,7 @@ Qed.
 
 Lemma proof_of_feasible_safety_wit_1_split_goal_2 : feasible_safety_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hm : m_pre = 1 \/ m_pre = 2 \/ m_pre = 3 \/ m_pre = 4 \/
                m_pre = 5 \/ m_pre = 6 \/ m_pre = 7 \/ m_pre = 8) by lia.
@@ -49,7 +33,7 @@ Qed.
 
 Lemma proof_of_feasible_safety_wit_2_split_goal_1 : feasible_safety_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hm : m_pre = 1 \/ m_pre = 2 \/ m_pre = 3 \/ m_pre = 4 \/
                m_pre = 5 \/ m_pre = 6 \/ m_pre = 7 \/ m_pre = 8) by lia.
@@ -58,7 +42,7 @@ Qed.
 
 Lemma proof_of_feasible_safety_wit_2_split_goal_2 : feasible_safety_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hm : m_pre = 1 \/ m_pre = 2 \/ m_pre = 3 \/ m_pre = 4 \/
                m_pre = 5 \/ m_pre = 6 \/ m_pre = 7 \/ m_pre = 8) by lia.
@@ -67,12 +51,12 @@ Qed.
 
 Lemma proof_of_feasible_safety_wit_2_split_goal_3 : feasible_safety_wit_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_feasible_safety_wit_2_split_goal_4 : feasible_safety_wit_2_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_feasible_safety_wit_2 : feasible_safety_wit_2.
@@ -86,7 +70,7 @@ Qed.
 
 Lemma proof_of_feasible_safety_wit_14_split_goal_1 : feasible_safety_wit_14_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hj : j = 0 \/ j = 1 \/ j = 2 \/ j = 3 \/
                j = 4 \/ j = 5 \/ j = 6 \/ j = 7) by lia.
@@ -95,7 +79,7 @@ Qed.
 
 Lemma proof_of_feasible_safety_wit_14_split_goal_2 : feasible_safety_wit_14_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hj : j = 0 \/ j = 1 \/ j = 2 \/ j = 3 \/
                j = 4 \/ j = 5 \/ j = 6 \/ j = 7) by lia.
@@ -104,12 +88,12 @@ Qed.
 
 Lemma proof_of_feasible_safety_wit_14_split_goal_3 : feasible_safety_wit_14_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_feasible_safety_wit_14_split_goal_4 : feasible_safety_wit_14_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_feasible_safety_wit_14 : feasible_safety_wit_14.
@@ -123,7 +107,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_1 : feasible_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hshape_rec :
     forall (storeA : addr -> Z -> Z -> Assertion) k x lo hi,
       store_undef_array_rec (fun x lo => EX a : Z, storeA x lo a)
@@ -174,7 +158,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_2_split_goal_1 : feasible_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Zlength_replace_Znth.
   lia.
 Qed.
@@ -187,14 +171,14 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_3_split_goal_1 : feasible_entail_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite PreH19 by lia.
   lia.
 Qed.
 
 Lemma proof_of_feasible_entail_wit_3_split_goal_2 : feasible_entail_wit_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold RepresentativePrefix.
   intros mask Hmask.
   left.
@@ -217,14 +201,14 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_4_split_goal_1 : feasible_entail_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH20.
   lia.
 Qed.
 
 Lemma proof_of_feasible_entail_wit_4_split_goal_2 : feasible_entail_wit_4_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold RowMaskPrefix.
   split.
   - change (0 <= 0 < 1).
@@ -235,7 +219,8 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_4_split_goal_3 : feasible_entail_wit_4_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
+  nia.
 Qed.
 
 Lemma proof_of_feasible_entail_wit_4 : feasible_entail_wit_4.
@@ -248,7 +233,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_5_1_split_goal_1 : feasible_entail_wit_5_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite Z.shiftl_1_l.
   rewrite signed_last_nbits_eq.
@@ -262,7 +247,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_5_1_split_goal_2 : feasible_entail_wit_5_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite Z.shiftl_1_l.
   rewrite signed_last_nbits_eq.
@@ -283,7 +268,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_5_1_split_goal_3 : feasible_entail_wit_5_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite Z.shiftl_1_l.
   rewrite signed_last_nbits_eq.
@@ -298,12 +283,13 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_5_1_split_goal_4 : feasible_entail_wit_5_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
+  dump_pre_spatial; nia.
 Qed.
 
 Lemma proof_of_feasible_entail_wit_5_1_split_goal_spatial : feasible_entail_wit_5_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite (Znth_indep rows i __default__List_Z (nil : list Z)) by lia.
   replace (a_pre + (i * m_pre + j) * sizeof(INT)) with
     ((a_pre + i * m_pre * sizeof(INT)) + j * sizeof(INT)) by nia.
@@ -369,7 +355,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_5_2_split_goal_1 : feasible_entail_wit_5_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite (Znth_indep rows i __default__List_Z (nil : list Z)) in PreH3 by lia.
   eapply row_mask_clear_next__row_mask_step; eauto; lia.
@@ -377,12 +363,13 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_5_2_split_goal_2 : feasible_entail_wit_5_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
+  dump_pre_spatial; nia.
 Qed.
 
 Lemma proof_of_feasible_entail_wit_5_2_split_goal_spatial : feasible_entail_wit_5_2_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite (Znth_indep rows i __default__List_Z (nil : list Z)) by lia.
   replace (a_pre + (i * m_pre + j) * sizeof(INT)) with
     ((a_pre + i * m_pre * sizeof(INT)) + j * sizeof(INT)) by nia.
@@ -416,7 +403,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_6_1_split_goal_1 : feasible_entail_wit_6_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   match goal with
   | H : (0 <= q /\ q <= full)%Z |- _ => rename H into Hq
   end.
@@ -433,7 +420,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_6_1_split_goal_2 : feasible_entail_wit_6_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hpow : 2 ^ m_pre = full + 1).
   { rewrite <- Z.shiftl_1_l. lia. }
   apply (representative_insert__representative_update
@@ -451,7 +438,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_6_1_split_goal_3 : feasible_entail_wit_6_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Zlength_replace_Znth.
   exact PreH25.
 Qed.
@@ -466,7 +453,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_6_2_split_goal_1 : feasible_entail_wit_6_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   match goal with
   | H : (0 <= q /\ q <= full)%Z |- _ => rename H into Hq
   end.
@@ -476,7 +463,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_6_2_split_goal_2 : feasible_entail_wit_6_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hpow : 2 ^ m_pre = full + 1).
   { rewrite <- Z.shiftl_1_l. lia. }
   apply (representative_skip__representative_update
@@ -498,7 +485,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_7_split_goal_1 : feasible_entail_wit_7_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   match goal with
   | H : (0 <= q /\ q <= full)%Z |- _ => rename H into Hq
   end.
@@ -508,7 +495,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_7_split_goal_2 : feasible_entail_wit_7_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold NoCoverPrefix.
   intros s u Hs Hu Hbefore Hsrep Hurep.
   lia.
@@ -516,7 +503,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_7_split_goal_3 : feasible_entail_wit_7_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (i = n_pre) by lia. subst i.
   exact PreH19.
 Qed.
@@ -531,7 +518,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_8_split_goal_1 : feasible_entail_wit_8_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH22. exact H.
 Qed.
 
@@ -543,13 +530,13 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_9_1_split_goal_1 : feasible_entail_wit_9_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH25. exact H.
 Qed.
 
 Lemma proof_of_feasible_entail_wit_9_1_split_goal_2 : feasible_entail_wit_9_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite <- PreH13.
   eapply no_cover_outer_missing__cover_search.
   - exact PreH24.
@@ -565,7 +552,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_9_2_split_goal_1 : feasible_entail_wit_9_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite <- PreH14.
   eapply no_cover_outer_missing__cover_search.
   - exact PreH21.
@@ -582,7 +569,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_10_1_split_goal_1 : feasible_entail_wit_10_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite <- PreH14.
   eapply no_cover_inner_missing__cover_search.
   - exact PreH25.
@@ -598,7 +585,7 @@ Qed.
 
 Lemma proof_of_feasible_entail_wit_10_2_split_goal_1 : feasible_entail_wit_10_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite <- PreH15.
   eapply no_cover_inner_noncover__cover_search.
   - exact PreH26.
@@ -613,7 +600,7 @@ Qed.
 
 Lemma proof_of_feasible_return_wit_1_split_goal_1 : feasible_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply (completed_no_cover_excludes_feasible__feasible_outcomes
     rows x_pre m_pre n_pre reps_2 s full).
   - lia.
@@ -634,7 +621,7 @@ Qed.
 
 Lemma proof_of_feasible_return_wit_2 : feasible_return_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.shiftl_1_l in PreH15.
   assert (Hsrange : 0 <= s < 2 ^ m_pre).
   { lia. }
@@ -658,7 +645,7 @@ Proof.
         simpl store_array_rec.
         replace (bi_pre + 0) with bi_pre by lia.
         replace (bj_pre + 0) with bj_pre by lia.
-        LLM_pre_process ltac:(lia || nia || int_auto).
+        LLM_pre_process ltac:(lia || int_auto).
       * split_pures.
         -- dump_pre_spatial. lia.
         -- dump_pre_spatial. lia.
@@ -676,7 +663,7 @@ Qed.
 
 Lemma proof_of_feasible_which_implies_wit_1 : feasible_which_implies_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   sep_apply_l_atomic (IntArray.mixed_full_to_undef_full bi_pre 1 old_bi).
   sep_apply_l_atomic (IntArray.mixed_full_to_undef_full bj_pre 1 old_bj).
   rewrite (IntArray.undef_full_unfold bi_pre 0 (@nil Z)) by lia.
@@ -692,7 +679,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_4_split_goal_1 : solver_safety_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv by lia.
   assert (Hhalf_nonneg : 0 <= (hi - lo + 1) / 2) by
@@ -704,7 +691,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_4_split_goal_2 : solver_safety_wit_4_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv by lia.
   assert (Hhalf_nonneg : 0 <= (hi - lo + 1) / 2) by
@@ -721,7 +708,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_12_split_goal_1 : solver_safety_wit_12_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv by lia.
   assert (Hhalf_upper : (hi - lo + 1) / 2 <= hi - lo) by
@@ -731,7 +718,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_12_split_goal_2 : solver_safety_wit_12_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv by lia.
   assert (Hhalf_pos : 1 <= (hi - lo + 1) / 2) by
@@ -748,7 +735,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1 : solver_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hentries : MatrixEntriesBounded rows).
   { exact (matrix_entries_bounded_from_flat__solver_semantics
       rows n_pre m_pre __default__List_Z PreH1 ltac:(lia) PreH6 PreH7 PreH5). }
@@ -780,7 +767,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_1 : solver_entail_wit_4_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hentries : MatrixEntriesBounded rows).
   { exact (matrix_entries_bounded_from_flat__solver_semantics
       rows n_pre m_pre __default__List_Z PreH7 ltac:(lia)
@@ -819,7 +806,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_2 : solver_entail_wit_4_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hentries : MatrixEntriesBounded rows).
   { exact (matrix_entries_bounded_from_flat__solver_semantics
       rows n_pre m_pre __default__List_Z PreH7 ltac:(lia)
@@ -845,7 +832,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1 : solver_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hentries : MatrixEntriesBounded rows).
   { exact (matrix_entries_bounded_from_flat__solver_semantics
       rows n_pre m_pre __default__List_Z PreH8 ltac:(lia)
@@ -865,7 +852,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_2 : solver_return_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hentries : MatrixEntriesBounded rows).
   { exact (matrix_entries_bounded_from_flat__solver_semantics
       rows n_pre m_pre __default__List_Z PreH8 ltac:(lia)
@@ -878,7 +865,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_3 : solver_return_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hentries : MatrixEntriesBounded rows).
   { exact (matrix_entries_bounded_from_flat__solver_semantics
       rows n_pre m_pre __default__List_Z PreH3 ltac:(lia)
@@ -896,7 +883,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_3_pure_split_goal_1 : solver_partial_solve_wit_3_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv by lia.
   assert (Hhalf_nonneg : 0 <= (hi - lo + 1) / 2) by
@@ -906,7 +893,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_3_pure_split_goal_2 : solver_partial_solve_wit_3_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv by lia.
   assert (Hhalf_upper : (hi - lo + 1) / 2 <= hi - lo) by
@@ -916,7 +903,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_3_pure_split_goal_3 : solver_partial_solve_wit_3_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_3_pure : solver_partial_solve_wit_3_pure.
@@ -929,22 +916,22 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_4_pure_split_goal_1 : solver_partial_solve_wit_4_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_4_pure_split_goal_2 : solver_partial_solve_wit_4_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_4_pure_split_goal_3 : solver_partial_solve_wit_4_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_4_pure_split_goal_4 : solver_partial_solve_wit_4_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_4_pure : solver_partial_solve_wit_4_pure.
@@ -958,7 +945,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_7_pure_split_goal_1 : solver_partial_solve_wit_7_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_7_pure : solver_partial_solve_wit_7_pure.
@@ -969,7 +956,7 @@ Qed.
 
 Lemma proof_of_solver_which_implies_wit_1 : solver_which_implies_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite (IntArray.undef_full_unfold bi_pre 0 (@nil Z)) by lia.
   rewrite (IntArray.undef_full_unfold bj_pre 0 (@nil Z)) by lia.
   repeat rewrite IntArray.undef_seg_empty.
@@ -982,7 +969,7 @@ Qed.
 
 Lemma proof_of_solver_which_implies_wit_2 : solver_which_implies_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (None :: nil) (None :: nil).
   split_pure_spatial.
   - repeat rewrite IntArray.mixed_full_unfold.
@@ -1000,7 +987,7 @@ Qed.
 
 Lemma proof_of_solver_which_implies_wit_3_split_goal_spatial : solver_which_implies_wit_3_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite !Zlength_correct in PreH1, PreH2, PreH3, PreH4.
   destruct ci_values as [|ci [|ci2 ci_tail]]; simpl in PreH1; try lia.
   destruct cj_values as [|cj [|cj2 cj_tail]]; simpl in PreH2; try lia.
@@ -1032,7 +1019,7 @@ Qed.
 
 Lemma proof_of_solver_which_implies_wit_4 : solver_which_implies_wit_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   sep_apply_l_atomic (IntArray.mixed_full_to_undef_full (&( "ci" )) 1 ci_values).
   sep_apply_l_atomic (IntArray.mixed_full_to_undef_full (&( "cj" )) 1 cj_values).
   rewrite (IntArray.undef_full_unfold (&( "ci" )) 0 (@nil Z)) by lia.
@@ -1047,7 +1034,7 @@ Qed.
 
 Lemma proof_of_solver_which_implies_wit_5 : solver_which_implies_wit_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply_p (IntArray.full_Zlength bi_pre 1 bi_values).
   prop_apply_p (IntArray.full_Zlength bj_pre 1 bj_values).
   Intros_p Hbi.

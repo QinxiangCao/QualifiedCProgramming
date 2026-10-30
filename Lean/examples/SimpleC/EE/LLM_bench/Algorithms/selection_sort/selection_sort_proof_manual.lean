@@ -111,38 +111,38 @@ private theorem selection_minimum_sublist_intro (l : List Int) (lo hi index : In
 
 theorem proof_of_sortArray_entail_wit_1_split_goal_1 : sortArray_entail_wit_1_split_goal_1 := by
   unfold sortArray_entail_wit_1_split_goal_1
-  intro numsSize_pre l PreH1 PreH2 PreH3
+  intro l numsSize_pre PreH1 PreH2 PreH3
   all_goals
     first | omega | (solve | simp [Sorting.increasing, sublist]) | grind
 
 theorem proof_of_sortArray_entail_wit_1_split_goal_2 : sortArray_entail_wit_1_split_goal_2 := by
   unfold sortArray_entail_wit_1_split_goal_2
-  intro numsSize_pre l PreH1 PreH2 PreH3
+  intro l numsSize_pre PreH1 PreH2 PreH3
   all_goals
     first | omega | (solve | simp [Sorting.increasing, sublist]) | grind
 
 theorem proof_of_sortArray_entail_wit_1_split_goal_3 : sortArray_entail_wit_1_split_goal_3 := by
   unfold sortArray_entail_wit_1_split_goal_3
-  intro numsSize_pre l PreH1 PreH2 PreH3
+  intro l numsSize_pre PreH1 PreH2 PreH3
   all_goals
     first | omega | (solve | simp [Sorting.increasing, sublist]) | grind
 
 theorem proof_of_sortArray_entail_wit_1 : sortArray_entail_wit_1 := by
   unfold sortArray_entail_wit_1
   right
-  intro numsSize_pre l PreH1 PreH2 PreH3
+  intro l numsSize_pre PreH1 PreH2 PreH3
   all_goals
     aggressive_pre_process
     all_goals try (apply dump_spatial_left)
     all_goals first
-      | (apply (proof_of_sortArray_entail_wit_1_split_goal_1 numsSize_pre l) <;> assumption)
-      | (apply (proof_of_sortArray_entail_wit_1_split_goal_3 numsSize_pre l) <;> assumption)
+      | (apply (proof_of_sortArray_entail_wit_1_split_goal_1 l numsSize_pre) <;> assumption)
+      | (apply (proof_of_sortArray_entail_wit_1_split_goal_3 l numsSize_pre) <;> assumption)
       | omega
       | int_auto
 
 theorem proof_of_sortArray_entail_wit_2_split_goal_1 : sortArray_entail_wit_2_split_goal_1 := by
   unfold sortArray_entail_wit_2_split_goal_1
-  intro numsSize_pre l a_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro l numsSize_pre a_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   rw [sublist_single 0 i_2 a_2 (by omega)]
   refine ⟨Znth i_2 a_2 0, ⟨by simp, ?_⟩, rfl⟩
   intro x hx
@@ -150,26 +150,26 @@ theorem proof_of_sortArray_entail_wit_2_split_goal_1 : sortArray_entail_wit_2_sp
 
 theorem proof_of_sortArray_entail_wit_2_split_goal_2 : sortArray_entail_wit_2_split_goal_2 := by
   unfold sortArray_entail_wit_2_split_goal_2
-  intro numsSize_pre l a_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro l numsSize_pre a_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   all_goals
     first | omega | (solve | simp [Sorting.increasing, sublist]) | grind
 
 theorem proof_of_sortArray_entail_wit_2 : sortArray_entail_wit_2 := by
   unfold sortArray_entail_wit_2
   right
-  intro numsSize_pre l a_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro l numsSize_pre a_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   all_goals
     aggressive_pre_process
     all_goals try (apply dump_spatial_left)
     all_goals first
-      | (apply (proof_of_sortArray_entail_wit_2_split_goal_1 numsSize_pre l a_2 i_2) <;> assumption)
-      | (apply (proof_of_sortArray_entail_wit_2_split_goal_2 numsSize_pre l a_2 i_2) <;> assumption)
+      | (apply (proof_of_sortArray_entail_wit_2_split_goal_1 l numsSize_pre a_2 i_2) <;> assumption)
+      | (apply (proof_of_sortArray_entail_wit_2_split_goal_2 l numsSize_pre a_2 i_2) <;> assumption)
       | omega
       | int_auto
 
 theorem proof_of_sortArray_entail_wit_3_1_split_goal_1 : sortArray_entail_wit_3_1_split_goal_1 := by
   unfold sortArray_entail_wit_3_1_split_goal_1
-  intro numsSize_pre l a_2 j_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro l numsSize_pre a_2 j_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   simp only [Zlength_replace_Znth] at PreH1
   apply selection_minimum_sublist_intro _ i_2 (j_2+1) i_2 (by omega) (by simpa only [Zlength_replace_Znth] using (show j_2+1 ≤ Zlength a_2 by omega)) (by omega)
   intro k hk
@@ -183,7 +183,7 @@ theorem proof_of_sortArray_entail_wit_3_1_split_goal_1 : sortArray_entail_wit_3_
 
 theorem proof_of_sortArray_entail_wit_3_1_split_goal_2 : sortArray_entail_wit_3_1_split_goal_2 := by
   unfold sortArray_entail_wit_3_1_split_goal_2
-  intro numsSize_pre l a_2 j_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro l numsSize_pre a_2 j_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   all_goals
     have hlen : Zlength a_2 = numsSize_pre := by simpa only [Zlength_replace_Znth] using PreH1
     apply increasing_sublist_intro <;> try omega
@@ -195,7 +195,7 @@ theorem proof_of_sortArray_entail_wit_3_1_split_goal_2 : sortArray_entail_wit_3_
 
 theorem proof_of_sortArray_entail_wit_3_1_split_goal_3 : sortArray_entail_wit_3_1_split_goal_3 := by
   unfold sortArray_entail_wit_3_1_split_goal_3
-  intro numsSize_pre l a_2 j_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro l numsSize_pre a_2 j_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   all_goals
     have hlen : Zlength a_2 = numsSize_pre := by simpa only [Zlength_replace_Znth] using PreH1
     exact PreH10.trans (permutation_swap_Znth_lt a_2 i_2 j_2 0 (by omega))
@@ -203,18 +203,18 @@ theorem proof_of_sortArray_entail_wit_3_1_split_goal_3 : sortArray_entail_wit_3_
 theorem proof_of_sortArray_entail_wit_3_1 : sortArray_entail_wit_3_1 := by
   unfold sortArray_entail_wit_3_1
   right
-  intro numsSize_pre l a_2 j_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro l numsSize_pre a_2 j_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   all_goals
     aggressive_pre_process
     all_goals try (apply dump_spatial_left)
     all_goals first
-      | exact proof_of_sortArray_entail_wit_3_1_split_goal_1 numsSize_pre l a_2 j_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-      | exact proof_of_sortArray_entail_wit_3_1_split_goal_2 numsSize_pre l a_2 j_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-      | exact proof_of_sortArray_entail_wit_3_1_split_goal_3 numsSize_pre l a_2 j_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sortArray_entail_wit_3_1_split_goal_1 l numsSize_pre a_2 j_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sortArray_entail_wit_3_1_split_goal_2 l numsSize_pre a_2 j_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_sortArray_entail_wit_3_1_split_goal_3 l numsSize_pre a_2 j_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
 
 theorem proof_of_sortArray_entail_wit_4_split_goal_1 : sortArray_entail_wit_4_split_goal_1 := by
   unfold sortArray_entail_wit_4_split_goal_1
-  intro numsSize_pre l a_2 j i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro l numsSize_pre a_2 j i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have PreH12 := selection_minimum_sublist_bound a_2 i_2 j (Znth i_2 a_2 0) (hlo := by omega) (hhi := by omega) (hm := PreH12)
   all_goals
     intro p q h
@@ -226,7 +226,7 @@ theorem proof_of_sortArray_entail_wit_4_split_goal_1 : sortArray_entail_wit_4_sp
 
 theorem proof_of_sortArray_entail_wit_4_split_goal_2 : sortArray_entail_wit_4_split_goal_2 := by
   unfold sortArray_entail_wit_4_split_goal_2
-  intro numsSize_pre l a_2 j i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro l numsSize_pre a_2 j i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   all_goals
     apply increasing_sublist_intro <;> try omega
     intro p q hr
@@ -240,19 +240,19 @@ theorem proof_of_sortArray_entail_wit_4_split_goal_2 : sortArray_entail_wit_4_sp
 theorem proof_of_sortArray_entail_wit_4 : sortArray_entail_wit_4 := by
   unfold sortArray_entail_wit_4
   right
-  intro numsSize_pre l a_2 j i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro l numsSize_pre a_2 j i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   all_goals
     aggressive_pre_process
     all_goals try (apply dump_spatial_left)
     all_goals first
-      | (apply (proof_of_sortArray_entail_wit_4_split_goal_1 numsSize_pre l a_2 j i_2) <;> assumption)
-      | (apply (proof_of_sortArray_entail_wit_4_split_goal_2 numsSize_pre l a_2 j i_2) <;> assumption)
+      | (apply (proof_of_sortArray_entail_wit_4_split_goal_1 l numsSize_pre a_2 j i_2) <;> assumption)
+      | (apply (proof_of_sortArray_entail_wit_4_split_goal_2 l numsSize_pre a_2 j i_2) <;> assumption)
       | omega
       | int_auto
 
 theorem proof_of_sortArray_return_wit_1_split_goal_1 : sortArray_return_wit_1_split_goal_1 := by
   unfold sortArray_return_wit_1_split_goal_1
-  intro numsSize_pre l a i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro l numsSize_pre a i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   all_goals
     have hi : i = numsSize_pre := by omega
     subst i
@@ -262,19 +262,19 @@ theorem proof_of_sortArray_return_wit_1_split_goal_1 : sortArray_return_wit_1_sp
 theorem proof_of_sortArray_return_wit_1 : sortArray_return_wit_1 := by
   unfold sortArray_return_wit_1
   right
-  intro numsSize_pre l a i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro l numsSize_pre a i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   all_goals
     aggressive_pre_process
     all_goals try (apply dump_spatial_left)
     all_goals first
-      | (apply (proof_of_sortArray_return_wit_1_split_goal_1 numsSize_pre l a i) <;> assumption)
+      | (apply (proof_of_sortArray_return_wit_1_split_goal_1 l numsSize_pre a i) <;> assumption)
       | omega
       | int_auto
 
 theorem proof_of_sortArray_entail_wit_3_2 : sortArray_entail_wit_3_2 := by
   unfold sortArray_entail_wit_3_2
   right
-  intro n l current j i hlen hread hj hn hnmax hi hin hij hjn hperm hsorted hcross hmin
+  intro l n current j i hlen hread hj hn hnmax hi hin hij hjn hperm hsorted hcross hmin
   have hnew : selection_minimum (sublist i (j+1) current) (Znth i current 0) := by
     rw [sublist_split i (j+1) j current (by omega) (by omega), sublist_single 0 j current (by omega)]
     exact minimum_append_larger _ _ _ hmin hread

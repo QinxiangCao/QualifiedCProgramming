@@ -534,7 +534,7 @@ Lemma length_firstn_list_from_fun: forall {A} (f: nat -> A) n, length (fisrtn_li
 Proof.
   intros.
   induction n; simpl; auto.
-  rewrite length_app, IHn.
+  rewrite app_length, IHn.
   simpl.
   lia.
 Qed.
@@ -564,7 +564,7 @@ Proof.
     simpl.
     symmetry.
     apply nth_error_None_iff.
-    rewrite length_app.
+    rewrite app_length.
     rewrite length_firstn_list_from_fun.
     lia.
   + rewrite fstn_stream_Some by lia.

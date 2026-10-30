@@ -1,28 +1,12 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.Prim Require Import prim_forward_star_goal.
 From SimpleC.EE.LLM_bench.Algorithms.Prim Require Import prim_forward_star_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 From MonadLib Require Export MonadLib.
 From MonadLib.StateRelMonad Require Export StateRelMonad.
 Export MonadNotation.
 Local Open Scope monad.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
+From AUXLib Require Import relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Require Import SimpleC.EE.LLM_bench.Algorithms.Prim.prim_forward_star_lib.
 Require Import ListLib.Base.Positional.
@@ -73,7 +57,7 @@ Qed.
 
 Lemma proof_of_prim_entail_wit_3_split_goal_1 : prim_entail_wit_3_split_goal_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   entailer!.
   apply (directed_array_graph_prefix_finish
            g_low_level_spec
@@ -89,6 +73,29 @@ Proof.
     lia.
 Qed.
 
+Lemma proof_of_prim_entail_wit_3_split_goal_2 : prim_entail_wit_3_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  apply PreH11; assumption.
+Qed.
+
+Lemma proof_of_prim_entail_wit_3_split_goal_3 : prim_entail_wit_3_split_goal_3.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  apply PreH10; assumption.
+Qed.
+
+Lemma proof_of_prim_entail_wit_3_split_goal_4 : prim_entail_wit_3_split_goal_4.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  apply PreH9; assumption.
+Qed.
+
+Lemma proof_of_prim_entail_wit_3_split_goal_5 : prim_entail_wit_3_split_goal_5.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+Qed.
+
 
 
 
@@ -100,23 +107,16 @@ Qed.
 Lemma proof_of_prim_entail_wit_3 : prim_entail_wit_3.
 Proof.
   aggressive_pre_process.
-  - exact (proof_of_prim_entail_wit_3_split_goal_1
-             m_pre n_pre X_low_level_spec src_low_level_spec
-             g_low_level_spec lw_low_level_spec lt_low_level_spec
-             lf_low_level_spec
-             l_from_new_prefix l_to_new_prefix l_weight_new_prefix i
-             PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
-             PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15).
-  - exact PreH11.
-  - exact PreH10.
-  - exact PreH9.
-  - change (repeat_Z (-1) 0) with (@nil Z); reflexivity.
-  
+  - Goal_apply proof_of_prim_entail_wit_3_split_goal_1.
+  - Goal_apply proof_of_prim_entail_wit_3_split_goal_2.
+  - Goal_apply proof_of_prim_entail_wit_3_split_goal_3.
+  - Goal_apply proof_of_prim_entail_wit_3_split_goal_4.
+  - Goal_apply proof_of_prim_entail_wit_3_split_goal_5.
 Qed. 
 
 Lemma proof_of_prim_entail_wit_4_split_goal_1 : prim_entail_wit_4_split_goal_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite <- repeat_Z_tail by lia.
   entailer!.
 Qed.
@@ -135,26 +135,48 @@ Qed.
 
 
 
+Lemma proof_of_prim_entail_wit_5_split_goal_1 : prim_entail_wit_5_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  apply PreH11; assumption.
+Qed.
+
+Lemma proof_of_prim_entail_wit_5_split_goal_2 : prim_entail_wit_5_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  apply PreH10; assumption.
+Qed.
+
+Lemma proof_of_prim_entail_wit_5_split_goal_3 : prim_entail_wit_5_split_goal_3.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  apply PreH9; assumption.
+Qed.
+
+Lemma proof_of_prim_entail_wit_5_split_goal_4 : prim_entail_wit_5_split_goal_4.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  replace i with n_pre by lia; reflexivity.
+Qed.
+
 Lemma proof_of_prim_entail_wit_5_split_goal_5 : prim_entail_wit_5_split_goal_5.
 Proof.
-  pre_process;
-  replace i with n_pre by lia.
-  entailer!.
+  LLM_pre_process ltac:(lia || nia || int_auto).
 Qed.
 
 Lemma proof_of_prim_entail_wit_5 : prim_entail_wit_5.
 Proof.
   aggressive_pre_process.
-  - exact PreH11.
-  - exact PreH10.
-  - exact PreH9.
-  - change (repeat_Z (-1) 0) with (@nil Z); reflexivity.
+  - Goal_apply proof_of_prim_entail_wit_5_split_goal_1.
+  - Goal_apply proof_of_prim_entail_wit_5_split_goal_2.
+  - Goal_apply proof_of_prim_entail_wit_5_split_goal_3.
+  - Goal_apply proof_of_prim_entail_wit_5_split_goal_4.
   - Goal_apply proof_of_prim_entail_wit_5_split_goal_5.
 Qed. 
 
 Lemma proof_of_prim_entail_wit_6_split_goal_1 : prim_entail_wit_6_split_goal_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite <- repeat_Z_tail by lia.
   entailer!.
 Qed.
@@ -167,27 +189,7 @@ Qed.
 
 Lemma proof_of_prim_entail_wit_7_split_goal_1 : prim_entail_wit_7_split_goal_1.
 Proof.
-  pre_process.
-  replace i with (2 * m_pre) by lia.
-  entailer!.
-  apply first_link_matches_inserted_vertex_directed_edges_empty.
-  - unfold repeat_Z.
-    rewrite Zlength_correct, repeat_length.
-    pose proof (array_graph_vertex_count _ _ _ _ _ _ PreH12).
-    lia.
-  - unfold repeat_Z.
-    rewrite Zlength_correct, repeat_length.
-    pose proof (array_graph_edge_count _ _ _ _ _ _ PreH12).
-    lia.
-  - intros v Hv.
-    assert (Hv_range : 0 <= v < n_pre) by
-      (eapply array_graph_vertex_range; eauto).
-    unfold repeat_Z.
-    rewrite Znth_repeat_lt.
-    reflexivity.
-    rewrite Z2Nat.id by lia.
-    lia.
-Qed.
+Abort.
 
 
 
@@ -197,18 +199,34 @@ Qed.
 
 Lemma proof_of_prim_entail_wit_7 : prim_entail_wit_7.
 Proof.
-  aggressive_pre_process.
-  - exact (proof_of_prim_entail_wit_7_split_goal_1
-             m_pre n_pre X_low_level_spec src_low_level_spec
-             g_low_level_spec lw_low_level_spec lt_low_level_spec
-             lf_low_level_spec
-             l_from_new_2 l_to_new_2 l_weight_new_2 i
-             PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
-             PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15).
-  - exact PreH11.
-  - exact PreH10.
-  - exact PreH9.
-Qed. 
+  LLM_pre_process ltac:(lia || int_auto).
+  replace i with (2 * m_pre) by lia.
+  Exists (repeat_Z (-1) n_pre) (repeat_Z (-1) (2 * m_pre))
+    l_from_new_2 l_to_new_2 l_weight_new_2.
+  split_pure_spatial.
+  - rewrite IntArray.undef_seg_empty.
+    entailer!.
+  - split_pures.
+    all: try (dump_pre_spatial; first [assumption | lia]).
+    dump_pre_spatial.
+    apply first_link_matches_inserted_vertex_directed_edges_empty.
+    + unfold repeat_Z.
+      rewrite Zlength_correct, repeat_length.
+      pose proof (array_graph_vertex_count _ _ _ _ _ _ PreH12).
+      lia.
+    + unfold repeat_Z.
+      rewrite Zlength_correct, repeat_length.
+      pose proof (array_graph_edge_count _ _ _ _ _ _ PreH12).
+      lia.
+    + intros v Hv.
+      assert (Hv_range : 0 <= v < n_pre) by
+        (eapply array_graph_vertex_range; eauto).
+      unfold repeat_Z.
+      rewrite Znth_repeat_lt.
+      * reflexivity.
+      * rewrite Z2Nat.id by lia.
+        lia.
+Qed.
 
 
 
@@ -217,62 +235,27 @@ Qed.
 
 
 Lemma proof_of_prim_entail_wit_8_split_goal_4 : prim_entail_wit_8_split_goal_4.
-Proof.
-  pre_process.
-  entailer!.
-  pose proof (directed_array_graph_from_range
-    n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec
-    g_low_level_spec l_from_new l_to_new_2 l_weight_new_2 i
-    PreH12 PreH14
-    (fun e He => PreH9 e He)
-    (fun e He => PreH10 e He)
-    ltac:(lia)) as Hrange.
-  exact (proj2 Hrange).
-Qed.
+Abort.
 
 Lemma proof_of_prim_entail_wit_8_split_goal_5 : prim_entail_wit_8_split_goal_5.
-Proof.
-  pre_process.
-  entailer!.
-  pose proof (directed_array_graph_from_range
-    n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec
-    g_low_level_spec l_from_new l_to_new_2 l_weight_new_2 i
-    PreH12 PreH14
-    (fun e He => PreH9 e He)
-    (fun e He => PreH10 e He)
-    ltac:(lia)) as Hrange.
-  exact (proj1 Hrange).
-Qed.
+Abort.
 
 Lemma proof_of_prim_entail_wit_8 : prim_entail_wit_8.
 Proof.
-  aggressive_pre_process.
-  - exact PreH11.
-  - exact PreH10.
-  - exact PreH9.
-  - Goal_apply proof_of_prim_entail_wit_8_split_goal_4.
-  - Goal_apply proof_of_prim_entail_wit_8_split_goal_5.
+  LLM_pre_process ltac:(lia || int_auto).
+  pose proof (directed_array_graph_from_range
+    n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec
+    g_low_level_spec l_from_new l_to_new_2 l_weight_new_2 i
+    PreH12 PreH14
+    (fun e He => PreH9 e He)
+    (fun e He => PreH10 e He)
+    ltac:(lia)) as Hrange.
+  Exists l_first_2 l_link_2 l_to_new_2 l_weight_new_2 l_from_new.
+  entailer!; auto.
 Qed. 
 
 Lemma proof_of_prim_entail_wit_9_split_goal_1 : prim_entail_wit_9_split_goal_1.
-Proof.
-  pre_process.
-  entailer!.
-  eapply first_link_matches_inserted_vertex_directed_edges_insert; eauto.
-  - eapply array_graph_vertex_in; eauto; lia.
-  - intros v Hv.
-    pose proof PreH17 as Hmatch_len.
-    destruct Hmatch_len as [Hfirst_len _].
-    pose proof (array_graph_vertex_count _ _ _ _ _ _ PreH14) as Hvertex_count.
-    pose proof (array_graph_vertex_range
-      n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec
-      g_low_level_spec v PreH14 Hv) as Hv_range.
-    lia.
-  - pose proof PreH17 as Hmatch_len.
-    destruct Hmatch_len as [_ [Hlink_len _]].
-    pose proof (array_graph_edge_count _ _ _ _ _ _ PreH14) as Hedge_count.
-    lia.
-Qed.
+Abort.
 
 
 
@@ -282,34 +265,34 @@ Qed.
 
 Lemma proof_of_prim_entail_wit_9 : prim_entail_wit_9.
 Proof.
-  aggressive_pre_process.
-  - exact (proof_of_prim_entail_wit_9_split_goal_1
-             m_pre n_pre X_low_level_spec src_low_level_spec
-             g_low_level_spec lw_low_level_spec lt_low_level_spec
-             lf_low_level_spec l_first_2 l_link_2
-             l_from_new_2 l_to_new_2 l_weight_new_2
-             i u
-             PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
-             PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
-             PreH16 PreH17 PreH18).
-  - exact PreH13.
-  - exact PreH12.
-  - exact PreH11.
+  LLM_pre_process ltac:(lia || int_auto).
+  assert (Hmatch :
+    first_link_matches_inserted_vertex_directed_edges
+      g_low_level_spec (i + 1) l_from_new_2
+      (replace_Znth u i l_first_2)
+      (replace_Znth i (Znth u l_first_2 0) l_link_2)).
+  - eapply first_link_matches_inserted_vertex_directed_edges_insert; eauto.
+    + eapply array_graph_vertex_in; eauto; lia.
+    + intros v Hv.
+      pose proof PreH17 as Hmatch_len.
+      destruct Hmatch_len as [Hfirst_len _].
+      pose proof (array_graph_vertex_count _ _ _ _ _ _ PreH14) as Hvertex_count.
+      pose proof (array_graph_vertex_range
+        n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec
+        g_low_level_spec v PreH14 Hv) as Hv_range.
+      lia.
+    + pose proof PreH17 as Hmatch_len.
+      destruct Hmatch_len as [_ [Hlink_len _]].
+      pose proof (array_graph_edge_count _ _ _ _ _ _ PreH14) as Hedge_count.
+      lia.
+  - Exists (replace_Znth u i l_first_2)
+      (replace_Znth i (Znth u l_first_2 0) l_link_2)
+      l_from_new_2 l_to_new_2 l_weight_new_2.
+    entailer!; auto; lia.
 Qed. 
 
 Lemma proof_of_prim_entail_wit_10_split_goal_1 : prim_entail_wit_10_split_goal_1.
-Proof.
-  pre_process.
-  entailer!.
-  assert (Hi_eq : i = 2 * graph_edge_count g_low_level_spec).
-  {
-    pose proof (array_graph_edge_count _ _ _ _ _ _ PreH12) as Hedge_count.
-    lia.
-  }
-  rewrite Hi_eq in PreH15.
-  apply first_link_matches_inserted_vertex_directed_edges_finish.
-  exact PreH15.
-Qed.
+Abort.
 
 
 
@@ -325,33 +308,48 @@ Qed.
 
 Lemma proof_of_prim_entail_wit_10 : prim_entail_wit_10.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_prim_entail_wit_10_split_goal_1.
-  - exact PreH11.
-  - exact PreH10.
-  - exact PreH9.
-  - change (repeat_Z 1000000000 0) with (@nil Z); reflexivity.
-  - change (repeat_Z 0 0) with (@nil Z); reflexivity.
-  - change (repeat_Z (-1) 0) with (@nil Z); reflexivity.
+  LLM_pre_process ltac:(lia || int_auto).
+  assert (Hfinished :
+    first_link_matches_vertex_directed_edges
+      g_low_level_spec l_from_new_2 l_first_2 l_link_2).
+  - assert (Hi_eq : i = 2 * graph_edge_count g_low_level_spec) by
+      (pose proof (array_graph_edge_count _ _ _ _ _ _ PreH12) as Hedge_count;
+       lia).
+    rewrite Hi_eq in PreH15.
+    apply first_link_matches_inserted_vertex_directed_edges_finish.
+    exact PreH15.
+  - Exists l_first_2 l_link_2 l_from_new_2 l_to_new_2 l_weight_new_2.
+    split_pure_spatial.
+    + sep_apply_l_atomic
+        (IntArray.undef_full_to_undef_seg retval_2 n_pre).
+      sep_apply_l_atomic
+        (IntArray.undef_full_to_undef_seg retval n_pre).
+      sep_apply_l_atomic
+        (IntArray.undef_full_to_undef_seg retval_3 n_pre).
+      rewrite (IntArray.seg_empty retval_2 0 0).
+      rewrite (IntArray.seg_empty retval 0 0).
+      rewrite (IntArray.seg_empty retval_3 0 0).
+      entailer!.
+    + entailer!; auto; lia.
 Qed. 
 
 Lemma proof_of_prim_entail_wit_11_split_goal_1 : prim_entail_wit_11_split_goal_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite <- repeat_Z_tail by lia.
   entailer!.
 Qed.
 
 Lemma proof_of_prim_entail_wit_11_split_goal_2 : prim_entail_wit_11_split_goal_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite <- repeat_Z_tail by lia.
   entailer!.
 Qed.
 
 Lemma proof_of_prim_entail_wit_11_split_goal_3 : prim_entail_wit_11_split_goal_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite <- repeat_Z_tail by lia.
   entailer!.
 Qed.
@@ -371,35 +369,21 @@ Qed.
 
 
 Lemma proof_of_prim_entail_wit_12_split_goal_4 : prim_entail_wit_12_split_goal_4.
-Proof.
-  pre_process.
-  replace i with n_pre by lia.
-  entailer!.
-Qed.
+Abort.
 
 Lemma proof_of_prim_entail_wit_12_split_goal_5 : prim_entail_wit_12_split_goal_5.
-Proof.
-  pre_process.
-  replace i with n_pre by lia.
-  entailer!.
-Qed.
+Abort.
 
 Lemma proof_of_prim_entail_wit_12_split_goal_6 : prim_entail_wit_12_split_goal_6.
-Proof.
-  pre_process.
-  replace i with n_pre by lia.
-  entailer!.
-Qed.
+Abort.
 
 Lemma proof_of_prim_entail_wit_12 : prim_entail_wit_12.
 Proof.
-  aggressive_pre_process.
-  - exact PreH11.
-  - exact PreH10.
-  - exact PreH9.
-  - Goal_apply proof_of_prim_entail_wit_12_split_goal_4.
-  - Goal_apply proof_of_prim_entail_wit_12_split_goal_5.
-  - Goal_apply proof_of_prim_entail_wit_12_split_goal_6.
+  LLM_pre_process ltac:(lia || int_auto).
+  replace i with n_pre by lia.
+  Exists l_first_2 l_link_2 l_from_new_2 l_to_new_2 l_weight_new_2.
+  rewrite !IntArray.undef_seg_empty.
+  entailer!; auto.
 Qed. 
 
 
@@ -430,7 +414,7 @@ Qed.
 
 Lemma proof_of_prim_entail_wit_15_1_boot_split_goal_1 : prim_entail_wit_15_1_boot_split_goal_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hj0 : j = 0).
   {
     destruct (Z.eq_dec j 0) as [Heq | Hneq]; auto.
@@ -500,7 +484,7 @@ Qed.
 
 Lemma proof_of_prim_entail_wit_15_3_boot_split_goal_1 : prim_entail_wit_15_3_boot_split_goal_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hj_pos : 1 <= j).
   {
     destruct (Z.eq_dec j 0) as [Heq | Hneq].
@@ -556,7 +540,7 @@ Qed.
 
 Lemma proof_of_prim_entail_wit_15_5_boot_split_goal_1 : prim_entail_wit_15_5_boot_split_goal_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   exfalso.
   rewrite PreH23 in PreH1.
   unfold repeat_Z in PreH1.
@@ -2157,8 +2141,10 @@ Proof.
   entailer!.
 Qed. 
 
-Lemma proof_of_prim_derive_high_level_spec_by_low_level_spec : prim_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_prim_low_level_spec_entail_high_level_spec : prim_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold prim_low_level_spec_entail_high_level_spec.
+  intros from_arr_pre to_arr_pre weight_arr_pre n_pre m_pre lf_high_level_spec lt_high_level_spec lw_high_level_spec g_high_level_spec src_high_level_spec X_high_level_spec.
   pre_process.
   Exists lf_high_level_spec lt_high_level_spec lw_high_level_spec
          g_high_level_spec src_high_level_spec X_high_level_spec.
@@ -2168,7 +2154,8 @@ Proof.
   cancel (IntArray.full from_arr_pre m_pre lf_high_level_spec).
   cancel (IntArray.full to_arr_pre m_pre lt_high_level_spec).
   cancel (IntArray.full weight_arr_pre m_pre lw_high_level_spec).
-  apply derivable1_wand_sepcon_adjoint.
+  Intros_r retval.
+    apply derivable1_wand_sepcon_adjoint.
   Intros redge ledge.
   Intros rvis lvis.
   Intros rlow llow.
@@ -2180,7 +2167,7 @@ Proof.
   Intros retwt retv.
   Intros retu lru.
   Intros lrv lrwt.
-  Intros rg ret.
+  Intros rg.
   Exists redge ledge
          rvis lvis
          rlow llow
@@ -2190,11 +2177,10 @@ Proof.
          rto lto
          rfrom lfrom
          retwt retv.
-  Exists retu lru lrv lrwt rg ret.
+  Exists retu lru lrv lrwt rg.
   split_pure_spatial.
   - entailer!.
   - split_pures;
       try (dump_pre_spatial; assumption);
       try (dump_pre_spatial; lia).
 Qed. 
-

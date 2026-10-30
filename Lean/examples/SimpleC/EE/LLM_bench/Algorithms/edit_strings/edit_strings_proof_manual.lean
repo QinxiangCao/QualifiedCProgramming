@@ -42,7 +42,7 @@ private theorem edit_Forall_snoc {A : Type} (P : A → Prop) (xs : List A) (x : 
 theorem proof_of_max_edit_string_matches_entail_wit_1 : max_edit_string_matches_entail_wit_1 := by
   unfold max_edit_string_matches_entail_wit_1
   right
-  intro n_pre t2_l t1_l s2_l s1_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro t2_l t1_l s2_l s1_l n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   sep_apply (intArray.undef_full_split_to_undef_seg ( &( "cnt21" ) ) n_pre 100000 (by omega))
   sep_apply (intArray.undef_full_split_to_undef_seg ( &( "cnt20" ) ) n_pre 100000 (by omega))
   sep_apply (intArray.undef_full_split_to_undef_seg ( &( "cnt11" ) ) n_pre 100000 (by omega))
@@ -58,7 +58,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_1 : max_edit_string_matches_
 theorem proof_of_max_edit_string_matches_entail_wit_2 : max_edit_string_matches_entail_wit_2 := by
   unfold max_edit_string_matches_entail_wit_2
   right
-  intro n_pre t2_l t1_l s2_l s1_l c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro t2_l t1_l s2_l s1_l n_pre c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have h_c21_2 := edit_Forall_snoc (Eq (0 : Int)) c21_2 0 PreH17 rfl
   have h_c20_2 := edit_Forall_snoc (Eq (0 : Int)) c20_2 0 PreH16 rfl
   have h_c11_2 := edit_Forall_snoc (Eq (0 : Int)) c11_2 0 PreH15 rfl
@@ -68,7 +68,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_2 : max_edit_string_matches_
 theorem proof_of_max_edit_string_matches_safety_wit_14 : max_edit_string_matches_safety_wit_14 := by
   unfold max_edit_string_matches_safety_wit_14
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l c21 c20 c11 c10 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre c21 c20 c11 c10 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hz_c10 := edit_zero_read c10 (((0 : Int) - (0 : Int))) PreH16
   split_pures
   all_goals dump_pre_spatial
@@ -79,7 +79,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_14 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_16 : max_edit_string_matches_safety_wit_16 := by
   unfold max_edit_string_matches_safety_wit_16
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l c21 c20 c11 c10 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre c21 c20 c11 c10 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hz_c11 := edit_zero_read c11 (((0 : Int) - (0 : Int))) PreH17
   split_pures
   all_goals dump_pre_spatial
@@ -90,7 +90,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_16 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_26 : max_edit_string_matches_safety_wit_26 := by
   unfold max_edit_string_matches_safety_wit_26
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 c10 c11 c20 c21 i block1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 c10 c11 c20 c21 i block1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   have hb_c10 := edit_bounded_read c10 (block1) 0 n_pre PreH14 PreH15 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -101,7 +101,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_26 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_27 : max_edit_string_matches_safety_wit_27 := by
   unfold max_edit_string_matches_safety_wit_27
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 c10 c11 c20 c21 i block1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 c10 c11 c20 c21 i block1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   have hb_c11 := edit_bounded_read c11 (block1) 0 n_pre PreH16 PreH17 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -112,7 +112,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_27 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_35 : max_edit_string_matches_safety_wit_35 := by
   unfold max_edit_string_matches_safety_wit_35
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 c21 c20 c11 c10 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 c21 c20 c11 c10 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   have hz_c20 := edit_zero_read c20 ((0 : Int)) PreH23
   split_pures
   all_goals dump_pre_spatial
@@ -123,7 +123,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_35 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_37 : max_edit_string_matches_safety_wit_37 := by
   unfold max_edit_string_matches_safety_wit_37
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 c21 c20 c11 c10 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 c21 c20 c11 c10 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   have hz_c21 := edit_zero_read c21 ((0 : Int)) PreH24
   split_pures
   all_goals dump_pre_spatial
@@ -134,7 +134,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_37 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_47 : max_edit_string_matches_safety_wit_47 := by
   unfold max_edit_string_matches_safety_wit_47
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 sg2 c10 c11 c20 c21 i block2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 sg2 c10 c11 c20 c21 i block2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   have hb_c20 := edit_bounded_read c20 (block2) 0 n_pre PreH18 PreH19 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -145,7 +145,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_47 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_48 : max_edit_string_matches_safety_wit_48 := by
   unfold max_edit_string_matches_safety_wit_48
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 sg2 c10 c11 c20 c21 i block2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 sg2 c10 c11 c20 c21 i block2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   have hb_c21 := edit_bounded_read c21 (block2) 0 n_pre PreH20 PreH21 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -156,7 +156,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_48 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_56 : max_edit_string_matches_safety_wit_56 := by
   unfold max_edit_string_matches_safety_wit_56
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have hb_c10 := edit_bounded_read c10 (a) 0 n_pre PreH17 PreH18 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -167,7 +167,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_56 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_57 : max_edit_string_matches_safety_wit_57 := by
   unfold max_edit_string_matches_safety_wit_57
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have hb_c20 := edit_bounded_read c20 (b) 0 n_pre PreH21 PreH22 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -178,7 +178,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_57 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_64 : max_edit_string_matches_safety_wit_64 := by
   unfold max_edit_string_matches_safety_wit_64
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   have hb_c11 := edit_bounded_read c11 (a) 0 n_pre PreH20 PreH21 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -189,7 +189,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_64 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_65 : max_edit_string_matches_safety_wit_65 := by
   unfold max_edit_string_matches_safety_wit_65
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   have hb_c11 := edit_bounded_read c11 (a) 0 n_pre PreH21 PreH22 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -200,7 +200,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_65 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_66 : max_edit_string_matches_safety_wit_66 := by
   unfold max_edit_string_matches_safety_wit_66
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   have hb_c21 := edit_bounded_read c21 (b) 0 n_pre PreH24 PreH25 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -211,7 +211,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_66 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_67 : max_edit_string_matches_safety_wit_67 := by
   unfold max_edit_string_matches_safety_wit_67
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   have hb_c21 := edit_bounded_read c21 (b) 0 n_pre PreH25 PreH26 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -222,7 +222,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_67 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_76 : max_edit_string_matches_safety_wit_76 := by
   unfold max_edit_string_matches_safety_wit_76
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   have hb_c10 := edit_bounded_read c10 (a) 0 n_pre PreH19 PreH20 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -233,7 +233,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_76 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_77 : max_edit_string_matches_safety_wit_77 := by
   unfold max_edit_string_matches_safety_wit_77
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   have hb_c10 := edit_bounded_read c10 (a) 0 n_pre PreH20 PreH21 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -244,7 +244,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_77 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_78 : max_edit_string_matches_safety_wit_78 := by
   unfold max_edit_string_matches_safety_wit_78
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   have hb_c21 := edit_bounded_read c21 (b) 0 n_pre PreH25 PreH26 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -255,7 +255,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_78 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_79 : max_edit_string_matches_safety_wit_79 := by
   unfold max_edit_string_matches_safety_wit_79
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   have hb_c21 := edit_bounded_read c21 (b) 0 n_pre PreH26 PreH27 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -266,7 +266,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_79 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_80 : max_edit_string_matches_safety_wit_80 := by
   unfold max_edit_string_matches_safety_wit_80
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   have hb_c11 := edit_bounded_read c11 (a) 0 n_pre PreH20 PreH21 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -277,7 +277,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_80 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_81 : max_edit_string_matches_safety_wit_81 := by
   unfold max_edit_string_matches_safety_wit_81
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   have hb_c11 := edit_bounded_read c11 (a) 0 n_pre PreH21 PreH22 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -288,7 +288,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_81 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_82 : max_edit_string_matches_safety_wit_82 := by
   unfold max_edit_string_matches_safety_wit_82
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   have hb_c20 := edit_bounded_read c20 (b) 0 n_pre PreH22 PreH23 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -299,7 +299,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_82 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_safety_wit_83 : max_edit_string_matches_safety_wit_83 := by
   unfold max_edit_string_matches_safety_wit_83
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 sg2 c10 c11 c20 c21 rest prefix1 prefix2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   have hb_c20 := edit_bounded_read c20 (b) 0 n_pre PreH23 PreH24 (by omega)
   split_pures
   all_goals dump_pre_spatial
@@ -310,7 +310,7 @@ theorem proof_of_max_edit_string_matches_safety_wit_83 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_entail_wit_3_1 : max_edit_string_matches_entail_wit_3_1 := by
   unfold max_edit_string_matches_entail_wit_3_1
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   prop_apply (intArray.full_Zlength (( &( "cnt10" ) )) (i) ((replace_Znth ((0 : Int)) (((Znth ((0 : Int) - (0 : Int)) c10_2 (0 : Int)) + 1)) (c10_2))))
   Intros_p hlength_0
   simp only [Zlength_replace_Znth] at hlength_0
@@ -342,7 +342,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_3_1 : max_edit_string_matche
 theorem proof_of_max_edit_string_matches_entail_wit_3_2 : max_edit_string_matches_entail_wit_3_2 := by
   unfold max_edit_string_matches_entail_wit_3_2
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   prop_apply (intArray.full_Zlength (( &( "cnt11" ) )) (i) ((replace_Znth ((0 : Int)) (((Znth ((0 : Int) - (0 : Int)) c11_2 (0 : Int)) + 1)) (c11_2))))
   Intros_p hlength_0
   simp only [Zlength_replace_Znth] at hlength_0
@@ -374,7 +374,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_3_2 : max_edit_string_matche
 theorem proof_of_max_edit_string_matches_entail_wit_4_1 : max_edit_string_matches_entail_wit_4_1 := by
   unfold max_edit_string_matches_entail_wit_4_1
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   prop_apply (intArray.seg_Zlength (( &( "seg1" ) )) ((0 : Int)) ((i + 1)) ((sg1 ++ ((Znth ((i - 1) - (0 : Int)) sg1 (0 : Int)) :: (@List.nil Int)))))
   Intros_p hlength_0
   simp only [Zlength_app,Zlength_cons,Zlength_nil,Int.sub_zero] at hlength_0
@@ -391,7 +391,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_4_1 : max_edit_string_matche
 theorem proof_of_max_edit_string_matches_entail_wit_4_2 : max_edit_string_matches_entail_wit_4_2 := by
   unfold max_edit_string_matches_entail_wit_4_2
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   prop_apply (intArray.seg_Zlength (( &( "seg1" ) )) ((0 : Int)) ((i + 1)) ((sg1 ++ (i :: (@List.nil Int)))))
   Intros_p hlength_0
   simp only [Zlength_app,Zlength_cons,Zlength_nil,Int.sub_zero] at hlength_0
@@ -408,7 +408,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_4_2 : max_edit_string_matche
 theorem proof_of_max_edit_string_matches_entail_wit_4_3 : max_edit_string_matches_entail_wit_4_3 := by
   unfold max_edit_string_matches_entail_wit_4_3
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   prop_apply (intArray.seg_Zlength (( &( "seg1" ) )) ((0 : Int)) ((i + 1)) ((sg1 ++ (i :: (@List.nil Int)))))
   Intros_p hlength_0
   simp only [Zlength_app,Zlength_cons,Zlength_nil,Int.sub_zero] at hlength_0
@@ -425,7 +425,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_4_3 : max_edit_string_matche
 theorem proof_of_max_edit_string_matches_entail_wit_5_1 : max_edit_string_matches_entail_wit_5_1 := by
   unfold max_edit_string_matches_entail_wit_5_1
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1_2 c10_2 c11_2 c20_2 c21_2 i block1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1_2 c10_2 c11_2 c20_2 c21_2 i block1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   prop_apply (intArray.full_Zlength (( &( "cnt10" ) )) (n_pre) ((replace_Znth (block1) (((Znth block1 c10_2 (0 : Int)) + 1)) (c10_2))))
   Intros_p hlength_0
   simp only [Zlength_replace_Znth] at hlength_0
@@ -450,7 +450,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_5_1 : max_edit_string_matche
 theorem proof_of_max_edit_string_matches_entail_wit_5_2 : max_edit_string_matches_entail_wit_5_2 := by
   unfold max_edit_string_matches_entail_wit_5_2
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1_2 c10_2 c11_2 c20_2 c21_2 i block1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1_2 c10_2 c11_2 c20_2 c21_2 i block1 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   prop_apply (intArray.full_Zlength (( &( "cnt11" ) )) (n_pre) ((replace_Znth (block1) (((Znth block1 c11_2 (0 : Int)) + 1)) (c11_2))))
   Intros_p hlength_0
   simp only [Zlength_replace_Znth] at hlength_0
@@ -475,7 +475,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_5_2 : max_edit_string_matche
 theorem proof_of_max_edit_string_matches_entail_wit_6_1 : max_edit_string_matches_entail_wit_6_1 := by
   unfold max_edit_string_matches_entail_wit_6_1
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1_2 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1_2 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   prop_apply (intArray.full_Zlength (( &( "cnt20" ) )) (n_pre) ((replace_Znth ((0 : Int)) (((Znth (0 : Int) c20_2 (0 : Int)) + 1)) (c20_2))))
   Intros_p hlength_0
   simp only [Zlength_replace_Znth] at hlength_0
@@ -503,7 +503,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_6_1 : max_edit_string_matche
 theorem proof_of_max_edit_string_matches_entail_wit_6_2 : max_edit_string_matches_entail_wit_6_2 := by
   unfold max_edit_string_matches_entail_wit_6_2
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1_2 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1_2 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   prop_apply (intArray.full_Zlength (( &( "cnt21" ) )) (n_pre) ((replace_Znth ((0 : Int)) (((Znth (0 : Int) c21_2 (0 : Int)) + 1)) (c21_2))))
   Intros_p hlength_0
   simp only [Zlength_replace_Znth] at hlength_0
@@ -531,7 +531,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_6_2 : max_edit_string_matche
 theorem proof_of_max_edit_string_matches_entail_wit_7_1 : max_edit_string_matches_entail_wit_7_1 := by
   unfold max_edit_string_matches_entail_wit_7_1
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg2 sg1_2 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg2 sg1_2 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   prop_apply (intArray.seg_Zlength (( &( "seg2" ) )) ((0 : Int)) ((i + 1)) ((sg2 ++ ((Znth ((i - 1) - (0 : Int)) sg2 (0 : Int)) :: (@List.nil Int)))))
   Intros_p hlength_0
   simp only [Zlength_app,Zlength_cons,Zlength_nil,Int.sub_zero] at hlength_0
@@ -548,7 +548,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_7_1 : max_edit_string_matche
 theorem proof_of_max_edit_string_matches_entail_wit_7_2 : max_edit_string_matches_entail_wit_7_2 := by
   unfold max_edit_string_matches_entail_wit_7_2
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg2 sg1_2 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg2 sg1_2 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   prop_apply (intArray.seg_Zlength (( &( "seg2" ) )) ((0 : Int)) ((i + 1)) ((sg2 ++ (i :: (@List.nil Int)))))
   Intros_p hlength_0
   simp only [Zlength_app,Zlength_cons,Zlength_nil,Int.sub_zero] at hlength_0
@@ -565,7 +565,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_7_2 : max_edit_string_matche
 theorem proof_of_max_edit_string_matches_entail_wit_7_3 : max_edit_string_matches_entail_wit_7_3 := by
   unfold max_edit_string_matches_entail_wit_7_3
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg2 sg1_2 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg2 sg1_2 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   prop_apply (intArray.seg_Zlength (( &( "seg2" ) )) ((0 : Int)) ((i + 1)) ((sg2 ++ (i :: (@List.nil Int)))))
   Intros_p hlength_0
   simp only [Zlength_app,Zlength_cons,Zlength_nil,Int.sub_zero] at hlength_0
@@ -582,7 +582,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_7_3 : max_edit_string_matche
 theorem proof_of_max_edit_string_matches_entail_wit_8_1 : max_edit_string_matches_entail_wit_8_1 := by
   unfold max_edit_string_matches_entail_wit_8_1
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 i block2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 i block2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   prop_apply (intArray.full_Zlength (( &( "cnt20" ) )) (n_pre) ((replace_Znth (block2) (((Znth block2 c20_2 (0 : Int)) + 1)) (c20_2))))
   Intros_p hlength_0
   simp only [Zlength_replace_Znth] at hlength_0
@@ -607,7 +607,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_8_1 : max_edit_string_matche
 theorem proof_of_max_edit_string_matches_entail_wit_8_2 : max_edit_string_matches_entail_wit_8_2 := by
   unfold max_edit_string_matches_entail_wit_8_2
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 i block2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 i block2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   prop_apply (intArray.full_Zlength (( &( "cnt21" ) )) (n_pre) ((replace_Znth (block2) (((Znth block2 c21_2 (0 : Int)) + 1)) (c21_2))))
   Intros_p hlength_0
   simp only [Zlength_replace_Znth] at hlength_0
@@ -632,7 +632,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_8_2 : max_edit_string_matche
 theorem proof_of_max_edit_string_matches_entail_wit_9 : max_edit_string_matches_entail_wit_9 := by
   unfold max_edit_string_matches_entail_wit_9
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg2_2 sg1_2 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg2_2 sg1_2 c21_2 c20_2 c11_2 c10_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   prop_apply (intArray.full_Zlength (s1_pre) (n_pre) (s1_l))
   Intros_p hlength_0
   prop_apply (intArray.full_Zlength (s2_pre) (n_pre) (s2_l))
@@ -677,7 +677,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_9 : max_edit_string_matches_
 theorem proof_of_max_edit_string_matches_entail_wit_10 : max_edit_string_matches_entail_wit_10 := by
   unfold max_edit_string_matches_entail_wit_10
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l rest_2 prefix2_2 prefix1_2 sg2 sg1 c21_2 c20_2 c11_2 c10_2 ans i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre rest_2 prefix2_2 prefix1_2 sg2 sg1 c21_2 c20_2 c11_2 c10_2 ans i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   have hb1 := edit_segment_bound t1_l sg1 n_pre i PreH24 (by omega)
   have hb2 := edit_segment_bound t2_l sg2 n_pre i PreH25 (by omega)
   Exists rest_2 prefix2_2 prefix1_2 sg2 sg1 c21_2 c20_2 c11_2 c10_2
@@ -689,7 +689,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_10 : max_edit_string_matches
 theorem proof_of_max_edit_string_matches_entail_wit_11_1 : max_edit_string_matches_entail_wit_11_1 := by
   unfold max_edit_string_matches_entail_wit_11_1
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 rest_2 prefix1_2 prefix2_2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 rest_2 prefix1_2 prefix2_2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   prop_apply (intArray.full_Zlength (( &( "cnt20" ) )) (n_pre) ((replace_Znth (b) (((Znth b c20_2 (0 : Int)) - 1)) (c20_2))))
   Intros_p hlength_0
   simp only [Zlength_replace_Znth] at hlength_0
@@ -732,7 +732,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_11_1 : max_edit_string_match
 theorem proof_of_max_edit_string_matches_entail_wit_11_2 : max_edit_string_matches_entail_wit_11_2 := by
   unfold max_edit_string_matches_entail_wit_11_2
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 rest_2 prefix1_2 prefix2_2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 rest_2 prefix1_2 prefix2_2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   prop_apply (intArray.full_Zlength (( &( "cnt21" ) )) (n_pre) ((replace_Znth (b) (((Znth b c21_2 (0 : Int)) - 1)) (c21_2))))
   Intros_p hlength_0
   simp only [Zlength_replace_Znth] at hlength_0
@@ -775,7 +775,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_11_2 : max_edit_string_match
 theorem proof_of_max_edit_string_matches_entail_wit_11_3 : max_edit_string_matches_entail_wit_11_3 := by
   unfold max_edit_string_matches_entail_wit_11_3
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 rest_2 prefix1_2 prefix2_2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 rest_2 prefix1_2 prefix2_2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   prop_apply (intArray.full_Zlength (( &( "cnt21" ) )) (n_pre) ((replace_Znth (b) (((Znth b c21_2 (0 : Int)) - 1)) (c21_2))))
   Intros_p hlength_0
   simp only [Zlength_replace_Znth] at hlength_0
@@ -818,7 +818,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_11_3 : max_edit_string_match
 theorem proof_of_max_edit_string_matches_entail_wit_11_4 : max_edit_string_matches_entail_wit_11_4 := by
   unfold max_edit_string_matches_entail_wit_11_4
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 rest_2 prefix1_2 prefix2_2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 rest_2 prefix1_2 prefix2_2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   prop_apply (intArray.full_Zlength (( &( "cnt21" ) )) (n_pre) ((replace_Znth (b) (((Znth b c21_2 (0 : Int)) - 1)) (c21_2))))
   Intros_p hlength_0
   simp only [Zlength_replace_Znth] at hlength_0
@@ -861,7 +861,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_11_4 : max_edit_string_match
 theorem proof_of_max_edit_string_matches_entail_wit_11_5 : max_edit_string_matches_entail_wit_11_5 := by
   unfold max_edit_string_matches_entail_wit_11_5
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 rest_2 prefix1_2 prefix2_2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 rest_2 prefix1_2 prefix2_2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   prop_apply (intArray.full_Zlength (( &( "cnt21" ) )) (n_pre) ((replace_Znth (b) (((Znth b c21_2 (0 : Int)) - 1)) (c21_2))))
   Intros_p hlength_0
   simp only [Zlength_replace_Znth] at hlength_0
@@ -904,7 +904,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_11_5 : max_edit_string_match
 theorem proof_of_max_edit_string_matches_entail_wit_11_6 : max_edit_string_matches_entail_wit_11_6 := by
   unfold max_edit_string_matches_entail_wit_11_6
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 rest_2 prefix1_2 prefix2_2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 rest_2 prefix1_2 prefix2_2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   prop_apply (intArray.full_Zlength (( &( "cnt20" ) )) (n_pre) ((replace_Znth (b) (((Znth b c20_2 (0 : Int)) - 1)) (c20_2))))
   Intros_p hlength_0
   simp only [Zlength_replace_Znth] at hlength_0
@@ -947,7 +947,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_11_6 : max_edit_string_match
 theorem proof_of_max_edit_string_matches_entail_wit_11_7 : max_edit_string_matches_entail_wit_11_7 := by
   unfold max_edit_string_matches_entail_wit_11_7
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 rest_2 prefix1_2 prefix2_2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre sg1_2 sg2_2 c10_2 c11_2 c20_2 c21_2 rest_2 prefix1_2 prefix2_2 i ans a b PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   prop_apply (intArray.full_Zlength (( &( "cnt20" ) )) (n_pre) ((replace_Znth (b) (((Znth b c20_2 (0 : Int)) - 1)) (c20_2))))
   Intros_p hlength_0
   simp only [Zlength_replace_Znth] at hlength_0
@@ -990,7 +990,7 @@ theorem proof_of_max_edit_string_matches_entail_wit_11_7 : max_edit_string_match
 theorem proof_of_max_edit_string_matches_entail_wit_12 : max_edit_string_matches_entail_wit_12 := by
   unfold max_edit_string_matches_entail_wit_12
   left
-  intro n_pre t2_pre t1_pre s2_pre s1_pre t2_l t1_l s2_l s1_l rest prefix2 prefix1 sg2 sg1 c21 c20 c11 c10 ans i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro t2_l t1_l s2_l s1_l s1_pre s2_pre t1_pre t2_pre n_pre rest prefix2 prefix1 sg2 sg1 c21 c20 c11 c10 ans i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   prop_apply (intArray.full_Zlength (( &( "seg1" ) )) (n_pre) (sg1))
   Intros_p hlength_4
   prop_apply (intArray.full_Zlength (( &( "seg2" ) )) (n_pre) (sg2))

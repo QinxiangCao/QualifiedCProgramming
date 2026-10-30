@@ -59,7 +59,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def solver_safety_wit_1 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (PreH1 : (n_pre = (Zlength (values)))) (PreH2 : (2 <= (Zlength (values)))) (PreH3 : ((Zlength (values)) <= 200000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (PreH1 : (n_pre = (Zlength (values)))) (PreH2 : (2 <= (Zlength (values)))) (PreH3 : ((Zlength (values)) <= 200000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
@@ -69,7 +69,7 @@ noncomputable def solver_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_2 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (PreH1 : (n_pre = (Zlength (values)))) (PreH2 : (2 <= (Zlength (values)))) (PreH3 : ((Zlength (values)) <= 200000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (PreH1 : (n_pre = (Zlength (values)))) (PreH2 : (2 <= (Zlength (values)))) (PreH3 : ((Zlength (values)) <= 200000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -79,7 +79,7 @@ noncomputable def solver_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= 49) ”
 
 noncomputable def solver_safety_wit_3 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (PreH1 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (PreH1 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -89,7 +89,7 @@ noncomputable def solver_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (n_pre - 1)) ”
 
 noncomputable def solver_safety_wit_4 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (PreH1 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (PreH1 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -99,7 +99,7 @@ noncomputable def solver_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_5 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (PreH1 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (PreH1 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -109,7 +109,7 @@ noncomputable def solver_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= 49) ”
 
 noncomputable def solver_safety_wit_6 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (PreH1 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (PreH1 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -119,7 +119,7 @@ noncomputable def solver_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_7 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -129,7 +129,7 @@ noncomputable def solver_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_8 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   ((( &( "i" ) )) # Int |->_)
   ** (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
@@ -140,7 +140,7 @@ noncomputable def solver_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_9 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : (n_pre = (Zlength (values)))) (PreH2 : (2 <= (Zlength (values)))) (PreH3 : ((Zlength (values)) <= 200000)) (PreH4 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH5 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH6 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= (n_pre - 1))) (PreH9 : (NoAdjacentOnesBefore values i)) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (i : Int) (PreH1 : (n_pre = (Zlength (values)))) (PreH2 : (2 <= (Zlength (values)))) (PreH3 : ((Zlength (values)) <= 200000)) (PreH4 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH5 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH6 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= (n_pre - 1))) (PreH9 : (NoAdjacentOnesBefore values i)) ,
   ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -151,7 +151,7 @@ noncomputable def solver_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solver_safety_wit_10 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : (n_pre = (Zlength (values)))) (PreH2 : (2 <= (Zlength (values)))) (PreH3 : ((Zlength (values)) <= 200000)) (PreH4 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH5 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH6 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= (n_pre - 1))) (PreH9 : (NoAdjacentOnesBefore values i)) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (i : Int) (PreH1 : (n_pre = (Zlength (values)))) (PreH2 : (2 <= (Zlength (values)))) (PreH3 : ((Zlength (values)) <= 200000)) (PreH4 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH5 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH6 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= (n_pre - 1))) (PreH9 : (NoAdjacentOnesBefore values i)) ,
   ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -162,7 +162,7 @@ noncomputable def solver_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_11 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH6 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH7 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= (n_pre - 1))) (PreH10 : (NoAdjacentOnesBefore values i)) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (i : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH6 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH7 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= (n_pre - 1))) (PreH10 : (NoAdjacentOnesBefore values i)) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -173,7 +173,7 @@ noncomputable def solver_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= 49) ”
 
 noncomputable def solver_safety_wit_12 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((i + 1) < n_pre)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH7 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH8 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= (n_pre - 1))) (PreH11 : (NoAdjacentOnesBefore values i)) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (i : Int) (PreH1 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((i + 1) < n_pre)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH7 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH8 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= (n_pre - 1))) (PreH11 : (NoAdjacentOnesBefore values i)) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -184,7 +184,7 @@ noncomputable def solver_safety_wit_12 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solver_safety_wit_13 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((i + 1) < n_pre)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH7 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH8 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= (n_pre - 1))) (PreH11 : (NoAdjacentOnesBefore values i)) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (i : Int) (PreH1 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((i + 1) < n_pre)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH7 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH8 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= (n_pre - 1))) (PreH11 : (NoAdjacentOnesBefore values i)) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -195,7 +195,7 @@ noncomputable def solver_safety_wit_13 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_14 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((i + 1) < n_pre)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH7 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH8 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= (n_pre - 1))) (PreH11 : (NoAdjacentOnesBefore values i)) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (i : Int) (PreH1 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((i + 1) < n_pre)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH7 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH8 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= (n_pre - 1))) (PreH11 : (NoAdjacentOnesBefore values i)) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -206,7 +206,7 @@ noncomputable def solver_safety_wit_14 : Prop :=
   “ ((INT_MIN) <= 49) ”
 
 noncomputable def solver_safety_wit_15 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth (i + 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH3 : ((i + 1) < n_pre)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : (2 <= (Zlength (values)))) (PreH6 : ((Zlength (values)) <= 200000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH8 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH9 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= (n_pre - 1))) (PreH12 : (NoAdjacentOnesBefore values i)) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (i : Int) (PreH1 : ((Znth (i + 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH3 : ((i + 1) < n_pre)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : (2 <= (Zlength (values)))) (PreH6 : ((Zlength (values)) <= 200000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH8 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH9 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= (n_pre - 1))) (PreH12 : (NoAdjacentOnesBefore values i)) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -217,7 +217,7 @@ noncomputable def solver_safety_wit_15 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_16 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((i + 1) >= n_pre)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH6 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH7 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= (n_pre - 1))) (PreH10 : (NoAdjacentOnesBefore values i)) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (i : Int) (PreH1 : ((i + 1) >= n_pre)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH6 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH7 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= (n_pre - 1))) (PreH10 : (NoAdjacentOnesBefore values i)) ,
   ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
@@ -227,7 +227,7 @@ noncomputable def solver_safety_wit_16 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_17 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((i + 1) < n_pre)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH7 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH8 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= (n_pre - 1))) (PreH11 : (NoAdjacentOnesBefore values i)) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (i : Int) (PreH1 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((i + 1) < n_pre)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH7 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH8 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= (n_pre - 1))) (PreH11 : (NoAdjacentOnesBefore values i)) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -238,7 +238,7 @@ noncomputable def solver_safety_wit_17 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solver_safety_wit_18 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth (i + 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH3 : ((i + 1) < n_pre)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : (2 <= (Zlength (values)))) (PreH6 : ((Zlength (values)) <= 200000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH8 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH9 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= (n_pre - 1))) (PreH12 : (NoAdjacentOnesBefore values i)) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (i : Int) (PreH1 : ((Znth (i + 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH3 : ((i + 1) < n_pre)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : (2 <= (Zlength (values)))) (PreH6 : ((Zlength (values)) <= 200000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH8 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH9 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= (n_pre - 1))) (PreH12 : (NoAdjacentOnesBefore values i)) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -250,7 +250,7 @@ noncomputable def solver_safety_wit_18 : Prop :=
 
 noncomputable def solver_entail_wit_1 : Prop :=
   (
-forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 |--
@@ -267,7 +267,7 @@ forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (PreH1 : ((Znth (n_pre 
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 ) \/
 (
-forall (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+forall (values : (List Int)) (n_pre : Int) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   TT && emp 
 |--
   “ (NoAdjacentOnesBefore values (0 : Int)) ” &&
@@ -278,24 +278,24 @@ forall (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth (n_pre - 1) (values +
 )
 
 noncomputable def solver_entail_wit_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+  forall (values : (List Int)) (n_pre : Int) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   (NoAdjacentOnesBefore values (0 : Int))
 
 noncomputable def solver_entail_wit_1_split_goal_2 : Prop :=
-  forall (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+  forall (values : (List Int)) (n_pre : Int) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   ((Znth (n_pre - 1) values (0 : Int)) ≠ 49)
 
 noncomputable def solver_entail_wit_1_split_goal_3 : Prop :=
-  forall (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+  forall (values : (List Int)) (n_pre : Int) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   ((Znth (0 : Int) values (0 : Int)) ≠ 49)
 
 noncomputable def solver_entail_wit_1_split_goal_4 : Prop :=
-  forall (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+  forall (values : (List Int)) (n_pre : Int) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))
 
 noncomputable def solver_entail_wit_2_1 : Prop :=
   (
-forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((i + 1) < n_pre)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH7 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH8 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= (n_pre - 1))) (PreH11 : (NoAdjacentOnesBefore values i)) ,
+forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (i : Int) (PreH1 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((i + 1) < n_pre)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH7 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH8 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= (n_pre - 1))) (PreH11 : (NoAdjacentOnesBefore values i)) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 |--
@@ -312,7 +312,7 @@ forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Zn
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 ) \/
 (
-forall (n_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((i + 1) < n_pre)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH7 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH8 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= (n_pre - 1))) (PreH11 : (NoAdjacentOnesBefore values i)) ,
+forall (values : (List Int)) (n_pre : Int) (i : Int) (PreH1 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((i + 1) < n_pre)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH7 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH8 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= (n_pre - 1))) (PreH11 : (NoAdjacentOnesBefore values i)) ,
   TT && emp 
 |--
   “ (NoAdjacentOnesBefore values (i + 1)) ”
@@ -320,12 +320,12 @@ forall (n_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth i (values +
 )
 
 noncomputable def solver_entail_wit_2_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((i + 1) < n_pre)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH7 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH8 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= (n_pre - 1))) (PreH11 : (NoAdjacentOnesBefore values i)) ,
+  forall (values : (List Int)) (n_pre : Int) (i : Int) (PreH1 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((i + 1) < n_pre)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH7 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH8 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= (n_pre - 1))) (PreH11 : (NoAdjacentOnesBefore values i)) ,
   (NoAdjacentOnesBefore values (i + 1))
 
 noncomputable def solver_entail_wit_2_2 : Prop :=
   (
-forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth (i + 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH3 : ((i + 1) < n_pre)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : (2 <= (Zlength (values)))) (PreH6 : ((Zlength (values)) <= 200000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH8 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH9 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= (n_pre - 1))) (PreH12 : (NoAdjacentOnesBefore values i)) ,
+forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (i : Int) (PreH1 : ((Znth (i + 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH3 : ((i + 1) < n_pre)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : (2 <= (Zlength (values)))) (PreH6 : ((Zlength (values)) <= 200000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH8 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH9 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= (n_pre - 1))) (PreH12 : (NoAdjacentOnesBefore values i)) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 |--
@@ -342,7 +342,7 @@ forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Zn
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 ) \/
 (
-forall (n_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth (i + 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH3 : ((i + 1) < n_pre)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : (2 <= (Zlength (values)))) (PreH6 : ((Zlength (values)) <= 200000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH8 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH9 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= (n_pre - 1))) (PreH12 : (NoAdjacentOnesBefore values i)) ,
+forall (values : (List Int)) (n_pre : Int) (i : Int) (PreH1 : ((Znth (i + 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH3 : ((i + 1) < n_pre)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : (2 <= (Zlength (values)))) (PreH6 : ((Zlength (values)) <= 200000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH8 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH9 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= (n_pre - 1))) (PreH12 : (NoAdjacentOnesBefore values i)) ,
   TT && emp 
 |--
   “ (NoAdjacentOnesBefore values (i + 1)) ”
@@ -350,12 +350,12 @@ forall (n_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth (i + 1) (va
 )
 
 noncomputable def solver_entail_wit_2_2_split_goal_1 : Prop :=
-  forall (n_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth (i + 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH3 : ((i + 1) < n_pre)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : (2 <= (Zlength (values)))) (PreH6 : ((Zlength (values)) <= 200000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH8 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH9 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= (n_pre - 1))) (PreH12 : (NoAdjacentOnesBefore values i)) ,
+  forall (values : (List Int)) (n_pre : Int) (i : Int) (PreH1 : ((Znth (i + 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH3 : ((i + 1) < n_pre)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : (2 <= (Zlength (values)))) (PreH6 : ((Zlength (values)) <= 200000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH8 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH9 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= (n_pre - 1))) (PreH12 : (NoAdjacentOnesBefore values i)) ,
   (NoAdjacentOnesBefore values (i + 1))
 
 noncomputable def solver_return_wit_1 : Prop :=
   (
-forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((i + 1) >= n_pre)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH6 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH7 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= (n_pre - 1))) (PreH10 : (NoAdjacentOnesBefore values i)) ,
+forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (i : Int) (PreH1 : ((i + 1) >= n_pre)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH6 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH7 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= (n_pre - 1))) (PreH10 : (NoAdjacentOnesBefore values i)) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 |--
@@ -364,7 +364,7 @@ forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((i 
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 ) \/
 (
-forall (n_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((i + 1) >= n_pre)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH6 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH7 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= (n_pre - 1))) (PreH10 : (NoAdjacentOnesBefore values i)) ,
+forall (values : (List Int)) (n_pre : Int) (i : Int) (PreH1 : ((i + 1) >= n_pre)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH6 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH7 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= (n_pre - 1))) (PreH10 : (NoAdjacentOnesBefore values i)) ,
   TT && emp 
 |--
   “ (Spec values (0 : Int)) ”
@@ -372,12 +372,12 @@ forall (n_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((i + 1) >= n_pre)
 )
 
 noncomputable def solver_return_wit_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((i + 1) >= n_pre)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH6 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH7 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= (n_pre - 1))) (PreH10 : (NoAdjacentOnesBefore values i)) ,
+  forall (values : (List Int)) (n_pre : Int) (i : Int) (PreH1 : ((i + 1) >= n_pre)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH6 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH7 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= (n_pre - 1))) (PreH10 : (NoAdjacentOnesBefore values i)) ,
   (Spec values (0 : Int))
 
 noncomputable def solver_return_wit_2 : Prop :=
   (
-forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth (i + 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH3 : ((i + 1) < n_pre)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : (2 <= (Zlength (values)))) (PreH6 : ((Zlength (values)) <= 200000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH8 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH9 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= (n_pre - 1))) (PreH12 : (NoAdjacentOnesBefore values i)) ,
+forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (i : Int) (PreH1 : ((Znth (i + 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH3 : ((i + 1) < n_pre)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : (2 <= (Zlength (values)))) (PreH6 : ((Zlength (values)) <= 200000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH8 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH9 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= (n_pre - 1))) (PreH12 : (NoAdjacentOnesBefore values i)) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 |--
@@ -386,7 +386,7 @@ forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Zn
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 ) \/
 (
-forall (n_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth (i + 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH3 : ((i + 1) < n_pre)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : (2 <= (Zlength (values)))) (PreH6 : ((Zlength (values)) <= 200000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH8 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH9 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= (n_pre - 1))) (PreH12 : (NoAdjacentOnesBefore values i)) ,
+forall (values : (List Int)) (n_pre : Int) (i : Int) (PreH1 : ((Znth (i + 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH3 : ((i + 1) < n_pre)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : (2 <= (Zlength (values)))) (PreH6 : ((Zlength (values)) <= 200000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH8 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH9 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= (n_pre - 1))) (PreH12 : (NoAdjacentOnesBefore values i)) ,
   TT && emp 
 |--
   “ (Spec values 1) ”
@@ -394,12 +394,12 @@ forall (n_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth (i + 1) (va
 )
 
 noncomputable def solver_return_wit_2_split_goal_1 : Prop :=
-  forall (n_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth (i + 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH3 : ((i + 1) < n_pre)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : (2 <= (Zlength (values)))) (PreH6 : ((Zlength (values)) <= 200000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH8 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH9 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= (n_pre - 1))) (PreH12 : (NoAdjacentOnesBefore values i)) ,
+  forall (values : (List Int)) (n_pre : Int) (i : Int) (PreH1 : ((Znth (i + 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH3 : ((i + 1) < n_pre)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : (2 <= (Zlength (values)))) (PreH6 : ((Zlength (values)) <= 200000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH8 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH9 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= (n_pre - 1))) (PreH12 : (NoAdjacentOnesBefore values i)) ,
   (Spec values 1)
 
 noncomputable def solver_return_wit_3 : Prop :=
   (
-forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (PreH1 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (PreH1 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 |--
@@ -408,7 +408,7 @@ forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (PreH1 : ((Znth (0 : In
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 ) \/
 (
-forall (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+forall (values : (List Int)) (n_pre : Int) (PreH1 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   TT && emp 
 |--
   “ (Spec values 1) ”
@@ -416,12 +416,12 @@ forall (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth (0 : Int) (values ++ 
 )
 
 noncomputable def solver_return_wit_3_split_goal_1 : Prop :=
-  forall (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+  forall (values : (List Int)) (n_pre : Int) (PreH1 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   (Spec values 1)
 
 noncomputable def solver_return_wit_4 : Prop :=
   (
-forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 |--
@@ -430,7 +430,7 @@ forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (PreH1 : ((Znth (n_pre 
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 ) \/
 (
-forall (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+forall (values : (List Int)) (n_pre : Int) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   TT && emp 
 |--
   “ (Spec values 1) ”
@@ -438,11 +438,11 @@ forall (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth (n_pre - 1) (values +
 )
 
 noncomputable def solver_return_wit_4_split_goal_1 : Prop :=
-  forall (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+  forall (values : (List Int)) (n_pre : Int) (PreH1 : ((Znth (n_pre - 1) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   (Spec values 1)
 
 noncomputable def solver_partial_solve_wit_1 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (PreH1 : (n_pre = (Zlength (values)))) (PreH2 : (2 <= (Zlength (values)))) (PreH3 : ((Zlength (values)) <= 200000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (PreH1 : (n_pre = (Zlength (values)))) (PreH2 : (2 <= (Zlength (values)))) (PreH3 : ((Zlength (values)) <= 200000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 |--
@@ -455,7 +455,7 @@ noncomputable def solver_partial_solve_wit_1 : Prop :=
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 
 noncomputable def solver_partial_solve_wit_2 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (PreH1 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (PreH1 : ((Znth (0 : Int) (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ 49)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (values)))) -> (((Znth i values (0 : Int)) = 48) ∨ ((Znth i values (0 : Int)) = 49)))) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 |--
@@ -469,7 +469,7 @@ noncomputable def solver_partial_solve_wit_2 : Prop :=
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 
 noncomputable def solver_partial_solve_wit_3 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH6 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH7 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= (n_pre - 1))) (PreH10 : (NoAdjacentOnesBefore values i)) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (i : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (n_pre = (Zlength (values)))) (PreH3 : (2 <= (Zlength (values)))) (PreH4 : ((Zlength (values)) <= 200000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH6 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH7 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= (n_pre - 1))) (PreH10 : (NoAdjacentOnesBefore values i)) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 |--
@@ -488,7 +488,7 @@ noncomputable def solver_partial_solve_wit_3 : Prop :=
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 
 noncomputable def solver_partial_solve_wit_4 : Prop :=
-  forall (n_pre : Int) (s_pre : Int) (values : (List Int)) (i : Int) (PreH1 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((i + 1) < n_pre)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH7 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH8 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= (n_pre - 1))) (PreH11 : (NoAdjacentOnesBefore values i)) ,
+  forall (values : (List Int)) (s_pre : Int) (n_pre : Int) (i : Int) (PreH1 : ((Znth i (values ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = 49)) (PreH2 : ((i + 1) < n_pre)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : (2 <= (Zlength (values)))) (PreH5 : ((Zlength (values)) <= 200000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (values)))) -> (((Znth k values (0 : Int)) = 48) ∨ ((Znth k values (0 : Int)) = 49)))) (PreH7 : ((Znth (0 : Int) values (0 : Int)) ≠ 49)) (PreH8 : ((Znth ((Zlength (values)) - 1) values (0 : Int)) ≠ 49)) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= (n_pre - 1))) (PreH11 : (NoAdjacentOnesBefore values i)) ,
   (charArray.full s_pre (n_pre + 1) (values ++ ((0 : Int) :: (@List.nil Int))))
   ** (charArray.undef_seg s_pre (n_pre + 1) 200005)
 |--

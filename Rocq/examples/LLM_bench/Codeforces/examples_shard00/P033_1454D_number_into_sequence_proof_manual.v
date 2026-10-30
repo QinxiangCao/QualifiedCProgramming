@@ -1,29 +1,13 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P033_1454D_number_into_sequence_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P033_1454D_number_into_sequence_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P033_1454D_number_into_sequence_lib.
 Local Open Scope sac.
 
 Lemma proof_of_solver_entail_wit_1 : solver_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (factor_search_profile_initial__search_initialization n_pre
       ltac:(lia)) as (Hstate & Hprofile).
@@ -35,7 +19,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2 : solver_entail_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (factor_extract_initial__search_initialization
       n_pre value p best_prime best_exp ps_2 es_2
@@ -49,7 +33,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3 : solver_entail_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hmod : value mod p = 0).
   { rewrite <- Z.rem_mod_nonneg by lia. exact PreH1. }
   pose proof (Z.quot_div_nonneg value p ltac:(lia) ltac:(lia)) as Hquot.
@@ -83,7 +67,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4 : solver_entail_wit_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hmod : value mod p <> 0).
   { rewrite <- Z.rem_mod_nonneg by lia. exact PreH1. }
   assert (Hzero : e = 0 -> value mod p = 0).
@@ -110,7 +94,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_1 : solver_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold FactorSearchProfile in PreH14.
   destruct PreH14 as
     (_ & _ & _ & _ & _ & _ & _ & _ & _ & Hterminal).
@@ -126,7 +110,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_1 : solver_entail_wit_6_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (ps_2 ++ p :: nil) (es_2 ++ e :: nil).
   unfold FactorExtractProfile in PreH18.
   destruct PreH18 as
@@ -149,7 +133,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_2 : solver_entail_wit_6_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (ps_2 ++ p :: nil) (es_2 ++ e :: nil).
   unfold FactorExtractProfile in PreH18.
   destruct PreH18 as
@@ -172,7 +156,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_3 : solver_entail_wit_6_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.rem_mod_nonneg in PreH1 by lia.
   pose proof
     (factor_search_profile_skip__search_transitions
@@ -189,7 +173,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_split_goal_1 : solver_entail_wit_7_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold OutputPrefixState.
   split; [exact PreH9 |].
   repeat split; try lia.
@@ -206,7 +190,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_1 : solver_entail_wit_8_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (output_prefix_step__output_construction
     n_pre best_prime best_exp i rest written_2 PreH1 PreH15) as Hstep.
   rewrite Z.quot_div_nonneg by lia.
@@ -215,7 +199,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_2 : solver_entail_wit_8_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (output_prefix_step__output_construction
     n_pre best_prime best_exp i rest written_2 PreH1 PreH15) as Hstep.
   rewrite Z.quot_div_nonneg by lia.
@@ -224,7 +208,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_3 : solver_entail_wit_8_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (output_prefix_step__output_construction
     n_pre best_prime best_exp i rest written_2 PreH1 PreH15) as Hstep.
   rewrite Z.quot_div_nonneg by lia.
@@ -241,7 +225,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9 : solver_entail_wit_9.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = best_exp - 1) by lia.
   subst i.
   Exists written_2.
@@ -253,7 +237,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_10 : solver_entail_wit_10.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (final_output_from_prefix__final_result
        n_pre best_prime best_exp rest written PreH11 PreH12)
@@ -272,7 +256,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold FinalOutputSequence in PreH7.
   destruct PreH7 as
     (_ & _ & Hresult_len & _ & _ & _ & _).

@@ -1,28 +1,12 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
+From SimpleC.Verification Require Import VCPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.choir_singing.choir_singing_lib.
 Local Open Scope sac.
 
 (*----- Function choir_singing -----*)
 
-Definition choir_singing_safety_wit_1 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (PreH1 : (2 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : ((Zlength (heights)) = numsSize_pre)) (PreH4 : (Forall (Z.le (130)) heights )) (PreH5 : (Forall (Z.ge (230)) heights )) ,
+Definition choir_singing_safety_wit_1 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (PreH1 : (2 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : ((Zlength (heights)) = numsSize_pre)) (PreH4 : (Forall (Z.le (130)) heights )) (PreH5 : (Forall (Z.ge (230)) heights )),
   ((( &( "i" ) )) # Int  |->_)
   **  (IntArray.undef_full ( &( "dp_right" ) ) 100 )
   **  (IntArray.undef_full ( &( "dp_left" ) ) 100 )
@@ -30,12 +14,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (PreH1 : (2 <= numsS
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  (IntArray.full nums_pre numsSize_pre heights )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition choir_singing_safety_wit_2 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )) ,
+Definition choir_singing_safety_wit_2 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )),
   ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
@@ -47,12 +31,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@li
   **  (IntArray.undef_seg ( &( "dp_right" ) ) i numsSize_pre )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition choir_singing_safety_wit_3 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )) ,
+Definition choir_singing_safety_wit_3 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )),
   (IntArray.seg ( &( "dp_left" ) ) 0 (i + 1 ) (app (left_written) ((cons (1) ((@nil Z))))) )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) (i + 1 ) numsSize_pre )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -64,12 +48,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@li
   **  (IntArray.undef_seg ( &( "dp_right" ) ) i numsSize_pre )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition choir_singing_safety_wit_4 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )) ,
+Definition choir_singing_safety_wit_4 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )),
   (IntArray.seg ( &( "dp_right" ) ) 0 (i + 1 ) (app (right_written) ((cons (1) ((@nil Z))))) )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) (i + 1 ) numsSize_pre )
   **  (IntArray.seg ( &( "dp_left" ) ) 0 (i + 1 ) (app (left_written) ((cons (1) ((@nil Z))))) )
@@ -81,12 +65,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@li
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((i + 1 ) <= INT_MAX) ” 
+  “ ((i + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (i + 1 )) ”
 .
 
-Definition choir_singing_safety_wit_5 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )) ,
+Definition choir_singing_safety_wit_5 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )),
   ((( &( "i" ) )) # Int  |->_)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -98,12 +82,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@li
   **  (IntArray.undef_seg ( &( "dp_right" ) ) i numsSize_pre )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition choir_singing_safety_wit_6 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values i )) (PreH8 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_safety_wit_6 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values i )) (PreH8 : (Forall (eq (1)) right_values )),
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -114,12 +98,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((i - 1 ) <= INT_MAX) ” 
+  “ ((i - 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (i - 1 )) ”
 .
 
-Definition choir_singing_safety_wit_7 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values i )) (PreH8 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_safety_wit_7 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values i )) (PreH8 : (Forall (eq (1)) right_values )),
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -130,12 +114,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition choir_singing_safety_wit_8 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : ((Zlength (heights)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((-1) <= j)) (PreH7 : (j < i)) (PreH8 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH9 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_safety_wit_8 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : ((Zlength (heights)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((-1) <= j)) (PreH7 : (j < i)) (PreH8 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH9 : (Forall (eq (1)) right_values )),
   ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
@@ -146,13 +130,13 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition choir_singing_safety_wit_9 := 
+Definition choir_singing_safety_wit_9 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -163,11 +147,11 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth j left_values 0) + 1 ) <= INT_MAX) ” 
+  “ (((Znth j left_values 0) + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth j left_values 0) + 1 )) ”
 ) \/
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -178,12 +162,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth j left_values 0) + 1 ) <= INT_MAX) ” 
+  “ (((Znth j left_values 0) + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth j left_values 0) + 1 )) ”
 ).
 
-Definition choir_singing_safety_wit_9_split_goal_1 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_safety_wit_9_split_goal_1 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -197,8 +181,8 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   “ (((Znth j left_values 0) + 1 ) <= INT_MAX) ”
 .
 
-Definition choir_singing_safety_wit_9_split_goal_2 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_safety_wit_9_split_goal_2 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -212,8 +196,8 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   “ ((INT_MIN) <= ((Znth j left_values 0) + 1 )) ”
 .
 
-Definition choir_singing_safety_wit_10 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_safety_wit_10 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -224,13 +208,13 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition choir_singing_safety_wit_11 := 
+Definition choir_singing_safety_wit_11 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) > (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) > (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -241,11 +225,11 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth j left_values 0) + 1 ) <= INT_MAX) ” 
+  “ (((Znth j left_values 0) + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth j left_values 0) + 1 )) ”
 ) \/
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) > (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) > (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -256,12 +240,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth j left_values 0) + 1 ) <= INT_MAX) ” 
+  “ (((Znth j left_values 0) + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth j left_values 0) + 1 )) ”
 ).
 
-Definition choir_singing_safety_wit_11_split_goal_1 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) > (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_safety_wit_11_split_goal_1 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) > (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -275,8 +259,8 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   “ (((Znth j left_values 0) + 1 ) <= INT_MAX) ”
 .
 
-Definition choir_singing_safety_wit_11_split_goal_2 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) > (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_safety_wit_11_split_goal_2 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) > (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -290,8 +274,8 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   “ ((INT_MIN) <= ((Znth j left_values 0) + 1 )) ”
 .
 
-Definition choir_singing_safety_wit_12 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) > (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_safety_wit_12 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) > (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -302,12 +286,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition choir_singing_safety_wit_13 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) > (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_safety_wit_13 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) > (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre (replace_Znth (i) (((Znth j left_values 0) + 1 )) (left_values)) )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -318,12 +302,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((j - 1 ) <= INT_MAX) ” 
+  “ ((j - 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (j - 1 )) ”
 .
 
-Definition choir_singing_safety_wit_14 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) >= (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_safety_wit_14 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) >= (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -334,12 +318,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((j - 1 ) <= INT_MAX) ” 
+  “ ((j - 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (j - 1 )) ”
 .
 
-Definition choir_singing_safety_wit_15 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) <= (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_safety_wit_15 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) <= (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -350,12 +334,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((j - 1 ) <= INT_MAX) ” 
+  “ ((j - 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (j - 1 )) ”
 .
 
-Definition choir_singing_safety_wit_16 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((-1) <= j)) (PreH8 : (j < i)) (PreH9 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH10 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_safety_wit_16 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((-1) <= j)) (PreH8 : (j < i)) (PreH9 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH10 : (Forall (eq (1)) right_values )),
   ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
@@ -365,12 +349,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((i + 1 ) <= INT_MAX) ” 
+  “ ((i + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (i + 1 )) ”
 .
 
-Definition choir_singing_safety_wit_17 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values i )) (PreH8 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_safety_wit_17 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values i )) (PreH8 : (Forall (eq (1)) right_values )),
   ((( &( "i" ) )) # Int  |->_)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -380,12 +364,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((numsSize_pre - 1 ) <= INT_MAX) ” 
+  “ ((numsSize_pre - 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (numsSize_pre - 1 )) ”
 .
 
-Definition choir_singing_safety_wit_18 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values i )) (PreH8 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_safety_wit_18 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values i )) (PreH8 : (Forall (eq (1)) right_values )),
   ((( &( "i" ) )) # Int  |->_)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -395,12 +379,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition choir_singing_safety_wit_19 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : ((Zlength (heights)) = numsSize_pre)) (PreH4 : (0 <= (i + 1 ))) (PreH5 : ((i + 1 ) <= numsSize_pre)) (PreH6 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH7 : (ChoirDPRightSuffix heights right_values (i + 1 ) )) ,
+Definition choir_singing_safety_wit_19 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : ((Zlength (heights)) = numsSize_pre)) (PreH4 : (0 <= (i + 1 ))) (PreH5 : ((i + 1 ) <= numsSize_pre)) (PreH6 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH7 : (ChoirDPRightSuffix heights right_values (i + 1 ) )),
   ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
@@ -410,12 +394,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition choir_singing_safety_wit_20 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (i >= 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values (i + 1 ) )) ,
+Definition choir_singing_safety_wit_20 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (i >= 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values (i + 1 ) )),
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -426,12 +410,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((i + 1 ) <= INT_MAX) ” 
+  “ ((i + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (i + 1 )) ”
 .
 
-Definition choir_singing_safety_wit_21 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (i >= 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values (i + 1 ) )) ,
+Definition choir_singing_safety_wit_21 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (i >= 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values (i + 1 ) )),
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -442,13 +426,13 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition choir_singing_safety_wit_22 := 
+Definition choir_singing_safety_wit_22 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values i j )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -459,11 +443,11 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth j right_values 0) + 1 ) <= INT_MAX) ” 
+  “ (((Znth j right_values 0) + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth j right_values 0) + 1 )) ”
 ) \/
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values i j )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -474,12 +458,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth j right_values 0) + 1 ) <= INT_MAX) ” 
+  “ (((Znth j right_values 0) + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth j right_values 0) + 1 )) ”
 ).
 
-Definition choir_singing_safety_wit_22_split_goal_1 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values i j )) ,
+Definition choir_singing_safety_wit_22_split_goal_1 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -493,8 +477,8 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   “ (((Znth j right_values 0) + 1 ) <= INT_MAX) ”
 .
 
-Definition choir_singing_safety_wit_22_split_goal_2 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values i j )) ,
+Definition choir_singing_safety_wit_22_split_goal_2 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -508,8 +492,8 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   “ ((INT_MIN) <= ((Znth j right_values 0) + 1 )) ”
 .
 
-Definition choir_singing_safety_wit_23 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values i j )) ,
+Definition choir_singing_safety_wit_23 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -520,13 +504,13 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition choir_singing_safety_wit_24 := 
+Definition choir_singing_safety_wit_24 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) > (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) > (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -537,11 +521,11 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth j right_values 0) + 1 ) <= INT_MAX) ” 
+  “ (((Znth j right_values 0) + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth j right_values 0) + 1 )) ”
 ) \/
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) > (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) > (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -552,12 +536,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth j right_values 0) + 1 ) <= INT_MAX) ” 
+  “ (((Znth j right_values 0) + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth j right_values 0) + 1 )) ”
 ).
 
-Definition choir_singing_safety_wit_24_split_goal_1 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) > (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )) ,
+Definition choir_singing_safety_wit_24_split_goal_1 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) > (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -571,8 +555,8 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   “ (((Znth j right_values 0) + 1 ) <= INT_MAX) ”
 .
 
-Definition choir_singing_safety_wit_24_split_goal_2 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) > (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )) ,
+Definition choir_singing_safety_wit_24_split_goal_2 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) > (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -586,8 +570,8 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   “ ((INT_MIN) <= ((Znth j right_values 0) + 1 )) ”
 .
 
-Definition choir_singing_safety_wit_25 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) > (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )) ,
+Definition choir_singing_safety_wit_25 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) > (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -598,12 +582,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition choir_singing_safety_wit_26 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) > (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )) ,
+Definition choir_singing_safety_wit_26 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) > (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre (replace_Znth (i) (((Znth j right_values 0) + 1 )) (right_values)) )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -614,12 +598,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((j + 1 ) <= INT_MAX) ” 
+  “ ((j + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition choir_singing_safety_wit_27 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) >= (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values i j )) ,
+Definition choir_singing_safety_wit_27 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) >= (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -630,12 +614,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((j + 1 ) <= INT_MAX) ” 
+  “ ((j + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition choir_singing_safety_wit_28 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) <= (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )) ,
+Definition choir_singing_safety_wit_28 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) <= (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -646,12 +630,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((j + 1 ) <= INT_MAX) ” 
+  “ ((j + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition choir_singing_safety_wit_29 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (j >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirRightInnerProgress heights right_values i j )) ,
+Definition choir_singing_safety_wit_29 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (j >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirRightInnerProgress heights right_values i j )),
   ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
@@ -661,12 +645,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((i - 1 ) <= INT_MAX) ” 
+  “ ((i - 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (i - 1 )) ”
 .
 
-Definition choir_singing_safety_wit_30 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (i < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values (i + 1 ) )) ,
+Definition choir_singing_safety_wit_30 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (i < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values (i + 1 ) )),
   ((( &( "max_choir" ) )) # Int  |->_)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -676,12 +660,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition choir_singing_safety_wit_31 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (i < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values (i + 1 ) )) ,
+Definition choir_singing_safety_wit_31 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (i: Z) (PreH1 : (i < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values (i + 1 ) )),
   ((( &( "k" ) )) # Int  |->_)
   **  ((( &( "max_choir" ) )) # Int  |-> 0)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -692,13 +676,13 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition choir_singing_safety_wit_32 := 
+Definition choir_singing_safety_wit_32 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -709,11 +693,11 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth k left_values 0) + (Znth k right_values 0) ) <= INT_MAX) ” 
+  “ (((Znth k left_values 0) + (Znth k right_values 0) ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth k left_values 0) + (Znth k right_values 0) )) ”
 ) \/
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -724,12 +708,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth k left_values 0) + (Znth k right_values 0) ) <= INT_MAX) ” 
+  “ (((Znth k left_values 0) + (Znth k right_values 0) ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth k left_values 0) + (Znth k right_values 0) )) ”
 ).
 
-Definition choir_singing_safety_wit_32_split_goal_1 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_safety_wit_32_split_goal_1 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -743,8 +727,8 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   “ (((Znth k left_values 0) + (Znth k right_values 0) ) <= INT_MAX) ”
 .
 
-Definition choir_singing_safety_wit_32_split_goal_2 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_safety_wit_32_split_goal_2 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -758,9 +742,9 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   “ ((INT_MIN) <= ((Znth k left_values 0) + (Znth k right_values 0) )) ”
 .
 
-Definition choir_singing_safety_wit_33 := 
+Definition choir_singing_safety_wit_33 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -771,11 +755,11 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((((Znth k left_values 0) + (Znth k right_values 0) ) - 1 ) <= INT_MAX) ” 
+  “ ((((Znth k left_values 0) + (Znth k right_values 0) ) - 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (((Znth k left_values 0) + (Znth k right_values 0) ) - 1 )) ”
 ) \/
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -786,12 +770,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((((Znth k left_values 0) + (Znth k right_values 0) ) - 1 ) <= INT_MAX) ” 
+  “ ((((Znth k left_values 0) + (Znth k right_values 0) ) - 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (((Znth k left_values 0) + (Znth k right_values 0) ) - 1 )) ”
 ).
 
-Definition choir_singing_safety_wit_33_split_goal_1 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_safety_wit_33_split_goal_1 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -805,8 +789,8 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   “ ((((Znth k left_values 0) + (Znth k right_values 0) ) - 1 ) <= INT_MAX) ”
 .
 
-Definition choir_singing_safety_wit_33_split_goal_2 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_safety_wit_33_split_goal_2 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -820,9 +804,9 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   “ ((INT_MIN) <= (((Znth k left_values 0) + (Znth k right_values 0) ) - 1 )) ”
 .
 
-Definition choir_singing_safety_wit_34 := 
+Definition choir_singing_safety_wit_34 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -833,11 +817,11 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth k left_values 0) + (Znth k right_values 0) ) <= INT_MAX) ” 
+  “ (((Znth k left_values 0) + (Znth k right_values 0) ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth k left_values 0) + (Znth k right_values 0) )) ”
 ) \/
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -848,12 +832,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth k left_values 0) + (Znth k right_values 0) ) <= INT_MAX) ” 
+  “ (((Znth k left_values 0) + (Znth k right_values 0) ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth k left_values 0) + (Znth k right_values 0) )) ”
 ).
 
-Definition choir_singing_safety_wit_34_split_goal_1 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_safety_wit_34_split_goal_1 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -867,8 +851,8 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   “ (((Znth k left_values 0) + (Znth k right_values 0) ) <= INT_MAX) ”
 .
 
-Definition choir_singing_safety_wit_34_split_goal_2 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_safety_wit_34_split_goal_2 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -882,8 +866,8 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   “ ((INT_MIN) <= ((Znth k left_values 0) + (Znth k right_values 0) )) ”
 .
 
-Definition choir_singing_safety_wit_35 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_safety_wit_35 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -894,12 +878,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition choir_singing_safety_wit_36 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_safety_wit_36 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -910,12 +894,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((k + 1 ) <= INT_MAX) ” 
+  “ ((k + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (k + 1 )) ”
 .
 
-Definition choir_singing_safety_wit_37 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) <= max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_safety_wit_37 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) <= max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
@@ -926,12 +910,12 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((k + 1 ) <= INT_MAX) ” 
+  “ ((k + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (k + 1 )) ”
 .
 
-Definition choir_singing_safety_wit_38 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (max_choir: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : (0 <= max_choir)) (PreH4 : (max_choir <= numsSize_pre)) (PreH5 : (ChoirMinimumRemovals heights (numsSize_pre - max_choir ) )) ,
+Definition choir_singing_safety_wit_38 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (max_choir: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : (0 <= max_choir)) (PreH4 : (max_choir <= numsSize_pre)) (PreH5 : (ChoirMinimumRemovals heights (numsSize_pre - max_choir ) )),
   ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "max_choir" ) )) # Int  |-> max_choir)
@@ -939,24 +923,24 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (max_choir: Z) (PreH
   **  (IntArray.undef_full ( &( "dp_left" ) ) 100 )
   **  (IntArray.undef_full ( &( "dp_right" ) ) 100 )
 |--
-  “ ((numsSize_pre - max_choir ) <= INT_MAX) ” 
+  “ ((numsSize_pre - max_choir ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (numsSize_pre - max_choir )) ”
 .
 
-Definition choir_singing_entail_wit_1 := 
+Definition choir_singing_entail_wit_1 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (PreH1 : (2 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : ((Zlength (heights)) = numsSize_pre)) (PreH4 : (Forall (Z.le (130)) heights )) (PreH5 : (Forall (Z.ge (230)) heights )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (PreH1 : (2 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : ((Zlength (heights)) = numsSize_pre)) (PreH4 : (Forall (Z.le (130)) heights )) (PreH5 : (Forall (Z.ge (230)) heights )),
   (IntArray.undef_full ( &( "dp_right" ) ) 100 )
   **  (IntArray.undef_full ( &( "dp_left" ) ) 100 )
   **  (IntArray.full nums_pre numsSize_pre heights )
 |--
-  EX (right_written: (@list Z))  (left_written: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= numsSize_pre) ” 
-  &&  “ (Forall (eq (1)) left_written ) ” 
+  EX (right_written: (@list Z)) (left_written: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= 0) ”
+  &&  “ (0 <= numsSize_pre) ”
+  &&  “ (Forall (eq (1)) left_written ) ”
   &&  “ (Forall (eq (1)) right_written ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.seg ( &( "dp_left" ) ) 0 0 left_written )
@@ -967,11 +951,11 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (PreH1 : (2 <= numsS
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (PreH1 : (2 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : ((Zlength (heights)) = numsSize_pre)) (PreH4 : (Forall (Z.le (130)) heights )) (PreH5 : (Forall (Z.ge (230)) heights )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (PreH1 : (2 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : ((Zlength (heights)) = numsSize_pre)) (PreH4 : (Forall (Z.le (130)) heights )) (PreH5 : (Forall (Z.ge (230)) heights )),
   (IntArray.undef_full ( &( "dp_right" ) ) 100 )
   **  (IntArray.undef_full ( &( "dp_left" ) ) 100 )
 |--
-  “ (Forall (eq (1)) (@nil Z) ) ” 
+  “ (Forall (eq (1)) (@nil Z) ) ”
   &&  “ (Forall (eq (1)) (@nil Z) ) ”
   &&  (IntArray.undef_seg ( &( "dp_left" ) ) 0 numsSize_pre )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
@@ -979,24 +963,24 @@ forall (numsSize_pre: Z) (heights: (@list Z)) (PreH1 : (2 <= numsSize_pre)) (Pre
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ).
 
-Definition choir_singing_entail_wit_1_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (PreH1 : (2 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : ((Zlength (heights)) = numsSize_pre)) (PreH4 : (Forall (Z.le (130)) heights )) (PreH5 : (Forall (Z.ge (230)) heights )) ,
+Definition choir_singing_entail_wit_1_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (PreH1 : (2 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : ((Zlength (heights)) = numsSize_pre)) (PreH4 : (Forall (Z.le (130)) heights )) (PreH5 : (Forall (Z.ge (230)) heights )),
   (IntArray.undef_full ( &( "dp_right" ) ) 100 )
   **  (IntArray.undef_full ( &( "dp_left" ) ) 100 )
 |--
   “ (Forall (eq (1)) (@nil Z) ) ”
 .
 
-Definition choir_singing_entail_wit_1_split_goal_2 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (PreH1 : (2 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : ((Zlength (heights)) = numsSize_pre)) (PreH4 : (Forall (Z.le (130)) heights )) (PreH5 : (Forall (Z.ge (230)) heights )) ,
+Definition choir_singing_entail_wit_1_split_goal_2 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (PreH1 : (2 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : ((Zlength (heights)) = numsSize_pre)) (PreH4 : (Forall (Z.le (130)) heights )) (PreH5 : (Forall (Z.ge (230)) heights )),
   (IntArray.undef_full ( &( "dp_right" ) ) 100 )
   **  (IntArray.undef_full ( &( "dp_left" ) ) 100 )
 |--
   “ (Forall (eq (1)) (@nil Z) ) ”
 .
 
-Definition choir_singing_entail_wit_1_split_goal_spatial := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (PreH1 : (2 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : ((Zlength (heights)) = numsSize_pre)) (PreH4 : (Forall (Z.le (130)) heights )) (PreH5 : (Forall (Z.ge (230)) heights )) ,
+Definition choir_singing_entail_wit_1_split_goal_spatial :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (PreH1 : (2 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : ((Zlength (heights)) = numsSize_pre)) (PreH4 : (Forall (Z.le (130)) heights )) (PreH5 : (Forall (Z.ge (230)) heights )),
   (IntArray.undef_full ( &( "dp_right" ) ) 100 )
   **  (IntArray.undef_full ( &( "dp_left" ) ) 100 )
 |--
@@ -1006,9 +990,9 @@ forall (numsSize_pre: Z) (heights: (@list Z)) (PreH1 : (2 <= numsSize_pre)) (Pre
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_entail_wit_2 := 
+Definition choir_singing_entail_wit_2 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written_2: (@list Z)) (left_written_2: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written_2 )) (PreH8 : (Forall (eq (1)) right_written_2 )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_written_2: (@list Z)) (left_written_2: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written_2 )) (PreH8 : (Forall (eq (1)) right_written_2 )),
   (IntArray.seg ( &( "dp_right" ) ) 0 (i + 1 ) (app (right_written_2) ((cons (1) ((@nil Z))))) )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) (i + 1 ) numsSize_pre )
   **  (IntArray.seg ( &( "dp_left" ) ) 0 (i + 1 ) (app (left_written_2) ((cons (1) ((@nil Z))))) )
@@ -1017,13 +1001,13 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written_2: (@
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  EX (right_written: (@list Z))  (left_written: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= (i + 1 )) ” 
-  &&  “ ((i + 1 ) <= numsSize_pre) ” 
-  &&  “ (Forall (eq (1)) left_written ) ” 
+  EX (right_written: (@list Z)) (left_written: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= (i + 1 )) ”
+  &&  “ ((i + 1 ) <= numsSize_pre) ”
+  &&  “ (Forall (eq (1)) left_written ) ”
   &&  “ (Forall (eq (1)) right_written ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.seg ( &( "dp_left" ) ) 0 (i + 1 ) left_written )
@@ -1034,27 +1018,27 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written_2: (@
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_written_2: (@list Z)) (left_written_2: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written_2 )) (PreH8 : (Forall (eq (1)) right_written_2 )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_written_2: (@list Z)) (left_written_2: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written_2 )) (PreH8 : (Forall (eq (1)) right_written_2 )),
   TT && emp 
 |--
-  “ (Forall (eq (1)) (app (right_written_2) ((cons (1) ((@nil Z))))) ) ” 
+  “ (Forall (eq (1)) (app (right_written_2) ((cons (1) ((@nil Z))))) ) ”
   &&  “ (Forall (eq (1)) (app (left_written_2) ((cons (1) ((@nil Z))))) ) ”
   &&  emp
 ).
 
-Definition choir_singing_entail_wit_2_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_written_2: (@list Z)) (left_written_2: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written_2 )) (PreH8 : (Forall (eq (1)) right_written_2 )) ,
+Definition choir_singing_entail_wit_2_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_written_2: (@list Z)) (left_written_2: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written_2 )) (PreH8 : (Forall (eq (1)) right_written_2 )),
   (Forall (eq (1)) (app (right_written_2) ((cons (1) ((@nil Z))))) )
 .
 
-Definition choir_singing_entail_wit_2_split_goal_2 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_written_2: (@list Z)) (left_written_2: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written_2 )) (PreH8 : (Forall (eq (1)) right_written_2 )) ,
+Definition choir_singing_entail_wit_2_split_goal_2 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_written_2: (@list Z)) (left_written_2: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written_2 )) (PreH8 : (Forall (eq (1)) right_written_2 )),
   (Forall (eq (1)) (app (left_written_2) ((cons (1) ((@nil Z))))) )
 .
 
-Definition choir_singing_entail_wit_3 := 
+Definition choir_singing_entail_wit_3 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.seg ( &( "dp_left" ) ) 0 i left_written )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) i numsSize_pre )
@@ -1063,13 +1047,13 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@li
   **  (IntArray.undef_seg ( &( "dp_right" ) ) i numsSize_pre )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  EX (right_values: (@list Z))  (left_values: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values 0 ) ” 
+  EX (right_values: (@list Z)) (left_values: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= 0) ”
+  &&  “ (0 <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values 0 ) ”
   &&  “ (Forall (eq (1)) right_values ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
@@ -1078,40 +1062,36 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@li
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )) ,
-  (IntArray.seg ( &( "dp_left" ) ) 0 i left_written )
-  **  (IntArray.seg ( &( "dp_right" ) ) 0 i right_written )
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )),
+  TT && emp 
 |--
-  EX (right_values: (@list Z))  (left_values: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values 0 ) ” 
-  &&  “ (Forall (eq (1)) right_values ) ”
-  &&  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
-  **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
+  “ (ChoirDPLeftPrefix heights left_written 0 ) ”
+  &&  emp
 ).
 
-Definition choir_singing_entail_wit_4 := 
+Definition choir_singing_entail_wit_3_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )),
+  (ChoirDPLeftPrefix heights left_written 0 )
+.
+
+Definition choir_singing_entail_wit_4 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 i )) (PreH8 : (Forall (eq (1)) right_values_2 )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 i )) (PreH8 : (Forall (eq (1)) right_values_2 )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values_2 )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values_2 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  EX (right_values: (@list Z))  (left_values: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((-1) <= (i - 1 )) ” 
-  &&  “ ((i - 1 ) < i) ” 
-  &&  “ (ChoirLeftInnerProgress heights left_values i ((i - 1 ) + 1 ) ) ” 
+  EX (right_values: (@list Z)) (left_values: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((-1) <= (i - 1 )) ”
+  &&  “ ((i - 1 ) < i) ”
+  &&  “ (ChoirLeftInnerProgress heights left_values i ((i - 1 ) + 1 ) ) ”
   &&  “ (Forall (eq (1)) right_values ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
@@ -1120,36 +1100,36 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@l
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 i )) (PreH8 : (Forall (eq (1)) right_values_2 )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 i )) (PreH8 : (Forall (eq (1)) right_values_2 )),
   TT && emp 
 |--
   “ (ChoirLeftInnerProgress heights left_values_2 i ((i - 1 ) + 1 ) ) ”
   &&  emp
 ).
 
-Definition choir_singing_entail_wit_4_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 i )) (PreH8 : (Forall (eq (1)) right_values_2 )) ,
+Definition choir_singing_entail_wit_4_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 i )) (PreH8 : (Forall (eq (1)) right_values_2 )),
   (ChoirLeftInnerProgress heights left_values_2 i ((i - 1 ) + 1 ) )
 .
 
-Definition choir_singing_entail_wit_5_1 := 
+Definition choir_singing_entail_wit_5_1 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values_2 0) + 1 ) > (Znth i left_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values_2 )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values_2 0) + 1 ) > (Znth i left_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values_2 )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre (replace_Znth (i) (((Znth j left_values_2 0) + 1 )) (left_values_2)) )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values_2 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  EX (right_values: (@list Z))  (left_values: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((-1) <= (j - 1 )) ” 
-  &&  “ ((j - 1 ) < i) ” 
-  &&  “ (ChoirLeftInnerProgress heights left_values i ((j - 1 ) + 1 ) ) ” 
+  EX (right_values: (@list Z)) (left_values: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((-1) <= (j - 1 )) ”
+  &&  “ ((j - 1 ) < i) ”
+  &&  “ (ChoirLeftInnerProgress heights left_values i ((j - 1 ) + 1 ) ) ”
   &&  “ (Forall (eq (1)) right_values ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
@@ -1158,36 +1138,36 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@l
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values_2 0) + 1 ) > (Znth i left_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values_2 )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values_2 0) + 1 ) > (Znth i left_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values_2 )),
   TT && emp 
 |--
   “ (ChoirLeftInnerProgress heights (replace_Znth (i) (((Znth j left_values_2 0) + 1 )) (left_values_2)) i ((j - 1 ) + 1 ) ) ”
   &&  emp
 ).
 
-Definition choir_singing_entail_wit_5_1_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values_2 0) + 1 ) > (Znth i left_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values_2 )) ,
+Definition choir_singing_entail_wit_5_1_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values_2 0) + 1 ) > (Znth i left_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values_2 )),
   (ChoirLeftInnerProgress heights (replace_Znth (i) (((Znth j left_values_2 0) + 1 )) (left_values_2)) i ((j - 1 ) + 1 ) )
 .
 
-Definition choir_singing_entail_wit_5_2 := 
+Definition choir_singing_entail_wit_5_2 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) >= (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values_2 )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) >= (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values_2 )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values_2 )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values_2 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  EX (right_values: (@list Z))  (left_values: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((-1) <= (j - 1 )) ” 
-  &&  “ ((j - 1 ) < i) ” 
-  &&  “ (ChoirLeftInnerProgress heights left_values i ((j - 1 ) + 1 ) ) ” 
+  EX (right_values: (@list Z)) (left_values: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((-1) <= (j - 1 )) ”
+  &&  “ ((j - 1 ) < i) ”
+  &&  “ (ChoirLeftInnerProgress heights left_values i ((j - 1 ) + 1 ) ) ”
   &&  “ (Forall (eq (1)) right_values ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
@@ -1196,36 +1176,36 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@l
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) >= (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values_2 )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) >= (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values_2 )),
   TT && emp 
 |--
   “ (ChoirLeftInnerProgress heights left_values_2 i ((j - 1 ) + 1 ) ) ”
   &&  emp
 ).
 
-Definition choir_singing_entail_wit_5_2_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) >= (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values_2 )) ,
+Definition choir_singing_entail_wit_5_2_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) >= (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values_2 )),
   (ChoirLeftInnerProgress heights left_values_2 i ((j - 1 ) + 1 ) )
 .
 
-Definition choir_singing_entail_wit_5_3 := 
+Definition choir_singing_entail_wit_5_3 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values_2 0) + 1 ) <= (Znth i left_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values_2 )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values_2 0) + 1 ) <= (Znth i left_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values_2 )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values_2 )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values_2 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  EX (right_values: (@list Z))  (left_values: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((-1) <= (j - 1 )) ” 
-  &&  “ ((j - 1 ) < i) ” 
-  &&  “ (ChoirLeftInnerProgress heights left_values i ((j - 1 ) + 1 ) ) ” 
+  EX (right_values: (@list Z)) (left_values: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((-1) <= (j - 1 )) ”
+  &&  “ ((j - 1 ) < i) ”
+  &&  “ (ChoirLeftInnerProgress heights left_values i ((j - 1 ) + 1 ) ) ”
   &&  “ (Forall (eq (1)) right_values ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
@@ -1234,34 +1214,34 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@l
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values_2 0) + 1 ) <= (Znth i left_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values_2 )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values_2 0) + 1 ) <= (Znth i left_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values_2 )),
   TT && emp 
 |--
   “ (ChoirLeftInnerProgress heights left_values_2 i ((j - 1 ) + 1 ) ) ”
   &&  emp
 ).
 
-Definition choir_singing_entail_wit_5_3_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values_2 0) + 1 ) <= (Znth i left_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values_2 )) ,
+Definition choir_singing_entail_wit_5_3_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values_2 0) + 1 ) <= (Znth i left_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values_2 )),
   (ChoirLeftInnerProgress heights left_values_2 i ((j - 1 ) + 1 ) )
 .
 
-Definition choir_singing_entail_wit_6 := 
+Definition choir_singing_entail_wit_6 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((-1) <= j)) (PreH8 : (j < i)) (PreH9 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH10 : (Forall (eq (1)) right_values_2 )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((-1) <= j)) (PreH8 : (j < i)) (PreH9 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH10 : (Forall (eq (1)) right_values_2 )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values_2 )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values_2 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  EX (right_values: (@list Z))  (left_values: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= (i + 1 )) ” 
-  &&  “ ((i + 1 ) <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values (i + 1 ) ) ” 
+  EX (right_values: (@list Z)) (left_values: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= (i + 1 )) ”
+  &&  “ ((i + 1 ) <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values (i + 1 ) ) ”
   &&  “ (Forall (eq (1)) right_values ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
@@ -1270,34 +1250,34 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@l
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((-1) <= j)) (PreH8 : (j < i)) (PreH9 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH10 : (Forall (eq (1)) right_values_2 )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((-1) <= j)) (PreH8 : (j < i)) (PreH9 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH10 : (Forall (eq (1)) right_values_2 )),
   TT && emp 
 |--
   “ (ChoirDPLeftPrefix heights left_values_2 (i + 1 ) ) ”
   &&  emp
 ).
 
-Definition choir_singing_entail_wit_6_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((-1) <= j)) (PreH8 : (j < i)) (PreH9 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH10 : (Forall (eq (1)) right_values_2 )) ,
+Definition choir_singing_entail_wit_6_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((-1) <= j)) (PreH8 : (j < i)) (PreH9 : (ChoirLeftInnerProgress heights left_values_2 i (j + 1 ) )) (PreH10 : (Forall (eq (1)) right_values_2 )),
   (ChoirDPLeftPrefix heights left_values_2 (i + 1 ) )
 .
 
-Definition choir_singing_entail_wit_7 := 
+Definition choir_singing_entail_wit_7 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 i )) (PreH8 : (Forall (eq (1)) right_values_2 )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 i )) (PreH8 : (Forall (eq (1)) right_values_2 )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values_2 )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values_2 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  EX (right_values: (@list Z))  (left_values: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= ((numsSize_pre - 1 ) + 1 )) ” 
-  &&  “ (((numsSize_pre - 1 ) + 1 ) <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
+  EX (right_values: (@list Z)) (left_values: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= ((numsSize_pre - 1 ) + 1 )) ”
+  &&  “ (((numsSize_pre - 1 ) + 1 ) <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
   &&  “ (ChoirDPRightSuffix heights right_values ((numsSize_pre - 1 ) + 1 ) ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
@@ -1306,42 +1286,42 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@l
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 i )) (PreH8 : (Forall (eq (1)) right_values_2 )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 i )) (PreH8 : (Forall (eq (1)) right_values_2 )),
   TT && emp 
 |--
-  “ (ChoirDPRightSuffix heights right_values_2 ((numsSize_pre - 1 ) + 1 ) ) ” 
+  “ (ChoirDPRightSuffix heights right_values_2 ((numsSize_pre - 1 ) + 1 ) ) ”
   &&  “ (ChoirDPLeftPrefix heights left_values_2 numsSize_pre ) ”
   &&  emp
 ).
 
-Definition choir_singing_entail_wit_7_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 i )) (PreH8 : (Forall (eq (1)) right_values_2 )) ,
+Definition choir_singing_entail_wit_7_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 i )) (PreH8 : (Forall (eq (1)) right_values_2 )),
   (ChoirDPRightSuffix heights right_values_2 ((numsSize_pre - 1 ) + 1 ) )
 .
 
-Definition choir_singing_entail_wit_7_split_goal_2 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 i )) (PreH8 : (Forall (eq (1)) right_values_2 )) ,
+Definition choir_singing_entail_wit_7_split_goal_2 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 i )) (PreH8 : (Forall (eq (1)) right_values_2 )),
   (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )
 .
 
-Definition choir_singing_entail_wit_8 := 
+Definition choir_singing_entail_wit_8 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i >= 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values_2 (i + 1 ) )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i >= 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values_2 (i + 1 ) )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values_2 )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values_2 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  EX (right_values: (@list Z))  (left_values: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((i + 1 ) <= (i + 1 )) ” 
-  &&  “ ((i + 1 ) <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
+  EX (right_values: (@list Z)) (left_values: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((i + 1 ) <= (i + 1 )) ”
+  &&  “ ((i + 1 ) <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
   &&  “ (ChoirRightInnerProgress heights right_values i (i + 1 ) ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
@@ -1350,36 +1330,36 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@l
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i >= 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values_2 (i + 1 ) )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i >= 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values_2 (i + 1 ) )),
   TT && emp 
 |--
   “ (ChoirRightInnerProgress heights right_values_2 i (i + 1 ) ) ”
   &&  emp
 ).
 
-Definition choir_singing_entail_wit_8_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i >= 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values_2 (i + 1 ) )) ,
+Definition choir_singing_entail_wit_8_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i >= 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values_2 (i + 1 ) )),
   (ChoirRightInnerProgress heights right_values_2 i (i + 1 ) )
 .
 
-Definition choir_singing_entail_wit_9_1 := 
+Definition choir_singing_entail_wit_9_1 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values_2 0) + 1 ) > (Znth i right_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values_2 i j )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values_2 0) + 1 ) > (Znth i right_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values_2 i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre (replace_Znth (i) (((Znth j right_values_2 0) + 1 )) (right_values_2)) )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values_2 )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  EX (right_values: (@list Z))  (left_values: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((i + 1 ) <= (j + 1 )) ” 
-  &&  “ ((j + 1 ) <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
+  EX (right_values: (@list Z)) (left_values: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((i + 1 ) <= (j + 1 )) ”
+  &&  “ ((j + 1 ) <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
   &&  “ (ChoirRightInnerProgress heights right_values i (j + 1 ) ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
@@ -1388,36 +1368,36 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@l
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values_2 0) + 1 ) > (Znth i right_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values_2 i j )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values_2 0) + 1 ) > (Znth i right_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values_2 i j )),
   TT && emp 
 |--
   “ (ChoirRightInnerProgress heights (replace_Znth (i) (((Znth j right_values_2 0) + 1 )) (right_values_2)) i (j + 1 ) ) ”
   &&  emp
 ).
 
-Definition choir_singing_entail_wit_9_1_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values_2 0) + 1 ) > (Znth i right_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values_2 i j )) ,
+Definition choir_singing_entail_wit_9_1_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values_2 0) + 1 ) > (Znth i right_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values_2 i j )),
   (ChoirRightInnerProgress heights (replace_Znth (i) (((Znth j right_values_2 0) + 1 )) (right_values_2)) i (j + 1 ) )
 .
 
-Definition choir_singing_entail_wit_9_2 := 
+Definition choir_singing_entail_wit_9_2 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) >= (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values_2 i j )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) >= (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values_2 i j )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values_2 )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values_2 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  EX (right_values: (@list Z))  (left_values: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((i + 1 ) <= (j + 1 )) ” 
-  &&  “ ((j + 1 ) <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
+  EX (right_values: (@list Z)) (left_values: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((i + 1 ) <= (j + 1 )) ”
+  &&  “ ((j + 1 ) <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
   &&  “ (ChoirRightInnerProgress heights right_values i (j + 1 ) ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
@@ -1426,36 +1406,36 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@l
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) >= (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values_2 i j )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) >= (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values_2 i j )),
   TT && emp 
 |--
   “ (ChoirRightInnerProgress heights right_values_2 i (j + 1 ) ) ”
   &&  emp
 ).
 
-Definition choir_singing_entail_wit_9_2_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) >= (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values_2 i j )) ,
+Definition choir_singing_entail_wit_9_2_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) >= (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values_2 i j )),
   (ChoirRightInnerProgress heights right_values_2 i (j + 1 ) )
 .
 
-Definition choir_singing_entail_wit_9_3 := 
+Definition choir_singing_entail_wit_9_3 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values_2 0) + 1 ) <= (Znth i right_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values_2 i j )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values_2 0) + 1 ) <= (Znth i right_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values_2 i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values_2 )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values_2 )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  EX (right_values: (@list Z))  (left_values: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((i + 1 ) <= (j + 1 )) ” 
-  &&  “ ((j + 1 ) <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
+  EX (right_values: (@list Z)) (left_values: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((i + 1 ) <= (j + 1 )) ”
+  &&  “ ((j + 1 ) <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
   &&  “ (ChoirRightInnerProgress heights right_values i (j + 1 ) ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
@@ -1464,34 +1444,34 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@l
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values_2 0) + 1 ) <= (Znth i right_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values_2 i j )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values_2 0) + 1 ) <= (Znth i right_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values_2 i j )),
   TT && emp 
 |--
   “ (ChoirRightInnerProgress heights right_values_2 i (j + 1 ) ) ”
   &&  emp
 ).
 
-Definition choir_singing_entail_wit_9_3_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values_2 0) + 1 ) <= (Znth i right_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values_2 i j )) ,
+Definition choir_singing_entail_wit_9_3_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values_2 0) + 1 ) <= (Znth i right_values_2 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values_2 i j )),
   (ChoirRightInnerProgress heights right_values_2 i (j + 1 ) )
 .
 
-Definition choir_singing_entail_wit_10 := 
+Definition choir_singing_entail_wit_10 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH10 : (ChoirRightInnerProgress heights right_values_2 i j )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH10 : (ChoirRightInnerProgress heights right_values_2 i j )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values_2 )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values_2 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  EX (right_values: (@list Z))  (left_values: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= ((i - 1 ) + 1 )) ” 
-  &&  “ (((i - 1 ) + 1 ) <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
+  EX (right_values: (@list Z)) (left_values: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= ((i - 1 ) + 1 )) ”
+  &&  “ (((i - 1 ) + 1 ) <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
   &&  “ (ChoirDPRightSuffix heights right_values ((i - 1 ) + 1 ) ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
@@ -1500,37 +1480,37 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@l
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH10 : (ChoirRightInnerProgress heights right_values_2 i j )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH10 : (ChoirRightInnerProgress heights right_values_2 i j )),
   TT && emp 
 |--
   “ (ChoirDPRightSuffix heights right_values_2 ((i - 1 ) + 1 ) ) ”
   &&  emp
 ).
 
-Definition choir_singing_entail_wit_10_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH10 : (ChoirRightInnerProgress heights right_values_2 i j )) ,
+Definition choir_singing_entail_wit_10_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH10 : (ChoirRightInnerProgress heights right_values_2 i j )),
   (ChoirDPRightSuffix heights right_values_2 ((i - 1 ) + 1 ) )
 .
 
-Definition choir_singing_entail_wit_11 := 
+Definition choir_singing_entail_wit_11 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values_2 (i + 1 ) )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values_2 (i + 1 ) )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values_2 )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values_2 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  EX (right_values: (@list Z))  (left_values: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= numsSize_pre) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
-  &&  “ (ChoirDPRightSuffix heights right_values 0 ) ” 
+  EX (right_values: (@list Z)) (left_values: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= 0) ”
+  &&  “ (0 <= numsSize_pre) ”
+  &&  “ (0 <= 0) ”
+  &&  “ (0 <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
+  &&  “ (ChoirDPRightSuffix heights right_values 0 ) ”
   &&  “ (ChoirBestPrefix heights 0 0 ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
@@ -1539,43 +1519,43 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@l
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values_2 (i + 1 ) )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values_2 (i + 1 ) )),
   TT && emp 
 |--
-  “ (ChoirBestPrefix heights 0 0 ) ” 
+  “ (ChoirBestPrefix heights 0 0 ) ”
   &&  “ (ChoirDPRightSuffix heights right_values_2 0 ) ”
   &&  emp
 ).
 
-Definition choir_singing_entail_wit_11_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values_2 (i + 1 ) )) ,
+Definition choir_singing_entail_wit_11_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values_2 (i + 1 ) )),
   (ChoirBestPrefix heights 0 0 )
 .
 
-Definition choir_singing_entail_wit_11_split_goal_2 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values_2 (i + 1 ) )) ,
+Definition choir_singing_entail_wit_11_split_goal_2 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (i: Z) (PreH1 : (i < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= (i + 1 ))) (PreH6 : ((i + 1 ) <= numsSize_pre)) (PreH7 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH8 : (ChoirDPRightSuffix heights right_values_2 (i + 1 ) )),
   (ChoirDPRightSuffix heights right_values_2 0 )
 .
 
-Definition choir_singing_entail_wit_12_1 := 
+Definition choir_singing_entail_wit_12_1 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values_2 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values_2 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values_2 )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values_2 )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  EX (right_values: (@list Z))  (left_values: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= (k + 1 )) ” 
-  &&  “ ((k + 1 ) <= numsSize_pre) ” 
-  &&  “ (0 <= (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) - 1 )) ” 
-  &&  “ ((((Znth k left_values_2 0) + (Znth k right_values_2 0) ) - 1 ) <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
-  &&  “ (ChoirDPRightSuffix heights right_values 0 ) ” 
+  EX (right_values: (@list Z)) (left_values: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= (k + 1 )) ”
+  &&  “ ((k + 1 ) <= numsSize_pre) ”
+  &&  “ (0 <= (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) - 1 )) ”
+  &&  “ ((((Znth k left_values_2 0) + (Znth k right_values_2 0) ) - 1 ) <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
+  &&  “ (ChoirDPRightSuffix heights right_values 0 ) ”
   &&  “ (ChoirBestPrefix heights (k + 1 ) (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) - 1 ) ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
@@ -1584,43 +1564,43 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@l
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values_2 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values_2 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   TT && emp 
 |--
-  “ (ChoirBestPrefix heights (k + 1 ) (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) - 1 ) ) ” 
+  “ (ChoirBestPrefix heights (k + 1 ) (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) - 1 ) ) ”
   &&  “ ((((Znth k left_values_2 0) + (Znth k right_values_2 0) ) - 1 ) <= numsSize_pre) ”
   &&  emp
 ).
 
-Definition choir_singing_entail_wit_12_1_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values_2 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_entail_wit_12_1_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values_2 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (ChoirBestPrefix heights (k + 1 ) (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) - 1 ) )
 .
 
-Definition choir_singing_entail_wit_12_1_split_goal_2 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values_2 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_entail_wit_12_1_split_goal_2 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values_2 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   ((((Znth k left_values_2 0) + (Znth k right_values_2 0) ) - 1 ) <= numsSize_pre)
 .
 
-Definition choir_singing_entail_wit_12_2 := 
+Definition choir_singing_entail_wit_12_2 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) <= max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values_2 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) <= max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values_2 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values_2 )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values_2 )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  EX (right_values: (@list Z))  (left_values: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= (k + 1 )) ” 
-  &&  “ ((k + 1 ) <= numsSize_pre) ” 
-  &&  “ (0 <= max_choir) ” 
-  &&  “ (max_choir <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
-  &&  “ (ChoirDPRightSuffix heights right_values 0 ) ” 
+  EX (right_values: (@list Z)) (left_values: (@list Z)),
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= (k + 1 )) ”
+  &&  “ ((k + 1 ) <= numsSize_pre) ”
+  &&  “ (0 <= max_choir) ”
+  &&  “ (max_choir <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
+  &&  “ (ChoirDPRightSuffix heights right_values 0 ) ”
   &&  “ (ChoirBestPrefix heights (k + 1 ) max_choir ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
@@ -1629,38 +1609,38 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values_2: (@l
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) <= max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values_2 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) <= max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values_2 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   TT && emp 
 |--
   “ (ChoirBestPrefix heights (k + 1 ) max_choir ) ”
   &&  emp
 ).
 
-Definition choir_singing_entail_wit_12_2_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) <= max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values_2 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_entail_wit_12_2_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values_2: (@list Z)) (left_values_2: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values_2 0) + (Znth k right_values_2 0) ) <= max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values_2 numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values_2 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (ChoirBestPrefix heights (k + 1 ) max_choir )
 .
 
-Definition choir_singing_entail_wit_13 := 
+Definition choir_singing_entail_wit_13 :=
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )) ,
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ (0 <= max_choir) ” 
-  &&  “ (max_choir <= numsSize_pre) ” 
+  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ (0 <= max_choir) ”
+  &&  “ (max_choir <= numsSize_pre) ”
   &&  “ (ChoirMinimumRemovals heights (numsSize_pre - max_choir ) ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.undef_full ( &( "dp_left" ) ) 100 )
   **  (IntArray.undef_full ( &( "dp_right" ) ) 100 )
 ) \/
 (
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )) ,
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
@@ -1671,8 +1651,8 @@ forall (numsSize_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_va
   **  (IntArray.undef_full ( &( "dp_right" ) ) 100 )
 ).
 
-Definition choir_singing_entail_wit_13_split_goal_1 := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_entail_wit_13_split_goal_1 :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
@@ -1681,8 +1661,8 @@ forall (numsSize_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_va
   “ (ChoirMinimumRemovals heights (numsSize_pre - max_choir ) ) ”
 .
 
-Definition choir_singing_entail_wit_13_split_goal_spatial := 
-forall (numsSize_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_entail_wit_13_split_goal_spatial :=
+forall (heights: (@list Z)) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
@@ -1692,16 +1672,16 @@ forall (numsSize_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_va
   **  (IntArray.undef_full ( &( "dp_right" ) ) 100 )
 .
 
-Definition choir_singing_return_wit_1 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (max_choir: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : (0 <= max_choir)) (PreH4 : (max_choir <= numsSize_pre)) (PreH5 : (ChoirMinimumRemovals heights (numsSize_pre - max_choir ) )) ,
+Definition choir_singing_return_wit_1 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (max_choir: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100)) (PreH3 : (0 <= max_choir)) (PreH4 : (max_choir <= numsSize_pre)) (PreH5 : (ChoirMinimumRemovals heights (numsSize_pre - max_choir ) )),
   (IntArray.full nums_pre numsSize_pre heights )
 |--
   “ (ChoirMinimumRemovals heights (numsSize_pre - max_choir ) ) ”
   &&  (IntArray.full nums_pre numsSize_pre heights )
 .
 
-Definition choir_singing_partial_solve_wit_1 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )) ,
+Definition choir_singing_partial_solve_wit_1 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.seg ( &( "dp_left" ) ) 0 i left_written )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) i numsSize_pre )
@@ -1710,13 +1690,13 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@li
   **  (IntArray.undef_seg ( &( "dp_right" ) ) i numsSize_pre )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (i < numsSize_pre) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i <= numsSize_pre) ” 
-  &&  “ (Forall (eq (1)) left_written ) ” 
+  “ (i < numsSize_pre) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i <= numsSize_pre) ”
+  &&  “ (Forall (eq (1)) left_written ) ”
   &&  “ (Forall (eq (1)) right_written ) ”
   &&  (((( &( "dp_left" ) ) + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg ( &( "dp_left" ) ) (i + 1 ) numsSize_pre )
@@ -1728,8 +1708,8 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@li
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_2 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )) ,
+Definition choir_singing_partial_solve_wit_2 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_written: (@list Z)) (left_written: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (Forall (eq (1)) left_written )) (PreH8 : (Forall (eq (1)) right_written )),
   (IntArray.seg ( &( "dp_left" ) ) 0 (i + 1 ) (app (left_written) ((cons (1) ((@nil Z))))) )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) (i + 1 ) numsSize_pre )
   **  (IntArray.full nums_pre numsSize_pre heights )
@@ -1738,13 +1718,13 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@li
   **  (IntArray.undef_seg ( &( "dp_right" ) ) i numsSize_pre )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (i < numsSize_pre) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i <= numsSize_pre) ” 
-  &&  “ (Forall (eq (1)) left_written ) ” 
+  “ (i < numsSize_pre) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i <= numsSize_pre) ”
+  &&  “ (Forall (eq (1)) left_written ) ”
   &&  “ (Forall (eq (1)) right_written ) ”
   &&  (((( &( "dp_right" ) ) + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg ( &( "dp_right" ) ) (i + 1 ) numsSize_pre )
@@ -1756,23 +1736,23 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_written: (@li
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_3 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (j >= 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((-1) <= j)) (PreH8 : (j < i)) (PreH9 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH10 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_partial_solve_wit_3 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (j >= 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((-1) <= j)) (PreH8 : (j < i)) (PreH9 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH10 : (Forall (eq (1)) right_values )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (j >= 0) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((-1) <= j) ” 
-  &&  “ (j < i) ” 
-  &&  “ (ChoirLeftInnerProgress heights left_values i (j + 1 ) ) ” 
+  “ (j >= 0) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((-1) <= j) ”
+  &&  “ (j < i) ”
+  &&  “ (ChoirLeftInnerProgress heights left_values i (j + 1 ) ) ”
   &&  “ (Forall (eq (1)) right_values ) ”
   &&  (((nums_pre + (j * sizeof(INT)))) # Int  |-> (Znth j heights 0))
   **  (IntArray.missing_i nums_pre j 0 numsSize_pre heights )
@@ -1782,23 +1762,23 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_4 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (j >= 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((-1) <= j)) (PreH8 : (j < i)) (PreH9 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH10 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_partial_solve_wit_4 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (j >= 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((-1) <= j)) (PreH8 : (j < i)) (PreH9 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH10 : (Forall (eq (1)) right_values )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (j >= 0) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((-1) <= j) ” 
-  &&  “ (j < i) ” 
-  &&  “ (ChoirLeftInnerProgress heights left_values i (j + 1 ) ) ” 
+  “ (j >= 0) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((-1) <= j) ”
+  &&  “ (j < i) ”
+  &&  “ (ChoirLeftInnerProgress heights left_values i (j + 1 ) ) ”
   &&  “ (Forall (eq (1)) right_values ) ”
   &&  (((nums_pre + (i * sizeof(INT)))) # Int  |-> (Znth i heights 0))
   **  (IntArray.missing_i nums_pre i 0 numsSize_pre heights )
@@ -1808,24 +1788,24 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_5 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_partial_solve_wit_5 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((Znth j heights 0) < (Znth i heights 0)) ” 
-  &&  “ (j >= 0) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((-1) <= j) ” 
-  &&  “ (j < i) ” 
-  &&  “ (ChoirLeftInnerProgress heights left_values i (j + 1 ) ) ” 
+  “ ((Znth j heights 0) < (Znth i heights 0)) ”
+  &&  “ (j >= 0) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((-1) <= j) ”
+  &&  “ (j < i) ”
+  &&  “ (ChoirLeftInnerProgress heights left_values i (j + 1 ) ) ”
   &&  “ (Forall (eq (1)) right_values ) ”
   &&  (((( &( "dp_left" ) ) + (j * sizeof(INT)))) # Int  |-> (Znth j left_values 0))
   **  (IntArray.missing_i ( &( "dp_left" ) ) j 0 numsSize_pre left_values )
@@ -1835,24 +1815,24 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_6 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_partial_solve_wit_6 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((-1) <= j)) (PreH9 : (j < i)) (PreH10 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH11 : (Forall (eq (1)) right_values )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((Znth j heights 0) < (Znth i heights 0)) ” 
-  &&  “ (j >= 0) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((-1) <= j) ” 
-  &&  “ (j < i) ” 
-  &&  “ (ChoirLeftInnerProgress heights left_values i (j + 1 ) ) ” 
+  “ ((Znth j heights 0) < (Znth i heights 0)) ”
+  &&  “ (j >= 0) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((-1) <= j) ”
+  &&  “ (j < i) ”
+  &&  “ (ChoirLeftInnerProgress heights left_values i (j + 1 ) ) ”
   &&  “ (Forall (eq (1)) right_values ) ”
   &&  (((( &( "dp_left" ) ) + (i * sizeof(INT)))) # Int  |-> (Znth i left_values 0))
   **  (IntArray.missing_i ( &( "dp_left" ) ) i 0 numsSize_pre left_values )
@@ -1862,25 +1842,25 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_7 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) > (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_partial_solve_wit_7 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) > (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth j left_values 0) + 1 ) > (Znth i left_values 0)) ” 
-  &&  “ ((Znth j heights 0) < (Znth i heights 0)) ” 
-  &&  “ (j >= 0) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((-1) <= j) ” 
-  &&  “ (j < i) ” 
-  &&  “ (ChoirLeftInnerProgress heights left_values i (j + 1 ) ) ” 
+  “ (((Znth j left_values 0) + 1 ) > (Znth i left_values 0)) ”
+  &&  “ ((Znth j heights 0) < (Znth i heights 0)) ”
+  &&  “ (j >= 0) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((-1) <= j) ”
+  &&  “ (j < i) ”
+  &&  “ (ChoirLeftInnerProgress heights left_values i (j + 1 ) ) ”
   &&  “ (Forall (eq (1)) right_values ) ”
   &&  (((( &( "dp_left" ) ) + (j * sizeof(INT)))) # Int  |-> (Znth j left_values 0))
   **  (IntArray.missing_i ( &( "dp_left" ) ) j 0 numsSize_pre left_values )
@@ -1890,25 +1870,25 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_8 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) > (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )) ,
+Definition choir_singing_partial_solve_wit_8 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j left_values 0) + 1 ) > (Znth i left_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j >= 0)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((-1) <= j)) (PreH10 : (j < i)) (PreH11 : (ChoirLeftInnerProgress heights left_values i (j + 1 ) )) (PreH12 : (Forall (eq (1)) right_values )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth j left_values 0) + 1 ) > (Znth i left_values 0)) ” 
-  &&  “ ((Znth j heights 0) < (Znth i heights 0)) ” 
-  &&  “ (j >= 0) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((-1) <= j) ” 
-  &&  “ (j < i) ” 
-  &&  “ (ChoirLeftInnerProgress heights left_values i (j + 1 ) ) ” 
+  “ (((Znth j left_values 0) + 1 ) > (Znth i left_values 0)) ”
+  &&  “ ((Znth j heights 0) < (Znth i heights 0)) ”
+  &&  “ (j >= 0) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((-1) <= j) ”
+  &&  “ (j < i) ”
+  &&  “ (ChoirLeftInnerProgress heights left_values i (j + 1 ) ) ”
   &&  “ (Forall (eq (1)) right_values ) ”
   &&  (((( &( "dp_left" ) ) + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i ( &( "dp_left" ) ) i 0 numsSize_pre left_values )
@@ -1918,23 +1898,23 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_9 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirRightInnerProgress heights right_values i j )) ,
+Definition choir_singing_partial_solve_wit_9 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (j < numsSize_pre) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((i + 1 ) <= j) ” 
-  &&  “ (j <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
+  “ (j < numsSize_pre) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((i + 1 ) <= j) ”
+  &&  “ (j <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
   &&  “ (ChoirRightInnerProgress heights right_values i j ) ”
   &&  (((nums_pre + (j * sizeof(INT)))) # Int  |-> (Znth j heights 0))
   **  (IntArray.missing_i nums_pre j 0 numsSize_pre heights )
@@ -1944,23 +1924,23 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_10 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirRightInnerProgress heights right_values i j )) ,
+Definition choir_singing_partial_solve_wit_10 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (j < numsSize_pre) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((i + 1 ) <= j) ” 
-  &&  “ (j <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
+  “ (j < numsSize_pre) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((i + 1 ) <= j) ”
+  &&  “ (j <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
   &&  “ (ChoirRightInnerProgress heights right_values i j ) ”
   &&  (((nums_pre + (i * sizeof(INT)))) # Int  |-> (Znth i heights 0))
   **  (IntArray.missing_i nums_pre i 0 numsSize_pre heights )
@@ -1970,24 +1950,24 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_11 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values i j )) ,
+Definition choir_singing_partial_solve_wit_11 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((Znth j heights 0) < (Znth i heights 0)) ” 
-  &&  “ (j < numsSize_pre) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((i + 1 ) <= j) ” 
-  &&  “ (j <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
+  “ ((Znth j heights 0) < (Znth i heights 0)) ”
+  &&  “ (j < numsSize_pre) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((i + 1 ) <= j) ”
+  &&  “ (j <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
   &&  “ (ChoirRightInnerProgress heights right_values i j ) ”
   &&  (((( &( "dp_right" ) ) + (j * sizeof(INT)))) # Int  |-> (Znth j right_values 0))
   **  (IntArray.missing_i ( &( "dp_right" ) ) j 0 numsSize_pre right_values )
@@ -1997,24 +1977,24 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_12 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values i j )) ,
+Definition choir_singing_partial_solve_wit_12 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j heights 0) < (Znth i heights 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : ((i + 1 ) <= j)) (PreH9 : (j <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ ((Znth j heights 0) < (Znth i heights 0)) ” 
-  &&  “ (j < numsSize_pre) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((i + 1 ) <= j) ” 
-  &&  “ (j <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
+  “ ((Znth j heights 0) < (Znth i heights 0)) ”
+  &&  “ (j < numsSize_pre) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((i + 1 ) <= j) ”
+  &&  “ (j <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
   &&  “ (ChoirRightInnerProgress heights right_values i j ) ”
   &&  (((( &( "dp_right" ) ) + (i * sizeof(INT)))) # Int  |-> (Znth i right_values 0))
   **  (IntArray.missing_i ( &( "dp_right" ) ) i 0 numsSize_pre right_values )
@@ -2024,25 +2004,25 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_13 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) > (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )) ,
+Definition choir_singing_partial_solve_wit_13 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) > (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth j right_values 0) + 1 ) > (Znth i right_values 0)) ” 
-  &&  “ ((Znth j heights 0) < (Znth i heights 0)) ” 
-  &&  “ (j < numsSize_pre) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((i + 1 ) <= j) ” 
-  &&  “ (j <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
+  “ (((Znth j right_values 0) + 1 ) > (Znth i right_values 0)) ”
+  &&  “ ((Znth j heights 0) < (Znth i heights 0)) ”
+  &&  “ (j < numsSize_pre) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((i + 1 ) <= j) ”
+  &&  “ (j <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
   &&  “ (ChoirRightInnerProgress heights right_values i j ) ”
   &&  (((( &( "dp_right" ) ) + (j * sizeof(INT)))) # Int  |-> (Znth j right_values 0))
   **  (IntArray.missing_i ( &( "dp_right" ) ) j 0 numsSize_pre right_values )
@@ -2052,25 +2032,25 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_14 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) > (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )) ,
+Definition choir_singing_partial_solve_wit_14 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (j: Z) (i: Z) (PreH1 : (((Znth j right_values 0) + 1 ) > (Znth i right_values 0))) (PreH2 : ((Znth j heights 0) < (Znth i heights 0))) (PreH3 : (j < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100)) (PreH6 : ((Zlength (heights)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : ((i + 1 ) <= j)) (PreH10 : (j <= numsSize_pre)) (PreH11 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH12 : (ChoirRightInnerProgress heights right_values i j )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth j right_values 0) + 1 ) > (Znth i right_values 0)) ” 
-  &&  “ ((Znth j heights 0) < (Znth i heights 0)) ” 
-  &&  “ (j < numsSize_pre) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((i + 1 ) <= j) ” 
-  &&  “ (j <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
+  “ (((Znth j right_values 0) + 1 ) > (Znth i right_values 0)) ”
+  &&  “ ((Znth j heights 0) < (Znth i heights 0)) ”
+  &&  “ (j < numsSize_pre) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < numsSize_pre) ”
+  &&  “ ((i + 1 ) <= j) ”
+  &&  “ (j <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
   &&  “ (ChoirRightInnerProgress heights right_values i j ) ”
   &&  (((( &( "dp_right" ) ) + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i ( &( "dp_right" ) ) i 0 numsSize_pre right_values )
@@ -2080,24 +2060,24 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_15 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_partial_solve_wit_15 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (k < numsSize_pre) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= k) ” 
-  &&  “ (k <= numsSize_pre) ” 
-  &&  “ (0 <= max_choir) ” 
-  &&  “ (max_choir <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
-  &&  “ (ChoirDPRightSuffix heights right_values 0 ) ” 
+  “ (k < numsSize_pre) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= k) ”
+  &&  “ (k <= numsSize_pre) ”
+  &&  “ (0 <= max_choir) ”
+  &&  “ (max_choir <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
+  &&  “ (ChoirDPRightSuffix heights right_values 0 ) ”
   &&  “ (ChoirBestPrefix heights k max_choir ) ”
   &&  (((( &( "dp_left" ) ) + (k * sizeof(INT)))) # Int  |-> (Znth k left_values 0))
   **  (IntArray.missing_i ( &( "dp_left" ) ) k 0 numsSize_pre left_values )
@@ -2107,24 +2087,24 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_16 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_partial_solve_wit_16 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (k < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100)) (PreH4 : ((Zlength (heights)) = numsSize_pre)) (PreH5 : (0 <= k)) (PreH6 : (k <= numsSize_pre)) (PreH7 : (0 <= max_choir)) (PreH8 : (max_choir <= numsSize_pre)) (PreH9 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH10 : (ChoirDPRightSuffix heights right_values 0 )) (PreH11 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (k < numsSize_pre) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= k) ” 
-  &&  “ (k <= numsSize_pre) ” 
-  &&  “ (0 <= max_choir) ” 
-  &&  “ (max_choir <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
-  &&  “ (ChoirDPRightSuffix heights right_values 0 ) ” 
+  “ (k < numsSize_pre) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= k) ”
+  &&  “ (k <= numsSize_pre) ”
+  &&  “ (0 <= max_choir) ”
+  &&  “ (max_choir <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
+  &&  “ (ChoirDPRightSuffix heights right_values 0 ) ”
   &&  “ (ChoirBestPrefix heights k max_choir ) ”
   &&  (((( &( "dp_right" ) ) + (k * sizeof(INT)))) # Int  |-> (Znth k right_values 0))
   **  (IntArray.missing_i ( &( "dp_right" ) ) k 0 numsSize_pre right_values )
@@ -2134,25 +2114,25 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_17 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_partial_solve_wit_17 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir) ” 
-  &&  “ (k < numsSize_pre) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= k) ” 
-  &&  “ (k <= numsSize_pre) ” 
-  &&  “ (0 <= max_choir) ” 
-  &&  “ (max_choir <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
-  &&  “ (ChoirDPRightSuffix heights right_values 0 ) ” 
+  “ (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir) ”
+  &&  “ (k < numsSize_pre) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= k) ”
+  &&  “ (k <= numsSize_pre) ”
+  &&  “ (0 <= max_choir) ”
+  &&  “ (max_choir <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
+  &&  “ (ChoirDPRightSuffix heights right_values 0 ) ”
   &&  “ (ChoirBestPrefix heights k max_choir ) ”
   &&  (((( &( "dp_left" ) ) + (k * sizeof(INT)))) # Int  |-> (Znth k left_values 0))
   **  (IntArray.missing_i ( &( "dp_left" ) ) k 0 numsSize_pre left_values )
@@ -2162,25 +2142,25 @@ forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@lis
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 .
 
-Definition choir_singing_partial_solve_wit_18 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (heights: (@list Z)) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )) ,
+Definition choir_singing_partial_solve_wit_18 :=
+forall (heights: (@list Z)) (nums_pre: Z) (numsSize_pre: Z) (right_values: (@list Z)) (left_values: (@list Z)) (max_choir: Z) (k: Z) (PreH1 : (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir)) (PreH2 : (k < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100)) (PreH5 : ((Zlength (heights)) = numsSize_pre)) (PreH6 : (0 <= k)) (PreH7 : (k <= numsSize_pre)) (PreH8 : (0 <= max_choir)) (PreH9 : (max_choir <= numsSize_pre)) (PreH10 : (ChoirDPLeftPrefix heights left_values numsSize_pre )) (PreH11 : (ChoirDPRightSuffix heights right_values 0 )) (PreH12 : (ChoirBestPrefix heights k max_choir )),
   (IntArray.full ( &( "dp_left" ) ) numsSize_pre left_values )
   **  (IntArray.full ( &( "dp_right" ) ) numsSize_pre right_values )
   **  (IntArray.full nums_pre numsSize_pre heights )
   **  (IntArray.undef_seg ( &( "dp_left" ) ) numsSize_pre 100 )
   **  (IntArray.undef_seg ( &( "dp_right" ) ) numsSize_pre 100 )
 |--
-  “ (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir) ” 
-  &&  “ (k < numsSize_pre) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100) ” 
-  &&  “ ((Zlength (heights)) = numsSize_pre) ” 
-  &&  “ (0 <= k) ” 
-  &&  “ (k <= numsSize_pre) ” 
-  &&  “ (0 <= max_choir) ” 
-  &&  “ (max_choir <= numsSize_pre) ” 
-  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ” 
-  &&  “ (ChoirDPRightSuffix heights right_values 0 ) ” 
+  “ (((Znth k left_values 0) + (Znth k right_values 0) ) > max_choir) ”
+  &&  “ (k < numsSize_pre) ”
+  &&  “ (1 <= numsSize_pre) ”
+  &&  “ (numsSize_pre <= 100) ”
+  &&  “ ((Zlength (heights)) = numsSize_pre) ”
+  &&  “ (0 <= k) ”
+  &&  “ (k <= numsSize_pre) ”
+  &&  “ (0 <= max_choir) ”
+  &&  “ (max_choir <= numsSize_pre) ”
+  &&  “ (ChoirDPLeftPrefix heights left_values numsSize_pre ) ”
+  &&  “ (ChoirDPRightSuffix heights right_values 0 ) ”
   &&  “ (ChoirBestPrefix heights k max_choir ) ”
   &&  (((( &( "dp_right" ) ) + (k * sizeof(INT)))) # Int  |-> (Znth k right_values 0))
   **  (IntArray.missing_i ( &( "dp_right" ) ) k 0 numsSize_pre right_values )

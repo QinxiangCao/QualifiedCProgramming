@@ -1,0 +1,5 @@
+From SimpleC.Verification.BuiltIn Require Import undef_ptr_array_strategy_goal undef_ptr_array_strategy_proof.
+
+Module undef_ptr_array_Strategy_Correctness : undef_ptr_array_Strategy_Correct.
+  Include undef_ptr_array_strategy_proof.
+End undef_ptr_array_Strategy_Correctness.

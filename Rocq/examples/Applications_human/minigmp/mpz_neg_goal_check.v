@@ -1,0 +1,7 @@
+From SimpleC.EE.Applications_human.minigmp Require Import mpz_neg_goal mpz_neg_proof_auto mpz_neg_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include gmp_strategy_proof.
+  Include mpz_neg_proof_auto.
+  Include mpz_neg_proof_manual.
+End VC_Correctness.

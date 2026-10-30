@@ -1,0 +1,5 @@
+From SimpleC.Verification.BuiltIn Require Import undef_int64_array_strategy_goal undef_int64_array_strategy_proof.
+
+Module undef_int64_array_Strategy_Correctness : undef_int64_array_Strategy_Correct.
+  Include undef_int64_array_strategy_proof.
+End undef_int64_array_Strategy_Correctness.

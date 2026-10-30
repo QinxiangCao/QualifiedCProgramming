@@ -45,7 +45,7 @@ attribute [local irreducible]
 
 theorem proof_of_sort_safety_wit_17 : sort_safety_wit_17 := by
   left
-  intro n_pre a_pre input current counts max_value exponent i digit PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro input a_pre n_pre current counts max_value exponent i digit PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   prop_apply (intArray.full_Zlength (&("count")) 10 counts)
   Intros_p hlen
   have hlow0 := nth_property _ counts digit PreH12 (by omega)
@@ -55,7 +55,7 @@ theorem proof_of_sort_safety_wit_17 : sort_safety_wit_17 := by
 
 theorem proof_of_sort_safety_wit_21 : sort_safety_wit_21 := by
   left
-  intro n_pre a_pre input totals current digit exponent max_value histogram PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro input a_pre n_pre totals current digit exponent max_value histogram PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   prop_apply (intArray.full_Zlength (&("count")) 10 totals)
   Intros_p hlen
   have hlow0 := nth_property _ totals digit PreH16 (by omega)
@@ -67,7 +67,7 @@ theorem proof_of_sort_safety_wit_21 : sort_safety_wit_21 := by
 
 theorem proof_of_sort_entail_wit_1 : sort_entail_wit_1 := by
   left
-  intro n_pre a_pre input PreH1 PreH2 PreH3 PreH4 PreH5
+  intro input a_pre n_pre PreH1 PreH2 PreH3 PreH4 PreH5
   prop_apply (intArray.full_Zlength a_pre n_pre input)
   Intros_p hlen
   have hlo := nth_property _ input 0 PreH4 (by omega)
@@ -84,7 +84,7 @@ theorem proof_of_sort_entail_wit_1 : sort_entail_wit_1 := by
 
 theorem proof_of_sort_entail_wit_2_1 : sort_entail_wit_2_1 := by
   left
-  intro n_pre a_pre input max_value i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro input a_pre n_pre max_value i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   prop_apply (intArray.full_Zlength a_pre n_pre input)
   Intros_p hlen
   have hlo := nth_property _ input i PreH9 (by omega)
@@ -97,7 +97,7 @@ theorem proof_of_sort_entail_wit_2_1 : sort_entail_wit_2_1 := by
 
 theorem proof_of_sort_entail_wit_2_2 : sort_entail_wit_2_2 := by
   left
-  intro n_pre a_pre input max_value i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro input a_pre n_pre max_value i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   prop_apply (intArray.full_Zlength a_pre n_pre input)
   Intros_p hlen
   have hlo := nth_property _ input i PreH9 (by omega)
@@ -110,7 +110,7 @@ theorem proof_of_sort_entail_wit_2_2 : sort_entail_wit_2_2 := by
 
 theorem proof_of_sort_entail_wit_3 : sort_entail_wit_3 := by
   left
-  intro n_pre a_pre input max_value i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro input a_pre n_pre max_value i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   have he : i = n_pre := by omega
   subst i
   have hd : DecimalExponent 1 := ⟨0,by decide,rfl⟩
@@ -127,7 +127,7 @@ theorem proof_of_sort_entail_wit_3 : sort_entail_wit_3 := by
 
 theorem proof_of_sort_entail_wit_4 : sort_entail_wit_4 := by
   right
-  intro n_pre input current_2 exponent max_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro input n_pre current_2 exponent max_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have hb : exponent ≤ 100000000 := by
     apply decimal_exponent_active_bound__maximum_pass_entry exponent max_value <;> assumption
   split_pure_spatial
@@ -137,7 +137,7 @@ theorem proof_of_sort_entail_wit_4 : sort_entail_wit_4 := by
 
 theorem proof_of_sort_entail_wit_5 : sort_entail_wit_5 := by
   right
-  intro n_pre input zero_prefix_2 current_2 digit exponent max_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro input n_pre zero_prefix_2 current_2 digit exponent max_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have hz : Forall (Eq (0 : Int)) (zero_prefix_2 ++ [0]) := by
     apply Forall.iff_forall_mem.mpr
     intro x hx
@@ -151,7 +151,7 @@ theorem proof_of_sort_entail_wit_5 : sort_entail_wit_5 := by
 
 theorem proof_of_sort_entail_wit_6 : sort_entail_wit_6 := by
   left
-  intro n_pre a_pre input zero_prefix current_2 digit exponent max_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro input a_pre n_pre zero_prefix current_2 digit exponent max_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have hz : digit = 10 := by omega
   subst digit
   have hlo : Forall (fun x : Int => 0 ≤ x) zero_prefix := by
@@ -175,7 +175,7 @@ theorem proof_of_sort_entail_wit_6 : sort_entail_wit_6 := by
 
 theorem proof_of_sort_entail_wit_7 : sort_entail_wit_7 := by
   left
-  intro n_pre a_pre input counts_2 current i exponent max_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro input a_pre n_pre counts_2 current i exponent max_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   prop_apply (intArray.full_Zlength a_pre n_pre current)
   Intros_p hlen
   have hv := nth_property _ current i PreH11 (by omega)
@@ -188,7 +188,7 @@ theorem proof_of_sort_entail_wit_7 : sort_entail_wit_7 := by
 
 theorem proof_of_sort_entail_wit_8 : sort_entail_wit_8 := by
   left
-  intro n_pre a_pre input current_2 counts_2 max_value exponent i digit PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro input a_pre n_pre current_2 counts_2 max_value exponent i digit PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   prop_apply (intArray.full_Zlength a_pre n_pre current_2)
   Intros_p hlen
   prop_apply (intArray.full_Zlength (&("count")) 10 (replace_Znth digit (Znth digit counts_2 0+1) counts_2))
@@ -211,7 +211,7 @@ theorem proof_of_sort_entail_wit_8 : sort_entail_wit_8 := by
 
 theorem proof_of_sort_entail_wit_9 : sort_entail_wit_9 := by
   left
-  intro n_pre a_pre input counts current_2 i exponent max_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro input a_pre n_pre counts current_2 i exponent max_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   prop_apply (intArray.full_Zlength (&("count")) 10 counts)
   Intros_p hc
   have he : i = n_pre := by omega
@@ -225,7 +225,7 @@ theorem proof_of_sort_entail_wit_9 : sort_entail_wit_9 := by
 
 theorem proof_of_sort_entail_wit_10 : sort_entail_wit_10 := by
   left
-  intro n_pre a_pre input totals_2 current_2 digit exponent max_value histogram_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro input a_pre n_pre totals_2 current_2 digit exponent max_value histogram_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   prop_apply (intArray.full_Zlength a_pre n_pre current_2)
   Intros_p hlen
   prop_apply (intArray.full_Zlength (&("count")) 10 (replace_Znth digit (Znth digit totals_2 0+Znth (digit-1) totals_2 0) totals_2))
@@ -247,7 +247,7 @@ theorem proof_of_sort_entail_wit_10 : sort_entail_wit_10 := by
 
 theorem proof_of_sort_entail_wit_11 : sort_entail_wit_11 := by
   left
-  intro n_pre a_pre input totals current_2 digit exponent max_value histogram_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro input a_pre n_pre totals current_2 digit exponent max_value histogram_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   prop_apply (intArray.full_Zlength a_pre n_pre current_2)
   Intros_p hlen
   prop_apply (intArray.full_Zlength (&("count")) 10 totals)
@@ -270,7 +270,7 @@ theorem proof_of_sort_entail_wit_11 : sort_entail_wit_11 := by
 
 theorem proof_of_sort_entail_wit_12 : sort_entail_wit_12 := by
   left
-  intro n_pre a_pre input mixed_output_2 counters_2 current i exponent max_value histogram_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro input a_pre n_pre mixed_output_2 counters_2 current i exponent max_value histogram_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   prop_apply (intArray.full_Zlength a_pre n_pre current)
   Intros_p hlen
   prop_apply (intArray.full_Zlength (&("count")) 10 counters_2)
@@ -293,7 +293,7 @@ theorem proof_of_sort_entail_wit_12 : sort_entail_wit_12 := by
 
 theorem proof_of_sort_entail_wit_13 : sort_entail_wit_13 := by
   left
-  intro n_pre a_pre input current_2 histogram_2 counters_2 mixed_output_2 max_value exponent i digit PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro input a_pre n_pre current_2 histogram_2 counters_2 mixed_output_2 max_value exponent i digit PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   prop_apply (intArray.full_Zlength a_pre n_pre current_2)
   Intros_p hlen
   prop_apply (intArray.full_Zlength (&("count")) 10 (replace_Znth digit (Znth digit counters_2 0-1) counters_2))
@@ -318,7 +318,7 @@ theorem proof_of_sort_entail_wit_13 : sort_entail_wit_13 := by
 
 theorem proof_of_sort_entail_wit_14 : sort_entail_wit_14 := by
   left
-  intro n_pre a_pre input mixed_output counters current_2 i exponent max_value histogram PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro input a_pre n_pre mixed_output counters current_2 i exponent max_value histogram PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   prop_apply (intArray.full_Zlength a_pre n_pre current_2)
   Intros_p hlen
   have he : i = -1 := by omega
@@ -348,7 +348,7 @@ theorem proof_of_sort_entail_wit_14 : sort_entail_wit_14 := by
 
 theorem proof_of_sort_entail_wit_15 : sort_entail_wit_15 := by
   left
-  intro n_pre a_pre input bucket_starts_2 working_2 pass_output_2 i exponent max_value current_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro input a_pre n_pre bucket_starts_2 working_2 pass_output_2 i exponent max_value current_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   simp only [Int.sub_zero]
   prop_apply (intArray.full_Zlength a_pre n_pre (replace_Znth i (Znth i pass_output_2 0) working_2))
   Intros_p hlen
@@ -362,7 +362,7 @@ theorem proof_of_sort_entail_wit_15 : sort_entail_wit_15 := by
 
 theorem proof_of_sort_entail_wit_16 : sort_entail_wit_16 := by
   left
-  intro n_pre a_pre input bucket_starts working pass_output i exponent max_value current_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro input a_pre n_pre bucket_starts working pass_output i exponent max_value current_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   prop_apply (intArray.full_Zlength a_pre n_pre working)
   Intros_p hw
   prop_apply (intArray.seg_Zlength (&("output")) 0 n_pre pass_output)
@@ -394,7 +394,7 @@ theorem proof_of_sort_entail_wit_16 : sort_entail_wit_16 := by
 
 theorem proof_of_sort_return_wit_1 : sort_return_wit_1 := by
   left
-  intro n_pre a_pre input PreH1 PreH2 PreH3 PreH4 PreH5
+  intro input a_pre n_pre PreH1 PreH2 PreH3 PreH4 PreH5
   prop_apply (intArray.full_Zlength a_pre n_pre input)
   Intros_p hlen
   have hs := increasing_short_list__final_result input (by omega)
@@ -406,7 +406,7 @@ theorem proof_of_sort_return_wit_1 : sort_return_wit_1 := by
 
 theorem proof_of_sort_return_wit_2 : sort_return_wit_2 := by
   left
-  intro n_pre a_pre input current exponent max_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro input a_pre n_pre current exponent max_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   prop_apply (intArray.full_Zlength a_pre n_pre current)
   Intros_p hlen
   have hi : Zlength input = n_pre := by

@@ -4,7 +4,6 @@ open SimpleC.EE.LLM_bench.Algorithms.merging_stones.merging_stones_lib
 */
 #include "array2_def.h"
 
-/*@ include strategies "undef_uint_array.strategies" */
 /*@ Extern Coq
       (sum : list Z -> Z)
       (sublist : {A} -> Z -> Z -> list A -> list A)

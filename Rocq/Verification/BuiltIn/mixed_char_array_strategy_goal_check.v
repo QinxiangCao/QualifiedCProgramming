@@ -1,0 +1,5 @@
+From SimpleC.Verification.BuiltIn Require Import mixed_char_array_strategy_goal mixed_char_array_strategy_proof.
+
+Module mixed_char_array_Strategy_Correctness : mixed_char_array_Strategy_Correct.
+  Include mixed_char_array_strategy_proof.
+End mixed_char_array_Strategy_Correctness.

@@ -16,11 +16,10 @@
   SimpleC.EE.QCP_demos_LLM
   SimpleC.EE.QCP_demos_human
   SimpleC.SL
+  SimpleC.Verification
   SimpleC.StrategyLib
   SimpleC.StdLib
   SumLib
   compcert.lib))
-
-(dirs :standard \ typeinfer_rc)
 
 (include_subdirs qualified)

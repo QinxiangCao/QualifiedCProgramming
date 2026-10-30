@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.split_array_largest_sum Require Import split_array_largest_sum_goal.
 Require Import AUXLib.MonotonicList.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.split_array_largest_sum.split_array_largest_sum_lib.
 Local Open Scope sac.
@@ -30,7 +14,7 @@ Qed.
 Lemma proof_of_check_entail_wit_1 : check_entail_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_check_entail_wit_1_split_goal_1.
+  - Goal_apply proof_of_check_entail_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_check_entail_wit_2_1_split_goal_1 : check_entail_wit_2_1_split_goal_1.
@@ -46,7 +30,7 @@ Qed.
 Lemma proof_of_check_entail_wit_2_1 : check_entail_wit_2_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_check_entail_wit_2_1_split_goal_1.
+  - Goal_apply proof_of_check_entail_wit_2_1_split_goal_1.
 Qed.
 
 Lemma proof_of_check_entail_wit_2_2_split_goal_1 : check_entail_wit_2_2_split_goal_1.
@@ -84,7 +68,7 @@ Qed.
 Lemma proof_of_check_return_wit_1 : check_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_check_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_check_return_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_check_return_wit_2_split_goal_1 : check_return_wit_2_split_goal_1.
@@ -99,7 +83,7 @@ Qed.
 Lemma proof_of_check_return_wit_2 : check_return_wit_2.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_check_return_wit_2_split_goal_1.
+  - Goal_apply proof_of_check_return_wit_2_split_goal_1.
 Qed.
 
 Lemma proof_of_check_return_wit_3_split_goal_1 : check_return_wit_3_split_goal_1.
@@ -113,7 +97,7 @@ Qed.
 Lemma proof_of_check_return_wit_3 : check_return_wit_3.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_check_return_wit_3_split_goal_1.
+  - Goal_apply proof_of_check_return_wit_3_split_goal_1.
 Qed.
 
 Lemma proof_of_splitArrayLargestSum_safety_wit_3_split_goal_1 : splitArrayLargestSum_safety_wit_3_split_goal_1.
@@ -215,7 +199,7 @@ Qed.
 Lemma proof_of_splitArrayLargestSum_return_wit_1 : splitArrayLargestSum_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_splitArrayLargestSum_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_splitArrayLargestSum_return_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_splitArrayLargestSum_partial_solve_wit_1_pure_split_goal_1 : splitArrayLargestSum_partial_solve_wit_1_pure_split_goal_1.
@@ -242,4 +226,3 @@ Proof.
   - Goal_apply proof_of_splitArrayLargestSum_partial_solve_wit_1_pure_split_goal_1.
   - Goal_apply proof_of_splitArrayLargestSum_partial_solve_wit_1_pure_split_goal_2.
 Qed.
-

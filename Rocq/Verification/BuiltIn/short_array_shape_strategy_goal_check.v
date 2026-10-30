@@ -1,0 +1,5 @@
+From SimpleC.Verification.BuiltIn Require Import short_array_shape_strategy_goal short_array_shape_strategy_proof.
+
+Module short_array_shape_Strategy_Correctness : short_array_shape_Strategy_Correct.
+  Include short_array_shape_strategy_proof.
+End short_array_shape_Strategy_Correctness.

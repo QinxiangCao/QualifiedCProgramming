@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P089_946G_almost_increasing_array_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P089_946G_almost_increasing_array_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P089_946G_almost_increasing_array_lib.
 Local Open Scope sac.
@@ -25,7 +9,7 @@ Local Open Scope sac.
 
 Lemma proof_of_solver_entail_wit_12_38 : solver_entail_wit_12_38.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hsi : StrictIncPrefix vals_l_2 nvals) by (destruct PreH53 as [HH _]; exact HH).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hci1 : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).
@@ -139,7 +123,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_39 : solver_entail_wit_12_39.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hsi : StrictIncPrefix vals_l_2 nvals) by (destruct PreH53 as [HH _]; exact HH).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hci1 : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).
@@ -253,7 +237,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_40 : solver_entail_wit_12_40.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hsi : StrictIncPrefix vals_l_2 nvals) by (destruct PreH53 as [HH _]; exact HH).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hci1 : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).
@@ -367,7 +351,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_41 : solver_entail_wit_12_41.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hsi : StrictIncPrefix vals_l_2 nvals) by (destruct PreH53 as [HH _]; exact HH).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hci1 : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).
@@ -481,7 +465,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_42 : solver_entail_wit_12_42.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hsi : StrictIncPrefix vals_l_2 nvals) by (destruct PreH53 as [HH _]; exact HH).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hci1 : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).
@@ -595,7 +579,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_43 : solver_entail_wit_12_43.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hsi : StrictIncPrefix vals_l_2 nvals) by (destruct PreH53 as [HH _]; exact HH).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hci1 : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).
@@ -709,7 +693,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_44 : solver_entail_wit_12_44.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hsi : StrictIncPrefix vals_l_2 nvals) by (destruct PreH53 as [HH _]; exact HH).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hci1 : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).
@@ -823,7 +807,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_45 : solver_entail_wit_12_45.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hsi : StrictIncPrefix vals_l_2 nvals) by (destruct PreH53 as [HH _]; exact HH).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hci1 : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).
@@ -937,7 +921,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_46 : solver_entail_wit_12_46.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hsi : StrictIncPrefix vals_l_2 nvals) by (destruct PreH53 as [HH _]; exact HH).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hci1 : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).
@@ -1051,7 +1035,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_47 : solver_entail_wit_12_47.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hsi : StrictIncPrefix vals_l_2 nvals) by (destruct PreH53 as [HH _]; exact HH).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hci1 : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).
@@ -1165,7 +1149,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_48 : solver_entail_wit_12_48.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hsi : StrictIncPrefix vals_l_2 nvals) by (destruct PreH53 as [HH _]; exact HH).
   assert (Hci : Znth i c_l_2 0 = KeyAt values i) by (apply PreH50; lia).
   assert (Hci1 : Znth (i - 1) c_l_2 0 = KeyAt values (i - 1)) by (apply PreH50; lia).
@@ -1279,7 +1263,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_49 : solver_entail_wit_12_49.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hlm0 : Zlength m0_2 = nvals + 1) by exact (proj1 PreH64).
   assert (Hlm1 : Zlength m1_2 = nvals + 1) by exact (proj1 PreH65).
   assert (HlmX : Zlength mX_2 = nvals + 1) by exact (proj1 PreH66).
@@ -1369,7 +1353,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_50 : solver_entail_wit_12_50.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hlm0 : Zlength m0_2 = nvals + 1) by exact (proj1 PreH64).
   assert (Hlm1 : Zlength m1_2 = nvals + 1) by exact (proj1 PreH65).
   assert (HlmX : Zlength mX_2 = nvals + 1) by exact (proj1 PreH66).
@@ -1459,7 +1443,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_51 : solver_entail_wit_12_51.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hlm0 : Zlength m0_2 = nvals + 1) by exact (proj1 PreH64).
   assert (Hlm1 : Zlength m1_2 = nvals + 1) by exact (proj1 PreH65).
   assert (HlmX : Zlength mX_2 = nvals + 1) by exact (proj1 PreH66).
@@ -1549,7 +1533,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_52 : solver_entail_wit_12_52.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hlm0 : Zlength m0_2 = nvals + 1) by exact (proj1 PreH64).
   assert (Hlm1 : Zlength m1_2 = nvals + 1) by exact (proj1 PreH65).
   assert (HlmX : Zlength mX_2 = nvals + 1) by exact (proj1 PreH66).
@@ -1639,7 +1623,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_53 : solver_entail_wit_12_53.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hlm0 : Zlength m0_2 = nvals + 1) by exact (proj1 PreH64).
   assert (Hlm1 : Zlength m1_2 = nvals + 1) by exact (proj1 PreH65).
   assert (HlmX : Zlength mX_2 = nvals + 1) by exact (proj1 PreH66).
@@ -1729,7 +1713,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_54 : solver_entail_wit_12_54.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hlm0 : Zlength m0_2 = nvals + 1) by exact (proj1 PreH64).
   assert (Hlm1 : Zlength m1_2 = nvals + 1) by exact (proj1 PreH65).
   assert (HlmX : Zlength mX_2 = nvals + 1) by exact (proj1 PreH66).
@@ -1819,7 +1803,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_55 : solver_entail_wit_12_55.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hlm0 : Zlength m0_2 = nvals + 1) by exact (proj1 PreH64).
   assert (Hlm1 : Zlength m1_2 = nvals + 1) by exact (proj1 PreH65).
   assert (HlmX : Zlength mX_2 = nvals + 1) by exact (proj1 PreH66).

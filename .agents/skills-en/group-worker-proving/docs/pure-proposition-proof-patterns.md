@@ -1,6 +1,6 @@
 # Pure Proposition Proof Patterns
 
-This guide is for group-worker proof work. When annotation uses `increasing`, `decreasing`, bounds, `sum`, or case predicates wrapping `MaxMinLib` / `SumLib`, keep annotation semantic and bridge to proof-friendly forms inside the group proof.
+This guide is for group-worker proof work. When annotation uses `increasing`, `decreasing`, bounds, `sum`, case predicates wrapping `MaxMinLib` / `SumLib`, or CDCLLib names, keep annotation semantic and bridge to proof-friendly forms inside the group proof.
 
 Do not push proof-facing forms back into C annotation. If a bridge lemma is missing, search the history named in proof_reuse.md by lemma/predicate name and read only matching candidates. Copy a useful complete helper closure with current-suffix renames; otherwise add and prove a current-group-suffixed helper in `group_worker_lib`.
 
@@ -91,6 +91,25 @@ For binary-answer VCs, common helper shapes are:
 - infeasibility gives a lower bound on the optimum, for example `CannotSplit l m mid -> MinimizedMaxSegmentSum l m ans -> mid < ans`.
 
 Prove new or adapted forms as group-local helpers with the current helper suffix. Reused historical helpers also use the current suffix. Do not leave helpers in the official `*_proof_manual.v`, and never import historical candidate libraries directly.
+
+## CNF and SAT predicates
+
+For CDCLLib names (`models`, `cnf_sat`, `cnf_unsat`, `entails_clause`, `cnf_with_units`, the counters, `cdcl_view`), use the lemmas in `Rocq/cdcllib/sat_shared_lib.v` and `cdcl_shared_lib.v`. Do not restate a shared definition or copy a lemma under a case name or group suffix. For a strengthened case invariant, first get the shared predicate with `proj1` or the `_elim` in `formal_case_lib`. CDCLLib names are visible through the seed `formal_case_lib`'s `From CDCLLib Require Export`; `group_worker_lib` may add only `Coq` / `Coq.*` imports, never a `From CDCLLib Require`, so when the seed does not export the needed CDCLLib file, write an annotation/spec-gap blocker.
+
+- point updates: `sat_function_update_eq` / `_neq`, not `unfold` plus a case split on `Z.eq_dec`;
+- negation: `eval_literal_neg`, `eval_partial_literal_neg`, `literal_neg_involutive`;
+- counters: `clause_counts_assign` / `clause_counts_clear`, `clause_false_counts` / `clause_counts_zero_false`, `clause_unit_other_false`;
+- entailment: `entails_clause_in`, `entails_clause_mono`, `entails_clause_perm`, `entails_unit_step`, `entails_clause_units_weaken`;
+- UNSAT: `entails_empty_cnf_unsat` from an entailed empty clause, `cnf_unsat_units_mono` for more assumptions, `models_cnf_with_units` to split assumptions off;
+- SAT: `partial_clause_has_true` with `eval_partial_literal_total_agree`; for `cnf_sat` from a model, `rho_restrict_bounded` and `models_rho_restrict`;
+- concatenations: there is no `models_app`; `unfold models` and use `Forall_app` / `Forall_cons`, and `in_app_iff` for `clause_satisfied`.
+
+```coq
+rewrite sat_function_update_neq by lia.
+eapply entails_empty_cnf_unsat; eauto.   (* cnf_wf n F -> entails_clause F nil -> cnf_unsat n F *)
+```
+
+A generic fact CDCLLib lacks (for example transitivity of `entails_clause`) is one current-suffix helper stated over CDCLLib names only, recorded as a library gap in `group_worker_output.md`.
 
 ## Handoff rule
 

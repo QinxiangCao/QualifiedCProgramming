@@ -23,6 +23,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 //=================================================================================================
 // Helpers:
@@ -30,23 +31,49 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
 // Reads an input stream to end-of-file and returns the result as a 'char*' terminated by '\0'
 // (dynamic allocation in case 'in' is standard input).
-// Native allocation failure in this helper remains intentionally unchecked and deferred.
 //
-char* readFile(FILE *  in)
+char* readFile(FILE *in)
 {
-    char*   data = malloc(65536);
-    int     cap  = 65536;
-    int     size = 0;
+    size_t cap = 65536;
+    size_t size = 0;
+    char *data = vec_checked_alloc(cap, 1, 0);
 
-    while (!feof(in)){
-        if (size == cap){
-            cap *= 2;
-            data = realloc(data, cap); }
-        size += fread(&data[size], 1, 65536, in);
+    for (;;) {
+        size_t count;
+        if (size == cap - 1) {
+            size_t required, preferred;
+            char *next = NULL;
+            if (cap == SIZE_MAX)
+                vec_resource_stop();
+            required = cap + 1;
+            preferred = cap <= SIZE_MAX / 2 ? cap * 2 : required;
+            next = realloc(data, preferred);
+            if (next == NULL && required < preferred) {
+                preferred = required;
+                next = realloc(data, preferred);
+            }
+            if (next == NULL)
+                vec_resource_stop();
+            data = next;
+            cap = preferred;
+        }
+        count = fread(data + size, 1, cap - size - 1, in);
+        size += count;
+        if (ferror(in)) {
+            fputs("MiniSat: input read error\n", stderr);
+            free(data);
+            exit(2);
+        }
+        if (feof(in))
+            break;
     }
-    data = realloc(data, size+1);
+    /* Shrinking is optional: failure leaves the sufficient old buffer owned. */
+    if (size + 1 < cap) {
+        char *next = realloc(data, size + 1);
+        if (next != NULL)
+            data = next;
+    }
     data[size] = '\0';
-
     return data;
 }
 
@@ -77,26 +104,23 @@ static inline int parseInt(char** in) {
         (*in)++;
     return _neg ? -val : val; }
 
-static int readClause(char** in, veci* lits) {
+static void readClause(char** in, solver* s, veci* lits) {
     int parsed_lit, var;
-    int status;
+
 
     veci_resize(lits,0);
     for (;;){
         parsed_lit = parseInt(in);
         if (parsed_lit == 0) break;
         var = abs(parsed_lit)-1;
-        status = veci_push(lits, (parsed_lit > 0 ? toLit(var) : lit_neg(toLit(var))));
-        if (status == MINISAT_CAPACITY_EXHAUSTED)
-            return MINISAT_CAPACITY_EXHAUSTED;
+        veci_push(lits, (parsed_lit > 0 ? toLit(var) : lit_neg(toLit(var))));
+
     }
-    return 1;
+
 }
 
-static int parse_DIMACS_main(char* in, solver* s) {
+static lbool parse_DIMACS_main(char* in, solver* s) {
     veci lits;
-    int status;
-
     veci_new(&lits);
 
     for (;;){
@@ -107,39 +131,26 @@ static int parse_DIMACS_main(char* in, solver* s) {
             skipLine(&in);
         else{
             lit* begin;
-            status = readClause(&in, &lits);
-            if (status == MINISAT_CAPACITY_EXHAUSTED) {
-                veci_delete(&lits);
-                return MINISAT_CAPACITY_EXHAUSTED;
-            }
+            readClause(&in, s, &lits);
+
             begin = veci_begin(&lits);
-            status = solver_addclause(s, begin, begin+veci_size(&lits));
-            if (status == MINISAT_CAPACITY_EXHAUSTED) {
+            if (veci_size(&lits) == 0 || !solver_addclause(s, begin, begin+veci_size(&lits))){
                 veci_delete(&lits);
-                return MINISAT_CAPACITY_EXHAUSTED;
-            }
-            if (status == 0) {
-                veci_delete(&lits);
-                return 0;
+                return l_False;
             }
         }
     }
     veci_delete(&lits);
 
-    status = solver_simplify(s);
-    if (status == MINISAT_CAPACITY_EXHAUSTED)
-        return MINISAT_CAPACITY_EXHAUSTED;
-    if (status == 0)
-        return 0;
-    return 1;
+    return solver_simplify(s);
 }
 
 
-// Inserts problem into solver. Returns 0 upon immediate conflict and -2 upon capacity exhaustion.
+// Inserts problem into solver.
 //
-static int parse_DIMACS(FILE * in, solver* s) {
+static lbool parse_DIMACS(FILE * in, solver* s) {
     char* text = readFile(in);
-    int ret = parse_DIMACS_main(text, s);
+    lbool ret  = parse_DIMACS_main(text, s);
     free(text);
     return ret; }
 
@@ -147,11 +158,24 @@ static int parse_DIMACS(FILE * in, solver* s) {
 //=================================================================================================
 
 
+void printStats(stats* stats, clock_t cpu_time)
+{
+    double Time    = (float)(cpu_time)/(float)(CLOCKS_PER_SEC);
+    printf("restarts          : %12llu\n", (unsigned long long)stats->starts);
+    printf("conflicts         : %12.0f           (%9.0f / sec      )\n",  (double)stats->conflicts   , (double)stats->conflicts   /Time);
+    printf("decisions         : %12.0f           (%9.0f / sec      )\n",  (double)stats->decisions   , (double)stats->decisions   /Time);
+    printf("propagations      : %12.0f           (%9.0f / sec      )\n",  (double)stats->propagations, (double)stats->propagations/Time);
+    printf("inspects          : %12.0f           (%9.0f / sec      )\n",  (double)stats->inspects    , (double)stats->inspects    /Time);
+    printf("conflict literals : %12.0f           (%9.2f %% deleted  )\n", (double)stats->tot_literals, (double)(stats->max_literals - stats->tot_literals) * 100.0 / (double)stats->max_literals);
+    printf("CPU time          : %12.2f sec\n", Time);
+}
+
 int main(int argc, char** argv)
 {
     solver* s = solver_new();
-    int     status;
+    lbool   st;
     FILE *  in;
+    clock_t clk = clock();
 
     if (argc != 2)
         fprintf(stderr, "ERROR! Not enough command line arguments.\n"),
@@ -161,33 +185,30 @@ int main(int argc, char** argv)
     if (in == NULL)
         fprintf(stderr, "ERROR! Could not open file: %s\n", argc == 1 ? "<stdin>" : argv[1]),
         exit(1);
-    status = parse_DIMACS(in, s);
+    st = parse_DIMACS(in, s);
     fclose(in);
 
-    if (status == MINISAT_CAPACITY_EXHAUSTED) {
+
+    if (st == l_False){
         solver_delete(s);
-        fprintf(stderr, "MINISAT_CAPACITY_EXHAUSTED\n");
-        return 2;
-    }
-    if (status == 0) {
-        solver_delete(s);
-        printf("UNSATISFIABLE\n");
-        return 20;
+        printf("Trivial problem\nUNSATISFIABLE\n");
+        exit(20);
     }
 
-    status = solver_solve(s,0,0);
-    if (status == MINISAT_CAPACITY_EXHAUSTED) {
-        solver_delete(s);
-        fprintf(stderr, "MINISAT_CAPACITY_EXHAUSTED\n");
-        return 2;
+    s->verbosity = 1;
+    st = solver_solve(s,0,0);
+
+    printStats(&s->stats, clock() - clk);
+    printf("\n");
+    printf(st == l_True ? "SATISFIABLE\n" : "UNSATISFIABLE\n");
+    if ( st == l_True )
+    {
+        int k;
+        printf("\nSatisfying solution: ");
+        for (k = 0; k < s->model.size; k++)
+            printf("x%d=%d ", k, s->model.ptr[k] == l_True);
+        printf("\n");
     }
-    if (status == 0) {
-        solver_delete(s);
-        printf("UNSATISFIABLE\n");
-        return 20;
-    }
-    /* status == 1 is the only SAT path after solver_solve. */
-    printf("SATISFIABLE\n");
     solver_delete(s);
-    return 10;
+    return 0;
 }

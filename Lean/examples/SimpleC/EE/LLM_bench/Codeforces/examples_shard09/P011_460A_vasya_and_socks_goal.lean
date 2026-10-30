@@ -59,7 +59,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def solver_safety_wit_1 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100)) (PreH3 : (2 <= m_pre)) (PreH4 : (m_pre <= 100)) ,
+  forall (n_pre : Int) (m_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100)) (PreH3 : (2 <= m_pre)) (PreH4 : (m_pre <= 100)) ,
   ((( &( "days" ) )) # Int |->_)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "m" ) )) # Int |-> (m_pre))
@@ -68,7 +68,7 @@ noncomputable def solver_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_2 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100)) (PreH3 : (2 <= m_pre)) (PreH4 : (m_pre <= 100)) (PreH5 : ((0 : Int) <= days)) (PreH6 : (days <= 200)) (PreH7 : ((0 : Int) <= n)) (PreH8 : (n <= 100)) (PreH9 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH10 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+  forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100)) (PreH3 : (2 <= m_pre)) (PreH4 : (m_pre <= 100)) (PreH5 : ((0 : Int) <= days)) (PreH6 : (days <= 200)) (PreH7 : ((0 : Int) <= n)) (PreH8 : (n <= 100)) (PreH9 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH10 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   ((( &( "m" ) )) # Int |-> (m_pre))
   ** ((( &( "days" ) )) # Int |-> (days))
   ** ((( &( "n" ) )) # Int |-> (n))
@@ -77,7 +77,7 @@ noncomputable def solver_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_3 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : (n > (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : (2 <= m_pre)) (PreH5 : (m_pre <= 100)) (PreH6 : ((0 : Int) <= days)) (PreH7 : (days <= 200)) (PreH8 : ((0 : Int) <= n)) (PreH9 : (n <= 100)) (PreH10 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH11 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+  forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : (n > (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : (2 <= m_pre)) (PreH5 : (m_pre <= 100)) (PreH6 : ((0 : Int) <= days)) (PreH7 : (days <= 200)) (PreH8 : ((0 : Int) <= n)) (PreH9 : (n <= 100)) (PreH10 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH11 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   ((( &( "m" ) )) # Int |-> (m_pre))
   ** ((( &( "days" ) )) # Int |-> (days))
   ** ((( &( "n" ) )) # Int |-> (n))
@@ -86,7 +86,7 @@ noncomputable def solver_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (days + 1)) ”
 
 noncomputable def solver_safety_wit_4 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : (n > (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : (2 <= m_pre)) (PreH5 : (m_pre <= 100)) (PreH6 : ((0 : Int) <= days)) (PreH7 : (days <= 200)) (PreH8 : ((0 : Int) <= n)) (PreH9 : (n <= 100)) (PreH10 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH11 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+  forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : (n > (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : (2 <= m_pre)) (PreH5 : (m_pre <= 100)) (PreH6 : ((0 : Int) <= days)) (PreH7 : (days <= 200)) (PreH8 : ((0 : Int) <= n)) (PreH9 : (n <= 100)) (PreH10 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH11 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   ((( &( "m" ) )) # Int |-> (m_pre))
   ** ((( &( "days" ) )) # Int |-> ((days + 1)))
   ** ((( &( "n" ) )) # Int |-> (n))
@@ -95,7 +95,7 @@ noncomputable def solver_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (n - 1)) ”
 
 noncomputable def solver_safety_wit_5 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : (n > (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : (2 <= m_pre)) (PreH5 : (m_pre <= 100)) (PreH6 : ((0 : Int) <= days)) (PreH7 : (days <= 200)) (PreH8 : ((0 : Int) <= n)) (PreH9 : (n <= 100)) (PreH10 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH11 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+  forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : (n > (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : (2 <= m_pre)) (PreH5 : (m_pre <= 100)) (PreH6 : ((0 : Int) <= days)) (PreH7 : (days <= 200)) (PreH8 : ((0 : Int) <= n)) (PreH9 : (n <= 100)) (PreH10 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH11 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   ((( &( "m" ) )) # Int |-> (m_pre))
   ** ((( &( "days" ) )) # Int |-> ((days + 1)))
   ** ((( &( "n" ) )) # Int |-> ((n - 1)))
@@ -104,7 +104,7 @@ noncomputable def solver_safety_wit_5 : Prop :=
   “ (m_pre ≠ (0 : Int)) ”
 
 noncomputable def solver_safety_wit_6 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : (n > (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : (2 <= m_pre)) (PreH5 : (m_pre <= 100)) (PreH6 : ((0 : Int) <= days)) (PreH7 : (days <= 200)) (PreH8 : ((0 : Int) <= n)) (PreH9 : (n <= 100)) (PreH10 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH11 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+  forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : (n > (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : (2 <= m_pre)) (PreH5 : (m_pre <= 100)) (PreH6 : ((0 : Int) <= days)) (PreH7 : (days <= 200)) (PreH8 : ((0 : Int) <= n)) (PreH9 : (n <= 100)) (PreH10 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH11 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   ((( &( "m" ) )) # Int |-> (m_pre))
   ** ((( &( "days" ) )) # Int |-> ((days + 1)))
   ** ((( &( "n" ) )) # Int |-> ((n - 1)))
@@ -113,7 +113,7 @@ noncomputable def solver_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_7 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) = (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+  forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) = (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   ((( &( "m" ) )) # Int |-> (m_pre))
   ** ((( &( "days" ) )) # Int |-> ((days + 1)))
   ** ((( &( "n" ) )) # Int |-> ((n - 1)))
@@ -123,7 +123,7 @@ noncomputable def solver_safety_wit_7 : Prop :=
 
 noncomputable def solver_entail_wit_1 : Prop :=
   (
-forall (m_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100)) (PreH3 : (2 <= m_pre)) (PreH4 : (m_pre <= 100)) ,
+forall (n_pre : Int) (m_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100)) (PreH3 : (2 <= m_pre)) (PreH4 : (m_pre <= 100)) ,
   TT && emp 
 |--
   “ (1 <= n_pre) ” &&
@@ -139,7 +139,7 @@ forall (m_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100
   &&  emp
 ) \/
 (
-forall (m_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100)) (PreH3 : (2 <= m_pre)) (PreH4 : (m_pre <= 100)) ,
+forall (n_pre : Int) (m_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100)) (PreH3 : (2 <= m_pre)) (PreH4 : (m_pre <= 100)) ,
   TT && emp 
 |--
   “ forall (d : Int) , (((1 <= d) ∧ (d <= (0 : Int))) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int))) ” &&
@@ -148,16 +148,16 @@ forall (m_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100
 )
 
 noncomputable def solver_entail_wit_1_split_goal_1 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100)) (PreH3 : (2 <= m_pre)) (PreH4 : (m_pre <= 100)) ,
+  forall (n_pre : Int) (m_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100)) (PreH3 : (2 <= m_pre)) (PreH4 : (m_pre <= 100)) ,
   forall (d : Int) , (((1 <= d) ∧ (d <= (0 : Int))) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))
 
 noncomputable def solver_entail_wit_1_split_goal_2 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100)) (PreH3 : (2 <= m_pre)) (PreH4 : (m_pre <= 100)) ,
+  forall (n_pre : Int) (m_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100)) (PreH3 : (2 <= m_pre)) (PreH4 : (m_pre <= 100)) ,
   (n_pre = ((n_pre + (Z.quot (0 : Int) m_pre)) - (0 : Int)))
 
 noncomputable def solver_entail_wit_2_1 : Prop :=
   (
-forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) = (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) = (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   TT && emp 
 |--
   “ (1 <= n_pre) ” &&
@@ -173,7 +173,7 @@ forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days
   &&  emp
 ) \/
 (
-forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) = (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) = (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   TT && emp 
 |--
   “ (((((n_pre + (Z.quot days m_pre)) - days) - 1) + 1) = ((n_pre + (Z.quot (days + 1) m_pre)) - (days + 1))) ” &&
@@ -182,16 +182,16 @@ forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days
 )
 
 noncomputable def solver_entail_wit_2_1_split_goal_1 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) = (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+  forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) = (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   (((((n_pre + (Z.quot days m_pre)) - days) - 1) + 1) = ((n_pre + (Z.quot (days + 1) m_pre)) - (days + 1)))
 
 noncomputable def solver_entail_wit_2_1_split_goal_2 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) = (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+  forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) = (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   ((days + 1) <= 200)
 
 noncomputable def solver_entail_wit_2_2 : Prop :=
   (
-forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) ≠ (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) ≠ (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   TT && emp 
 |--
   “ (1 <= n_pre) ” &&
@@ -207,7 +207,7 @@ forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days
   &&  emp
 ) \/
 (
-forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) ≠ (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) ≠ (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   TT && emp 
 |--
   “ ((((n_pre + (Z.quot days m_pre)) - days) - 1) = ((n_pre + (Z.quot (days + 1) m_pre)) - (days + 1))) ” &&
@@ -216,23 +216,23 @@ forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days
 )
 
 noncomputable def solver_entail_wit_2_2_split_goal_1 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) ≠ (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+  forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) ≠ (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   ((((n_pre + (Z.quot days m_pre)) - days) - 1) = ((n_pre + (Z.quot (days + 1) m_pre)) - (days + 1)))
 
 noncomputable def solver_entail_wit_2_2_split_goal_2 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) ≠ (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+  forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : ((Z.rem (days + 1) m_pre) ≠ (0 : Int))) (PreH2 : (n > (0 : Int))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (2 <= m_pre)) (PreH6 : (m_pre <= 100)) (PreH7 : ((0 : Int) <= days)) (PreH8 : (days <= 200)) (PreH9 : ((0 : Int) <= n)) (PreH10 : (n <= 100)) (PreH11 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH12 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   ((days + 1) <= 200)
 
 noncomputable def solver_return_wit_1 : Prop :=
   (
-forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : (n <= (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : (2 <= m_pre)) (PreH5 : (m_pre <= 100)) (PreH6 : ((0 : Int) <= days)) (PreH7 : (days <= 200)) (PreH8 : ((0 : Int) <= n)) (PreH9 : (n <= 100)) (PreH10 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH11 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : (n <= (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : (2 <= m_pre)) (PreH5 : (m_pre <= 100)) (PreH6 : ((0 : Int) <= days)) (PreH7 : (days <= 200)) (PreH8 : ((0 : Int) <= n)) (PreH9 : (n <= 100)) (PreH10 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH11 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   TT && emp 
 |--
   “ (Spec n_pre m_pre days) ”
   &&  emp
 ) \/
 (
-forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : (n <= (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : (2 <= m_pre)) (PreH5 : (m_pre <= 100)) (PreH6 : ((0 : Int) <= days)) (PreH7 : (days <= 200)) (PreH8 : ((0 : Int) <= n)) (PreH9 : (n <= 100)) (PreH10 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH11 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : (n <= (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : (2 <= m_pre)) (PreH5 : (m_pre <= 100)) (PreH6 : ((0 : Int) <= days)) (PreH7 : (days <= 200)) (PreH8 : ((0 : Int) <= n)) (PreH9 : (n <= 100)) (PreH10 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH11 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   TT && emp 
 |--
   “ (Spec n_pre m_pre days) ”
@@ -240,7 +240,7 @@ forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : (n <= (0 : In
 )
 
 noncomputable def solver_return_wit_1_split_goal_1 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (n : Int) (days : Int) (PreH1 : (n <= (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : (2 <= m_pre)) (PreH5 : (m_pre <= 100)) (PreH6 : ((0 : Int) <= days)) (PreH7 : (days <= 200)) (PreH8 : ((0 : Int) <= n)) (PreH9 : (n <= 100)) (PreH10 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH11 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
+  forall (n_pre : Int) (m_pre : Int) (n : Int) (days : Int) (PreH1 : (n <= (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100)) (PreH4 : (2 <= m_pre)) (PreH5 : (m_pre <= 100)) (PreH6 : ((0 : Int) <= days)) (PreH7 : (days <= 200)) (PreH8 : ((0 : Int) <= n)) (PreH9 : (n <= 100)) (PreH10 : (n = ((n_pre + (Z.quot days m_pre)) - days))) (PreH11 : forall (d : Int) , (((1 <= d) ∧ (d <= days)) -> (((n_pre + (Z.quot (d - 1) m_pre)) - (d - 1)) > (0 : Int)))) ,
   (Spec n_pre m_pre days)
 
 

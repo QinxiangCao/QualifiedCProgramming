@@ -17,19 +17,22 @@ try {
         $fields = $line.Split('|')
         if ($fields.Count -ne 4) { throw "Invalid generation input: $line" }
         $tool, $source, $relativeOutput, $stem = $fields
-        $isQcp = $source.StartsWith('QCP_examples/QCP_demos_LLM/')
+        $isQcp = $relativeOutput.StartsWith('SimpleC/EE/QCP_demos_LLM/')
         if ($Scope -eq 'qcp-demos-llm' -and -not $isQcp) { continue }
         if ($Scope -eq 'llm-bench' -and $isQcp) { continue }
-        $binary = Join-Path $repoRoot "win-binary/$tool.exe"
+        $binary = Join-Path $repoRoot "bin/windows/$tool.exe"
         if (-not (Test-Path -LiteralPath $binary -PathType Leaf)) { throw "Missing generator: $binary" }
         if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { throw "Missing input: $source" }
         $sourceDirectory = $source.Substring(0, $source.LastIndexOf('/') + 1)
-        $sourceNamespace = 'SimpleC.EE.' + $sourceDirectory.Substring('QCP_examples/'.Length).TrimEnd('/').Replace('/', '.')
+        $sourceNamespace = if ($sourceDirectory.StartsWith('QCP_examples/')) {
+            'SimpleC.EE.' + $sourceDirectory.Substring('QCP_examples/'.Length).TrimEnd('/').Replace('/', '.')
+        } else { $relativeOutput.Replace('/', '.') }
         $outputNamespace = $relativeOutput.Replace('/', '.')
         $extension = [IO.Path]::GetExtension($source)
         $generatorArgs = @(
             "-I$sourceDirectory", '-slp', $sourceDirectory, $sourceNamespace,
             '-slp', 'QCP_examples/LLM_bench/', 'SimpleC.EE.LLM_bench',
+            '-IQCP_examples/verification/', '-slp', 'QCP_examples/verification/', 'SimpleC.Verification',
             '-IQCP_examples/QCP_demos_LLM/', '-slp', 'QCP_examples/QCP_demos_LLM/', 'SimpleC.EE.QCP_demos_LLM',
             '-IQCP_examples/LLM_bench/Codeforces/',
             '-IQCP_examples/stdlib/', '-slp', 'QCP_examples/stdlib/', 'SimpleC.stdlib',

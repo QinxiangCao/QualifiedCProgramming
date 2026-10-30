@@ -289,4 +289,34 @@ theorem common_strategy14_correctness : SimpleC.EE.QCP_demos_LLM.generated.commo
        subst q
        cancel)
 
+theorem common_strategy36_correctness : SimpleC.EE.QCP_demos_LLM.generated.common_strategy_goal.common_strategy36 := by
+  unfold SimpleC.EE.QCP_demos_LLM.generated.common_strategy_goal.common_strategy36
+  pre_process_default
+  all_goals (prop_apply (naive_C_Rules.store_int64_range p x); entailer!)
+
+theorem common_strategy37_correctness : SimpleC.EE.QCP_demos_LLM.generated.common_strategy_goal.common_strategy37 := by
+  unfold SimpleC.EE.QCP_demos_LLM.generated.common_strategy_goal.common_strategy37
+  pre_process_default
+  all_goals (prop_apply (naive_C_Rules.store_int64_range p x); entailer!)
+
+theorem common_strategy38_correctness : SimpleC.EE.QCP_demos_LLM.generated.common_strategy_goal.common_strategy38 := by
+  unfold SimpleC.EE.QCP_demos_LLM.generated.common_strategy_goal.common_strategy38
+  pre_process_default
+  all_goals (prop_apply (naive_C_Rules.store_uint64_range p x); entailer!)
+
+theorem common_strategy39_correctness : SimpleC.EE.QCP_demos_LLM.generated.common_strategy_goal.common_strategy39 := by
+  unfold SimpleC.EE.QCP_demos_LLM.generated.common_strategy_goal.common_strategy39
+  pre_process_default
+  all_goals (prop_apply (naive_C_Rules.store_uint64_range p x); entailer!)
+
+theorem common_strategy46_correctness : SimpleC.EE.QCP_demos_LLM.generated.common_strategy_goal.common_strategy46 := by
+  unfold SimpleC.EE.QCP_demos_LLM.generated.common_strategy_goal.common_strategy46
+  pre_process_default
+  all_goals (prop_apply (naive_C_Rules.store_bool_range p x); entailer!)
+
+theorem common_strategy47_correctness : SimpleC.EE.QCP_demos_LLM.generated.common_strategy_goal.common_strategy47 := by
+  unfold SimpleC.EE.QCP_demos_LLM.generated.common_strategy_goal.common_strategy47
+  pre_process_default
+  all_goals (prop_apply (naive_C_Rules.store_bool_range p x); entailer!)
+
 end SimpleC.EE.QCP_demos_LLM.generated.common_strategy_proof

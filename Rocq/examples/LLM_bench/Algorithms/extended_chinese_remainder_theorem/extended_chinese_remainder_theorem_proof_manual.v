@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.extended_chinese_remainder_theorem Require Import extended_chinese_remainder_theorem_goal.
 From SimpleC.EE.LLM_bench.Algorithms.extended_chinese_remainder_theorem Require Import extended_chinese_remainder_theorem_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.modular_mul.modular_mul_lib.
 Require Import SimpleC.EE.LLM_bench.Algorithms.extended_chinese_remainder_theorem.extended_chinese_remainder_theorem_lib.
@@ -185,7 +169,7 @@ Proof.
     (Znth i residue_values 0) (Znth i modulus_values 0) (retval_2 + Znth i modulus_values 0 ÷ retval)).
   { eapply (reduced_merge_equation_from_bezout__merge_transition
       answer lcm (Znth i residue_values 0) (Znth i modulus_values 0)
-      retval x_callee_v y_callee_v (retval_2 + Znth i modulus_values 0 ÷ retval) (q - 1));
+      retval x_v y_v (retval_2 + Znth i modulus_values 0 ÷ retval) (q - 1));
       try eassumption.
     rewrite <- Hmodulus_quot. lia. }
   assert (Hstep : CRTLCMPrefix modulus_values (i + 1) =
@@ -225,7 +209,7 @@ Proof.
     (Znth i residue_values 0) (Znth i modulus_values 0) (retval_3 + Znth i modulus_values 0 ÷ retval)).
   { eapply (reduced_merge_equation_from_bezout__merge_transition
       answer lcm (Znth i residue_values 0) (Znth i modulus_values 0)
-      retval x_callee_v_2 y_callee_v (retval_3 + Znth i modulus_values 0 ÷ retval) (q - 1));
+      retval x_v_2 y_v (retval_3 + Znth i modulus_values 0 ÷ retval) (q - 1));
       try eassumption.
     rewrite <- Hmodulus_quot. lia. }
   assert (Hstep : CRTLCMPrefix modulus_values (i + 1) =
@@ -265,7 +249,7 @@ Proof.
     (Znth i residue_values 0) (Znth i modulus_values 0) retval_2).
   { eapply (reduced_merge_equation_from_bezout__merge_transition
       answer lcm (Znth i residue_values 0) (Znth i modulus_values 0)
-      retval x_callee_v y_callee_v retval_2 q);
+      retval x_v y_v retval_2 q);
       try eassumption.
     rewrite <- Hmodulus_quot. lia. }
   assert (Hstep : CRTLCMPrefix modulus_values (i + 1) =
@@ -305,7 +289,7 @@ Proof.
     (Znth i residue_values 0) (Znth i modulus_values 0) retval_3).
   { eapply (reduced_merge_equation_from_bezout__merge_transition
       answer lcm (Znth i residue_values 0) (Znth i modulus_values 0)
-      retval x_callee_v_2 y_callee_v retval_3 q);
+      retval x_v_2 y_v retval_3 q);
       try eassumption.
     rewrite <- Hmodulus_quot. lia. }
   assert (Hstep : CRTLCMPrefix modulus_values (i + 1) =
@@ -438,7 +422,7 @@ Proof.
     rewrite <- Hlcm, <- PreH2 in Hstep
   end.
   pose proof (bezout_coefficient_strict__gcd_branch_setup
-    lcm (Znth i modulus_values 0) retval x_callee_v y_callee_v
+    lcm (Znth i modulus_values 0) retval x_v y_v
     Hmpos PreH2 PreH1 PreH5 PreH3 PreH4) as Hstrict.
   entailer_with ltac:(lia || int_auto).
 Qed.

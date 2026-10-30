@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P036_1705C_mark_and_his_unfinished_essay_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P036_1705C_mark_and_his_unfinished_essay_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.StdLib.string_lib.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P036_1705C_mark_and_his_unfinished_essay_lib.
@@ -26,16 +10,16 @@ Lemma proof_of_solver_safety_wit_2_split_goal_1 : solver_safety_wit_2_split_goal
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
-  destruct PreH11 as [Hstateslen [Hinitial Hstep]].
+  destruct PreH10 as [Hstateslen [Hinitial Hstep]].
   specialize (Hstep i ltac:(lia)).
-  specialize (PreH16 i ltac:(lia)).
+  specialize (PreH15 i ltac:(lia)).
   rewrite (Znth_default__copy_safety _ ops i (0,0) __default__Prod_Z_Z) in Hstep by lia.
   rewrite (Znth_default__copy_safety _ states i nil __default__List_Z) in Hstep by lia.
   destruct Hstep as [[HL HLR] [HR Hnext]].
-  destruct PreH16 as [Hleft Hright].
+  destruct PreH15 as [Hleft Hright].
   rewrite Hleft, Hright in *.
 
-  change (length <= 219902325555200000) in PreH21.
+  change (length <= 219902325555200000) in PreH20.
   lia.
 Qed.
 
@@ -43,16 +27,16 @@ Lemma proof_of_solver_safety_wit_2_split_goal_2 : solver_safety_wit_2_split_goal
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
-  destruct PreH11 as [Hstateslen [Hinitial Hstep]].
+  destruct PreH10 as [Hstateslen [Hinitial Hstep]].
   specialize (Hstep i ltac:(lia)).
-  specialize (PreH16 i ltac:(lia)).
+  specialize (PreH15 i ltac:(lia)).
   rewrite (Znth_default__copy_safety _ ops i (0,0) __default__Prod_Z_Z) in Hstep by lia.
   rewrite (Znth_default__copy_safety _ states i nil __default__List_Z) in Hstep by lia.
   destruct Hstep as [[HL HLR] [HR Hnext]].
-  destruct PreH16 as [Hleft Hright].
+  destruct PreH15 as [Hleft Hright].
   rewrite Hleft, Hright in *.
 
-  change (length <= 219902325555200000) in PreH21.
+  change (length <= 219902325555200000) in PreH20.
   lia.
 Qed.
 
@@ -67,16 +51,16 @@ Lemma proof_of_solver_safety_wit_3_split_goal_1 : solver_safety_wit_3_split_goal
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
-  destruct PreH11 as [Hstateslen [Hinitial Hstep]].
+  destruct PreH10 as [Hstateslen [Hinitial Hstep]].
   specialize (Hstep i ltac:(lia)).
-  specialize (PreH16 i ltac:(lia)).
+  specialize (PreH15 i ltac:(lia)).
   rewrite (Znth_default__copy_safety _ ops i (0,0) __default__Prod_Z_Z) in Hstep by lia.
   rewrite (Znth_default__copy_safety _ states i nil __default__List_Z) in Hstep by lia.
   destruct Hstep as [[HL HLR] [HR Hnext]].
-  destruct PreH16 as [Hleft Hright].
+  destruct PreH15 as [Hleft Hright].
   rewrite Hleft, Hright in *.
 
-  change (length <= 219902325555200000) in PreH21.
+  change (length <= 219902325555200000) in PreH20.
   lia.
 Qed.
 
@@ -84,16 +68,16 @@ Lemma proof_of_solver_safety_wit_3_split_goal_2 : solver_safety_wit_3_split_goal
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
-  destruct PreH11 as [Hstateslen [Hinitial Hstep]].
+  destruct PreH10 as [Hstateslen [Hinitial Hstep]].
   specialize (Hstep i ltac:(lia)).
-  specialize (PreH16 i ltac:(lia)).
+  specialize (PreH15 i ltac:(lia)).
   rewrite (Znth_default__copy_safety _ ops i (0,0) __default__Prod_Z_Z) in Hstep by lia.
   rewrite (Znth_default__copy_safety _ states i nil __default__List_Z) in Hstep by lia.
   destruct Hstep as [[HL HLR] [HR Hnext]].
-  destruct PreH16 as [Hleft Hright].
+  destruct PreH15 as [Hleft Hright].
   rewrite Hleft, Hright in *.
 
-  change (length <= 219902325555200000) in PreH21.
+  change (length <= 219902325555200000) in PreH20.
   lia.
 Qed.
 
@@ -108,16 +92,16 @@ Lemma proof_of_solver_safety_wit_4_split_goal_1 : solver_safety_wit_4_split_goal
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
-  destruct PreH11 as [Hstateslen [Hinitial Hstep]].
+  destruct PreH10 as [Hstateslen [Hinitial Hstep]].
   specialize (Hstep i ltac:(lia)).
-  specialize (PreH16 i ltac:(lia)).
+  specialize (PreH15 i ltac:(lia)).
   rewrite (Znth_default__copy_safety _ ops i (0,0) __default__Prod_Z_Z) in Hstep by lia.
   rewrite (Znth_default__copy_safety _ states i nil __default__List_Z) in Hstep by lia.
   destruct Hstep as [[HL HLR] [HR Hnext]].
-  destruct PreH16 as [Hleft Hright].
+  destruct PreH15 as [Hleft Hright].
   rewrite Hleft, Hright in *.
 
-  change (length <= 219902325555200000) in PreH21.
+  change (length <= 219902325555200000) in PreH20.
   lia.
 Qed.
 
@@ -125,16 +109,16 @@ Lemma proof_of_solver_safety_wit_4_split_goal_2 : solver_safety_wit_4_split_goal
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
-  destruct PreH11 as [Hstateslen [Hinitial Hstep]].
+  destruct PreH10 as [Hstateslen [Hinitial Hstep]].
   specialize (Hstep i ltac:(lia)).
-  specialize (PreH16 i ltac:(lia)).
+  specialize (PreH15 i ltac:(lia)).
   rewrite (Znth_default__copy_safety _ ops i (0,0) __default__Prod_Z_Z) in Hstep by lia.
   rewrite (Znth_default__copy_safety _ states i nil __default__List_Z) in Hstep by lia.
   destruct Hstep as [[HL HLR] [HR Hnext]].
-  destruct PreH16 as [Hleft Hright].
+  destruct PreH15 as [Hleft Hright].
   rewrite Hleft, Hright in *.
 
-  change (length <= 219902325555200000) in PreH21.
+  change (length <= 219902325555200000) in PreH20.
   lia.
 Qed.
 
@@ -147,15 +131,15 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_11_split_goal_1 : solver_safety_wit_11_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  unfold CopyPasteStates in PreH12.
-  unfold StateLengthsPrefix in PreH18.
-  destruct PreH12 as [_ [_ Hops]].
-  destruct PreH18 as [_ Hbefore].
-  specialize (PreH17 i ltac:(lia)).
+  LLM_pre_process ltac:(lia || int_auto).
+  unfold CopyPasteStates in PreH11.
+  unfold StateLengthsPrefix in PreH17.
+  destruct PreH11 as [_ [_ Hops]].
+  destruct PreH17 as [_ Hbefore].
+  specialize (PreH16 i ltac:(lia)).
   specialize (Hops i ltac:(lia)).
   specialize (Hbefore i ltac:(lia)).
-  destruct PreH17 as [Hleft Hright].
+  destruct PreH16 as [Hleft Hright].
   destruct Hops as [[Hlo Hlr] [Hrlen Hnext]].
   rewrite (Znth_indep ops i __default__Prod_Z_Z (0, 0)) in Hleft by lia.
   replace (i - 0) with i in * by lia.
@@ -165,15 +149,15 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_11_split_goal_2 : solver_safety_wit_11_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  unfold CopyPasteStates in PreH12.
-  unfold StateLengthsPrefix in PreH18.
-  destruct PreH12 as [_ [_ Hops]].
-  destruct PreH18 as [_ Hbefore].
-  specialize (PreH17 i ltac:(lia)).
+  LLM_pre_process ltac:(lia || int_auto).
+  unfold CopyPasteStates in PreH11.
+  unfold StateLengthsPrefix in PreH17.
+  destruct PreH11 as [_ [_ Hops]].
+  destruct PreH17 as [_ Hbefore].
+  specialize (PreH16 i ltac:(lia)).
   specialize (Hops i ltac:(lia)).
   specialize (Hbefore i ltac:(lia)).
-  destruct PreH17 as [Hleft Hright].
+  destruct PreH16 as [Hleft Hright].
   destruct Hops as [[Hlo Hlr] [Hrlen Hnext]].
   rewrite (Znth_indep ops i __default__Prod_Z_Z (0, 0)) in Hleft by lia.
   replace (i - 0) with i in * by lia.
@@ -190,15 +174,15 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_12_split_goal_1 : solver_safety_wit_12_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  unfold CopyPasteStates in PreH12.
-  unfold StateLengthsPrefix in PreH18.
-  destruct PreH12 as [_ [_ Hops]].
-  destruct PreH18 as [_ Hbefore].
-  specialize (PreH17 i ltac:(lia)).
+  LLM_pre_process ltac:(lia || int_auto).
+  unfold CopyPasteStates in PreH11.
+  unfold StateLengthsPrefix in PreH17.
+  destruct PreH11 as [_ [_ Hops]].
+  destruct PreH17 as [_ Hbefore].
+  specialize (PreH16 i ltac:(lia)).
   specialize (Hops i ltac:(lia)).
   specialize (Hbefore i ltac:(lia)).
-  destruct PreH17 as [Hleft Hright].
+  destruct PreH16 as [Hleft Hright].
   destruct Hops as [[Hlo Hlr] [Hrlen Hnext]].
   rewrite (Znth_indep ops i __default__Prod_Z_Z (0, 0)) in Hleft by lia.
   replace (i - 0) with i in * by lia.
@@ -208,15 +192,15 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_12_split_goal_2 : solver_safety_wit_12_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  unfold CopyPasteStates in PreH12.
-  unfold StateLengthsPrefix in PreH18.
-  destruct PreH12 as [_ [_ Hops]].
-  destruct PreH18 as [_ Hbefore].
-  specialize (PreH17 i ltac:(lia)).
+  LLM_pre_process ltac:(lia || int_auto).
+  unfold CopyPasteStates in PreH11.
+  unfold StateLengthsPrefix in PreH17.
+  destruct PreH11 as [_ [_ Hops]].
+  destruct PreH17 as [_ Hbefore].
+  specialize (PreH16 i ltac:(lia)).
   specialize (Hops i ltac:(lia)).
   specialize (Hbefore i ltac:(lia)).
-  destruct PreH17 as [Hleft Hright].
+  destruct PreH16 as [Hleft Hright].
   destruct Hops as [[Hlo Hlr] [Hrlen Hnext]].
   rewrite (Znth_indep ops i __default__Prod_Z_Z (0, 0)) in Hleft by lia.
   replace (i - 0) with i in * by lia.
@@ -233,15 +217,15 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_13_split_goal_1 : solver_safety_wit_13_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  unfold CopyPasteStates in PreH12.
-  unfold StateLengthsPrefix in PreH18.
-  destruct PreH12 as [_ [_ Hops]].
-  destruct PreH18 as [_ Hbefore].
-  specialize (PreH17 i ltac:(lia)).
+  LLM_pre_process ltac:(lia || int_auto).
+  unfold CopyPasteStates in PreH11.
+  unfold StateLengthsPrefix in PreH17.
+  destruct PreH11 as [_ [_ Hops]].
+  destruct PreH17 as [_ Hbefore].
+  specialize (PreH16 i ltac:(lia)).
   specialize (Hops i ltac:(lia)).
   specialize (Hbefore i ltac:(lia)).
-  destruct PreH17 as [Hleft Hright].
+  destruct PreH16 as [Hleft Hright].
   destruct Hops as [[Hlo Hlr] [Hrlen Hnext]].
   rewrite (Znth_indep ops i __default__Prod_Z_Z (0, 0)) in Hleft by lia.
   replace (i - 0) with i in * by lia.
@@ -251,15 +235,15 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_13_split_goal_2 : solver_safety_wit_13_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  unfold CopyPasteStates in PreH12.
-  unfold StateLengthsPrefix in PreH18.
-  destruct PreH12 as [_ [_ Hops]].
-  destruct PreH18 as [_ Hbefore].
-  specialize (PreH17 i ltac:(lia)).
+  LLM_pre_process ltac:(lia || int_auto).
+  unfold CopyPasteStates in PreH11.
+  unfold StateLengthsPrefix in PreH17.
+  destruct PreH11 as [_ [_ Hops]].
+  destruct PreH17 as [_ Hbefore].
+  specialize (PreH16 i ltac:(lia)).
   specialize (Hops i ltac:(lia)).
   specialize (Hbefore i ltac:(lia)).
-  destruct PreH17 as [Hleft Hright].
+  destruct PreH16 as [Hleft Hright].
   destruct Hops as [[Hlo Hlr] [Hrlen Hnext]].
   rewrite (Znth_indep ops i __default__Prod_Z_Z (0, 0)) in Hleft by lia.
   replace (i - 0) with i in * by lia.
@@ -276,10 +260,10 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1 : solver_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  pose proof PreH10 as HPre.
-  unfold Pre in PreH10.
-  destruct PreH10 as
+  LLM_pre_process ltac:(lia || int_auto).
+  pose proof PreH9 as HPre.
+  unfold Pre in PreH9.
+  destruct PreH9 as
     (_ & _ & _ & _ & states & Hstates_len & Hstate0 & Hsteps & Hqueries).
   assert (Hstates : CopyPasteStates text ops states).
   {
@@ -315,17 +299,17 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2 : solver_entail_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  pose proof PreH11 as Hstates_all.
-  destruct PreH11 as [Hstates_len [Hinitial Hstep]].
+  LLM_pre_process ltac:(lia || int_auto).
+  pose proof PreH10 as Hstates_all.
+  destruct PreH10 as [Hstates_len [Hinitial Hstep]].
   specialize (Hstep i ltac:(lia)).
   destruct Hstep as [[Hleft Hright] [Hright_bound Hnext]].
-  pose proof PreH16 as Hops_ids.
-  specialize (PreH16 i ltac:(lia)).
-  destruct PreH16 as [Hleft_id Hright_id].
+  pose proof PreH15 as Hops_ids.
+  specialize (PreH15 i ltac:(lia)).
+  destruct PreH15 as [Hleft_id Hright_id].
   rewrite (Znth_indep ops i __default__Prod_Z_Z (0, 0)) in
     Hleft_id, Hright_id by lia.
-  rewrite (Znth_indep states_2 i __default__List_Z nil) in PreH19 by
+  rewrite (Znth_indep states_2 i __default__List_Z nil) in PreH18 by
     (rewrite Hstates_len; lia).
   assert (Hnext_len :
     Zlength (Znth (i + 1) states_2 __default__List_Z) =
@@ -346,7 +330,7 @@ Proof.
       (rewrite Hstates_len; lia).
     assert (Hpow := copy_paste_states_length_pow_bound__copy_state_transition
       text ops states_2 (i + 1)).
-    specialize (Hpow Hstates_all PreH4 ltac:(lia)).
+    specialize (Hpow Hstates_all PreH3 ltac:(lia)).
     assert (Hmono : 2 ^ (i + 1) <= 2 ^ 40).
     { apply Z.pow_le_mono_r; lia. }
     assert (Hcalc : 200000 * 2 ^ 40 = 219902325555200000).
@@ -358,7 +342,7 @@ Proof.
     StateLengthsPrefix states_2 (i + 1) (before_data_2 ++ length :: nil)).
   {
     unfold StateLengthsPrefix in *.
-    destruct PreH22 as [Hbefore_len Hbefore].
+    destruct PreH21 as [Hbefore_len Hbefore].
     split.
     - rewrite Zlength_app, Zlength_cons, Zlength_nil.
       lia.
@@ -373,7 +357,7 @@ Proof.
         { rewrite <- Hbefore_len at 1.
           apply Znth_app_last__copy_state_transition. }
         rewrite HZ.
-        exact PreH19.
+        exact PreH18.
   }
   Exists (before_data_2 ++ length :: nil) states_2.
   split_pure_spatial.
@@ -391,7 +375,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3 : solver_entail_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = c_pre) by lia.
   subst i.
   assert (Hanswer : AnswerPrefix text ops queries_data 0 nil).
@@ -480,7 +464,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7 : solver_entail_wit_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (out_2 ++ (Znth (k - 1) (c_string text) 0 :: nil)) before_data_2 states_2.
   split_pure_spatial.
   - unfold store_string.
@@ -494,8 +478,8 @@ Proof.
     cancel (Int64Array.seg (&( "before" )) 0 c_pre before_data_2).
     cancel (Int64Array.undef_seg (&( "before" )) c_pre 40).
   - split_pures; dump_pre_spatial; try lia; try assumption; try auto.
-    unfold AnswerPrefix in PreH20 |- *.
-    destruct PreH20 as [Hzq [Hout Hprefix]].
+    unfold AnswerPrefix in PreH19 |- *.
+    destruct PreH19 as [Hzq [Hout Hprefix]].
     split; [lia |].
     split.
     + rewrite Zlength_app, Zlength_cons, Zlength_nil.
@@ -510,13 +494,13 @@ Proof.
         replace (z - z) with 0 by lia.
         rewrite Znth0_cons.
         rewrite c_string_Znth_inside by (unfold string_length; lia).
-        unfold FinalCharacter in PreH23.
-        exact PreH23.
+        unfold FinalCharacter in PreH22.
+        exact PreH22.
 Qed. 
 
 Lemma proof_of_solver_entail_wit_8 : solver_entail_wit_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hz : z = q_pre) by lia.
   subst z.
   Exists out_2 states_2.
@@ -565,15 +549,15 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_1_pure_split_goal_1 : solver_partial_solve_wit_1_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   unfold valid_string, all_ascii, no_inner_nul.
-  split; intros i Hi; destruct (PreH12 i Hi); lia.
+  split; intros i Hi; destruct (PreH11 i Hi); lia.
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_1_pure_split_goal_2 : solver_partial_solve_wit_1_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   unfold string_length.
   lia.
@@ -585,4 +569,3 @@ Proof.
   - Goal_apply proof_of_solver_partial_solve_wit_1_pure_split_goal_1.
   - Goal_apply proof_of_solver_partial_solve_wit_1_pure_split_goal_2.
 Qed. 
-

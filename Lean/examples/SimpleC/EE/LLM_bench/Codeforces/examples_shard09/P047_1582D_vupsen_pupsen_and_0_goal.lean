@@ -112,7 +112,7 @@ noncomputable def llabs_return_wit_2_split_goal_1 : Prop :=
   (x_pre = (Z.abs (x_pre)))
 
 noncomputable def gcdll_safety_wit_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (b : Int) (a : Int) (PreH1 : (1 <= a)) (PreH2 : (a <= 10000)) (PreH3 : ((0 : Int) <= b)) (PreH4 : (b <= 10000)) (PreH5 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH6 : (b ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (b : Int) (a : Int) (PreH1 : (1 <= a)) (PreH2 : (a <= 10000)) (PreH3 : ((0 : Int) <= b)) (PreH4 : (b <= 10000)) (PreH5 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH6 : (b ≠ (0 : Int))) ,
   ((( &( "r" ) )) # Int64 |->_)
   ** ((( &( "a" ) )) # Int64 |-> (a))
   ** ((( &( "b" ) )) # Int64 |-> (b))
@@ -121,7 +121,7 @@ noncomputable def gcdll_safety_wit_1 : Prop :=
   “ (b ≠ (0 : Int)) ”
 
 noncomputable def gcdll_safety_wit_2 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (b : Int) (a : Int) (PreH1 : (1 <= a)) (PreH2 : (a <= 10000)) (PreH3 : ((0 : Int) <= b)) (PreH4 : (b <= 10000)) (PreH5 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH6 : (b = (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (b : Int) (a : Int) (PreH1 : (1 <= a)) (PreH2 : (a <= 10000)) (PreH3 : ((0 : Int) <= b)) (PreH4 : (b <= 10000)) (PreH5 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH6 : (b = (0 : Int))) ,
   ((( &( "a" ) )) # Int64 |-> (a))
   ** ((( &( "b" ) )) # Int64 |-> (b))
 |--
@@ -129,14 +129,14 @@ noncomputable def gcdll_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def gcdll_safety_wit_3 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (b : Int) (a : Int) (PreH1 : (a < (0 : Int))) (PreH2 : (1 <= a)) (PreH3 : (a <= 10000)) (PreH4 : ((0 : Int) <= b)) (PreH5 : (b <= 10000)) (PreH6 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH7 : (b = (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (b : Int) (a : Int) (PreH1 : (a < (0 : Int))) (PreH2 : (1 <= a)) (PreH3 : (a <= 10000)) (PreH4 : ((0 : Int) <= b)) (PreH5 : (b <= 10000)) (PreH6 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH7 : (b = (0 : Int))) ,
   ((( &( "a" ) )) # Int64 |-> (a))
   ** ((( &( "b" ) )) # Int64 |-> (b))
 |--
   “ False ”
 
 noncomputable def gcdll_entail_wit_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (PreH1 : (1 <= a_pre)) (PreH2 : (a_pre <= 10000)) (PreH3 : (1 <= b_pre)) (PreH4 : (b_pre <= 10000)) ,
+  forall (a_pre : Int) (b_pre : Int) (PreH1 : (1 <= a_pre)) (PreH2 : (a_pre <= 10000)) (PreH3 : (1 <= b_pre)) (PreH4 : (b_pre <= 10000)) ,
   TT && emp 
 |--
   “ (1 <= a_pre) ” &&
@@ -148,7 +148,7 @@ noncomputable def gcdll_entail_wit_1 : Prop :=
 
 noncomputable def gcdll_entail_wit_2 : Prop :=
   (
-forall (b_pre : Int) (a_pre : Int) (b : Int) (a : Int) (PreH1 : (1 <= a)) (PreH2 : (a <= 10000)) (PreH3 : ((0 : Int) <= b)) (PreH4 : (b <= 10000)) (PreH5 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH6 : (b ≠ (0 : Int))) ,
+forall (a_pre : Int) (b_pre : Int) (b : Int) (a : Int) (PreH1 : (1 <= a)) (PreH2 : (a <= 10000)) (PreH3 : ((0 : Int) <= b)) (PreH4 : (b <= 10000)) (PreH5 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH6 : (b ≠ (0 : Int))) ,
   TT && emp 
 |--
   “ (1 <= b) ” &&
@@ -159,7 +159,7 @@ forall (b_pre : Int) (a_pre : Int) (b : Int) (a : Int) (PreH1 : (1 <= a)) (PreH2
   &&  emp
 ) \/
 (
-forall (b_pre : Int) (a_pre : Int) (b : Int) (a : Int) (PreH1 : (1 <= a)) (PreH2 : (a <= 10000)) (PreH3 : ((0 : Int) <= b)) (PreH4 : (b <= 10000)) (PreH5 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH6 : (b ≠ (0 : Int))) ,
+forall (a_pre : Int) (b_pre : Int) (b : Int) (a : Int) (PreH1 : (1 <= a)) (PreH2 : (a <= 10000)) (PreH3 : ((0 : Int) <= b)) (PreH4 : (b <= 10000)) (PreH5 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH6 : (b ≠ (0 : Int))) ,
   TT && emp 
 |--
   “ ((GcdValue (b) ((Z.rem a b))) = (GcdValue (a_pre) (b_pre))) ” &&
@@ -169,27 +169,27 @@ forall (b_pre : Int) (a_pre : Int) (b : Int) (a : Int) (PreH1 : (1 <= a)) (PreH2
 )
 
 noncomputable def gcdll_entail_wit_2_split_goal_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (b : Int) (a : Int) (PreH1 : (1 <= a)) (PreH2 : (a <= 10000)) (PreH3 : ((0 : Int) <= b)) (PreH4 : (b <= 10000)) (PreH5 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH6 : (b ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (b : Int) (a : Int) (PreH1 : (1 <= a)) (PreH2 : (a <= 10000)) (PreH3 : ((0 : Int) <= b)) (PreH4 : (b <= 10000)) (PreH5 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH6 : (b ≠ (0 : Int))) ,
   ((GcdValue (b) ((Z.rem a b))) = (GcdValue (a_pre) (b_pre)))
 
 noncomputable def gcdll_entail_wit_2_split_goal_2 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (b : Int) (a : Int) (PreH1 : (1 <= a)) (PreH2 : (a <= 10000)) (PreH3 : ((0 : Int) <= b)) (PreH4 : (b <= 10000)) (PreH5 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH6 : (b ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (b : Int) (a : Int) (PreH1 : (1 <= a)) (PreH2 : (a <= 10000)) (PreH3 : ((0 : Int) <= b)) (PreH4 : (b <= 10000)) (PreH5 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH6 : (b ≠ (0 : Int))) ,
   ((Z.rem a b) <= 10000)
 
 noncomputable def gcdll_entail_wit_2_split_goal_3 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (b : Int) (a : Int) (PreH1 : (1 <= a)) (PreH2 : (a <= 10000)) (PreH3 : ((0 : Int) <= b)) (PreH4 : (b <= 10000)) (PreH5 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH6 : (b ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (b : Int) (a : Int) (PreH1 : (1 <= a)) (PreH2 : (a <= 10000)) (PreH3 : ((0 : Int) <= b)) (PreH4 : (b <= 10000)) (PreH5 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH6 : (b ≠ (0 : Int))) ,
   ((0 : Int) <= (Z.rem a b))
 
 noncomputable def gcdll_return_wit_1 : Prop :=
   (
-forall (b_pre : Int) (a_pre : Int) (b : Int) (a : Int) (PreH1 : (a >= (0 : Int))) (PreH2 : (1 <= a)) (PreH3 : (a <= 10000)) (PreH4 : ((0 : Int) <= b)) (PreH5 : (b <= 10000)) (PreH6 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH7 : (b = (0 : Int))) ,
+forall (a_pre : Int) (b_pre : Int) (b : Int) (a : Int) (PreH1 : (a >= (0 : Int))) (PreH2 : (1 <= a)) (PreH3 : (a <= 10000)) (PreH4 : ((0 : Int) <= b)) (PreH5 : (b <= 10000)) (PreH6 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH7 : (b = (0 : Int))) ,
   TT && emp 
 |--
   “ (a = (GcdValue (a_pre) (b_pre))) ”
   &&  emp
 ) \/
 (
-forall (b_pre : Int) (a_pre : Int) (b : Int) (a : Int) (PreH1 : (a >= (0 : Int))) (PreH2 : (1 <= a)) (PreH3 : (a <= 10000)) (PreH4 : ((0 : Int) <= b)) (PreH5 : (b <= 10000)) (PreH6 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH7 : (b = (0 : Int))) ,
+forall (a_pre : Int) (b_pre : Int) (b : Int) (a : Int) (PreH1 : (a >= (0 : Int))) (PreH2 : (1 <= a)) (PreH3 : (a <= 10000)) (PreH4 : ((0 : Int) <= b)) (PreH5 : (b <= 10000)) (PreH6 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH7 : (b = (0 : Int))) ,
   TT && emp 
 |--
   “ (a = (GcdValue (a_pre) (b_pre))) ”
@@ -197,11 +197,11 @@ forall (b_pre : Int) (a_pre : Int) (b : Int) (a : Int) (PreH1 : (a >= (0 : Int))
 )
 
 noncomputable def gcdll_return_wit_1_split_goal_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (b : Int) (a : Int) (PreH1 : (a >= (0 : Int))) (PreH2 : (1 <= a)) (PreH3 : (a <= 10000)) (PreH4 : ((0 : Int) <= b)) (PreH5 : (b <= 10000)) (PreH6 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH7 : (b = (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (b : Int) (a : Int) (PreH1 : (a >= (0 : Int))) (PreH2 : (1 <= a)) (PreH3 : (a <= 10000)) (PreH4 : ((0 : Int) <= b)) (PreH5 : (b <= 10000)) (PreH6 : ((GcdValue (a) (b)) = (GcdValue (a_pre) (b_pre)))) (PreH7 : (b = (0 : Int))) ,
   (a = (GcdValue (a_pre) (b_pre)))
 
 noncomputable def pair_fill_safety_wit_1 : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : Int) (retval_3 : Int) (PreH1 : (retval_3 = (GcdValue (retval) (retval_2)))) (PreH2 : (retval_2 = (Z.abs (b_pre)))) (PreH3 : (retval = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (retval_3 : Int) (PreH1 : (retval_3 = (GcdValue (retval) (retval_2)))) (PreH2 : (retval_2 = (Z.abs (b_pre)))) (PreH3 : (retval = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
   ((( &( "g" ) )) # Int64 |-> (retval_3))
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -213,7 +213,7 @@ noncomputable def pair_fill_safety_wit_1 : Prop :=
 
 noncomputable def pair_fill_safety_wit_2 : Prop :=
   (
-forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval_2 : Int) (retval_3 : Int) (retval : Int) (PreH1 : (retval = (GcdValue (retval_2) (retval_3)))) (PreH2 : (retval_3 = (Z.abs (b_pre)))) (PreH3 : (retval_2 = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
+forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval_2 : Int) (retval_3 : Int) (retval : Int) (PreH1 : (retval = (GcdValue (retval_2) (retval_3)))) (PreH2 : (retval_3 = (Z.abs (b_pre)))) (PreH3 : (retval_2 = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
   ((( &( "g" ) )) # Int64 |-> (retval))
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -224,7 +224,7 @@ forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval_2 : Int) (retval_3 : 
   “ (retval ≠ (0 : Int)) ”
 ) \/
 (
-forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval_2 : Int) (retval_3 : Int) (retval : Int) (PreH1 : (retval = (GcdValue (retval_2) (retval_3)))) (PreH2 : (retval_3 = (Z.abs (b_pre)))) (PreH3 : (retval_2 = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
+forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval_2 : Int) (retval_3 : Int) (retval : Int) (PreH1 : (retval = (GcdValue (retval_2) (retval_3)))) (PreH2 : (retval_3 = (Z.abs (b_pre)))) (PreH3 : (retval_2 = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
   ((( &( "g" ) )) # Int64 |-> (retval))
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -236,7 +236,7 @@ forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval_2 : Int) (retval_3 : 
 )
 
 noncomputable def pair_fill_safety_wit_2_split_goal_1 : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval_2 : Int) (retval_3 : Int) (retval : Int) (PreH1 : (retval = (GcdValue (retval_2) (retval_3)))) (PreH2 : (retval_3 = (Z.abs (b_pre)))) (PreH3 : (retval_2 = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval_2 : Int) (retval_3 : Int) (retval : Int) (PreH1 : (retval = (GcdValue (retval_2) (retval_3)))) (PreH2 : (retval_3 = (Z.abs (b_pre)))) (PreH3 : (retval_2 = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
   ((( &( "g" ) )) # Int64 |-> (retval))
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -246,7 +246,7 @@ noncomputable def pair_fill_safety_wit_2_split_goal_1 : Prop :=
   “ ((b_pre ≠ (-9223372036854775808)) ∨ (retval ≠ (-1))) ”
 
 noncomputable def pair_fill_safety_wit_2_split_goal_2 : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval_2 : Int) (retval_3 : Int) (retval : Int) (PreH1 : (retval = (GcdValue (retval_2) (retval_3)))) (PreH2 : (retval_3 = (Z.abs (b_pre)))) (PreH3 : (retval_2 = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval_2 : Int) (retval_3 : Int) (retval : Int) (PreH1 : (retval = (GcdValue (retval_2) (retval_3)))) (PreH2 : (retval_3 = (Z.abs (b_pre)))) (PreH3 : (retval_2 = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
   ((( &( "g" ) )) # Int64 |-> (retval))
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -256,7 +256,7 @@ noncomputable def pair_fill_safety_wit_2_split_goal_2 : Prop :=
   “ (retval ≠ (0 : Int)) ”
 
 noncomputable def pair_fill_safety_wit_3 : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : Int) (retval_3 : Int) (PreH1 : (retval_3 = (GcdValue (retval) (retval_2)))) (PreH2 : (retval_2 = (Z.abs (b_pre)))) (PreH3 : (retval = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (retval_3 : Int) (PreH1 : (retval_3 = (GcdValue (retval) (retval_2)))) (PreH2 : (retval_2 = (Z.abs (b_pre)))) (PreH3 : (retval = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
   (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Z.quot b_pre retval_3)))
   ** (int64Array.undef_seg out_pre 1 2)
   ** ((( &( "g" ) )) # Int64 |-> (retval_3))
@@ -269,7 +269,7 @@ noncomputable def pair_fill_safety_wit_3 : Prop :=
 
 noncomputable def pair_fill_safety_wit_4 : Prop :=
   (
-forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval_2 : Int) (retval_3 : Int) (retval : Int) (PreH1 : (retval = (GcdValue (retval_2) (retval_3)))) (PreH2 : (retval_3 = (Z.abs (b_pre)))) (PreH3 : (retval_2 = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
+forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval_2 : Int) (retval_3 : Int) (retval : Int) (PreH1 : (retval = (GcdValue (retval_2) (retval_3)))) (PreH2 : (retval_3 = (Z.abs (b_pre)))) (PreH3 : (retval_2 = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
   (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Z.quot b_pre retval)))
   ** (int64Array.undef_seg out_pre 1 2)
   ** ((( &( "g" ) )) # Int64 |-> (retval))
@@ -281,7 +281,7 @@ forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval_2 : Int) (retval_3 : 
   “ (retval ≠ (0 : Int)) ”
 ) \/
 (
-forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval_2 : Int) (retval_3 : Int) (retval : Int) (PreH1 : (retval = (GcdValue (retval_2) (retval_3)))) (PreH2 : (retval_3 = (Z.abs (b_pre)))) (PreH3 : (retval_2 = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
+forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval_2 : Int) (retval_3 : Int) (retval : Int) (PreH1 : (retval = (GcdValue (retval_2) (retval_3)))) (PreH2 : (retval_3 = (Z.abs (b_pre)))) (PreH3 : (retval_2 = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
   (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Z.quot b_pre retval)))
   ** (int64Array.undef_seg out_pre 1 2)
   ** ((( &( "g" ) )) # Int64 |-> (retval))
@@ -294,7 +294,7 @@ forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval_2 : Int) (retval_3 : 
 )
 
 noncomputable def pair_fill_safety_wit_4_split_goal_1 : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval_2 : Int) (retval_3 : Int) (retval : Int) (PreH1 : (retval = (GcdValue (retval_2) (retval_3)))) (PreH2 : (retval_3 = (Z.abs (b_pre)))) (PreH3 : (retval_2 = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval_2 : Int) (retval_3 : Int) (retval : Int) (PreH1 : (retval = (GcdValue (retval_2) (retval_3)))) (PreH2 : (retval_3 = (Z.abs (b_pre)))) (PreH3 : (retval_2 = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
   (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Z.quot b_pre retval)))
   ** (int64Array.undef_seg out_pre 1 2)
   ** ((( &( "g" ) )) # Int64 |-> (retval))
@@ -305,7 +305,7 @@ noncomputable def pair_fill_safety_wit_4_split_goal_1 : Prop :=
   “ (((-a_pre) ≠ (-9223372036854775808)) ∨ (retval ≠ (-1))) ”
 
 noncomputable def pair_fill_safety_wit_4_split_goal_2 : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval_2 : Int) (retval_3 : Int) (retval : Int) (PreH1 : (retval = (GcdValue (retval_2) (retval_3)))) (PreH2 : (retval_3 = (Z.abs (b_pre)))) (PreH3 : (retval_2 = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval_2 : Int) (retval_3 : Int) (retval : Int) (PreH1 : (retval = (GcdValue (retval_2) (retval_3)))) (PreH2 : (retval_3 = (Z.abs (b_pre)))) (PreH3 : (retval_2 = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
   (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Z.quot b_pre retval)))
   ** (int64Array.undef_seg out_pre 1 2)
   ** ((( &( "g" ) )) # Int64 |-> (retval))
@@ -316,7 +316,7 @@ noncomputable def pair_fill_safety_wit_4_split_goal_2 : Prop :=
   “ (retval ≠ (0 : Int)) ”
 
 noncomputable def pair_fill_safety_wit_5 : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : Int) (retval_3 : Int) (PreH1 : (retval_3 = (GcdValue (retval) (retval_2)))) (PreH2 : (retval_2 = (Z.abs (b_pre)))) (PreH3 : (retval = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (retval_3 : Int) (PreH1 : (retval_3 = (GcdValue (retval) (retval_2)))) (PreH2 : (retval_2 = (Z.abs (b_pre)))) (PreH3 : (retval = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
   (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Z.quot b_pre retval_3)))
   ** (int64Array.undef_seg out_pre 1 2)
   ** ((( &( "g" ) )) # Int64 |-> (retval_3))
@@ -328,7 +328,7 @@ noncomputable def pair_fill_safety_wit_5 : Prop :=
 
 noncomputable def pair_fill_return_wit_1 : Prop :=
   (
-forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : Int) (retval_3 : Int) (PreH1 : (retval_3 = (GcdValue (retval) (retval_2)))) (PreH2 : (retval_2 = (Z.abs (b_pre)))) (PreH3 : (retval = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
+forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (retval_3 : Int) (PreH1 : (retval_3 = (GcdValue (retval) (retval_2)))) (PreH2 : (retval_2 = (Z.abs (b_pre)))) (PreH3 : (retval = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
   (((out_pre + (1 * sizeof(INT64)))) # Int64 |-> ((Z.quot (-a_pre) retval_3)))
   ** (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Z.quot b_pre retval_3)))
 |--
@@ -337,7 +337,7 @@ forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : In
   &&  (int64Array.full out_pre 2 pair_out)
 ) \/
 (
-forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : Int) (retval_3 : Int) (PreH1 : ((Z.quot b_pre retval_3) <= 9223372036854775807)) (PreH2 : ((Z.quot (-a_pre) retval_3) <= 9223372036854775807)) (PreH3 : ((Z.quot b_pre retval_3) >= (-9223372036854775808))) (PreH4 : ((Z.quot (-a_pre) retval_3) >= (-9223372036854775808))) (PreH5 : (retval_3 = (GcdValue (retval) (retval_2)))) (PreH6 : (retval_2 = (Z.abs (b_pre)))) (PreH7 : (retval = (Z.abs (a_pre)))) (PreH8 : ((-10000) <= a_pre)) (PreH9 : (a_pre <= 10000)) (PreH10 : (a_pre ≠ (0 : Int))) (PreH11 : ((-10000) <= b_pre)) (PreH12 : (b_pre <= 10000)) (PreH13 : (b_pre ≠ (0 : Int))) ,
+forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (retval_3 : Int) (PreH1 : ((Z.quot b_pre retval_3) <= 9223372036854775807)) (PreH2 : ((Z.quot (-a_pre) retval_3) <= 9223372036854775807)) (PreH3 : ((Z.quot b_pre retval_3) >= (-9223372036854775808))) (PreH4 : ((Z.quot (-a_pre) retval_3) >= (-9223372036854775808))) (PreH5 : (retval_3 = (GcdValue (retval) (retval_2)))) (PreH6 : (retval_2 = (Z.abs (b_pre)))) (PreH7 : (retval = (Z.abs (a_pre)))) (PreH8 : ((-10000) <= a_pre)) (PreH9 : (a_pre <= 10000)) (PreH10 : (a_pre ≠ (0 : Int))) (PreH11 : ((-10000) <= b_pre)) (PreH12 : (b_pre <= 10000)) (PreH13 : (b_pre ≠ (0 : Int))) ,
   (((out_pre + (1 * sizeof(INT64)))) # Int64 |-> ((Z.quot (-a_pre) retval_3)))
   ** (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Z.quot b_pre retval_3)))
 |--
@@ -347,7 +347,7 @@ forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : In
 )
 
 noncomputable def pair_fill_partial_solve_wit_1_pure : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((-10000) <= a_pre)) (PreH2 : (a_pre <= 10000)) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : ((-10000) <= b_pre)) (PreH5 : (b_pre <= 10000)) (PreH6 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (PreH1 : ((-10000) <= a_pre)) (PreH2 : (a_pre <= 10000)) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : ((-10000) <= b_pre)) (PreH5 : (b_pre <= 10000)) (PreH6 : (b_pre ≠ (0 : Int))) ,
   ((( &( "g" ) )) # Int64 |->_)
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -358,7 +358,7 @@ noncomputable def pair_fill_partial_solve_wit_1_pure : Prop :=
   “ (a_pre <= 10000) ”
 
 noncomputable def pair_fill_partial_solve_wit_1_aux : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : ((-10000) <= a_pre)) (PreH2 : (a_pre <= 10000)) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : ((-10000) <= b_pre)) (PreH5 : (b_pre <= 10000)) (PreH6 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (PreH1 : ((-10000) <= a_pre)) (PreH2 : (a_pre <= 10000)) (PreH3 : (a_pre ≠ (0 : Int))) (PreH4 : ((-10000) <= b_pre)) (PreH5 : (b_pre <= 10000)) (PreH6 : (b_pre ≠ (0 : Int))) ,
   (int64Array.undef_full out_pre 2)
 |--
   “ ((-10000) <= a_pre) ” &&
@@ -374,7 +374,7 @@ noncomputable def pair_fill_partial_solve_wit_1_aux : Prop :=
 noncomputable def pair_fill_partial_solve_wit_1 : Prop := pair_fill_partial_solve_wit_1_pure -> pair_fill_partial_solve_wit_1_aux
 
 noncomputable def pair_fill_partial_solve_wit_2_pure : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs (a_pre)))) (PreH2 : ((-10000) <= a_pre)) (PreH3 : (a_pre <= 10000)) (PreH4 : (a_pre ≠ (0 : Int))) (PreH5 : ((-10000) <= b_pre)) (PreH6 : (b_pre <= 10000)) (PreH7 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs (a_pre)))) (PreH2 : ((-10000) <= a_pre)) (PreH3 : (a_pre <= 10000)) (PreH4 : (a_pre ≠ (0 : Int))) (PreH5 : ((-10000) <= b_pre)) (PreH6 : (b_pre <= 10000)) (PreH7 : (b_pre ≠ (0 : Int))) ,
   ((( &( "g" ) )) # Int64 |->_)
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -385,7 +385,7 @@ noncomputable def pair_fill_partial_solve_wit_2_pure : Prop :=
   “ (b_pre <= 10000) ”
 
 noncomputable def pair_fill_partial_solve_wit_2_aux : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs (a_pre)))) (PreH2 : ((-10000) <= a_pre)) (PreH3 : (a_pre <= 10000)) (PreH4 : (a_pre ≠ (0 : Int))) (PreH5 : ((-10000) <= b_pre)) (PreH6 : (b_pre <= 10000)) (PreH7 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs (a_pre)))) (PreH2 : ((-10000) <= a_pre)) (PreH3 : (a_pre <= 10000)) (PreH4 : (a_pre ≠ (0 : Int))) (PreH5 : ((-10000) <= b_pre)) (PreH6 : (b_pre <= 10000)) (PreH7 : (b_pre ≠ (0 : Int))) ,
   (int64Array.undef_full out_pre 2)
 |--
   “ ((-10000) <= b_pre) ” &&
@@ -403,7 +403,7 @@ noncomputable def pair_fill_partial_solve_wit_2 : Prop := pair_fill_partial_solv
 
 noncomputable def pair_fill_partial_solve_wit_3_pure : Prop :=
   (
-forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (Z.abs (b_pre)))) (PreH2 : (retval = (Z.abs (a_pre)))) (PreH3 : ((-10000) <= a_pre)) (PreH4 : (a_pre <= 10000)) (PreH5 : (a_pre ≠ (0 : Int))) (PreH6 : ((-10000) <= b_pre)) (PreH7 : (b_pre <= 10000)) (PreH8 : (b_pre ≠ (0 : Int))) ,
+forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (Z.abs (b_pre)))) (PreH2 : (retval = (Z.abs (a_pre)))) (PreH3 : ((-10000) <= a_pre)) (PreH4 : (a_pre <= 10000)) (PreH5 : (a_pre ≠ (0 : Int))) (PreH6 : ((-10000) <= b_pre)) (PreH7 : (b_pre <= 10000)) (PreH8 : (b_pre ≠ (0 : Int))) ,
   ((( &( "g" ) )) # Int64 |->_)
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -416,7 +416,7 @@ forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : In
   “ (1 <= retval) ”
 ) \/
 (
-forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (b_pre <= 9223372036854775807)) (PreH2 : (a_pre <= 9223372036854775807)) (PreH3 : (b_pre >= (-9223372036854775808))) (PreH4 : (a_pre >= (-9223372036854775808))) (PreH5 : (retval_2 = (Z.abs (b_pre)))) (PreH6 : (retval = (Z.abs (a_pre)))) (PreH7 : ((-10000) <= a_pre)) (PreH8 : (a_pre <= 10000)) (PreH9 : (a_pre ≠ (0 : Int))) (PreH10 : ((-10000) <= b_pre)) (PreH11 : (b_pre <= 10000)) (PreH12 : (b_pre ≠ (0 : Int))) ,
+forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (b_pre <= 9223372036854775807)) (PreH2 : (a_pre <= 9223372036854775807)) (PreH3 : (b_pre >= (-9223372036854775808))) (PreH4 : (a_pre >= (-9223372036854775808))) (PreH5 : (retval_2 = (Z.abs (b_pre)))) (PreH6 : (retval = (Z.abs (a_pre)))) (PreH7 : ((-10000) <= a_pre)) (PreH8 : (a_pre <= 10000)) (PreH9 : (a_pre ≠ (0 : Int))) (PreH10 : ((-10000) <= b_pre)) (PreH11 : (b_pre <= 10000)) (PreH12 : (b_pre ≠ (0 : Int))) ,
   ((( &( "g" ) )) # Int64 |->_)
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -430,7 +430,7 @@ forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : In
 )
 
 noncomputable def pair_fill_partial_solve_wit_3_pure_split_goal_1 : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (b_pre <= 9223372036854775807)) (PreH2 : (a_pre <= 9223372036854775807)) (PreH3 : (b_pre >= (-9223372036854775808))) (PreH4 : (a_pre >= (-9223372036854775808))) (PreH5 : (retval_2 = (Z.abs (b_pre)))) (PreH6 : (retval = (Z.abs (a_pre)))) (PreH7 : ((-10000) <= a_pre)) (PreH8 : (a_pre <= 10000)) (PreH9 : (a_pre ≠ (0 : Int))) (PreH10 : ((-10000) <= b_pre)) (PreH11 : (b_pre <= 10000)) (PreH12 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (b_pre <= 9223372036854775807)) (PreH2 : (a_pre <= 9223372036854775807)) (PreH3 : (b_pre >= (-9223372036854775808))) (PreH4 : (a_pre >= (-9223372036854775808))) (PreH5 : (retval_2 = (Z.abs (b_pre)))) (PreH6 : (retval = (Z.abs (a_pre)))) (PreH7 : ((-10000) <= a_pre)) (PreH8 : (a_pre <= 10000)) (PreH9 : (a_pre ≠ (0 : Int))) (PreH10 : ((-10000) <= b_pre)) (PreH11 : (b_pre <= 10000)) (PreH12 : (b_pre ≠ (0 : Int))) ,
   ((( &( "g" ) )) # Int64 |->_)
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -440,7 +440,7 @@ noncomputable def pair_fill_partial_solve_wit_3_pure_split_goal_1 : Prop :=
   “ (1 <= retval) ”
 
 noncomputable def pair_fill_partial_solve_wit_3_pure_split_goal_2 : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (b_pre <= 9223372036854775807)) (PreH2 : (a_pre <= 9223372036854775807)) (PreH3 : (b_pre >= (-9223372036854775808))) (PreH4 : (a_pre >= (-9223372036854775808))) (PreH5 : (retval_2 = (Z.abs (b_pre)))) (PreH6 : (retval = (Z.abs (a_pre)))) (PreH7 : ((-10000) <= a_pre)) (PreH8 : (a_pre <= 10000)) (PreH9 : (a_pre ≠ (0 : Int))) (PreH10 : ((-10000) <= b_pre)) (PreH11 : (b_pre <= 10000)) (PreH12 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (b_pre <= 9223372036854775807)) (PreH2 : (a_pre <= 9223372036854775807)) (PreH3 : (b_pre >= (-9223372036854775808))) (PreH4 : (a_pre >= (-9223372036854775808))) (PreH5 : (retval_2 = (Z.abs (b_pre)))) (PreH6 : (retval = (Z.abs (a_pre)))) (PreH7 : ((-10000) <= a_pre)) (PreH8 : (a_pre <= 10000)) (PreH9 : (a_pre ≠ (0 : Int))) (PreH10 : ((-10000) <= b_pre)) (PreH11 : (b_pre <= 10000)) (PreH12 : (b_pre ≠ (0 : Int))) ,
   ((( &( "g" ) )) # Int64 |->_)
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -450,7 +450,7 @@ noncomputable def pair_fill_partial_solve_wit_3_pure_split_goal_2 : Prop :=
   “ (retval <= 10000) ”
 
 noncomputable def pair_fill_partial_solve_wit_3_pure_split_goal_3 : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (b_pre <= 9223372036854775807)) (PreH2 : (a_pre <= 9223372036854775807)) (PreH3 : (b_pre >= (-9223372036854775808))) (PreH4 : (a_pre >= (-9223372036854775808))) (PreH5 : (retval_2 = (Z.abs (b_pre)))) (PreH6 : (retval = (Z.abs (a_pre)))) (PreH7 : ((-10000) <= a_pre)) (PreH8 : (a_pre <= 10000)) (PreH9 : (a_pre ≠ (0 : Int))) (PreH10 : ((-10000) <= b_pre)) (PreH11 : (b_pre <= 10000)) (PreH12 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (b_pre <= 9223372036854775807)) (PreH2 : (a_pre <= 9223372036854775807)) (PreH3 : (b_pre >= (-9223372036854775808))) (PreH4 : (a_pre >= (-9223372036854775808))) (PreH5 : (retval_2 = (Z.abs (b_pre)))) (PreH6 : (retval = (Z.abs (a_pre)))) (PreH7 : ((-10000) <= a_pre)) (PreH8 : (a_pre <= 10000)) (PreH9 : (a_pre ≠ (0 : Int))) (PreH10 : ((-10000) <= b_pre)) (PreH11 : (b_pre <= 10000)) (PreH12 : (b_pre ≠ (0 : Int))) ,
   ((( &( "g" ) )) # Int64 |->_)
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -460,7 +460,7 @@ noncomputable def pair_fill_partial_solve_wit_3_pure_split_goal_3 : Prop :=
   “ (1 <= retval_2) ”
 
 noncomputable def pair_fill_partial_solve_wit_3_pure_split_goal_4 : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (b_pre <= 9223372036854775807)) (PreH2 : (a_pre <= 9223372036854775807)) (PreH3 : (b_pre >= (-9223372036854775808))) (PreH4 : (a_pre >= (-9223372036854775808))) (PreH5 : (retval_2 = (Z.abs (b_pre)))) (PreH6 : (retval = (Z.abs (a_pre)))) (PreH7 : ((-10000) <= a_pre)) (PreH8 : (a_pre <= 10000)) (PreH9 : (a_pre ≠ (0 : Int))) (PreH10 : ((-10000) <= b_pre)) (PreH11 : (b_pre <= 10000)) (PreH12 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (b_pre <= 9223372036854775807)) (PreH2 : (a_pre <= 9223372036854775807)) (PreH3 : (b_pre >= (-9223372036854775808))) (PreH4 : (a_pre >= (-9223372036854775808))) (PreH5 : (retval_2 = (Z.abs (b_pre)))) (PreH6 : (retval = (Z.abs (a_pre)))) (PreH7 : ((-10000) <= a_pre)) (PreH8 : (a_pre <= 10000)) (PreH9 : (a_pre ≠ (0 : Int))) (PreH10 : ((-10000) <= b_pre)) (PreH11 : (b_pre <= 10000)) (PreH12 : (b_pre ≠ (0 : Int))) ,
   ((( &( "g" ) )) # Int64 |->_)
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -470,7 +470,7 @@ noncomputable def pair_fill_partial_solve_wit_3_pure_split_goal_4 : Prop :=
   “ (retval_2 <= 10000) ”
 
 noncomputable def pair_fill_partial_solve_wit_3_aux : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (Z.abs (b_pre)))) (PreH2 : (retval = (Z.abs (a_pre)))) (PreH3 : ((-10000) <= a_pre)) (PreH4 : (a_pre <= 10000)) (PreH5 : (a_pre ≠ (0 : Int))) (PreH6 : ((-10000) <= b_pre)) (PreH7 : (b_pre <= 10000)) (PreH8 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (Z.abs (b_pre)))) (PreH2 : (retval = (Z.abs (a_pre)))) (PreH3 : ((-10000) <= a_pre)) (PreH4 : (a_pre <= 10000)) (PreH5 : (a_pre ≠ (0 : Int))) (PreH6 : ((-10000) <= b_pre)) (PreH7 : (b_pre <= 10000)) (PreH8 : (b_pre ≠ (0 : Int))) ,
   (int64Array.undef_full out_pre 2)
 |--
   “ (retval_2 <= 10000) ” &&
@@ -490,7 +490,7 @@ noncomputable def pair_fill_partial_solve_wit_3_aux : Prop :=
 noncomputable def pair_fill_partial_solve_wit_3 : Prop := pair_fill_partial_solve_wit_3_pure -> pair_fill_partial_solve_wit_3_aux
 
 noncomputable def pair_fill_partial_solve_wit_4 : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : Int) (retval_3 : Int) (PreH1 : (retval_3 = (GcdValue (retval) (retval_2)))) (PreH2 : (retval_2 = (Z.abs (b_pre)))) (PreH3 : (retval = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (retval_3 : Int) (PreH1 : (retval_3 = (GcdValue (retval) (retval_2)))) (PreH2 : (retval_2 = (Z.abs (b_pre)))) (PreH3 : (retval = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
   (int64Array.undef_full out_pre 2)
 |--
   “ (retval_3 = (GcdValue (retval) (retval_2))) ” &&
@@ -506,7 +506,7 @@ noncomputable def pair_fill_partial_solve_wit_4 : Prop :=
   ** (int64Array.undef_seg out_pre 1 2)
 
 noncomputable def pair_fill_partial_solve_wit_5 : Prop :=
-  forall (out_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (retval_2 : Int) (retval_3 : Int) (PreH1 : (retval_3 = (GcdValue (retval) (retval_2)))) (PreH2 : (retval_2 = (Z.abs (b_pre)))) (PreH3 : (retval = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
+  forall (a_pre : Int) (b_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (retval_3 : Int) (PreH1 : (retval_3 = (GcdValue (retval) (retval_2)))) (PreH2 : (retval_2 = (Z.abs (b_pre)))) (PreH3 : (retval = (Z.abs (a_pre)))) (PreH4 : ((-10000) <= a_pre)) (PreH5 : (a_pre <= 10000)) (PreH6 : (a_pre ≠ (0 : Int))) (PreH7 : ((-10000) <= b_pre)) (PreH8 : (b_pre <= 10000)) (PreH9 : (b_pre ≠ (0 : Int))) ,
   (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Z.quot b_pre retval_3)))
   ** (int64Array.undef_seg out_pre 1 2)
 |--
@@ -523,7 +523,7 @@ noncomputable def pair_fill_partial_solve_wit_5 : Prop :=
   ** (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Z.quot b_pre retval_3)))
 
 noncomputable def solver_safety_wit_1 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH4 : (n_pre = (Zlength (values)))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH4 : (n_pre = (Zlength (values)))) ,
   ((( &( "start" ) )) # Int |->_)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -535,7 +535,7 @@ noncomputable def solver_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_2 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH4 : (n_pre = (Zlength (values)))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH4 : (n_pre = (Zlength (values)))) ,
   ((( &( "start" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -547,7 +547,7 @@ noncomputable def solver_safety_wit_2 : Prop :=
   “ (2 ≠ (0 : Int)) ”
 
 noncomputable def solver_safety_wit_3 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH4 : (n_pre = (Zlength (values)))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH4 : (n_pre = (Zlength (values)))) ,
   ((( &( "start" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -559,7 +559,7 @@ noncomputable def solver_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def solver_safety_wit_4 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (3 <= n_pre)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : ((0 : Int) >= INT_MIN)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (n_pre = (Zlength (values)))) (PreH8 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (3 <= n_pre)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : ((0 : Int) >= INT_MIN)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (n_pre = (Zlength (values)))) (PreH8 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   ((( &( "z" ) )) # Int64 |->_)
   ** (intArray.full a_pre n_pre values)
   ** ((( &( "y" ) )) # Int64 |-> ((Znth 1 values (0 : Int))))
@@ -574,7 +574,7 @@ noncomputable def solver_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def solver_safety_wit_5 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (3 <= n_pre)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : ((0 : Int) >= INT_MIN)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (n_pre = (Zlength (values)))) (PreH8 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (3 <= n_pre)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : ((0 : Int) >= INT_MIN)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (n_pre = (Zlength (values)))) (PreH8 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   ((( &( "y" ) )) # Int64 |->_)
   ** (intArray.full a_pre n_pre values)
   ** ((( &( "x" ) )) # Int64 |-> ((Znth (0 : Int) values (0 : Int))))
@@ -588,7 +588,7 @@ noncomputable def solver_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_6 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (3 <= n_pre)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : ((0 : Int) >= INT_MIN)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (n_pre = (Zlength (values)))) (PreH8 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (3 <= n_pre)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : ((0 : Int) >= INT_MIN)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (n_pre = (Zlength (values)))) (PreH8 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   ((( &( "x" ) )) # Int64 |->_)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "start" ) )) # Int |-> ((0 : Int)))
@@ -601,7 +601,7 @@ noncomputable def solver_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_7 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (3 <= n_pre)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : ((0 : Int) >= INT_MIN)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (n_pre = (Zlength (values)))) (PreH8 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (3 <= n_pre)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : ((0 : Int) >= INT_MIN)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (n_pre = (Zlength (values)))) (PreH8 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (intArray.full a_pre n_pre values)
   ** ((( &( "z" ) )) # Int64 |-> ((Znth 2 values (0 : Int))))
   ** ((( &( "y" ) )) # Int64 |-> ((Znth 1 values (0 : Int))))
@@ -616,7 +616,7 @@ noncomputable def solver_safety_wit_7 : Prop :=
   “ ((-9223372036854775808) <= ((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int)))) ”
 
 noncomputable def solver_safety_wit_8 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (3 <= n_pre)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : ((0 : Int) >= INT_MIN)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (n_pre = (Zlength (values)))) (PreH8 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (3 <= n_pre)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : ((0 : Int) >= INT_MIN)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (n_pre = (Zlength (values)))) (PreH8 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (intArray.full a_pre n_pre values)
   ** ((( &( "z" ) )) # Int64 |-> ((Znth 2 values (0 : Int))))
   ** ((( &( "y" ) )) # Int64 |-> ((Znth 1 values (0 : Int))))
@@ -631,7 +631,7 @@ noncomputable def solver_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_9 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (intArray.full a_pre n_pre values)
   ** ((( &( "z" ) )) # Int64 |-> ((Znth 2 values (0 : Int))))
   ** ((( &( "y" ) )) # Int64 |-> ((Znth 1 values (0 : Int))))
@@ -646,7 +646,7 @@ noncomputable def solver_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_10 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (((b_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Znth 2 values (0 : Int))))
   ** (int64Array.undef_seg b_pre 1 n_pre)
   ** (intArray.full a_pre n_pre values)
@@ -662,7 +662,7 @@ noncomputable def solver_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_11 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (((b_pre + (1 * sizeof(INT64)))) # Int64 |-> ((Znth 2 values (0 : Int))))
   ** (int64Array.undef_seg b_pre (1 + 1) n_pre)
   ** (((b_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Znth 2 values (0 : Int))))
@@ -679,7 +679,7 @@ noncomputable def solver_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def solver_safety_wit_12 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (((b_pre + (1 * sizeof(INT64)))) # Int64 |-> ((Znth 2 values (0 : Int))))
   ** (int64Array.undef_seg b_pre (1 + 1) n_pre)
   ** (((b_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Znth 2 values (0 : Int))))
@@ -695,7 +695,7 @@ noncomputable def solver_safety_wit_12 : Prop :=
   “ (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (-9223372036854775808)) ”
 
 noncomputable def solver_safety_wit_13 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (((b_pre + (1 * sizeof(INT64)))) # Int64 |-> ((Znth 2 values (0 : Int))))
   ** (int64Array.undef_seg b_pre (1 + 1) n_pre)
   ** (((b_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Znth 2 values (0 : Int))))
@@ -712,7 +712,7 @@ noncomputable def solver_safety_wit_13 : Prop :=
   “ ((-9223372036854775808) <= ((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int)))) ”
 
 noncomputable def solver_safety_wit_14 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (intArray.full a_pre n_pre values)
   ** ((( &( "z" ) )) # Int64 |-> ((Znth 2 values (0 : Int))))
   ** ((( &( "y" ) )) # Int64 |-> ((Znth 1 values (0 : Int))))
@@ -727,7 +727,7 @@ noncomputable def solver_safety_wit_14 : Prop :=
   “ ((-9223372036854775808) <= ((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int)))) ”
 
 noncomputable def solver_safety_wit_15 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (intArray.full a_pre n_pre values)
   ** ((( &( "z" ) )) # Int64 |-> ((Znth 2 values (0 : Int))))
   ** ((( &( "y" ) )) # Int64 |-> ((Znth 1 values (0 : Int))))
@@ -742,7 +742,7 @@ noncomputable def solver_safety_wit_15 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_16 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (intArray.full a_pre n_pre values)
   ** ((( &( "z" ) )) # Int64 |-> ((Znth 2 values (0 : Int))))
   ** ((( &( "y" ) )) # Int64 |-> ((Znth 1 values (0 : Int))))
@@ -757,7 +757,7 @@ noncomputable def solver_safety_wit_16 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_17 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (((b_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Znth 1 values (0 : Int))))
   ** (int64Array.undef_seg b_pre 1 n_pre)
   ** (intArray.full a_pre n_pre values)
@@ -773,7 +773,7 @@ noncomputable def solver_safety_wit_17 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def solver_safety_wit_18 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "b" ) )) # Ptr |-> (b_pre))
@@ -792,7 +792,7 @@ noncomputable def solver_safety_wit_18 : Prop :=
 
 noncomputable def solver_safety_wit_19 : Prop :=
   (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "b" ) )) # Ptr |-> (b_pre))
@@ -809,7 +809,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (start : 
   “ ((x + z) ≠ (-9223372036854775808)) ”
 ) \/
 (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "b" ) )) # Ptr |-> (b_pre))
@@ -827,7 +827,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (start : 
 )
 
 noncomputable def solver_safety_wit_19_split_goal_1 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "b" ) )) # Ptr |-> (b_pre))
@@ -845,7 +845,7 @@ noncomputable def solver_safety_wit_19_split_goal_1 : Prop :=
 
 noncomputable def solver_safety_wit_20 : Prop :=
   (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "b" ) )) # Ptr |-> (b_pre))
@@ -863,7 +863,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (start : 
   “ ((-9223372036854775808) <= (x + z)) ”
 ) \/
 (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "b" ) )) # Ptr |-> (b_pre))
@@ -882,7 +882,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (start : 
 )
 
 noncomputable def solver_safety_wit_20_split_goal_1 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "b" ) )) # Ptr |-> (b_pre))
@@ -899,7 +899,7 @@ noncomputable def solver_safety_wit_20_split_goal_1 : Prop :=
   “ ((x + z) <= 9223372036854775807) ”
 
 noncomputable def solver_safety_wit_20_split_goal_2 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "b" ) )) # Ptr |-> (b_pre))
@@ -916,7 +916,7 @@ noncomputable def solver_safety_wit_20_split_goal_2 : Prop :=
   “ ((-9223372036854775808) <= (x + z)) ”
 
 noncomputable def solver_safety_wit_21 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (intArray.full a_pre n_pre values)
   ** ((( &( "z" ) )) # Int64 |-> ((Znth 2 values (0 : Int))))
   ** ((( &( "y" ) )) # Int64 |-> ((Znth 1 values (0 : Int))))
@@ -931,7 +931,7 @@ noncomputable def solver_safety_wit_21 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_22 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (int64Array.mixed_full b_pre n_pre (replace_Znth (1) ((Some ((Znth (0 : Int) values (0 : Int))))) ((repeat_Z (None) (n_pre)))))
   ** (intArray.full a_pre n_pre values)
   ** ((( &( "z" ) )) # Int64 |-> ((Znth 2 values (0 : Int))))
@@ -946,7 +946,7 @@ noncomputable def solver_safety_wit_22 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def solver_safety_wit_23 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (int64Array.mixed_full b_pre n_pre (replace_Znth (2) ((Some ((Znth (0 : Int) values (0 : Int))))) ((replace_Znth (1) ((Some ((Znth (0 : Int) values (0 : Int))))) ((repeat_Z (None) (n_pre)))))))
   ** (intArray.full a_pre n_pre values)
   ** ((( &( "z" ) )) # Int64 |-> ((Znth 2 values (0 : Int))))
@@ -961,7 +961,7 @@ noncomputable def solver_safety_wit_23 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_24 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (int64Array.mixed_full b_pre n_pre (replace_Znth (2) ((Some ((Znth (0 : Int) values (0 : Int))))) ((replace_Znth (1) ((Some ((Znth (0 : Int) values (0 : Int))))) ((repeat_Z (None) (n_pre)))))))
   ** (intArray.full a_pre n_pre values)
   ** ((( &( "z" ) )) # Int64 |-> ((Znth 2 values (0 : Int))))
@@ -975,7 +975,7 @@ noncomputable def solver_safety_wit_24 : Prop :=
   “ (((Znth 1 values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (-9223372036854775808)) ”
 
 noncomputable def solver_safety_wit_25 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (int64Array.mixed_full b_pre n_pre (replace_Znth (2) ((Some ((Znth (0 : Int) values (0 : Int))))) ((replace_Znth (1) ((Some ((Znth (0 : Int) values (0 : Int))))) ((repeat_Z (None) (n_pre)))))))
   ** (intArray.full a_pre n_pre values)
   ** ((( &( "z" ) )) # Int64 |-> ((Znth 2 values (0 : Int))))
@@ -990,7 +990,7 @@ noncomputable def solver_safety_wit_25 : Prop :=
   “ ((-9223372036854775808) <= ((Znth 1 values (0 : Int)) + (Znth 2 values (0 : Int)))) ”
 
 noncomputable def solver_safety_wit_26 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (int64Array.undef_seg b_pre ((1 + 1) + 1) n_pre)
   ** (((b_pre + (2 * sizeof(INT64)))) # Int64 |-> ((-((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))))))
   ** (((b_pre + (1 * sizeof(INT64)))) # Int64 |-> ((Znth 2 values (0 : Int))))
@@ -1008,7 +1008,7 @@ noncomputable def solver_safety_wit_26 : Prop :=
   “ ((INT_MIN) <= 3) ”
 
 noncomputable def solver_safety_wit_27 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
   (int64Array.seg b_pre (0 : Int) (1 + 1) ((y :: (@List.nil Int)) ++ ((-(x + z)) :: (@List.nil Int))))
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -1025,7 +1025,7 @@ noncomputable def solver_safety_wit_27 : Prop :=
   “ ((INT_MIN) <= 3) ”
 
 noncomputable def solver_safety_wit_28 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (int64Array.mixed_full b_pre n_pre (replace_Znth ((0 : Int)) ((Some ((-((Znth 1 values (0 : Int)) + (Znth 2 values (0 : Int))))))) ((replace_Znth (2) ((Some ((Znth (0 : Int) values (0 : Int))))) ((replace_Znth (1) ((Some ((Znth (0 : Int) values (0 : Int))))) ((repeat_Z (None) (n_pre)))))))))
   ** (intArray.full a_pre n_pre values)
   ** ((( &( "z" ) )) # Int64 |-> ((Znth 2 values (0 : Int))))
@@ -1040,7 +1040,7 @@ noncomputable def solver_safety_wit_28 : Prop :=
   “ ((INT_MIN) <= 3) ”
 
 noncomputable def solver_safety_wit_29 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (i : Int) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (i : Int) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "b" ) )) # Ptr |-> (b_pre))
@@ -1054,7 +1054,7 @@ noncomputable def solver_safety_wit_29 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solver_safety_wit_30 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (i : Int) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (i : Int) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "b" ) )) # Ptr |-> (b_pre))
@@ -1068,7 +1068,7 @@ noncomputable def solver_safety_wit_30 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solver_safety_wit_31 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (i : Int) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (i : Int) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "b" ) )) # Ptr |-> (b_pre))
@@ -1082,7 +1082,7 @@ noncomputable def solver_safety_wit_31 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_32 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (i : Int) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (i : Int) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "b" ) )) # Ptr |-> (b_pre))
@@ -1096,7 +1096,7 @@ noncomputable def solver_safety_wit_32 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_33 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -1111,7 +1111,7 @@ noncomputable def solver_safety_wit_33 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solver_safety_wit_34 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -1126,7 +1126,7 @@ noncomputable def solver_safety_wit_34 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_35 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -1141,7 +1141,7 @@ noncomputable def solver_safety_wit_35 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solver_safety_wit_36 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -1156,7 +1156,7 @@ noncomputable def solver_safety_wit_36 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_37 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (start : Int) (i : Int) (pair_out : (List Int)) (PreH1 : (OutputPrefix ((Znth i values (0 : Int)) :: ((Znth (i + 1) values (0 : Int)) :: (@List.nil Int))) pair_out (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : ((i + 1) < n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (start : Int) (i : Int) (pair_out : (List Int)) (PreH1 : (OutputPrefix ((Znth i values (0 : Int)) :: ((Znth (i + 1) values (0 : Int)) :: (@List.nil Int))) pair_out (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : ((i + 1) < n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (int64Array.full (b_pre + (i * sizeof(INT64))) 2 pair_out)
   ** (intArray.full a_pre n_pre values)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
@@ -1171,7 +1171,7 @@ noncomputable def solver_safety_wit_37 : Prop :=
   “ ((INT_MIN) <= (i + 2)) ”
 
 noncomputable def solver_safety_wit_38 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (start : Int) (i : Int) (pair_out : (List Int)) (PreH1 : (OutputPrefix ((Znth i values (0 : Int)) :: ((Znth (i + 1) values (0 : Int)) :: (@List.nil Int))) pair_out (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : ((i + 1) < n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (start : Int) (i : Int) (pair_out : (List Int)) (PreH1 : (OutputPrefix ((Znth i values (0 : Int)) :: ((Znth (i + 1) values (0 : Int)) :: (@List.nil Int))) pair_out (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : ((i + 1) < n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (int64Array.full (b_pre + (i * sizeof(INT64))) 2 pair_out)
   ** (intArray.full a_pre n_pre values)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
@@ -1186,7 +1186,7 @@ noncomputable def solver_safety_wit_38 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def solver_safety_wit_39 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (start : Int) (i : Int) (pair_out : (List Int)) (PreH1 : (OutputPrefix ((Znth i values (0 : Int)) :: ((Znth (i + 1) values (0 : Int)) :: (@List.nil Int))) pair_out (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : ((i + 1) < n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (start : Int) (i : Int) (pair_out : (List Int)) (PreH1 : (OutputPrefix ((Znth i values (0 : Int)) :: ((Znth (i + 1) values (0 : Int)) :: (@List.nil Int))) pair_out (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : ((i + 1) < n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (int64Array.full (b_pre + (i * sizeof(INT64))) 2 pair_out)
   ** (intArray.full a_pre n_pre values)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
@@ -1201,7 +1201,7 @@ noncomputable def solver_safety_wit_39 : Prop :=
   “ ((INT_MIN) <= (i + 2)) ”
 
 noncomputable def solver_safety_wit_40 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (start : Int) (i : Int) (pair_out : (List Int)) (PreH1 : (OutputPrefix ((Znth i values (0 : Int)) :: ((Znth (i + 1) values (0 : Int)) :: (@List.nil Int))) pair_out (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : ((i + 1) < n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (start : Int) (i : Int) (pair_out : (List Int)) (PreH1 : (OutputPrefix ((Znth i values (0 : Int)) :: ((Znth (i + 1) values (0 : Int)) :: (@List.nil Int))) pair_out (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : ((i + 1) < n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (int64Array.full (b_pre + (i * sizeof(INT64))) 2 pair_out)
   ** (intArray.full a_pre n_pre values)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
@@ -1217,7 +1217,7 @@ noncomputable def solver_safety_wit_40 : Prop :=
 
 noncomputable def solver_entail_wit_1 : Prop :=
   (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   ((( &( "start" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -1241,7 +1241,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : 
   ** (int64Array.undef_full b_pre n_pre)
 ) \/
 (
-forall (n_pre : Int) (values : (List Int)) (PreH1 : (n_pre <= INT_MAX)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : (n_pre >= INT_MIN)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+forall (values : (List Int)) (n_pre : Int) (PreH1 : (n_pre <= INT_MAX)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : (n_pre >= INT_MIN)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   TT && emp 
 |--
   “ (3 <= n_pre) ”
@@ -1249,12 +1249,12 @@ forall (n_pre : Int) (values : (List Int)) (PreH1 : (n_pre <= INT_MAX)) (PreH2 :
 )
 
 noncomputable def solver_entail_wit_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (values : (List Int)) (PreH1 : (n_pre <= INT_MAX)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : (n_pre >= INT_MIN)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (n_pre : Int) (PreH1 : (n_pre <= INT_MAX)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : (n_pre >= INT_MIN)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (3 <= n_pre)
 
 noncomputable def solver_entail_wit_2 : Prop :=
   (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (int64Array.mixed_seg b_pre 1 n_pre (replace_Znth ((2 - 1)) ((Some ((Znth 1 values (0 : Int))))) ((repeat_Z (None) ((n_pre - 1))))))
   ** (((b_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Znth 1 values (0 : Int))))
   ** (intArray.full a_pre n_pre values)
@@ -1277,7 +1277,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : 
   ** (int64Array.undef_seg b_pre 3 n_pre)
 ) \/
 (
-forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth 1 values (0 : Int)) <= 9223372036854775807)) (PreH2 : ((Znth 1 values (0 : Int)) >= (-9223372036854775808))) (PreH3 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (0 : Int))) (PreH4 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH5 : (3 <= n_pre)) (PreH6 : ((0 : Int) <= INT_MAX)) (PreH7 : ((0 : Int) >= INT_MIN)) (PreH8 : (2 <= n_pre)) (PreH9 : (n_pre <= 100000)) (PreH10 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH11 : (n_pre = (Zlength (values)))) (PreH12 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+forall (values : (List Int)) (n_pre : Int) (b_pre : Int) (PreH1 : ((Znth 1 values (0 : Int)) <= 9223372036854775807)) (PreH2 : ((Znth 1 values (0 : Int)) >= (-9223372036854775808))) (PreH3 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (0 : Int))) (PreH4 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH5 : (3 <= n_pre)) (PreH6 : ((0 : Int) <= INT_MAX)) (PreH7 : ((0 : Int) >= INT_MIN)) (PreH8 : (2 <= n_pre)) (PreH9 : (n_pre <= 100000)) (PreH10 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH11 : (n_pre = (Zlength (values)))) (PreH12 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (int64Array.mixed_seg b_pre 1 n_pre (replace_Znth ((2 - 1)) ((Some ((Znth 1 values (0 : Int))))) ((repeat_Z (None) ((n_pre - 1))))))
   ** (((b_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Znth 1 values (0 : Int))))
 |--
@@ -1289,14 +1289,14 @@ forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth 1 value
 )
 
 noncomputable def solver_entail_wit_2_split_goal_1 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth 1 values (0 : Int)) <= 9223372036854775807)) (PreH2 : ((Znth 1 values (0 : Int)) >= (-9223372036854775808))) (PreH3 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (0 : Int))) (PreH4 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH5 : (3 <= n_pre)) (PreH6 : ((0 : Int) <= INT_MAX)) (PreH7 : ((0 : Int) >= INT_MIN)) (PreH8 : (2 <= n_pre)) (PreH9 : (n_pre <= 100000)) (PreH10 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH11 : (n_pre = (Zlength (values)))) (PreH12 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (n_pre : Int) (b_pre : Int) (PreH1 : ((Znth 1 values (0 : Int)) <= 9223372036854775807)) (PreH2 : ((Znth 1 values (0 : Int)) >= (-9223372036854775808))) (PreH3 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (0 : Int))) (PreH4 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH5 : (3 <= n_pre)) (PreH6 : ((0 : Int) <= INT_MAX)) (PreH7 : ((0 : Int) >= INT_MIN)) (PreH8 : (2 <= n_pre)) (PreH9 : (n_pre <= 100000)) (PreH10 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH11 : (n_pre = (Zlength (values)))) (PreH12 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (int64Array.mixed_seg b_pre 1 n_pre (replace_Znth ((2 - 1)) ((Some ((Znth 1 values (0 : Int))))) ((repeat_Z (None) ((n_pre - 1))))))
   ** (((b_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Znth 1 values (0 : Int))))
 |--
   “ forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int)))) ”
 
 noncomputable def solver_entail_wit_2_split_goal_spatial : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth 1 values (0 : Int)) <= 9223372036854775807)) (PreH2 : ((Znth 1 values (0 : Int)) >= (-9223372036854775808))) (PreH3 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (0 : Int))) (PreH4 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH5 : (3 <= n_pre)) (PreH6 : ((0 : Int) <= INT_MAX)) (PreH7 : ((0 : Int) >= INT_MIN)) (PreH8 : (2 <= n_pre)) (PreH9 : (n_pre <= 100000)) (PreH10 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH11 : (n_pre = (Zlength (values)))) (PreH12 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (n_pre : Int) (b_pre : Int) (PreH1 : ((Znth 1 values (0 : Int)) <= 9223372036854775807)) (PreH2 : ((Znth 1 values (0 : Int)) >= (-9223372036854775808))) (PreH3 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (0 : Int))) (PreH4 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH5 : (3 <= n_pre)) (PreH6 : ((0 : Int) <= INT_MAX)) (PreH7 : ((0 : Int) >= INT_MIN)) (PreH8 : (2 <= n_pre)) (PreH9 : (n_pre <= 100000)) (PreH10 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH11 : (n_pre = (Zlength (values)))) (PreH12 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (int64Array.mixed_seg b_pre 1 n_pre (replace_Znth ((2 - 1)) ((Some ((Znth 1 values (0 : Int))))) ((repeat_Z (None) ((n_pre - 1))))))
   ** (((b_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Znth 1 values (0 : Int))))
 |--
@@ -1307,7 +1307,7 @@ noncomputable def solver_entail_wit_2_split_goal_spatial : Prop :=
 
 noncomputable def solver_entail_wit_3_1 : Prop :=
   (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (int64Array.undef_seg b_pre ((1 + 1) + 1) n_pre)
   ** (((b_pre + (2 * sizeof(INT64)))) # Int64 |-> ((-((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))))))
   ** (((b_pre + (1 * sizeof(INT64)))) # Int64 |-> ((Znth 2 values (0 : Int))))
@@ -1329,7 +1329,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : 
   ** (int64Array.undef_seg b_pre 3 n_pre)
 ) \/
 (
-forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth 2 values (0 : Int)) <= 9223372036854775807)) (PreH2 : ((-((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int)))) <= 9223372036854775807)) (PreH3 : ((Znth 2 values (0 : Int)) >= (-9223372036854775808))) (PreH4 : ((-((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int)))) >= (-9223372036854775808))) (PreH5 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH6 : (3 <= n_pre)) (PreH7 : ((0 : Int) <= INT_MAX)) (PreH8 : ((0 : Int) >= INT_MIN)) (PreH9 : (2 <= n_pre)) (PreH10 : (n_pre <= 100000)) (PreH11 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH12 : (n_pre = (Zlength (values)))) (PreH13 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+forall (values : (List Int)) (n_pre : Int) (b_pre : Int) (PreH1 : ((Znth 2 values (0 : Int)) <= 9223372036854775807)) (PreH2 : ((-((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int)))) <= 9223372036854775807)) (PreH3 : ((Znth 2 values (0 : Int)) >= (-9223372036854775808))) (PreH4 : ((-((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int)))) >= (-9223372036854775808))) (PreH5 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH6 : (3 <= n_pre)) (PreH7 : ((0 : Int) <= INT_MAX)) (PreH8 : ((0 : Int) >= INT_MIN)) (PreH9 : (2 <= n_pre)) (PreH10 : (n_pre <= 100000)) (PreH11 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH12 : (n_pre = (Zlength (values)))) (PreH13 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (((b_pre + (2 * sizeof(INT64)))) # Int64 |-> ((-((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))))))
   ** (((b_pre + (1 * sizeof(INT64)))) # Int64 |-> ((Znth 2 values (0 : Int))))
   ** (((b_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Znth 2 values (0 : Int))))
@@ -1348,7 +1348,7 @@ forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (PreH1 : ((Znth 2 value
 
 noncomputable def solver_entail_wit_3_2 : Prop :=
   (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
   (int64Array.seg b_pre (0 : Int) (1 + 1) ((y :: (@List.nil Int)) ++ ((-(x + z)) :: (@List.nil Int))))
   ** (intArray.full a_pre n_pre values)
   ** (int64Array.seg b_pre 2 3 (y :: (@List.nil Int)))
@@ -1369,7 +1369,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (start : 
   ** (int64Array.undef_seg b_pre 3 n_pre)
 ) \/
 (
-forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
+forall (values : (List Int)) (n_pre : Int) (b_pre : Int) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
   (int64Array.seg b_pre (0 : Int) (1 + 1) ((y :: (@List.nil Int)) ++ ((-(x + z)) :: (@List.nil Int))))
   ** (int64Array.seg b_pre 2 3 (y :: (@List.nil Int)))
 |--
@@ -1387,7 +1387,7 @@ forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (start : Int) (x : Int)
 
 noncomputable def solver_entail_wit_3_3 : Prop :=
   (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (int64Array.mixed_full b_pre n_pre (replace_Znth ((0 : Int)) ((Some ((-((Znth 1 values (0 : Int)) + (Znth 2 values (0 : Int))))))) ((replace_Znth (2) ((Some ((Znth (0 : Int) values (0 : Int))))) ((replace_Znth (1) ((Some ((Znth (0 : Int) values (0 : Int))))) ((repeat_Z (None) (n_pre)))))))))
   ** (intArray.full a_pre n_pre values)
 |--
@@ -1406,7 +1406,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : 
   ** (int64Array.undef_seg b_pre 3 n_pre)
 ) \/
 (
-forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+forall (values : (List Int)) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (int64Array.mixed_full b_pre n_pre (replace_Znth ((0 : Int)) ((Some ((-((Znth 1 values (0 : Int)) + (Znth 2 values (0 : Int))))))) ((replace_Znth (2) ((Some ((Znth (0 : Int) values (0 : Int))))) ((replace_Znth (1) ((Some ((Znth (0 : Int) values (0 : Int))))) ((repeat_Z (None) (n_pre)))))))))
 |--
   EX written : (List Int),
@@ -1424,7 +1424,7 @@ forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : I
 
 noncomputable def solver_entail_wit_3_4 : Prop :=
   (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) = (0 : Int))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) = (0 : Int))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.undef_full b_pre n_pre)
 |--
@@ -1443,7 +1443,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : 
   ** (int64Array.undef_seg b_pre (0 : Int) n_pre)
 ) \/
 (
-forall (n_pre : Int) (values : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) = (0 : Int))) ,
+forall (values : (List Int)) (n_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) = (0 : Int))) ,
   TT && emp 
 |--
   “ (OutputPrefix (sublist ((0 : Int)) ((0 : Int)) (values)) (@List.nil Int) (Z.quot (10000 * (0 : Int)) 3)) ” &&
@@ -1452,16 +1452,16 @@ forall (n_pre : Int) (values : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pr
 )
 
 noncomputable def solver_entail_wit_3_4_split_goal_1 : Prop :=
-  forall (n_pre : Int) (values : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) = (0 : Int))) ,
+  forall (values : (List Int)) (n_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) = (0 : Int))) ,
   (OutputPrefix (sublist ((0 : Int)) ((0 : Int)) (values)) (@List.nil Int) (Z.quot (10000 * (0 : Int)) 3))
 
 noncomputable def solver_entail_wit_3_4_split_goal_2 : Prop :=
-  forall (n_pre : Int) (values : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) = (0 : Int))) ,
+  forall (values : (List Int)) (n_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) = (0 : Int))) ,
   forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))
 
 noncomputable def solver_entail_wit_4_1 : Prop :=
   (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written_2 : (List Int)) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= n_pre)) (PreH8 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH9 : (OutputPrefix (sublist ((0 : Int)) (start) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written_2 : (List Int)) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= n_pre)) (PreH8 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH9 : (OutputPrefix (sublist ((0 : Int)) (start) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.seg b_pre (0 : Int) start written_2)
   ** (int64Array.undef_seg b_pre start n_pre)
@@ -1483,7 +1483,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written_
   ** (int64Array.undef_seg b_pre start n_pre)
 ) \/
 (
-forall (n_pre : Int) (values : (List Int)) (written_2 : (List Int)) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= n_pre)) (PreH8 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH9 : (OutputPrefix (sublist ((0 : Int)) (start) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+forall (values : (List Int)) (n_pre : Int) (written_2 : (List Int)) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= n_pre)) (PreH8 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH9 : (OutputPrefix (sublist ((0 : Int)) (start) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   TT && emp 
 |--
   “ forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int)))) ”
@@ -1491,12 +1491,12 @@ forall (n_pre : Int) (values : (List Int)) (written_2 : (List Int)) (start : Int
 )
 
 noncomputable def solver_entail_wit_4_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (values : (List Int)) (written_2 : (List Int)) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= n_pre)) (PreH8 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH9 : (OutputPrefix (sublist ((0 : Int)) (start) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (n_pre : Int) (written_2 : (List Int)) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= n_pre)) (PreH8 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH9 : (OutputPrefix (sublist ((0 : Int)) (start) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))
 
 noncomputable def solver_entail_wit_4_2 : Prop :=
   (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written_2 : (List Int)) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= n_pre)) (PreH8 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH9 : (OutputPrefix (sublist ((0 : Int)) (start) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written_2 : (List Int)) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= n_pre)) (PreH8 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH9 : (OutputPrefix (sublist ((0 : Int)) (start) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.seg b_pre (0 : Int) start written_2)
   ** (int64Array.undef_seg b_pre start n_pre)
@@ -1518,7 +1518,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written_
   ** (int64Array.undef_seg b_pre start n_pre)
 ) \/
 (
-forall (n_pre : Int) (values : (List Int)) (written_2 : (List Int)) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= n_pre)) (PreH8 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH9 : (OutputPrefix (sublist ((0 : Int)) (start) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+forall (values : (List Int)) (n_pre : Int) (written_2 : (List Int)) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= n_pre)) (PreH8 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH9 : (OutputPrefix (sublist ((0 : Int)) (start) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   TT && emp 
 |--
   “ forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int)))) ”
@@ -1526,12 +1526,12 @@ forall (n_pre : Int) (values : (List Int)) (written_2 : (List Int)) (start : Int
 )
 
 noncomputable def solver_entail_wit_4_2_split_goal_1 : Prop :=
-  forall (n_pre : Int) (values : (List Int)) (written_2 : (List Int)) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= n_pre)) (PreH8 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH9 : (OutputPrefix (sublist ((0 : Int)) (start) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (n_pre : Int) (written_2 : (List Int)) (start : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= n_pre)) (PreH8 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH9 : (OutputPrefix (sublist ((0 : Int)) (start) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))
 
 noncomputable def solver_entail_wit_5_1 : Prop :=
   (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written_2 : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written_2 : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.seg b_pre (0 : Int) i written_2)
   ** (int64Array.undef_seg b_pre i n_pre)
@@ -1554,7 +1554,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written_
   ** (int64Array.undef_seg b_pre (i + 2) n_pre)
 ) \/
 (
-forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (written_2 : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+forall (values : (List Int)) (n_pre : Int) (b_pre : Int) (written_2 : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   (int64Array.undef_seg b_pre i n_pre)
 |--
   “ forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int)))) ”
@@ -1563,13 +1563,13 @@ forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (written_2 : (List Int)
 )
 
 noncomputable def solver_entail_wit_5_1_split_goal_1 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (written_2 : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (n_pre : Int) (b_pre : Int) (written_2 : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   (int64Array.undef_seg b_pre i n_pre)
 |--
   “ forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int)))) ”
 
 noncomputable def solver_entail_wit_5_1_split_goal_spatial : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (written_2 : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (n_pre : Int) (b_pre : Int) (written_2 : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   (int64Array.undef_seg b_pre i n_pre)
 |--
   (int64Array.undef_full (b_pre + (i * sizeof(INT64))) 2)
@@ -1577,7 +1577,7 @@ noncomputable def solver_entail_wit_5_1_split_goal_spatial : Prop :=
 
 noncomputable def solver_entail_wit_5_2 : Prop :=
   (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written_2 : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written_2 : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.seg b_pre (0 : Int) i written_2)
   ** (int64Array.undef_seg b_pre i n_pre)
@@ -1600,7 +1600,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written_
   ** (int64Array.undef_seg b_pre (i + 2) n_pre)
 ) \/
 (
-forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (written_2 : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+forall (values : (List Int)) (n_pre : Int) (b_pre : Int) (written_2 : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   (int64Array.undef_seg b_pre i n_pre)
 |--
   “ forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int)))) ”
@@ -1609,13 +1609,13 @@ forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (written_2 : (List Int)
 )
 
 noncomputable def solver_entail_wit_5_2_split_goal_1 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (written_2 : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (n_pre : Int) (b_pre : Int) (written_2 : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   (int64Array.undef_seg b_pre i n_pre)
 |--
   “ forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int)))) ”
 
 noncomputable def solver_entail_wit_5_2_split_goal_spatial : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (written_2 : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (n_pre : Int) (b_pre : Int) (written_2 : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   (int64Array.undef_seg b_pre i n_pre)
 |--
   (int64Array.undef_full (b_pre + (i * sizeof(INT64))) 2)
@@ -1623,7 +1623,7 @@ noncomputable def solver_entail_wit_5_2_split_goal_spatial : Prop :=
 
 noncomputable def solver_entail_wit_6_1 : Prop :=
   (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written_2 : (List Int)) (start : Int) (i : Int) (pair_out : (List Int)) (PreH1 : (OutputPrefix ((Znth i values (0 : Int)) :: ((Znth (i + 1) values (0 : Int)) :: (@List.nil Int))) pair_out (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : ((i + 1) < n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written_2 : (List Int)) (start : Int) (i : Int) (pair_out : (List Int)) (PreH1 : (OutputPrefix ((Znth i values (0 : Int)) :: ((Znth (i + 1) values (0 : Int)) :: (@List.nil Int))) pair_out (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : ((i + 1) < n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   (int64Array.full (b_pre + (i * sizeof(INT64))) 2 pair_out)
   ** (intArray.full a_pre n_pre values)
   ** (int64Array.seg b_pre (0 : Int) i written_2)
@@ -1646,7 +1646,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written_
   ** (int64Array.undef_seg b_pre (i + 2) n_pre)
 ) \/
 (
-forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (written_2 : (List Int)) (start : Int) (i : Int) (pair_out : (List Int)) (PreH1 : (OutputPrefix ((Znth i values (0 : Int)) :: ((Znth (i + 1) values (0 : Int)) :: (@List.nil Int))) pair_out (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : ((i + 1) < n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+forall (values : (List Int)) (n_pre : Int) (b_pre : Int) (written_2 : (List Int)) (start : Int) (i : Int) (pair_out : (List Int)) (PreH1 : (OutputPrefix ((Znth i values (0 : Int)) :: ((Znth (i + 1) values (0 : Int)) :: (@List.nil Int))) pair_out (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : ((i + 1) < n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   (int64Array.full (b_pre + (i * sizeof(INT64))) 2 pair_out)
   ** (int64Array.seg b_pre (0 : Int) i written_2)
 |--
@@ -1667,7 +1667,7 @@ forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (written_2 : (List Int)
 
 noncomputable def solver_entail_wit_6_2 : Prop :=
   (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written_2 : (List Int)) (start : Int) (i : Int) (pair_out : (List Int)) (PreH1 : (OutputPrefix ((Znth i values (0 : Int)) :: ((Znth (i + 1) values (0 : Int)) :: (@List.nil Int))) pair_out (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : ((i + 1) < n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written_2 : (List Int)) (start : Int) (i : Int) (pair_out : (List Int)) (PreH1 : (OutputPrefix ((Znth i values (0 : Int)) :: ((Znth (i + 1) values (0 : Int)) :: (@List.nil Int))) pair_out (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : ((i + 1) < n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   (int64Array.full (b_pre + (i * sizeof(INT64))) 2 pair_out)
   ** (intArray.full a_pre n_pre values)
   ** (int64Array.seg b_pre (0 : Int) i written_2)
@@ -1690,7 +1690,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written_
   ** (int64Array.undef_seg b_pre (i + 2) n_pre)
 ) \/
 (
-forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (written_2 : (List Int)) (start : Int) (i : Int) (pair_out : (List Int)) (PreH1 : (OutputPrefix ((Znth i values (0 : Int)) :: ((Znth (i + 1) values (0 : Int)) :: (@List.nil Int))) pair_out (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : ((i + 1) < n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
+forall (values : (List Int)) (n_pre : Int) (b_pre : Int) (written_2 : (List Int)) (start : Int) (i : Int) (pair_out : (List Int)) (PreH1 : (OutputPrefix ((Znth i values (0 : Int)) :: ((Znth (i + 1) values (0 : Int)) :: (@List.nil Int))) pair_out (0 : Int))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j_2 : Int) , ((((0 : Int) <= j_2) ∧ (j_2 < n_pre)) -> ((((-10000) <= (Znth j_2 values (0 : Int))) ∧ ((Znth j_2 values (0 : Int)) <= 10000)) ∧ ((Znth j_2 values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : ((i + 1) < n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written_2 (Z.quot (10000 * start) 3))) ,
   (int64Array.full (b_pre + (i * sizeof(INT64))) 2 pair_out)
   ** (int64Array.seg b_pre (0 : Int) i written_2)
 |--
@@ -1711,7 +1711,7 @@ forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (written_2 : (List Int)
 
 noncomputable def solver_return_wit_1 : Prop :=
   (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.seg b_pre (0 : Int) i written)
   ** (int64Array.undef_seg b_pre i n_pre)
@@ -1722,7 +1722,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written 
   ** (int64Array.full b_pre n_pre out)
 ) \/
 (
-forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (written : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+forall (values : (List Int)) (n_pre : Int) (b_pre : Int) (written : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = (0 : Int))) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (int64Array.seg b_pre (0 : Int) i written)
   ** (int64Array.undef_seg b_pre i n_pre)
 |--
@@ -1733,7 +1733,7 @@ forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (written : (List Int)) 
 
 noncomputable def solver_return_wit_2 : Prop :=
   (
-forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.seg b_pre (0 : Int) i written)
   ** (int64Array.undef_seg b_pre i n_pre)
@@ -1744,7 +1744,7 @@ forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written 
   ** (int64Array.full b_pre n_pre out)
 ) \/
 (
-forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (written : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+forall (values : (List Int)) (n_pre : Int) (b_pre : Int) (written : (List Int)) (i : Int) (start : Int) (PreH1 : ((i + 1) >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH6 : (start = 3)) (PreH7 : ((0 : Int) <= start)) (PreH8 : (start <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH11 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH12 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (int64Array.seg b_pre (0 : Int) i written)
   ** (int64Array.undef_seg b_pre i n_pre)
 |--
@@ -1754,7 +1754,7 @@ forall (b_pre : Int) (n_pre : Int) (values : (List Int)) (written : (List Int)) 
 )
 
 noncomputable def solver_partial_solve_wit_1 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (3 <= n_pre)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : ((0 : Int) >= INT_MIN)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (n_pre = (Zlength (values)))) (PreH8 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (3 <= n_pre)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : ((0 : Int) >= INT_MIN)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (n_pre = (Zlength (values)))) (PreH8 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.undef_full b_pre n_pre)
 |--
@@ -1771,7 +1771,7 @@ noncomputable def solver_partial_solve_wit_1 : Prop :=
   ** (int64Array.undef_full b_pre n_pre)
 
 noncomputable def solver_partial_solve_wit_2 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (3 <= n_pre)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : ((0 : Int) >= INT_MIN)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (n_pre = (Zlength (values)))) (PreH8 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (3 <= n_pre)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : ((0 : Int) >= INT_MIN)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (n_pre = (Zlength (values)))) (PreH8 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.undef_full b_pre n_pre)
 |--
@@ -1788,7 +1788,7 @@ noncomputable def solver_partial_solve_wit_2 : Prop :=
   ** (int64Array.undef_full b_pre n_pre)
 
 noncomputable def solver_partial_solve_wit_3 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (3 <= n_pre)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : ((0 : Int) >= INT_MIN)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (n_pre = (Zlength (values)))) (PreH8 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (3 <= n_pre)) (PreH2 : ((0 : Int) <= INT_MAX)) (PreH3 : ((0 : Int) >= INT_MIN)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (n_pre = (Zlength (values)))) (PreH8 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.undef_full b_pre n_pre)
 |--
@@ -1805,7 +1805,7 @@ noncomputable def solver_partial_solve_wit_3 : Prop :=
   ** (int64Array.undef_full b_pre n_pre)
 
 noncomputable def solver_partial_solve_wit_4 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.undef_full b_pre n_pre)
 |--
@@ -1823,7 +1823,7 @@ noncomputable def solver_partial_solve_wit_4 : Prop :=
   ** (intArray.full a_pre n_pre values)
 
 noncomputable def solver_partial_solve_wit_5 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (((b_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Znth 2 values (0 : Int))))
   ** (int64Array.undef_seg b_pre 1 n_pre)
   ** (intArray.full a_pre n_pre values)
@@ -1843,7 +1843,7 @@ noncomputable def solver_partial_solve_wit_5 : Prop :=
   ** (intArray.full a_pre n_pre values)
 
 noncomputable def solver_partial_solve_wit_6 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : ((0 : Int) <= INT_MAX)) (PreH4 : ((0 : Int) >= INT_MIN)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH8 : (n_pre = (Zlength (values)))) (PreH9 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (((b_pre + (1 * sizeof(INT64)))) # Int64 |-> ((Znth 2 values (0 : Int))))
   ** (int64Array.undef_seg b_pre (1 + 1) n_pre)
   ** (((b_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Znth 2 values (0 : Int))))
@@ -1865,7 +1865,7 @@ noncomputable def solver_partial_solve_wit_6 : Prop :=
   ** (intArray.full a_pre n_pre values)
 
 noncomputable def solver_partial_solve_wit_7 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.undef_full b_pre n_pre)
 |--
@@ -1884,7 +1884,7 @@ noncomputable def solver_partial_solve_wit_7 : Prop :=
   ** (intArray.full a_pre n_pre values)
 
 noncomputable def solver_partial_solve_wit_8 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) ≠ (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (((b_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> ((Znth 1 values (0 : Int))))
   ** (int64Array.undef_seg b_pre 1 n_pre)
   ** (intArray.full a_pre n_pre values)
@@ -1905,7 +1905,7 @@ noncomputable def solver_partial_solve_wit_8 : Prop :=
   ** (intArray.full a_pre n_pre values)
 
 noncomputable def solver_partial_solve_wit_9 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (start : Int) (x : Int) (y : Int) (z : Int) (PreH1 : (start = (0 : Int))) (PreH2 : (3 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (values)))) (PreH5 : ((Z.rem n_pre 2) ≠ (0 : Int))) (PreH6 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH7 : (x = (Znth (0 : Int) values (0 : Int)))) (PreH8 : (y = (Znth 1 values (0 : Int)))) (PreH9 : (z = (Znth 2 values (0 : Int)))) (PreH10 : ((x + y) = (0 : Int))) (PreH11 : ((x + z) ≠ (0 : Int))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.seg b_pre (0 : Int) 1 (y :: (@List.nil Int)))
   ** (int64Array.undef_seg b_pre 1 2)
@@ -1930,7 +1930,7 @@ noncomputable def solver_partial_solve_wit_9 : Prop :=
   ** (int64Array.undef_seg b_pre 3 n_pre)
 
 noncomputable def solver_partial_solve_wit_10 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.undef_full b_pre n_pre)
 |--
@@ -1949,7 +1949,7 @@ noncomputable def solver_partial_solve_wit_10 : Prop :=
   ** (intArray.full a_pre n_pre values)
 
 noncomputable def solver_partial_solve_wit_11 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (int64Array.mixed_full b_pre n_pre (replace_Znth (1) ((Some ((Znth (0 : Int) values (0 : Int))))) ((repeat_Z (None) (n_pre)))))
   ** (intArray.full a_pre n_pre values)
 |--
@@ -1968,7 +1968,7 @@ noncomputable def solver_partial_solve_wit_11 : Prop :=
   ** (intArray.full a_pre n_pre values)
 
 noncomputable def solver_partial_solve_wit_12 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (PreH1 : (((Znth (0 : Int) values (0 : Int)) + (Znth 2 values (0 : Int))) = (0 : Int))) (PreH2 : (((Znth (0 : Int) values (0 : Int)) + (Znth 1 values (0 : Int))) = (0 : Int))) (PreH3 : (3 <= n_pre)) (PreH4 : ((0 : Int) <= INT_MAX)) (PreH5 : ((0 : Int) >= INT_MIN)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((((-10000) <= (Znth i values (0 : Int))) ∧ ((Znth i values (0 : Int)) <= 10000)) ∧ ((Znth i values (0 : Int)) ≠ (0 : Int))))) (PreH9 : (n_pre = (Zlength (values)))) (PreH10 : ((Z.rem n_pre 2) ≠ (0 : Int))) ,
   (int64Array.mixed_full b_pre n_pre (replace_Znth (2) ((Some ((Znth (0 : Int) values (0 : Int))))) ((replace_Znth (1) ((Some ((Znth (0 : Int) values (0 : Int))))) ((repeat_Z (None) (n_pre)))))))
   ** (intArray.full a_pre n_pre values)
 |--
@@ -1987,7 +1987,7 @@ noncomputable def solver_partial_solve_wit_12 : Prop :=
   ** (intArray.full a_pre n_pre values)
 
 noncomputable def solver_partial_solve_wit_13 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.seg b_pre (0 : Int) i written)
   ** (int64Array.undef_full (b_pre + (i * sizeof(INT64))) 2)
@@ -2011,7 +2011,7 @@ noncomputable def solver_partial_solve_wit_13 : Prop :=
   ** (int64Array.undef_seg b_pre (i + 2) n_pre)
 
 noncomputable def solver_partial_solve_wit_14 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.seg b_pre (0 : Int) i written)
   ** (int64Array.undef_full (b_pre + (i * sizeof(INT64))) 2)
@@ -2035,7 +2035,7 @@ noncomputable def solver_partial_solve_wit_14 : Prop :=
   ** (int64Array.undef_seg b_pre (i + 2) n_pre)
 
 noncomputable def solver_partial_solve_wit_15 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.seg b_pre (0 : Int) i written)
   ** (int64Array.undef_full (b_pre + (i * sizeof(INT64))) 2)
@@ -2059,7 +2059,7 @@ noncomputable def solver_partial_solve_wit_15 : Prop :=
   ** (int64Array.undef_seg b_pre (i + 2) n_pre)
 
 noncomputable def solver_partial_solve_wit_16 : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.seg b_pre (0 : Int) i written)
   ** (int64Array.undef_full (b_pre + (i * sizeof(INT64))) 2)
@@ -2083,7 +2083,7 @@ noncomputable def solver_partial_solve_wit_16 : Prop :=
   ** (int64Array.undef_seg b_pre (i + 2) n_pre)
 
 noncomputable def solver_partial_solve_wit_17_pure : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -2102,7 +2102,7 @@ noncomputable def solver_partial_solve_wit_17_pure : Prop :=
   “ ((Znth (i + 1) values (0 : Int)) ≠ (0 : Int)) ”
 
 noncomputable def solver_partial_solve_wit_17_aux : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = (0 : Int))) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.seg b_pre (0 : Int) i written)
   ** (int64Array.undef_full (b_pre + (i * sizeof(INT64))) 2)
@@ -2133,7 +2133,7 @@ noncomputable def solver_partial_solve_wit_17_aux : Prop :=
 noncomputable def solver_partial_solve_wit_17 : Prop := solver_partial_solve_wit_17_pure -> solver_partial_solve_wit_17_aux
 
 noncomputable def solver_partial_solve_wit_18_pure : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -2152,7 +2152,7 @@ noncomputable def solver_partial_solve_wit_18_pure : Prop :=
   “ ((Znth (i + 1) values (0 : Int)) ≠ (0 : Int)) ”
 
 noncomputable def solver_partial_solve_wit_18_aux : Prop :=
-  forall (b_pre : Int) (n_pre : Int) (a_pre : Int) (values : (List Int)) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
+  forall (values : (List Int)) (a_pre : Int) (n_pre : Int) (b_pre : Int) (written : (List Int)) (start : Int) (i : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (n_pre = (Zlength (values)))) (PreH4 : forall (j : Int) , ((((0 : Int) <= j) ∧ (j < n_pre)) -> ((((-10000) <= (Znth j values (0 : Int))) ∧ ((Znth j values (0 : Int)) <= 10000)) ∧ ((Znth j values (0 : Int)) ≠ (0 : Int))))) (PreH5 : (start = 3)) (PreH6 : ((0 : Int) <= start)) (PreH7 : (start <= i)) (PreH8 : ((i + 1) < n_pre)) (PreH9 : ((Z.rem n_pre 2) = (Z.rem start 2))) (PreH10 : ((Z.rem (i - start) 2) = (0 : Int))) (PreH11 : (OutputPrefix (sublist ((0 : Int)) (i) (values)) written (Z.quot (10000 * start) 3))) ,
   (intArray.full a_pre n_pre values)
   ** (int64Array.seg b_pre (0 : Int) i written)
   ** (int64Array.undef_full (b_pre + (i * sizeof(INT64))) 2)

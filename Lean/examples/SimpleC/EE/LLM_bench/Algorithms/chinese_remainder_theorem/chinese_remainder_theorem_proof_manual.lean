@@ -194,7 +194,7 @@ private theorem crt_input_from_annotation (remainders moduli : List Int)
 
 theorem proof_of_chinese_remainder_theorem_safety_wit_3_split_goal_1 : chinese_remainder_theorem_safety_wit_3_split_goal_1 := by
   unfold chinese_remainder_theorem_safety_wit_3_split_goal_1
-  intro moduli_pre remainders_pre n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro moduli_l remainders_l n_pre remainders_pre moduli_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   have input_valid_PreH3 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -212,7 +212,7 @@ theorem proof_of_chinese_remainder_theorem_safety_wit_3_split_goal_1 : chinese_r
 
 theorem proof_of_chinese_remainder_theorem_safety_wit_3_split_goal_2 : chinese_remainder_theorem_safety_wit_3_split_goal_2 := by
   unfold chinese_remainder_theorem_safety_wit_3_split_goal_2
-  intro moduli_pre remainders_pre n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro moduli_l remainders_l n_pre remainders_pre moduli_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   have input_valid_PreH3 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -231,17 +231,17 @@ theorem proof_of_chinese_remainder_theorem_safety_wit_3_split_goal_2 : chinese_r
 theorem proof_of_chinese_remainder_theorem_safety_wit_3 : chinese_remainder_theorem_safety_wit_3 := by
   unfold chinese_remainder_theorem_safety_wit_3
   right
-  intro moduli_pre remainders_pre n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro moduli_l remainders_l n_pre remainders_pre moduli_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   have input_valid_PreH3 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   aggressive_pre_process
   all_goals first
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_safety_wit_3_split_goal_1 moduli_pre remainders_pre n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15))
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_safety_wit_3_split_goal_2 moduli_pre remainders_pre n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15))
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_safety_wit_3_split_goal_1 moduli_l remainders_l n_pre remainders_pre moduli_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15))
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_safety_wit_3_split_goal_2 moduli_l remainders_l n_pre remainders_pre moduli_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15))
     | trivial
 
 theorem proof_of_chinese_remainder_theorem_safety_wit_7_split_goal_1 : chinese_remainder_theorem_safety_wit_7_split_goal_1 := by
   unfold chinese_remainder_theorem_safety_wit_7_split_goal_1
-  intro moduli_pre remainders_pre n_pre moduli_l remainders_l result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro moduli_l remainders_l n_pre remainders_pre moduli_pre result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have input_valid_PreH3 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -257,7 +257,7 @@ theorem proof_of_chinese_remainder_theorem_safety_wit_7_split_goal_1 : chinese_r
 
 theorem proof_of_chinese_remainder_theorem_safety_wit_7_split_goal_2 : chinese_remainder_theorem_safety_wit_7_split_goal_2 := by
   unfold chinese_remainder_theorem_safety_wit_7_split_goal_2
-  intro moduli_pre remainders_pre n_pre moduli_l remainders_l result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro moduli_l remainders_l n_pre remainders_pre moduli_pre result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have input_valid_PreH3 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -273,17 +273,17 @@ theorem proof_of_chinese_remainder_theorem_safety_wit_7_split_goal_2 : chinese_r
 theorem proof_of_chinese_remainder_theorem_safety_wit_7 : chinese_remainder_theorem_safety_wit_7 := by
   unfold chinese_remainder_theorem_safety_wit_7
   right
-  intro moduli_pre remainders_pre n_pre moduli_l remainders_l result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro moduli_l remainders_l n_pre remainders_pre moduli_pre result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have input_valid_PreH3 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   aggressive_pre_process
   all_goals first
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_safety_wit_7_split_goal_1 moduli_pre remainders_pre n_pre moduli_l remainders_l result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_safety_wit_7_split_goal_2 moduli_pre remainders_pre n_pre moduli_l remainders_l result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_safety_wit_7_split_goal_1 moduli_l remainders_l n_pre remainders_pre moduli_pre result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_safety_wit_7_split_goal_2 moduli_l remainders_l n_pre remainders_pre moduli_pre result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
     | trivial
 
 theorem proof_of_chinese_remainder_theorem_safety_wit_11_split_goal_1 : chinese_remainder_theorem_safety_wit_11_split_goal_1 := by
   unfold chinese_remainder_theorem_safety_wit_11_split_goal_1
-  intro moduli_pre remainders_pre n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro moduli_l remainders_l n_pre remainders_pre moduli_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   have input_valid_PreH5 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -295,14 +295,14 @@ theorem proof_of_chinese_remainder_theorem_safety_wit_11_split_goal_1 : chinese_
       simp only [INT_MAX] at *
       have hb := input_valid_PreH5.2.2.1 i (by omega)
       have hm := CRTInputValid_modulus_upper_bound__machine_safety remainders_l moduli_l i input_valid_PreH5 (by omega)
-      have hr := crt_c_rem_mul_int_bounds__machine_safety (x_callee_v * Z.quot product (Znth i moduli_l 0)) product (Znth i remainders_l 0) PreH14 PreH15 hb.2.1 (by omega)
+      have hr := crt_c_rem_mul_int_bounds__machine_safety (x_v * Z.quot product (Znth i moduli_l 0)) product (Znth i remainders_l 0) PreH14 PreH15 hb.2.1 (by omega)
       dump_pre_spatial
       rw [small_rem_cast32 _ product PreH14 PreH15]
       omega
 
 theorem proof_of_chinese_remainder_theorem_safety_wit_11_split_goal_2 : chinese_remainder_theorem_safety_wit_11_split_goal_2 := by
   unfold chinese_remainder_theorem_safety_wit_11_split_goal_2
-  intro moduli_pre remainders_pre n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro moduli_l remainders_l n_pre remainders_pre moduli_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   have input_valid_PreH5 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -314,7 +314,7 @@ theorem proof_of_chinese_remainder_theorem_safety_wit_11_split_goal_2 : chinese_
       simp only [INT_MIN] at *
       have hb := input_valid_PreH5.2.2.1 i (by omega)
       have hm := CRTInputValid_modulus_upper_bound__machine_safety remainders_l moduli_l i input_valid_PreH5 (by omega)
-      have hr := crt_c_rem_mul_int_bounds__machine_safety (x_callee_v * Z.quot product (Znth i moduli_l 0)) product (Znth i remainders_l 0) PreH14 PreH15 hb.2.1 (by omega)
+      have hr := crt_c_rem_mul_int_bounds__machine_safety (x_v * Z.quot product (Znth i moduli_l 0)) product (Znth i remainders_l 0) PreH14 PreH15 hb.2.1 (by omega)
       dump_pre_spatial
       rw [small_rem_cast32 _ product PreH14 PreH15]
       omega
@@ -322,17 +322,17 @@ theorem proof_of_chinese_remainder_theorem_safety_wit_11_split_goal_2 : chinese_
 theorem proof_of_chinese_remainder_theorem_safety_wit_11 : chinese_remainder_theorem_safety_wit_11 := by
   unfold chinese_remainder_theorem_safety_wit_11
   right
-  intro moduli_pre remainders_pre n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro moduli_l remainders_l n_pre remainders_pre moduli_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   have input_valid_PreH5 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   aggressive_pre_process
   all_goals first
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_safety_wit_11_split_goal_1 moduli_pre remainders_pre n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21))
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_safety_wit_11_split_goal_2 moduli_pre remainders_pre n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21))
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_safety_wit_11_split_goal_1 moduli_l remainders_l n_pre remainders_pre moduli_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21))
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_safety_wit_11_split_goal_2 moduli_l remainders_l n_pre remainders_pre moduli_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21))
     | trivial
 
 theorem proof_of_chinese_remainder_theorem_safety_wit_17_split_goal_1 : chinese_remainder_theorem_safety_wit_17_split_goal_1 := by
   unfold chinese_remainder_theorem_safety_wit_17_split_goal_1
-  intro moduli_pre remainders_pre n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro moduli_l remainders_l n_pre remainders_pre moduli_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have input_valid_PreH6 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -342,14 +342,14 @@ theorem proof_of_chinese_remainder_theorem_safety_wit_17_split_goal_1 : chinese_
     | solve | simp [CRTProduct, sublist, CRTConsistentPrefix, CRTProcessedCongruences, CRTUnprocessedZero, Z.modulo]
     |
       simp only [INT_MAX] at *
-      have hb := AUXLib.rem_bounds (Z.rem (x_callee_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product (by omega)
+      have hb := AUXLib.rem_bounds (Z.rem (x_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product (by omega)
       dump_pre_spatial
       rw [small_rem_cast32 _ product (by omega) (by omega)]
       omega
 
 theorem proof_of_chinese_remainder_theorem_safety_wit_17_split_goal_2 : chinese_remainder_theorem_safety_wit_17_split_goal_2 := by
   unfold chinese_remainder_theorem_safety_wit_17_split_goal_2
-  intro moduli_pre remainders_pre n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro moduli_l remainders_l n_pre remainders_pre moduli_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have input_valid_PreH6 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -359,7 +359,7 @@ theorem proof_of_chinese_remainder_theorem_safety_wit_17_split_goal_2 : chinese_
     | solve | simp [CRTProduct, sublist, CRTConsistentPrefix, CRTProcessedCongruences, CRTUnprocessedZero, Z.modulo]
     |
       simp only [INT_MIN] at *
-      have hb := AUXLib.rem_bounds (Z.rem (x_callee_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product (by omega)
+      have hb := AUXLib.rem_bounds (Z.rem (x_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product (by omega)
       dump_pre_spatial
       rw [small_rem_cast32 _ product (by omega) (by omega)]
       omega
@@ -367,17 +367,17 @@ theorem proof_of_chinese_remainder_theorem_safety_wit_17_split_goal_2 : chinese_
 theorem proof_of_chinese_remainder_theorem_safety_wit_17 : chinese_remainder_theorem_safety_wit_17 := by
   unfold chinese_remainder_theorem_safety_wit_17
   right
-  intro moduli_pre remainders_pre n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro moduli_l remainders_l n_pre remainders_pre moduli_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have input_valid_PreH6 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   aggressive_pre_process
   all_goals first
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_safety_wit_17_split_goal_1 moduli_pre remainders_pre n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_safety_wit_17_split_goal_2 moduli_pre remainders_pre n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_safety_wit_17_split_goal_1 moduli_l remainders_l n_pre remainders_pre moduli_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_safety_wit_17_split_goal_2 moduli_l remainders_l n_pre remainders_pre moduli_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
     | trivial
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_1 : chinese_remainder_theorem_entail_wit_1_split_goal_1 := by
   unfold chinese_remainder_theorem_entail_wit_1_split_goal_1
-  intro n_pre moduli_l remainders_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro moduli_l remainders_l n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   have input_valid_PreH2 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -390,7 +390,7 @@ theorem proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_1 : chinese_r
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_2 : chinese_remainder_theorem_entail_wit_1_split_goal_2 := by
   unfold chinese_remainder_theorem_entail_wit_1_split_goal_2
-  intro n_pre moduli_l remainders_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro moduli_l remainders_l n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   have input_valid_PreH2 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -404,20 +404,20 @@ theorem proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_2 : chinese_r
 theorem proof_of_chinese_remainder_theorem_entail_wit_1 : chinese_remainder_theorem_entail_wit_1 := by
   unfold chinese_remainder_theorem_entail_wit_1
   right
-  intro n_pre moduli_l remainders_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro moduli_l remainders_l n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   have input_valid_PreH2 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_1 n_pre moduli_l remainders_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9))
-    | exact (proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_1 n_pre moduli_l remainders_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9)
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_2 n_pre moduli_l remainders_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9))
-    | exact (proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_2 n_pre moduli_l remainders_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9)
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_1 moduli_l remainders_l n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9))
+    | exact (proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_1 moduli_l remainders_l n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9)
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_2 moduli_l remainders_l n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9))
+    | exact (proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_2 moduli_l remainders_l n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9)
     | trivial
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_1 : chinese_remainder_theorem_entail_wit_2_split_goal_1 := by
   unfold chinese_remainder_theorem_entail_wit_2_split_goal_1
-  intro n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   have input_valid_PreH3 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -433,7 +433,7 @@ theorem proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_1 : chinese_r
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_2 : chinese_remainder_theorem_entail_wit_2_split_goal_2 := by
   unfold chinese_remainder_theorem_entail_wit_2_split_goal_2
-  intro n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   have input_valid_PreH3 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -449,7 +449,7 @@ theorem proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_2 : chinese_r
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_3 : chinese_remainder_theorem_entail_wit_2_split_goal_3 := by
   unfold chinese_remainder_theorem_entail_wit_2_split_goal_3
-  intro n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   have input_valid_PreH3 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -464,22 +464,22 @@ theorem proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_3 : chinese_r
 theorem proof_of_chinese_remainder_theorem_entail_wit_2 : chinese_remainder_theorem_entail_wit_2 := by
   unfold chinese_remainder_theorem_entail_wit_2
   right
-  intro n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   have input_valid_PreH3 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_1 n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15))
-    | exact (proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_1 n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15)
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_2 n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15))
-    | exact (proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_2 n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15)
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_3 n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15))
-    | exact (proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_3 n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15)
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_1 moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15))
+    | exact (proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_1 moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15)
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_2 moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15))
+    | exact (proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_2 moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15)
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_3 moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15))
+    | exact (proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_3 moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15)
     | trivial
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_1 : chinese_remainder_theorem_entail_wit_3_split_goal_1 := by
   unfold chinese_remainder_theorem_entail_wit_3_split_goal_1
-  intro n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   have input_valid_PreH3 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -493,7 +493,7 @@ theorem proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_1 : chinese_r
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_2 : chinese_remainder_theorem_entail_wit_3_split_goal_2 := by
   unfold chinese_remainder_theorem_entail_wit_3_split_goal_2
-  intro n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   have input_valid_PreH3 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -507,7 +507,7 @@ theorem proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_2 : chinese_r
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_3 : chinese_remainder_theorem_entail_wit_3_split_goal_3 := by
   unfold chinese_remainder_theorem_entail_wit_3_split_goal_3
-  intro n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   have input_valid_PreH3 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -523,31 +523,31 @@ theorem proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_3 : chinese_r
 theorem proof_of_chinese_remainder_theorem_entail_wit_3 : chinese_remainder_theorem_entail_wit_3 := by
   unfold chinese_remainder_theorem_entail_wit_3
   right
-  intro n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   have input_valid_PreH3 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_1 n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15))
-    | exact (proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_1 n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15)
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_2 n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15))
-    | exact (proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_2 n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15)
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_3 n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15))
-    | exact (proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_3 n_pre moduli_l remainders_l product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15)
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_1 moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15))
+    | exact (proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_1 moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15)
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_2 moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15))
+    | exact (proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_2 moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15)
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_3 moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15))
+    | exact (proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_3 moduli_l remainders_l n_pre product i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15)
     | trivial
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_1 : chinese_remainder_theorem_entail_wit_4_1_split_goal_1 := by
   unfold chinese_remainder_theorem_entail_wit_4_1_split_goal_1
-  intro n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   rw [small_rem_cast32 _ product PreH15 PreH16] at PreH1 ⊢
   have hv := crt_input_from_annotation remainders_l moduli_l PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-  have h := update_unprocessed remainders_l moduli_l result i product x_callee_v 1
+  have h := update_unprocessed remainders_l moduli_l result i product x_v 1
     hv (by omega) PreH14 (by omega) PreH22
   simpa only [Int.one_mul, Int.zero_mul, Int.add_zero, Int.add_assoc] using h
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_2 : chinese_remainder_theorem_entail_wit_4_1_split_goal_2 := by
   unfold chinese_remainder_theorem_entail_wit_4_1_split_goal_2
-  intro n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   rw [small_rem_cast32 _ product PreH15 PreH16] at PreH1 ⊢
   have hv := crt_input_from_annotation remainders_l moduli_l PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have hm := (hv.2.2.1 i (by omega)).1
@@ -560,54 +560,54 @@ theorem proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_2 : chinese
     have hmk := (hv.2.2.1 k (by omega)).1
     rw [← crt_rem_eq_mod_of_nonnegative_dividend__crt_transition result (Znth k moduli_l 0) PreH19 (by omega)]
     exact hz' k hk
-  have hu := crt_update_processed__crt_transition remainders_l moduli_l result i product x_callee_v y_callee_v
+  have hu := crt_update_processed__crt_transition remainders_l moduli_l result i product x_v y_v
     hv (by omega) PreH14 PreH15 hc hz PreH3
   rw [normalize_negative_term _ _ product result (by omega) PreH19]
   exact (prefix_indexed remainders_l moduli_l (i+1) _ PreH6 (by omega)).mpr hu
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_3 : chinese_remainder_theorem_entail_wit_4_1_split_goal_3 := by
   unfold chinese_remainder_theorem_entail_wit_4_1_split_goal_3
-  intro n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   rw [small_rem_cast32 _ product PreH15 PreH16] at PreH1 ⊢
-  have ht := AUXLib.rem_bounds (Z.rem (x_callee_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product (by omega)
-  have hb := AUXLib.rem_nonneg_bounds (result + (Z.rem (Z.rem (x_callee_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product + product)) product (by omega) (by omega)
+  have ht := AUXLib.rem_bounds (Z.rem (x_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product (by omega)
+  have hb := AUXLib.rem_nonneg_bounds (result + (Z.rem (Z.rem (x_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product + product)) product (by omega) (by omega)
   omega
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_4 : chinese_remainder_theorem_entail_wit_4_1_split_goal_4 := by
   unfold chinese_remainder_theorem_entail_wit_4_1_split_goal_4
-  intro n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   rw [small_rem_cast32 _ product PreH15 PreH16] at PreH1 ⊢
-  have ht := AUXLib.rem_bounds (Z.rem (x_callee_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product (by omega)
-  have hb := AUXLib.rem_nonneg_bounds (result + (Z.rem (Z.rem (x_callee_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product + product)) product (by omega) (by omega)
+  have ht := AUXLib.rem_bounds (Z.rem (x_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product (by omega)
+  have hb := AUXLib.rem_nonneg_bounds (result + (Z.rem (Z.rem (x_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product + product)) product (by omega) (by omega)
   omega
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_4_1 : chinese_remainder_theorem_entail_wit_4_1 := by
   unfold chinese_remainder_theorem_entail_wit_4_1
   right
-  intro n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_1 n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
-      | exact proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_2 n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
-      | exact proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_3 n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
-      | exact proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_4 n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+      | exact proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_1 moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+      | exact proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_2 moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+      | exact proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_3 moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+      | exact proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_4 moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
       | assumption
       | omega
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_1 : chinese_remainder_theorem_entail_wit_4_2_split_goal_1 := by
   unfold chinese_remainder_theorem_entail_wit_4_2_split_goal_1
-  intro n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   rw [small_rem_cast32 _ product PreH15 PreH16] at PreH1 ⊢
   have hv := crt_input_from_annotation remainders_l moduli_l PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-  have h := update_unprocessed remainders_l moduli_l result i product x_callee_v 0
+  have h := update_unprocessed remainders_l moduli_l result i product x_v 0
     hv (by omega) PreH14 (by omega) PreH22
   simpa only [Int.one_mul, Int.zero_mul, Int.add_zero, Int.add_assoc] using h
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_2 : chinese_remainder_theorem_entail_wit_4_2_split_goal_2 := by
   unfold chinese_remainder_theorem_entail_wit_4_2_split_goal_2
-  intro n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   rw [small_rem_cast32 _ product PreH15 PreH16] at PreH1 ⊢
   have hv := crt_input_from_annotation remainders_l moduli_l PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have hm := (hv.2.2.1 i (by omega)).1
@@ -620,43 +620,43 @@ theorem proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_2 : chinese
     have hmk := (hv.2.2.1 k (by omega)).1
     rw [← crt_rem_eq_mod_of_nonnegative_dividend__crt_transition result (Znth k moduli_l 0) PreH19 (by omega)]
     exact hz' k hk
-  have hu := crt_update_processed__crt_transition remainders_l moduli_l result i product x_callee_v y_callee_v
+  have hu := crt_update_processed__crt_transition remainders_l moduli_l result i product x_v y_v
     hv (by omega) PreH14 PreH15 hc hz PreH3
   rw [normalize_nonnegative_term _ _ product result (by omega) PreH19 PreH1]
   exact (prefix_indexed remainders_l moduli_l (i+1) _ PreH6 (by omega)).mpr hu
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_3 : chinese_remainder_theorem_entail_wit_4_2_split_goal_3 := by
   unfold chinese_remainder_theorem_entail_wit_4_2_split_goal_3
-  intro n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   rw [small_rem_cast32 _ product PreH15 PreH16] at PreH1 ⊢
-  have hb := AUXLib.rem_nonneg_bounds (result + Z.rem (Z.rem (x_callee_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product) product (by omega) (by omega)
+  have hb := AUXLib.rem_nonneg_bounds (result + Z.rem (Z.rem (x_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product) product (by omega) (by omega)
   omega
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_4 : chinese_remainder_theorem_entail_wit_4_2_split_goal_4 := by
   unfold chinese_remainder_theorem_entail_wit_4_2_split_goal_4
-  intro n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   rw [small_rem_cast32 _ product PreH15 PreH16] at PreH1 ⊢
-  have hb := AUXLib.rem_nonneg_bounds (result + Z.rem (Z.rem (x_callee_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product) product (by omega) (by omega)
+  have hb := AUXLib.rem_nonneg_bounds (result + Z.rem (Z.rem (x_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product) product (by omega) (by omega)
   omega
 
 theorem proof_of_chinese_remainder_theorem_entail_wit_4_2 : chinese_remainder_theorem_entail_wit_4_2 := by
   unfold chinese_remainder_theorem_entail_wit_4_2
   right
-  intro n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_1 n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
-      | exact proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_2 n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
-      | exact proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_3 n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
-      | exact proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_4 n_pre moduli_l remainders_l result i product y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+      | exact proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_1 moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+      | exact proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_2 moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+      | exact proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_3 moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+      | exact proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_4 moduli_l remainders_l n_pre result i product y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
       | assumption
       | omega
 
 theorem proof_of_chinese_remainder_theorem_return_wit_1_split_goal_1 : chinese_remainder_theorem_return_wit_1_split_goal_1 := by
   unfold chinese_remainder_theorem_return_wit_1_split_goal_1
-  intro n_pre moduli_l remainders_l result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro moduli_l remainders_l n_pre result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   refine ⟨⟨PreH16, by omega⟩, ?_⟩
   have hc := (prefix_indexed remainders_l moduli_l i result PreH3 (by omega)).mp PreH18
   intro k hk
@@ -665,18 +665,18 @@ theorem proof_of_chinese_remainder_theorem_return_wit_1_split_goal_1 : chinese_r
 theorem proof_of_chinese_remainder_theorem_return_wit_1 : chinese_remainder_theorem_return_wit_1 := by
   unfold chinese_remainder_theorem_return_wit_1
   right
-  intro n_pre moduli_l remainders_l result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro moduli_l remainders_l n_pre result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have input_valid_PreH3 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_return_wit_1_split_goal_1 n_pre moduli_l remainders_l result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
-    | exact (proof_of_chinese_remainder_theorem_return_wit_1_split_goal_1 n_pre moduli_l remainders_l result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_return_wit_1_split_goal_1 moduli_l remainders_l n_pre result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
+    | exact (proof_of_chinese_remainder_theorem_return_wit_1_split_goal_1 moduli_l remainders_l n_pre result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
     | trivial
 
 theorem proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_1 : chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_1 := by
   unfold chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_1
-  intro moduli_pre remainders_pre n_pre moduli_l remainders_l result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro moduli_l remainders_l n_pre remainders_pre moduli_pre result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   have input_valid_PreH13 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -693,7 +693,7 @@ theorem proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_1
 
 theorem proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_2 : chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_2 := by
   unfold chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_2
-  intro moduli_pre remainders_pre n_pre moduli_l remainders_l result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro moduli_l remainders_l n_pre remainders_pre moduli_pre result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   have input_valid_PreH13 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -709,7 +709,7 @@ theorem proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_2
 
 theorem proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_3 : chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_3 := by
   unfold chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_3
-  intro moduli_pre remainders_pre n_pre moduli_l remainders_l result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro moduli_l remainders_l n_pre remainders_pre moduli_pre result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   have input_valid_PreH13 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   first
     | solve | assumption
@@ -726,13 +726,13 @@ theorem proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_3
 theorem proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure : chinese_remainder_theorem_partial_solve_wit_4_pure := by
   unfold chinese_remainder_theorem_partial_solve_wit_4_pure
   right
-  intro moduli_pre remainders_pre n_pre moduli_l remainders_l result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro moduli_l remainders_l n_pre remainders_pre moduli_pre result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   have input_valid_PreH13 : (CRTInputValid remainders_l moduli_l) := crt_input_from_annotation _ _ (by assumption) (by assumption) (by assumption) (by assumption) (by assumption) (by assumption)
   aggressive_pre_process
   all_goals first
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_1 moduli_pre remainders_pre n_pre moduli_l remainders_l result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29))
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_2 moduli_pre remainders_pre n_pre moduli_l remainders_l result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29))
-    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_3 moduli_pre remainders_pre n_pre moduli_l remainders_l result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29))
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_1 moduli_l remainders_l n_pre remainders_pre moduli_pre result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29))
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_2 moduli_l remainders_l n_pre remainders_pre moduli_pre result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29))
+    | (solve | Goal_apply (proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_3 moduli_l remainders_l n_pre remainders_pre moduli_pre result i product PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29))
     | trivial
 
 end SimpleC.EE.LLM_bench.Algorithms.chinese_remainder_theorem.chinese_remainder_theorem_proof_manual

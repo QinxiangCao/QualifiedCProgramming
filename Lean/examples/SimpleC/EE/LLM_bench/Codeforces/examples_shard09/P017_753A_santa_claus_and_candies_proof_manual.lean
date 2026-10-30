@@ -13,7 +13,7 @@ local instance : SacContext := ⟨naive_C_Rules⟩
 private noncomputable abbrev intArray := naive_C_Rules.IntArray
 
 theorem proof_of_solver_safety_wit_14_split_goal_1 : solver_safety_wit_14_split_goal_1 := by
-  intro out n written i used k h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
+  intro n out written i used k h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
   have hi : i=k := by omega
   subst i
   rw [sub_zero,candy_prefix_last_value__arithmetic_and_prefix k written h12 h4]
@@ -22,7 +22,7 @@ theorem proof_of_solver_safety_wit_14_split_goal_1 : solver_safety_wit_14_split_
   omega
 
 theorem proof_of_solver_safety_wit_14_split_goal_2 : solver_safety_wit_14_split_goal_2 := by
-  intro out n written i used k h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
+  intro n out written i used k h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
   have hi : i=k := by omega
   subst i
   rw [sub_zero,candy_prefix_last_value__arithmetic_and_prefix k written h12 h4]
@@ -33,10 +33,10 @@ theorem proof_of_solver_safety_wit_14_split_goal_2 : solver_safety_wit_14_split_
 theorem proof_of_solver_safety_wit_14 : solver_safety_wit_14 := by
   unfold solver_safety_wit_14
   right
-  intro out n written i used k h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
+  intro n out written i used k h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
   split_pures
-  · exact proof_of_solver_safety_wit_14_split_goal_1 out n written i used k h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
-  · exact proof_of_solver_safety_wit_14_split_goal_2 out n written i used k h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
+  · exact proof_of_solver_safety_wit_14_split_goal_1 n out written i used k h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
+  · exact proof_of_solver_safety_wit_14_split_goal_2 n out written i used k h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
 
 theorem proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1 := by
   intro n h1 h2
@@ -66,7 +66,7 @@ theorem proof_of_solver_entail_wit_4_split_goal_1 : solver_entail_wit_4_split_go
 theorem proof_of_solver_entail_wit_5 : solver_entail_wit_5 := by
   unfold solver_entail_wit_5
   right
-  intro out n written i used k h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
+  intro n out written i used k h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
   have hi : i=k := by omega
   subst i
   rw [sub_zero]
@@ -80,7 +80,7 @@ theorem proof_of_solver_entail_wit_5 : solver_entail_wit_5 := by
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   unfold solver_return_wit_1
   right
-  intro out n ys k used h1 h2 h3 h4 h5 h6 h7 h8 h9 h10
+  intro n out ys k used h1 h2 h3 h4 h5 h6 h7 h8 h9 h10
   Exists ys
   have hlen := h9.1
   rw [hlen]

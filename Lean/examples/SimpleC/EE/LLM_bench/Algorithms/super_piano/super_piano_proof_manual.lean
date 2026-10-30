@@ -84,7 +84,7 @@ private theorem prefix_step (l pref : List Int) (i : Int) (hp : PrefixArrayPrefi
 theorem proof_of_build_prefix_safety_wit_6 : build_prefix_safety_wit_6 := by
   unfold build_prefix_safety_wit_6
   left
-  intro pre_pre n_pre arr_pre l pref i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
+  intro l arr_pre n_pre pre_pre pref i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
   have annotation_bounds := annotation_nth_bounds l (by assumption) (by assumption)
   have indexed_bounds : ∀ idx : Int, 0 ≤ idx ∧ idx < n_pre → -1000 ≤ Znth idx l 0 ∧ Znth idx l 0 ≤ 1000 := by
     intro idx hi
@@ -105,7 +105,7 @@ theorem proof_of_build_prefix_safety_wit_6 : build_prefix_safety_wit_6 := by
 theorem proof_of_build_prefix_entail_wit_1 : build_prefix_entail_wit_1 := by
   unfold build_prefix_entail_wit_1
   left
-  intro pre_pre n_pre arr_pre l ps NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
+  intro l ps arr_pre n_pre pre_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
   have annotation_bounds := annotation_nth_bounds l (by assumption) (by assumption)
   have indexed_bounds : ∀ idx : Int, 0 ≤ idx ∧ idx < n_pre → -1000 ≤ Znth idx l 0 ∧ Znth idx l 0 ≤ 1000 := by
     intro idx hi
@@ -127,7 +127,7 @@ theorem proof_of_build_prefix_entail_wit_1 : build_prefix_entail_wit_1 := by
 theorem proof_of_build_prefix_return_wit_1 : build_prefix_return_wit_1 := by
   unfold build_prefix_return_wit_1
   left
-  intro pre_pre n_pre arr_pre l pref i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
+  intro l arr_pre n_pre pre_pre pref i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
   have annotation_bounds := annotation_nth_bounds l (by assumption) (by assumption)
   have indexed_bounds : ∀ idx : Int, 0 ≤ idx ∧ idx < n_pre → -1000 ≤ Znth idx l 0 ∧ Znth idx l 0 ≤ 1000 := by
     intro idx hi
@@ -156,7 +156,7 @@ theorem proof_of_build_prefix_return_wit_1 : build_prefix_return_wit_1 := by
 theorem proof_of_build_prefix_entail_wit_2 : build_prefix_entail_wit_2 := by
   unfold build_prefix_entail_wit_2
   left
-  intro pre_pre n_pre arr_pre l pref_2 i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
+  intro l arr_pre n_pre pre_pre pref_2 i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
   have annotation_bounds := annotation_nth_bounds l (by assumption) (by assumption)
   have indexed_bounds : ∀ idx : Int, 0 ≤ idx ∧ idx < n_pre → -1000 ≤ Znth idx l 0 ∧ Znth idx l 0 ≤ 1000 := by
     intro idx hi
@@ -173,7 +173,7 @@ theorem proof_of_build_prefix_entail_wit_2 : build_prefix_entail_wit_2 := by
 theorem proof_of_superPiano_safety_wit_50 : superPiano_safety_wit_50 := by
   unfold superPiano_safety_wit_50
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ps ans st_slots vals starts los his bests chosen value start lo hi best heap_cap t hsize total pop_slots vals_out starts_out los_out his_out bests_out slots_out NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42
+  intro l arr_pre n_pre k_pre L_pre R_pre ps ans st_slots vals starts los his bests chosen value start lo hi best heap_cap t hsize total pop_slots vals_out starts_out los_out his_out bests_out slots_out NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42
   have nodes_PreH2 := piano_nodes_of_arrays slots_out vals_out starts_out los_out his_out bests_out NewPreH2
   have nodes_PreH23 := piano_nodes_of_arrays pop_slots vals starts los his bests NewPreH23
   simp only [nodes_PreH2, nodes_PreH23] at *
@@ -200,7 +200,7 @@ theorem proof_of_superPiano_safety_wit_50 : superPiano_safety_wit_50 := by
 theorem proof_of_superPiano_safety_wit_65 : superPiano_safety_wit_65 := by
   unfold superPiano_safety_wit_65
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ans vals starts los his bests chosen value start lo hi best heap_cap t hsize total pop_slots vals_out starts_out los_out his_out bests_out slots_out query_ps query_st_slots retval_3 retval retval_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48
+  intro l arr_pre n_pre k_pre L_pre R_pre ans vals starts los his bests chosen value start lo hi best heap_cap t hsize total pop_slots vals_out starts_out los_out his_out bests_out slots_out query_ps query_st_slots retval_3 retval retval_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48
   have nodes_PreH8 := piano_nodes_of_arrays slots_out vals_out starts_out los_out his_out bests_out NewPreH8
   have nodes_PreH29 := piano_nodes_of_arrays pop_slots vals starts los his bests NewPreH29
   simp only [nodes_PreH8, nodes_PreH29] at *
@@ -224,7 +224,7 @@ theorem proof_of_superPiano_safety_wit_65 : superPiano_safety_wit_65 := by
 theorem proof_of_superPiano_safety_wit_91 : superPiano_safety_wit_91 := by
   unfold superPiano_safety_wit_91
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ans vals starts los his bests chosen value start lo hi best heap_cap t hsize total pop_slots vals_out starts_out los_out his_out bests_out slots_out query_ps query_st_slots retval_3 retval_4 retval_5 retval_6 retval retval_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48 NewPreH49 NewPreH50 NewPreH51 NewPreH52 NewPreH53 NewPreH54
+  intro l arr_pre n_pre k_pre L_pre R_pre ans vals starts los his bests chosen value start lo hi best heap_cap t hsize total pop_slots vals_out starts_out los_out his_out bests_out slots_out query_ps query_st_slots retval_3 retval_4 retval_5 retval_6 retval retval_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48 NewPreH49 NewPreH50 NewPreH51 NewPreH52 NewPreH53 NewPreH54
   have nodes_PreH14 := piano_nodes_of_arrays slots_out vals_out starts_out los_out his_out bests_out NewPreH14
   have nodes_PreH35 := piano_nodes_of_arrays pop_slots vals starts los his bests NewPreH35
   simp only [nodes_PreH14, nodes_PreH35] at *
@@ -248,7 +248,7 @@ theorem proof_of_superPiano_safety_wit_91 : superPiano_safety_wit_91 := by
 theorem proof_of_superPiano_safety_wit_100 : superPiano_safety_wit_100 := by
   unfold superPiano_safety_wit_100
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ans vals starts los his bests chosen value start lo hi best heap_cap t hsize total pop_slots vals_out starts_out los_out his_out bests_out slots_out query_ps query_st_slots retval_3 retval retval_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48 NewPreH49
+  intro l arr_pre n_pre k_pre L_pre R_pre ans vals starts los his bests chosen value start lo hi best heap_cap t hsize total pop_slots vals_out starts_out los_out his_out bests_out slots_out query_ps query_st_slots retval_3 retval retval_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48 NewPreH49
   have nodes_PreH9 := piano_nodes_of_arrays slots_out vals_out starts_out los_out his_out bests_out NewPreH9
   have nodes_PreH30 := piano_nodes_of_arrays pop_slots vals starts los his bests NewPreH30
   simp only [nodes_PreH9, nodes_PreH30] at *
@@ -272,7 +272,7 @@ theorem proof_of_superPiano_safety_wit_100 : superPiano_safety_wit_100 := by
 theorem proof_of_superPiano_entail_wit_2 : superPiano_entail_wit_2 := by
   unfold superPiano_entail_wit_2
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ps_2 ans_2 heap_cap ps_3 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18
+  intro l arr_pre n_pre k_pre L_pre R_pre ps_2 ans_2 heap_cap ps_3 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18
   have annotation_bounds := annotation_nth_bounds l (by assumption) (by assumption)
   have indexed_bounds : ∀ idx : Int, 0 ≤ idx ∧ idx < n_pre → -1000 ≤ Znth idx l 0 ∧ Znth idx l 0 ≤ 1000 := by
     intro idx hi
@@ -294,7 +294,7 @@ theorem proof_of_superPiano_entail_wit_2 : superPiano_entail_wit_2 := by
 theorem proof_of_superPiano_entail_wit_4 : superPiano_entail_wit_4 := by
   unfold superPiano_entail_wit_4
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l total hsize t ans_2 st_slots_2 ps_2 heap_cap slots_2 vals_2 starts_2 los_2 his_2 bests_2 chosen_2 retval retval_2 retval_3 retval_4 retval_5 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40
+  intro l arr_pre n_pre k_pre L_pre R_pre total hsize t ans_2 st_slots_2 ps_2 heap_cap slots_2 vals_2 starts_2 los_2 his_2 bests_2 chosen_2 retval retval_2 retval_3 retval_4 retval_5 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40
   have nodes_PreH30 := piano_nodes_of_arrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 NewPreH30
   simp only [nodes_PreH30] at *
   have annotation_bounds := annotation_nth_bounds l (by assumption) (by assumption)
@@ -338,7 +338,7 @@ theorem proof_of_superPiano_entail_wit_4 : superPiano_entail_wit_4 := by
 theorem proof_of_superPiano_entail_wit_5 : superPiano_entail_wit_5 := by
   unfold superPiano_entail_wit_5
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ans_2 vals_2 starts_2 los_2 his_2 bests_2 chosen_2 value start lo hi best heap_cap t hsize total pop_slots vals_out starts_out los_out his_out bests_out slots_out query_ps query_st_slots retval retval_2 retval_3 retval_4 retval_5 retval_6 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48 NewPreH49 NewPreH50 NewPreH51 NewPreH52 NewPreH53 NewPreH54
+  intro l arr_pre n_pre k_pre L_pre R_pre ans_2 vals_2 starts_2 los_2 his_2 bests_2 chosen_2 value start lo hi best heap_cap t hsize total pop_slots vals_out starts_out los_out his_out bests_out slots_out query_ps query_st_slots retval retval_2 retval_3 retval_4 retval_5 retval_6 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48 NewPreH49 NewPreH50 NewPreH51 NewPreH52 NewPreH53 NewPreH54
   have nodes_PreH14 := piano_nodes_of_arrays slots_out vals_out starts_out los_out his_out bests_out NewPreH14
   have nodes_PreH35 := piano_nodes_of_arrays pop_slots vals_2 starts_2 los_2 his_2 bests_2 NewPreH35
   simp only [nodes_PreH14, nodes_PreH35] at *
@@ -372,7 +372,7 @@ theorem proof_of_superPiano_entail_wit_5 : superPiano_entail_wit_5 := by
 theorem proof_of_superPiano_entail_wit_6 : superPiano_entail_wit_6 := by
   unfold superPiano_entail_wit_6
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ans_2 vals_2 starts_2 los_2 his_2 bests_2 chosen_2 value start lo hi best heap_cap t hsize total pop_slots vals_out starts_out los_out his_out bests_out slots_out query_ps query_st_slots retval retval_2 retval_3 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48 NewPreH49
+  intro l arr_pre n_pre k_pre L_pre R_pre ans_2 vals_2 starts_2 los_2 his_2 bests_2 chosen_2 value start lo hi best heap_cap t hsize total pop_slots vals_out starts_out los_out his_out bests_out slots_out query_ps query_st_slots retval retval_2 retval_3 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48 NewPreH49
   have nodes_PreH9 := piano_nodes_of_arrays slots_out vals_out starts_out los_out his_out bests_out NewPreH9
   have nodes_PreH30 := piano_nodes_of_arrays pop_slots vals_2 starts_2 los_2 his_2 bests_2 NewPreH30
   simp only [nodes_PreH9, nodes_PreH30] at *
@@ -406,7 +406,7 @@ theorem proof_of_superPiano_entail_wit_6 : superPiano_entail_wit_6 := by
 theorem proof_of_superPiano_entail_wit_7 : superPiano_entail_wit_7 := by
   unfold superPiano_entail_wit_7
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ans_2 vals_2 starts_2 los_2 his_2 bests_2 chosen_2 value start lo hi best heap_cap t hsize total pop_slots vals_out starts_out los_out his_out bests_out slots_out query_ps query_st_slots NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44
+  intro l arr_pre n_pre k_pre L_pre R_pre ans_2 vals_2 starts_2 los_2 his_2 bests_2 chosen_2 value start lo hi best heap_cap t hsize total pop_slots vals_out starts_out los_out his_out bests_out slots_out query_ps query_st_slots NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44
   have nodes_PreH4 := piano_nodes_of_arrays slots_out vals_out starts_out los_out his_out bests_out NewPreH4
   have nodes_PreH25 := piano_nodes_of_arrays pop_slots vals_2 starts_2 los_2 his_2 bests_2 NewPreH25
   simp only [nodes_PreH4, nodes_PreH25] at *
@@ -439,7 +439,7 @@ theorem proof_of_superPiano_entail_wit_7 : superPiano_entail_wit_7 := by
 theorem proof_of_superPiano_entail_wit_11 : superPiano_entail_wit_11 := by
   unfold superPiano_entail_wit_11
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ans_2 st_slots_2 chosen_2 heap_cap has_left has_right t hsize right_best hi best start right_value left_best lo left_value total value push_ps push_slots push_vals push_starts push_los push_his push_bests vals_out starts_out los_out his_out bests_out slots_out NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48 NewPreH49 NewPreH50 NewPreH51 NewPreH52 NewPreH53 NewPreH54
+  intro l arr_pre n_pre k_pre L_pre R_pre ans_2 st_slots_2 chosen_2 heap_cap has_left has_right t hsize right_best hi best start right_value left_best lo left_value total value push_ps push_slots push_vals push_starts push_los push_his push_bests vals_out starts_out los_out his_out bests_out slots_out NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48 NewPreH49 NewPreH50 NewPreH51 NewPreH52 NewPreH53 NewPreH54
   have nodes_PreH3 := piano_nodes_of_arrays slots_out vals_out starts_out los_out his_out bests_out NewPreH3
   have nodes_PreH19 := piano_nodes_of_arrays push_slots push_vals push_starts push_los push_his push_bests NewPreH19
   simp only [nodes_PreH3, nodes_PreH19] at *
@@ -467,7 +467,7 @@ theorem proof_of_superPiano_entail_wit_11 : superPiano_entail_wit_11 := by
 theorem proof_of_superPiano_entail_wit_12 : superPiano_entail_wit_12 := by
   unfold superPiano_entail_wit_12
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ans_2 vals_2 starts_2 los_2 his_2 bests_2 chosen_2 value start lo hi best heap_cap t hsize total pop_slots vals_out starts_out los_out his_out bests_out slots_out query_ps query_st_slots retval retval_2 retval_3 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48 NewPreH49
+  intro l arr_pre n_pre k_pre L_pre R_pre ans_2 vals_2 starts_2 los_2 his_2 bests_2 chosen_2 value start lo hi best heap_cap t hsize total pop_slots vals_out starts_out los_out his_out bests_out slots_out query_ps query_st_slots retval retval_2 retval_3 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48 NewPreH49
   have nodes_PreH9 := piano_nodes_of_arrays slots_out vals_out starts_out los_out his_out bests_out NewPreH9
   have nodes_PreH30 := piano_nodes_of_arrays pop_slots vals_2 starts_2 los_2 his_2 bests_2 NewPreH30
   simp only [nodes_PreH9, nodes_PreH30] at *
@@ -501,7 +501,7 @@ theorem proof_of_superPiano_entail_wit_12 : superPiano_entail_wit_12 := by
 theorem proof_of_superPiano_entail_wit_13_1 : superPiano_entail_wit_13_1 := by
   unfold superPiano_entail_wit_13_1
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ans_2 st_slots_2 chosen_2 heap_cap has_left has_right t hsize right_best hi best start right_value total lo left_best left_value value right_ps right_slots right_vals right_starts right_los right_his right_bests vals_out starts_out los_out his_out bests_out slots_out NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48 NewPreH49 NewPreH50 NewPreH51 NewPreH52 NewPreH53 NewPreH54
+  intro l arr_pre n_pre k_pre L_pre R_pre ans_2 st_slots_2 chosen_2 heap_cap has_left has_right t hsize right_best hi best start right_value total lo left_best left_value value right_ps right_slots right_vals right_starts right_los right_his right_bests vals_out starts_out los_out his_out bests_out slots_out NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48 NewPreH49 NewPreH50 NewPreH51 NewPreH52 NewPreH53 NewPreH54
   have nodes_PreH2 := piano_nodes_of_arrays slots_out vals_out starts_out los_out his_out bests_out NewPreH2
   have nodes_PreH18 := piano_nodes_of_arrays right_slots right_vals right_starts right_los right_his right_bests NewPreH18
   simp only [nodes_PreH2, nodes_PreH18] at *
@@ -542,7 +542,7 @@ theorem proof_of_superPiano_entail_wit_13_1 : superPiano_entail_wit_13_1 := by
 theorem proof_of_superPiano_entail_wit_13_2 : superPiano_entail_wit_13_2 := by
   unfold superPiano_entail_wit_13_2
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ans_2 st_slots_2 chosen_2 heap_cap has_left left_best left_value has_right t hsize right_best hi best start right_value total lo value right_ps right_slots right_vals right_starts right_los right_his right_bests vals_out starts_out los_out his_out bests_out slots_out NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47
+  intro l arr_pre n_pre k_pre L_pre R_pre ans_2 st_slots_2 chosen_2 heap_cap has_left left_best left_value has_right t hsize right_best hi best start right_value total lo value right_ps right_slots right_vals right_starts right_los right_his right_bests vals_out starts_out los_out his_out bests_out slots_out NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47
   have nodes_PreH2 := piano_nodes_of_arrays slots_out vals_out starts_out los_out his_out bests_out NewPreH2
   have nodes_PreH18 := piano_nodes_of_arrays right_slots right_vals right_starts right_los right_his right_bests NewPreH18
   simp only [nodes_PreH2, nodes_PreH18] at *
@@ -578,7 +578,7 @@ theorem proof_of_superPiano_entail_wit_13_2 : superPiano_entail_wit_13_2 := by
 theorem proof_of_superPiano_entail_wit_13_3 : superPiano_entail_wit_13_3 := by
   unfold superPiano_entail_wit_13_3
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ps_2 ans_2 st_slots_2 slots_2 vals_2 starts_2 los_2 his_2 bests_2 chosen_2 heap_cap has_left has_right left_best left_value right_best right_value t hsize total best start lo hi value NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37
+  intro l arr_pre n_pre k_pre L_pre R_pre ps_2 ans_2 st_slots_2 slots_2 vals_2 starts_2 los_2 his_2 bests_2 chosen_2 heap_cap has_left has_right left_best left_value right_best right_value t hsize total best start lo hi value NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37
   have nodes_PreH14 := piano_nodes_of_arrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 NewPreH14
   simp only [nodes_PreH14] at *
   have annotation_bounds := annotation_nth_bounds l (by assumption) (by assumption)
@@ -609,7 +609,7 @@ theorem proof_of_superPiano_entail_wit_13_3 : superPiano_entail_wit_13_3 := by
 theorem proof_of_superPiano_entail_wit_13_4 : superPiano_entail_wit_13_4 := by
   unfold superPiano_entail_wit_13_4
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ans_2 st_slots_2 chosen_2 heap_cap has_left has_right t hsize left_best best lo start left_value total hi right_best right_value value push_ps push_slots push_vals push_starts push_los push_his push_bests vals_out starts_out los_out his_out bests_out slots_out NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48 NewPreH49 NewPreH50
+  intro l arr_pre n_pre k_pre L_pre R_pre ans_2 st_slots_2 chosen_2 heap_cap has_left has_right t hsize left_best best lo start left_value total hi right_best right_value value push_ps push_slots push_vals push_starts push_los push_his push_bests vals_out starts_out los_out his_out bests_out slots_out NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48 NewPreH49 NewPreH50
   have nodes_PreH3 := piano_nodes_of_arrays slots_out vals_out starts_out los_out his_out bests_out NewPreH3
   have nodes_PreH19 := piano_nodes_of_arrays push_slots push_vals push_starts push_los push_his push_bests NewPreH19
   simp only [nodes_PreH3, nodes_PreH19] at *
@@ -645,7 +645,7 @@ theorem proof_of_superPiano_entail_wit_13_4 : superPiano_entail_wit_13_4 := by
 theorem proof_of_superPiano_entail_wit_14 : superPiano_entail_wit_14 := by
   unfold superPiano_entail_wit_14
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ps_2 ans_2 st_slots_2 slots_2 vals_2 starts_2 los_2 his_2 bests_2 chosen_2 heap_cap has_left has_right left_best right_best left_value right_value t hsize total best start hi lo value NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45
+  intro l arr_pre n_pre k_pre L_pre R_pre ps_2 ans_2 st_slots_2 slots_2 vals_2 starts_2 los_2 his_2 bests_2 chosen_2 heap_cap has_left has_right left_best right_best left_value right_value t hsize total best start hi lo value NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45
   have nodes_PreH14 := piano_nodes_of_arrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 NewPreH14
   simp only [nodes_PreH14] at *
   have annotation_bounds := annotation_nth_bounds l (by assumption) (by assumption)
@@ -696,7 +696,7 @@ private theorem scratch_cleanup (x k cap : Int) (l : List Int) (hk : 0 ≤ k ∧
 theorem proof_of_superPiano_entail_wit_1 : superPiano_entail_wit_1 := by
   unfold superPiano_entail_wit_1
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ps_2 ans_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro l ps_2 ans_2 arr_pre n_pre k_pre L_pre R_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   Exists ans_2 ps_2
   simp only [Int.zero_mul, Int.add_zero]
   sep_apply (scratch_split ( &( "prefix" ) ) (n_pre + 1) 100001 ⟨by omega, by omega⟩)
@@ -715,7 +715,7 @@ theorem proof_of_superPiano_entail_wit_1 : superPiano_entail_wit_1 := by
 theorem proof_of_superPiano_entail_wit_3 : superPiano_entail_wit_3 := by
   unfold superPiano_entail_wit_3
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l heap_cap ps_2 ans_2 st_slots_2 table vals_2 starts_2 los_2 his_2 bests_2 slots_2 retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro l arr_pre n_pre k_pre L_pre R_pre heap_cap ps_2 ans_2 st_slots_2 table vals_2 starts_2 los_2 his_2 bests_2 slots_2 retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hf : FrontierState ps_2 n_pre L_pre R_pre [] 0 0 (sublist 0 retval slots_2) := PreH5
   Exists ([] : List Int) vals_2 starts_2 los_2 his_2 bests_2 slots_2 ans_2 table ps_2
   split_pure_spatial
@@ -727,7 +727,7 @@ theorem proof_of_superPiano_entail_wit_3 : superPiano_entail_wit_3 := by
 theorem proof_of_superPiano_entail_wit_15 : superPiano_entail_wit_15 := by
   unfold superPiano_entail_wit_15
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l chosen total hsize t vals starts los his bests slots ans st_slots ps_2 heap_cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+  intro l arr_pre n_pre k_pre L_pre R_pre chosen total hsize t vals starts los his bests slots ans st_slots ps_2 heap_cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   have hanswer := frontier_state_complete_implies_answer ps_2 n_pre L_pre R_pre k_pre chosen total (sublist 0 hsize slots) (by simpa only [show t = k_pre by omega] using PreH21)
   Exists ps_2
   simp only [Int.zero_mul, Int.add_zero]
@@ -747,7 +747,7 @@ theorem proof_of_superPiano_entail_wit_15 : superPiano_entail_wit_15 := by
 theorem proof_of_superPiano_return_wit_1 : superPiano_return_wit_1 := by
   unfold superPiano_return_wit_1
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ps_2 heap_cap hsize total PreH1 PreH2 PreH3 PreH4 PreH5
+  intro l arr_pre n_pre k_pre L_pre R_pre ps_2 heap_cap hsize total PreH1 PreH2 PreH3 PreH4 PreH5
   Exists ps_2
   split_pure_spatial
   · cancel
@@ -758,7 +758,7 @@ theorem proof_of_superPiano_return_wit_1 : superPiano_return_wit_1 := by
 theorem proof_of_superPiano_partial_solve_wit_1_pure : superPiano_partial_solve_wit_1_pure := by
   unfold superPiano_partial_solve_wit_1_pure
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ps_2 ans heap_cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro l arr_pre n_pre k_pre L_pre R_pre ps_2 ans heap_cap PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   Exists ps_2
   split_pures <;> dump_pre_spatial
   all_goals first | assumption | omega
@@ -766,7 +766,7 @@ theorem proof_of_superPiano_partial_solve_wit_1_pure : superPiano_partial_solve_
 theorem proof_of_superPiano_partial_solve_wit_3_pure : superPiano_partial_solve_wit_3_pure := by
   unfold superPiano_partial_solve_wit_3_pure
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l heap_cap ps ans st_slots table PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro l arr_pre n_pre k_pre L_pre R_pre heap_cap ps ans st_slots table PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have hp := PreH11
   dsimp only [PrefixSums, PrefixArrayPrefix] at hp
   have hb := annotation_nth_bounds l PreH16 PreH17
@@ -789,7 +789,7 @@ theorem proof_of_superPiano_partial_solve_wit_3_pure : superPiano_partial_solve_
 theorem proof_of_superPiano_partial_solve_wit_4_pure : superPiano_partial_solve_wit_4_pure := by
   unfold superPiano_partial_solve_wit_4_pure
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l total hsize t ans st_slots ps heap_cap slots vals starts los his bests chosen PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+  intro l arr_pre n_pre k_pre L_pre R_pre total hsize t ans st_slots ps heap_cap slots vals starts los his bests chosen PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   have he := piano_nodes_of_arrays slots vals starts los his bests PreH15
   simp only [he]
   have hpositive := PreH23 (by omega)
@@ -799,7 +799,7 @@ theorem proof_of_superPiano_partial_solve_wit_4_pure : superPiano_partial_solve_
 theorem proof_of_superPiano_partial_solve_wit_5_pure : superPiano_partial_solve_wit_5_pure := by
   unfold superPiano_partial_solve_wit_5_pure
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l total hsize t ans st_slots ps heap_cap slots vals starts los his bests chosen retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro l arr_pre n_pre k_pre L_pre R_pre total hsize t ans st_slots ps heap_cap slots vals starts los his bests chosen retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   have he := piano_nodes_of_arrays slots vals starts los his bests PreH18
   simp only [he]
   have hpositive := PreH26 (by omega)
@@ -809,7 +809,7 @@ theorem proof_of_superPiano_partial_solve_wit_5_pure : superPiano_partial_solve_
 theorem proof_of_superPiano_partial_solve_wit_6_pure : superPiano_partial_solve_wit_6_pure := by
   unfold superPiano_partial_solve_wit_6_pure
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l total hsize t ans st_slots ps heap_cap slots vals starts los his bests chosen retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  intro l arr_pre n_pre k_pre L_pre R_pre total hsize t ans st_slots ps heap_cap slots vals starts los his bests chosen retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
   have he := piano_nodes_of_arrays slots vals starts los his bests PreH21
   simp only [he]
   have hpositive := PreH29 (by omega)
@@ -819,7 +819,7 @@ theorem proof_of_superPiano_partial_solve_wit_6_pure : superPiano_partial_solve_
 theorem proof_of_superPiano_partial_solve_wit_7_pure : superPiano_partial_solve_wit_7_pure := by
   unfold superPiano_partial_solve_wit_7_pure
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l total hsize t ans st_slots ps heap_cap slots vals starts los his bests chosen retval retval_2 retval_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
+  intro l arr_pre n_pre k_pre L_pre R_pre total hsize t ans st_slots ps heap_cap slots vals starts los his bests chosen retval retval_2 retval_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
   have he := piano_nodes_of_arrays slots vals starts los his bests PreH24
   simp only [he]
   have hpositive := PreH32 (by omega)
@@ -829,7 +829,7 @@ theorem proof_of_superPiano_partial_solve_wit_7_pure : superPiano_partial_solve_
 theorem proof_of_superPiano_partial_solve_wit_8_pure : superPiano_partial_solve_wit_8_pure := by
   unfold superPiano_partial_solve_wit_8_pure
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l total hsize t ans st_slots ps heap_cap slots vals starts los his bests chosen retval retval_2 retval_3 retval_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37
+  intro l arr_pre n_pre k_pre L_pre R_pre total hsize t ans st_slots ps heap_cap slots vals starts los his bests chosen retval retval_2 retval_3 retval_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37
   have he := piano_nodes_of_arrays slots vals starts los his bests PreH27
   simp only [he]
   have hpositive := PreH35 (by omega)
@@ -839,7 +839,7 @@ theorem proof_of_superPiano_partial_solve_wit_8_pure : superPiano_partial_solve_
 theorem proof_of_superPiano_partial_solve_wit_9_pure : superPiano_partial_solve_wit_9_pure := by
   unfold superPiano_partial_solve_wit_9_pure
   left
-  intro R_pre L_pre k_pre n_pre arr_pre l ps ans st_slots vals starts los his bests chosen value start lo hi best heap_cap t hsize total pop_slots PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro l arr_pre n_pre k_pre L_pre R_pre ps ans st_slots vals starts los his bests chosen value start lo hi best heap_cap t hsize total pop_slots PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have he := piano_nodes_of_arrays pop_slots vals starts los his bests PreH19
   simp only [he]
   split_pures <;> dump_pre_spatial
@@ -847,7 +847,7 @@ theorem proof_of_superPiano_partial_solve_wit_9_pure : superPiano_partial_solve_
 
 theorem proof_of_frontier_top_value_return_wit_1 : frontier_top_value_return_wit_1 := by
   left
-  intro size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals PreH1 PreH2 PreH3 PreH4 PreH5
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre PreH1 PreH2 PreH3 PreH4 PreH5
   have hfields := PreH4.2.2.2.2.2 0 (by omega)
   have htop : Znth 0 vals 0 = heap_top_value (PianoNodes vals starts los his bests) := hfields.1
   split_pure_spatial
@@ -857,7 +857,7 @@ theorem proof_of_frontier_top_value_return_wit_1 : frontier_top_value_return_wit
 
 theorem proof_of_frontier_top_start_return_wit_1 : frontier_top_start_return_wit_1 := by
   left
-  intro size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals PreH1 PreH2 PreH3 PreH4 PreH5
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre PreH1 PreH2 PreH3 PreH4 PreH5
   have hfields := PreH4.2.2.2.2.2 0 (by omega)
   have htop : Znth 0 starts 0 = heap_top_start (PianoNodes vals starts los his bests) := hfields.2.1
   split_pure_spatial
@@ -867,7 +867,7 @@ theorem proof_of_frontier_top_start_return_wit_1 : frontier_top_start_return_wit
 
 theorem proof_of_frontier_top_lo_return_wit_1 : frontier_top_lo_return_wit_1 := by
   left
-  intro size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals PreH1 PreH2 PreH3 PreH4 PreH5
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre PreH1 PreH2 PreH3 PreH4 PreH5
   have hfields := PreH4.2.2.2.2.2 0 (by omega)
   have htop : Znth 0 los 0 = heap_top_lo (PianoNodes vals starts los his bests) := hfields.2.2.1
   split_pure_spatial
@@ -877,7 +877,7 @@ theorem proof_of_frontier_top_lo_return_wit_1 : frontier_top_lo_return_wit_1 := 
 
 theorem proof_of_frontier_top_hi_return_wit_1 : frontier_top_hi_return_wit_1 := by
   left
-  intro size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals PreH1 PreH2 PreH3 PreH4 PreH5
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre PreH1 PreH2 PreH3 PreH4 PreH5
   have hfields := PreH4.2.2.2.2.2 0 (by omega)
   have htop : Znth 0 his 0 = heap_top_hi (PianoNodes vals starts los his bests) := hfields.2.2.2.1
   split_pure_spatial
@@ -887,7 +887,7 @@ theorem proof_of_frontier_top_hi_return_wit_1 : frontier_top_hi_return_wit_1 := 
 
 theorem proof_of_frontier_top_best_return_wit_1 : frontier_top_best_return_wit_1 := by
   left
-  intro size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals PreH1 PreH2 PreH3 PreH4 PreH5
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre PreH1 PreH2 PreH3 PreH4 PreH5
   have hfields := PreH4.2.2.2.2.2 0 (by omega)
   have htop : Znth 0 bests 0 = heap_top_best (PianoNodes vals starts los his bests) := hfields.2.2.2.2
   split_pure_spatial
@@ -897,7 +897,7 @@ theorem proof_of_frontier_top_best_return_wit_1 : frontier_top_best_return_wit_1
 
 theorem proof_of_superPiano_partial_solve_wit_19_pure : superPiano_partial_solve_wit_19_pure := by
   right
-  intro R_pre L_pre k_pre n_pre arr_pre l ans st_slots chosen heap_cap has_left has_right t hsize right_best hi best start right_value left_best lo left_value total value push_ps push_slots push_vals push_starts push_los push_his push_bests PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65 PreH66 PreH67 PreH68 PreH69 PreH70 PreH71 PreH72 PreH73 PreH74 PreH75 PreH76 PreH77 PreH78 PreH79 PreH80 PreH81 PreH82 PreH83 PreH84 PreH85
+  intro l arr_pre n_pre k_pre L_pre R_pre ans st_slots chosen heap_cap has_left has_right t hsize right_best hi best start right_value left_best lo left_value total value push_ps push_slots push_vals push_starts push_los push_his push_bests PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65 PreH66 PreH67 PreH68 PreH69 PreH70 PreH71 PreH72 PreH73 PreH74 PreH75 PreH76 PreH77 PreH78 PreH79 PreH80 PreH81 PreH82 PreH83 PreH84 PreH85
   have he := piano_nodes_of_arrays push_slots push_vals push_starts push_los push_his push_bests PreH52
   rw [he]
   split_pures <;> dump_pre_spatial
@@ -905,7 +905,7 @@ theorem proof_of_superPiano_partial_solve_wit_19_pure : superPiano_partial_solve
 
 theorem proof_of_superPiano_partial_solve_wit_20_pure : superPiano_partial_solve_wit_20_pure := by
   right
-  intro R_pre L_pre k_pre n_pre arr_pre l ans st_slots chosen heap_cap has_left has_right t hsize left_best best lo start left_value total hi right_best right_value value push_ps push_slots push_vals push_starts push_los push_his push_bests PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65 PreH66 PreH67 PreH68 PreH69 PreH70 PreH71 PreH72 PreH73 PreH74 PreH75 PreH76 PreH77 PreH78 PreH79 PreH80 PreH81 PreH82
+  intro l arr_pre n_pre k_pre L_pre R_pre ans st_slots chosen heap_cap has_left has_right t hsize left_best best lo start left_value total hi right_best right_value value push_ps push_slots push_vals push_starts push_los push_his push_bests PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65 PreH66 PreH67 PreH68 PreH69 PreH70 PreH71 PreH72 PreH73 PreH74 PreH75 PreH76 PreH77 PreH78 PreH79 PreH80 PreH81 PreH82
   have he := piano_nodes_of_arrays push_slots push_vals push_starts push_los push_his push_bests PreH52
   rw [he]
   split_pures <;> dump_pre_spatial
@@ -913,7 +913,7 @@ theorem proof_of_superPiano_partial_solve_wit_20_pure : superPiano_partial_solve
 
 theorem proof_of_superPiano_partial_solve_wit_21_pure : superPiano_partial_solve_wit_21_pure := by
   right
-  intro R_pre L_pre k_pre n_pre arr_pre l ans st_slots chosen heap_cap has_left has_right t hsize right_best hi best start right_value total lo left_best left_value value right_ps right_slots right_vals right_starts right_los right_his right_bests PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65 PreH66 PreH67 PreH68 PreH69 PreH70 PreH71 PreH72 PreH73 PreH74 PreH75 PreH76 PreH77 PreH78 PreH79 PreH80 PreH81 PreH82 PreH83 PreH84 PreH85 PreH86 PreH87 PreH88
+  intro l arr_pre n_pre k_pre L_pre R_pre ans st_slots chosen heap_cap has_left has_right t hsize right_best hi best start right_value total lo left_best left_value value right_ps right_slots right_vals right_starts right_los right_his right_bests PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65 PreH66 PreH67 PreH68 PreH69 PreH70 PreH71 PreH72 PreH73 PreH74 PreH75 PreH76 PreH77 PreH78 PreH79 PreH80 PreH81 PreH82 PreH83 PreH84 PreH85 PreH86 PreH87 PreH88
   have he := piano_nodes_of_arrays right_slots right_vals right_starts right_los right_his right_bests PreH52
   rw [he]
   split_pures <;> dump_pre_spatial
@@ -921,7 +921,7 @@ theorem proof_of_superPiano_partial_solve_wit_21_pure : superPiano_partial_solve
 
 theorem proof_of_superPiano_partial_solve_wit_22_pure : superPiano_partial_solve_wit_22_pure := by
   right
-  intro R_pre L_pre k_pre n_pre arr_pre l ans st_slots chosen heap_cap has_left left_best left_value has_right t hsize right_best hi best start right_value total lo value right_ps right_slots right_vals right_starts right_los right_his right_bests PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65 PreH66 PreH67 PreH68 PreH69 PreH70 PreH71 PreH72 PreH73 PreH74 PreH75 PreH76 PreH77 PreH78 PreH79 PreH80 PreH81
+  intro l arr_pre n_pre k_pre L_pre R_pre ans st_slots chosen heap_cap has_left left_best left_value has_right t hsize right_best hi best start right_value total lo value right_ps right_slots right_vals right_starts right_los right_his right_bests PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55 PreH56 PreH57 PreH58 PreH59 PreH60 PreH61 PreH62 PreH63 PreH64 PreH65 PreH66 PreH67 PreH68 PreH69 PreH70 PreH71 PreH72 PreH73 PreH74 PreH75 PreH76 PreH77 PreH78 PreH79 PreH80 PreH81
   have he := piano_nodes_of_arrays right_slots right_vals right_starts right_los right_his right_bests PreH52
   rw [he]
   split_pures <;> dump_pre_spatial
@@ -972,7 +972,7 @@ private theorem nodearrays_replace (slots : List Node) (vals starts los his best
 
 theorem proof_of_piano_set_node_return_wit_1 : piano_set_node_return_wit_1 := by
   right
-  intro best_pre hi_pre lo_pre start_pre value_pre index_pre cap_pre bests his los starts vals PreH1 PreH2 PreH3
+  intro bests his los starts vals cap_pre index_pre value_pre start_pre lo_pre hi_pre best_pre PreH1 PreH2 PreH3
   have h := nodearrays_replace (PianoNodes vals starts los his bests) vals starts los his bests PreH3 index_pre (mkNode value_pre start_pre lo_pre hi_pre best_pre)
   split_pure_spatial
   · cancel
@@ -1013,7 +1013,7 @@ private theorem nodearrays_swap (slots : List Node) (vals starts los his bests :
 
 theorem proof_of_piano_swap_node_return_wit_1 : piano_swap_node_return_wit_1 := by
   right
-  intro b_pre a_pre cap_pre bests his los starts vals PreH1 PreH2 PreH3 PreH4 PreH5
+  intro bests his los starts vals cap_pre a_pre b_pre PreH1 PreH2 PreH3 PreH4 PreH5
   have h := nodearrays_swap (PianoNodes vals starts los his bests) vals starts los his bests PreH5 a_pre b_pre
   split_pure_spatial
   · cancel
@@ -1165,7 +1165,7 @@ private theorem sparse_query_read (ps table : List Int) (n lo hi level width : I
 
 theorem proof_of_build_sparse_argmax_entail_wit_3 : build_sparse_argmax_entail_wit_3 := by
   left
-  intro st_pre len_pre pre_pre ps table_2 i PreH1 PreH2 PreH3 PreH4 PreH5
+  intro ps pre_pre len_pre st_pre table_2 i PreH1 PreH2 PreH3 PreH4 PreH5
   have he : i=len_pre*17 := by omega
   subst i
   sep_apply (intArray.undef_seg_empty st_pre (len_pre*17))
@@ -1180,7 +1180,7 @@ theorem proof_of_build_sparse_argmax_entail_wit_3 : build_sparse_argmax_entail_w
 
 theorem proof_of_build_sparse_argmax_entail_wit_4 : build_sparse_argmax_entail_wit_4 := by
   left
-  intro st_pre len_pre pre_pre ps table_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
+  intro ps pre_pre len_pre st_pre table_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
   prop_apply (intArray.full_Zlength pre_pre len_pre ps)
   Intros_p hps
   prop_apply (intArray.full_Zlength st_pre (len_pre*17) (replace_Znth (i*17) i table_2))
@@ -1195,7 +1195,7 @@ theorem proof_of_build_sparse_argmax_entail_wit_4 : build_sparse_argmax_entail_w
 
 theorem proof_of_build_sparse_argmax_entail_wit_5 : build_sparse_argmax_entail_wit_5 := by
   left
-  intro st_pre len_pre pre_pre ps table_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
+  intro ps pre_pre len_pre st_pre table_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
   have he : i=len_pre := by omega
   subst i
   have hp := sparse_base_complete ps table_2 len_pre PreH6
@@ -1207,7 +1207,7 @@ theorem proof_of_build_sparse_argmax_entail_wit_5 : build_sparse_argmax_entail_w
 
 theorem proof_of_build_sparse_argmax_entail_wit_7 : build_sparse_argmax_entail_wit_7 := by
   left
-  intro st_pre len_pre pre_pre ps table i width half level PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro ps pre_pre len_pre st_pre table i width half level PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   have hs := sparse_read ps table len_pre level i half width (by unfold ST_LEVELS; omega) PreH6 PreH7 PreH8 PreH10 PreH11 PreH1 PreH13
   have hleft := hs.1.2.1
   have hleft_hi := hs.1.2.2.1
@@ -1222,7 +1222,7 @@ theorem proof_of_build_sparse_argmax_entail_wit_7 : build_sparse_argmax_entail_w
 
 theorem proof_of_build_sparse_argmax_entail_wit_9 : build_sparse_argmax_entail_wit_9 := by
   left
-  intro st_pre len_pre pre_pre ps table_2 i width half level PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro ps pre_pre len_pre st_pre table_2 i width half level PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   have hp := sparse_level_complete ps table_2 len_pre level i (by omega) PreH13
   have hdouble := power2_succ level (by omega)
   have hbound := power2_bound level (by omega)
@@ -1236,7 +1236,7 @@ theorem proof_of_build_sparse_argmax_entail_wit_9 : build_sparse_argmax_entail_w
 
 theorem proof_of_build_sparse_argmax_return_wit_1 : build_sparse_argmax_return_wit_1 := by
   left
-  intro st_pre len_pre pre_pre ps table_2 width half level PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro ps pre_pre len_pre st_pre table_2 width half level PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have hp := sparse_complete ps table_2 len_pre level (by unfold ST_LEVELS; omega) PreH11
   Exists table_2
   split_pure_spatial
@@ -1246,7 +1246,7 @@ theorem proof_of_build_sparse_argmax_return_wit_1 : build_sparse_argmax_return_w
 
 theorem proof_of_build_sparse_argmax_entail_wit_8_1 : build_sparse_argmax_entail_wit_8_1 := by
   left
-  intro st_pre len_pre pre_pre ps table_2 level half width i a c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro ps pre_pre len_pre st_pre table_2 level half width i a c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   prop_apply (intArray.full_Zlength st_pre (len_pre*17) (replace_Znth (i*17+level) a table_2))
   Intros_p htable
   rw [Zlength_replace_Znth] at htable
@@ -1264,7 +1264,7 @@ theorem proof_of_build_sparse_argmax_entail_wit_8_1 : build_sparse_argmax_entail
 
 theorem proof_of_build_sparse_argmax_entail_wit_8_2 : build_sparse_argmax_entail_wit_8_2 := by
   left
-  intro st_pre len_pre pre_pre ps table_2 level half width i a c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro ps pre_pre len_pre st_pre table_2 level half width i a c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   prop_apply (intArray.full_Zlength st_pre (len_pre*17) (replace_Znth (i*17+level) c table_2))
   Intros_p htable
   rw [Zlength_replace_Znth] at htable
@@ -1282,7 +1282,7 @@ theorem proof_of_build_sparse_argmax_entail_wit_8_2 : build_sparse_argmax_entail
 
 theorem proof_of_query_argmax_entail_wit_1 : query_argmax_entail_wit_1 := by
   left
-  intro hi_pre lo_pre st_pre len_pre pre_pre st_slots ps PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
+  intro st_slots ps pre_pre len_pre st_pre lo_pre hi_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -1290,7 +1290,7 @@ theorem proof_of_query_argmax_entail_wit_1 : query_argmax_entail_wit_1 := by
 
 theorem proof_of_query_argmax_entail_wit_2 : query_argmax_entail_wit_2 := by
   left
-  intro hi_pre lo_pre st_pre len_pre pre_pre st_slots ps width level PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro st_slots ps pre_pre len_pre st_pre lo_pre hi_pre width level PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have hdouble := power2_succ level PreH7
   have hl : level≤15 := by
     by_contra h
@@ -1305,7 +1305,7 @@ theorem proof_of_query_argmax_entail_wit_2 : query_argmax_entail_wit_2 := by
 
 theorem proof_of_query_argmax_entail_wit_3 : query_argmax_entail_wit_3 := by
   left
-  intro hi_pre lo_pre st_pre len_pre pre_pre st_slots ps width level PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro st_slots ps pre_pre len_pre st_pre lo_pre hi_pre width level PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have hs := sparse_query_read ps st_slots len_pre lo_pre hi_pre level width (by omega) PreH6 (by unfold ST_LEVELS; omega) PreH9 PreH10 PreH11 PreH12
   have ha := hs.1.2.1
   have hah := hs.1.2.2.1
@@ -1319,7 +1319,7 @@ theorem proof_of_query_argmax_entail_wit_3 : query_argmax_entail_wit_3 := by
 
 theorem proof_of_query_argmax_return_wit_1 : query_argmax_return_wit_1 := by
   left
-  intro hi_pre lo_pre st_pre len_pre pre_pre st_slots ps level width a c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro st_slots ps pre_pre len_pre st_pre lo_pre hi_pre level width a c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hs := sparse_query_read ps st_slots len_pre lo_pre hi_pre level width (by omega) PreH6 (by unfold ST_LEVELS; omega) PreH9 PreH10 PreH11 PreH19
   unfold ST_LEVELS at hs
   rw [←PreH13,←PreH14] at hs
@@ -1333,7 +1333,7 @@ theorem proof_of_query_argmax_return_wit_1 : query_argmax_return_wit_1 := by
 
 theorem proof_of_query_argmax_return_wit_2 : query_argmax_return_wit_2 := by
   left
-  intro hi_pre lo_pre st_pre len_pre pre_pre st_slots ps level width a c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro st_slots ps pre_pre len_pre st_pre lo_pre hi_pre level width a c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hs := sparse_query_read ps st_slots len_pre lo_pre hi_pre level width (by omega) PreH6 (by unfold ST_LEVELS; omega) PreH9 PreH10 PreH11 PreH19
   unfold ST_LEVELS at hs
   rw [←PreH13,←PreH14] at hs
@@ -1882,7 +1882,7 @@ private theorem piano_nth_bounded (ps : List Int) (i : Int)
 
 theorem proof_of_frontier_push_entail_wit_1 : frontier_push_entail_wit_1 := by
   left
-  intro best_pre hi_pre lo_pre start_pre value_pre size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals vals_out starts_out los_out his_out bests_out PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre value_pre start_pre lo_pre hi_pre best_pre vals_out starts_out los_out his_out bests_out PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
   have hp := piano_push_start (PianoNodes vals starts los his bests) size_pre (mkNode value_pre start_pre lo_pre hi_pre best_pre) (by omega) PreH6
   Exists (replace_Znth size_pre (mkNode value_pre start_pre lo_pre hi_pre best_pre) (PianoNodes vals starts los his bests)) vals_out starts_out los_out his_out bests_out
   split_pure_spatial
@@ -1892,7 +1892,7 @@ theorem proof_of_frontier_push_entail_wit_1 : frontier_push_entail_wit_1 := by
 
 theorem proof_of_frontier_push_entail_wit_2 : frontier_push_entail_wit_2 := by
   left
-  intro best_pre hi_pre lo_pre start_pre value_pre size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals child current_2 vals_cur_2 starts_cur_2 los_cur_2 his_cur_2 bests_cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre value_pre start_pre lo_pre hi_pre best_pre child current_2 vals_cur_2 starts_cur_2 los_cur_2 his_cur_2 bests_cur_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   have hb := heap_parent_positive_bounds__push_sift_up child size_pre PreH1 PreH6
   unfold heap_parent at hb
   Exists current_2 vals_cur_2 starts_cur_2 los_cur_2 his_cur_2 bests_cur_2
@@ -1903,7 +1903,7 @@ theorem proof_of_frontier_push_entail_wit_2 : frontier_push_entail_wit_2 := by
 
 theorem proof_of_frontier_push_entail_wit_3 : frontier_push_entail_wit_3 := by
   left
-  intro best_pre hi_pre lo_pre start_pre value_pre size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals current_2 vals_cur_2 starts_cur_2 los_cur_2 his_cur_2 bests_cur_2 child parent vals_out starts_out los_out his_out bests_out PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre value_pre start_pre lo_pre hi_pre best_pre current_2 vals_cur_2 starts_cur_2 los_cur_2 his_cur_2 bests_cur_2 child parent vals_out starts_out los_out his_out bests_out PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   prop_apply (intArray.full_Zlength heap_value_pre cap_pre vals_out)
   Intros_p hlen
   have hn := PreH1.1
@@ -1923,14 +1923,14 @@ theorem proof_of_frontier_push_entail_wit_3 : frontier_push_entail_wit_3 := by
 
 theorem proof_of_frontier_push_partial_solve_wit_4_pure : frontier_push_partial_solve_wit_4_pure := by
   left
-  intro best_pre hi_pre lo_pre start_pre value_pre size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals current vals_cur starts_cur los_cur his_cur bests_cur child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre value_pre start_pre lo_pre hi_pre best_pre current vals_cur starts_cur los_cur his_cur bests_cur child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   rw [piano_nodes_of_arrays _ _ _ _ _ _ PreH4]
   split_pures <;> dump_pre_spatial
   all_goals first | assumption | omega
 
 theorem proof_of_frontier_push_return_wit_1 : frontier_push_return_wit_1 := by
   left
-  intro best_pre hi_pre lo_pre start_pre value_pre size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals child current vals_cur starts_cur los_cur his_cur bests_cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre value_pre start_pre lo_pre hi_pre best_pre child current vals_cur starts_cur los_cur his_cur bests_cur PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   prop_apply (intArray.full_Zlength heap_value_pre cap_pre vals_cur)
   Intros_p hlen
   have hn := PreH4.1
@@ -1945,7 +1945,7 @@ theorem proof_of_frontier_push_return_wit_1 : frontier_push_return_wit_1 := by
 
 theorem proof_of_frontier_push_return_wit_2 : frontier_push_return_wit_2 := by
   left
-  intro best_pre hi_pre lo_pre start_pre value_pre size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals current vals_cur starts_cur los_cur his_cur bests_cur child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre value_pre start_pre lo_pre hi_pre best_pre current vals_cur starts_cur los_cur his_cur bests_cur child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   prop_apply (intArray.full_Zlength heap_value_pre cap_pre vals_cur)
   Intros_p hlen
   have hn := PreH4.1
@@ -1965,7 +1965,7 @@ theorem proof_of_frontier_push_return_wit_2 : frontier_push_return_wit_2 := by
 
 theorem proof_of_frontier_pop_only_entail_wit_1 : frontier_pop_only_entail_wit_1 := by
   left
-  intro size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals vals_out starts_out los_out his_out bests_out PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre vals_out starts_out los_out his_out bests_out PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   have hf := nodearrays_fields_all _ _ _ _ _ _ PreH7 (size_pre-1)
   have he : mkNode (Znth (size_pre-1) vals 0) (Znth (size_pre-1) starts 0) (Znth (size_pre-1) los 0) (Znth (size_pre-1) his 0) (Znth (size_pre-1) bests 0) = Znth (size_pre-1) (PianoNodes vals starts los his bests) default_node := by
     rw [hf.1,hf.2.1,hf.2.2.1,hf.2.2.2.1,hf.2.2.2.2]
@@ -1980,7 +1980,7 @@ theorem proof_of_frontier_pop_only_entail_wit_1 : frontier_pop_only_entail_wit_1
 
 theorem proof_of_frontier_pop_only_entail_wit_2_1 : frontier_pop_only_entail_wit_2_1 := by
   left
-  intro size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals vals_cur_2 starts_cur_2 los_cur_2 his_cur_2 bests_cur_2 current_2 index PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre vals_cur_2 starts_cur_2 los_cur_2 his_cur_2 bests_cur_2 current_2 index PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   have hl := (nodearrays_fields_all _ _ _ _ _ _ PreH10 (index*2+1)).1
   have hr := (nodearrays_fields_all _ _ _ _ _ _ PreH10 (index*2+2)).1
   have he : index*2+1+1=index*2+2 := by omega
@@ -1995,7 +1995,7 @@ theorem proof_of_frontier_pop_only_entail_wit_2_1 : frontier_pop_only_entail_wit
 
 theorem proof_of_frontier_pop_only_entail_wit_2_2 : frontier_pop_only_entail_wit_2_2 := by
   left
-  intro size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals vals_cur_2 starts_cur_2 los_cur_2 his_cur_2 bests_cur_2 current_2 index PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre vals_cur_2 starts_cur_2 los_cur_2 his_cur_2 bests_cur_2 current_2 index PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   have hp := piano_selected_left current_2 (size_pre-1) index PreH6 PreH2 (Or.inl (by omega))
   Exists vals_cur_2 starts_cur_2 los_cur_2 his_cur_2 bests_cur_2 current_2
   split_pure_spatial
@@ -2005,7 +2005,7 @@ theorem proof_of_frontier_pop_only_entail_wit_2_2 : frontier_pop_only_entail_wit
 
 theorem proof_of_frontier_pop_only_entail_wit_2_3 : frontier_pop_only_entail_wit_2_3 := by
   left
-  intro size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals vals_cur_2 starts_cur_2 los_cur_2 his_cur_2 bests_cur_2 current_2 index PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre vals_cur_2 starts_cur_2 los_cur_2 his_cur_2 bests_cur_2 current_2 index PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   have hl := (nodearrays_fields_all _ _ _ _ _ _ PreH10 (index*2+1)).1
   have hr := (nodearrays_fields_all _ _ _ _ _ _ PreH10 (index*2+2)).1
   have he : index*2+1+1=index*2+2 := by omega
@@ -2019,7 +2019,7 @@ theorem proof_of_frontier_pop_only_entail_wit_2_3 : frontier_pop_only_entail_wit
 
 theorem proof_of_frontier_pop_only_entail_wit_3 : frontier_pop_only_entail_wit_3 := by
   left
-  intro size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals current_2 vals_cur_2 starts_cur_2 los_cur_2 his_cur_2 bests_cur_2 index left right selected vals_out starts_out los_out his_out bests_out PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre current_2 vals_cur_2 starts_cur_2 los_cur_2 his_cur_2 bests_cur_2 index left right selected vals_out starts_out los_out his_out bests_out PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   prop_apply (intArray.full_Zlength heap_value_pre cap_pre vals_out)
   Intros_p hlen
   rw [piano_nodes_of_arrays _ _ _ _ _ _ PreH9] at PreH1
@@ -2037,14 +2037,14 @@ theorem proof_of_frontier_pop_only_entail_wit_3 : frontier_pop_only_entail_wit_3
 
 theorem proof_of_frontier_pop_only_partial_solve_wit_11_pure : frontier_pop_only_partial_solve_wit_11_pure := by
   left
-  intro size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals current vals_cur starts_cur los_cur his_cur bests_cur index left right selected PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre current vals_cur starts_cur los_cur his_cur bests_cur index left right selected PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   rw [piano_nodes_of_arrays _ _ _ _ _ _ PreH8]
   split_pures <;> dump_pre_spatial
   all_goals first | assumption | omega
 
 theorem proof_of_frontier_pop_only_return_wit_1 : frontier_pop_only_return_wit_1 := by
   left
-  intro size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   subst size_pre
   have hh := piano_pop_singleton (PianoNodes vals starts los his bests) (by omega)
   have hheap := hh.1
@@ -2057,7 +2057,7 @@ theorem proof_of_frontier_pop_only_return_wit_1 : frontier_pop_only_return_wit_1
 
 theorem proof_of_frontier_pop_only_return_wit_2 : frontier_pop_only_return_wit_2 := by
   left
-  intro size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals vals_cur starts_cur los_cur his_cur bests_cur current index PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre vals_cur starts_cur los_cur his_cur bests_cur current index PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   prop_apply (intArray.full_Zlength heap_value_pre cap_pre vals_cur)
   Intros_p hlen
   have hn := PreH8.1
@@ -2072,7 +2072,7 @@ theorem proof_of_frontier_pop_only_return_wit_2 : frontier_pop_only_return_wit_2
 
 theorem proof_of_frontier_pop_only_return_wit_3 : frontier_pop_only_return_wit_3 := by
   left
-  intro size_pre cap_pre heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre bests his los starts vals current vals_cur starts_cur los_cur his_cur bests_cur index left right selected PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro bests his los starts vals heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre cap_pre size_pre current vals_cur starts_cur los_cur his_cur bests_cur index left right selected PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   prop_apply (intArray.full_Zlength heap_value_pre cap_pre vals_cur)
   Intros_p hlen
   have hn := PreH8.1
@@ -2091,7 +2091,7 @@ theorem proof_of_frontier_pop_only_return_wit_3 : frontier_pop_only_return_wit_3
 
 theorem proof_of_build_initial_frontier_entail_wit_4_1 : build_initial_frontier_entail_wit_4_1 := by
   left
-  intro heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre cap_pre st_pre R_pre L_pre n_pre pre_pre st_slots ps vals_2 starts_2 los_2 his_2 bests_2 slots_2 start size retval vals_out starts_out los_out his_out bests_out slots_out PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro st_slots ps pre_pre n_pre L_pre R_pre st_pre cap_pre heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre vals_2 starts_2 los_2 his_2 bests_2 slots_2 start size retval vals_out starts_out los_out his_out bests_out slots_out PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   prop_apply (intArray.full_Zlength pre_pre (n_pre+1) ps)
   Intros_p hps
   have hmin : n_pre=min n_pre (start+R_pre-1) := by omega
@@ -2109,7 +2109,7 @@ theorem proof_of_build_initial_frontier_entail_wit_4_1 : build_initial_frontier_
 
 theorem proof_of_build_initial_frontier_entail_wit_4_2 : build_initial_frontier_entail_wit_4_2 := by
   left
-  intro heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre cap_pre st_pre R_pre L_pre n_pre pre_pre st_slots ps vals_2 starts_2 los_2 his_2 bests_2 slots_2 start size retval vals_out starts_out los_out his_out bests_out slots_out PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro st_slots ps pre_pre n_pre L_pre R_pre st_pre cap_pre heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre vals_2 starts_2 los_2 his_2 bests_2 slots_2 start size retval vals_out starts_out los_out his_out bests_out slots_out PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   prop_apply (intArray.full_Zlength pre_pre (n_pre+1) ps)
   Intros_p hps
   have hmin : (start+R_pre-1)=min n_pre (start+R_pre-1) := by omega
@@ -2127,7 +2127,7 @@ theorem proof_of_build_initial_frontier_entail_wit_4_2 : build_initial_frontier_
 
 theorem proof_of_build_initial_frontier_partial_solve_wit_12_pure : build_initial_frontier_partial_solve_wit_12_pure := by
   left
-  intro heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre cap_pre st_pre R_pre L_pre n_pre pre_pre st_slots ps vals starts los his bests slots start size retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro st_slots ps pre_pre n_pre L_pre R_pre st_pre cap_pre heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre vals starts los his bests slots start size retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   rw [piano_nodes_of_arrays _ _ _ _ _ _ PreH24]
   have hh : NodeHeapState slots (start-1) := by rw [←PreH17]; exact PreH23
   split_pures <;> dump_pre_spatial
@@ -2135,7 +2135,7 @@ theorem proof_of_build_initial_frontier_partial_solve_wit_12_pure : build_initia
 
 theorem proof_of_build_initial_frontier_partial_solve_wit_13_pure : build_initial_frontier_partial_solve_wit_13_pure := by
   left
-  intro heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre cap_pre st_pre R_pre L_pre n_pre pre_pre st_slots ps vals starts los his bests slots start size retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro st_slots ps pre_pre n_pre L_pre R_pre st_pre cap_pre heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre vals starts los his bests slots start size retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   rw [piano_nodes_of_arrays _ _ _ _ _ _ PreH24]
   have hh : NodeHeapState slots (start-1) := by rw [←PreH17]; exact PreH23
   split_pures <;> dump_pre_spatial
@@ -2143,7 +2143,7 @@ theorem proof_of_build_initial_frontier_partial_solve_wit_13_pure : build_initia
 
 theorem proof_of_build_initial_frontier_safety_wit_23 : build_initial_frontier_safety_wit_23 := by
   left
-  intro heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre cap_pre st_pre R_pre L_pre n_pre pre_pre st_slots ps vals starts los his bests slots start size retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro st_slots ps pre_pre n_pre L_pre R_pre st_pre cap_pre heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre vals starts los his bests slots start size retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   have hb := piano_nth_bounded ps retval PreH18 PreH19
   have hs := piano_nth_bounded ps (start-1) PreH18 PreH19
   split_pures <;> dump_pre_spatial
@@ -2154,7 +2154,7 @@ theorem proof_of_build_initial_frontier_safety_wit_23 : build_initial_frontier_s
 
 theorem proof_of_build_initial_frontier_safety_wit_26 : build_initial_frontier_safety_wit_26 := by
   left
-  intro heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre cap_pre st_pre R_pre L_pre n_pre pre_pre st_slots ps vals starts los his bests slots start size retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro st_slots ps pre_pre n_pre L_pre R_pre st_pre cap_pre heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre vals starts los his bests slots start size retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   have hb := piano_nth_bounded ps retval PreH18 PreH19
   have hs := piano_nth_bounded ps (start-1) PreH18 PreH19
   split_pures <;> dump_pre_spatial
@@ -2165,7 +2165,7 @@ theorem proof_of_build_initial_frontier_safety_wit_26 : build_initial_frontier_s
 
 theorem proof_of_build_initial_frontier_return_wit_1 : build_initial_frontier_return_wit_1 := by
   left
-  intro heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre cap_pre st_pre R_pre L_pre n_pre pre_pre st_slots ps vals_2 starts_2 los_2 his_2 bests_2 slots_2 start size PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro st_slots ps pre_pre n_pre L_pre R_pre st_pre cap_pre heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre vals_2 starts_2 los_2 his_2 bests_2 slots_2 start size PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   have he : start=n_pre-L_pre+2 := by omega
   rw [he] at PreH17
   have hp := piano_initial_complete ps n_pre L_pre R_pre (sublist 0 size slots_2) (by omega) PreH6 PreH17
@@ -2177,7 +2177,7 @@ theorem proof_of_build_initial_frontier_return_wit_1 : build_initial_frontier_re
 
 theorem proof_of_build_initial_frontier_entail_wit_3 : build_initial_frontier_entail_wit_3 := by
   left
-  intro heap_best_pre heap_hi_pre heap_lo_pre heap_start_pre heap_value_pre cap_pre st_pre R_pre L_pre n_pre pre_pre st_slots ps bests_2 his_2 los_2 starts_2 vals_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro st_slots ps pre_pre n_pre L_pre R_pre st_pre cap_pre heap_value_pre heap_start_pre heap_lo_pre heap_hi_pre heap_best_pre bests_2 his_2 los_2 starts_2 vals_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   have he : i=cap_pre := by omega
   subst i
   sep_apply (intArray.undef_seg_empty heap_value_pre cap_pre)

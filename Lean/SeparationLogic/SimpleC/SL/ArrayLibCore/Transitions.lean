@@ -934,18 +934,22 @@ private theorem undef_missing_i_to_undef_seg_tail_rec
     (hn : n = (hi - (lo + 1)).toNat) :
     CRules.derivable1
       (store_undef_array_missing_i_rec CRules ES.undefstoreA
-        x hi lo hi (Nat.succ n))
+        x (hi - 1) lo hi (Nat.succ n))
       (store_undef_array_rec CRules ES.undefstoreA x lo (hi - 1) n) := by
   induction n generalizing lo with
   | zero =>
       simp only [store_undef_array_missing_i_rec, store_undef_array_rec]
       intro state hs
       rcases hs with hs | hs
-      · have heq := hs.1
-        change hi = lo at heq
+      · constructor
+        · change lo = hi - 1
+          have heq := hs.1
+          change hi - 1 = lo at heq
+          exact heq.symm
+        · exact hs.2.2
+      · have hgt := hs.1
+        change hi - 1 > lo at hgt
         omega
-      · exact sepcon_coq_false_elim CRules (ES.undefstoreA x lo)
-          (CRules.andp (CRules.coq_prop (lo = hi - 1)) CRules.emp) state hs.2
   | succ n ih =>
       have hltTail : lo + 1 < hi := by omega
       have hnTail : n = (hi - ((lo + 1) + 1)).toNat := by omega
@@ -953,7 +957,7 @@ private theorem undef_missing_i_to_undef_seg_tail_rec
       intro state hs
       rcases hs with hs | hs
       · have heq := hs.1
-        change hi = lo at heq
+        change hi - 1 = lo at heq
         omega
       · exact (CRules.toContext.derivable1_sepcon_mono _ _ _ _
           (CRules.toContext.derivable1_refl _)
@@ -962,7 +966,7 @@ private theorem undef_missing_i_to_undef_seg_tail_rec
 theorem undef_missing_i_to_undef_seg_tail
     (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo hi : Int) (h : lo < hi) :
-    CRules.derivable1 (undef_missing_i ES x hi lo hi)
+    CRules.derivable1 (undef_missing_i ES x (hi - 1) lo hi)
       (undef_seg ES x lo (hi - 1)) := by
   have hsource : (hi - lo).toNat = Nat.succ (hi - (lo + 1)).toNat := by omega
   have htarget : (hi - 1 - lo).toNat = (hi - (lo + 1)).toNat := by

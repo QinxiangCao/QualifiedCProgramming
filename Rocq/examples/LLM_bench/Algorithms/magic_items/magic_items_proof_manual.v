@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.magic_items Require Import magic_items_goal.
 From SimpleC.EE.LLM_bench.Algorithms.magic_items Require Import magic_items_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.magic_items.magic_items_lib.
 Local Open Scope sac.
@@ -46,8 +30,8 @@ Qed.
 Lemma proof_of_magic_items_safety_wit_5 : magic_items_safety_wit_5.
 Proof.
   aggressive_pre_process.
-  - Goal_apply (ltac:(let H := fresh "Hsplit" in pose proof (proof_of_magic_items_safety_wit_5_split_goal_1 b_pre a_pre c_pre n_pre bl al ans s t i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19) as H; sepcon_assoc_change_in H; exact H)).
-  - Goal_apply (ltac:(let H := fresh "Hsplit" in pose proof (proof_of_magic_items_safety_wit_5_split_goal_2 b_pre a_pre c_pre n_pre bl al ans s t i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19) as H; sepcon_assoc_change_in H; exact H)).
+  - Goal_apply proof_of_magic_items_safety_wit_5_split_goal_1.
+  - Goal_apply proof_of_magic_items_safety_wit_5_split_goal_2.
 Qed. 
 
 Lemma proof_of_magic_items_safety_wit_6_split_goal_1 : magic_items_safety_wit_6_split_goal_1.
@@ -75,8 +59,8 @@ Qed.
 Lemma proof_of_magic_items_safety_wit_6 : magic_items_safety_wit_6.
 Proof.
   aggressive_pre_process.
-  - Goal_apply (ltac:(let H := fresh "Hsplit" in pose proof (proof_of_magic_items_safety_wit_6_split_goal_1 b_pre a_pre c_pre n_pre bl al ans s t i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19) as H; sepcon_assoc_change_in H; exact H)).
-  - Goal_apply (ltac:(let H := fresh "Hsplit" in pose proof (proof_of_magic_items_safety_wit_6_split_goal_2 b_pre a_pre c_pre n_pre bl al ans s t i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19) as H; sepcon_assoc_change_in H; exact H)).
+  - Goal_apply proof_of_magic_items_safety_wit_6_split_goal_1.
+  - Goal_apply proof_of_magic_items_safety_wit_6_split_goal_2.
 Qed. 
 
 Lemma proof_of_magic_items_safety_wit_7_split_goal_1 : magic_items_safety_wit_7_split_goal_1.
@@ -104,8 +88,8 @@ Qed.
 Lemma proof_of_magic_items_safety_wit_7 : magic_items_safety_wit_7.
 Proof.
   aggressive_pre_process.
-  - Goal_apply (ltac:(let H := fresh "Hsplit" in pose proof (proof_of_magic_items_safety_wit_7_split_goal_1 b_pre a_pre c_pre n_pre bl al ans s t i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19) as H; sepcon_assoc_change_in H; exact H)).
-  - Goal_apply (ltac:(let H := fresh "Hsplit" in pose proof (proof_of_magic_items_safety_wit_7_split_goal_2 b_pre a_pre c_pre n_pre bl al ans s t i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19) as H; sepcon_assoc_change_in H; exact H)).
+  - Goal_apply proof_of_magic_items_safety_wit_7_split_goal_1.
+  - Goal_apply proof_of_magic_items_safety_wit_7_split_goal_2.
 Qed. 
 
 Lemma proof_of_magic_items_safety_wit_8_split_goal_1 : magic_items_safety_wit_8_split_goal_1.
@@ -133,8 +117,8 @@ Qed.
 Lemma proof_of_magic_items_safety_wit_8 : magic_items_safety_wit_8.
 Proof.
   aggressive_pre_process.
-  - Goal_apply (ltac:(let H := fresh "Hsplit" in pose proof (proof_of_magic_items_safety_wit_8_split_goal_1 b_pre a_pre c_pre n_pre bl al ans s t i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19) as H; sepcon_assoc_change_in H; exact H)).
-  - Goal_apply (ltac:(let H := fresh "Hsplit" in pose proof (proof_of_magic_items_safety_wit_8_split_goal_2 b_pre a_pre c_pre n_pre bl al ans s t i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19) as H; sepcon_assoc_change_in H; exact H)).
+  - Goal_apply proof_of_magic_items_safety_wit_8_split_goal_1.
+  - Goal_apply proof_of_magic_items_safety_wit_8_split_goal_2.
 Qed. 
 
 Lemma proof_of_magic_items_safety_wit_10_split_goal_1 : magic_items_safety_wit_10_split_goal_1.
@@ -162,8 +146,8 @@ Qed.
 Lemma proof_of_magic_items_safety_wit_10 : magic_items_safety_wit_10.
 Proof.
   aggressive_pre_process.
-  - Goal_apply (ltac:(let H := fresh "Hsplit" in pose proof (proof_of_magic_items_safety_wit_10_split_goal_1 b_pre a_pre c_pre n_pre bl al ans s t i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20) as H; sepcon_assoc_change_in H; exact H)).
-  - Goal_apply (ltac:(let H := fresh "Hsplit" in pose proof (proof_of_magic_items_safety_wit_10_split_goal_2 b_pre a_pre c_pre n_pre bl al ans s t i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20) as H; sepcon_assoc_change_in H; exact H)).
+  - Goal_apply proof_of_magic_items_safety_wit_10_split_goal_1.
+  - Goal_apply proof_of_magic_items_safety_wit_10_split_goal_2.
 Qed. 
 
 Lemma proof_of_magic_items_safety_wit_11_split_goal_1 : magic_items_safety_wit_11_split_goal_1.
@@ -191,8 +175,8 @@ Qed.
 Lemma proof_of_magic_items_safety_wit_11 : magic_items_safety_wit_11.
 Proof.
   aggressive_pre_process.
-  - Goal_apply (ltac:(let H := fresh "Hsplit" in pose proof (proof_of_magic_items_safety_wit_11_split_goal_1 b_pre a_pre c_pre n_pre bl al ans s t i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20) as H; sepcon_assoc_change_in H; exact H)).
-  - Goal_apply (ltac:(let H := fresh "Hsplit" in pose proof (proof_of_magic_items_safety_wit_11_split_goal_2 b_pre a_pre c_pre n_pre bl al ans s t i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20) as H; sepcon_assoc_change_in H; exact H)).
+  - Goal_apply proof_of_magic_items_safety_wit_11_split_goal_1.
+  - Goal_apply proof_of_magic_items_safety_wit_11_split_goal_2.
 Qed. 
 
 Lemma proof_of_magic_items_safety_wit_21_split_goal_1 : magic_items_safety_wit_21_split_goal_1.
@@ -810,7 +794,7 @@ Qed.
 Lemma proof_of_magic_items_entail_wit_8_1 : magic_items_entail_wit_8_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_magic_items_entail_wit_8_1_split_goal_1.
+  - Goal_apply proof_of_magic_items_entail_wit_8_1_split_goal_1.
 Qed. 
 
 Lemma proof_of_magic_items_entail_wit_9_split_goal_1 : magic_items_entail_wit_9_split_goal_1.
@@ -883,4 +867,3 @@ Proof.
   - cancel.
   - dump_pre_spatial. exact Hopt.
 Qed. 
-

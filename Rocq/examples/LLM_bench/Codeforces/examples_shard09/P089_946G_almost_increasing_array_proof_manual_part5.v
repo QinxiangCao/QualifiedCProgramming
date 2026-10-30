@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P089_946G_almost_increasing_array_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P089_946G_almost_increasing_array_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P089_946G_almost_increasing_array_lib.
 Local Open Scope sac.
@@ -25,7 +9,7 @@ Local Open Scope sac.
 
 Lemma proof_of_solver_partial_solve_wit_53_pure_split_goal_1 : solver_partial_solve_wit_53_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -38,7 +22,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_53_pure_split_goal_2 : solver_partial_solve_wit_53_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -58,7 +42,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_54_pure_split_goal_1 : solver_partial_solve_wit_54_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -71,7 +55,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_54_pure_split_goal_2 : solver_partial_solve_wit_54_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -91,7 +75,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_55_pure_split_goal_1 : solver_partial_solve_wit_55_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -104,7 +88,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_55_pure_split_goal_2 : solver_partial_solve_wit_55_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -124,7 +108,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_56_pure_split_goal_1 : solver_partial_solve_wit_56_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hb : RangeMax m0 1 (retval + 1) <= n_pre).
   { apply rangemax_le_bound__pure_d1_bound_bit0.
@@ -135,7 +119,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_56_pure_split_goal_2 : solver_partial_solve_wit_56_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH61 k ltac:(lia)). lia.
@@ -143,7 +127,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_56_pure_split_goal_3 : solver_partial_solve_wit_56_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH61 k ltac:(lia)). lia.
@@ -159,7 +143,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_57_pure_split_goal_1 : solver_partial_solve_wit_57_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -172,7 +156,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_57_pure_split_goal_2 : solver_partial_solve_wit_57_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -192,7 +176,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_58_pure_split_goal_1 : solver_partial_solve_wit_58_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hb : RangeMax m0 1 (retval + 1) <= n_pre).
   { apply rangemax_le_bound__pure_d1_bound_bit0.
@@ -203,7 +187,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_58_pure_split_goal_2 : solver_partial_solve_wit_58_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH61 k ltac:(lia)). lia.
@@ -211,7 +195,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_58_pure_split_goal_3 : solver_partial_solve_wit_58_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH61 k ltac:(lia)). lia.
@@ -227,7 +211,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_59_pure_split_goal_1 : solver_partial_solve_wit_59_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -240,7 +224,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_59_pure_split_goal_2 : solver_partial_solve_wit_59_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -260,7 +244,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_60_pure_split_goal_1 : solver_partial_solve_wit_60_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hb : RangeMax m0 1 (retval + 1) <= n_pre).
   { apply rangemax_le_bound__pure_d1_bound_bit0.
@@ -271,7 +255,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_60_pure_split_goal_2 : solver_partial_solve_wit_60_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH61 k ltac:(lia)). lia.
@@ -279,7 +263,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_60_pure_split_goal_3 : solver_partial_solve_wit_60_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH61 k ltac:(lia)). lia.
@@ -295,7 +279,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_61_pure_split_goal_1 : solver_partial_solve_wit_61_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -308,7 +292,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_61_pure_split_goal_2 : solver_partial_solve_wit_61_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -328,7 +312,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_62_pure_split_goal_1 : solver_partial_solve_wit_62_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hb : RangeMax m0 1 (retval + 1) <= n_pre).
   { apply rangemax_le_bound__pure_d1_bound_bit0.
@@ -339,7 +323,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_62_pure_split_goal_2 : solver_partial_solve_wit_62_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH61 k ltac:(lia)). lia.
@@ -347,7 +331,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_62_pure_split_goal_3 : solver_partial_solve_wit_62_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH61 k ltac:(lia)). lia.
@@ -363,7 +347,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_63_pure_split_goal_1 : solver_partial_solve_wit_63_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -376,7 +360,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_63_pure_split_goal_2 : solver_partial_solve_wit_63_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -396,7 +380,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_64_pure_split_goal_1 : solver_partial_solve_wit_64_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hb : RangeMax m0 1 (retval + 1) <= n_pre).
   { apply rangemax_le_bound__pure_d1_bound_bit0.
@@ -407,7 +391,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_64_pure_split_goal_2 : solver_partial_solve_wit_64_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH53 k ltac:(lia)). lia.
@@ -415,7 +399,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_64_pure_split_goal_3 : solver_partial_solve_wit_64_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH53 k ltac:(lia)). lia.
@@ -431,7 +415,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_65_pure_split_goal_1 : solver_partial_solve_wit_65_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -444,7 +428,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_65_pure_split_goal_2 : solver_partial_solve_wit_65_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -464,7 +448,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_66_pure_split_goal_1 : solver_partial_solve_wit_66_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -477,7 +461,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_66_pure_split_goal_2 : solver_partial_solve_wit_66_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   destruct Hk as [Hk1 Hk2].
@@ -612,7 +596,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_72_pure_split_goal_1 : solver_partial_solve_wit_72_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH63 k ltac:(lia)).
@@ -621,7 +605,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_72_pure_split_goal_2 : solver_partial_solve_wit_72_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH63 k ltac:(lia)).
@@ -637,7 +621,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_73_pure_split_goal_1 : solver_partial_solve_wit_73_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH61 k ltac:(lia)).
@@ -646,7 +630,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_73_pure_split_goal_2 : solver_partial_solve_wit_73_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH61 k ltac:(lia)).
@@ -662,7 +646,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_74_pure_split_goal_1 : solver_partial_solve_wit_74_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH55 k ltac:(lia)).
@@ -671,7 +655,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_74_pure_split_goal_2 : solver_partial_solve_wit_74_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH55 k ltac:(lia)).
@@ -687,7 +671,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_75_pure_split_goal_1 : solver_partial_solve_wit_75_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH55 k ltac:(lia)).
@@ -696,7 +680,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_75_pure_split_goal_2 : solver_partial_solve_wit_75_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH55 k ltac:(lia)).
@@ -1030,7 +1014,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_82_pure_split_goal_1 : solver_partial_solve_wit_82_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH63 k ltac:(lia)).
@@ -1039,7 +1023,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_82_pure_split_goal_2 : solver_partial_solve_wit_82_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH63 k ltac:(lia)).
@@ -1055,7 +1039,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_83_pure_split_goal_1 : solver_partial_solve_wit_83_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH61 k ltac:(lia)).
@@ -1064,7 +1048,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_83_pure_split_goal_2 : solver_partial_solve_wit_83_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH61 k ltac:(lia)).
@@ -1398,7 +1382,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_90_pure_split_goal_1 : solver_partial_solve_wit_90_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH65 k ltac:(lia)).
@@ -1407,7 +1391,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_90_pure_split_goal_2 : solver_partial_solve_wit_90_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH65 k ltac:(lia)).
@@ -1423,7 +1407,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_91_pure_split_goal_1 : solver_partial_solve_wit_91_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH63 k ltac:(lia)).
@@ -1432,7 +1416,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_91_pure_split_goal_2 : solver_partial_solve_wit_91_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH63 k ltac:(lia)).
@@ -1448,7 +1432,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_92_pure_split_goal_1 : solver_partial_solve_wit_92_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH65 k ltac:(lia)). lia.
@@ -1456,7 +1440,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_92_pure_split_goal_2 : solver_partial_solve_wit_92_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH65 k ltac:(lia)). lia.
@@ -1471,7 +1455,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_93_pure_split_goal_1 : solver_partial_solve_wit_93_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH65 k ltac:(lia)). lia.
@@ -1479,7 +1463,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_93_pure_split_goal_2 : solver_partial_solve_wit_93_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH65 k ltac:(lia)). lia.
@@ -1494,7 +1478,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_94_pure_split_goal_1 : solver_partial_solve_wit_94_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH65 k ltac:(lia)). lia.
@@ -1502,7 +1486,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_94_pure_split_goal_2 : solver_partial_solve_wit_94_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH65 k ltac:(lia)). lia.
@@ -1517,7 +1501,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_95_pure_split_goal_1 : solver_partial_solve_wit_95_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH65 k ltac:(lia)). lia.
@@ -1525,7 +1509,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_95_pure_split_goal_2 : solver_partial_solve_wit_95_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH65 k ltac:(lia)). lia.
@@ -1540,7 +1524,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_96_pure_split_goal_1 : solver_partial_solve_wit_96_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH65 k ltac:(lia)). lia.
@@ -1548,7 +1532,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_96_pure_split_goal_2 : solver_partial_solve_wit_96_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k Hk.
   specialize (PreH65 k ltac:(lia)). lia.
@@ -1563,7 +1547,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_97_pure_split_goal_1 : solver_partial_solve_wit_97_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k [Hk1 Hk2].
   match goal with H : nvals = uniq |- _ => rewrite <- H in Hk2 end.
@@ -1576,7 +1560,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_97_pure_split_goal_2 : solver_partial_solve_wit_97_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k [Hk1 Hk2].
   repeat match goal with
@@ -1595,7 +1579,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_98_pure_split_goal_1 : solver_partial_solve_wit_98_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k [Hk1 Hk2].
   match goal with H : nvals = uniq |- _ => rewrite <- H in Hk2 end.
@@ -1608,7 +1592,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_98_pure_split_goal_2 : solver_partial_solve_wit_98_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k [Hk1 Hk2].
   repeat match goal with
@@ -1627,7 +1611,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_99_pure_split_goal_1 : solver_partial_solve_wit_99_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k [Hk1 Hk2].
   match goal with H : nvals = uniq |- _ => rewrite <- H in Hk2 end.
@@ -1640,7 +1624,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_99_pure_split_goal_2 : solver_partial_solve_wit_99_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k [Hk1 Hk2].
   repeat match goal with
@@ -1659,7 +1643,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_100_pure_split_goal_1 : solver_partial_solve_wit_100_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k [Hk1 Hk2].
   match goal with H : nvals = uniq |- _ => rewrite <- H in Hk2 end.
@@ -1672,7 +1656,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_100_pure_split_goal_2 : solver_partial_solve_wit_100_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k [Hk1 Hk2].
   repeat match goal with
@@ -1691,7 +1675,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_101_pure_split_goal_1 : solver_partial_solve_wit_101_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k [Hk1 Hk2].
   match goal with H : nvals = uniq |- _ => rewrite <- H in Hk2 end.
@@ -1704,7 +1688,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_101_pure_split_goal_2 : solver_partial_solve_wit_101_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k [Hk1 Hk2].
   repeat match goal with
@@ -1723,7 +1707,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_102_pure_split_goal_1 : solver_partial_solve_wit_102_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k [Hk1 Hk2].
   match goal with H : nvals = uniq |- _ => rewrite <- H in Hk2 end.
@@ -1736,7 +1720,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_102_pure_split_goal_2 : solver_partial_solve_wit_102_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros k [Hk1 Hk2].
   repeat match goal with
@@ -1890,7 +1874,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_109_pure_split_goal_1 : solver_partial_solve_wit_109_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -1899,7 +1883,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_109_pure_split_goal_2 : solver_partial_solve_wit_109_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -1909,12 +1893,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_109_pure_split_goal_3 : solver_partial_solve_wit_109_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_109_pure_split_goal_4 : solver_partial_solve_wit_109_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -1924,7 +1908,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_109_pure_split_goal_5 : solver_partial_solve_wit_109_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.

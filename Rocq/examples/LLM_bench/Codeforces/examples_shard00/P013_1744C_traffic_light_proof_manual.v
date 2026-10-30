@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P013_1744C_traffic_light_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P013_1744C_traffic_light_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.StdLib.string_lib.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P013_1744C_traffic_light_lib.
@@ -24,7 +8,7 @@ Local Open Scope sac.
 
 Lemma proof_of_solver_entail_wit_1_red_split_goal_1 : solver_entail_wit_1_red_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite PreH2.
   apply traffic_scan_state_initial__initialization.
   lia.
@@ -32,7 +16,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_red_split_goal_2 : solver_entail_wit_1_red_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH6.
   lia.
 Qed.
@@ -46,7 +30,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_yellow_split_goal_1 : solver_entail_wit_2_yellow_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite PreH2.
   apply traffic_scan_state_initial__initialization.
   lia.
@@ -54,7 +38,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_yellow_split_goal_2 : solver_entail_wit_2_yellow_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH6.
   lia.
 Qed.
@@ -68,7 +52,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_red_split_goal_1 : solver_entail_wit_3_red_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.rem_mod_nonneg by lia.
   pose proof (Z.mod_pos_bound i n ltac:(lia)) as Hmod.
   exact (proj2 Hmod).
@@ -76,7 +60,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_red_split_goal_2 : solver_entail_wit_3_red_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.rem_mod_nonneg by lia.
   pose proof (Z.mod_pos_bound i n ltac:(lia)) as Hmod.
   exact (proj1 Hmod).
@@ -91,7 +75,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_yellow_split_goal_1 : solver_entail_wit_4_yellow_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.rem_mod_nonneg by lia.
   pose proof (Z.mod_pos_bound i n ltac:(lia)) as Hmod.
   exact (proj2 Hmod).
@@ -99,7 +83,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_yellow_split_goal_2 : solver_entail_wit_4_yellow_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.rem_mod_nonneg by lia.
   pose proof (Z.mod_pos_bound i n ltac:(lia)) as Hmod.
   exact (proj1 Hmod).
@@ -114,7 +98,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_1_red_split_goal_1 : solver_entail_wit_5_1_red_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hchar : DoubledTrafficChar lights i = 114).
   {
     unfold DoubledTrafficChar.
@@ -137,7 +121,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_1_red_split_goal_2 : solver_entail_wit_5_1_red_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hchar : DoubledTrafficChar lights i = 114).
   {
     unfold DoubledTrafficChar.
@@ -167,7 +151,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_2_red_split_goal_1 : solver_entail_wit_5_2_red_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst c. subst n.
   rewrite app_Znth1 in PreH1 by lia.
   rewrite app_Znth1 in PreH3 by lia.
@@ -189,7 +173,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_3_red_split_goal_1 : solver_entail_wit_5_3_red_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst c.
   subst n.
   rewrite app_Znth1 in PreH1 by lia.
@@ -212,7 +196,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_4_red_split_goal_1 : solver_entail_wit_5_4_red_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst c.
   subst n.
   rewrite app_Znth1 in PreH2 by lia.
@@ -232,7 +216,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_5_red_split_goal_1 : solver_entail_wit_5_5_red_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst c. subst n.
   rewrite app_Znth1 in PreH2 by lia.
   apply traffic_scan_step_nongreen_outside_original__stable_transition.
@@ -250,7 +234,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_6_red_split_goal_1 : solver_entail_wit_5_6_red_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst c. subst n.
   rewrite app_Znth1 in PreH4 by lia.
   rewrite Z.rem_small in PreH4 by lia.
@@ -271,7 +255,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_1_yellow_split_goal_1 : solver_entail_wit_6_1_yellow_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hchar : DoubledTrafficChar lights i = 121).
   {
     unfold DoubledTrafficChar.
@@ -294,7 +278,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_1_yellow_split_goal_2 : solver_entail_wit_6_1_yellow_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hchar : DoubledTrafficChar lights i = 121).
   {
     unfold DoubledTrafficChar.
@@ -324,7 +308,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_2_yellow_split_goal_1 : solver_entail_wit_6_2_yellow_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst c. subst n.
   rewrite app_Znth1 in PreH1 by lia.
   rewrite app_Znth1 in PreH3 by lia.
@@ -346,7 +330,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_3_yellow_split_goal_1 : solver_entail_wit_6_3_yellow_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst c.
   subst n.
   rewrite app_Znth1 in PreH1 by lia.
@@ -369,7 +353,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_4_yellow_split_goal_1 : solver_entail_wit_6_4_yellow_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst c.
   subst n.
   rewrite app_Znth1 in PreH2 by lia.
@@ -389,7 +373,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_5_yellow_split_goal_1 : solver_entail_wit_6_5_yellow_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst c. subst n.
   rewrite app_Znth1 in PreH2 by lia.
   apply traffic_scan_step_nongreen_outside_original__stable_transition.
@@ -407,7 +391,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_6_yellow_split_goal_1 : solver_entail_wit_6_6_yellow_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst c. subst n.
   rewrite app_Znth1 in PreH4 by lia.
   rewrite Z.rem_small in PreH4 by lia.
@@ -428,7 +412,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1_red_split_goal_1 : solver_return_wit_1_red_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst c.
   eapply traffic_scan_exit_implies_spec__final_results
     with (i := i) (next := next_green).
@@ -445,7 +429,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_2_yellow_split_goal_1 : solver_return_wit_2_yellow_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst c.
   eapply traffic_scan_exit_implies_spec__final_results
     with (i := i) (next := next_green).
@@ -462,7 +446,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_3_green_split_goal_1 : solver_return_wit_3_green_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst c_pre.
   apply green_current_spec_zero__final_results.
   assumption.

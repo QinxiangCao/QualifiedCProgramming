@@ -58,7 +58,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def linear_modular_inverse_safety_wit_1 : Prop :=
-  forall (inverse_pre : Int) (p_pre : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) ,
+  forall (p_pre : Int) (inverse_pre : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "inverse" ) )) # Ptr |-> (inverse_pre))
   ** (intArray.undef_seg inverse_pre 1 p_pre)
@@ -67,7 +67,7 @@ noncomputable def linear_modular_inverse_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def linear_modular_inverse_safety_wit_2 : Prop :=
-  forall (inverse_pre : Int) (p_pre : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) ,
+  forall (p_pre : Int) (inverse_pre : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "inverse" ) )) # Ptr |-> (inverse_pre))
   ** (intArray.undef_seg inverse_pre 1 p_pre)
@@ -76,7 +76,7 @@ noncomputable def linear_modular_inverse_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def linear_modular_inverse_safety_wit_3 : Prop :=
-  forall (inverse_pre : Int) (p_pre : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) ,
+  forall (p_pre : Int) (inverse_pre : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) ,
   ((( &( "i" ) )) # Int |->_)
   ** (((inverse_pre + (1 * sizeof(INT)))) # Int |-> (1))
   ** (intArray.undef_seg inverse_pre (1 + 1) p_pre)
@@ -87,7 +87,7 @@ noncomputable def linear_modular_inverse_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def linear_modular_inverse_safety_wit_4 : Prop :=
-  forall (inverse_pre : Int) (p_pre : Int) (values : (List Int)) (i : Int) (PreH1 : (i < p_pre)) (PreH2 : (PrimeForLinearInverse p_pre)) (PreH3 : (2 <= p_pre)) (PreH4 : (p_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= p_pre)) (PreH7 : ((Zlength (values)) = (i - 1))) (PreH8 : (ModularInversePrefix p_pre i values)) ,
+  forall (p_pre : Int) (inverse_pre : Int) (values : (List Int)) (i : Int) (PreH1 : (i < p_pre)) (PreH2 : (PrimeForLinearInverse p_pre)) (PreH3 : (2 <= p_pre)) (PreH4 : (p_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= p_pre)) (PreH7 : ((Zlength (values)) = (i - 1))) (PreH8 : (ModularInversePrefix p_pre i values)) ,
   ((( &( "quotient" ) )) # Int |->_)
   ** ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "inverse" ) )) # Ptr |-> (inverse_pre))
@@ -99,7 +99,7 @@ noncomputable def linear_modular_inverse_safety_wit_4 : Prop :=
   “ (i ≠ (0 : Int)) ”
 
 noncomputable def linear_modular_inverse_safety_wit_5 : Prop :=
-  forall (inverse_pre : Int) (p_pre : Int) (values : (List Int)) (i : Int) (PreH1 : (i < p_pre)) (PreH2 : (PrimeForLinearInverse p_pre)) (PreH3 : (2 <= p_pre)) (PreH4 : (p_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= p_pre)) (PreH7 : ((Zlength (values)) = (i - 1))) (PreH8 : (ModularInversePrefix p_pre i values)) ,
+  forall (p_pre : Int) (inverse_pre : Int) (values : (List Int)) (i : Int) (PreH1 : (i < p_pre)) (PreH2 : (PrimeForLinearInverse p_pre)) (PreH3 : (2 <= p_pre)) (PreH4 : (p_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= p_pre)) (PreH7 : ((Zlength (values)) = (i - 1))) (PreH8 : (ModularInversePrefix p_pre i values)) ,
   ((( &( "remainder" ) )) # Int |->_)
   ** ((( &( "quotient" ) )) # Int |-> ((Z.quot p_pre i)))
   ** ((( &( "p" ) )) # Int |-> (p_pre))
@@ -112,7 +112,7 @@ noncomputable def linear_modular_inverse_safety_wit_5 : Prop :=
   “ (i ≠ (0 : Int)) ”
 
 noncomputable def linear_modular_inverse_safety_wit_6 : Prop :=
-  forall (inverse_pre : Int) (p_pre : Int) (values : (List Int)) (i : Int) (quotient : Int) (remainder : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i < p_pre)) (PreH6 : (quotient = (Z.quot p_pre i))) (PreH7 : (remainder = (Z.rem p_pre i))) (PreH8 : (1 <= remainder)) (PreH9 : (remainder < i)) (PreH10 : ((0 : Int) < (p_pre - quotient))) (PreH11 : ((p_pre - quotient) < p_pre)) (PreH12 : ((0 : Int) < (Znth (remainder - 1) values (0 : Int)))) (PreH13 : ((Znth (remainder - 1) values (0 : Int)) < p_pre)) (PreH14 : ((Zlength (values)) = (i - 1))) (PreH15 : (ModularInversePrefix p_pre i values)) ,
+  forall (p_pre : Int) (inverse_pre : Int) (values : (List Int)) (i : Int) (quotient : Int) (remainder : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i < p_pre)) (PreH6 : (quotient = (Z.quot p_pre i))) (PreH7 : (remainder = (Z.rem p_pre i))) (PreH8 : (1 <= remainder)) (PreH9 : (remainder < i)) (PreH10 : ((0 : Int) < (p_pre - quotient))) (PreH11 : ((p_pre - quotient) < p_pre)) (PreH12 : ((0 : Int) < (Znth (remainder - 1) values (0 : Int)))) (PreH13 : ((Znth (remainder - 1) values (0 : Int)) < p_pre)) (PreH14 : ((Zlength (values)) = (i - 1))) (PreH15 : (ModularInversePrefix p_pre i values)) ,
   (intArray.seg inverse_pre 1 i values)
   ** ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "inverse" ) )) # Ptr |-> (inverse_pre))
@@ -125,7 +125,7 @@ noncomputable def linear_modular_inverse_safety_wit_6 : Prop :=
   “ (p_pre ≠ (0 : Int)) ”
 
 noncomputable def linear_modular_inverse_safety_wit_7 : Prop :=
-  forall (inverse_pre : Int) (p_pre : Int) (values : (List Int)) (i : Int) (quotient : Int) (remainder : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i < p_pre)) (PreH6 : (quotient = (Z.quot p_pre i))) (PreH7 : (remainder = (Z.rem p_pre i))) (PreH8 : (1 <= remainder)) (PreH9 : (remainder < i)) (PreH10 : ((0 : Int) < (p_pre - quotient))) (PreH11 : ((p_pre - quotient) < p_pre)) (PreH12 : ((0 : Int) < (Znth (remainder - 1) values (0 : Int)))) (PreH13 : ((Znth (remainder - 1) values (0 : Int)) < p_pre)) (PreH14 : ((Zlength (values)) = (i - 1))) (PreH15 : (ModularInversePrefix p_pre i values)) ,
+  forall (p_pre : Int) (inverse_pre : Int) (values : (List Int)) (i : Int) (quotient : Int) (remainder : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i < p_pre)) (PreH6 : (quotient = (Z.quot p_pre i))) (PreH7 : (remainder = (Z.rem p_pre i))) (PreH8 : (1 <= remainder)) (PreH9 : (remainder < i)) (PreH10 : ((0 : Int) < (p_pre - quotient))) (PreH11 : ((p_pre - quotient) < p_pre)) (PreH12 : ((0 : Int) < (Znth (remainder - 1) values (0 : Int)))) (PreH13 : ((Znth (remainder - 1) values (0 : Int)) < p_pre)) (PreH14 : ((Zlength (values)) = (i - 1))) (PreH15 : (ModularInversePrefix p_pre i values)) ,
   (intArray.seg inverse_pre 1 i values)
   ** ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "inverse" ) )) # Ptr |-> (inverse_pre))
@@ -138,7 +138,7 @@ noncomputable def linear_modular_inverse_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= ((p_pre - quotient) * (Znth (remainder - 1) values (0 : Int)))) ”
 
 noncomputable def linear_modular_inverse_safety_wit_8 : Prop :=
-  forall (inverse_pre : Int) (p_pre : Int) (values : (List Int)) (i : Int) (quotient : Int) (remainder : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i < p_pre)) (PreH6 : (quotient = (Z.quot p_pre i))) (PreH7 : (remainder = (Z.rem p_pre i))) (PreH8 : (1 <= remainder)) (PreH9 : (remainder < i)) (PreH10 : ((0 : Int) < (p_pre - quotient))) (PreH11 : ((p_pre - quotient) < p_pre)) (PreH12 : ((0 : Int) < (Znth (remainder - 1) values (0 : Int)))) (PreH13 : ((Znth (remainder - 1) values (0 : Int)) < p_pre)) (PreH14 : ((Zlength (values)) = (i - 1))) (PreH15 : (ModularInversePrefix p_pre i values)) ,
+  forall (p_pre : Int) (inverse_pre : Int) (values : (List Int)) (i : Int) (quotient : Int) (remainder : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i < p_pre)) (PreH6 : (quotient = (Z.quot p_pre i))) (PreH7 : (remainder = (Z.rem p_pre i))) (PreH8 : (1 <= remainder)) (PreH9 : (remainder < i)) (PreH10 : ((0 : Int) < (p_pre - quotient))) (PreH11 : ((p_pre - quotient) < p_pre)) (PreH12 : ((0 : Int) < (Znth (remainder - 1) values (0 : Int)))) (PreH13 : ((Znth (remainder - 1) values (0 : Int)) < p_pre)) (PreH14 : ((Zlength (values)) = (i - 1))) (PreH15 : (ModularInversePrefix p_pre i values)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "inverse" ) )) # Ptr |-> (inverse_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -151,7 +151,7 @@ noncomputable def linear_modular_inverse_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (p_pre - quotient)) ”
 
 noncomputable def linear_modular_inverse_safety_wit_9 : Prop :=
-  forall (inverse_pre : Int) (p_pre : Int) (values : (List Int)) (i : Int) (quotient : Int) (remainder : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i < p_pre)) (PreH6 : (quotient = (Z.quot p_pre i))) (PreH7 : (remainder = (Z.rem p_pre i))) (PreH8 : (1 <= remainder)) (PreH9 : (remainder < i)) (PreH10 : ((0 : Int) < (p_pre - quotient))) (PreH11 : ((p_pre - quotient) < p_pre)) (PreH12 : ((0 : Int) < (Znth (remainder - 1) values (0 : Int)))) (PreH13 : ((Znth (remainder - 1) values (0 : Int)) < p_pre)) (PreH14 : ((Zlength (values)) = (i - 1))) (PreH15 : (ModularInversePrefix p_pre i values)) ,
+  forall (p_pre : Int) (inverse_pre : Int) (values : (List Int)) (i : Int) (quotient : Int) (remainder : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i < p_pre)) (PreH6 : (quotient = (Z.quot p_pre i))) (PreH7 : (remainder = (Z.rem p_pre i))) (PreH8 : (1 <= remainder)) (PreH9 : (remainder < i)) (PreH10 : ((0 : Int) < (p_pre - quotient))) (PreH11 : ((p_pre - quotient) < p_pre)) (PreH12 : ((0 : Int) < (Znth (remainder - 1) values (0 : Int)))) (PreH13 : ((Znth (remainder - 1) values (0 : Int)) < p_pre)) (PreH14 : ((Zlength (values)) = (i - 1))) (PreH15 : (ModularInversePrefix p_pre i values)) ,
   (intArray.seg inverse_pre 1 (i + 1) (values ++ ((Z.rem ((p_pre - quotient) * (Znth (remainder - 1) values (0 : Int))) p_pre) :: (@List.nil Int))))
   ** (intArray.undef_seg inverse_pre (i + 1) p_pre)
   ** ((( &( "p" ) )) # Int |-> (p_pre))
@@ -163,7 +163,7 @@ noncomputable def linear_modular_inverse_safety_wit_9 : Prop :=
 
 noncomputable def linear_modular_inverse_entail_wit_1 : Prop :=
   (
-forall (inverse_pre : Int) (p_pre : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) ,
+forall (p_pre : Int) (inverse_pre : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) ,
   (((inverse_pre + (1 * sizeof(INT)))) # Int |-> (1))
   ** (intArray.undef_seg inverse_pre (1 + 1) p_pre)
 |--
@@ -179,7 +179,7 @@ forall (inverse_pre : Int) (p_pre : Int) (PreH1 : (PrimeForLinearInverse p_pre))
   ** (intArray.undef_seg inverse_pre 2 p_pre)
 ) \/
 (
-forall (inverse_pre : Int) (p_pre : Int) (PreH1 : (1 <= INT_MAX)) (PreH2 : (1 >= INT_MIN)) (PreH3 : (PrimeForLinearInverse p_pre)) (PreH4 : (2 <= p_pre)) (PreH5 : (p_pre <= 46340)) ,
+forall (p_pre : Int) (inverse_pre : Int) (PreH1 : (1 <= INT_MAX)) (PreH2 : (1 >= INT_MIN)) (PreH3 : (PrimeForLinearInverse p_pre)) (PreH4 : (2 <= p_pre)) (PreH5 : (p_pre <= 46340)) ,
   (((inverse_pre + (1 * sizeof(INT)))) # Int |-> (1))
 |--
   EX values : (List Int),
@@ -195,7 +195,7 @@ forall (inverse_pre : Int) (p_pre : Int) (PreH1 : (1 <= INT_MAX)) (PreH2 : (1 >=
 
 noncomputable def linear_modular_inverse_entail_wit_2 : Prop :=
   (
-forall (inverse_pre : Int) (p_pre : Int) (values_2 : (List Int)) (i : Int) (PreH1 : (i < p_pre)) (PreH2 : (PrimeForLinearInverse p_pre)) (PreH3 : (2 <= p_pre)) (PreH4 : (p_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= p_pre)) (PreH7 : ((Zlength (values_2)) = (i - 1))) (PreH8 : (ModularInversePrefix p_pre i values_2)) ,
+forall (p_pre : Int) (inverse_pre : Int) (values_2 : (List Int)) (i : Int) (PreH1 : (i < p_pre)) (PreH2 : (PrimeForLinearInverse p_pre)) (PreH3 : (2 <= p_pre)) (PreH4 : (p_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= p_pre)) (PreH7 : ((Zlength (values_2)) = (i - 1))) (PreH8 : (ModularInversePrefix p_pre i values_2)) ,
   (intArray.seg inverse_pre 1 i values_2)
   ** (intArray.undef_seg inverse_pre i p_pre)
 |--
@@ -257,7 +257,7 @@ noncomputable def linear_modular_inverse_entail_wit_2_split_goal_6 : Prop :=
 
 noncomputable def linear_modular_inverse_entail_wit_3 : Prop :=
   (
-forall (inverse_pre : Int) (p_pre : Int) (values_2 : (List Int)) (i : Int) (quotient : Int) (remainder : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i < p_pre)) (PreH6 : (quotient = (Z.quot p_pre i))) (PreH7 : (remainder = (Z.rem p_pre i))) (PreH8 : (1 <= remainder)) (PreH9 : (remainder < i)) (PreH10 : ((0 : Int) < (p_pre - quotient))) (PreH11 : ((p_pre - quotient) < p_pre)) (PreH12 : ((0 : Int) < (Znth (remainder - 1) values_2 (0 : Int)))) (PreH13 : ((Znth (remainder - 1) values_2 (0 : Int)) < p_pre)) (PreH14 : ((Zlength (values_2)) = (i - 1))) (PreH15 : (ModularInversePrefix p_pre i values_2)) ,
+forall (p_pre : Int) (inverse_pre : Int) (values_2 : (List Int)) (i : Int) (quotient : Int) (remainder : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i < p_pre)) (PreH6 : (quotient = (Z.quot p_pre i))) (PreH7 : (remainder = (Z.rem p_pre i))) (PreH8 : (1 <= remainder)) (PreH9 : (remainder < i)) (PreH10 : ((0 : Int) < (p_pre - quotient))) (PreH11 : ((p_pre - quotient) < p_pre)) (PreH12 : ((0 : Int) < (Znth (remainder - 1) values_2 (0 : Int)))) (PreH13 : ((Znth (remainder - 1) values_2 (0 : Int)) < p_pre)) (PreH14 : ((Zlength (values_2)) = (i - 1))) (PreH15 : (ModularInversePrefix p_pre i values_2)) ,
   (intArray.seg inverse_pre 1 (i + 1) (values_2 ++ ((Z.rem ((p_pre - quotient) * (Znth (remainder - 1) values_2 (0 : Int))) p_pre) :: (@List.nil Int))))
   ** (intArray.undef_seg inverse_pre (i + 1) p_pre)
 |--
@@ -291,7 +291,7 @@ noncomputable def linear_modular_inverse_entail_wit_3_split_goal_2 : Prop :=
 
 noncomputable def linear_modular_inverse_return_wit_1 : Prop :=
   (
-forall (inverse_pre : Int) (p_pre : Int) (values_2 : (List Int)) (i : Int) (PreH1 : (i >= p_pre)) (PreH2 : (PrimeForLinearInverse p_pre)) (PreH3 : (2 <= p_pre)) (PreH4 : (p_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= p_pre)) (PreH7 : ((Zlength (values_2)) = (i - 1))) (PreH8 : (ModularInversePrefix p_pre i values_2)) ,
+forall (p_pre : Int) (inverse_pre : Int) (values_2 : (List Int)) (i : Int) (PreH1 : (i >= p_pre)) (PreH2 : (PrimeForLinearInverse p_pre)) (PreH3 : (2 <= p_pre)) (PreH4 : (p_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= p_pre)) (PreH7 : ((Zlength (values_2)) = (i - 1))) (PreH8 : (ModularInversePrefix p_pre i values_2)) ,
   (intArray.seg inverse_pre 1 i values_2)
   ** (intArray.undef_seg inverse_pre i p_pre)
 |--
@@ -300,7 +300,7 @@ forall (inverse_pre : Int) (p_pre : Int) (values_2 : (List Int)) (i : Int) (PreH
   &&  (intArray.seg inverse_pre 1 p_pre values)
 ) \/
 (
-forall (inverse_pre : Int) (p_pre : Int) (values_2 : (List Int)) (i : Int) (PreH1 : (i >= p_pre)) (PreH2 : (PrimeForLinearInverse p_pre)) (PreH3 : (2 <= p_pre)) (PreH4 : (p_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= p_pre)) (PreH7 : ((Zlength (values_2)) = (i - 1))) (PreH8 : (ModularInversePrefix p_pre i values_2)) ,
+forall (p_pre : Int) (inverse_pre : Int) (values_2 : (List Int)) (i : Int) (PreH1 : (i >= p_pre)) (PreH2 : (PrimeForLinearInverse p_pre)) (PreH3 : (2 <= p_pre)) (PreH4 : (p_pre <= 46340)) (PreH5 : (2 <= i)) (PreH6 : (i <= p_pre)) (PreH7 : ((Zlength (values_2)) = (i - 1))) (PreH8 : (ModularInversePrefix p_pre i values_2)) ,
   (intArray.seg inverse_pre 1 i values_2)
 |--
   EX values : (List Int),
@@ -309,7 +309,7 @@ forall (inverse_pre : Int) (p_pre : Int) (values_2 : (List Int)) (i : Int) (PreH
 )
 
 noncomputable def linear_modular_inverse_partial_solve_wit_1 : Prop :=
-  forall (inverse_pre : Int) (p_pre : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) ,
+  forall (p_pre : Int) (inverse_pre : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) ,
   (intArray.undef_seg inverse_pre 1 p_pre)
 |--
   “ (PrimeForLinearInverse p_pre) ” &&
@@ -319,7 +319,7 @@ noncomputable def linear_modular_inverse_partial_solve_wit_1 : Prop :=
   ** (intArray.undef_seg inverse_pre (1 + 1) p_pre)
 
 noncomputable def linear_modular_inverse_partial_solve_wit_2 : Prop :=
-  forall (inverse_pre : Int) (p_pre : Int) (values : (List Int)) (i : Int) (quotient : Int) (remainder : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i < p_pre)) (PreH6 : (quotient = (Z.quot p_pre i))) (PreH7 : (remainder = (Z.rem p_pre i))) (PreH8 : (1 <= remainder)) (PreH9 : (remainder < i)) (PreH10 : ((0 : Int) < (p_pre - quotient))) (PreH11 : ((p_pre - quotient) < p_pre)) (PreH12 : ((0 : Int) < (Znth (remainder - 1) values (0 : Int)))) (PreH13 : ((Znth (remainder - 1) values (0 : Int)) < p_pre)) (PreH14 : ((Zlength (values)) = (i - 1))) (PreH15 : (ModularInversePrefix p_pre i values)) ,
+  forall (p_pre : Int) (inverse_pre : Int) (values : (List Int)) (i : Int) (quotient : Int) (remainder : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i < p_pre)) (PreH6 : (quotient = (Z.quot p_pre i))) (PreH7 : (remainder = (Z.rem p_pre i))) (PreH8 : (1 <= remainder)) (PreH9 : (remainder < i)) (PreH10 : ((0 : Int) < (p_pre - quotient))) (PreH11 : ((p_pre - quotient) < p_pre)) (PreH12 : ((0 : Int) < (Znth (remainder - 1) values (0 : Int)))) (PreH13 : ((Znth (remainder - 1) values (0 : Int)) < p_pre)) (PreH14 : ((Zlength (values)) = (i - 1))) (PreH15 : (ModularInversePrefix p_pre i values)) ,
   (intArray.seg inverse_pre 1 i values)
   ** (intArray.undef_seg inverse_pre i p_pre)
 |--
@@ -343,7 +343,7 @@ noncomputable def linear_modular_inverse_partial_solve_wit_2 : Prop :=
   ** (intArray.undef_seg inverse_pre i p_pre)
 
 noncomputable def linear_modular_inverse_partial_solve_wit_3 : Prop :=
-  forall (inverse_pre : Int) (p_pre : Int) (values : (List Int)) (i : Int) (quotient : Int) (remainder : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i < p_pre)) (PreH6 : (quotient = (Z.quot p_pre i))) (PreH7 : (remainder = (Z.rem p_pre i))) (PreH8 : (1 <= remainder)) (PreH9 : (remainder < i)) (PreH10 : ((0 : Int) < (p_pre - quotient))) (PreH11 : ((p_pre - quotient) < p_pre)) (PreH12 : ((0 : Int) < (Znth (remainder - 1) values (0 : Int)))) (PreH13 : ((Znth (remainder - 1) values (0 : Int)) < p_pre)) (PreH14 : ((Zlength (values)) = (i - 1))) (PreH15 : (ModularInversePrefix p_pre i values)) ,
+  forall (p_pre : Int) (inverse_pre : Int) (values : (List Int)) (i : Int) (quotient : Int) (remainder : Int) (PreH1 : (PrimeForLinearInverse p_pre)) (PreH2 : (2 <= p_pre)) (PreH3 : (p_pre <= 46340)) (PreH4 : (2 <= i)) (PreH5 : (i < p_pre)) (PreH6 : (quotient = (Z.quot p_pre i))) (PreH7 : (remainder = (Z.rem p_pre i))) (PreH8 : (1 <= remainder)) (PreH9 : (remainder < i)) (PreH10 : ((0 : Int) < (p_pre - quotient))) (PreH11 : ((p_pre - quotient) < p_pre)) (PreH12 : ((0 : Int) < (Znth (remainder - 1) values (0 : Int)))) (PreH13 : ((Znth (remainder - 1) values (0 : Int)) < p_pre)) (PreH14 : ((Zlength (values)) = (i - 1))) (PreH15 : (ModularInversePrefix p_pre i values)) ,
   (intArray.seg inverse_pre 1 i values)
   ** (intArray.undef_seg inverse_pre i p_pre)
 |--

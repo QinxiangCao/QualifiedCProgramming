@@ -1,14 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.QCP_demos_human.sll_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
 
 Definition sll_strategy3 :=
   forall (p : Z),
@@ -192,7 +185,7 @@ Definition sll_strategy17 :=
   TT &&
   emp
   ) ** (
-  ALL ty (l : (@list Z)) (p : Z),
+  ALL (ty : front_end_type) (l : (@list Z)) (p : Z),
     TT &&
     (“ (l = (@nil Z)) ”) &&
     emp **
@@ -227,7 +220,7 @@ Definition sll_strategy18 :=
       ).
 
 Definition sll_strategy19 :=
-  forall ty (l1 : (@list Z)) (p : Z) (q : Z),
+  forall (ty : front_end_type) (l1 : (@list Z)) (p : Z) (q : Z),
     TT &&
     emp **
     ((sllbseg p q l1)) **

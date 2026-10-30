@@ -73,6 +73,22 @@ Proof. constructor. reflexivity. Qed.
 
 End M2TRUE.
 
+Section M2FALSE.
+Context {M : Model}.
+
+#[export] Instance Model2Falsep : FalseLanguage Model_L :=
+  Build_FalseLanguage Model_L (fun _ => False).
+
+Class FalsepDefinition_Model (falsepL : FalseLanguage Model_L) : Prop := {
+  model2falsep : falsep = (fun _ : model => False)
+}.
+
+Lemma Model2Falsep_Normal :
+  FalsepDefinition_Model Model2Falsep.
+Proof. constructor. reflexivity. Qed.
+
+End M2FALSE.
+
 Section ImpAdjD1FromModel.
 
 Context {M : Model}.
@@ -146,13 +162,19 @@ Section IffD1FromModel.
 
 Context {M : Model}.
     
-Lemma Model2IffDeduction :
-  @IffDeduction Model_L Model2Impp Model2Iffp Model2Derivable1.
+Lemma Model2IffDeduction
+    {minL : MinimumLanguage Model_L}
+    {imppDef_model : ImppDefinition_Model minL}
+    {iffL : IffLanguage Model_L}
+    {iffDef_model : IffpDefinition_Model iffL}
+    {GammaD1 : Derivable1 Model_L}
+    {GammaD1_model : Derivable1Definition_Model GammaD1}:
+  IffDeduction Model_L GammaD1.
 Proof. 
-  constructor;
-  unfold derivable1; unfold Model2Derivable1;
-  unfold iffp; unfold Model2Iffp; 
-  unfold impp; unfold Model2Impp; 
+  constructor; intros;
+  rewrite !model2deriable1;
+  rewrite !model2iffp;
+  rewrite !model2impp;
   simpl; intros; tauto.
 Qed.
 

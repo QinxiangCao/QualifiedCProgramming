@@ -40,6 +40,8 @@ abbrev store_16byte (self : AggregateRules) := DerivedPredSig.store_16byte self.
 abbrev store_char (self : AggregateRules) := DerivedPredSig.store_char self.Arch self
 abbrev undef_store_char (self : AggregateRules) := DerivedPredSig.undef_store_char self.Arch self
 abbrev store_uchar (self : AggregateRules) := DerivedPredSig.store_uchar self.Arch self
+abbrev store_bool (self : AggregateRules) := DerivedPredSig.store_bool self.Arch self
+abbrev undef_store_bool (self : AggregateRules) := DerivedPredSig.undef_store_bool self.Arch self
 abbrev undef_store_uchar (self : AggregateRules) := DerivedPredSig.undef_store_uchar self.Arch self
 abbrev store_short (self : AggregateRules) := DerivedPredSig.store_short self.Arch self.Endian self
 abbrev undef_store_short (self : AggregateRules) := DerivedPredSig.undef_store_short self.Arch self
@@ -108,6 +110,7 @@ noncomputable abbrev sizeof_front_end_type (self : AggregateRules) :=
   CNotation.CNotationSig.sizeof_front_end_type self.Arch
 abbrev sizeof_int (self : AggregateRules) := CNotation.CNotationSig.sizeof_int self.Arch
 abbrev sizeof_char (self : AggregateRules) := CNotation.CNotationSig.sizeof_char self.Arch
+abbrev sizeof_bool (self : AggregateRules) := CNotation.CNotationSig.sizeof_bool self.Arch
 abbrev sizeof_int64 (self : AggregateRules) := CNotation.CNotationSig.sizeof_int64 self.Arch
 abbrev sizeof_short (self : AggregateRules) := CNotation.CNotationSig.sizeof_short self.Arch
 abbrev sizeof_uint (self : AggregateRules) := CNotation.CNotationSig.sizeof_uint self.Arch
@@ -203,6 +206,8 @@ export SimpleC.SL.CommonAssertion.DerivedPredSig (
   undef_store_char
   store_uchar
   undef_store_uchar
+  store_bool
+  undef_store_bool
   store_short
   undef_store_short
   store_ushort
@@ -306,6 +311,10 @@ abbrev undef_store_char (self : AggregateRules) :=
   AggregateDerivedPredSigCompat.undef_store_char self
 abbrev store_uchar (self : AggregateRules) :=
   AggregateDerivedPredSigCompat.store_uchar self
+abbrev store_bool (self : AggregateRules) :=
+  AggregateDerivedPredSigCompat.store_bool self
+abbrev undef_store_bool (self : AggregateRules) :=
+  AggregateDerivedPredSigCompat.undef_store_bool self
 abbrev undef_store_uchar (self : AggregateRules) :=
   AggregateDerivedPredSigCompat.undef_store_uchar self
 abbrev store_short (self : AggregateRules) :=
@@ -507,6 +516,10 @@ abbrev store_uchar_range (self : AggregateRules) :=
   StoreLibSig.store_uchar_range (Arch := self.Arch) self
 abbrev store_uchar_undef_store_uchar (self : AggregateRules) :=
   StoreLibSig.store_uchar_undef_store_uchar (Arch := self.Arch) self
+abbrev store_bool_undef_store_bool (self : AggregateRules) :=
+  StoreLibSig.store_bool_undef_store_bool (Arch := self.Arch) self
+abbrev valid_store_bool (self : AggregateRules) :=
+  StoreLibSig.valid_store_bool (Arch := self.Arch) self
 abbrev store_ushort_range (self : AggregateRules) :=
   StoreLibSig.store_ushort_range (Arch := self.Arch) (Endian := self.Endian) self
 abbrev store_ushort_undef_store_ushort (self : AggregateRules) :=
@@ -650,6 +663,10 @@ abbrev undef_store_uchar_align (self : AggregateRules) :=
   StoreLibSig.undef_store_uchar_align (Arch := self.Arch) self
 abbrev store_uchar_align (self : AggregateRules) :=
   StoreLibSig.store_uchar_align (Arch := self.Arch) self
+abbrev undef_store_bool_align (self : AggregateRules) :=
+  StoreLibSig.undef_store_bool_align (Arch := self.Arch) self
+abbrev store_bool_align (self : AggregateRules) :=
+  StoreLibSig.store_bool_align (Arch := self.Arch) self
 abbrev undef_store_int_align4 (self : AggregateRules) :=
   StoreLibSig.undef_store_int_align4 (Arch := self.Arch) self
 abbrev store_int_align4 (self : AggregateRules) :=
@@ -914,6 +931,9 @@ abbrev aligned_8_aligned_4 (_self : AggregateRules) :=
 abbrev dup_data_at_error_prop (_self : AggregateRules) : Prop :=
   SimpleC.SL.CommonAssertion.DerivedPredSig.dup_data_at_error_prop
 
+noncomputable abbrev StoreBoolAsElement (self : AggregateRules) :=
+  SimpleC.SL.ArrayLib.StoreBoolAsElement
+    self.Arch self.Endian self self.derivedPredSig self.storeLibSig
 noncomputable abbrev StoreCharAsElement (self : AggregateRules) :=
   SimpleC.SL.ArrayLib.StoreCharAsElement self.Arch self.Endian self self.derivedPredSig self.storeLibSig
 noncomputable abbrev StoreUCharAsElement (self : AggregateRules) :=
@@ -957,6 +977,9 @@ noncomputable abbrev StoreFiniteLongDoubleAsElement (self : AggregateRules) :=
 noncomputable abbrev StorePtrAsElement (self : AggregateRules) :=
   SimpleC.SL.ArrayLib.StorePtrAsElement self.Arch self.Endian self self.derivedPredSig self.storeLibSig
 
+noncomputable abbrev BoolArray (self : AggregateRules) :=
+  SimpleC.SL.ArrayLib.BoolArray
+    self.Arch self.Endian self self.derivedPredSig self.storeLibSig
 noncomputable abbrev CharArray (self : AggregateRules) :=
   SimpleC.SL.ArrayLib.CharArray self.Arch self.Endian self self.derivedPredSig self.storeLibSig
 noncomputable abbrev UCharArray (self : AggregateRules) :=
@@ -1000,6 +1023,9 @@ noncomputable abbrev FiniteLongDoubleArray (self : AggregateRules) :=
 noncomputable abbrev PtrArray (self : AggregateRules) :=
   SimpleC.SL.ArrayLib.PtrArray self.Arch self.Endian self self.derivedPredSig self.storeLibSig
 
+noncomputable abbrev BoolArray2 (self : AggregateRules) :=
+  SimpleC.SL.Array2Lib.Array2LibSig.BoolArray2
+    self.Arch self.Endian self self.derivedPredSig self.storeLibSig
 noncomputable abbrev CharArray2 (self : AggregateRules) :=
   SimpleC.SL.Array2Lib.Array2LibSig.CharArray2
     self.Arch self.Endian self self.derivedPredSig self.storeLibSig
@@ -1052,6 +1078,9 @@ noncomputable abbrev PtrArray2 (self : AggregateRules) :=
   SimpleC.SL.Array2Lib.Array2LibSig.PtrArray2
     self.Arch self.Endian self self.derivedPredSig self.storeLibSig
 
+noncomputable abbrev BoolArray3 (self : AggregateRules) :=
+  SimpleC.SL.Array3Lib.Array3LibSig.BoolArray3
+    self.Arch self.Endian self self.derivedPredSig self.storeLibSig
 noncomputable abbrev CharArray3 (self : AggregateRules) :=
   SimpleC.SL.Array3Lib.Array3LibSig.CharArray3
     self.Arch self.Endian self self.derivedPredSig self.storeLibSig
@@ -1104,6 +1133,9 @@ noncomputable abbrev PtrArray3 (self : AggregateRules) :=
   SimpleC.SL.Array3Lib.Array3LibSig.PtrArray3
     self.Arch self.Endian self self.derivedPredSig self.storeLibSig
 
+noncomputable abbrev BoolPtrArray2 (self : AggregateRules) :=
+  SimpleC.SL.PtrArray2Lib.PtrArray2LibSig.BoolPtrArray2
+    self.Arch self.Endian self self.derivedPredSig self.storeLibSig
 noncomputable abbrev CharPtrArray2 (self : AggregateRules) :=
   SimpleC.SL.PtrArray2Lib.PtrArray2LibSig.CharPtrArray2
     self.Arch self.Endian self self.derivedPredSig self.storeLibSig

@@ -1,11 +1,9 @@
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P062_1729F_kirei_and_the_linear_function_goal P062_1729F_kirei_and_the_linear_function_proof_auto P062_1729F_kirei_and_the_linear_function_proof_manual.
 
 Module VC_Correctness : VC_Correct.
-  Include char_array_strategy_proof.
   Include string_strategy_proof.
   Include array2_strategy_proof.
   Include array2_char_strategy_proof.
-  Include int_array_strategy_proof.
   Include array2_ext_strategy_proof.
   Include P062_1729F_kirei_and_the_linear_function_proof_auto.
   Include P062_1729F_kirei_and_the_linear_function_proof_manual.

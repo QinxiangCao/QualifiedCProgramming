@@ -112,7 +112,7 @@ noncomputable def iabs_return_wit_2_split_goal_1 : Prop :=
   (x_pre = (Z.abs (x_pre)))
 
 noncomputable def solver_safety_wit_1 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (PreH1 : (x1_pre = x2_pre)) (PreH2 : ((-100) <= x1_pre)) (PreH3 : (x1_pre <= 100)) (PreH4 : ((-100) <= y1_pre)) (PreH5 : (y1_pre <= 100)) (PreH6 : ((-100) <= x2_pre)) (PreH7 : (x2_pre <= 100)) (PreH8 : ((-100) <= y2_pre)) (PreH9 : (y2_pre <= 100)) (PreH10 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (PreH1 : (x1_pre = x2_pre)) (PreH2 : ((-100) <= x1_pre)) (PreH3 : (x1_pre <= 100)) (PreH4 : ((-100) <= y1_pre)) (PreH5 : (y1_pre <= 100)) (PreH6 : ((-100) <= x2_pre)) (PreH7 : (x2_pre <= 100)) (PreH8 : ((-100) <= y2_pre)) (PreH9 : (y2_pre <= 100)) (PreH10 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   ((( &( "d" ) )) # Int |->_)
   ** ((( &( "x1" ) )) # Int |-> (x1_pre))
   ** ((( &( "y1" ) )) # Int |-> (y1_pre))
@@ -125,7 +125,7 @@ noncomputable def solver_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (y1_pre - y2_pre)) ”
 
 noncomputable def solver_safety_wit_2 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   ((( &( "d" ) )) # Int |-> (retval))
   ** ((( &( "x1" ) )) # Int |-> (x1_pre))
   ** ((( &( "y1" ) )) # Int |-> (y1_pre))
@@ -139,7 +139,7 @@ noncomputable def solver_safety_wit_2 : Prop :=
 
 noncomputable def solver_safety_wit_3 : Prop :=
   (
-forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   ((( &( "d" ) )) # Int |-> (retval))
   ** ((( &( "x1" ) )) # Int |-> (x1_pre))
   ** ((( &( "y1" ) )) # Int |-> (y1_pre))
@@ -152,7 +152,7 @@ forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : In
   “ ((INT_MIN) <= (x1_pre + retval)) ”
 ) \/
 (
-forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   ((( &( "d" ) )) # Int |-> (retval))
   ** ((( &( "x1" ) )) # Int |-> (x1_pre))
   ** ((( &( "y1" ) )) # Int |-> (y1_pre))
@@ -166,7 +166,7 @@ forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : In
 )
 
 noncomputable def solver_safety_wit_3_split_goal_1 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   ((( &( "d" ) )) # Int |-> (retval))
   ** ((( &( "x1" ) )) # Int |-> (x1_pre))
   ** ((( &( "y1" ) )) # Int |-> (y1_pre))
@@ -178,7 +178,7 @@ noncomputable def solver_safety_wit_3_split_goal_1 : Prop :=
   “ ((x1_pre + retval) <= INT_MAX) ”
 
 noncomputable def solver_safety_wit_3_split_goal_2 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   ((( &( "d" ) )) # Int |-> (retval))
   ** ((( &( "x1" ) )) # Int |-> (x1_pre))
   ** ((( &( "y1" ) )) # Int |-> (y1_pre))
@@ -190,7 +190,7 @@ noncomputable def solver_safety_wit_3_split_goal_2 : Prop :=
   “ ((INT_MIN) <= (x1_pre + retval)) ”
 
 noncomputable def solver_safety_wit_4 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> ((x1_pre + retval)))
   ** (intArray.undef_seg out_pre 1 4)
   ** ((( &( "d" ) )) # Int |-> (retval))
@@ -204,7 +204,7 @@ noncomputable def solver_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_5 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + (1 * sizeof(INT)))) # Int |-> (y1_pre))
   ** (intArray.undef_seg out_pre (1 + 1) 4)
   ** (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> ((x1_pre + retval)))
@@ -219,7 +219,7 @@ noncomputable def solver_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def solver_safety_wit_6 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + (1 * sizeof(INT)))) # Int |-> (y1_pre))
   ** (intArray.undef_seg out_pre (1 + 1) 4)
   ** (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> ((x1_pre + retval)))
@@ -234,7 +234,7 @@ noncomputable def solver_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (x2_pre + retval)) ”
 
 noncomputable def solver_safety_wit_7 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_seg out_pre ((1 + 1) + 1) 4)
   ** (((out_pre + (2 * sizeof(INT)))) # Int |-> ((x2_pre + retval)))
   ** (((out_pre + (1 * sizeof(INT)))) # Int |-> (y1_pre))
@@ -250,7 +250,7 @@ noncomputable def solver_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= 3) ”
 
 noncomputable def solver_safety_wit_8 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_seg out_pre (((1 + 1) + 1) + 1) 4)
   ** (((out_pre + (3 * sizeof(INT)))) # Int |-> (y2_pre))
   ** (((out_pre + (2 * sizeof(INT)))) # Int |-> ((x2_pre + retval)))
@@ -267,7 +267,7 @@ noncomputable def solver_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_9 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (PreH1 : (y1_pre = y2_pre)) (PreH2 : (x1_pre ≠ x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (PreH1 : (y1_pre = y2_pre)) (PreH2 : (x1_pre ≠ x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   ((( &( "d" ) )) # Int |->_)
   ** ((( &( "x1" ) )) # Int |-> (x1_pre))
   ** ((( &( "y1" ) )) # Int |-> (y1_pre))
@@ -280,7 +280,7 @@ noncomputable def solver_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= (x1_pre - x2_pre)) ”
 
 noncomputable def solver_safety_wit_10 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   ((( &( "d" ) )) # Int |-> (retval))
   ** ((( &( "x1" ) )) # Int |-> (x1_pre))
   ** ((( &( "y1" ) )) # Int |-> (y1_pre))
@@ -293,7 +293,7 @@ noncomputable def solver_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_11 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
   ** (intArray.undef_seg out_pre 1 4)
   ** ((( &( "d" ) )) # Int |-> (retval))
@@ -308,7 +308,7 @@ noncomputable def solver_safety_wit_11 : Prop :=
 
 noncomputable def solver_safety_wit_12 : Prop :=
   (
-forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
   ** (intArray.undef_seg out_pre 1 4)
   ** ((( &( "d" ) )) # Int |-> (retval))
@@ -322,7 +322,7 @@ forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : In
   “ ((INT_MIN) <= (y1_pre + retval)) ”
 ) \/
 (
-forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
   ** (intArray.undef_seg out_pre 1 4)
   ** ((( &( "d" ) )) # Int |-> (retval))
@@ -337,7 +337,7 @@ forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : In
 )
 
 noncomputable def solver_safety_wit_12_split_goal_1 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
   ** (intArray.undef_seg out_pre 1 4)
   ** ((( &( "d" ) )) # Int |-> (retval))
@@ -350,7 +350,7 @@ noncomputable def solver_safety_wit_12_split_goal_1 : Prop :=
   “ ((y1_pre + retval) <= INT_MAX) ”
 
 noncomputable def solver_safety_wit_12_split_goal_2 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
   ** (intArray.undef_seg out_pre 1 4)
   ** ((( &( "d" ) )) # Int |-> (retval))
@@ -363,7 +363,7 @@ noncomputable def solver_safety_wit_12_split_goal_2 : Prop :=
   “ ((INT_MIN) <= (y1_pre + retval)) ”
 
 noncomputable def solver_safety_wit_13 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + (1 * sizeof(INT)))) # Int |-> ((y1_pre + retval)))
   ** (intArray.undef_seg out_pre (1 + 1) 4)
   ** (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
@@ -378,7 +378,7 @@ noncomputable def solver_safety_wit_13 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def solver_safety_wit_14 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_seg out_pre ((1 + 1) + 1) 4)
   ** (((out_pre + (2 * sizeof(INT)))) # Int |-> (x2_pre))
   ** (((out_pre + (1 * sizeof(INT)))) # Int |-> ((y1_pre + retval)))
@@ -394,7 +394,7 @@ noncomputable def solver_safety_wit_14 : Prop :=
   “ ((INT_MIN) <= 3) ”
 
 noncomputable def solver_safety_wit_15 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_seg out_pre ((1 + 1) + 1) 4)
   ** (((out_pre + (2 * sizeof(INT)))) # Int |-> (x2_pre))
   ** (((out_pre + (1 * sizeof(INT)))) # Int |-> ((y1_pre + retval)))
@@ -410,7 +410,7 @@ noncomputable def solver_safety_wit_15 : Prop :=
   “ ((INT_MIN) <= (y2_pre + retval)) ”
 
 noncomputable def solver_safety_wit_16 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_seg out_pre (((1 + 1) + 1) + 1) 4)
   ** (((out_pre + (3 * sizeof(INT)))) # Int |-> ((y2_pre + retval)))
   ** (((out_pre + (2 * sizeof(INT)))) # Int |-> (x2_pre))
@@ -427,7 +427,7 @@ noncomputable def solver_safety_wit_16 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_17 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (PreH1 : (y1_pre ≠ y2_pre)) (PreH2 : (x1_pre ≠ x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (PreH1 : (y1_pre ≠ y2_pre)) (PreH2 : (x1_pre ≠ x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   ((( &( "x1" ) )) # Int |-> (x1_pre))
   ** ((( &( "y1" ) )) # Int |-> (y1_pre))
   ** ((( &( "x2" ) )) # Int |-> (x2_pre))
@@ -439,7 +439,7 @@ noncomputable def solver_safety_wit_17 : Prop :=
   “ ((INT_MIN) <= (x1_pre - x2_pre)) ”
 
 noncomputable def solver_safety_wit_18 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre ≠ y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre ≠ y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   ((( &( "x1" ) )) # Int |-> (x1_pre))
   ** ((( &( "y1" ) )) # Int |-> (y1_pre))
   ** ((( &( "x2" ) )) # Int |-> (x2_pre))
@@ -451,7 +451,7 @@ noncomputable def solver_safety_wit_18 : Prop :=
   “ ((INT_MIN) <= (y1_pre - y2_pre)) ”
 
 noncomputable def solver_safety_wit_19 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   ((( &( "x1" ) )) # Int |-> (x1_pre))
   ** ((( &( "y1" ) )) # Int |-> (y1_pre))
   ** ((( &( "x2" ) )) # Int |-> (x2_pre))
@@ -463,7 +463,7 @@ noncomputable def solver_safety_wit_19 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_20 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
   ** (intArray.undef_seg out_pre 1 4)
   ** ((( &( "x1" ) )) # Int |-> (x1_pre))
@@ -476,7 +476,7 @@ noncomputable def solver_safety_wit_20 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_21 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + (1 * sizeof(INT)))) # Int |-> (y2_pre))
   ** (intArray.undef_seg out_pre (1 + 1) 4)
   ** (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
@@ -490,7 +490,7 @@ noncomputable def solver_safety_wit_21 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def solver_safety_wit_22 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_seg out_pre ((1 + 1) + 1) 4)
   ** (((out_pre + (2 * sizeof(INT)))) # Int |-> (x2_pre))
   ** (((out_pre + (1 * sizeof(INT)))) # Int |-> (y2_pre))
@@ -505,7 +505,7 @@ noncomputable def solver_safety_wit_22 : Prop :=
   “ ((INT_MIN) <= 3) ”
 
 noncomputable def solver_safety_wit_23 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_seg out_pre (((1 + 1) + 1) + 1) 4)
   ** (((out_pre + (3 * sizeof(INT)))) # Int |-> (y1_pre))
   ** (((out_pre + (2 * sizeof(INT)))) # Int |-> (x2_pre))
@@ -521,7 +521,7 @@ noncomputable def solver_safety_wit_23 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_24 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval ≠ retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval ≠ retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   ((( &( "x1" ) )) # Int |-> (x1_pre))
   ** ((( &( "y1" ) )) # Int |-> (y1_pre))
   ** ((( &( "x2" ) )) # Int |-> (x2_pre))
@@ -534,7 +534,7 @@ noncomputable def solver_safety_wit_24 : Prop :=
 
 noncomputable def solver_return_wit_1 : Prop :=
   (
-forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval ≠ retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval ≠ retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_full out_pre 4)
 |--
   “ ((0 : Int) = (0 : Int)) ” &&
@@ -542,7 +542,7 @@ forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : In
   &&  (intArray.undef_full out_pre 4)
 ) \/
 (
-forall (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval ≠ retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval ≠ retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   TT && emp 
 |--
   “ (NoCompletion x1_pre y1_pre x2_pre y2_pre) ”
@@ -550,12 +550,12 @@ forall (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int
 )
 
 noncomputable def solver_return_wit_1_split_goal_1 : Prop :=
-  forall (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval ≠ retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval ≠ retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (NoCompletion x1_pre y1_pre x2_pre y2_pre)
 
 noncomputable def solver_return_wit_2 : Prop :=
   (
-forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_seg out_pre (((1 + 1) + 1) + 1) 4)
   ** (((out_pre + (3 * sizeof(INT)))) # Int |-> (y1_pre))
   ** (((out_pre + (2 * sizeof(INT)))) # Int |-> (x2_pre))
@@ -568,7 +568,7 @@ forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : In
   &&  (intArray.full out_pre 4 (x3 :: (y3 :: (x4 :: (y4 :: (@List.nil Int))))))
 ) \/
 (
-forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (x1_pre <= INT_MAX)) (PreH2 : (y2_pre <= INT_MAX)) (PreH3 : (x2_pre <= INT_MAX)) (PreH4 : (y1_pre <= INT_MAX)) (PreH5 : (x1_pre >= INT_MIN)) (PreH6 : (y2_pre >= INT_MIN)) (PreH7 : (x2_pre >= INT_MIN)) (PreH8 : (y1_pre >= INT_MIN)) (PreH9 : (retval = retval_2)) (PreH10 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH11 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH12 : (y1_pre ≠ y2_pre)) (PreH13 : (x1_pre ≠ x2_pre)) (PreH14 : ((-100) <= x1_pre)) (PreH15 : (x1_pre <= 100)) (PreH16 : ((-100) <= y1_pre)) (PreH17 : (y1_pre <= 100)) (PreH18 : ((-100) <= x2_pre)) (PreH19 : (x2_pre <= 100)) (PreH20 : ((-100) <= y2_pre)) (PreH21 : (y2_pre <= 100)) (PreH22 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (x1_pre <= INT_MAX)) (PreH2 : (y2_pre <= INT_MAX)) (PreH3 : (x2_pre <= INT_MAX)) (PreH4 : (y1_pre <= INT_MAX)) (PreH5 : (x1_pre >= INT_MIN)) (PreH6 : (y2_pre >= INT_MIN)) (PreH7 : (x2_pre >= INT_MIN)) (PreH8 : (y1_pre >= INT_MIN)) (PreH9 : (retval = retval_2)) (PreH10 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH11 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH12 : (y1_pre ≠ y2_pre)) (PreH13 : (x1_pre ≠ x2_pre)) (PreH14 : ((-100) <= x1_pre)) (PreH15 : (x1_pre <= 100)) (PreH16 : ((-100) <= y1_pre)) (PreH17 : (y1_pre <= 100)) (PreH18 : ((-100) <= x2_pre)) (PreH19 : (x2_pre <= 100)) (PreH20 : ((-100) <= y2_pre)) (PreH21 : (y2_pre <= 100)) (PreH22 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + (3 * sizeof(INT)))) # Int |-> (y1_pre))
   ** (((out_pre + (2 * sizeof(INT)))) # Int |-> (x2_pre))
   ** (((out_pre + (1 * sizeof(INT)))) # Int |-> (y2_pre))
@@ -581,7 +581,7 @@ forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : In
 
 noncomputable def solver_return_wit_3 : Prop :=
   (
-forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_seg out_pre (((1 + 1) + 1) + 1) 4)
   ** (((out_pre + (3 * sizeof(INT)))) # Int |-> ((y2_pre + retval)))
   ** (((out_pre + (2 * sizeof(INT)))) # Int |-> (x2_pre))
@@ -594,7 +594,7 @@ forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : In
   &&  (intArray.full out_pre 4 (x3 :: (y3 :: (x4 :: (y4 :: (@List.nil Int))))))
 ) \/
 (
-forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (x1_pre <= INT_MAX)) (PreH2 : ((y1_pre + retval) <= INT_MAX)) (PreH3 : (x2_pre <= INT_MAX)) (PreH4 : ((y2_pre + retval) <= INT_MAX)) (PreH5 : (x1_pre >= INT_MIN)) (PreH6 : ((y1_pre + retval) >= INT_MIN)) (PreH7 : (x2_pre >= INT_MIN)) (PreH8 : ((y2_pre + retval) >= INT_MIN)) (PreH9 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH10 : (y1_pre = y2_pre)) (PreH11 : (x1_pre ≠ x2_pre)) (PreH12 : ((-100) <= x1_pre)) (PreH13 : (x1_pre <= 100)) (PreH14 : ((-100) <= y1_pre)) (PreH15 : (y1_pre <= 100)) (PreH16 : ((-100) <= x2_pre)) (PreH17 : (x2_pre <= 100)) (PreH18 : ((-100) <= y2_pre)) (PreH19 : (y2_pre <= 100)) (PreH20 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (x1_pre <= INT_MAX)) (PreH2 : ((y1_pre + retval) <= INT_MAX)) (PreH3 : (x2_pre <= INT_MAX)) (PreH4 : ((y2_pre + retval) <= INT_MAX)) (PreH5 : (x1_pre >= INT_MIN)) (PreH6 : ((y1_pre + retval) >= INT_MIN)) (PreH7 : (x2_pre >= INT_MIN)) (PreH8 : ((y2_pre + retval) >= INT_MIN)) (PreH9 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH10 : (y1_pre = y2_pre)) (PreH11 : (x1_pre ≠ x2_pre)) (PreH12 : ((-100) <= x1_pre)) (PreH13 : (x1_pre <= 100)) (PreH14 : ((-100) <= y1_pre)) (PreH15 : (y1_pre <= 100)) (PreH16 : ((-100) <= x2_pre)) (PreH17 : (x2_pre <= 100)) (PreH18 : ((-100) <= y2_pre)) (PreH19 : (y2_pre <= 100)) (PreH20 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + (3 * sizeof(INT)))) # Int |-> ((y2_pre + retval)))
   ** (((out_pre + (2 * sizeof(INT)))) # Int |-> (x2_pre))
   ** (((out_pre + (1 * sizeof(INT)))) # Int |-> ((y1_pre + retval)))
@@ -607,7 +607,7 @@ forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : In
 
 noncomputable def solver_return_wit_4 : Prop :=
   (
-forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_seg out_pre (((1 + 1) + 1) + 1) 4)
   ** (((out_pre + (3 * sizeof(INT)))) # Int |-> (y2_pre))
   ** (((out_pre + (2 * sizeof(INT)))) # Int |-> ((x2_pre + retval)))
@@ -620,7 +620,7 @@ forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : In
   &&  (intArray.full out_pre 4 (x3 :: (y3 :: (x4 :: (y4 :: (@List.nil Int))))))
 ) \/
 (
-forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : ((x1_pre + retval) <= INT_MAX)) (PreH2 : (y1_pre <= INT_MAX)) (PreH3 : ((x2_pre + retval) <= INT_MAX)) (PreH4 : (y2_pre <= INT_MAX)) (PreH5 : ((x1_pre + retval) >= INT_MIN)) (PreH6 : (y1_pre >= INT_MIN)) (PreH7 : ((x2_pre + retval) >= INT_MIN)) (PreH8 : (y2_pre >= INT_MIN)) (PreH9 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH10 : (x1_pre = x2_pre)) (PreH11 : ((-100) <= x1_pre)) (PreH12 : (x1_pre <= 100)) (PreH13 : ((-100) <= y1_pre)) (PreH14 : (y1_pre <= 100)) (PreH15 : ((-100) <= x2_pre)) (PreH16 : (x2_pre <= 100)) (PreH17 : ((-100) <= y2_pre)) (PreH18 : (y2_pre <= 100)) (PreH19 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : ((x1_pre + retval) <= INT_MAX)) (PreH2 : (y1_pre <= INT_MAX)) (PreH3 : ((x2_pre + retval) <= INT_MAX)) (PreH4 : (y2_pre <= INT_MAX)) (PreH5 : ((x1_pre + retval) >= INT_MIN)) (PreH6 : (y1_pre >= INT_MIN)) (PreH7 : ((x2_pre + retval) >= INT_MIN)) (PreH8 : (y2_pre >= INT_MIN)) (PreH9 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH10 : (x1_pre = x2_pre)) (PreH11 : ((-100) <= x1_pre)) (PreH12 : (x1_pre <= 100)) (PreH13 : ((-100) <= y1_pre)) (PreH14 : (y1_pre <= 100)) (PreH15 : ((-100) <= x2_pre)) (PreH16 : (x2_pre <= 100)) (PreH17 : ((-100) <= y2_pre)) (PreH18 : (y2_pre <= 100)) (PreH19 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + (3 * sizeof(INT)))) # Int |-> (y2_pre))
   ** (((out_pre + (2 * sizeof(INT)))) # Int |-> ((x2_pre + retval)))
   ** (((out_pre + (1 * sizeof(INT)))) # Int |-> (y1_pre))
@@ -632,7 +632,7 @@ forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : In
 )
 
 noncomputable def solver_partial_solve_wit_1_pure : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (PreH1 : (x1_pre = x2_pre)) (PreH2 : ((-100) <= x1_pre)) (PreH3 : (x1_pre <= 100)) (PreH4 : ((-100) <= y1_pre)) (PreH5 : (y1_pre <= 100)) (PreH6 : ((-100) <= x2_pre)) (PreH7 : (x2_pre <= 100)) (PreH8 : ((-100) <= y2_pre)) (PreH9 : (y2_pre <= 100)) (PreH10 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (PreH1 : (x1_pre = x2_pre)) (PreH2 : ((-100) <= x1_pre)) (PreH3 : (x1_pre <= 100)) (PreH4 : ((-100) <= y1_pre)) (PreH5 : (y1_pre <= 100)) (PreH6 : ((-100) <= x2_pre)) (PreH7 : (x2_pre <= 100)) (PreH8 : ((-100) <= y2_pre)) (PreH9 : (y2_pre <= 100)) (PreH10 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   ((( &( "d" ) )) # Int |->_)
   ** ((( &( "x1" ) )) # Int |-> (x1_pre))
   ** ((( &( "y1" ) )) # Int |-> (y1_pre))
@@ -645,7 +645,7 @@ noncomputable def solver_partial_solve_wit_1_pure : Prop :=
   “ ((y1_pre - y2_pre) <= 200) ”
 
 noncomputable def solver_partial_solve_wit_1_aux : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (PreH1 : (x1_pre = x2_pre)) (PreH2 : ((-100) <= x1_pre)) (PreH3 : (x1_pre <= 100)) (PreH4 : ((-100) <= y1_pre)) (PreH5 : (y1_pre <= 100)) (PreH6 : ((-100) <= x2_pre)) (PreH7 : (x2_pre <= 100)) (PreH8 : ((-100) <= y2_pre)) (PreH9 : (y2_pre <= 100)) (PreH10 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (PreH1 : (x1_pre = x2_pre)) (PreH2 : ((-100) <= x1_pre)) (PreH3 : (x1_pre <= 100)) (PreH4 : ((-100) <= y1_pre)) (PreH5 : (y1_pre <= 100)) (PreH6 : ((-100) <= x2_pre)) (PreH7 : (x2_pre <= 100)) (PreH8 : ((-100) <= y2_pre)) (PreH9 : (y2_pre <= 100)) (PreH10 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_full out_pre 4)
 |--
   “ ((-200) <= (y1_pre - y2_pre)) ” &&
@@ -665,7 +665,7 @@ noncomputable def solver_partial_solve_wit_1_aux : Prop :=
 noncomputable def solver_partial_solve_wit_1 : Prop := solver_partial_solve_wit_1_pure -> solver_partial_solve_wit_1_aux
 
 noncomputable def solver_partial_solve_wit_2 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_full out_pre 4)
 |--
   “ (retval = (Z.abs ((y1_pre - y2_pre)))) ” &&
@@ -683,7 +683,7 @@ noncomputable def solver_partial_solve_wit_2 : Prop :=
   ** (intArray.undef_seg out_pre 1 4)
 
 noncomputable def solver_partial_solve_wit_3 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> ((x1_pre + retval)))
   ** (intArray.undef_seg out_pre 1 4)
 |--
@@ -703,7 +703,7 @@ noncomputable def solver_partial_solve_wit_3 : Prop :=
   ** (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> ((x1_pre + retval)))
 
 noncomputable def solver_partial_solve_wit_4 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + (1 * sizeof(INT)))) # Int |-> (y1_pre))
   ** (intArray.undef_seg out_pre (1 + 1) 4)
   ** (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> ((x1_pre + retval)))
@@ -725,7 +725,7 @@ noncomputable def solver_partial_solve_wit_4 : Prop :=
   ** (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> ((x1_pre + retval)))
 
 noncomputable def solver_partial_solve_wit_5 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((y1_pre - y2_pre))))) (PreH2 : (x1_pre = x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_seg out_pre ((1 + 1) + 1) 4)
   ** (((out_pre + (2 * sizeof(INT)))) # Int |-> ((x2_pre + retval)))
   ** (((out_pre + (1 * sizeof(INT)))) # Int |-> (y1_pre))
@@ -749,7 +749,7 @@ noncomputable def solver_partial_solve_wit_5 : Prop :=
   ** (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> ((x1_pre + retval)))
 
 noncomputable def solver_partial_solve_wit_6_pure : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (PreH1 : (y1_pre = y2_pre)) (PreH2 : (x1_pre ≠ x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (PreH1 : (y1_pre = y2_pre)) (PreH2 : (x1_pre ≠ x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   ((( &( "d" ) )) # Int |->_)
   ** ((( &( "x1" ) )) # Int |-> (x1_pre))
   ** ((( &( "y1" ) )) # Int |-> (y1_pre))
@@ -762,7 +762,7 @@ noncomputable def solver_partial_solve_wit_6_pure : Prop :=
   “ ((x1_pre - x2_pre) <= 200) ”
 
 noncomputable def solver_partial_solve_wit_6_aux : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (PreH1 : (y1_pre = y2_pre)) (PreH2 : (x1_pre ≠ x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (PreH1 : (y1_pre = y2_pre)) (PreH2 : (x1_pre ≠ x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_full out_pre 4)
 |--
   “ ((-200) <= (x1_pre - x2_pre)) ” &&
@@ -783,7 +783,7 @@ noncomputable def solver_partial_solve_wit_6_aux : Prop :=
 noncomputable def solver_partial_solve_wit_6 : Prop := solver_partial_solve_wit_6_pure -> solver_partial_solve_wit_6_aux
 
 noncomputable def solver_partial_solve_wit_7 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_full out_pre 4)
 |--
   “ (retval = (Z.abs ((x1_pre - x2_pre)))) ” &&
@@ -802,7 +802,7 @@ noncomputable def solver_partial_solve_wit_7 : Prop :=
   ** (intArray.undef_seg out_pre 1 4)
 
 noncomputable def solver_partial_solve_wit_8 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
   ** (intArray.undef_seg out_pre 1 4)
 |--
@@ -823,7 +823,7 @@ noncomputable def solver_partial_solve_wit_8 : Prop :=
   ** (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
 
 noncomputable def solver_partial_solve_wit_9 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + (1 * sizeof(INT)))) # Int |-> ((y1_pre + retval)))
   ** (intArray.undef_seg out_pre (1 + 1) 4)
   ** (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
@@ -846,7 +846,7 @@ noncomputable def solver_partial_solve_wit_9 : Prop :=
   ** (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
 
 noncomputable def solver_partial_solve_wit_10 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre = y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_seg out_pre ((1 + 1) + 1) 4)
   ** (((out_pre + (2 * sizeof(INT)))) # Int |-> (x2_pre))
   ** (((out_pre + (1 * sizeof(INT)))) # Int |-> ((y1_pre + retval)))
@@ -871,7 +871,7 @@ noncomputable def solver_partial_solve_wit_10 : Prop :=
   ** (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
 
 noncomputable def solver_partial_solve_wit_11_pure : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (PreH1 : (y1_pre ≠ y2_pre)) (PreH2 : (x1_pre ≠ x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (PreH1 : (y1_pre ≠ y2_pre)) (PreH2 : (x1_pre ≠ x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   ((( &( "x1" ) )) # Int |-> (x1_pre))
   ** ((( &( "y1" ) )) # Int |-> (y1_pre))
   ** ((( &( "x2" ) )) # Int |-> (x2_pre))
@@ -883,7 +883,7 @@ noncomputable def solver_partial_solve_wit_11_pure : Prop :=
   “ ((x1_pre - x2_pre) <= 200) ”
 
 noncomputable def solver_partial_solve_wit_11_aux : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (PreH1 : (y1_pre ≠ y2_pre)) (PreH2 : (x1_pre ≠ x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (PreH1 : (y1_pre ≠ y2_pre)) (PreH2 : (x1_pre ≠ x2_pre)) (PreH3 : ((-100) <= x1_pre)) (PreH4 : (x1_pre <= 100)) (PreH5 : ((-100) <= y1_pre)) (PreH6 : (y1_pre <= 100)) (PreH7 : ((-100) <= x2_pre)) (PreH8 : (x2_pre <= 100)) (PreH9 : ((-100) <= y2_pre)) (PreH10 : (y2_pre <= 100)) (PreH11 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_full out_pre 4)
 |--
   “ ((-200) <= (x1_pre - x2_pre)) ” &&
@@ -904,7 +904,7 @@ noncomputable def solver_partial_solve_wit_11_aux : Prop :=
 noncomputable def solver_partial_solve_wit_11 : Prop := solver_partial_solve_wit_11_pure -> solver_partial_solve_wit_11_aux
 
 noncomputable def solver_partial_solve_wit_12_pure : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre ≠ y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre ≠ y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   ((( &( "x1" ) )) # Int |-> (x1_pre))
   ** ((( &( "y1" ) )) # Int |-> (y1_pre))
   ** ((( &( "x2" ) )) # Int |-> (x2_pre))
@@ -916,7 +916,7 @@ noncomputable def solver_partial_solve_wit_12_pure : Prop :=
   “ ((y1_pre - y2_pre) <= 200) ”
 
 noncomputable def solver_partial_solve_wit_12_aux : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre ≠ y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (PreH1 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH2 : (y1_pre ≠ y2_pre)) (PreH3 : (x1_pre ≠ x2_pre)) (PreH4 : ((-100) <= x1_pre)) (PreH5 : (x1_pre <= 100)) (PreH6 : ((-100) <= y1_pre)) (PreH7 : (y1_pre <= 100)) (PreH8 : ((-100) <= x2_pre)) (PreH9 : (x2_pre <= 100)) (PreH10 : ((-100) <= y2_pre)) (PreH11 : (y2_pre <= 100)) (PreH12 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_full out_pre 4)
 |--
   “ ((-200) <= (y1_pre - y2_pre)) ” &&
@@ -938,7 +938,7 @@ noncomputable def solver_partial_solve_wit_12_aux : Prop :=
 noncomputable def solver_partial_solve_wit_12 : Prop := solver_partial_solve_wit_12_pure -> solver_partial_solve_wit_12_aux
 
 noncomputable def solver_partial_solve_wit_13 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_full out_pre 4)
 |--
   “ (retval = retval_2) ” &&
@@ -959,7 +959,7 @@ noncomputable def solver_partial_solve_wit_13 : Prop :=
   ** (intArray.undef_seg out_pre 1 4)
 
 noncomputable def solver_partial_solve_wit_14 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
   ** (intArray.undef_seg out_pre 1 4)
 |--
@@ -982,7 +982,7 @@ noncomputable def solver_partial_solve_wit_14 : Prop :=
   ** (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
 
 noncomputable def solver_partial_solve_wit_15 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (((out_pre + (1 * sizeof(INT)))) # Int |-> (y2_pre))
   ** (intArray.undef_seg out_pre (1 + 1) 4)
   ** (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
@@ -1007,7 +1007,7 @@ noncomputable def solver_partial_solve_wit_15 : Prop :=
   ** (((out_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (x1_pre))
 
 noncomputable def solver_partial_solve_wit_16 : Prop :=
-  forall (out_pre : Int) (y2_pre : Int) (x2_pre : Int) (y1_pre : Int) (x1_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
+  forall (x1_pre : Int) (y1_pre : Int) (x2_pre : Int) (y2_pre : Int) (out_pre : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval = retval_2)) (PreH2 : (retval_2 = (Z.abs ((y1_pre - y2_pre))))) (PreH3 : (retval = (Z.abs ((x1_pre - x2_pre))))) (PreH4 : (y1_pre ≠ y2_pre)) (PreH5 : (x1_pre ≠ x2_pre)) (PreH6 : ((-100) <= x1_pre)) (PreH7 : (x1_pre <= 100)) (PreH8 : ((-100) <= y1_pre)) (PreH9 : (y1_pre <= 100)) (PreH10 : ((-100) <= x2_pre)) (PreH11 : (x2_pre <= 100)) (PreH12 : ((-100) <= y2_pre)) (PreH13 : (y2_pre <= 100)) (PreH14 : (Pre x1_pre y1_pre x2_pre y2_pre)) ,
   (intArray.undef_seg out_pre ((1 + 1) + 1) 4)
   ** (((out_pre + (2 * sizeof(INT)))) # Int |-> (x2_pre))
   ** (((out_pre + (1 * sizeof(INT)))) # Int |-> (y2_pre))

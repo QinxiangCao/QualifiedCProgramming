@@ -67,7 +67,9 @@ MonadLib is a Rocq/Coq development that provides monadic structures, reasoning p
   Require Import MonadLib.MonadLib.
   Import StateRelMonad.
   Import MonadNotation.
+  Import StateRelProgNotations.
   Local Open Scope monad_scope.
+  Local Open Scope prog_scope.
   ```
 #### Common state-relation operators:
 

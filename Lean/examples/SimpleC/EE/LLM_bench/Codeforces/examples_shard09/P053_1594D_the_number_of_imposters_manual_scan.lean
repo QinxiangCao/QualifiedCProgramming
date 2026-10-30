@@ -22,7 +22,7 @@ private theorem p053_next_edge_meta (n cap : Int) (hs ns ts ws : List Int) (e : 
   exact ⟨⟨⟨ht,hw⟩,hn.1⟩,hn.2⟩
 
 theorem proof_of_solver_entail_wit_11_1 : solver_entail_wit_11_1 := by
-  intro stack__pre color_pre wt_pre to_pre nxt_pre head_pre comment_diff_pre comment_v_pre comment_u_pre m_pre n_pre comment_kinds comment_targets comment_sources comments hs_2 finished_2 before_2 ks_2 ns_2 ws_2 ts_2 e c1 c0 top cs_2 u total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre comment_u_pre comment_v_pre comment_diff_pre head_pre nxt_pre to_pre wt_pre color_pre stack__pre hs_2 finished_2 before_2 ks_2 ns_2 ws_2 ts_2 e c1 c0 top cs_2 u total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   have htop := PreH27 ⟨PreH2,PreH1⟩
   obtain ⟨⟨⟨hv,hw⟩,hnlo⟩,hnhi⟩ := PreH26 PreH2
   have hlen := PreH38.1.1.1
@@ -60,7 +60,7 @@ theorem proof_of_solver_entail_wit_11_1 : solver_entail_wit_11_1 := by
     all_goals first | assumption | omega | (intro hh; exact hpostlt)
 
 theorem proof_of_solver_entail_wit_11_2 : solver_entail_wit_11_2 := by
-  intro stack__pre color_pre wt_pre to_pre nxt_pre head_pre comment_diff_pre comment_v_pre comment_u_pre m_pre n_pre comment_kinds comment_targets comment_sources comments hs_2 finished_2 before_2 ks_2 ns_2 ws_2 ts_2 e c1 c0 top cs_2 u total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre comment_u_pre comment_v_pre comment_diff_pre head_pre nxt_pre to_pre wt_pre color_pre stack__pre hs_2 finished_2 before_2 ks_2 ns_2 ws_2 ts_2 e c1 c0 top cs_2 u total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   have htop := PreH27 ⟨PreH2,PreH1⟩
   obtain ⟨⟨⟨hv,hw⟩,hnlo⟩,hnhi⟩ := PreH26 PreH2
   have hlen := PreH38.1.1.1
@@ -98,7 +98,7 @@ theorem proof_of_solver_entail_wit_11_2 : solver_entail_wit_11_2 := by
     all_goals first | assumption | omega | (intro hh; exact hpostlt)
 
 theorem proof_of_solver_entail_wit_11_3 : solver_entail_wit_11_3 := by
-  intro stack__pre color_pre wt_pre to_pre nxt_pre head_pre comment_diff_pre comment_v_pre comment_u_pre m_pre n_pre comment_kinds comment_targets comment_sources comments hs_2 finished_2 before_2 ks_2 ns_2 ws_2 ts_2 e c1 c0 top cs_2 u total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre comment_u_pre comment_v_pre comment_diff_pre head_pre nxt_pre to_pre wt_pre color_pre stack__pre hs_2 finished_2 before_2 ks_2 ns_2 ws_2 ts_2 e c1 c0 top cs_2 u total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   obtain ⟨⟨⟨hv,hw⟩,hnlo⟩,hnhi⟩ := PreH27 PreH3
   have hedge := p053_next_edge_meta _ _ _ _ _ _ _ ⟨hnlo,hnhi⟩ PreH41
   have htop := component_scan_pending_top_lt__scan_edge_transitions _ _ _ _ _ _ _ _ _ _ _ _
@@ -114,7 +114,7 @@ theorem proof_of_solver_entail_wit_11_3 : solver_entail_wit_11_3 := by
     all_goals first | assumption | omega | (intro hh; exact htop)
 
 theorem proof_of_solver_entail_wit_11_4 : solver_entail_wit_11_4 := by
-  intro stack__pre color_pre wt_pre to_pre nxt_pre head_pre comment_diff_pre comment_v_pre comment_u_pre m_pre n_pre comment_kinds comment_targets comment_sources comments hs_2 finished_2 before_2 ks_2 ns_2 ws_2 ts_2 e c1 c0 top cs_2 u total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre comment_u_pre comment_v_pre comment_diff_pre head_pre nxt_pre to_pre wt_pre color_pre stack__pre hs_2 finished_2 before_2 ks_2 ns_2 ws_2 ts_2 e c1 c0 top cs_2 u total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   obtain ⟨⟨⟨hv,hw⟩,hnlo⟩,hnhi⟩ := PreH27 PreH3
   have hedge := p053_next_edge_meta _ _ _ _ _ _ _ ⟨hnlo,hnhi⟩ PreH41
   have htop := component_scan_pending_top_lt__scan_edge_transitions _ _ _ _ _ _ _ _ _ _ _ _

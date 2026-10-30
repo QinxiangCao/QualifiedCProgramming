@@ -81,7 +81,7 @@ Lemma aux_ex_and0 : forall {A : Type} (P Q : A -> expr),
   exp (fun a => (P a) && (Q a)) |-- (exp P) && (exp Q).
 Proof. 
   intros.
-  apply derivable1s_truep_intros.
+  apply derivable1s_andp_intros.
   + apply derivable1s_exp_l. intros. 
     eapply derivable1_trans; [apply derivable1_andp_elim1 | ].
     eapply derivable1s_exp_r. apply derivable1_refl.
@@ -93,7 +93,7 @@ Qed.
 Lemma aux_ex_and1' : forall {A : Type} (P : A -> expr) (Q : expr),
   exp (fun x => (P x && Q)) |-- ((exp P) && Q).
 Proof. 
-  intros. apply derivable1s_truep_intros.
+  intros. apply derivable1s_andp_intros.
   + apply derivable1s_exp_l. intros.
     eapply derivable1_trans; [apply derivable1_andp_elim1 | ].
     eapply derivable1s_exp_r. apply derivable1_refl.
@@ -104,7 +104,7 @@ Qed.
 Lemma aux_ex_and2' : forall {A : Type} (P : expr) (Q : A -> expr),
   exp (fun x => (P && Q x)) |-- (P && (exp Q)).
 Proof.
-  intros. apply derivable1s_truep_intros.
+  intros. apply derivable1s_andp_intros.
   + apply derivable1s_exp_l. intros.
     apply derivable1_andp_elim1.
   + apply derivable1s_exp_l. intros.
@@ -119,7 +119,7 @@ Proof.
   rewrite <- derivable1s_impp_andp_adjoint.
   apply derivable1s_exp_l. intros. rewrite derivable1s_impp_andp_adjoint.
   eapply derivable1s_exp_r.
-  apply derivable1s_truep_intros; [| apply derivable1_andp_elim2].
+  apply derivable1s_andp_intros; [| apply derivable1_andp_elim2].
   eapply derivable1_trans; [apply derivable1_andp_elim1 | apply derivable1_refl].
 Qed.
 
@@ -131,7 +131,7 @@ Proof.
   rewrite <- derivable1s_impp_andp_adjoint.
   apply derivable1s_exp_l. intros. rewrite derivable1s_impp_andp_adjoint.
   eapply derivable1s_exp_r.
-  apply derivable1s_truep_intros; [apply derivable1_andp_elim2 |].
+  apply derivable1s_andp_intros; [apply derivable1_andp_elim2 |].
   eapply derivable1_trans; [apply derivable1_andp_elim1 | apply derivable1_refl]. 
 Qed.
 
@@ -157,7 +157,7 @@ Lemma logic_equiv_exp_andp
 Proof. 
   intros; rewrite __logic_equiv_derivable1. split.
   -apply ExpDeduction2ExsitsAnd.
-  -apply derivable1s_truep_intros. 
+  -apply derivable1s_andp_intros. 
   --apply derivable1s_exp_l. intros. eapply (derivable1s_exp_r _ _ _ x). apply derivable1_andp_elim1.
   --apply derivable1s_exp_l. intros. apply derivable1_andp_elim2.
 Qed.
@@ -409,7 +409,7 @@ Lemma aux_derivable1_sepcon_coq_prop_andp_l : forall P Q R,
   P * (coq_prop Q && R) |-- (coq_prop Q) && (P * R).
 Proof. 
   intros. 
-  apply derivable1s_truep_intros.
+  apply derivable1s_andp_intros.
   + rewrite derivable1_sepcon_comm. 
     rewrite derivable1s_wand_sepcon_adjoint.
     rewrite <- derivable1s_impp_andp_adjoint.
@@ -430,7 +430,7 @@ Proof.
   rewrite derivable1s_impp_andp_adjoint.
   rewrite derivable1_andp_elim2.
   apply derivable1_sepcon_mono; [apply derivable1_refl |].
-  apply derivable1s_truep_intros; [| apply derivable1_refl].
+  apply derivable1s_andp_intros; [| apply derivable1_refl].
   apply derivable1s_coq_prop_r. apply H.
 Qed.
 
@@ -555,7 +555,7 @@ Proof.
   intros. pose proof logic_equiv_sepcon_coq_prop_andp P Q TT.
   rewrite __logic_equiv_derivable1 in *. destruct H; split.
   -eapply derivable1_trans; eauto. eapply derivable1_sepcon_mono; eauto.
-  apply derivable1_refl. apply derivable1s_truep_intros.
+  apply derivable1_refl. apply derivable1s_andp_intros.
   apply derivable1_refl. apply derivable1_truep_intros.
   -eapply derivable1_trans; eauto. eapply derivable1_sepcon_mono; eauto.
   apply derivable1_refl. apply derivable1_andp_elim1.

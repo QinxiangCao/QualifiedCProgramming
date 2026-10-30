@@ -27,7 +27,7 @@ private theorem bounded_values (l : List Int)
 theorem proof_of_rob_safety_wit_4 : rob_safety_wit_4 := by
   unfold rob_safety_wit_4
   right
-  intro n nums l prev2 prev1 i hi hn hlen hl hu hi0 hin hs
+  intro l nums n prev2 prev1 i hi hn hlen hl hu hi0 hin hs
   have hr : ∀ k, 0 ≤ k ∧ k < n → 0 ≤ Znth k l 0 ∧ Znth k l 0 ≤ 10000 := by
     simpa only [hlen] using bounded_values l hl hu
   have upper := house_robber_take_value_bound l n i prev2 prev1 hlen hn hr hi0 hi hs
@@ -39,46 +39,46 @@ theorem proof_of_rob_safety_wit_4 : rob_safety_wit_4 := by
   split_pures <;> dump_pre_spatial <;> simp only [INT_MIN, INT_MAX] <;> omega
 
 theorem proof_of_rob_entail_wit_1_split_goal_1 : rob_entail_wit_1_split_goal_1 := by
-  intro n l hn _ hlen _ _
+  intro l n hn _ hlen _ _
   exact ⟨by omega, RobPrefixOpt_zero l, Or.inl ⟨rfl,rfl⟩⟩
 
 theorem proof_of_rob_entail_wit_1 : rob_entail_wit_1 := by
   unfold rob_entail_wit_1
   right
-  intro n l hn hbound hlen hl hu
+  intro l n hn hbound hlen hl hu
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    exact proof_of_rob_entail_wit_1_split_goal_1 n l hn hbound hlen hl hu
+    exact proof_of_rob_entail_wit_1_split_goal_1 l n hn hbound hlen hl hu
 
 theorem proof_of_rob_entail_wit_2_1_split_goal_1 : rob_entail_wit_2_1_split_goal_1 := by
-  intro n l prev2 prev1 i ht hi _ hlen _ _ hi0 _ hs
+  intro l n prev2 prev1 i ht hi _ hlen _ _ hi0 _ hs
   exact house_robber_dp_step_take l n i prev2 prev1 hlen hi0 hi hs ht
 
 theorem proof_of_rob_entail_wit_2_1 : rob_entail_wit_2_1 := by
   unfold rob_entail_wit_2_1
   right
-  intro n l prev2 prev1 i ht hi hn hlen hl hu hi0 hin hs
+  intro l n prev2 prev1 i ht hi hn hlen hl hu hi0 hin hs
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    exact proof_of_rob_entail_wit_2_1_split_goal_1 n l prev2 prev1 i ht hi hn hlen hl hu hi0 hin hs
+    exact proof_of_rob_entail_wit_2_1_split_goal_1 l n prev2 prev1 i ht hi hn hlen hl hu hi0 hin hs
 
 theorem proof_of_rob_entail_wit_2_2_split_goal_1 : rob_entail_wit_2_2_split_goal_1 := by
-  intro n l prev2 prev1 i ht hi _ hlen _ _ _ _ hs
+  intro l n prev2 prev1 i ht hi _ hlen _ _ _ _ hs
   exact HouseRobberDPState_skip_step l i prev2 prev1 hs ht (by omega)
 
 theorem proof_of_rob_entail_wit_2_2 : rob_entail_wit_2_2 := by
   unfold rob_entail_wit_2_2
   right
-  intro n l prev2 prev1 i ht hi hn hlen hl hu hi0 hin hs
+  intro l n prev2 prev1 i ht hi hn hlen hl hu hi0 hin hs
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    exact proof_of_rob_entail_wit_2_2_split_goal_1 n l prev2 prev1 i ht hi hn hlen hl hu hi0 hin hs
+    exact proof_of_rob_entail_wit_2_2_split_goal_1 l n prev2 prev1 i ht hi hn hlen hl hu hi0 hin hs
 
 theorem proof_of_rob_return_wit_1_split_goal_1 : rob_return_wit_1_split_goal_1 := by
-  intro n l prev2 prev1 i hi _ hlen _ _ _ hin hs
+  intro l n prev2 prev1 i hi _ hlen _ _ _ hin hs
   have he : i = Zlength l := by omega
   change RobPrefixOpt l (Zlength l) prev1
   simpa only [he] using hs.2.1
@@ -86,10 +86,10 @@ theorem proof_of_rob_return_wit_1_split_goal_1 : rob_return_wit_1_split_goal_1 :
 theorem proof_of_rob_return_wit_1 : rob_return_wit_1 := by
   unfold rob_return_wit_1
   right
-  intro n l prev2 prev1 i hi hn hlen hl hu hi0 hin hs
+  intro l n prev2 prev1 i hi hn hlen hl hu hi0 hin hs
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    exact proof_of_rob_return_wit_1_split_goal_1 n l prev2 prev1 i hi hn hlen hl hu hi0 hin hs
+    exact proof_of_rob_return_wit_1_split_goal_1 l n prev2 prev1 i hi hn hlen hl hu hi0 hin hs
 
 end SimpleC.EE.LLM_bench.Algorithms.house_robber.house_robber_proof_manual

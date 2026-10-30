@@ -5,8 +5,8 @@
 
 id : 0
 priority : core(0)
-left : store(?p : Z, ?t, ?x : Z) at 0
-       (x : Z == ?y : Z) at 1
+left : store(?p : Z, ?t, ?x : front_end_type_value(t)) at 0
+       (x : front_end_type_value(t) == ?y : front_end_type_value(t)) at 1
 right : store(p, t, y) at 2
 action: right_erase(2);
         left_erase(0);
@@ -43,8 +43,8 @@ action: right_erase(1);
 
 id : 6
 priority : core(0)
-left : store(?p : Z, ?t, ?x : Z) at 0
-      (?y : Z == x : Z) at 1
+left : store(?p : Z, ?t, ?x : front_end_type_value(t)) at 0
+      (?y : front_end_type_value(t) == x : front_end_type_value(t)) at 1
 right : store(p, t, y) at 2
 action: right_erase(2);
         left_erase(0);

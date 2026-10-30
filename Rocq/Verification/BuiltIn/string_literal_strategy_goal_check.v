@@ -1,0 +1,5 @@
+From SimpleC.Verification.BuiltIn Require Import string_literal_strategy_goal string_literal_strategy_proof.
+
+Module string_literal_Strategy_Correctness : string_literal_Strategy_Correct.
+  Include string_literal_strategy_proof.
+End string_literal_Strategy_Correctness.

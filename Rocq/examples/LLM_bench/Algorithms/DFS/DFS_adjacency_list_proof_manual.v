@@ -1,28 +1,12 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.DFS Require Import DFS_adjacency_list_goal.
 From SimpleC.EE.LLM_bench.Algorithms.DFS Require Import DFS_adjacency_list_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 From MonadLib Require Export MonadLib.
 From MonadLib.StateRelMonad Require Export StateRelMonad.
 Export MonadNotation.
 Local Open Scope monad.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
+From AUXLib Require Import relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Require Import SimpleC.EE.QCP_demos_LLM.sll_lib.
 Require Import Algorithms.DFS.DFS.
@@ -425,8 +409,10 @@ Proof.
     exfalso. apply Hnonnull. unfold NULL in *. lia.
 Qed. 
 
-Lemma proof_of_dfs_adjacency_list_derive_bind_spec_by_low_level_spec : dfs_adjacency_list_derive_bind_spec_by_low_level_spec.
+Lemma proof_of_dfs_adjacency_list_low_level_spec_entail_bind_spec : dfs_adjacency_list_low_level_spec_entail_bind_spec.
 Proof.
+  unfold dfs_adjacency_list_low_level_spec_entail_bind_spec.
+  intros B adjacency_pre vertex_count visited_pre vertex g_bind_spec row_ptrs_bind_spec node_addrs_bind_spec rows_bind_spec visited_set_bind_spec c_bind_spec X_bind_spec.
   LLM_pre_process ltac:(lia || int_auto).
   match goal with
   | Hsafe : safeExec _ (bind _ _) _ |- _ =>
@@ -453,8 +439,10 @@ Proof.
   - split_pures; dump_pre_spatial; try assumption.
 Qed. 
 
-Lemma proof_of_dfs_adjacency_list_derive_high_level_spec_by_low_level_spec : dfs_adjacency_list_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_dfs_adjacency_list_low_level_spec_entail_high_level_spec : dfs_adjacency_list_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold dfs_adjacency_list_low_level_spec_entail_high_level_spec.
+  intros adjacency_pre vertex_count visited_pre vertex_pre g_high_level_spec initial_visited_set_high_level_spec.
   LLM_pre_process ltac:(lia || int_auto).
   unfold DFSAdjacencyList.graph at 1.
   unfold DFSAdjacencyList.graph_with_rows at 1.

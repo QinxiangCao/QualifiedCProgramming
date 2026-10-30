@@ -117,12 +117,12 @@ static void solver(int n, int m, int k, const int x[][MAXN], int *lock)
               0 <= j && j < m@pre &&
               LockTimesThrough(ins, locks, j) &&
               DeadCellsThrough(ins, locks, k@pre, j, dead) &&
-              aligned_4(pointer_offset(writers, 0, sizeof(int), int)) &&
+              aligned_4(pointer_offset(writers, 0, int)) &&
               IntArray2::full(x@pre, n@pre, 105, xrows) *
               IntArray::full(lock@pre, n@pre, locks) *
               IntArray::full(cell_locked, 105, dead) *
               UCharArray::undef_full(
-                pointer_offset(writers, 0, sizeof(int), int),
+                pointer_offset(writers, 0, int),
                 sizeof(int) * (k@pre + 1)) *
               IntArray::undef_seg(writers, k@pre + 1, 105) *
               IntArray::undef_full(first, 105)

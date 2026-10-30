@@ -320,7 +320,7 @@ noncomputable def reverse_partial_solve_wit_1 : Prop :=
   ** (listrep w)
 
 noncomputable def append_safety_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) ,
+  forall (x_pre : Int) (y_pre : Int) ,
   ((( &( "u" ) )) # Ptr |->_)
   ** ((( &( "t" ) )) # Ptr |->_)
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -332,7 +332,7 @@ noncomputable def append_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def append_entail_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (x : Int) (y : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (x : Int) (y : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
   ((&((x_pre # "list")  ->ₛ "next")) # Ptr |-> (y))
   ** (listrep y)
   ** ((&((x_pre # "list")  ->ₛ "data")) # Int |-> (x))
@@ -375,14 +375,14 @@ noncomputable def append_return_wit_1 : Prop :=
   (listrep x)
 
 noncomputable def append_return_wit_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
   (listrep x_pre)
   ** (listrep y_pre)
 |--
   (listrep y_pre)
 
 noncomputable def append_partial_solve_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
   (listrep x_pre)
   ** (listrep y_pre)
 |--
@@ -413,7 +413,7 @@ noncomputable def append_partial_solve_wit_2 : Prop :=
   ** (lseg x t)
 
 noncomputable def merge_safety_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) ,
+  forall (x_pre : Int) (y_pre : Int) ,
   ((( &( "t" ) )) # Ptr |->_)
   ** ((( &( "z" ) )) # Ptr |->_)
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -442,7 +442,7 @@ noncomputable def merge_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def merge_entail_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
   (listrep x_pre)
   ** (listrep y_pre)
 |--
@@ -489,7 +489,7 @@ noncomputable def merge_return_wit_2 : Prop :=
   (listrep z)
 
 noncomputable def merge_return_wit_3 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
   (listrep x_pre)
   ** (listrep y_pre)
 |--
@@ -532,7 +532,7 @@ noncomputable def merge_partial_solve_wit_2 : Prop :=
   ** (lseg z x)
 
 noncomputable def multi_append_safety_wit_1 : Prop :=
-  forall (z_pre : Int) (y_pre : Int) (x_pre : Int) ,
+  forall (x_pre : Int) (y_pre : Int) (z_pre : Int) ,
   ((( &( "u" ) )) # Ptr |->_)
   ** ((( &( "t" ) )) # Ptr |->_)
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -546,7 +546,7 @@ noncomputable def multi_append_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def multi_append_entail_wit_1 : Prop :=
-  forall (z_pre : Int) (y_pre : Int) (x_pre : Int) (x : Int) (y : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (z_pre : Int) (x : Int) (y : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
   ((&((x_pre # "list")  ->ₛ "next")) # Ptr |-> (y))
   ** (listrep y)
   ** ((&((x_pre # "list")  ->ₛ "data")) # Int |-> (x))
@@ -609,7 +609,7 @@ noncomputable def multi_append_return_wit_3 : Prop :=
   (listrep retval)
 
 noncomputable def multi_append_partial_solve_wit_1 : Prop :=
-  forall (z_pre : Int) (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (z_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
   (listrep x_pre)
   ** (listrep y_pre)
   ** (listrep z_pre)
@@ -619,7 +619,7 @@ noncomputable def multi_append_partial_solve_wit_1 : Prop :=
   ** (listrep z_pre)
 
 noncomputable def multi_append_partial_solve_wit_2 : Prop :=
-  forall (z_pre : Int) (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
+  forall (x_pre : Int) (y_pre : Int) (z_pre : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
   (listrep x_pre)
   ** (listrep y_pre)
   ** (listrep z_pre)

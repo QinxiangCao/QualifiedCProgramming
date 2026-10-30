@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Engineering.string Require Import strcat_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.StdLib.string_lib.
 Local Open Scope sac.
@@ -182,7 +167,8 @@ Proof.
   sep_apply (CharArray.full_split_to_full dest_pre
                (string_lib.string_length dst_str + (j + 1))
                (string_lib.string_length dst_str + (j + 1) + 1)
-               ((dst_str ++ sublist 0 (j + 1) src_str) ++ 0 :: nil)); [ | lia ].
+               ((dst_str ++ sublist 0 (j + 1) src_str) ++ 0 :: nil));
+    [ | unfold string_lib.string_length; pose proof (Zlength_nonneg dst_str); lia ].
   replace (sublist 0 (string_lib.string_length dst_str + (j + 1))
              ((dst_str ++ sublist 0 (j + 1) src_str) ++ 0 :: nil))
     with (dst_str ++ sublist 0 (j + 1) src_str) by
@@ -216,43 +202,17 @@ Qed.
 Lemma proof_of_strcat_return_wit_1 : strcat_return_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  assert (Hj_eq : j = string_lib.string_length src_str).
-  {
-    destruct (Z_lt_ge_dec j (string_lib.string_length src_str));
-      [ exfalso | lia ].
-    assert (Hj_zero : Znth j src_str 0 = 0).
-    {
-      unfold string_lib.c_string in PreH1.
-      rewrite app_Znth1 in PreH1 by (unfold string_lib.string_length in l; lia).
-      exact PreH1.
-    }
-    match goal with
-    | Hvalid : string_lib.valid_string src_str |- _ =>
-        destruct Hvalid as [_ Hno]
-    end.
-    specialize (Hno j).
-    assert (0 <= j < Zlength src_str) as Hrange
-      by (unfold string_lib.string_length in l; lia).
-    specialize (Hno Hrange).
-    contradiction.
-  }
+  assert (Hj : j = string_lib.string_length src_str) by
+    (eapply string_lib.c_string_zero_index_eq_length; eauto).
   subst j.
-  unfold string_lib.store_string.
   split_pure_spatial.
-  - unfold string_lib.c_string, string_lib.string_length in *.
+  - cancel (string_lib.store_string src_pre src_str).
+    unfold string_lib.store_string, string_lib.c_string, string_lib.string_length.
     rewrite sublist_self by reflexivity.
-    rewrite Zlength_app.
-    cancel (CharArray.full src_pre (Zlength src_str + 1) (src_str ++ 0 :: nil)).
-    rewrite CharArray.undef_seg_empty.
-    cancel.
-    sep_apply_l_atomic
-      (helper_chararray_full_snoc dest_pre
-         (Zlength dst_str + Zlength src_str) (dst_str ++ src_str) 0).
-    + dump_pre_spatial.
-      pose proof (Zlength_nonneg dst_str).
-      pose proof (Zlength_nonneg src_str).
-      lia.
-    + cancel.
+    rewrite Zlength_app, CharArray.undef_seg_empty.
+    sep_apply helper_chararray_full_snoc.
+    2: { apply Z.add_nonneg_nonneg; apply Zlength_nonneg. }
+    reflexivity.
   - dump_pre_spatial.
     reflexivity.
 Qed.
@@ -404,7 +364,8 @@ Proof.
     sep_apply (CharArray.full_split_to_full dest_pre
                  (Zlength dst_str + (j + 1))
                  (Zlength dst_str + j + 1 + 1)
-                 ((dst_str ++ sublist 0 (j + 1) src_str) ++ 0 :: nil) ltac:(lia)).
+                 ((dst_str ++ sublist 0 (j + 1) src_str) ++ 0 :: nil)
+                 ltac:(pose proof (Zlength_nonneg dst_str); lia)).
     replace (Zlength dst_str + j + 1 + 1 - (Zlength dst_str + (j + 1)))
       with 1 by lia.
     replace (Zlength dst_str + (j + 1))

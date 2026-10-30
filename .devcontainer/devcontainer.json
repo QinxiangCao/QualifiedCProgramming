@@ -6,7 +6,7 @@
     "vscode": {
       "settings": {
         "terminal.integrated.shell.linux": "/bin/bash",
-        "qide.lspBinPath": "/home/coq/qcp/linux-binary/lsp"
+        "qide.lspBinPath": "/home/coq/qcp/bin/linux/lsp"
       },
       "extensions": [
         // Specify a local VSIX file to install an extension in the devcontainer.

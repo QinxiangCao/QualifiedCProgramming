@@ -233,6 +233,9 @@ theorem int32_lower_of_abs_lt_abs {x y : Int}
 variable (Arch : SimpleC.SL.CArch.CArchSig)
   (Endian : SimpleC.SL.CArch.CEndianSig)
 
+theorem poly_store_unfold_bool :
+    poly_store Arch Endian CRules FET_bool = store_bool Arch CRules := rfl
+
 theorem poly_store_unfold_int :
     poly_store Arch Endian CRules FET_int = store_int Arch Endian CRules := rfl
 
@@ -278,6 +281,9 @@ theorem poly_store_unfold_long_double :
     poly_store Arch Endian CRules FET_long_double =
       fun x z => store_long_double Arch Endian CRules x (SimpleC.SL.FloatLib.fp128_of_bits z) := rfl
 
+theorem typed_poly_store_unfold_bool :
+    typed_poly_store Arch Endian CRules FET_bool = store_bool Arch CRules := rfl
+
 theorem typed_poly_store_unfold_int :
     typed_poly_store Arch Endian CRules FET_int = store_int Arch Endian CRules := rfl
 
@@ -319,6 +325,9 @@ theorem typed_poly_store_unfold_long_double :
 
 theorem typed_poly_store_unfold_ptr :
     typed_poly_store Arch Endian CRules FET_ptr = store_ptr Arch Endian CRules := rfl
+
+theorem poly_undef_store_unfold_bool :
+    poly_undef_store Arch CRules FET_bool = undef_store_bool Arch CRules := rfl
 
 theorem poly_undef_store_unfold_int :
     poly_undef_store Arch CRules FET_int = undef_store_int Arch CRules := rfl
@@ -699,6 +708,8 @@ scoped macro_rules
 
 scoped notation "Assertion" => SacContext.Assertion
 
+scoped notation:60 x:61 " # " "BOOL" " |-> " value:60 =>
+  store_bool SacContext.arch SacContext.rules x value
 scoped notation:60 x:61 " # " "CHAR" " |-> " value:60 =>
   store_char SacContext.arch SacContext.rules x value
 scoped notation:60 x:61 " # " "UCHAR" " |-> " value:60 =>
@@ -725,6 +736,8 @@ scoped notation:60 x:61 " # " "PTR" " |-> " value:60 =>
 scoped syntax:60 (name := rocqDataAt) (priority := high)
   term:61 " # " ident " |-> " term:60 : term
 scoped macro_rules (kind := rocqDataAt)
+  | `($x:term # Bool |-> $value:term) =>
+      `(store_bool SacContext.arch SacContext.rules $x $value)
   | `($x:term # Char |-> $value:term) =>
       `(store_char SacContext.arch SacContext.rules $x $value)
   | `($x:term # UChar |-> $value:term) =>
@@ -761,6 +774,7 @@ scoped macro_rules (kind := rocqDataAt)
       `(store_ptr SacContext.arch SacContext.endian SacContext.rules $x $value)
   | `($x:term # $type:ident |-> $value:term) => do
       match type.getId with
+      | `Bool => `(store_bool SacContext.arch SacContext.rules $x $value)
       | `Float => `(store_float SacContext.arch SacContext.endian SacContext.rules $x $value)
       | `Double => `(store_double SacContext.arch SacContext.endian SacContext.rules $x $value)
       | `LongDouble => `(store_long_double SacContext.arch SacContext.endian SacContext.rules $x $value)
@@ -769,6 +783,7 @@ scoped macro_rules (kind := rocqDataAt)
       | `FiniteLongDouble => `(store_finite_long_double SacContext.arch SacContext.endian SacContext.rules $x $value)
       | _ => `(poly_store SacContext.arch SacContext.endian SacContext.rules $type $x $value)
 
+scoped notation:60 x:61 " # " "BOOL" " |->_" => undef_store_bool SacContext.arch SacContext.rules x
 scoped notation:60 x:61 " # " "CHAR" " |->_" => undef_store_char SacContext.arch SacContext.rules x
 scoped notation:60 x:61 " # " "UCHAR" " |->_" => undef_store_uchar SacContext.arch SacContext.rules x
 scoped notation:60 x:61 " # " "SHORT" " |->_" => undef_store_short SacContext.arch SacContext.rules x
@@ -784,6 +799,7 @@ scoped notation:60 x:61 " # " "PTR" " |->_" => undef_store_ptr SacContext.arch S
 scoped syntax:60 (name := rocqUndefDataAt) (priority := high)
   term:61 " # " ident " |->_" : term
 scoped macro_rules (kind := rocqUndefDataAt)
+  | `($x:term # Bool |->_) => `(undef_store_bool SacContext.arch SacContext.rules $x)
   | `($x:term # Char |->_) => `(undef_store_char SacContext.arch SacContext.rules $x)
   | `($x:term # UChar |->_) => `(undef_store_uchar SacContext.arch SacContext.rules $x)
   | `($x:term # Short |->_) => `(undef_store_short SacContext.arch SacContext.rules $x)
@@ -804,6 +820,7 @@ scoped macro_rules (kind := rocqUndefDataAt)
   | `($x:term # Ptr |->_) => `(undef_store_ptr SacContext.arch SacContext.rules $x)
   | `($x:term # $type:ident |->_) => do
       match type.getId with
+      | `Bool => `(undef_store_bool SacContext.arch SacContext.rules $x)
       | `Float => `(undef_store_float SacContext.arch SacContext.rules $x)
       | `Double => `(undef_store_double SacContext.arch SacContext.rules $x)
       | `LongDouble => `(undef_store_long_double SacContext.arch SacContext.rules $x)
@@ -945,7 +962,7 @@ private def storeFacadeBaseName? (expression : Expr) : Option String :=
         | _ => ""
       if #["storeA", "undefstoreA",
        "store_char", "undef_store_char",
-       "store_uchar", "undef_store_uchar",
+       "store_uchar", "undef_store_uchar", "store_bool", "undef_store_bool",
        "store_short", "undef_store_short",
        "store_ushort", "undef_store_ushort",
        "store_int", "undef_store_int",
@@ -973,7 +990,7 @@ private def isDynamicStoreWrapper (expression : Expr) : Bool :=
   match expression.getAppFn.consumeMData with
   | .const name _ =>
       [``store_char, ``undef_store_char,
-       ``store_uchar, ``undef_store_uchar,
+       ``store_uchar, ``undef_store_uchar, ``store_bool, ``undef_store_bool,
        ``store_short, ``undef_store_short,
        ``store_ushort, ``undef_store_ushort,
        ``store_int, ``undef_store_int,
@@ -1187,7 +1204,7 @@ private def isCanonicalStoreWrapper (expression : Expr) : Bool :=
   match expression.getAppFn.consumeMData with
   | .const name _ =>
       [``store_char, ``undef_store_char,
-       ``store_uchar, ``undef_store_uchar,
+       ``store_uchar, ``undef_store_uchar, ``store_bool, ``undef_store_bool,
        ``store_short, ``undef_store_short,
        ``store_ushort, ``undef_store_ushort,
        ``store_int, ``undef_store_int,
@@ -1205,6 +1222,7 @@ private def isCanonicalStoreWrapper (expression : Expr) : Bool :=
        ``store_ptr, ``undef_store_ptr,
        ``DerivedPredSigCompat.store_char, ``DerivedPredSigCompat.undef_store_char,
        ``DerivedPredSigCompat.store_uchar, ``DerivedPredSigCompat.undef_store_uchar,
+       ``DerivedPredSigCompat.store_bool, ``DerivedPredSigCompat.undef_store_bool,
        ``DerivedPredSigCompat.store_short, ``DerivedPredSigCompat.undef_store_short,
        ``DerivedPredSigCompat.store_ushort, ``DerivedPredSigCompat.undef_store_ushort,
        ``DerivedPredSigCompat.store_int, ``DerivedPredSigCompat.undef_store_int,
@@ -3357,7 +3375,8 @@ macro_rules
   | `(tactic| poly_store_unfold) =>
       `(tactic| first
         | simp only
-          [AutomationHelpers.poly_store_unfold_int,
+          [AutomationHelpers.poly_store_unfold_bool,
+           AutomationHelpers.poly_store_unfold_int,
            AutomationHelpers.poly_store_unfold_char,
            AutomationHelpers.poly_store_unfold_int64,
            AutomationHelpers.poly_store_unfold_short,
@@ -3371,6 +3390,7 @@ macro_rules
            AutomationHelpers.poly_store_unfold_double,
            AutomationHelpers.poly_store_unfold_long_double,
            AutomationHelpers.poly_store_unfold_ptr,
+           AutomationHelpers.typed_poly_store_unfold_bool,
            AutomationHelpers.typed_poly_store_unfold_int,
            AutomationHelpers.typed_poly_store_unfold_char,
            AutomationHelpers.typed_poly_store_unfold_int64,
@@ -3385,6 +3405,7 @@ macro_rules
            AutomationHelpers.typed_poly_store_unfold_double,
            AutomationHelpers.typed_poly_store_unfold_long_double,
            AutomationHelpers.typed_poly_store_unfold_ptr,
+           AutomationHelpers.poly_undef_store_unfold_bool,
            AutomationHelpers.poly_undef_store_unfold_int,
            AutomationHelpers.poly_undef_store_unfold_char,
            AutomationHelpers.poly_undef_store_unfold_int64,

@@ -1,8 +1,7 @@
 ; Converted from:
 ; - _CoqProject: -R Rocq/auxlibs AUXLib
-; - Rocq/_CoqProject: -R auxlibs AUXLib
 (coq.theory
  (name AUXLib)
- (theories FP ListLib SetsClass SimpleC.Common compcert.lib))
+ (theories Ltac2 FP ListLib SetsClass SimpleC.Common compcert.lib))
 
 (include_subdirs qualified)

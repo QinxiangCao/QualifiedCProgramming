@@ -43,7 +43,7 @@ id : 8
 priority : core(4)
 left : sll(?p, ?l) at 0
        (p != NULL || NULL != p) at 1
-right : (store(field_addr(p, list, data), I32, ?q) || store(field_addr(p, list, next), PTR(struct list), ?q)) at 2
+right : (store(field_addr(p, list, data), I32, ?q) || store(field_addr(p, list, next), PTR, ?q)) at 2
 action : left_erase(0);
          left_exist_add(x);
          left_exist_add(l0);
@@ -66,7 +66,7 @@ left : sll(?p, cons{Z}(?x, ?l)) at 0
 action : left_erase(0);
          left_exist_add(y);
          left_add(store(field_addr(p, list, data), I32, x));
-         left_add(store(field_addr(p, list, next), PTR(struct list), y));
+         left_add(store(field_addr(p, list, next), PTR, y));
          left_add(sll(y, l));
  
 id : 11
@@ -76,7 +76,7 @@ action : right_erase(0);
          right_exist_add(y);
          right_add(p != 0);
          right_add(store(field_addr(p, list, data), I32, x));
-         right_add(store(field_addr(p, list, next), PTR(struct list), y));
+         right_add(store(field_addr(p, list, next), PTR, y));
          right_add(sll(y, l));
 
 id : 14
@@ -96,7 +96,7 @@ action : right_erase(0);
 id : 16
 priority : core(1)
 right : sllbseg(?p, p, ?l) at 0
-        store(p, PTR(struct list), ?q) at 1
+        store(p, PTR, ?q) at 1
 action : right_erase(0);
          right_add(l == nil{Z});
 
@@ -111,8 +111,8 @@ id : 18
 priority : core(1)
 left : sllbseg(?p, ?q, ?l1) at 0
 right : sllbseg(p, q, ?l2) at 2
-left : store(q, PTR(struct list), ?v1) at 1
-right : store(q, PTR(struct list), ?v2) at 3
+left : store(q, PTR, ?v1) at 1
+right : store(q, PTR, ?v2) at 3
 action : left_erase(0);
          right_erase(2);
          right_add(l1 == l2);
@@ -145,14 +145,14 @@ action : left_erase(1);
          left_exist_add(q);
          left_exist_add(l0);
          left_add(store(field_addr(p, list, data), I32, d));
-         left_add(store(field_addr(p, list, next), PTR(struct list), q));
+         left_add(store(field_addr(p, list, next), PTR, q));
          left_add(sll(q, l0));
          left_add(l == cons{Z}(d, l0));
 
 id : 22
 priority : fold_sll(0)
 left : store(field_addr(?p, list, data), I32, ?d) at 0
-       store(field_addr(p, list, next), PTR(struct list), ?q) at 1
+       store(field_addr(p, list, next), PTR, ?q) at 1
        sll(q, ?l0) at 2
        (p != NULL || NULL != p) at 3
 action : left_erase(0);

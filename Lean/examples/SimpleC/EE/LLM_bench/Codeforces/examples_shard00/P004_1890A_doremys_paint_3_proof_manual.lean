@@ -11,14 +11,14 @@ open scoped SimpleC.SL.SAC
 local instance : SacContext := ⟨naive_C_Rules⟩
 
 theorem proof_of_solver_safety_wit_7_split_goal_1 : solver_safety_wit_7_split_goal_1 := by
-  intro n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   dump_pre_spatial
   unfold PaintScanState at *
   change ((cx + 1) <= 2147483647)
   omega
 
 theorem proof_of_solver_safety_wit_7_split_goal_2 : solver_safety_wit_7_split_goal_2 := by
-  intro n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   dump_pre_spatial
   unfold PaintScanState at *
   change (((-2147483648)) <= (cx + 1))
@@ -26,21 +26,21 @@ theorem proof_of_solver_safety_wit_7_split_goal_2 : solver_safety_wit_7_split_go
 
 theorem proof_of_solver_safety_wit_7 : solver_safety_wit_7 := by
   right
-  intro n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_7_split_goal_1 n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-    | exact proof_of_solver_safety_wit_7_split_goal_2 n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+    | exact proof_of_solver_safety_wit_7_split_goal_1 input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+    | exact proof_of_solver_safety_wit_7_split_goal_2 input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
 
 theorem proof_of_solver_safety_wit_10_split_goal_1 : solver_safety_wit_10_split_goal_1 := by
-  intro n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   dump_pre_spatial
   unfold PaintScanState at *
   change ((cy + 1) <= 2147483647)
   omega
 
 theorem proof_of_solver_safety_wit_10_split_goal_2 : solver_safety_wit_10_split_goal_2 := by
-  intro n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   dump_pre_spatial
   unfold PaintScanState at *
   change (((-2147483648)) <= (cy + 1))
@@ -48,21 +48,21 @@ theorem proof_of_solver_safety_wit_10_split_goal_2 : solver_safety_wit_10_split_
 
 theorem proof_of_solver_safety_wit_10 : solver_safety_wit_10 := by
   right
-  intro n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_10_split_goal_1 n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-    | exact proof_of_solver_safety_wit_10_split_goal_2 n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+    | exact proof_of_solver_safety_wit_10_split_goal_1 input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+    | exact proof_of_solver_safety_wit_10_split_goal_2 input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
 
 theorem proof_of_solver_safety_wit_11_split_goal_1 : solver_safety_wit_11_split_goal_1 := by
-  intro n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   dump_pre_spatial
   unfold PaintScanState at *
   change ((cy + 1) <= 2147483647)
   omega
 
 theorem proof_of_solver_safety_wit_11_split_goal_2 : solver_safety_wit_11_split_goal_2 := by
-  intro n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   dump_pre_spatial
   unfold PaintScanState at *
   change (((-2147483648)) <= (cy + 1))
@@ -70,21 +70,21 @@ theorem proof_of_solver_safety_wit_11_split_goal_2 : solver_safety_wit_11_split_
 
 theorem proof_of_solver_safety_wit_11 : solver_safety_wit_11 := by
   right
-  intro n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_11_split_goal_1 n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-    | exact proof_of_solver_safety_wit_11_split_goal_2 n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+    | exact proof_of_solver_safety_wit_11_split_goal_1 input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+    | exact proof_of_solver_safety_wit_11_split_goal_2 input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 theorem proof_of_solver_safety_wit_17_split_goal_1 : solver_safety_wit_17_split_goal_1 := by
-  intro n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   dump_pre_spatial
   unfold PaintScanState at *
   change ((cx - cy) <= 2147483647)
   omega
 
 theorem proof_of_solver_safety_wit_17_split_goal_2 : solver_safety_wit_17_split_goal_2 := by
-  intro n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   dump_pre_spatial
   unfold PaintScanState at *
   change (((-2147483648)) <= (cx - cy))
@@ -92,21 +92,21 @@ theorem proof_of_solver_safety_wit_17_split_goal_2 : solver_safety_wit_17_split_
 
 theorem proof_of_solver_safety_wit_17 : solver_safety_wit_17 := by
   right
-  intro n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_17_split_goal_1 n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-    | exact proof_of_solver_safety_wit_17_split_goal_2 n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+    | exact proof_of_solver_safety_wit_17_split_goal_1 input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+    | exact proof_of_solver_safety_wit_17_split_goal_2 input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
 
 theorem proof_of_solver_safety_wit_19_split_goal_1 : solver_safety_wit_19_split_goal_1 := by
-  intro n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   dump_pre_spatial
   unfold PaintScanState at *
   change ((cy - cx) <= 2147483647)
   omega
 
 theorem proof_of_solver_safety_wit_19_split_goal_2 : solver_safety_wit_19_split_goal_2 := by
-  intro n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   dump_pre_spatial
   unfold PaintScanState at *
   change (((-2147483648)) <= (cy - cx))
@@ -114,74 +114,74 @@ theorem proof_of_solver_safety_wit_19_split_goal_2 : solver_safety_wit_19_split_
 
 theorem proof_of_solver_safety_wit_19 : solver_safety_wit_19 := by
   right
-  intro n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_19_split_goal_1 n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-    | exact proof_of_solver_safety_wit_19_split_goal_2 n_pre a_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+    | exact proof_of_solver_safety_wit_19_split_goal_1 input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+    | exact proof_of_solver_safety_wit_19_split_goal_2 input a_pre n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
 
 theorem proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1 := by
-  intro n_pre input PreH1 PreH2 PreH3 PreH4
+  intro input n_pre PreH1 PreH2 PreH3 PreH4
   exact paint_scan_state_init__scan_transitions input
 
 theorem proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2 := by
-  intro n_pre input PreH1 PreH2 PreH3 PreH4
+  intro input n_pre PreH1 PreH2 PreH3 PreH4
   intro k hk
   exact PreH4 k (by omega)
 
 theorem proof_of_solver_entail_wit_1 : solver_entail_wit_1 := by
   right
-  intro n_pre input PreH1 PreH2 PreH3 PreH4
+  intro input n_pre PreH1 PreH2 PreH3 PreH4
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_1_split_goal_1 n_pre input PreH1 PreH2 PreH3 PreH4
-      | exact proof_of_solver_entail_wit_1_split_goal_2 n_pre input PreH1 PreH2 PreH3 PreH4
+      | exact proof_of_solver_entail_wit_1_split_goal_1 input n_pre PreH1 PreH2 PreH3 PreH4
+      | exact proof_of_solver_entail_wit_1_split_goal_2 input n_pre PreH1 PreH2 PreH3 PreH4
 
 theorem proof_of_solver_entail_wit_2_1_split_goal_1 : solver_entail_wit_2_1_split_goal_1 := by
-  intro n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   exact paint_scan_state_step_x__scan_transitions input i x y cx cy (by omega) PreH1 PreH9
 
 theorem proof_of_solver_entail_wit_2_1 : solver_entail_wit_2_1 := by
   right
-  intro n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_2_1_split_goal_1 n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+      | exact proof_of_solver_entail_wit_2_1_split_goal_1 input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
 
 theorem proof_of_solver_entail_wit_2_2_split_goal_1 : solver_entail_wit_2_2_split_goal_1 := by
-  intro n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   have hh:=PreH9 i (by omega)
   exact paint_scan_state_step_first_y__scan_transitions input i x y cx cy (by omega) hh.1 PreH1 PreH2 PreH10
 
 theorem proof_of_solver_entail_wit_2_2 : solver_entail_wit_2_2 := by
   right
-  intro n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_2_2_split_goal_1 n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_solver_entail_wit_2_2_split_goal_1 input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
 
 theorem proof_of_solver_entail_wit_2_3_split_goal_1 : solver_entail_wit_2_3_split_goal_1 := by
-  intro n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   apply paint_scan_state_step_y__scan_transitions
   all_goals solve | assumption | omega
 
 theorem proof_of_solver_entail_wit_2_3 : solver_entail_wit_2_3 := by
   right
-  intro n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_2_3_split_goal_1 n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_solver_entail_wit_2_3_split_goal_1 input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 theorem proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1 := by
-  intro n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   obtain ⟨hb,hx,hcx,hcy,htot,hsent,hyx,hcxocc,hcyocc,hcover⟩:=PreH9
   have hy:=hsent.mpr PreH1
   have hall : ∀ j, (0≤j ∧ j<Zlength input) → Znth j input 0=x := by
@@ -195,15 +195,15 @@ theorem proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_go
 
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   right
-  intro n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_return_wit_1_split_goal_1 n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+      | exact proof_of_solver_return_wit_1_split_goal_1 input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
 
 theorem proof_of_solver_return_wit_2_split_goal_1 : solver_return_wit_2_split_goal_1 := by
-  intro n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   refine ⟨Or.inl rfl,⟨by omega,?_⟩⟩
   rintro ⟨b,hp,hg⟩
   have hb:=paint_scan_state_full_count_balance__rejected_results input b n_pre i x y cx cy PreH6 PreH5 PreH4 PreH9 PreH3 PreH11 hp hg
@@ -212,15 +212,15 @@ theorem proof_of_solver_return_wit_2_split_goal_1 : solver_return_wit_2_split_go
 
 theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
   right
-  intro n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_return_wit_2_split_goal_1 n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_solver_return_wit_2_split_goal_1 input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 theorem proof_of_solver_return_wit_3_split_goal_1 : solver_return_wit_3_split_goal_1 := by
-  intro n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have he : i=n_pre := by omega
   rw [he] at PreH11
   obtain ⟨hb,hx,hcx,hcy,htot,hsent,hyx,hcxocc,hcyocc,hcover⟩:=PreH11
@@ -240,15 +240,15 @@ theorem proof_of_solver_return_wit_3_split_goal_1 : solver_return_wit_3_split_go
 
 theorem proof_of_solver_return_wit_3 : solver_return_wit_3 := by
   right
-  intro n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_return_wit_3_split_goal_1 n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_solver_return_wit_3_split_goal_1 input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 theorem proof_of_solver_return_wit_4_split_goal_1 : solver_return_wit_4_split_goal_1 := by
-  intro n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   refine ⟨Or.inl rfl,⟨by omega,?_⟩⟩
   rintro ⟨b,hp,hg⟩
   have hb:=paint_scan_state_full_count_balance__rejected_results input b n_pre i x y cx cy PreH5 PreH4 PreH3 PreH8 PreH2 PreH10 hp hg
@@ -257,15 +257,15 @@ theorem proof_of_solver_return_wit_4_split_goal_1 : solver_return_wit_4_split_go
 
 theorem proof_of_solver_return_wit_4 : solver_return_wit_4 := by
   right
-  intro n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_return_wit_4_split_goal_1 n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_solver_return_wit_4_split_goal_1 input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
 
 theorem proof_of_solver_return_wit_5_split_goal_1 : solver_return_wit_5_split_goal_1 := by
-  intro n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   refine ⟨Or.inl rfl,⟨by omega,?_⟩⟩
   rintro ⟨b,hp,hg⟩
   obtain ⟨hb,hx,hcx,hcy,htot,hsent,hyx,hcxocc,hcyocc,hcover⟩:=PreH11
@@ -284,11 +284,11 @@ theorem proof_of_solver_return_wit_5_split_goal_1 : solver_return_wit_5_split_go
 
 theorem proof_of_solver_return_wit_5 : solver_return_wit_5 := by
   right
-  intro n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_return_wit_5_split_goal_1 n_pre input x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_solver_return_wit_5_split_goal_1 input n_pre x y cx cy i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 end SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P004_1890A_doremys_paint_3_proof_manual

@@ -21,5 +21,5 @@ struct list *glibc_slist_clean_app(struct list *x, struct list *y)
  */
 {
     /*@ safeExec(ATrue, bind(list_append_raw_M(l1, l2), residual_prog_in_glibc_slist_clean_app_M_call_1), X) && sll(x, l1) * sll(y, l2) */
-    return list_append_raw(x, y) /*@ where(low_level_spec_aux) X = X; B = (list Z) */;
+    return list_append_raw(x, y) /*@ where(low_level_spec_aux) {B = (list Z)} X = X */;
 }

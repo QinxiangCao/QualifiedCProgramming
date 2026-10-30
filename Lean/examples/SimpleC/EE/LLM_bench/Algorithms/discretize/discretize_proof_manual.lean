@@ -17,7 +17,7 @@ private noncomputable abbrev intArray := naive_C_Rules.IntArray
 theorem proof_of_partition_entail_wit_1 : partition_entail_wit_1 := by
   unfold partition_entail_wit_1
   left
-  intro high_pre low_pre n_pre arr_pre l NewPreH1 NewPreH2 NewPreH3
+  intro l arr_pre n_pre low_pre high_pre NewPreH1 NewPreH2 NewPreH3
   have PreH1 : ((0 : Int) <= low_pre) := NewPreH1
   have PreH2 : (low_pre <= high_pre) := NewPreH2
   Exists l
@@ -37,7 +37,7 @@ theorem proof_of_partition_entail_wit_1 : partition_entail_wit_1 := by
 theorem proof_of_partition_entail_wit_2_1 : partition_entail_wit_2_1 := by
   unfold partition_entail_wit_2_1
   left
-  intro high_pre low_pre n_pre arr_pre l l1_2 j i pivot NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro l arr_pre n_pre low_pre high_pre l1_2 j i pivot NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   have PreH1 : ((Znth j l1_2 (0 : Int)) <= pivot) := NewPreH1
   have PreH2 : (j < high_pre) := NewPreH2
   have PreH4 : ((0 : Int) <= low_pre) := NewPreH4
@@ -66,7 +66,7 @@ theorem proof_of_partition_entail_wit_2_1 : partition_entail_wit_2_1 := by
 theorem proof_of_partition_entail_wit_2_2 : partition_entail_wit_2_2 := by
   unfold partition_entail_wit_2_2
   left
-  intro high_pre low_pre n_pre arr_pre l l1_2 j i pivot NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro l arr_pre n_pre low_pre high_pre l1_2 j i pivot NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   have PreH1 : ((Znth j l1_2 (0 : Int)) > pivot) := NewPreH1
   have PreH2 : (j < high_pre) := NewPreH2
   have PreH10 : (partition_scan_inv l l1_2 low_pre high_pre pivot i j) := NewPreH10
@@ -87,7 +87,7 @@ theorem proof_of_partition_entail_wit_2_2 : partition_entail_wit_2_2 := by
 theorem proof_of_partition_return_wit_1 : partition_return_wit_1 := by
   unfold partition_return_wit_1
   left
-  intro high_pre low_pre n_pre arr_pre l l1_2 j i pivot NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
+  intro l arr_pre n_pre low_pre high_pre l1_2 j i pivot NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
   have PreH1 : (j >= high_pre) := NewPreH1
   have PreH3 : ((0 : Int) <= low_pre) := NewPreH3
   have PreH4 : (low_pre <= high_pre) := NewPreH4
@@ -117,7 +117,7 @@ theorem proof_of_partition_return_wit_1 : partition_return_wit_1 := by
 theorem proof_of_quicksort_range_return_wit_1 : quicksort_range_return_wit_1 := by
   unfold quicksort_range_return_wit_1
   left
-  intro right_pre left_pre n_pre arr_pre l l1_2 retval l1_3 l1_4 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18
+  intro l arr_pre n_pre left_pre right_pre l1_2 retval l1_3 l1_4 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18
   have PreH1 : (permutation l1_3 l1_4) := NewPreH1
   have PreH2 : (same_outside_range l1_3 l1_4 (retval + 1) right_pre) := NewPreH2
   have PreH3 : (sorted_range l1_4 (retval + 1) right_pre) := NewPreH3
@@ -164,7 +164,7 @@ theorem proof_of_quicksort_range_return_wit_1 : quicksort_range_return_wit_1 := 
 theorem proof_of_quicksort_range_return_wit_2 : quicksort_range_return_wit_2 := by
   unfold quicksort_range_return_wit_2
   left
-  intro right_pre left_pre n_pre arr_pre l l1_2 retval l1_3 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
+  intro l arr_pre n_pre left_pre right_pre l1_2 retval l1_3 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
   have PreH1 : (permutation l1_2 l1_3) := NewPreH1
   have PreH2 : (same_outside_range l1_2 l1_3 (retval + 1) right_pre) := NewPreH2
   have PreH3 : (sorted_range l1_3 (retval + 1) right_pre) := NewPreH3
@@ -199,7 +199,7 @@ theorem proof_of_quicksort_range_return_wit_2 : quicksort_range_return_wit_2 := 
 theorem proof_of_quicksort_range_return_wit_3 : quicksort_range_return_wit_3 := by
   unfold quicksort_range_return_wit_3
   left
-  intro right_pre left_pre n_pre arr_pre l l1_2 retval l1_3 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
+  intro l arr_pre n_pre left_pre right_pre l1_2 retval l1_3 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
   have PreH1 : (retval >= right_pre) := NewPreH1
   have PreH2 : (permutation l1_2 l1_3) := NewPreH2
   have PreH3 : (same_outside_range l1_2 l1_3 left_pre (retval - 1)) := NewPreH3
@@ -234,7 +234,7 @@ theorem proof_of_quicksort_range_return_wit_3 : quicksort_range_return_wit_3 := 
 theorem proof_of_quicksort_range_return_wit_4 : quicksort_range_return_wit_4 := by
   unfold quicksort_range_return_wit_4
   left
-  intro right_pre left_pre n_pre arr_pre l NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+  intro l arr_pre n_pre left_pre right_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
   have PreH1 : (left_pre >= right_pre) := NewPreH1
   Exists l
   split_pure_spatial
@@ -255,7 +255,7 @@ theorem proof_of_quicksort_range_return_wit_4 : quicksort_range_return_wit_4 := 
 theorem proof_of_int_array_quicksort_return_wit_1 : int_array_quicksort_return_wit_1 := by
   unfold int_array_quicksort_return_wit_1
   left
-  intro n_pre arr_pre l l1_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+  intro l arr_pre n_pre l1_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
   have PreH3 : (sorted_range l1_2 (0 : Int) (n_pre - 1)) := NewPreH3
   prop_apply (naive_C_Rules.IntArray.full_Zlength arr_pre n_pre l1_2)
   Intros_p hlen
@@ -277,7 +277,7 @@ theorem proof_of_int_array_quicksort_return_wit_1 : int_array_quicksort_return_w
 theorem proof_of_discretize_entail_wit_1 : discretize_entail_wit_1 := by
   unfold discretize_entail_wit_1
   left
-  intro dest_map_pre n_pre src_pre src_l NewPreH1 NewPreH2
+  intro src_l src_pre n_pre dest_map_pre NewPreH1 NewPreH2
   sep_apply (naive_C_Rules.IntArray.undef_full_to_undef_seg dest_map_pre n_pre)
   have he : sublist 0 0 src_l=[] := by simp [sublist]
   rw [he]
@@ -298,7 +298,7 @@ theorem proof_of_discretize_entail_wit_1 : discretize_entail_wit_1 := by
 theorem proof_of_discretize_entail_wit_2 : discretize_entail_wit_2 := by
   unfold discretize_entail_wit_2
   left
-  intro dest_map_pre n_pre src_pre src_l i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+  intro src_l src_pre n_pre dest_map_pre i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
   prop_apply (intArray.full_Zlength src_pre n_pre src_l)
   Intros_p source_length
   rw [sublist_split 0 (i+1) i src_l (by omega) (by omega),sublist_single 0 i src_l (by omega)]
@@ -317,7 +317,7 @@ theorem proof_of_discretize_entail_wit_2 : discretize_entail_wit_2 := by
 theorem proof_of_discretize_entail_wit_3 : discretize_entail_wit_3 := by
   unfold discretize_entail_wit_3
   left
-  intro dest_map_pre n_pre src_pre src_l i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+  intro src_l src_pre n_pre dest_map_pre i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
   prop_apply (intArray.full_Zlength src_pre n_pre src_l)
   Intros_p PreH2
   have hi : i=n_pre := by omega
@@ -340,7 +340,7 @@ theorem proof_of_discretize_entail_wit_3 : discretize_entail_wit_3 := by
 theorem proof_of_discretize_entail_wit_4 : discretize_entail_wit_4 := by
   unfold discretize_entail_wit_4
   left
-  intro dest_map_pre n_pre src_pre src_l l1 NewPreH1 NewPreH2 NewPreH3 NewPreH4
+  intro src_l src_pre n_pre dest_map_pre l1 NewPreH1 NewPreH2 NewPreH3 NewPreH4
   have PreH1 : (permutation src_l l1) := NewPreH1
   have PreH2 : (increasing l1) := NewPreH2
   prop_apply (intArray.full_Zlength src_pre n_pre src_l)
@@ -364,7 +364,7 @@ theorem proof_of_discretize_entail_wit_4 : discretize_entail_wit_4 := by
 theorem proof_of_discretize_entail_wit_5_1 : discretize_entail_wit_5_1 := by
   unfold discretize_entail_wit_5_1
   left
-  intro dest_map_pre n_pre src_pre src_l sorted_l_2 cur_l_2 fast slow NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
+  intro src_l src_pre n_pre dest_map_pre sorted_l_2 cur_l_2 fast slow NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
   have PreH1 : ((Znth fast cur_l_2 (0 : Int)) ≠ (Znth slow cur_l_2 (0 : Int))) := NewPreH1
   have PreH10 : (dedup_scan_inv src_l sorted_l_2 cur_l_2 slow fast) := NewPreH8
   prop_apply (intArray.full_Zlength src_pre n_pre src_l)
@@ -388,7 +388,7 @@ theorem proof_of_discretize_entail_wit_5_1 : discretize_entail_wit_5_1 := by
 theorem proof_of_discretize_entail_wit_5_2 : discretize_entail_wit_5_2 := by
   unfold discretize_entail_wit_5_2
   left
-  intro dest_map_pre n_pre src_pre src_l sorted_l_2 cur_l_2 fast slow NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
+  intro src_l src_pre n_pre dest_map_pre sorted_l_2 cur_l_2 fast slow NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
   have PreH1 : ((Znth fast cur_l_2 (0 : Int)) = (Znth slow cur_l_2 (0 : Int))) := NewPreH1
   have PreH10 : (dedup_scan_inv src_l sorted_l_2 cur_l_2 slow fast) := NewPreH8
   prop_apply (intArray.full_Zlength src_pre n_pre src_l)
@@ -412,7 +412,7 @@ theorem proof_of_discretize_entail_wit_5_2 : discretize_entail_wit_5_2 := by
 theorem proof_of_query_forward_safety_wit_4 : query_forward_safety_wit_4 := by
   unfold query_forward_safety_wit_4
   left
-  intro target_pre map_size_pre map_pre map_l high low NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7
+  intro map_l map_pre map_size_pre target_pre high low NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7
   have PreH1 : (low <= high) := NewPreH1
   have hm := midpoint_between_bounds__query_forward_search low high PreH1
   split_pures <;> dump_pre_spatial
@@ -424,7 +424,7 @@ theorem proof_of_query_forward_safety_wit_4 : query_forward_safety_wit_4 := by
 theorem proof_of_query_forward_entail_wit_1 : query_forward_entail_wit_1 := by
   unfold query_forward_entail_wit_1
   left
-  intro target_pre map_size_pre map_pre map_l NewPreH1 NewPreH2
+  intro map_l map_pre map_size_pre target_pre NewPreH1 NewPreH2
   prop_apply (intArray.full_Zlength map_pre map_size_pre map_l)
   Intros_p map_length
   have hn := Zlength_nonneg map_l
@@ -445,7 +445,7 @@ theorem proof_of_query_forward_entail_wit_1 : query_forward_entail_wit_1 := by
 theorem proof_of_query_forward_entail_wit_2 : query_forward_entail_wit_2 := by
   unfold query_forward_entail_wit_2
   left
-  intro target_pre map_size_pre map_pre map_l high low NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7
+  intro map_l map_pre map_size_pre target_pre high low NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7
   have PreH1 : (low <= high) := NewPreH1
   have hm := midpoint_between_bounds__query_forward_search low high PreH1
   split_pure_spatial
@@ -463,7 +463,7 @@ theorem proof_of_query_forward_entail_wit_2 : query_forward_entail_wit_2 := by
 theorem proof_of_query_forward_entail_wit_3_1 : query_forward_entail_wit_3_1 := by
   unfold query_forward_entail_wit_3_1
   left
-  intro target_pre map_size_pre map_pre map_l low mid high NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
+  intro map_l map_pre map_size_pre target_pre low mid high NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
   have PreH1 : ((Znth mid map_l (0 : Int)) < target_pre) := NewPreH1
   prop_apply (intArray.full_Zlength map_pre map_size_pre map_l)
   Intros_p PreH3
@@ -487,7 +487,7 @@ theorem proof_of_query_forward_entail_wit_3_1 : query_forward_entail_wit_3_1 := 
 theorem proof_of_query_forward_entail_wit_3_2 : query_forward_entail_wit_3_2 := by
   unfold query_forward_entail_wit_3_2
   left
-  intro target_pre map_size_pre map_pre map_l low mid high NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
+  intro map_l map_pre map_size_pre target_pre low mid high NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
   have PreH1 : ((Znth mid map_l (0 : Int)) >= target_pre) := NewPreH1
   have PreH2 : ((Znth mid map_l (0 : Int)) ≠ target_pre) := NewPreH2
   prop_apply (intArray.full_Zlength map_pre map_size_pre map_l)
@@ -512,7 +512,7 @@ theorem proof_of_query_forward_entail_wit_3_2 : query_forward_entail_wit_3_2 := 
 theorem proof_of_query_forward_return_wit_2 : query_forward_return_wit_2 := by
   unfold query_forward_return_wit_2
   left
-  intro target_pre map_size_pre map_pre map_l low mid high NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
+  intro map_l map_pre map_size_pre target_pre low mid high NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
   have PreH1 : ((Znth mid map_l (0 : Int)) = target_pre) := NewPreH1
   prop_apply (intArray.full_Zlength map_pre map_size_pre map_l)
   Intros_p PreH2
@@ -533,7 +533,7 @@ theorem proof_of_query_forward_return_wit_2 : query_forward_return_wit_2 := by
 theorem proof_of_discretize_return_wit_1 : discretize_return_wit_1 := by
   unfold discretize_return_wit_1
   left
-  intro dest_map_pre n_pre src_pre src_l sorted_l cur_l fast slow PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro src_l src_pre n_pre dest_map_pre sorted_l cur_l fast slow PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   prop_apply (intArray.full_Zlength src_pre n_pre src_l)
   Intros_p source_length
   have hf : fast = n_pre := by omega
@@ -554,7 +554,7 @@ theorem proof_of_discretize_return_wit_1 : discretize_return_wit_1 := by
 theorem proof_of_query_forward_safety_wit_2 : query_forward_safety_wit_2 := by
   unfold query_forward_safety_wit_2
   left
-  intro target_pre map_size_pre map_pre map_l PreH1 PreH2
+  intro map_l map_pre map_size_pre target_pre PreH1 PreH2
   prop_apply (intArray.full_Zlength map_pre map_size_pre map_l)
   Intros_p map_length
   have hn := Zlength_nonneg map_l
@@ -563,7 +563,7 @@ theorem proof_of_query_forward_safety_wit_2 : query_forward_safety_wit_2 := by
 theorem proof_of_query_forward_return_wit_1 : query_forward_return_wit_1 := by
   unfold query_forward_return_wit_1
   left
-  intro target_pre map_size_pre map_pre map_l high low PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro map_l map_pre map_size_pre target_pre high low PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   prop_apply (intArray.full_Zlength map_pre map_size_pre map_l)
   Intros_p map_length
   have hlegacy := query_forward_result_not_found__query_forward_search map_l map_size_pre target_pre low high PreH7 PreH1 PreH5

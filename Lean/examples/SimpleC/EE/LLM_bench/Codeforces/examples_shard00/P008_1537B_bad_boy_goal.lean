@@ -59,7 +59,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def solver_safety_wit_1 : Prop :=
-  forall (out_pre : Int) (j_pre : Int) (i_pre : Int) (m_pre : Int) (n_pre : Int) (start : (Int × Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
+  forall (start : (Int × Int)) (n_pre : Int) (m_pre : Int) (i_pre : Int) (j_pre : Int) (out_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
   ((( &( "n" ) )) # Int64 |-> (n_pre))
   ** ((( &( "m" ) )) # Int64 |-> (m_pre))
   ** ((( &( "i" ) )) # Int64 |-> (i_pre))
@@ -71,7 +71,7 @@ noncomputable def solver_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_2 : Prop :=
-  forall (out_pre : Int) (j_pre : Int) (i_pre : Int) (m_pre : Int) (n_pre : Int) (start : (Int × Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
+  forall (start : (Int × Int)) (n_pre : Int) (m_pre : Int) (i_pre : Int) (j_pre : Int) (out_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
   ((( &( "n" ) )) # Int64 |-> (n_pre))
   ** ((( &( "m" ) )) # Int64 |-> (m_pre))
   ** ((( &( "i" ) )) # Int64 |-> (i_pre))
@@ -83,7 +83,7 @@ noncomputable def solver_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_3 : Prop :=
-  forall (out_pre : Int) (j_pre : Int) (i_pre : Int) (m_pre : Int) (n_pre : Int) (start : (Int × Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
+  forall (start : (Int × Int)) (n_pre : Int) (m_pre : Int) (i_pre : Int) (j_pre : Int) (out_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
   (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> (1))
   ** (int64Array.undef_seg out_pre 1 4)
   ** ((( &( "n" ) )) # Int64 |-> (n_pre))
@@ -96,7 +96,7 @@ noncomputable def solver_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_4 : Prop :=
-  forall (out_pre : Int) (j_pre : Int) (i_pre : Int) (m_pre : Int) (n_pre : Int) (start : (Int × Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
+  forall (start : (Int × Int)) (n_pre : Int) (m_pre : Int) (i_pre : Int) (j_pre : Int) (out_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
   (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> (1))
   ** (int64Array.undef_seg out_pre 1 4)
   ** ((( &( "n" ) )) # Int64 |-> (n_pre))
@@ -109,7 +109,7 @@ noncomputable def solver_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_5 : Prop :=
-  forall (out_pre : Int) (j_pre : Int) (i_pre : Int) (m_pre : Int) (n_pre : Int) (start : (Int × Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
+  forall (start : (Int × Int)) (n_pre : Int) (m_pre : Int) (i_pre : Int) (j_pre : Int) (out_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
   (((out_pre + (1 * sizeof(INT64)))) # Int64 |-> (1))
   ** (int64Array.undef_seg out_pre (1 + 1) 4)
   ** (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> (1))
@@ -123,7 +123,7 @@ noncomputable def solver_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def solver_safety_wit_6 : Prop :=
-  forall (out_pre : Int) (j_pre : Int) (i_pre : Int) (m_pre : Int) (n_pre : Int) (start : (Int × Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
+  forall (start : (Int × Int)) (n_pre : Int) (m_pre : Int) (i_pre : Int) (j_pre : Int) (out_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
   (int64Array.undef_seg out_pre ((1 + 1) + 1) 4)
   ** (((out_pre + (2 * sizeof(INT64)))) # Int64 |-> (n_pre))
   ** (((out_pre + (1 * sizeof(INT64)))) # Int64 |-> (1))
@@ -139,7 +139,7 @@ noncomputable def solver_safety_wit_6 : Prop :=
 
 noncomputable def solver_return_wit_1 : Prop :=
   (
-forall (out_pre : Int) (j_pre : Int) (i_pre : Int) (m_pre : Int) (n_pre : Int) (start : (Int × Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
+forall (start : (Int × Int)) (n_pre : Int) (m_pre : Int) (i_pre : Int) (j_pre : Int) (out_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
   (int64Array.undef_seg out_pre (((1 + 1) + 1) + 1) 4)
   ** (((out_pre + (3 * sizeof(INT64)))) # Int64 |-> (m_pre))
   ** (((out_pre + (2 * sizeof(INT64)))) # Int64 |-> (n_pre))
@@ -151,7 +151,7 @@ forall (out_pre : Int) (j_pre : Int) (i_pre : Int) (m_pre : Int) (n_pre : Int) (
   &&  (int64Array.full out_pre 4 ((zpair_fst (p)) :: ((zpair_snd (p)) :: ((zpair_fst (q)) :: ((zpair_snd (q)) :: (@List.nil Int))))))
 ) \/
 (
-forall (out_pre : Int) (j_pre : Int) (i_pre : Int) (m_pre : Int) (n_pre : Int) (start : (Int × Int)) (PreH1 : (1 <= 9223372036854775807)) (PreH2 : (n_pre <= 9223372036854775807)) (PreH3 : (m_pre <= 9223372036854775807)) (PreH4 : (1 >= (-9223372036854775808))) (PreH5 : (n_pre >= (-9223372036854775808))) (PreH6 : (m_pre >= (-9223372036854775808))) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000000000)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre <= 1000000000)) (PreH11 : (i_pre = (zpair_fst (start)))) (PreH12 : (j_pre = (zpair_snd (start)))) (PreH13 : (1 <= i_pre)) (PreH14 : (i_pre <= n_pre)) (PreH15 : (1 <= j_pre)) (PreH16 : (j_pre <= m_pre)) ,
+forall (start : (Int × Int)) (n_pre : Int) (m_pre : Int) (i_pre : Int) (j_pre : Int) (out_pre : Int) (PreH1 : (1 <= 9223372036854775807)) (PreH2 : (n_pre <= 9223372036854775807)) (PreH3 : (m_pre <= 9223372036854775807)) (PreH4 : (1 >= (-9223372036854775808))) (PreH5 : (n_pre >= (-9223372036854775808))) (PreH6 : (m_pre >= (-9223372036854775808))) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000000000)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre <= 1000000000)) (PreH11 : (i_pre = (zpair_fst (start)))) (PreH12 : (j_pre = (zpair_snd (start)))) (PreH13 : (1 <= i_pre)) (PreH14 : (i_pre <= n_pre)) (PreH15 : (1 <= j_pre)) (PreH16 : (j_pre <= m_pre)) ,
   (((out_pre + (3 * sizeof(INT64)))) # Int64 |-> (m_pre))
   ** (((out_pre + (2 * sizeof(INT64)))) # Int64 |-> (n_pre))
   ** (((out_pre + (1 * sizeof(INT64)))) # Int64 |-> (1))
@@ -163,7 +163,7 @@ forall (out_pre : Int) (j_pre : Int) (i_pre : Int) (m_pre : Int) (n_pre : Int) (
 )
 
 noncomputable def solver_partial_solve_wit_1 : Prop :=
-  forall (out_pre : Int) (j_pre : Int) (i_pre : Int) (m_pre : Int) (n_pre : Int) (start : (Int × Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
+  forall (start : (Int × Int)) (n_pre : Int) (m_pre : Int) (i_pre : Int) (j_pre : Int) (out_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
   (int64Array.undef_full out_pre 4)
 |--
   “ (1 <= n_pre) ” &&
@@ -180,7 +180,7 @@ noncomputable def solver_partial_solve_wit_1 : Prop :=
   ** (int64Array.undef_seg out_pre 1 4)
 
 noncomputable def solver_partial_solve_wit_2 : Prop :=
-  forall (out_pre : Int) (j_pre : Int) (i_pre : Int) (m_pre : Int) (n_pre : Int) (start : (Int × Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
+  forall (start : (Int × Int)) (n_pre : Int) (m_pre : Int) (i_pre : Int) (j_pre : Int) (out_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
   (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> (1))
   ** (int64Array.undef_seg out_pre 1 4)
 |--
@@ -199,7 +199,7 @@ noncomputable def solver_partial_solve_wit_2 : Prop :=
   ** (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> (1))
 
 noncomputable def solver_partial_solve_wit_3 : Prop :=
-  forall (out_pre : Int) (j_pre : Int) (i_pre : Int) (m_pre : Int) (n_pre : Int) (start : (Int × Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
+  forall (start : (Int × Int)) (n_pre : Int) (m_pre : Int) (i_pre : Int) (j_pre : Int) (out_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
   (((out_pre + (1 * sizeof(INT64)))) # Int64 |-> (1))
   ** (int64Array.undef_seg out_pre (1 + 1) 4)
   ** (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> (1))
@@ -220,7 +220,7 @@ noncomputable def solver_partial_solve_wit_3 : Prop :=
   ** (((out_pre + ((0 : Int) * sizeof(INT64)))) # Int64 |-> (1))
 
 noncomputable def solver_partial_solve_wit_4 : Prop :=
-  forall (out_pre : Int) (j_pre : Int) (i_pre : Int) (m_pre : Int) (n_pre : Int) (start : (Int × Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
+  forall (start : (Int × Int)) (n_pre : Int) (m_pre : Int) (i_pre : Int) (j_pre : Int) (out_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= 1000000000)) (PreH5 : (i_pre = (zpair_fst (start)))) (PreH6 : (j_pre = (zpair_snd (start)))) (PreH7 : (1 <= i_pre)) (PreH8 : (i_pre <= n_pre)) (PreH9 : (1 <= j_pre)) (PreH10 : (j_pre <= m_pre)) ,
   (int64Array.undef_seg out_pre ((1 + 1) + 1) 4)
   ** (((out_pre + (2 * sizeof(INT64)))) # Int64 |-> (n_pre))
   ** (((out_pre + (1 * sizeof(INT64)))) # Int64 |-> (1))

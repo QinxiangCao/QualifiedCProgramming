@@ -58,7 +58,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def solve_safety_wit_1 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (initial : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : ((Zlength (initial)) = n_pre)) ,
+  forall (initial : (List Int)) (n_pre : Int) (f_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : ((Zlength (initial)) = n_pre)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "f" ) )) # Ptr |-> (f_pre))
@@ -68,7 +68,7 @@ noncomputable def solve_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solve_safety_wit_2 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
   ((( &( "f" ) )) # Ptr |-> (f_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -78,7 +78,7 @@ noncomputable def solve_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solve_safety_wit_3 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
   (intArray.seg f_pre 1 (n_pre + 1) (replace_Znth ((i - 1)) (1) (current)))
   ** ((( &( "f" ) )) # Ptr |-> (f_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -88,7 +88,7 @@ noncomputable def solve_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solve_safety_wit_4 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
   ((( &( "f" ) )) # Ptr |-> (f_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** (intArray.seg f_pre 1 (n_pre + 1) current)
@@ -97,7 +97,7 @@ noncomputable def solve_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solve_safety_wit_5 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
   ((( &( "f" ) )) # Ptr |-> (f_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** (intArray.seg f_pre 1 (n_pre + 1) current)
@@ -106,7 +106,7 @@ noncomputable def solve_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solve_safety_wit_6 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
   (intArray.seg f_pre 1 (n_pre + 1) (replace_Znth ((1 - 1)) ((0 : Int)) (current)))
   ** ((( &( "f" ) )) # Ptr |-> (f_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -115,7 +115,7 @@ noncomputable def solve_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def solve_safety_wit_7 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
   (intArray.seg f_pre 1 (n_pre + 1) (replace_Znth ((1 - 1)) ((0 : Int)) (current)))
   ** ((( &( "f" ) )) # Ptr |-> (f_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -124,7 +124,7 @@ noncomputable def solve_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solve_safety_wit_8 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
   ((( &( "i" ) )) # Int |->_)
   ** (intArray.seg f_pre 1 (n_pre + 1) (replace_Znth ((2 - 1)) (1) ((replace_Znth ((1 - 1)) ((0 : Int)) (current)))))
   ** ((( &( "f" ) )) # Ptr |-> (f_pre))
@@ -134,7 +134,7 @@ noncomputable def solve_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def solve_safety_wit_9 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveStage n_pre i current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveStage n_pre i current)) ,
   (intArray.seg f_pre 1 (n_pre + 1) current)
   ** ((( &( "f" ) )) # Ptr |-> (f_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -144,7 +144,7 @@ noncomputable def solve_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solve_safety_wit_10 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : ((Znth (i - 1) current (0 : Int)) = 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (SieveStage n_pre i current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (i : Int) (PreH1 : ((Znth (i - 1) current (0 : Int)) = 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (SieveStage n_pre i current)) ,
   ((( &( "j" ) )) # Int |->_)
   ** (intArray.seg f_pre 1 (n_pre + 1) current)
   ** ((( &( "f" ) )) # Ptr |-> (f_pre))
@@ -155,7 +155,7 @@ noncomputable def solve_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= (i * 2)) ”
 
 noncomputable def solve_safety_wit_11 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : ((Znth (i - 1) current (0 : Int)) = 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (SieveStage n_pre i current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (i : Int) (PreH1 : ((Znth (i - 1) current (0 : Int)) = 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (SieveStage n_pre i current)) ,
   ((( &( "j" ) )) # Int |->_)
   ** (intArray.seg f_pre 1 (n_pre + 1) current)
   ** ((( &( "f" ) )) # Ptr |-> (f_pre))
@@ -166,7 +166,7 @@ noncomputable def solve_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def solve_safety_wit_12 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (j : Int) (i : Int) (PreH1 : (j <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i) <= j)) (PreH7 : (j <= (n_pre + i))) (PreH8 : (SieveMarkState n_pre i j current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (j : Int) (i : Int) (PreH1 : (j <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i) <= j)) (PreH7 : (j <= (n_pre + i))) (PreH8 : (SieveMarkState n_pre i j current)) ,
   ((( &( "f" ) )) # Ptr |-> (f_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -177,7 +177,7 @@ noncomputable def solve_safety_wit_12 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solve_safety_wit_13 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (j : Int) (i : Int) (PreH1 : (j <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i) <= j)) (PreH7 : (j <= (n_pre + i))) (PreH8 : (SieveMarkState n_pre i j current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (j : Int) (i : Int) (PreH1 : (j <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i) <= j)) (PreH7 : (j <= (n_pre + i))) (PreH8 : (SieveMarkState n_pre i j current)) ,
   (intArray.seg f_pre 1 (n_pre + 1) (replace_Znth ((j - 1)) ((0 : Int)) (current)))
   ** ((( &( "f" ) )) # Ptr |-> (f_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -188,7 +188,7 @@ noncomputable def solve_safety_wit_13 : Prop :=
   “ ((INT_MIN) <= (j + i)) ”
 
 noncomputable def solve_safety_wit_14 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (j : Int) (i : Int) (PreH1 : (j > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i) <= j)) (PreH7 : (j <= (n_pre + i))) (PreH8 : (SieveMarkState n_pre i j current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (j : Int) (i : Int) (PreH1 : (j > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i) <= j)) (PreH7 : (j <= (n_pre + i))) (PreH8 : (SieveMarkState n_pre i j current)) ,
   ((( &( "f" ) )) # Ptr |-> (f_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -198,7 +198,7 @@ noncomputable def solve_safety_wit_14 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solve_safety_wit_15 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : ((Znth (i - 1) current (0 : Int)) ≠ 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (SieveStage n_pre i current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (i : Int) (PreH1 : ((Znth (i - 1) current (0 : Int)) ≠ 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (SieveStage n_pre i current)) ,
   (intArray.seg f_pre 1 (n_pre + 1) current)
   ** ((( &( "f" ) )) # Ptr |-> (f_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -209,7 +209,7 @@ noncomputable def solve_safety_wit_15 : Prop :=
 
 noncomputable def solve_entail_wit_1 : Prop :=
   (
-forall (f_pre : Int) (n_pre : Int) (initial : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : ((Zlength (initial)) = n_pre)) ,
+forall (initial : (List Int)) (n_pre : Int) (f_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : ((Zlength (initial)) = n_pre)) ,
   (intArray.seg f_pre 1 (n_pre + 1) initial)
 |--
   EX current : (List Int),
@@ -221,7 +221,7 @@ forall (f_pre : Int) (n_pre : Int) (initial : (List Int)) (PreH1 : (2 <= n_pre))
   &&  (intArray.seg f_pre 1 (n_pre + 1) current)
 ) \/
 (
-forall (n_pre : Int) (initial : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : ((Zlength (initial)) = n_pre)) ,
+forall (initial : (List Int)) (n_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : ((Zlength (initial)) = n_pre)) ,
   TT && emp 
 |--
   “ (SieveInitPrefix n_pre 1 initial) ”
@@ -229,12 +229,12 @@ forall (n_pre : Int) (initial : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_p
 )
 
 noncomputable def solve_entail_wit_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (initial : (List Int)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : ((Zlength (initial)) = n_pre)) ,
+  forall (initial : (List Int)) (n_pre : Int) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : ((Zlength (initial)) = n_pre)) ,
   (SieveInitPrefix n_pre 1 initial)
 
 noncomputable def solve_entail_wit_2 : Prop :=
   (
-forall (f_pre : Int) (n_pre : Int) (current_2 : (List Int)) (i : Int) (PreH1 : (i <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current_2)) ,
+forall (n_pre : Int) (f_pre : Int) (current_2 : (List Int)) (i : Int) (PreH1 : (i <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current_2)) ,
   (intArray.seg f_pre 1 (n_pre + 1) (replace_Znth ((i - 1)) (1) (current_2)))
 |--
   EX current : (List Int),
@@ -259,7 +259,7 @@ noncomputable def solve_entail_wit_2_split_goal_1 : Prop :=
 
 noncomputable def solve_entail_wit_3 : Prop :=
   (
-forall (f_pre : Int) (n_pre : Int) (current_2 : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current_2)) ,
+forall (n_pre : Int) (f_pre : Int) (current_2 : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current_2)) ,
   (intArray.seg f_pre 1 (n_pre + 1) (replace_Znth ((2 - 1)) (1) ((replace_Znth ((1 - 1)) ((0 : Int)) (current_2)))))
 |--
   EX current : (List Int),
@@ -284,7 +284,7 @@ noncomputable def solve_entail_wit_3_split_goal_1 : Prop :=
 
 noncomputable def solve_entail_wit_4 : Prop :=
   (
-forall (f_pre : Int) (n_pre : Int) (current_2 : (List Int)) (i : Int) (PreH1 : ((Znth (i - 1) current_2 (0 : Int)) = 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (SieveStage n_pre i current_2)) ,
+forall (n_pre : Int) (f_pre : Int) (current_2 : (List Int)) (i : Int) (PreH1 : ((Znth (i - 1) current_2 (0 : Int)) = 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (SieveStage n_pre i current_2)) ,
   (intArray.seg f_pre 1 (n_pre + 1) current_2)
 |--
   EX current : (List Int),
@@ -311,7 +311,7 @@ noncomputable def solve_entail_wit_4_split_goal_1 : Prop :=
 
 noncomputable def solve_entail_wit_5 : Prop :=
   (
-forall (f_pre : Int) (n_pre : Int) (current_2 : (List Int)) (j : Int) (i : Int) (PreH1 : (j <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i) <= j)) (PreH7 : (j <= (n_pre + i))) (PreH8 : (SieveMarkState n_pre i j current_2)) ,
+forall (n_pre : Int) (f_pre : Int) (current_2 : (List Int)) (j : Int) (i : Int) (PreH1 : (j <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i) <= j)) (PreH7 : (j <= (n_pre + i))) (PreH8 : (SieveMarkState n_pre i j current_2)) ,
   (intArray.seg f_pre 1 (n_pre + 1) (replace_Znth ((j - 1)) ((0 : Int)) (current_2)))
 |--
   EX current : (List Int),
@@ -338,7 +338,7 @@ noncomputable def solve_entail_wit_5_split_goal_1 : Prop :=
 
 noncomputable def solve_entail_wit_6_1 : Prop :=
   (
-forall (f_pre : Int) (n_pre : Int) (current_2 : (List Int)) (j : Int) (i : Int) (PreH1 : (j > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i) <= j)) (PreH7 : (j <= (n_pre + i))) (PreH8 : (SieveMarkState n_pre i j current_2)) ,
+forall (n_pre : Int) (f_pre : Int) (current_2 : (List Int)) (j : Int) (i : Int) (PreH1 : (j > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i) <= j)) (PreH7 : (j <= (n_pre + i))) (PreH8 : (SieveMarkState n_pre i j current_2)) ,
   (intArray.seg f_pre 1 (n_pre + 1) current_2)
 |--
   EX current : (List Int),
@@ -363,7 +363,7 @@ noncomputable def solve_entail_wit_6_1_split_goal_1 : Prop :=
 
 noncomputable def solve_entail_wit_6_2 : Prop :=
   (
-forall (f_pre : Int) (n_pre : Int) (current_2 : (List Int)) (i : Int) (PreH1 : ((Znth (i - 1) current_2 (0 : Int)) ≠ 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (SieveStage n_pre i current_2)) ,
+forall (n_pre : Int) (f_pre : Int) (current_2 : (List Int)) (i : Int) (PreH1 : ((Znth (i - 1) current_2 (0 : Int)) ≠ 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1))) (PreH7 : (SieveStage n_pre i current_2)) ,
   (intArray.seg f_pre 1 (n_pre + 1) current_2)
 |--
   EX current : (List Int),
@@ -388,7 +388,7 @@ noncomputable def solve_entail_wit_6_2_split_goal_1 : Prop :=
 
 noncomputable def solve_return_wit_1 : Prop :=
   (
-forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveStage n_pre i current)) ,
+forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveStage n_pre i current)) ,
   (intArray.seg f_pre 1 (n_pre + 1) current)
 |--
   EX result : (List Int),
@@ -408,7 +408,7 @@ noncomputable def solve_return_wit_1_split_goal_1 : Prop :=
   (PrimeIndicatorList n_pre current)
 
 noncomputable def solve_partial_solve_wit_1 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
   (intArray.seg f_pre 1 (n_pre + 1) current)
 |--
   “ (i <= n_pre) ” &&
@@ -421,7 +421,7 @@ noncomputable def solve_partial_solve_wit_1 : Prop :=
   ** (intArray.missing_i f_pre i 1 (n_pre + 1) current)
 
 noncomputable def solve_partial_solve_wit_2 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
   (intArray.seg f_pre 1 (n_pre + 1) current)
 |--
   “ (i > n_pre) ” &&
@@ -434,7 +434,7 @@ noncomputable def solve_partial_solve_wit_2 : Prop :=
   ** (intArray.missing_i f_pre 1 1 (n_pre + 1) current)
 
 noncomputable def solve_partial_solve_wit_3 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveInitPrefix n_pre i current)) ,
   (intArray.seg f_pre 1 (n_pre + 1) (replace_Znth ((1 - 1)) ((0 : Int)) (current)))
 |--
   “ (i > n_pre) ” &&
@@ -447,7 +447,7 @@ noncomputable def solve_partial_solve_wit_3 : Prop :=
   ** (intArray.missing_i f_pre 2 1 (n_pre + 1) (replace_Znth ((1 - 1)) ((0 : Int)) (current)))
 
 noncomputable def solve_partial_solve_wit_4 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveStage n_pre i current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= (n_pre + 1))) (PreH6 : (SieveStage n_pre i current)) ,
   (intArray.seg f_pre 1 (n_pre + 1) current)
 |--
   “ (i <= n_pre) ” &&
@@ -460,7 +460,7 @@ noncomputable def solve_partial_solve_wit_4 : Prop :=
   ** (intArray.missing_i f_pre i 1 (n_pre + 1) current)
 
 noncomputable def solve_partial_solve_wit_5 : Prop :=
-  forall (f_pre : Int) (n_pre : Int) (current : (List Int)) (j : Int) (i : Int) (PreH1 : (j <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i) <= j)) (PreH7 : (j <= (n_pre + i))) (PreH8 : (SieveMarkState n_pre i j current)) ,
+  forall (n_pre : Int) (f_pre : Int) (current : (List Int)) (j : Int) (i : Int) (PreH1 : (j <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i) <= j)) (PreH7 : (j <= (n_pre + i))) (PreH8 : (SieveMarkState n_pre i j current)) ,
   (intArray.seg f_pre 1 (n_pre + 1) current)
 |--
   “ (j <= n_pre) ” &&

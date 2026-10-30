@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.QCP_demos_LLM Require Import kmp_rel_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 Import naive_C_Rules.
 
 
@@ -160,7 +145,7 @@ Proof.
     rewrite Zlength_cons in Hlen. lia. 
   }
   rewrite (sublist_cons2 1 n_low_level_spec); try lia.
-  cancel.
+  entailer!.
   dump_pre_spatial.
   unfold constr_loop in PreH2.
   cbn in PreH2.
@@ -450,8 +435,10 @@ Proof.
     exact PreH2.
 Qed. 
 
-Lemma proof_of_match_derive_high_level_spec_by_low_level_spec : match_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_match_low_level_spec_entail_high_level_spec : match_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold match_low_level_spec_entail_high_level_spec.
+  intros patn_pre text_pre vnext_pre patn0_high_level_spec text0_high_level_spec vnext0_high_level_spec n_high_level_spec m_high_level_spec.
   LLM_pre_process ltac:(lia || int_auto).
   Exists patn0_high_level_spec text0_high_level_spec vnext0_high_level_spec n_high_level_spec.
   remember (match_loop 0 patn0_high_level_spec text0_high_level_spec vnext0_high_level_spec) as prog.
@@ -466,8 +453,9 @@ Proof.
   pose proof match_loop_sound 0 patn0_high_level_spec text0_high_level_spec vnext0_high_level_spec H6 ltac:(lia) H.
 	  split_pure_spatial.
 	  - cancel.
-	    apply derivable1_wand_sepcon_adjoint.
-	    Intros ret retval.
+	    Intros_r retval.
+    apply derivable1_wand_sepcon_adjoint.
+	    Intros ret.
 	    subst prog.
 	    destruct (@Hoare_safeexec_compose unit (option Z)
 	                ATrue
@@ -479,8 +467,8 @@ Proof.
 	                   | None => no_occurance patn0_high_level_spec text0_high_level_spec
 	                   end)
 	                H7 ATrue ret tt H8 I) as [σ [Hpost _]].
-	    destruct ret; simpl in H9.
-	    + Right; Exists z.
+	    destruct ret; simpl in H9; subst retval.
+	    + Right.
 	      split_pure_spatial.
 	      * cancel (CharArray.full patn_pre (n_high_level_spec + 1) (patn0_high_level_spec ++ 0 :: nil)).
 	        cancel (CharArray.full text_pre (m_high_level_spec + 1) (text0_high_level_spec ++ 0 :: nil)).
@@ -488,7 +476,7 @@ Proof.
 	      * split_pures.
 	        -- dump_pre_spatial. apply first_occur_nonneg in Hpost; auto.
 	        -- dump_pre_spatial. exact Hpost.
-    + Left; Exists (-1).
+    + Left.
       split_pure_spatial.
       * cancel (CharArray.full patn_pre (n_high_level_spec + 1) (patn0_high_level_spec ++ 0 :: nil)).
         cancel (CharArray.full text_pre (m_high_level_spec + 1) (text0_high_level_spec ++ 0 :: nil)).
@@ -507,8 +495,10 @@ Proof.
 	    + dump_pre_spatial. lia.
 Qed.
 
-Lemma proof_of_constr_derive_high_level_spec_by_low_level_spec : constr_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_constr_low_level_spec_entail_high_level_spec : constr_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold constr_low_level_spec_entail_high_level_spec.
+  intros patn str_high_level_spec n_high_level_spec.
   LLM_pre_process ltac:(lia || int_auto).
   prop_apply CharArray.full_Zlength; Intros.
   apply string_Zlength in H1.
@@ -519,9 +509,10 @@ Proof.
   Exists (fun r x => (constr_loop 0 str_high_level_spec).(MonadErr.nrm) tt r x).
   split_pure_spatial.
   - cancel.
+    Intros_r retval.
     apply derivable1_wand_sepcon_adjoint.
-	    Intros vnext retval.
-	    Exists vnext retval.
+	    Intros vnext.
+	    Exists vnext.
 	    split_pure_spatial.
 	    + cancel.
 	    + dump_pre_spatial.
@@ -542,8 +533,10 @@ Proof.
 	    + dump_pre_spatial. lia.
 Qed.
 
-Lemma proof_of_inner_derive_bind_spec_by_low_level_spec : inner_derive_bind_spec_by_low_level_spec.
+Lemma proof_of_inner_low_level_spec_entail_bind_spec : inner_low_level_spec_entail_bind_spec.
 Proof.
+  unfold inner_low_level_spec_entail_bind_spec.
+  intros B str_pre vnext_pre ch j str0_bind_spec vnext0_bind_spec n_bind_spec m_bind_spec X_bind_spec f_bind_spec.
   LLM_pre_process ltac:(lia || int_auto).
   prop_apply CharArray.full_Zlength; Intros.
   prop_apply IntArray.full_Zlength; Intros.
@@ -553,9 +546,9 @@ Proof.
   split_pure_spatial.
   - cancel (IntArray.full vnext_pre m_bind_spec vnext0_bind_spec).
     cancel (CharArray.full str_pre (n_bind_spec + 1) (str0_bind_spec ++ 0 :: nil)).
+    Intros_r retval.
     apply derivable1_wand_sepcon_adjoint.
-    Intros ret.
-    Exists ret.
+    Intros.
     split_pure_spatial.
     + cancel.
     + split_pures.

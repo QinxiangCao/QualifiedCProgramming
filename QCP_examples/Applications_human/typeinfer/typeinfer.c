@@ -266,34 +266,7 @@ int atype_unify(struct atype *t1, struct atype *t2)
 }
 
 int atype_unify1(struct atype *t1, struct atype *t2)
-/*@ With (s_pre : sol) (tr1 : TypeTree) (tr2 : TypeTree)
-    (tr1_prev : TypeTree)
-    Require
-        repr_rel_node(s_pre, tr1_prev, tr1) &&
-        store_solution(res, s_pre) *
-        store_type(t1, tr1) *
-        store_type(t2, tr2)
-
-    Ensure
-        (
-            (
-            exists s_post,
-                __return == 0 &&
-                unify_rel(tr1_prev, tr2, s_pre, s_post) &&
-                store_solution(res, s_post) *
-                store_type(t1, tr1) *
-                store_type(t2, tr2)
-            )
-            ||
-            (
-            exists s_post,
-                __return != 0 &&
-                store_solution(res, s_post) *
-                store_type(t1, tr1) *
-                store_type(t2, tr2)
-            )
-        )
-*/
+/*@ default */
 {
   /*@ store_type(t2, tr2)
         which implies
@@ -366,35 +339,7 @@ int atype_unify1(struct atype *t1, struct atype *t2)
 
 
 int atype_unify2(struct atype *t1, struct atype *t2)
-/*@ With (s_pre : sol) (tr1 : TypeTree) (tr2 : TypeTree)
-    (tr1_prev : TypeTree) (tr2_prev : TypeTree)
-    Require
-        repr_rel_node(s_pre, tr1_prev, tr1) &&
-        repr_rel_node(s_pre, tr2_prev, tr2) &&
-        store_solution(res, s_pre) *
-        store_type(t1, tr1) *
-        store_type(t2, tr2)
-
-    Ensure
-        (
-            (
-            exists s_post,
-                __return == 0 &&
-                unify_rel(tr1_prev, tr2_prev, s_pre, s_post) &&
-                store_solution(res, s_post) *
-                store_type(t1, tr1) *
-                store_type(t2, tr2)
-            )
-            ||
-            (
-            exists s_post,
-                __return != 0 &&
-                store_solution(res, s_post) *
-                store_type(t1, tr1) *
-                store_type(t2, tr2)
-            )
-        )
-*/
+/*@ default */
 {
   /*@ store_type(t1, tr1)
         which implies

@@ -70,9 +70,9 @@ theorem proof_of_solver_entail_wit_2 : solver_entail_wit_2 := by
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   unfold solver_return_wit_1
   right
-  intro out n written i hi hn hn' hi0 hin hlen hall
+  intro n written i hi hn hn' hi0 hin hlen hall
   have heq : i = n := by omega
-  rw [heq] at hlen hall ⊢
+  rw [heq] at hlen hall
   have hones : Forall (fun x => x = 1) written :=
     ones_of_nth written (by simpa only [hlen] using hall)
   have hspec : Spec n written := by
@@ -92,9 +92,8 @@ theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
           (by change r ≤ Zlength written; omega)
       rw [sum_ones _ hsub, hsubLen]
       omega
-  refine Automation.exp_right_rule (CRules := naive_C_Rules) written ?_
   split_pure_spatial
-  · simpa only [Int.zero_mul, Int.add_zero, Int.sub_zero] using intArray.seg_to_full out 0 n written
+  · cancel
   · dump_pre_spatial
     exact hspec
 

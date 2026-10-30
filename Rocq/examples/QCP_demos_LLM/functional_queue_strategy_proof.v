@@ -1,13 +1,8 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.QCP_demos_LLM Require Import functional_queue_strategy_goal.
 From SimpleC.EE.QCP_demos_LLM Require Import sll_lib.
 From SimpleC.EE.QCP_demos_LLM Require Import functional_queue_lib.
 Import naive_C_Rules.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 

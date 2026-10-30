@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P068_21C_stripe_2_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P068_21C_stripe_2_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P068_21C_stripe_2_lib.
 Local Open Scope sac.
@@ -69,7 +53,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = n_pre) by lia.
   subst i.
   assert (Htot : total = PrefixSum values n_pre) by exact PreH9.
@@ -102,7 +86,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_2 : solver_entail_wit_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = n_pre) by lia.
   rewrite <- Hi.
   exact PreH9.
@@ -110,7 +94,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_3 : solver_entail_wit_3_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH6; assumption.
 Qed.
 
@@ -189,7 +173,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_1_split_goal_1 : solver_entail_wit_5_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hps : PrefixSum values (i + 1) = 2 * third).
   { rewrite (PrefixSum_succ__loop_step_transitions values i) by lia.
     rewrite <- PreH15. exact PreH2. }
@@ -200,7 +184,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_1_split_goal_2 : solver_entail_wit_5_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hps : PrefixSum values (i + 1) = third).
   { rewrite (PrefixSum_succ__loop_step_transitions values i) by lia.
     rewrite <- PreH15. exact PreH1. }
@@ -211,7 +195,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_1_split_goal_3 : solver_entail_wit_5_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite (PrefixSum_succ__loop_step_transitions values i) by lia.
   rewrite <- PreH15. lia.
 Qed.
@@ -226,21 +210,21 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_2_split_goal_1 : solver_entail_wit_5_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH7 i ltac:(lia)) as [Hlo Hhi].
   lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_2_split_goal_2 : solver_entail_wit_5_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH7 i ltac:(lia)) as [Hlo Hhi].
   lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_2_split_goal_3 : solver_entail_wit_5_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi0 : i = 0) by lia.
   subst i.
   rewrite PreH16.
@@ -254,7 +238,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_2_split_goal_4 : solver_entail_wit_5_2_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hps : PrefixSum values (i + 1) = third).
   { rewrite (PrefixSum_succ__loop_step_transitions values i) by lia.
     rewrite <- PreH14. exact PreH1. }
@@ -265,7 +249,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_2_split_goal_5 : solver_entail_wit_5_2_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite (PrefixSum_succ__loop_step_transitions values i) by lia.
   rewrite <- PreH14. lia.
 Qed.
@@ -282,21 +266,21 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_3_split_goal_1 : solver_entail_wit_5_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH8 i ltac:(lia)) as [Hlo Hhi].
   lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_3_split_goal_2 : solver_entail_wit_5_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH8 i ltac:(lia)) as [Hlo Hhi].
   lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_3_split_goal_3 : solver_entail_wit_5_3_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hne : PrefixSum values (i + 1) <> 2 * third).
   { rewrite (PrefixSum_succ__loop_step_transitions values i) by lia.
     rewrite <- PreH15. exact PreH2. }
@@ -307,7 +291,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_3_split_goal_4 : solver_entail_wit_5_3_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hps : PrefixSum values (i + 1) = third).
   { rewrite (PrefixSum_succ__loop_step_transitions values i) by lia.
     rewrite <- PreH15. exact PreH1. }
@@ -318,7 +302,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_3_split_goal_5 : solver_entail_wit_5_3_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite (PrefixSum_succ__loop_step_transitions values i) by lia.
   rewrite <- PreH15. lia.
 Qed.
@@ -335,21 +319,21 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_4_split_goal_1 : solver_entail_wit_5_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH8 i ltac:(lia)) as [Hlo Hhi].
   lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_4_split_goal_2 : solver_entail_wit_5_4_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH8 i ltac:(lia)) as [Hlo Hhi].
   lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_4_split_goal_3 : solver_entail_wit_5_4_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Heq2 : PrefixSum values (i + 1) = 2 * third).
   { rewrite (PrefixSum_succ__loop_step_transitions values i) by lia.
     rewrite <- PreH15. exact PreH2. }
@@ -360,7 +344,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_4_split_goal_4 : solver_entail_wit_5_4_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hne : PrefixSum values (i + 1) <> third).
   { rewrite (PrefixSum_succ__loop_step_transitions values i) by lia.
     rewrite <- PreH15. exact PreH1. }
@@ -371,7 +355,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_4_split_goal_5 : solver_entail_wit_5_4_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite (PrefixSum_succ__loop_step_transitions values i) by lia.
   rewrite <- PreH15. lia.
 Qed.
@@ -388,7 +372,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_5_split_goal_1 : solver_entail_wit_5_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi0 : i = 0) by lia.
   subst i.
   rewrite PreH16.
@@ -402,7 +386,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_5_split_goal_2 : solver_entail_wit_5_5_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hne : PrefixSum values (i + 1) <> third).
   { rewrite (PrefixSum_succ__loop_step_transitions values i) by lia.
     rewrite <- PreH14. exact PreH1. }
@@ -413,7 +397,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_5_split_goal_3 : solver_entail_wit_5_5_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite (PrefixSum_succ__loop_step_transitions values i) by lia.
   rewrite <- PreH14. reflexivity.
 Qed.
@@ -428,14 +412,14 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_6_split_goal_1 : solver_entail_wit_5_6_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH8 i ltac:(lia)) as [Hlo Hhi].
   lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_6_split_goal_2 : solver_entail_wit_5_6_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hne : PrefixSum values (i + 1) <> 2 * third).
   { rewrite (PrefixSum_succ__loop_step_transitions values i) by lia.
     rewrite <- PreH15. exact PreH2. }
@@ -446,7 +430,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_6_split_goal_3 : solver_entail_wit_5_6_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hne : PrefixSum values (i + 1) <> third).
   { rewrite (PrefixSum_succ__loop_step_transitions values i) by lia.
     rewrite <- PreH15. exact PreH1. }
@@ -457,7 +441,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_6_split_goal_4 : solver_entail_wit_5_6_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite (PrefixSum_succ__loop_step_transitions values i) by lia.
   rewrite <- PreH15. reflexivity.
 Qed.
@@ -473,7 +457,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = n_pre - 1) by lia.
   subst i.
   unfold Spec.
@@ -514,4 +498,3 @@ Proof.
   aggressive_pre_process.
   Goal_apply proof_of_solver_return_wit_1_split_goal_1.
 Qed.
-

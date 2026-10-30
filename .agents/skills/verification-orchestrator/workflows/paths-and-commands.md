@@ -33,6 +33,10 @@ Final publication 保留 original/candidate bytes。恢复时核对固定 role/p
 Workspace 有 `_build` directory 时选 Dune，否则选 Make。Dune 用 native rules 找依赖并 build base；
 Make 用 coqdep 和临时 exact Makefile。统一 `dependency_plan.json` 仅保存 `build_mode`、`target`、
 `case_anchor`、`dependencies`，current/base 从当前 case family 与图计算。
+当前重编译集合包含 case family（固定后缀及同 case 的 `_proof_manual_part<N>.v`），以及依赖图中直接或间接依赖它的模块（例如 strategy）。
+这些依赖也从当前源码 staging、按拓扑顺序编译；base 仅包含不依赖该集合的模块。
+跨目录依赖使用对应的 staging load path。扩大重编译集合不扩大编辑权限：overlay 和最终发布
+仍仅允许 case family；新增重编译的 strategy 等依赖源码保持只读。
 
 后端共用一条 stage→选择依赖→编译流程。每个检查读取当前文件并准备 native dependencies；
 current 模块实际运行 coqc，base 使用 native incremental build。Staging 在内存规范化生成器
@@ -44,7 +48,7 @@ VC debug manual 和 group copies 以 overlay 进入 run 的 build 目录，canon
 
 ## 工具预算和输出
 
-一次 Coq check/debug 的依赖准备、等待和编译默认共享至多 900 秒；`QCP_COQ_TIMEOUT_SECONDS` 可配置这个共享上限（有限正数秒数）。Dune workspace lock 串行化共享
+一次 Coq check/debug 的依赖准备、等待和编译默认共享至多 1800 秒（30 分钟）；`QCP_COQ_TIMEOUT_SECONDS` 可配置这个共享上限（有限正数秒数）。Dune workspace lock 串行化共享
 依赖刷新，释放后组内编译继续并行；等待计入预算并响应取消。较长 native 命令向 stderr 报告
 阶段与耗时，stdout 留给终态 JSON。
 

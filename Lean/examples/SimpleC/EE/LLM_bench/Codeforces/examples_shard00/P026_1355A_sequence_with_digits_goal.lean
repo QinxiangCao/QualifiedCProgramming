@@ -337,7 +337,7 @@ noncomputable def step_return_wit_1_split_goal_1 : Prop :=
   (DigitRecurrenceStep x_pre (x_pre + (mn * mx)))
 
 noncomputable def solver_safety_wit_1 : Prop :=
-  forall (k_pre : Int) (a_pre : Int) (a1 : Int) (PreH1 : (1 <= a1)) (PreH2 : (a1 <= 1000000000000000000)) (PreH3 : (1 <= k_pre)) (PreH4 : (k_pre <= 10000000000000000)) (PreH5 : (a_pre = a1)) ,
+  forall (a1 : Int) (a_pre : Int) (k_pre : Int) (PreH1 : (1 <= a1)) (PreH2 : (a1 <= 1000000000000000000)) (PreH3 : (1 <= k_pre)) (PreH4 : (k_pre <= 10000000000000000)) (PreH5 : (a_pre = a1)) ,
   ((( &( "i" ) )) # Int64 |->_)
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "k" ) )) # Int64 |-> (k_pre))
@@ -346,7 +346,7 @@ noncomputable def solver_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_2 : Prop :=
-  forall (k_pre : Int) (a_pre : Int) (a1 : Int) (a : Int) (i : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : ((0 : Int) <= retval)) (PreH3 : (retval <= 81)) (PreH4 : (DigitRecurrenceStep a (a + retval))) (PreH5 : (i < k_pre)) (PreH6 : (a_pre = a1)) (PreH7 : (1 <= a1)) (PreH8 : (a1 <= 1000000000000000000)) (PreH9 : (1 <= k_pre)) (PreH10 : (k_pre <= 10000000000000000)) (PreH11 : (1 <= i)) (PreH12 : (i <= k_pre)) (PreH13 : (a1 <= a)) (PreH14 : (a <= (a1 + (81 * (i - 1))))) (PreH15 : (a <= 1810000000000000000)) (PreH16 : (SequencePrefix a1 i a)) ,
+  forall (a1 : Int) (a_pre : Int) (k_pre : Int) (a : Int) (i : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : ((0 : Int) <= retval)) (PreH3 : (retval <= 81)) (PreH4 : (DigitRecurrenceStep a (a + retval))) (PreH5 : (i < k_pre)) (PreH6 : (a_pre = a1)) (PreH7 : (1 <= a1)) (PreH8 : (a1 <= 1000000000000000000)) (PreH9 : (1 <= k_pre)) (PreH10 : (k_pre <= 10000000000000000)) (PreH11 : (1 <= i)) (PreH12 : (i <= k_pre)) (PreH13 : (a1 <= a)) (PreH14 : (a <= (a1 + (81 * (i - 1))))) (PreH15 : (a <= 1810000000000000000)) (PreH16 : (SequencePrefix a1 i a)) ,
   ((( &( "add" ) )) # Int64 |-> (retval))
   ** ((( &( "k" ) )) # Int64 |-> (k_pre))
   ** ((( &( "i" ) )) # Int64 |-> (i))
@@ -356,7 +356,7 @@ noncomputable def solver_safety_wit_2 : Prop :=
   “ ((-9223372036854775808) <= (a + retval)) ”
 
 noncomputable def solver_safety_wit_3 : Prop :=
-  forall (k_pre : Int) (a_pre : Int) (a1 : Int) (a : Int) (i : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : ((0 : Int) <= retval)) (PreH3 : (retval <= 81)) (PreH4 : (DigitRecurrenceStep a (a + retval))) (PreH5 : (i < k_pre)) (PreH6 : (a_pre = a1)) (PreH7 : (1 <= a1)) (PreH8 : (a1 <= 1000000000000000000)) (PreH9 : (1 <= k_pre)) (PreH10 : (k_pre <= 10000000000000000)) (PreH11 : (1 <= i)) (PreH12 : (i <= k_pre)) (PreH13 : (a1 <= a)) (PreH14 : (a <= (a1 + (81 * (i - 1))))) (PreH15 : (a <= 1810000000000000000)) (PreH16 : (SequencePrefix a1 i a)) ,
+  forall (a1 : Int) (a_pre : Int) (k_pre : Int) (a : Int) (i : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : ((0 : Int) <= retval)) (PreH3 : (retval <= 81)) (PreH4 : (DigitRecurrenceStep a (a + retval))) (PreH5 : (i < k_pre)) (PreH6 : (a_pre = a1)) (PreH7 : (1 <= a1)) (PreH8 : (a1 <= 1000000000000000000)) (PreH9 : (1 <= k_pre)) (PreH10 : (k_pre <= 10000000000000000)) (PreH11 : (1 <= i)) (PreH12 : (i <= k_pre)) (PreH13 : (a1 <= a)) (PreH14 : (a <= (a1 + (81 * (i - 1))))) (PreH15 : (a <= 1810000000000000000)) (PreH16 : (SequencePrefix a1 i a)) ,
   ((( &( "k" ) )) # Int64 |-> (k_pre))
   ** ((( &( "i" ) )) # Int64 |-> (i))
   ** ((( &( "a" ) )) # Int64 |-> ((a + retval)))
@@ -366,7 +366,7 @@ noncomputable def solver_safety_wit_3 : Prop :=
 
 noncomputable def solver_entail_wit_1 : Prop :=
   (
-forall (k_pre : Int) (a_pre : Int) (a1 : Int) (PreH1 : (1 <= a1)) (PreH2 : (a1 <= 1000000000000000000)) (PreH3 : (1 <= k_pre)) (PreH4 : (k_pre <= 10000000000000000)) (PreH5 : (a_pre = a1)) ,
+forall (a1 : Int) (a_pre : Int) (k_pre : Int) (PreH1 : (1 <= a1)) (PreH2 : (a1 <= 1000000000000000000)) (PreH3 : (1 <= k_pre)) (PreH4 : (k_pre <= 10000000000000000)) (PreH5 : (a_pre = a1)) ,
   TT && emp 
 |--
   “ (a_pre = a1) ” &&
@@ -383,20 +383,20 @@ forall (k_pre : Int) (a_pre : Int) (a1 : Int) (PreH1 : (1 <= a1)) (PreH2 : (a1 <
   &&  emp
 ) \/
 (
-forall (k_pre : Int) (a_pre : Int) (a1 : Int) (PreH1 : (1 <= a1)) (PreH2 : (a1 <= 1000000000000000000)) (PreH3 : (1 <= k_pre)) (PreH4 : (k_pre <= 10000000000000000)) (PreH5 : (a_pre = a1)) ,
+forall (a1 : Int) (a_pre : Int) (k_pre : Int) (PreH1 : (1 <= a1)) (PreH2 : (a1 <= 1000000000000000000)) (PreH3 : (1 <= k_pre)) (PreH4 : (k_pre <= 10000000000000000)) (PreH5 : (a_pre = a1)) ,
   TT && emp 
 |--
-  “ (SequencePrefix a_pre 1 a_pre) ”
+  “ (SequencePrefix a1 1 a1) ”
   &&  emp
 )
 
 noncomputable def solver_entail_wit_1_split_goal_1 : Prop :=
-  forall (k_pre : Int) (a_pre : Int) (a1 : Int) (PreH1 : (1 <= a1)) (PreH2 : (a1 <= 1000000000000000000)) (PreH3 : (1 <= k_pre)) (PreH4 : (k_pre <= 10000000000000000)) (PreH5 : (a_pre = a1)) ,
-  (SequencePrefix a_pre 1 a_pre)
+  forall (a1 : Int) (a_pre : Int) (k_pre : Int) (PreH1 : (1 <= a1)) (PreH2 : (a1 <= 1000000000000000000)) (PreH3 : (1 <= k_pre)) (PreH4 : (k_pre <= 10000000000000000)) (PreH5 : (a_pre = a1)) ,
+  (SequencePrefix a1 1 a1)
 
 noncomputable def solver_entail_wit_2 : Prop :=
   (
-forall (k_pre : Int) (a_pre : Int) (a1 : Int) (a : Int) (i : Int) (retval : Int) (PreH1 : (retval = (0 : Int))) (PreH2 : ((0 : Int) <= retval)) (PreH3 : (retval <= 81)) (PreH4 : (DigitRecurrenceStep a (a + retval))) (PreH5 : (i < k_pre)) (PreH6 : (a_pre = a1)) (PreH7 : (1 <= a1)) (PreH8 : (a1 <= 1000000000000000000)) (PreH9 : (1 <= k_pre)) (PreH10 : (k_pre <= 10000000000000000)) (PreH11 : (1 <= i)) (PreH12 : (i <= k_pre)) (PreH13 : (a1 <= a)) (PreH14 : (a <= (a1 + (81 * (i - 1))))) (PreH15 : (a <= 1810000000000000000)) (PreH16 : (SequencePrefix a1 i a)) ,
+forall (a1 : Int) (a_pre : Int) (k_pre : Int) (a : Int) (i : Int) (retval : Int) (PreH1 : (retval = (0 : Int))) (PreH2 : ((0 : Int) <= retval)) (PreH3 : (retval <= 81)) (PreH4 : (DigitRecurrenceStep a (a + retval))) (PreH5 : (i < k_pre)) (PreH6 : (a_pre = a1)) (PreH7 : (1 <= a1)) (PreH8 : (a1 <= 1000000000000000000)) (PreH9 : (1 <= k_pre)) (PreH10 : (k_pre <= 10000000000000000)) (PreH11 : (1 <= i)) (PreH12 : (i <= k_pre)) (PreH13 : (a1 <= a)) (PreH14 : (a <= (a1 + (81 * (i - 1))))) (PreH15 : (a <= 1810000000000000000)) (PreH16 : (SequencePrefix a1 i a)) ,
   TT && emp 
 |--
   “ (a_pre = a1) ” &&
@@ -415,20 +415,20 @@ forall (k_pre : Int) (a_pre : Int) (a1 : Int) (a : Int) (i : Int) (retval : Int)
   &&  emp
 ) \/
 (
-forall (k_pre : Int) (a_pre : Int) (a1 : Int) (a : Int) (i : Int) (retval : Int) (PreH1 : (retval = (0 : Int))) (PreH2 : ((0 : Int) <= retval)) (PreH3 : (retval <= 81)) (PreH4 : (DigitRecurrenceStep a (a + retval))) (PreH5 : (i < k_pre)) (PreH6 : (a_pre = a1)) (PreH7 : (1 <= a1)) (PreH8 : (a1 <= 1000000000000000000)) (PreH9 : (1 <= k_pre)) (PreH10 : (k_pre <= 10000000000000000)) (PreH11 : (1 <= i)) (PreH12 : (i <= k_pre)) (PreH13 : (a1 <= a)) (PreH14 : (a <= (a1 + (81 * (i - 1))))) (PreH15 : (a <= 1810000000000000000)) (PreH16 : (SequencePrefix a1 i a)) ,
+forall (a1 : Int) (a_pre : Int) (k_pre : Int) (a : Int) (i : Int) (retval : Int) (PreH1 : (retval = (0 : Int))) (PreH2 : ((0 : Int) <= retval)) (PreH3 : (retval <= 81)) (PreH4 : (DigitRecurrenceStep a (a + retval))) (PreH5 : (i < k_pre)) (PreH6 : (a_pre = a1)) (PreH7 : (1 <= a1)) (PreH8 : (a1 <= 1000000000000000000)) (PreH9 : (1 <= k_pre)) (PreH10 : (k_pre <= 10000000000000000)) (PreH11 : (1 <= i)) (PreH12 : (i <= k_pre)) (PreH13 : (a1 <= a)) (PreH14 : (a <= (a1 + (81 * (i - 1))))) (PreH15 : (a <= 1810000000000000000)) (PreH16 : (SequencePrefix a1 i a)) ,
   TT && emp 
 |--
-  “ (Spec a_pre k_pre a) ”
+  “ (Spec a1 k_pre a) ”
   &&  emp
 )
 
 noncomputable def solver_entail_wit_2_split_goal_1 : Prop :=
-  forall (k_pre : Int) (a_pre : Int) (a1 : Int) (a : Int) (i : Int) (retval : Int) (PreH1 : (retval = (0 : Int))) (PreH2 : ((0 : Int) <= retval)) (PreH3 : (retval <= 81)) (PreH4 : (DigitRecurrenceStep a (a + retval))) (PreH5 : (i < k_pre)) (PreH6 : (a_pre = a1)) (PreH7 : (1 <= a1)) (PreH8 : (a1 <= 1000000000000000000)) (PreH9 : (1 <= k_pre)) (PreH10 : (k_pre <= 10000000000000000)) (PreH11 : (1 <= i)) (PreH12 : (i <= k_pre)) (PreH13 : (a1 <= a)) (PreH14 : (a <= (a1 + (81 * (i - 1))))) (PreH15 : (a <= 1810000000000000000)) (PreH16 : (SequencePrefix a1 i a)) ,
-  (Spec a_pre k_pre a)
+  forall (a1 : Int) (a_pre : Int) (k_pre : Int) (a : Int) (i : Int) (retval : Int) (PreH1 : (retval = (0 : Int))) (PreH2 : ((0 : Int) <= retval)) (PreH3 : (retval <= 81)) (PreH4 : (DigitRecurrenceStep a (a + retval))) (PreH5 : (i < k_pre)) (PreH6 : (a_pre = a1)) (PreH7 : (1 <= a1)) (PreH8 : (a1 <= 1000000000000000000)) (PreH9 : (1 <= k_pre)) (PreH10 : (k_pre <= 10000000000000000)) (PreH11 : (1 <= i)) (PreH12 : (i <= k_pre)) (PreH13 : (a1 <= a)) (PreH14 : (a <= (a1 + (81 * (i - 1))))) (PreH15 : (a <= 1810000000000000000)) (PreH16 : (SequencePrefix a1 i a)) ,
+  (Spec a1 k_pre a)
 
 noncomputable def solver_entail_wit_3 : Prop :=
   (
-forall (k_pre : Int) (a_pre : Int) (a1 : Int) (a : Int) (i : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : ((0 : Int) <= retval)) (PreH3 : (retval <= 81)) (PreH4 : (DigitRecurrenceStep a (a + retval))) (PreH5 : (i < k_pre)) (PreH6 : (a_pre = a1)) (PreH7 : (1 <= a1)) (PreH8 : (a1 <= 1000000000000000000)) (PreH9 : (1 <= k_pre)) (PreH10 : (k_pre <= 10000000000000000)) (PreH11 : (1 <= i)) (PreH12 : (i <= k_pre)) (PreH13 : (a1 <= a)) (PreH14 : (a <= (a1 + (81 * (i - 1))))) (PreH15 : (a <= 1810000000000000000)) (PreH16 : (SequencePrefix a1 i a)) ,
+forall (a1 : Int) (a_pre : Int) (k_pre : Int) (a : Int) (i : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : ((0 : Int) <= retval)) (PreH3 : (retval <= 81)) (PreH4 : (DigitRecurrenceStep a (a + retval))) (PreH5 : (i < k_pre)) (PreH6 : (a_pre = a1)) (PreH7 : (1 <= a1)) (PreH8 : (a1 <= 1000000000000000000)) (PreH9 : (1 <= k_pre)) (PreH10 : (k_pre <= 10000000000000000)) (PreH11 : (1 <= i)) (PreH12 : (i <= k_pre)) (PreH13 : (a1 <= a)) (PreH14 : (a <= (a1 + (81 * (i - 1))))) (PreH15 : (a <= 1810000000000000000)) (PreH16 : (SequencePrefix a1 i a)) ,
   TT && emp 
 |--
   “ (a_pre = a1) ” &&
@@ -445,46 +445,46 @@ forall (k_pre : Int) (a_pre : Int) (a1 : Int) (a : Int) (i : Int) (retval : Int)
   &&  emp
 ) \/
 (
-forall (k_pre : Int) (a_pre : Int) (a1 : Int) (a : Int) (i : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : ((0 : Int) <= retval)) (PreH3 : (retval <= 81)) (PreH4 : (DigitRecurrenceStep a (a + retval))) (PreH5 : (i < k_pre)) (PreH6 : (a_pre = a1)) (PreH7 : (1 <= a1)) (PreH8 : (a1 <= 1000000000000000000)) (PreH9 : (1 <= k_pre)) (PreH10 : (k_pre <= 10000000000000000)) (PreH11 : (1 <= i)) (PreH12 : (i <= k_pre)) (PreH13 : (a1 <= a)) (PreH14 : (a <= (a1 + (81 * (i - 1))))) (PreH15 : (a <= 1810000000000000000)) (PreH16 : (SequencePrefix a1 i a)) ,
+forall (a1 : Int) (a_pre : Int) (k_pre : Int) (a : Int) (i : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : ((0 : Int) <= retval)) (PreH3 : (retval <= 81)) (PreH4 : (DigitRecurrenceStep a (a + retval))) (PreH5 : (i < k_pre)) (PreH6 : (a_pre = a1)) (PreH7 : (1 <= a1)) (PreH8 : (a1 <= 1000000000000000000)) (PreH9 : (1 <= k_pre)) (PreH10 : (k_pre <= 10000000000000000)) (PreH11 : (1 <= i)) (PreH12 : (i <= k_pre)) (PreH13 : (a1 <= a)) (PreH14 : (a <= (a1 + (81 * (i - 1))))) (PreH15 : (a <= 1810000000000000000)) (PreH16 : (SequencePrefix a1 i a)) ,
   TT && emp 
 |--
-  “ (SequencePrefix a_pre (i + 1) (a + retval)) ”
+  “ (SequencePrefix a1 (i + 1) (a + retval)) ”
   &&  emp
 )
 
 noncomputable def solver_entail_wit_3_split_goal_1 : Prop :=
-  forall (k_pre : Int) (a_pre : Int) (a1 : Int) (a : Int) (i : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : ((0 : Int) <= retval)) (PreH3 : (retval <= 81)) (PreH4 : (DigitRecurrenceStep a (a + retval))) (PreH5 : (i < k_pre)) (PreH6 : (a_pre = a1)) (PreH7 : (1 <= a1)) (PreH8 : (a1 <= 1000000000000000000)) (PreH9 : (1 <= k_pre)) (PreH10 : (k_pre <= 10000000000000000)) (PreH11 : (1 <= i)) (PreH12 : (i <= k_pre)) (PreH13 : (a1 <= a)) (PreH14 : (a <= (a1 + (81 * (i - 1))))) (PreH15 : (a <= 1810000000000000000)) (PreH16 : (SequencePrefix a1 i a)) ,
-  (SequencePrefix a_pre (i + 1) (a + retval))
+  forall (a1 : Int) (a_pre : Int) (k_pre : Int) (a : Int) (i : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : ((0 : Int) <= retval)) (PreH3 : (retval <= 81)) (PreH4 : (DigitRecurrenceStep a (a + retval))) (PreH5 : (i < k_pre)) (PreH6 : (a_pre = a1)) (PreH7 : (1 <= a1)) (PreH8 : (a1 <= 1000000000000000000)) (PreH9 : (1 <= k_pre)) (PreH10 : (k_pre <= 10000000000000000)) (PreH11 : (1 <= i)) (PreH12 : (i <= k_pre)) (PreH13 : (a1 <= a)) (PreH14 : (a <= (a1 + (81 * (i - 1))))) (PreH15 : (a <= 1810000000000000000)) (PreH16 : (SequencePrefix a1 i a)) ,
+  (SequencePrefix a1 (i + 1) (a + retval))
 
 noncomputable def solver_return_wit_1 : Prop :=
   (
-forall (k_pre : Int) (a_pre : Int) (a1 : Int) (a : Int) (i : Int) (PreH1 : (i >= k_pre)) (PreH2 : (a_pre = a1)) (PreH3 : (1 <= a1)) (PreH4 : (a1 <= 1000000000000000000)) (PreH5 : (1 <= k_pre)) (PreH6 : (k_pre <= 10000000000000000)) (PreH7 : (1 <= i)) (PreH8 : (i <= k_pre)) (PreH9 : (a1 <= a)) (PreH10 : (a <= (a1 + (81 * (i - 1))))) (PreH11 : (a <= 1810000000000000000)) (PreH12 : (SequencePrefix a1 i a)) ,
+forall (a1 : Int) (a_pre : Int) (k_pre : Int) (a : Int) (i : Int) (PreH1 : (i >= k_pre)) (PreH2 : (a_pre = a1)) (PreH3 : (1 <= a1)) (PreH4 : (a1 <= 1000000000000000000)) (PreH5 : (1 <= k_pre)) (PreH6 : (k_pre <= 10000000000000000)) (PreH7 : (1 <= i)) (PreH8 : (i <= k_pre)) (PreH9 : (a1 <= a)) (PreH10 : (a <= (a1 + (81 * (i - 1))))) (PreH11 : (a <= 1810000000000000000)) (PreH12 : (SequencePrefix a1 i a)) ,
   TT && emp 
 |--
   “ (Spec a1 k_pre a) ”
   &&  emp
 ) \/
 (
-forall (k_pre : Int) (a_pre : Int) (a1 : Int) (a : Int) (i : Int) (PreH1 : (i >= k_pre)) (PreH2 : (a_pre = a1)) (PreH3 : (1 <= a1)) (PreH4 : (a1 <= 1000000000000000000)) (PreH5 : (1 <= k_pre)) (PreH6 : (k_pre <= 10000000000000000)) (PreH7 : (1 <= i)) (PreH8 : (i <= k_pre)) (PreH9 : (a1 <= a)) (PreH10 : (a <= (a1 + (81 * (i - 1))))) (PreH11 : (a <= 1810000000000000000)) (PreH12 : (SequencePrefix a1 i a)) ,
+forall (a1 : Int) (a_pre : Int) (k_pre : Int) (a : Int) (i : Int) (PreH1 : (i >= k_pre)) (PreH2 : (a_pre = a1)) (PreH3 : (1 <= a1)) (PreH4 : (a1 <= 1000000000000000000)) (PreH5 : (1 <= k_pre)) (PreH6 : (k_pre <= 10000000000000000)) (PreH7 : (1 <= i)) (PreH8 : (i <= k_pre)) (PreH9 : (a1 <= a)) (PreH10 : (a <= (a1 + (81 * (i - 1))))) (PreH11 : (a <= 1810000000000000000)) (PreH12 : (SequencePrefix a1 i a)) ,
   TT && emp 
 |--
-  “ (Spec a_pre k_pre a) ”
+  “ (Spec a1 k_pre a) ”
   &&  emp
 )
 
 noncomputable def solver_return_wit_1_split_goal_1 : Prop :=
-  forall (k_pre : Int) (a_pre : Int) (a1 : Int) (a : Int) (i : Int) (PreH1 : (i >= k_pre)) (PreH2 : (a_pre = a1)) (PreH3 : (1 <= a1)) (PreH4 : (a1 <= 1000000000000000000)) (PreH5 : (1 <= k_pre)) (PreH6 : (k_pre <= 10000000000000000)) (PreH7 : (1 <= i)) (PreH8 : (i <= k_pre)) (PreH9 : (a1 <= a)) (PreH10 : (a <= (a1 + (81 * (i - 1))))) (PreH11 : (a <= 1810000000000000000)) (PreH12 : (SequencePrefix a1 i a)) ,
-  (Spec a_pre k_pre a)
+  forall (a1 : Int) (a_pre : Int) (k_pre : Int) (a : Int) (i : Int) (PreH1 : (i >= k_pre)) (PreH2 : (a_pre = a1)) (PreH3 : (1 <= a1)) (PreH4 : (a1 <= 1000000000000000000)) (PreH5 : (1 <= k_pre)) (PreH6 : (k_pre <= 10000000000000000)) (PreH7 : (1 <= i)) (PreH8 : (i <= k_pre)) (PreH9 : (a1 <= a)) (PreH10 : (a <= (a1 + (81 * (i - 1))))) (PreH11 : (a <= 1810000000000000000)) (PreH12 : (SequencePrefix a1 i a)) ,
+  (Spec a1 k_pre a)
 
 noncomputable def solver_return_wit_2 : Prop :=
-  forall (k_pre : Int) (a_pre : Int) (a1 : Int) (i : Int) (add : Int) (a : Int) (PreH1 : (a_pre = a1)) (PreH2 : (1 <= a1)) (PreH3 : (a1 <= 1000000000000000000)) (PreH4 : (1 <= k_pre)) (PreH5 : (k_pre <= 10000000000000000)) (PreH6 : (1 <= i)) (PreH7 : (i < k_pre)) (PreH8 : (add = (0 : Int))) (PreH9 : (a1 <= a)) (PreH10 : (a <= (a1 + (81 * (i - 1))))) (PreH11 : (a <= 1810000000000000000)) (PreH12 : (SequencePrefix a1 i a)) (PreH13 : (Spec a1 k_pre a)) ,
+  forall (a1 : Int) (a_pre : Int) (k_pre : Int) (i : Int) (add : Int) (a : Int) (PreH1 : (a_pre = a1)) (PreH2 : (1 <= a1)) (PreH3 : (a1 <= 1000000000000000000)) (PreH4 : (1 <= k_pre)) (PreH5 : (k_pre <= 10000000000000000)) (PreH6 : (1 <= i)) (PreH7 : (i < k_pre)) (PreH8 : (add = (0 : Int))) (PreH9 : (a1 <= a)) (PreH10 : (a <= (a1 + (81 * (i - 1))))) (PreH11 : (a <= 1810000000000000000)) (PreH12 : (SequencePrefix a1 i a)) (PreH13 : (Spec a1 k_pre a)) ,
   TT && emp 
 |--
   “ (Spec a1 k_pre a) ”
   &&  emp
 
 noncomputable def solver_partial_solve_wit_1_pure : Prop :=
-  forall (k_pre : Int) (a_pre : Int) (a1 : Int) (a : Int) (i : Int) (PreH1 : (i < k_pre)) (PreH2 : (a_pre = a1)) (PreH3 : (1 <= a1)) (PreH4 : (a1 <= 1000000000000000000)) (PreH5 : (1 <= k_pre)) (PreH6 : (k_pre <= 10000000000000000)) (PreH7 : (1 <= i)) (PreH8 : (i <= k_pre)) (PreH9 : (a1 <= a)) (PreH10 : (a <= (a1 + (81 * (i - 1))))) (PreH11 : (a <= 1810000000000000000)) (PreH12 : (SequencePrefix a1 i a)) ,
+  forall (a1 : Int) (a_pre : Int) (k_pre : Int) (a : Int) (i : Int) (PreH1 : (i < k_pre)) (PreH2 : (a_pre = a1)) (PreH3 : (1 <= a1)) (PreH4 : (a1 <= 1000000000000000000)) (PreH5 : (1 <= k_pre)) (PreH6 : (k_pre <= 10000000000000000)) (PreH7 : (1 <= i)) (PreH8 : (i <= k_pre)) (PreH9 : (a1 <= a)) (PreH10 : (a <= (a1 + (81 * (i - 1))))) (PreH11 : (a <= 1810000000000000000)) (PreH12 : (SequencePrefix a1 i a)) ,
   ((( &( "add" ) )) # Int64 |->_)
   ** ((( &( "k" ) )) # Int64 |-> (k_pre))
   ** ((( &( "i" ) )) # Int64 |-> (i))
@@ -494,7 +494,7 @@ noncomputable def solver_partial_solve_wit_1_pure : Prop :=
   “ (a <= 1810000000000000000) ”
 
 noncomputable def solver_partial_solve_wit_1_aux : Prop :=
-  forall (k_pre : Int) (a_pre : Int) (a1 : Int) (a : Int) (i : Int) (PreH1 : (i < k_pre)) (PreH2 : (a_pre = a1)) (PreH3 : (1 <= a1)) (PreH4 : (a1 <= 1000000000000000000)) (PreH5 : (1 <= k_pre)) (PreH6 : (k_pre <= 10000000000000000)) (PreH7 : (1 <= i)) (PreH8 : (i <= k_pre)) (PreH9 : (a1 <= a)) (PreH10 : (a <= (a1 + (81 * (i - 1))))) (PreH11 : (a <= 1810000000000000000)) (PreH12 : (SequencePrefix a1 i a)) ,
+  forall (a1 : Int) (a_pre : Int) (k_pre : Int) (a : Int) (i : Int) (PreH1 : (i < k_pre)) (PreH2 : (a_pre = a1)) (PreH3 : (1 <= a1)) (PreH4 : (a1 <= 1000000000000000000)) (PreH5 : (1 <= k_pre)) (PreH6 : (k_pre <= 10000000000000000)) (PreH7 : (1 <= i)) (PreH8 : (i <= k_pre)) (PreH9 : (a1 <= a)) (PreH10 : (a <= (a1 + (81 * (i - 1))))) (PreH11 : (a <= 1810000000000000000)) (PreH12 : (SequencePrefix a1 i a)) ,
   TT && emp 
 |--
   “ (1 <= a) ” &&

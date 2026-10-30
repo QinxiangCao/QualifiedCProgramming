@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P051_986A_fair_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P051_986A_fair_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.array2_ext_lib.
 Require Import AUXLib.MonotonicList.
@@ -25,7 +9,7 @@ Local Open Scope sac.
 
 Lemma proof_of_bfs_type_entail_wit_1_split_goal_1 : bfs_type_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_bfs_type_entail_wit_1 : bfs_type_entail_wit_1.
@@ -36,7 +20,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_2_split_goal_1 : bfs_type_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Zlength_replace_Znth. lia.
 Qed.
 
@@ -48,14 +32,14 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_3_split_goal_1 : bfs_type_entail_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply BfsInit_nil__g2_bfs_init.
   intros w Hw. apply PreH16. lia.
 Qed.
 
 Lemma proof_of_bfs_type_entail_wit_3_split_goal_2 : bfs_type_entail_wit_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_bfs_type_entail_wit_3 : bfs_type_entail_wit_3.
@@ -67,20 +51,20 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_4_1_split_goal_1 : bfs_type_entail_wit_4_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply BfsInit_push__g2_bfs_init;
     [exact PreH21 | lia | lia | exact PreH1].
 Qed.
 
 Lemma proof_of_bfs_type_entail_wit_4_1_split_goal_2 : bfs_type_entail_wit_4_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Zlength_replace_Znth. lia.
 Qed.
 
 Lemma proof_of_bfs_type_entail_wit_4_1_split_goal_3 : bfs_type_entail_wit_4_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Zlength_app_cons. lia.
 Qed.
 
@@ -94,7 +78,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_4_2_split_goal_1 : bfs_type_entail_wit_4_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply BfsInit_skip__g2_bfs_init;
     [exact PreH21 | lia | exact PreH1].
 Qed.
@@ -107,7 +91,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_5_split_goal_1 : bfs_type_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite (BfsInit_head_dist__g2_bfs_init n_pre goods c_pre Q_2 dl_2 v PreH20 ltac:(lia)).
   apply (BfsInit_BfsBounded__g2_bfs_init n_pre goods c_pre Q_2 dl_2 v);
     [exact PreH20 | lia].
@@ -115,13 +99,13 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_5_split_goal_2 : bfs_type_entail_wit_5_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   intros i w Hi Hw He. lia.
 Qed.
 
 Lemma proof_of_bfs_type_entail_wit_5_split_goal_3 : bfs_type_entail_wit_5_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hv : v = n_pre + 1) by lia. subst v.
   exact (proj1 (BfsInit_BfsCore n_pre edges goods c_pre Q_2 dl_2 PreH20)).
 Qed.
@@ -136,21 +120,21 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_6_split_goal_1 : bfs_type_entail_wit_6_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (qh - 0) with qh by lia.
   apply PreH20. lia.
 Qed.
 
 Lemma proof_of_bfs_type_entail_wit_6_split_goal_2 : bfs_type_entail_wit_6_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (qh + 1 - 1) with qh by lia.
   exact PreH19.
 Qed.
 
 Lemma proof_of_bfs_type_entail_wit_6_split_goal_3 : bfs_type_entail_wit_6_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (qh - 0) with qh by lia.
   pose proof PreH18 as Hc.
   destruct Hc as (_ & _ & _ & _ & _ & _ & Hidx & _).
@@ -159,7 +143,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_6_split_goal_4 : bfs_type_entail_wit_6_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (qh - 0) with qh by lia.
   pose proof PreH18 as Hc.
   destruct Hc as (_ & _ & _ & _ & _ & _ & Hidx & _).
@@ -168,7 +152,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_6_split_goal_5 : bfs_type_entail_wit_6_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (qh - 0) with qh by lia.
   pose proof PreH18 as Hc.
   destruct Hc as (Hb1 & _).
@@ -177,7 +161,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_6_split_goal_6 : bfs_type_entail_wit_6_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (qh - 0) with qh by lia.
   pose proof PreH18 as Hc.
   destruct Hc as (Hb1 & _).
@@ -186,7 +170,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_6_split_goal_7 : bfs_type_entail_wit_6_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (qh - 0) with (qh + 1 - 1) by lia.
   reflexivity.
 Qed.
@@ -205,13 +189,13 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_7_split_goal_1 : bfs_type_entail_wit_7_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply (BfsScan_entry n_pre m edges hd nx tlst Q_2 dl_2 u PreH9 ltac:(lia)).
 Qed.
 
 Lemma proof_of_bfs_type_entail_wit_7_split_goal_2 : bfs_type_entail_wit_7_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct H as [Hne Hneg].
   pose proof PreH9 as Hb.
   destruct Hb as (_ & _ & _ & _ & _ & Hhd & _).
@@ -226,7 +210,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_7_split_goal_3 : bfs_type_entail_wit_7_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rename H into Hne.
   pose proof PreH9 as Hb.
   destruct Hb as (_ & _ & _ & _ & _ & Hhd & _).
@@ -237,7 +221,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_7_split_goal_4 : bfs_type_entail_wit_7_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof PreH9 as Hb.
   destruct Hb as (_ & _ & _ & _ & _ & Hhd & _).
   specialize (Hhd u ltac:(lia)).
@@ -246,7 +230,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_7_split_goal_5 : bfs_type_entail_wit_7_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof PreH9 as Hb.
   destruct Hb as (_ & _ & _ & _ & _ & Hhd & _).
   specialize (Hhd u ltac:(lia)).
@@ -265,7 +249,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_1_split_goal_1 : bfs_type_entail_wit_8_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 
   assert (Hw : 1 <= Znth e tlst 0 <= n_pre) by (apply PreH26; exact PreH2).
   assert (Hlen : n_pre < Zlength dl_2) by lia.
@@ -291,7 +275,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_1_split_goal_2 : bfs_type_entail_wit_8_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 
   assert (Hw : 1 <= Znth e tlst 0 <= n_pre) by (apply PreH26; exact PreH2).
   assert (Hlen : n_pre < Zlength dl_2) by lia.
@@ -308,7 +292,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_1_split_goal_3 : bfs_type_entail_wit_8_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 
   assert (Hw : 1 <= Znth e tlst 0 <= n_pre) by (apply PreH26; exact PreH2).
   assert (Hlen : n_pre < Zlength dl_2) by lia.
@@ -325,7 +309,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_1_split_goal_4 : bfs_type_entail_wit_8_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 
   assert (Hw : 1 <= Znth e tlst 0 <= n_pre) by (apply PreH26; exact PreH2).
   assert (Hlen : n_pre < Zlength dl_2) by lia.
@@ -367,7 +351,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_1_split_goal_5 : bfs_type_entail_wit_8_1_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct H as [Hne Hneg].
   assert (Hw : 1 <= Znth e tlst 0 <= n_pre) by (apply PreH26; exact PreH2).
   pose proof (PreH12 e ltac:(lia)) as He1.
@@ -389,7 +373,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_1_split_goal_6 : bfs_type_entail_wit_8_1_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rename H into Hne.
   pose proof (PreH12 e ltac:(lia)) as He1.
   apply PreH13. lia.
@@ -397,25 +381,25 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_1_split_goal_7 : bfs_type_entail_wit_8_1_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Zlength_replace_Znth. exact PreH25.
 Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_1_split_goal_8 : bfs_type_entail_wit_8_1_split_goal_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH12 e ltac:(lia)) as He1. lia.
 Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_1_split_goal_9 : bfs_type_entail_wit_8_1_split_goal_9.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH12 e ltac:(lia)) as He1. lia.
 Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_1_split_goal_10 : bfs_type_entail_wit_8_1_split_goal_10.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 
   assert (Hw : 1 <= Znth e tlst 0 <= n_pre) by (apply PreH26; exact PreH2).
   assert (Hlen : n_pre < Zlength dl_2) by lia.
@@ -431,7 +415,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_1_split_goal_11 : bfs_type_entail_wit_8_1_split_goal_11.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 
   assert (Hw : 1 <= Znth e tlst 0 <= n_pre) by (apply PreH26; exact PreH2).
   assert (Hlen : n_pre < Zlength dl_2) by lia.
@@ -447,14 +431,14 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_1_split_goal_12 : bfs_type_entail_wit_8_1_split_goal_12.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Znth_prefix_push__g3_bfs_scan_core by lia.
   exact PreH18.
 Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_1_split_goal_13 : bfs_type_entail_wit_8_1_split_goal_13.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Zlength_push__g3_bfs_scan_core. lia.
 Qed.
 
@@ -478,7 +462,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_2_split_goal_1 : bfs_type_entail_wit_8_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hw : 1 <= Znth e tlst 0 <= n_pre) by (apply PreH26; exact PreH2).
   assert (HinQ : In (Znth e tlst 0) Q_2).
   { pose proof PreH28 as Hc.
@@ -495,7 +479,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_2_split_goal_2 : bfs_type_entail_wit_8_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct H as [Hne Hneg].
   pose proof (PreH12 e ltac:(lia)) as He1.
   assert (Hw1 : 1 <= Znth (Znth e nx 0) tlst 0 <= n_pre) by (apply PreH13; lia).
@@ -506,7 +490,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_2_split_goal_3 : bfs_type_entail_wit_8_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rename H into Hne.
   pose proof (PreH12 e ltac:(lia)) as He1.
   apply PreH13. lia.
@@ -514,13 +498,13 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_2_split_goal_4 : bfs_type_entail_wit_8_2_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH12 e ltac:(lia)) as He1. lia.
 Qed.
 
 Lemma proof_of_bfs_type_entail_wit_8_2_split_goal_5 : bfs_type_entail_wit_8_2_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH12 e ltac:(lia)) as He1. lia.
 Qed.
 
@@ -536,7 +520,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_9_split_goal_1 : bfs_type_entail_wit_9_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold BfsBounded in *.
   intros j Hj.
   specialize (PreH29 j Hj).
@@ -548,7 +532,7 @@ Qed.
 
 Lemma proof_of_bfs_type_entail_wit_9_split_goal_2 : bfs_type_entail_wit_9_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst e.
   apply (BfsScan_expand n_pre m edges hd nx tlst Q_2 dl_2 qh u).
   - lia.
@@ -568,7 +552,7 @@ Qed.
 
 Lemma proof_of_bfs_type_return_wit_1_split_goal_1 : bfs_type_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   apply (BfsCore_expanded_result n_pre edges goods c_pre Q dl).
   - lia.
@@ -579,7 +563,7 @@ Qed.
 
 Lemma proof_of_bfs_type_return_wit_1_split_goal_spatial : bfs_type_return_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   sep_apply_l_atomic (IntArray.seg_to_undef_seg (&( "queue_" )) 0 qt Q).
   sep_apply_l_atomic (IntArray.undef_seg_merge_to_undef_full (&( "queue_" )) 0 qt n_pre ltac:(lia)).
   rewrite Z.mul_0_l, Z.add_0_r, Z.sub_0_r.
@@ -595,7 +579,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_29_split_goal_1 : solver_safety_wit_29_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hs : 0 <= ZSum (sublist 0 i l1) <= i * (n_pre - 1)).
   { apply ZSum_sublist_bound__g7_fair_sum; try lia.
@@ -607,7 +591,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_29_split_goal_2 : solver_safety_wit_29_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hs : 0 <= ZSum (sublist 0 i l1) <= i * (n_pre - 1)).
   { apply ZSum_sublist_bound__g7_fair_sum; try lia.
@@ -625,13 +609,13 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: apply PreH18; tauto.
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: (exfalso; lia).
 Qed.
 
@@ -642,19 +626,19 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_4 : solver_entail_wit_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: apply PreH16; tauto.
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_5 : solver_entail_wit_1_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: apply PreH11; lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_6 : solver_entail_wit_1_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: apply PreH10; tauto.
 Qed.
 
@@ -682,7 +666,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3 : solver_entail_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hv : v = n_pre + 1) by lia. subst v.
   Exists (@nil Z) (@nil Z) hd0.
   replace (2 * 0) with 0 by lia.
@@ -721,7 +705,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4 : solver_entail_wit_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH20 PreH1) as Hrng.
   assert (Hidx : Znth i_4 tree_edges __default__Prod_Z_Z = Znth i_4 tree_edges (0, 0))
     by (apply Znth_indep; lia).
@@ -786,49 +770,49 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_1 : solver_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: (unfold BfsRows; intros c v Hc Hv; exfalso; lia).
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_2 : solver_entail_wit_5_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: apply PreH28; tauto.
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_3 : solver_entail_wit_5_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: (replace m_pre with i_7 by lia; exact PreH26).
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_4 : solver_entail_wit_5_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: (replace m_pre with i_7 by lia; exact PreH25).
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_5 : solver_entail_wit_5_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: (replace m_pre with i_7 by lia; exact PreH24).
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_6 : solver_entail_wit_5_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: apply PreH17; tauto.
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_7 : solver_entail_wit_5_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: apply PreH12; tauto.
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_8 : solver_entail_wit_5_split_goal_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: apply PreH11; tauto.
 Qed.
 
@@ -847,10 +831,10 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6 : solver_entail_wit_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists rows_2 tlst_2 nx_2 hd_2.
   rewrite (Znth_indep__g5_dist_rows rows_2 c __default__List_Z nil) by lia.
-  assert (Haddr : ( &( "dist_" ) ) + c * (sizeof(INT) * 100005) + 0 * sizeof(INT)
+  assert (Haddr : ( &( "dist_" ) ) + c * (100005 * sizeof(INT)) + 0 * sizeof(INT)
                   = IntArray2.row_addr ( &( "dist_" ) ) 100005 c).
   { unfold IntArray2.row_addr. ring. }
   rewrite Haddr.
@@ -864,8 +848,8 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7 : solver_entail_wit_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (Haddr : ( &( "dist_" ) ) + c * (sizeof(INT) * 100005) + 0 * sizeof(INT)
+  LLM_pre_process ltac:(lia || int_auto).
+  assert (Haddr : ( &( "dist_" ) ) + c * (100005 * sizeof(INT)) + 0 * sizeof(INT)
                   = IntArray2.row_addr ( &( "dist_" ) ) 100005 c).
   { unfold IntArray2.row_addr. ring. }
   rewrite Haddr.
@@ -893,44 +877,44 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_1 : solver_entail_wit_8_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: unfold OutPrefix; intros i Hi; lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_2 : solver_entail_wit_8_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: replace (k_pre + 1) with c by lia.
   all: exact PreH28.
 Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_3 : solver_entail_wit_8_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: exact PreH27.
 Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_4 : solver_entail_wit_8_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: reflexivity.
 Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_5 : solver_entail_wit_8_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: apply PreH17; assumption.
 Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_6 : solver_entail_wit_8_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: apply PreH12; assumption.
 Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_7 : solver_entail_wit_8_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   all: apply PreH11; assumption.
 Qed.
 
@@ -948,7 +932,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9_1 : solver_entail_wit_9_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (@nil Z) rows_2 tlst_2 nx_2 hd_2 out_2.
   replace (1 - 1) with 0 by lia.
   sep_apply (IntArray.undef_full_to_undef_seg ( &( "tmp_" ) ) k_pre).
@@ -962,7 +946,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9_2 : solver_entail_wit_9_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (@nil Z) rows_2 tlst_2 nx_2 hd_2 out_2.
   replace (1 - 1) with 0 by lia.
   sep_apply (IntArray.full_to_undef_full ( &( "tmp_" ) ) k_pre tmpl).
@@ -977,7 +961,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_10 : solver_entail_wit_10.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (tp_2 ++ ((Znth v (Znth c rows_2 __default__List_Z) 0) :: nil))
          rows_2 tlst_2 nx_2 hd_2 out_2.
   assert (Hdef : Znth c rows_2 __default__List_Z = Znth c rows_2 nil).
@@ -1009,7 +993,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_11 : solver_entail_wit_11.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists tp_2 rows_2 tlst_2 nx_2 hd_2 out_2.
   assert (Hc : c - 1 = k_pre) by lia.
   rewrite Hc in PreH30, PreH31 |- *.
@@ -1028,7 +1012,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12 : solver_entail_wit_12.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace ((&( "tmp_")) + 0 * sizeof ( INT )) with (&( "tmp_")) by lia.
   prop_apply_p (IntArray.full_Zlength (&( "tmp_")) k_pre l1_2).
   Intros_p Hl1len.
@@ -1049,7 +1033,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_13 : solver_entail_wit_13.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hstep : sum + Znth i_4 l1_2 0 = ZSum (sublist 0 (i_4 + 1) l1_2)).
   { rewrite ZSum_sublist_succ__g7_fair_sum by lia. lia. }
   Exists tp0_2 l1_2 rows_2 tlst_2 nx_2 hd_2 out_2.
@@ -1061,7 +1045,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_split_goal_1 : solver_entail_wit_14_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i_10 = s_pre) by lia. subst i_10.
   unfold OutPrefix. intros i2 Hi2.
   destruct (Z.eq_dec i2 (v - 1)) as [He | Hne].
@@ -1078,30 +1062,30 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_split_goal_2 : solver_entail_wit_14_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_14_split_goal_3 : solver_entail_wit_14_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Zlength_app, Zlength_cons, Zlength_nil. lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_14_split_goal_4 : solver_entail_wit_14_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH17; lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_14_split_goal_5 : solver_entail_wit_14_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH12; lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_14_split_goal_6 : solver_entail_wit_14_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH11; lia.
 Qed.
 
@@ -1118,7 +1102,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1 : solver_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hv : v = n_pre + 1) by lia. subst v.
   replace (n_pre + 1 - 1) with n_pre in PreH27 by lia.
   assert (HSpec : Spec k_pre s_pre tree_edges goods out_2).
@@ -1130,4 +1114,3 @@ Proof.
   - cancel (IntArray.seg a_pre 1 (n_pre + 1) goods). cancel.
   - split_pures; dump_pre_spatial; try assumption; try lia.
 Qed. 
-

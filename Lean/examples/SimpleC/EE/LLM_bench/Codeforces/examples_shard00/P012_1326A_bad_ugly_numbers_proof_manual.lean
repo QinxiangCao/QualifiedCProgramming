@@ -13,7 +13,7 @@ private noncomputable abbrev charArray := naive_C_Rules.CharArray
 
 theorem proof_of_solver_entail_wit_1 : solver_entail_wit_1 := by
   right
-  intro out_pre n_pre PreH1 PreH2 PreH3
+  intro n_pre out_pre PreH1 PreH2 PreH3
   Exists [50]
   have hs : (((out_pre+0*sizeof(CHAR)) # Char |-> (50 : Int)) |-- charArray.seg out_pre 0 1 [(50 : Int)]) := charArray.seg_single out_pre 0 (50 : Int)
   sep_apply hs
@@ -45,7 +45,7 @@ theorem proof_of_solver_entail_wit_2 : solver_entail_wit_2 := by
 
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   left
-  intro out_pre n_pre chars_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro n_pre out_pre chars_2 i_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   have he : i_2=n_pre := by omega
   have hbad : BadUglyDigits n_pre (chars_2.map (fun c => c-48)) := by
     apply two_then_threes_bad_ugly__spec_results n_pre _ PreH2
@@ -74,7 +74,7 @@ theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
         omega
 
 theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
-  intro out_pre n_pre PreH1 PreH2 PreH3
+  intro n_pre out_pre PreH1 PreH2 PreH3
   Left
   split_pure_spatial
   · cancel

@@ -73,9 +73,9 @@ Module Type NestedCriticalCSL
               (NC: nested_critical_STS_def)
               (S: nested_critical_STS_to_STS_def NC)
               (R1: ConAssertion.CSL S)
-              (Arch : CArchSig)
+              (ArchImpl : CArchSig)
               (Endian : CEndianSig)
-              (R2: DerivedPredSig Arch Endian R1).
+              (R2: DerivedPredSig ArchImpl Endian R1).
 Import R1 R2.
 Local Open Scope sac.
 

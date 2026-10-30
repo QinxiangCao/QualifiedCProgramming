@@ -12,53 +12,53 @@ open scoped SimpleC.SL.SAC
 local instance : SacContext := ⟨naive_C_Rules⟩
 
 theorem proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1 := by
-  intro n piles h1 h2 h3 h4 i hi
+  intro piles n h1 h2 h3 h4 i hi
   omega
 
 theorem proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2 := by
-  intro n piles h1 h2 h3 h4
+  intro piles n h1 h2 h3 h4
   exact h3
 
 theorem proof_of_solver_entail_wit_1 : solver_entail_wit_1 := by
   unfold solver_entail_wit_1
   right
-  intro n piles h1 h2 h3 h4
+  intro piles n h1 h2 h3 h4
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    · exact proof_of_solver_entail_wit_1_split_goal_1 n piles h1 h2 h3 h4
-    · exact proof_of_solver_entail_wit_1_split_goal_2 n piles h1 h2 h3 h4
+    · exact proof_of_solver_entail_wit_1_split_goal_1 piles n h1 h2 h3 h4
+    · exact proof_of_solver_entail_wit_1_split_goal_2 piles n h1 h2 h3 h4
 
 theorem proof_of_solver_entail_wit_3_1_split_goal_1 : solver_entail_wit_3_1_split_goal_1 := by
-  intro n piles c h1 h2 h3 h4 h5 h6 h7 h8
+  intro piles n c h1 h2 h3 h4 h5 h6 h7 h8
   exact ⟨⟨h6, by omega⟩, h8, Or.inl (by omega)⟩
 
 theorem proof_of_solver_entail_wit_3_1 : solver_entail_wit_3_1 := by
   unfold solver_entail_wit_3_1
   right
-  intro n piles c h1 h2 h3 h4 h5 h6 h7 h8
+  intro piles n c h1 h2 h3 h4 h5 h6 h7 h8
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    exact proof_of_solver_entail_wit_3_1_split_goal_1 n piles c h1 h2 h3 h4 h5 h6 h7 h8
+    exact proof_of_solver_entail_wit_3_1_split_goal_1 piles n c h1 h2 h3 h4 h5 h6 h7 h8
 
 theorem proof_of_solver_entail_wit_3_2_split_goal_1 : solver_entail_wit_3_2_split_goal_1 := by
-  intro n piles c h1 h2 h3 h4 h5 h6 h7 h8 h9
+  intro piles n c h1 h2 h3 h4 h5 h6 h7 h8 h9
   exact ⟨⟨h7, by omega⟩, h9, Or.inr h1⟩
 
 theorem proof_of_solver_entail_wit_3_2 : solver_entail_wit_3_2 := by
   unfold solver_entail_wit_3_2
   right
-  intro n piles c h1 h2 h3 h4 h5 h6 h7 h8 h9
+  intro piles n c h1 h2 h3 h4 h5 h6 h7 h8 h9
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    exact proof_of_solver_entail_wit_3_2_split_goal_1 n piles c h1 h2 h3 h4 h5 h6 h7 h8 h9
+    exact proof_of_solver_entail_wit_3_2_split_goal_1 piles n c h1 h2 h3 h4 h5 h6 h7 h8 h9
 
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   unfold solver_return_wit_1
   right
-  intro n piles c h1 h2 h3 h4 h5 h6 h7 h8
+  intro piles n c h1 h2 h3 h4 h5 h6 h7 h8
   have hn : ¬ FirstWins piles := by
     rintro ⟨k, hk, hw⟩
     have he := leading_ones_unique__return_semantics piles k c hk h8
@@ -78,7 +78,7 @@ theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
 theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
   unfold solver_return_wit_2
   right
-  intro n piles c h1 h2 h3 h4 h5 h6 h7 h8
+  intro piles n c h1 h2 h3 h4 h5 h6 h7 h8
   have he := even_of_nonnegative_rem_zero__return_semantics c h6 h1
   have hw : FirstWins piles := ⟨c, h8, Or.inr ⟨by omega, he⟩⟩
   have hs : Spec piles 1 := Or.inl ⟨rfl, hw⟩
@@ -92,7 +92,7 @@ theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
 theorem proof_of_solver_return_wit_3 : solver_return_wit_3 := by
   unfold solver_return_wit_3
   right
-  intro n piles c h1 h2 h3 h4 h5 h6 h7 h8
+  intro piles n c h1 h2 h3 h4 h5 h6 h7 h8
   have he := even_of_nonnegative_rem_not_one__return_semantics n (by omega) h1
   have hn : ¬ FirstWins piles := by
     rintro ⟨k, hk, hw⟩
@@ -113,7 +113,7 @@ theorem proof_of_solver_return_wit_3 : solver_return_wit_3 := by
 theorem proof_of_solver_return_wit_4 : solver_return_wit_4 := by
   unfold solver_return_wit_4
   right
-  intro n piles c h1 h2 h3 h4 h5 h6 h7 h8
+  intro piles n c h1 h2 h3 h4 h5 h6 h7 h8
   have ho := odd_of_nonnegative_rem_nonzero__return_semantics n (by omega) (by omega)
   have hw : FirstWins piles := ⟨c, h8, Or.inl ⟨by omega, by rwa [h2]⟩⟩
   have hs : Spec piles 1 := Or.inl ⟨rfl, hw⟩

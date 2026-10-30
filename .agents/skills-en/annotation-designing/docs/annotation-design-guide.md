@@ -69,6 +69,8 @@ Common interfaces:
 | minima and maxima | min_value_of_subset and max_value_of_subset from MaxMinLib |
 | graphs | valid_vpath, reachable |
 | zero or more relation steps | clos_refl_trans |
+| growable vectors (length, capacity, element-buffer pointer) and arrays of them | DynVec, VecArray from Rocq/examples/Applications_human/dynvec_lib.v; the instances Veci, Vecp, VecpArray when the C includes vec_qcp.h |
+| literals, clauses, CNF, satisfiability, and SAT/CDCL solver state | literal, clause, cnf, models, cnf_sat, cnf_unsat, cdcl_view from CDCLLib |
 
 Use one existing interface for each kind of property throughout a case. Do not add a second monotonicity definition for annotation convenience.
 

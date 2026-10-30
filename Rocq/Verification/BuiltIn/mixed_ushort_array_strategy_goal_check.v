@@ -1,0 +1,5 @@
+From SimpleC.Verification.BuiltIn Require Import mixed_ushort_array_strategy_goal mixed_ushort_array_strategy_proof.
+
+Module mixed_ushort_array_Strategy_Correctness : mixed_ushort_array_Strategy_Correct.
+  Include mixed_ushort_array_strategy_proof.
+End mixed_ushort_array_Strategy_Correctness.

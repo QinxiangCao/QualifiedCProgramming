@@ -40,8 +40,6 @@
 
 /*@ include strategies "array2.strategies" */
 /*@ include strategies "array2_char.strategies" */
-/*@ include strategies "int_array.strategies" */
-/*@ include strategies "char_array.strategies" */
 /*@ include strategies "array2_ext.strategies" */
 
 

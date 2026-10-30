@@ -57,7 +57,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def chars_initialize_safety_wit_1 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (a_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
+  forall (a_pre : Int) (n_pre : Int) (m_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -68,7 +68,7 @@ noncomputable def chars_initialize_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def chars_initialize_safety_wit_2 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (a_pre : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((0 : Int) <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
+  forall (a_pre : Int) (n_pre : Int) (m_pre : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((0 : Int) <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
   (charArray.full a_pre (i + 1) ((repeat_Z (m_pre) (i)) ++ (m_pre :: (@List.nil Int))))
   ** (charArray.undef_seg a_pre (i + 1) n_pre)
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -81,7 +81,7 @@ noncomputable def chars_initialize_safety_wit_2 : Prop :=
 
 noncomputable def chars_initialize_entail_wit_1 : Prop :=
   (
-forall (m_pre : Int) (n_pre : Int) (a_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
+forall (a_pre : Int) (n_pre : Int) (m_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   (charArray.undef_full a_pre n_pre)
 |--
   “ ((0 : Int) <= (0 : Int)) ” &&
@@ -92,7 +92,7 @@ forall (m_pre : Int) (n_pre : Int) (a_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) 
   ** (charArray.undef_seg a_pre (0 : Int) n_pre)
 ) \/
 (
-forall (m_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
+forall (n_pre : Int) (m_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   TT && emp 
 |--
   “ ((repeat_Z (m_pre) ((0 : Int))) = (@List.nil Int)) ”
@@ -100,12 +100,12 @@ forall (m_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pr
 )
 
 noncomputable def chars_initialize_entail_wit_1_split_goal_1 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
+  forall (n_pre : Int) (m_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   ((repeat_Z (m_pre) ((0 : Int))) = (@List.nil Int))
 
 noncomputable def chars_initialize_entail_wit_2 : Prop :=
   (
-forall (m_pre : Int) (n_pre : Int) (a_pre : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((0 : Int) <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
+forall (a_pre : Int) (n_pre : Int) (m_pre : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((0 : Int) <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
   (charArray.full a_pre (i + 1) ((repeat_Z (m_pre) (i)) ++ (m_pre :: (@List.nil Int))))
   ** (charArray.undef_seg a_pre (i + 1) n_pre)
 |--
@@ -117,7 +117,7 @@ forall (m_pre : Int) (n_pre : Int) (a_pre : Int) (i : Int) (PreH1 : (i < n_pre))
   ** (charArray.undef_seg a_pre (i + 1) n_pre)
 ) \/
 (
-forall (m_pre : Int) (n_pre : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((0 : Int) <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
+forall (n_pre : Int) (m_pre : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((0 : Int) <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
   TT && emp 
 |--
   “ (((repeat_Z (m_pre) (i)) ++ (m_pre :: (@List.nil Int))) = (repeat_Z (m_pre) ((i + 1)))) ”
@@ -125,32 +125,32 @@ forall (m_pre : Int) (n_pre : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : ((0 
 )
 
 noncomputable def chars_initialize_entail_wit_2_split_goal_1 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((0 : Int) <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
+  forall (n_pre : Int) (m_pre : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((0 : Int) <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
   (((repeat_Z (m_pre) (i)) ++ (m_pre :: (@List.nil Int))) = (repeat_Z (m_pre) ((i + 1))))
 
 noncomputable def chars_initialize_return_wit_1 : Prop :=
   (
-forall (m_pre : Int) (n_pre : Int) (a_pre : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((0 : Int) <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
+forall (a_pre : Int) (n_pre : Int) (m_pre : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((0 : Int) <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
   (charArray.full a_pre i (repeat_Z (m_pre) (i)))
   ** (charArray.undef_seg a_pre i n_pre)
 |--
   (charArray.full a_pre n_pre (repeat_Z (m_pre) (n_pre)))
 ) \/
 (
-forall (m_pre : Int) (n_pre : Int) (a_pre : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((0 : Int) <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
+forall (a_pre : Int) (n_pre : Int) (m_pre : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((0 : Int) <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
   (charArray.full a_pre i (repeat_Z (m_pre) (i)))
 |--
   (charArray.full a_pre n_pre (repeat_Z (m_pre) (n_pre)))
 )
 
 noncomputable def chars_initialize_return_wit_1_split_goal_spatial : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (a_pre : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((0 : Int) <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
+  forall (a_pre : Int) (n_pre : Int) (m_pre : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((0 : Int) <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
   (charArray.full a_pre i (repeat_Z (m_pre) (i)))
 |--
   (charArray.full a_pre n_pre (repeat_Z (m_pre) (n_pre)))
 
 noncomputable def chars_initialize_partial_solve_wit_1 : Prop :=
-  forall (m_pre : Int) (n_pre : Int) (a_pre : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((0 : Int) <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
+  forall (a_pre : Int) (n_pre : Int) (m_pre : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((0 : Int) <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
   (charArray.full a_pre i (repeat_Z (m_pre) (i)))
   ** (charArray.undef_seg a_pre i n_pre)
 |--

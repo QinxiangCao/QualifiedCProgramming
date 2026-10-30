@@ -112,8 +112,7 @@ static int solver(const char grid[][105], int r, int c)/* QCP_INSERT_BEGIN:P029_
                     WallColumnsDuringRow(grid_data, i, j, occupied_data) &&
                     cell == Znth(j, Znth(i, grid_data, nil), 0) &&
                     Znth(j, Znth(i, grid_mem, nil), None) == Some(cell) &&
-                    store(pointer_offset(grid@pre + i, j,
-                                         sizeof(char), signed char),
+                    store(pointer_offset(grid@pre + i, j, signed char),
                           char, cell) *
                     CharArray::mixed_missing_i(grid@pre + i, j, 0, 105,
                                                 Znth(i, grid_mem, nil)) *

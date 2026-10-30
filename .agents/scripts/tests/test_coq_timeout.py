@@ -13,8 +13,8 @@ import coq_tooling_common
 def test_shared_deadline_default_and_override(monkeypatch):
     monkeypatch.setattr(coq_tooling_common.time, "monotonic", lambda: 100)
     monkeypatch.delenv("QCP_COQ_TIMEOUT_SECONDS", raising=False)
-    assert coq_tooling_common.command_deadline(None) == 1000
-    assert coq_tooling_common.command_deadline(7200) == 1000
+    assert coq_tooling_common.command_deadline(None) == 1900
+    assert coq_tooling_common.command_deadline(7200) == 1900
     monkeypatch.setenv("QCP_COQ_TIMEOUT_SECONDS", "3600")
     assert coq_tooling_common.command_deadline(None) == 3700
     assert coq_tooling_common.command_deadline(7200) == 3700

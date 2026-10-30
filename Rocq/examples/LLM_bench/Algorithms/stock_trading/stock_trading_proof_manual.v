@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.stock_trading Require Import stock_trading_goal.
 From SimpleC.EE.LLM_bench.Algorithms.stock_trading Require Import stock_trading_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.stock_trading.stock_trading_lib.
 Local Open Scope sac.
@@ -434,8 +418,6 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_maximum_profit_safety_wit_70_split_goal_1.
   - Goal_apply proof_of_maximum_profit_safety_wit_70_split_goal_2.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_safety_wit_80_split_goal_1 : maximum_profit_safety_wit_80_split_goal_1.
@@ -487,8 +469,6 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_maximum_profit_safety_wit_80_split_goal_1.
   - Goal_apply proof_of_maximum_profit_safety_wit_80_split_goal_2.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_safety_wit_88_split_goal_1 : maximum_profit_safety_wit_88_split_goal_1.
@@ -540,8 +520,6 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_maximum_profit_safety_wit_88_split_goal_1.
   - Goal_apply proof_of_maximum_profit_safety_wit_88_split_goal_2.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_safety_wit_96_split_goal_1 : maximum_profit_safety_wit_96_split_goal_1.
@@ -593,8 +571,6 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_maximum_profit_safety_wit_96_split_goal_1.
   - Goal_apply proof_of_maximum_profit_safety_wit_96_split_goal_2.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_safety_wit_109_split_goal_1 : maximum_profit_safety_wit_109_split_goal_1.
@@ -646,8 +622,6 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_maximum_profit_safety_wit_109_split_goal_1.
   - Goal_apply proof_of_maximum_profit_safety_wit_109_split_goal_2.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_safety_wit_111_split_goal_1 : maximum_profit_safety_wit_111_split_goal_1.
@@ -699,8 +673,6 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_maximum_profit_safety_wit_111_split_goal_1.
   - Goal_apply proof_of_maximum_profit_safety_wit_111_split_goal_2.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_safety_wit_129_split_goal_1 : maximum_profit_safety_wit_129_split_goal_1.
@@ -746,8 +718,6 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_maximum_profit_safety_wit_129_split_goal_1.
   - Goal_apply proof_of_maximum_profit_safety_wit_129_split_goal_2.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_safety_wit_139_split_goal_1 : maximum_profit_safety_wit_139_split_goal_1.
@@ -797,8 +767,6 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_maximum_profit_safety_wit_139_split_goal_1.
   - Goal_apply proof_of_maximum_profit_safety_wit_139_split_goal_2.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_safety_wit_147_split_goal_1 : maximum_profit_safety_wit_147_split_goal_1.
@@ -848,8 +816,6 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_maximum_profit_safety_wit_147_split_goal_1.
   - Goal_apply proof_of_maximum_profit_safety_wit_147_split_goal_2.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_safety_wit_155_split_goal_1 : maximum_profit_safety_wit_155_split_goal_1.
@@ -899,8 +865,6 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_maximum_profit_safety_wit_155_split_goal_1.
   - Goal_apply proof_of_maximum_profit_safety_wit_155_split_goal_2.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_safety_wit_168_split_goal_1 : maximum_profit_safety_wit_168_split_goal_1.
@@ -950,8 +914,6 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_maximum_profit_safety_wit_168_split_goal_1.
   - Goal_apply proof_of_maximum_profit_safety_wit_168_split_goal_2.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_safety_wit_170_split_goal_1 : maximum_profit_safety_wit_170_split_goal_1.
@@ -1001,8 +963,6 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_maximum_profit_safety_wit_170_split_goal_1.
   - Goal_apply proof_of_maximum_profit_safety_wit_170_split_goal_2.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_1 : maximum_profit_entail_wit_1.
@@ -1035,9 +995,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_4 : maximum_profit_entail_wit_4.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maximum_profit_entail_wit_4_split_goal_1.
-
-  all: try stock_finish.
+  - Goal_apply proof_of_maximum_profit_entail_wit_4_split_goal_1.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_5_split_goal_1 : maximum_profit_entail_wit_5_split_goal_1.
@@ -1060,9 +1018,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_5 : maximum_profit_entail_wit_5.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maximum_profit_entail_wit_5_split_goal_1.
-
-  all: try stock_finish.
+  - Goal_apply proof_of_maximum_profit_entail_wit_5_split_goal_1.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_6_split_goal_1 : maximum_profit_entail_wit_6_split_goal_1.
@@ -1110,8 +1066,6 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_maximum_profit_entail_wit_6_split_goal_1.
   - Goal_apply proof_of_maximum_profit_entail_wit_6_split_goal_2.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_7_1 : maximum_profit_entail_wit_7_1.
@@ -1313,9 +1267,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_8 : maximum_profit_entail_wit_8.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maximum_profit_entail_wit_8_split_goal_1.
-
-  all: try stock_finish.
+  - Goal_apply proof_of_maximum_profit_entail_wit_8_split_goal_1.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_9_split_goal_1 : maximum_profit_entail_wit_9_split_goal_1.
@@ -1391,8 +1343,6 @@ Proof.
   - Goal_apply proof_of_maximum_profit_entail_wit_9_split_goal_1.
   - Goal_apply proof_of_maximum_profit_entail_wit_9_split_goal_2.
   - Goal_apply proof_of_maximum_profit_entail_wit_9_split_goal_3.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_10_split_goal_1 : maximum_profit_entail_wit_10_split_goal_1.
@@ -1413,9 +1363,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_10 : maximum_profit_entail_wit_10.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maximum_profit_entail_wit_10_split_goal_1.
-
-  all: try stock_finish.
+  - Goal_apply proof_of_maximum_profit_entail_wit_10_split_goal_1.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_11 : maximum_profit_entail_wit_11.
@@ -1659,8 +1607,6 @@ Proof.
   - Goal_apply proof_of_maximum_profit_entail_wit_13_split_goal_5.
   - Goal_apply proof_of_maximum_profit_entail_wit_13_split_goal_6.
   - Goal_apply proof_of_maximum_profit_entail_wit_13_split_goal_7.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_14_1 : maximum_profit_entail_wit_14_1.
@@ -1894,8 +1840,6 @@ Proof.
   - Goal_apply proof_of_maximum_profit_entail_wit_15_split_goal_4.
   - Goal_apply proof_of_maximum_profit_entail_wit_15_split_goal_5.
   - Goal_apply proof_of_maximum_profit_entail_wit_15_split_goal_6.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_16_split_goal_1 : maximum_profit_entail_wit_16_split_goal_1.
@@ -1922,9 +1866,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_16 : maximum_profit_entail_wit_16.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maximum_profit_entail_wit_16_split_goal_1.
-
-  all: try stock_finish.
+  - Goal_apply proof_of_maximum_profit_entail_wit_16_split_goal_1.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_17_split_goal_1 : maximum_profit_entail_wit_17_split_goal_1.
@@ -1954,9 +1896,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_17 : maximum_profit_entail_wit_17.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maximum_profit_entail_wit_17_split_goal_1.
-
-  all: try stock_finish.
+  - Goal_apply proof_of_maximum_profit_entail_wit_17_split_goal_1.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_18_1_split_goal_1 : maximum_profit_entail_wit_18_1_split_goal_1.
@@ -1981,9 +1921,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_18_1 : maximum_profit_entail_wit_18_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maximum_profit_entail_wit_18_1_split_goal_1.
-
-  all: try stock_finish.
+  - Goal_apply proof_of_maximum_profit_entail_wit_18_1_split_goal_1.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_18_2_split_goal_1 : maximum_profit_entail_wit_18_2_split_goal_1.
@@ -2035,8 +1973,6 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_maximum_profit_entail_wit_18_2_split_goal_1.
   - Goal_apply proof_of_maximum_profit_entail_wit_18_2_split_goal_2.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_19_1 : maximum_profit_entail_wit_19_1.
@@ -2547,8 +2483,6 @@ Proof.
   - Goal_apply proof_of_maximum_profit_entail_wit_23_split_goal_2.
   - Goal_apply proof_of_maximum_profit_entail_wit_23_split_goal_3.
   - Goal_apply proof_of_maximum_profit_entail_wit_23_split_goal_4.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_24 : maximum_profit_entail_wit_24.
@@ -3208,8 +3142,6 @@ Proof.
   - Goal_apply proof_of_maximum_profit_entail_wit_25_3_split_goal_4.
   - Goal_apply proof_of_maximum_profit_entail_wit_25_3_split_goal_5.
   - Goal_apply proof_of_maximum_profit_entail_wit_25_3_split_goal_6.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_26_split_goal_1 : maximum_profit_entail_wit_26_split_goal_1.
@@ -3359,8 +3291,6 @@ Proof.
   - Goal_apply proof_of_maximum_profit_entail_wit_26_split_goal_4.
   - Goal_apply proof_of_maximum_profit_entail_wit_26_split_goal_5.
   - Goal_apply proof_of_maximum_profit_entail_wit_26_split_goal_6.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_27_split_goal_1 : maximum_profit_entail_wit_27_split_goal_1.
@@ -3382,9 +3312,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_27 : maximum_profit_entail_wit_27.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maximum_profit_entail_wit_27_split_goal_1.
-
-  all: try stock_finish.
+  - Goal_apply proof_of_maximum_profit_entail_wit_27_split_goal_1.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_28_split_goal_1 : maximum_profit_entail_wit_28_split_goal_1.
@@ -3449,9 +3377,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_28 : maximum_profit_entail_wit_28.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maximum_profit_entail_wit_28_split_goal_1.
-
-  all: try stock_finish.
+  - Goal_apply proof_of_maximum_profit_entail_wit_28_split_goal_1.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_29_1_split_goal_1 : maximum_profit_entail_wit_29_1_split_goal_1.
@@ -3491,9 +3417,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_29_1 : maximum_profit_entail_wit_29_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maximum_profit_entail_wit_29_1_split_goal_1.
-
-  all: try stock_finish.
+  - Goal_apply proof_of_maximum_profit_entail_wit_29_1_split_goal_1.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_29_2_split_goal_1 : maximum_profit_entail_wit_29_2_split_goal_1.
@@ -3537,9 +3461,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_29_2 : maximum_profit_entail_wit_29_2.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maximum_profit_entail_wit_29_2_split_goal_1.
-
-  all: try stock_finish.
+  - Goal_apply proof_of_maximum_profit_entail_wit_29_2_split_goal_1.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_30_1 : maximum_profit_entail_wit_30_1.
@@ -4009,8 +3931,6 @@ Proof.
   - Goal_apply proof_of_maximum_profit_entail_wit_34_split_goal_2.
   - Goal_apply proof_of_maximum_profit_entail_wit_34_split_goal_3.
   - Goal_apply proof_of_maximum_profit_entail_wit_34_split_goal_4.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_35 : maximum_profit_entail_wit_35.
@@ -4330,8 +4250,6 @@ Proof.
   - Goal_apply proof_of_maximum_profit_entail_wit_36_3_split_goal_4.
   - Goal_apply proof_of_maximum_profit_entail_wit_36_3_split_goal_5.
   - Goal_apply proof_of_maximum_profit_entail_wit_36_3_split_goal_6.
-
-  all: try stock_finish.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_37_1_split_goal_1 : maximum_profit_entail_wit_37_1_split_goal_1.
@@ -4359,7 +4277,10 @@ Proof.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_37_1 : maximum_profit_entail_wit_37_1.
-Proof. aggressive_pre_process. Goal_apply proof_of_maximum_profit_entail_wit_37_1_split_goal_1. Qed.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_maximum_profit_entail_wit_37_1_split_goal_1.
+Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_37_2_split_goal_1 : maximum_profit_entail_wit_37_2_split_goal_1.
 Proof.
@@ -4379,7 +4300,10 @@ Proof.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_37_2 : maximum_profit_entail_wit_37_2.
-Proof. aggressive_pre_process. Goal_apply proof_of_maximum_profit_entail_wit_37_2_split_goal_1. Qed.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_maximum_profit_entail_wit_37_2_split_goal_1.
+Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_38_split_goal_1 : maximum_profit_entail_wit_38_split_goal_1.
 Proof.
@@ -4400,9 +4324,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_38 : maximum_profit_entail_wit_38.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maximum_profit_entail_wit_38_split_goal_1.
-
-  all: try stock_finish.
+  - Goal_apply proof_of_maximum_profit_entail_wit_38_split_goal_1.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_39_1 : maximum_profit_entail_wit_39_1.
@@ -4561,16 +4483,7 @@ Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_40 : maximum_profit_entail_wit_40.
 Proof.
-  unfold maximum_profit_entail_wit_40. right. intros.
-  apply _derivable1_andp_intros.
-  - exact (proof_of_maximum_profit_entail_wit_40_split_goal_1
-      wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l answer j
-      width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-      PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
-      PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31).
-  - exact (proof_of_maximum_profit_entail_wit_40_split_goal_spatial
-      wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l answer j
-      width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-      PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
-      PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31).
+  aggressive_pre_process.
+  - Goal_apply proof_of_maximum_profit_entail_wit_40_split_goal_spatial.
+  - Goal_apply proof_of_maximum_profit_entail_wit_40_split_goal_1.
 Qed.

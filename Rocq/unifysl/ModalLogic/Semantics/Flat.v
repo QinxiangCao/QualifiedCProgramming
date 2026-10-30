@@ -59,7 +59,7 @@ Defined.
 
 End SemanticsMono.
 
-Class FlatModalSemantics (L: Language) {minL: MinimumLanguage L} {mL: ModalLanguage L} (MD: Model) {kMD: KripkeModel MD} (M: Kmodel) {R1: KI.Relation (Kworlds M)} {R2: KM.Relation (Kworlds M)} (SM: Semantics L MD) : Type := {
+Class FlatModalSemantics (L: Language) {minL: MinimumLanguage L} {mL: ModalLanguage L} (MD: Model) {kMD: KripkeModel MD} (M: Kmodel) {R1: KI.Relation (Kworlds M)} {R2: KM.Relation (Kworlds M)} (SM: Semantics L MD) := {
   denote_boxp: forall x, Same_set _ (Kdenotation M (boxp x)) (Semantics.boxp (Kdenotation M x))
 }.
 

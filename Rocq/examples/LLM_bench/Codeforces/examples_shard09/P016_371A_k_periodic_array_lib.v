@@ -387,7 +387,7 @@ Proof.
   destruct (prop_dec (x < Zlength a /\
              x < upto /\ Z.modulo x k = r /\ Znth x a 0 = value)) as [HP | HnP];
   destruct (prop_dec (x < upto /\ Z.modulo x k = r /\ Znth x a 0 = value)) as [HQ | HnQ];
-  try reflexivity; exfalso; intuition.
+  try reflexivity; exfalso; intuition (auto with *).
 Qed.
 Lemma two_disjoint_indicators_le_one__residue_accounting :
   forall (P Q : Prop),
@@ -457,7 +457,8 @@ Proof.
   rewrite residue_value_count_as_sum__residue_accounting.
   apply SumLib.ZRange.sum_Z_range_ext.
   intros x Hx.
-  destruct prop_dec; destruct prop_dec; try reflexivity; exfalso; intuition.
+  destruct prop_dec; destruct prop_dec; try reflexivity; exfalso;
+    intuition (auto with *).
 Qed.
 Lemma processed_change_cost_partial_bound__residue_accounting :
   forall k r i a changes ones twos,

@@ -216,7 +216,7 @@ unsigned long long OsSortLinkGetNextExpireTime(const SortLinkAttribute *sortLink
     which implies
     store_dll(storesortedLinkNode(storeA), &(sortLinkHead->sortLink), map(sortedLinkNodeMapping, l))
     */
-    if (LOS_ListEmpty(head)/*@ where (getfirstSpec) storeA = storesortedLinkNode(storeA) , l = map(sortedLinkNodeMapping, l) ; A = sortedLinkNode(A) */) {
+    if (LOS_ListEmpty(head)/*@ where (getfirstSpec) {A = sortedLinkNode(A)} storeA = storesortedLinkNode(storeA) , l = map(sortedLinkNodeMapping, l) */) {
         return 0;
     }
     SortLinkList *listSorted = LOS_DL_LIST_ENTRY(list)/*@ where item = list*/;
@@ -229,5 +229,5 @@ unsigned long long OsSortLinkGetNextExpireTime(const SortLinkAttribute *sortLink
     store(field_addr(h,struct LOS_DL_LIST,pstPrev),struct LOS_DL_LIST *, &(sortLinkHead->sortLink)) *
     dllseg_shift_rev(storesortedLinkNode(storeA), h, &(sortLinkHead->sortLink), map(sortedLinkNodeMapping, l))
     */
-    return OsSortLinkGetTargetExpireTime(OsGetCurrSchedTimeCycle()/*@ where ts = ts, att = att*/, listSorted)/*@ where (lSpec) storeA = storeA, x = &(sortLinkHead->sortLink), l = map(sortedLinkNodeMapping, l); A = A */;
+    return OsSortLinkGetTargetExpireTime(OsGetCurrSchedTimeCycle()/*@ where ts = ts, att = att*/, listSorted)/*@ where (lSpec) {A = A} storeA = storeA, x = &(sortLinkHead->sortLink), l = map(sortedLinkNodeMapping, l) */;
 }

@@ -1,26 +1,10 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.Applications_human.convex_hull Require Import graham_scan_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.convex_hull.convex_hull_lib.
 Require Import SimpleC.EE.QCP_demos_LLM.sll_merge_rel_lib.
 Local Open Scope monad.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
+From AUXLib Require Import relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 From MonadLib.StateRelMonad Require Import StateRelBasic safeexec_lib FixpointLib.
 Local Open Scope sac.
@@ -2458,7 +2442,7 @@ Proof.
       subst pivot0.
       simpl.
       replace (pts_pre + 0) with pts_pre by lia.
-      rewrite sizeof_Point_eq.
+      rewrite sizeof_point.
       simpl.
       cancel.
   - repeat split_pures; dump_pre_spatial;
@@ -2562,7 +2546,7 @@ Proof.
       subst pivot0.
       simpl.
       replace (pts_pre + 0) with pts_pre by lia.
-      rewrite sizeof_Point_eq.
+      rewrite sizeof_point.
       simpl.
       cancel.
   - repeat split_pures; dump_pre_spatial;
@@ -2817,8 +2801,10 @@ Proof.
   end.
 Qed.
 
-Lemma proof_of_build_hull_from_sorted_tail_derive_high_level_spec_by_low_level_spec : build_hull_from_sorted_tail_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_build_hull_from_sorted_tail_low_level_spec_entail_high_level_spec : build_hull_from_sorted_tail_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold build_hull_from_sorted_tail_low_level_spec_entail_high_level_spec.
+  intros pivot_pre sorted_tail_pre tail_n_pre hull_pre pivot0_high_level_spec l_high_level_spec.
   LLM_pre_process ltac:(int_auto).
   (** kmp_rel_proof_manual L569 *)
   (** Hoare_safeexec_compose *)
@@ -2829,14 +2815,15 @@ Proof.
   - cancel (store_point pivot_pre pivot0_high_level_spec).
     cancel (PointArray.full sorted_tail_pre tail_n_pre l_high_level_spec).
     cancel (PointArray.undef_full hull_pre (tail_n_pre + 1)).
+    Intros_r retval.
     apply derivable1_wand_sepcon_adjoint.
-    Intros stk. Intros retval_2.
-    Exists (rev stk) retval_2.
+    Intros stk. Intros.
+    Exists (rev stk).
     repeat (split_pure_spatial || split_pures).
     + cancel (store_point pivot_pre pivot0_high_level_spec).
       cancel (PointArray.full sorted_tail_pre tail_n_pre l_high_level_spec).
-      cancel (PointArray.seg hull_pre 0 retval_2 (rev stk)).
-      cancel (PointArray.undef_seg hull_pre retval_2 (tail_n_pre + 1)).
+      cancel (PointArray.seg hull_pre 0 retval (rev stk)).
+      cancel (PointArray.undef_seg hull_pre retval (tail_n_pre + 1)).
     + dump_pre_spatial. exact H6.
     + dump_pre_spatial. exact H7.
     + dump_pre_spatial. exact H8.

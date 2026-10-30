@@ -134,19 +134,19 @@ forall (n_pre : Int) (current : (List Int)) (i : Int) (PreH1 : (i > n_pre)) (Pre
 
 theorem proof_of_solve_entail_wit_1_split_goal_1 : solve_entail_wit_1_split_goal_1 := by
   unfold solve_entail_wit_1_split_goal_1
-  intro n_pre initial PreH1 PreH2 PreH3
+  intro initial n_pre PreH1 PreH2 PreH3
   apply SieveInitPrefix_start__sieve_invariants
   all_goals first | assumption | omega
 
 theorem proof_of_solve_entail_wit_1 : solve_entail_wit_1 := by
   unfold solve_entail_wit_1
   right
-  intro n_pre initial PreH1 PreH2 PreH3
+  intro initial n_pre PreH1 PreH2 PreH3
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | exact proof_of_solve_entail_wit_1_split_goal_1 n_pre initial PreH1 PreH2 PreH3
-    | Goal_apply (proof_of_solve_entail_wit_1_split_goal_1 n_pre initial PreH1 PreH2 PreH3)
+    | exact proof_of_solve_entail_wit_1_split_goal_1 initial n_pre PreH1 PreH2 PreH3
+    | Goal_apply (proof_of_solve_entail_wit_1_split_goal_1 initial n_pre PreH1 PreH2 PreH3)
 
 theorem proof_of_solve_entail_wit_2_split_goal_1 : solve_entail_wit_2_split_goal_1 := by
   unfold solve_entail_wit_2_split_goal_1

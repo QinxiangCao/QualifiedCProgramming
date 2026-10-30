@@ -279,7 +279,8 @@ Lemma sllbseg_append_sllbseg: forall x pt1 l1 h2 pt2 a l2,
 Proof.
   intros. revert x. induction l1; simpl; intros.
   + Intros. subst x. Exists h2. entailer!.
-  + Intros u. Exists u. sep_apply IHl1. entailer!.
+  + Intros u. Exists u.
+    sep_apply IHl1. entailer!.
 Qed.
 
 (* ================================================================

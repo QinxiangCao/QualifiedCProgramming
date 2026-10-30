@@ -207,7 +207,7 @@ void sort(int *a, int n)
                 1 <= Znth(digit, counters, 0) &&
                 Znth(digit, counters, 0) <= n@pre &&
                 IntArray::full(a, n@pre, current) *
-                store(pointer_offset(count, digit, sizeof(int), int), int, Znth(digit, counters, 0)) *
+                store(pointer_offset(count, digit, int), int, Znth(digit, counters, 0)) *
                 IntArray::missing_i(count, digit, 0, 10, counters) *
                 IntArray::mixed_full(output, 1000, mixed_output)
              */

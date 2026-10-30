@@ -791,4 +791,3 @@ Definition Derivable12Provable_Normal {GammaD1: Derivable1 L}:
     L minL Derivable12Provable GammaD1 (fun _ => iff_refl _).
 
 End Transformation.
-

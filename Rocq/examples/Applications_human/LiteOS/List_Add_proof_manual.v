@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.Applications_human.LiteOS Require Import List_Add_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.glob_vars_and_defs.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.sortlink.
@@ -73,7 +58,7 @@ Proof.
     cancel (&( pt # "LOS_DL_LIST" ->ₛ "pstNext") # Ptr |-> list).
 Qed. 
 
-Lemma proof_of_LOS_ListAdd_derive_high_level_spec_by_low_level_spec : LOS_ListAdd_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_LOS_ListAdd_low_level_spec_entail_high_level_spec : LOS_ListAdd_low_level_spec_entail_high_level_spec.
 Proof. 
     LLM_pre_process ltac:(int_auto).
     Intros un pu.

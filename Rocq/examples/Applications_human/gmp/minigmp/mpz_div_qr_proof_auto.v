@@ -1,0 +1,1038 @@
+From SimpleC.Verification Require Import VCPrelude.
+From SimpleC.EE.Applications_human.gmp.minigmp Require Import mpz_div_qr_goal.
+Import naive_C_Rules.
+Require Import SimpleC.EE.Applications_human.gmp.minigmp.gmp_lib.
+Local Open Scope sac.
+
+Lemma proof_of_mpz_div_qr_safety_wit_1_nonalias : mpz_div_qr_safety_wit_1_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_2_r_eq_n : mpz_div_qr_safety_wit_2_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_3_r_eq_n_read0 : mpz_div_qr_safety_wit_3_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_4_nonalias : mpz_div_qr_safety_wit_4_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_5_r_eq_n : mpz_div_qr_safety_wit_5_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_6_r_eq_n_read0 : mpz_div_qr_safety_wit_6_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_7_r_eq_n : mpz_div_qr_safety_wit_7_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_8_r_eq_n_read0 : mpz_div_qr_safety_wit_8_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_9_r_eq_n : mpz_div_qr_safety_wit_9_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_10_r_eq_n_read0 : mpz_div_qr_safety_wit_10_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_11_nonalias : mpz_div_qr_safety_wit_11_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_12_r_eq_n : mpz_div_qr_safety_wit_12_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_13_r_eq_n_read0 : mpz_div_qr_safety_wit_13_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_14_nonalias : mpz_div_qr_safety_wit_14_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_15_r_eq_n : mpz_div_qr_safety_wit_15_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_16_r_eq_n_read0 : mpz_div_qr_safety_wit_16_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_17_nonalias : mpz_div_qr_safety_wit_17_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_18_r_eq_n : mpz_div_qr_safety_wit_18_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_19_r_eq_n_read0 : mpz_div_qr_safety_wit_19_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_20_nonalias : mpz_div_qr_safety_wit_20_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_21_r_eq_n : mpz_div_qr_safety_wit_21_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_22_r_eq_n_read0 : mpz_div_qr_safety_wit_22_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_23_nonalias : mpz_div_qr_safety_wit_23_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_24_nonalias : mpz_div_qr_safety_wit_24_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_25_nonalias : mpz_div_qr_safety_wit_25_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_26_r_eq_n : mpz_div_qr_safety_wit_26_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_27_r_eq_n_read0 : mpz_div_qr_safety_wit_27_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_28_nonalias : mpz_div_qr_safety_wit_28_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_29_r_eq_n : mpz_div_qr_safety_wit_29_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_30_r_eq_n_read0 : mpz_div_qr_safety_wit_30_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_31_r_eq_n_read0 : mpz_div_qr_safety_wit_31_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_32_r_eq_n : mpz_div_qr_safety_wit_32_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_33_nonalias : mpz_div_qr_safety_wit_33_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_34_r_eq_n_read0 : mpz_div_qr_safety_wit_34_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_35_r_eq_n : mpz_div_qr_safety_wit_35_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_36_nonalias : mpz_div_qr_safety_wit_36_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_37_r_eq_n : mpz_div_qr_safety_wit_37_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_38_r_eq_n_read0 : mpz_div_qr_safety_wit_38_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_39_nonalias : mpz_div_qr_safety_wit_39_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_40_r_eq_n : mpz_div_qr_safety_wit_40_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_41_r_eq_n_read0 : mpz_div_qr_safety_wit_41_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_42_nonalias : mpz_div_qr_safety_wit_42_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_43_nonalias : mpz_div_qr_safety_wit_43_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_44_r_eq_n : mpz_div_qr_safety_wit_44_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_45_r_eq_n_read0 : mpz_div_qr_safety_wit_45_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_46_nonalias : mpz_div_qr_safety_wit_46_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_47_nonalias : mpz_div_qr_safety_wit_47_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_48_r_eq_n : mpz_div_qr_safety_wit_48_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_49_r_eq_n_read0 : mpz_div_qr_safety_wit_49_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_50_nonalias : mpz_div_qr_safety_wit_50_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_53_nonalias : mpz_div_qr_safety_wit_53_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_56_r_eq_n : mpz_div_qr_safety_wit_56_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_59_r_eq_n_read0 : mpz_div_qr_safety_wit_59_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_60_nonalias : mpz_div_qr_safety_wit_60_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_61_r_eq_n : mpz_div_qr_safety_wit_61_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_62_r_eq_n_read0 : mpz_div_qr_safety_wit_62_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_63_nonalias_q : mpz_div_qr_safety_wit_63_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_64_r_eq_n_q : mpz_div_qr_safety_wit_64_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_65_r_eq_n_read0_q : mpz_div_qr_safety_wit_65_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_66_nonalias_noq : mpz_div_qr_safety_wit_66_nonalias_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_67_r_eq_n_noq : mpz_div_qr_safety_wit_67_r_eq_n_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_68_r_eq_n_read0_noq : mpz_div_qr_safety_wit_68_r_eq_n_read0_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_69_nonalias_q : mpz_div_qr_safety_wit_69_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_70_r_eq_n_q : mpz_div_qr_safety_wit_70_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_71_r_eq_n_read0_q : mpz_div_qr_safety_wit_71_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_72_nonalias_noq : mpz_div_qr_safety_wit_72_nonalias_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_73_r_eq_n_noq : mpz_div_qr_safety_wit_73_r_eq_n_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_74_r_eq_n_read0_noq : mpz_div_qr_safety_wit_74_r_eq_n_read0_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_75_nonalias_q : mpz_div_qr_safety_wit_75_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_76_r_eq_n_q : mpz_div_qr_safety_wit_76_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_77_r_eq_n_read0_q : mpz_div_qr_safety_wit_77_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_78_nonalias_noq : mpz_div_qr_safety_wit_78_nonalias_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_79_r_eq_n_noq : mpz_div_qr_safety_wit_79_r_eq_n_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_80_r_eq_n_read0_noq : mpz_div_qr_safety_wit_80_r_eq_n_read0_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_81_nonalias_q : mpz_div_qr_safety_wit_81_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_82_nonalias_q : mpz_div_qr_safety_wit_82_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_83_nonalias_q : mpz_div_qr_safety_wit_83_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_84_nonalias_q : mpz_div_qr_safety_wit_84_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_85_nonalias_q : mpz_div_qr_safety_wit_85_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_86_r_eq_n_q : mpz_div_qr_safety_wit_86_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_87_r_eq_n_q : mpz_div_qr_safety_wit_87_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_88_r_eq_n_q : mpz_div_qr_safety_wit_88_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_89_r_eq_n_q : mpz_div_qr_safety_wit_89_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_90_r_eq_n_q : mpz_div_qr_safety_wit_90_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_91_r_eq_n_read0_q : mpz_div_qr_safety_wit_91_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_92_r_eq_n_read0_q : mpz_div_qr_safety_wit_92_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_93_r_eq_n_read0_q : mpz_div_qr_safety_wit_93_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_94_r_eq_n_read0_q : mpz_div_qr_safety_wit_94_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_95_r_eq_n_read0_q : mpz_div_qr_safety_wit_95_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_96_nonalias_q : mpz_div_qr_safety_wit_96_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_97_nonalias_q : mpz_div_qr_safety_wit_97_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_98_nonalias_q : mpz_div_qr_safety_wit_98_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_99_nonalias_q : mpz_div_qr_safety_wit_99_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_100_r_eq_n_q : mpz_div_qr_safety_wit_100_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_101_r_eq_n_q : mpz_div_qr_safety_wit_101_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_102_r_eq_n_q : mpz_div_qr_safety_wit_102_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_103_r_eq_n_q : mpz_div_qr_safety_wit_103_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_104_r_eq_n_read0_q : mpz_div_qr_safety_wit_104_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_105_r_eq_n_read0_q : mpz_div_qr_safety_wit_105_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_106_r_eq_n_read0_q : mpz_div_qr_safety_wit_106_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_107_r_eq_n_read0_q : mpz_div_qr_safety_wit_107_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_108_nonalias_q_done : mpz_div_qr_safety_wit_108_nonalias_q_done.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_109_nonalias_q_done : mpz_div_qr_safety_wit_109_nonalias_q_done.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_110_r_eq_n_q_done : mpz_div_qr_safety_wit_110_r_eq_n_q_done.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_111_r_eq_n_q_done : mpz_div_qr_safety_wit_111_r_eq_n_q_done.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_112_r_eq_n_read0_q_done : mpz_div_qr_safety_wit_112_r_eq_n_read0_q_done.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_113_r_eq_n_read0_q_done : mpz_div_qr_safety_wit_113_r_eq_n_read0_q_done.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_114_nonalias_noq : mpz_div_qr_safety_wit_114_nonalias_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_115_nonalias_noq : mpz_div_qr_safety_wit_115_nonalias_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_116_r_eq_n_noq : mpz_div_qr_safety_wit_116_r_eq_n_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_117_r_eq_n_noq : mpz_div_qr_safety_wit_117_r_eq_n_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_118_r_eq_n_read0_noq : mpz_div_qr_safety_wit_118_r_eq_n_read0_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_119_r_eq_n_read0_noq : mpz_div_qr_safety_wit_119_r_eq_n_read0_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_120_nonalias_q_rem : mpz_div_qr_safety_wit_120_nonalias_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_121_r_eq_n_q_rem : mpz_div_qr_safety_wit_121_r_eq_n_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_122_r_eq_n_read0_q_rem : mpz_div_qr_safety_wit_122_r_eq_n_read0_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_123_nonalias_noq_rem : mpz_div_qr_safety_wit_123_nonalias_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_124_r_eq_n_noq_rem : mpz_div_qr_safety_wit_124_r_eq_n_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_125_r_eq_n_read0_noq_rem : mpz_div_qr_safety_wit_125_r_eq_n_read0_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_126_nonalias_q_rem : mpz_div_qr_safety_wit_126_nonalias_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_127_r_eq_n_q_rem : mpz_div_qr_safety_wit_127_r_eq_n_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_128_r_eq_n_read0_q_rem : mpz_div_qr_safety_wit_128_r_eq_n_read0_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_129_nonalias_noq_rem : mpz_div_qr_safety_wit_129_nonalias_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_130_r_eq_n_noq_rem : mpz_div_qr_safety_wit_130_r_eq_n_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_131_r_eq_n_read0_noq_rem : mpz_div_qr_safety_wit_131_r_eq_n_read0_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_132_nonalias_q_rem : mpz_div_qr_safety_wit_132_nonalias_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_133_r_eq_n_q_rem : mpz_div_qr_safety_wit_133_r_eq_n_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_134_r_eq_n_read0_q_rem : mpz_div_qr_safety_wit_134_r_eq_n_read0_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_135_nonalias_noq_rem : mpz_div_qr_safety_wit_135_nonalias_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_136_r_eq_n_noq_rem : mpz_div_qr_safety_wit_136_r_eq_n_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_137_r_eq_n_read0_noq_rem : mpz_div_qr_safety_wit_137_r_eq_n_read0_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_138_nonalias_q_rem : mpz_div_qr_safety_wit_138_nonalias_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_139_r_eq_n_q_rem : mpz_div_qr_safety_wit_139_r_eq_n_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_140_r_eq_n_read0_q_rem : mpz_div_qr_safety_wit_140_r_eq_n_read0_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_141_nonalias_noq_rem : mpz_div_qr_safety_wit_141_nonalias_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_142_r_eq_n_noq_rem : mpz_div_qr_safety_wit_142_r_eq_n_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_143_r_eq_n_read0_noq_rem : mpz_div_qr_safety_wit_143_r_eq_n_read0_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_144_nonalias_q_rem : mpz_div_qr_safety_wit_144_nonalias_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_145_r_eq_n_q_rem : mpz_div_qr_safety_wit_145_r_eq_n_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_146_r_eq_n_read0_q_rem : mpz_div_qr_safety_wit_146_r_eq_n_read0_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_147_nonalias_noq_rem : mpz_div_qr_safety_wit_147_nonalias_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_148_r_eq_n_noq_rem : mpz_div_qr_safety_wit_148_r_eq_n_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_149_r_eq_n_read0_noq_rem : mpz_div_qr_safety_wit_149_r_eq_n_read0_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_150_r_eq_n_q_rem : mpz_div_qr_safety_wit_150_r_eq_n_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_151_r_eq_n_read0_q_rem : mpz_div_qr_safety_wit_151_r_eq_n_read0_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_152_r_eq_n_noq_rem : mpz_div_qr_safety_wit_152_r_eq_n_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_153_r_eq_n_read0_noq_rem : mpz_div_qr_safety_wit_153_r_eq_n_read0_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_154_nonalias_done : mpz_div_qr_safety_wit_154_nonalias_done.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_155_r_eq_n_done : mpz_div_qr_safety_wit_155_r_eq_n_done.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_safety_wit_156_r_eq_n_read0_done : mpz_div_qr_safety_wit_156_r_eq_n_read0_done.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_1_nonalias : mpz_div_qr_entail_wit_1_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_2_r_eq_n : mpz_div_qr_entail_wit_2_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_3_r_eq_n_read0 : mpz_div_qr_entail_wit_3_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_7_1_nonalias : mpz_div_qr_entail_wit_7_1_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_7_2_r_eq_n : mpz_div_qr_entail_wit_7_2_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_7_3_r_eq_n_read0 : mpz_div_qr_entail_wit_7_3_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_7_4_nonalias : mpz_div_qr_entail_wit_7_4_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_7_5_r_eq_n : mpz_div_qr_entail_wit_7_5_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_7_6_r_eq_n_read0 : mpz_div_qr_entail_wit_7_6_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_8_1_nonalias : mpz_div_qr_entail_wit_8_1_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_8_2_r_eq_n : mpz_div_qr_entail_wit_8_2_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_8_3_r_eq_n_read0 : mpz_div_qr_entail_wit_8_3_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_9_1_nonalias_q : mpz_div_qr_entail_wit_9_1_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_9_2_nonalias_noq : mpz_div_qr_entail_wit_9_2_nonalias_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_9_3_r_eq_n_q : mpz_div_qr_entail_wit_9_3_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_9_4_r_eq_n_noq : mpz_div_qr_entail_wit_9_4_r_eq_n_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_9_5_r_eq_n_read0_q : mpz_div_qr_entail_wit_9_5_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_9_6_r_eq_n_read0_noq : mpz_div_qr_entail_wit_9_6_r_eq_n_read0_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_10_1_nonalias_q : mpz_div_qr_entail_wit_10_1_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_10_2_nonalias_noq : mpz_div_qr_entail_wit_10_2_nonalias_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_10_3_r_eq_n_q : mpz_div_qr_entail_wit_10_3_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_10_4_r_eq_n_noq : mpz_div_qr_entail_wit_10_4_r_eq_n_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_10_5_r_eq_n_read0_q : mpz_div_qr_entail_wit_10_5_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_10_6_r_eq_n_read0_noq : mpz_div_qr_entail_wit_10_6_r_eq_n_read0_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_17_1_nonalias_q : mpz_div_qr_entail_wit_17_1_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_17_2_r_eq_n_q : mpz_div_qr_entail_wit_17_2_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_17_3_r_eq_n_read0_q : mpz_div_qr_entail_wit_17_3_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_17_4_nonalias_noq : mpz_div_qr_entail_wit_17_4_nonalias_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_17_5_r_eq_n_noq : mpz_div_qr_entail_wit_17_5_r_eq_n_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_17_6_r_eq_n_read0_noq : mpz_div_qr_entail_wit_17_6_r_eq_n_read0_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_18_1_nonalias_q : mpz_div_qr_entail_wit_18_1_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_18_2_r_eq_n_q : mpz_div_qr_entail_wit_18_2_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_18_3_r_eq_n_read0_q : mpz_div_qr_entail_wit_18_3_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_18_4_nonalias_noq : mpz_div_qr_entail_wit_18_4_nonalias_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_18_5_r_eq_n_noq : mpz_div_qr_entail_wit_18_5_r_eq_n_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_18_6_r_eq_n_read0_noq : mpz_div_qr_entail_wit_18_6_r_eq_n_read0_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_22_1_nonalias_q : mpz_div_qr_entail_wit_22_1_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_22_2_nonalias_q : mpz_div_qr_entail_wit_22_2_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_22_3_nonalias_q : mpz_div_qr_entail_wit_22_3_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_22_4_nonalias_q : mpz_div_qr_entail_wit_22_4_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_23_1_r_eq_n_q : mpz_div_qr_entail_wit_23_1_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_23_2_r_eq_n_q : mpz_div_qr_entail_wit_23_2_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_23_3_r_eq_n_q : mpz_div_qr_entail_wit_23_3_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_23_4_r_eq_n_q : mpz_div_qr_entail_wit_23_4_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_24_1_r_eq_n_read0_q : mpz_div_qr_entail_wit_24_1_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_24_2_r_eq_n_read0_q : mpz_div_qr_entail_wit_24_2_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_24_3_r_eq_n_read0_q : mpz_div_qr_entail_wit_24_3_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_24_4_r_eq_n_read0_q : mpz_div_qr_entail_wit_24_4_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_32_1_nonalias_noq : mpz_div_qr_entail_wit_32_1_nonalias_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_32_2_nonalias_noq : mpz_div_qr_entail_wit_32_2_nonalias_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_35_1_r_eq_n_noq : mpz_div_qr_entail_wit_35_1_r_eq_n_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_35_2_r_eq_n_noq : mpz_div_qr_entail_wit_35_2_r_eq_n_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_36_1_r_eq_n_read0_noq : mpz_div_qr_entail_wit_36_1_r_eq_n_read0_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_36_2_r_eq_n_read0_noq : mpz_div_qr_entail_wit_36_2_r_eq_n_read0_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_37_1_nonalias_q_rem : mpz_div_qr_entail_wit_37_1_nonalias_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_37_2_r_eq_n_q_rem : mpz_div_qr_entail_wit_37_2_r_eq_n_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_37_3_r_eq_n_read0_q_rem : mpz_div_qr_entail_wit_37_3_r_eq_n_read0_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_37_4_nonalias_noq_rem : mpz_div_qr_entail_wit_37_4_nonalias_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_37_5_r_eq_n_noq_rem : mpz_div_qr_entail_wit_37_5_r_eq_n_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_37_6_r_eq_n_read0_noq_rem : mpz_div_qr_entail_wit_37_6_r_eq_n_read0_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_38_1_nonalias_q_rem : mpz_div_qr_entail_wit_38_1_nonalias_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_38_2_r_eq_n_q_rem : mpz_div_qr_entail_wit_38_2_r_eq_n_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_38_3_r_eq_n_read0_q_rem : mpz_div_qr_entail_wit_38_3_r_eq_n_read0_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_38_4_nonalias_noq_rem : mpz_div_qr_entail_wit_38_4_nonalias_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_38_5_r_eq_n_noq_rem : mpz_div_qr_entail_wit_38_5_r_eq_n_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_38_6_r_eq_n_read0_noq_rem : mpz_div_qr_entail_wit_38_6_r_eq_n_read0_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_39_1_nonalias_q_rem : mpz_div_qr_entail_wit_39_1_nonalias_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_39_2_r_eq_n_q_rem : mpz_div_qr_entail_wit_39_2_r_eq_n_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_39_3_r_eq_n_read0_q_rem : mpz_div_qr_entail_wit_39_3_r_eq_n_read0_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_39_4_nonalias_noq_rem : mpz_div_qr_entail_wit_39_4_nonalias_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_39_5_r_eq_n_noq_rem : mpz_div_qr_entail_wit_39_5_r_eq_n_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_entail_wit_39_6_r_eq_n_read0_noq_rem : mpz_div_qr_entail_wit_39_6_r_eq_n_read0_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_return_wit_1_nonalias_done : mpz_div_qr_return_wit_1_nonalias_done.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_return_wit_3_r_eq_n_done : mpz_div_qr_return_wit_3_r_eq_n_done.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_return_wit_5_r_eq_n_read0_done : mpz_div_qr_return_wit_5_r_eq_n_read0_done.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_1_nonalias : mpz_div_qr_partial_solve_wit_1_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_2_r_eq_n : mpz_div_qr_partial_solve_wit_2_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_3_r_eq_n_read0 : mpz_div_qr_partial_solve_wit_3_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_4_nonalias : mpz_div_qr_partial_solve_wit_4_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_5_r_eq_n : mpz_div_qr_partial_solve_wit_5_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_6_r_eq_n_read0 : mpz_div_qr_partial_solve_wit_6_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_7_nonalias : mpz_div_qr_partial_solve_wit_7_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_8_r_eq_n : mpz_div_qr_partial_solve_wit_8_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_9_r_eq_n_read0 : mpz_div_qr_partial_solve_wit_9_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_10_nonalias : mpz_div_qr_partial_solve_wit_10_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_11_r_eq_n : mpz_div_qr_partial_solve_wit_11_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_12_r_eq_n_read0 : mpz_div_qr_partial_solve_wit_12_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_13_nonalias : mpz_div_qr_partial_solve_wit_13_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_14_r_eq_n : mpz_div_qr_partial_solve_wit_14_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_15_r_eq_n_read0 : mpz_div_qr_partial_solve_wit_15_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_16_nonalias : mpz_div_qr_partial_solve_wit_16_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_17_r_eq_n : mpz_div_qr_partial_solve_wit_17_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_18_r_eq_n_read0 : mpz_div_qr_partial_solve_wit_18_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_19_nonalias : mpz_div_qr_partial_solve_wit_19_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_20_r_eq_n : mpz_div_qr_partial_solve_wit_20_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_21_r_eq_n_read0 : mpz_div_qr_partial_solve_wit_21_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_22_nonalias : mpz_div_qr_partial_solve_wit_22_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_23_r_eq_n_pure : mpz_div_qr_partial_solve_wit_23_r_eq_n_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_23_r_eq_n : mpz_div_qr_partial_solve_wit_23_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_24_r_eq_n_read0_pure : mpz_div_qr_partial_solve_wit_24_r_eq_n_read0_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_24_r_eq_n_read0 : mpz_div_qr_partial_solve_wit_24_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_25_nonalias : mpz_div_qr_partial_solve_wit_25_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_26_r_eq_n : mpz_div_qr_partial_solve_wit_26_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_27_r_eq_n_read0 : mpz_div_qr_partial_solve_wit_27_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_28_nonalias : mpz_div_qr_partial_solve_wit_28_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_29_nonalias : mpz_div_qr_partial_solve_wit_29_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_30_r_eq_n : mpz_div_qr_partial_solve_wit_30_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_31_r_eq_n_read0 : mpz_div_qr_partial_solve_wit_31_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_32_nonalias : mpz_div_qr_partial_solve_wit_32_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_33_r_eq_n : mpz_div_qr_partial_solve_wit_33_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_34_r_eq_n_read0 : mpz_div_qr_partial_solve_wit_34_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_35_nonalias : mpz_div_qr_partial_solve_wit_35_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_36_r_eq_n : mpz_div_qr_partial_solve_wit_36_r_eq_n.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_37_r_eq_n_read0 : mpz_div_qr_partial_solve_wit_37_r_eq_n_read0.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_38_nonalias_q : mpz_div_qr_partial_solve_wit_38_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_39_r_eq_n_q : mpz_div_qr_partial_solve_wit_39_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_40_r_eq_n_read0_q : mpz_div_qr_partial_solve_wit_40_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_41_nonalias_q_pure : mpz_div_qr_partial_solve_wit_41_nonalias_q_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_41_nonalias_q : mpz_div_qr_partial_solve_wit_41_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_42_r_eq_n_q_pure : mpz_div_qr_partial_solve_wit_42_r_eq_n_q_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_42_r_eq_n_q : mpz_div_qr_partial_solve_wit_42_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_43_r_eq_n_read0_q_pure : mpz_div_qr_partial_solve_wit_43_r_eq_n_read0_q_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_43_r_eq_n_read0_q : mpz_div_qr_partial_solve_wit_43_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_44_nonalias_q_pure : mpz_div_qr_partial_solve_wit_44_nonalias_q_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_44_nonalias_q : mpz_div_qr_partial_solve_wit_44_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_45_r_eq_n_q_pure : mpz_div_qr_partial_solve_wit_45_r_eq_n_q_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_45_r_eq_n_q : mpz_div_qr_partial_solve_wit_45_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_46_r_eq_n_read0_q_pure : mpz_div_qr_partial_solve_wit_46_r_eq_n_read0_q_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_46_r_eq_n_read0_q : mpz_div_qr_partial_solve_wit_46_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_47_nonalias_noq_pure : mpz_div_qr_partial_solve_wit_47_nonalias_noq_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_47_nonalias_noq : mpz_div_qr_partial_solve_wit_47_nonalias_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_48_r_eq_n_noq_pure : mpz_div_qr_partial_solve_wit_48_r_eq_n_noq_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_48_r_eq_n_noq : mpz_div_qr_partial_solve_wit_48_r_eq_n_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_49_r_eq_n_read0_noq_pure : mpz_div_qr_partial_solve_wit_49_r_eq_n_read0_noq_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_49_r_eq_n_read0_noq : mpz_div_qr_partial_solve_wit_49_r_eq_n_read0_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_50_r_eq_n_read0_noq_pure : mpz_div_qr_partial_solve_wit_50_r_eq_n_read0_noq_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_50_r_eq_n_read0_noq : mpz_div_qr_partial_solve_wit_50_r_eq_n_read0_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_51_r_eq_n_noq_pure : mpz_div_qr_partial_solve_wit_51_r_eq_n_noq_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_51_r_eq_n_noq : mpz_div_qr_partial_solve_wit_51_r_eq_n_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_52_nonalias_noq_pure : mpz_div_qr_partial_solve_wit_52_nonalias_noq_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_52_nonalias_noq : mpz_div_qr_partial_solve_wit_52_nonalias_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_53_r_eq_n_read0_q_pure : mpz_div_qr_partial_solve_wit_53_r_eq_n_read0_q_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_53_r_eq_n_read0_q : mpz_div_qr_partial_solve_wit_53_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_54_r_eq_n_q_pure : mpz_div_qr_partial_solve_wit_54_r_eq_n_q_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_54_r_eq_n_q : mpz_div_qr_partial_solve_wit_54_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_55_nonalias_q_pure : mpz_div_qr_partial_solve_wit_55_nonalias_q_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_55_nonalias_q : mpz_div_qr_partial_solve_wit_55_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_56_nonalias_q : mpz_div_qr_partial_solve_wit_56_nonalias_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_57_r_eq_n_q : mpz_div_qr_partial_solve_wit_57_r_eq_n_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_58_r_eq_n_read0_q : mpz_div_qr_partial_solve_wit_58_r_eq_n_read0_q.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_59_nonalias_q_done_pure : mpz_div_qr_partial_solve_wit_59_nonalias_q_done_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_59_nonalias_q_done : mpz_div_qr_partial_solve_wit_59_nonalias_q_done.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_60_r_eq_n_q_done_pure : mpz_div_qr_partial_solve_wit_60_r_eq_n_q_done_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_60_r_eq_n_q_done : mpz_div_qr_partial_solve_wit_60_r_eq_n_q_done.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_61_r_eq_n_read0_q_done_pure : mpz_div_qr_partial_solve_wit_61_r_eq_n_read0_q_done_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_61_r_eq_n_read0_q_done : mpz_div_qr_partial_solve_wit_61_r_eq_n_read0_q_done.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_62_nonalias_noq_pure : mpz_div_qr_partial_solve_wit_62_nonalias_noq_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_62_nonalias_noq : mpz_div_qr_partial_solve_wit_62_nonalias_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_63_r_eq_n_noq_pure : mpz_div_qr_partial_solve_wit_63_r_eq_n_noq_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_63_r_eq_n_noq : mpz_div_qr_partial_solve_wit_63_r_eq_n_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_64_r_eq_n_read0_noq_pure : mpz_div_qr_partial_solve_wit_64_r_eq_n_read0_noq_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_64_r_eq_n_read0_noq : mpz_div_qr_partial_solve_wit_64_r_eq_n_read0_noq.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_65_nonalias_q_rem : mpz_div_qr_partial_solve_wit_65_nonalias_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_66_r_eq_n_q_rem : mpz_div_qr_partial_solve_wit_66_r_eq_n_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_67_r_eq_n_read0_q_rem : mpz_div_qr_partial_solve_wit_67_r_eq_n_read0_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_68_nonalias_q_rem : mpz_div_qr_partial_solve_wit_68_nonalias_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_69_r_eq_n_q_rem : mpz_div_qr_partial_solve_wit_69_r_eq_n_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_70_r_eq_n_read0_q_rem : mpz_div_qr_partial_solve_wit_70_r_eq_n_read0_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_71_nonalias_q_rem : mpz_div_qr_partial_solve_wit_71_nonalias_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_72_r_eq_n_q_rem : mpz_div_qr_partial_solve_wit_72_r_eq_n_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_73_r_eq_n_read0_q_rem : mpz_div_qr_partial_solve_wit_73_r_eq_n_read0_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_74_nonalias_q_rem : mpz_div_qr_partial_solve_wit_74_nonalias_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_75_r_eq_n_q_rem : mpz_div_qr_partial_solve_wit_75_r_eq_n_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_76_r_eq_n_read0_q_rem : mpz_div_qr_partial_solve_wit_76_r_eq_n_read0_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_77_nonalias_noq_rem : mpz_div_qr_partial_solve_wit_77_nonalias_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_78_r_eq_n_noq_rem : mpz_div_qr_partial_solve_wit_78_r_eq_n_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_79_r_eq_n_read0_noq_rem : mpz_div_qr_partial_solve_wit_79_r_eq_n_read0_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_80_nonalias_q_rem : mpz_div_qr_partial_solve_wit_80_nonalias_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_81_r_eq_n_q_rem : mpz_div_qr_partial_solve_wit_81_r_eq_n_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_82_r_eq_n_read0_q_rem : mpz_div_qr_partial_solve_wit_82_r_eq_n_read0_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_83_nonalias_noq_rem : mpz_div_qr_partial_solve_wit_83_nonalias_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_84_r_eq_n_noq_rem : mpz_div_qr_partial_solve_wit_84_r_eq_n_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_85_r_eq_n_read0_noq_rem : mpz_div_qr_partial_solve_wit_85_r_eq_n_read0_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_86_nonalias_q_rem : mpz_div_qr_partial_solve_wit_86_nonalias_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_87_nonalias_noq_rem : mpz_div_qr_partial_solve_wit_87_nonalias_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_88_nonalias_q_rem : mpz_div_qr_partial_solve_wit_88_nonalias_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_89_r_eq_n_q_rem : mpz_div_qr_partial_solve_wit_89_r_eq_n_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_90_r_eq_n_read0_q_rem : mpz_div_qr_partial_solve_wit_90_r_eq_n_read0_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_91_nonalias_noq_rem : mpz_div_qr_partial_solve_wit_91_nonalias_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_92_r_eq_n_noq_rem : mpz_div_qr_partial_solve_wit_92_r_eq_n_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_93_r_eq_n_read0_noq_rem : mpz_div_qr_partial_solve_wit_93_r_eq_n_read0_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_94_nonalias_q_rem : mpz_div_qr_partial_solve_wit_94_nonalias_q_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_partial_solve_wit_95_nonalias_noq_rem : mpz_div_qr_partial_solve_wit_95_nonalias_noq_rem.
+Proof. Admitted.
+
+Lemma proof_of_mpz_div_qr_which_implies_wit_1 : mpz_div_qr_which_implies_wit_1.
+Proof. Admitted.
+

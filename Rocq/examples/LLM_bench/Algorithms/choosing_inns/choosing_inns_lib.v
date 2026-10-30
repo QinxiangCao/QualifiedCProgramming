@@ -1,256 +1,191 @@
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.Lists.List.
 Require Import Coq.Bool.Bool.
-From AUXLib Require Import ListLib.
+From AUXLib Require Import ListLib MonotonicList.
+From SumLib Require Import ZRange.
 
 Import ListNotations.
 Local Open Scope Z_scope.
 Local Open Scope list_scope.
 
-Definition zrange (n : Z) : list Z :=
-  map Z.of_nat (seq 0 (Z.to_nat n)).
-
-Definition zrange_between (lo hi : Z) : list Z :=
-  map (fun t => lo + Z.of_nat t) (seq 0 (Z.to_nat (hi - lo + 1))).
-
-Definition affordable_betweenb (costs : list Z) (p lo hi : Z) : bool :=
-  existsb (fun idx => Z.leb (Znth idx costs 0) p) (zrange_between lo hi).
+Definition InnsAffordable (costs : list Z) (p lo hi : Z) : bool :=
+  existsb (fun idx => Z.leb (Znth idx costs 0) p) (Zrange lo (hi + 1)).
 
 Definition same_colorb (colors : list Z) (a b : Z) : bool :=
   Z.eqb (Znth a colors 0) (Znth b colors 0).
 
-Definition choosing_pairb (colors costs : list Z) (p : Z) (pair : Z * Z) : bool :=
+Definition InnsPairAllowed (colors costs : list Z) (p : Z) (pair : Z * Z) : bool :=
   let (left, right) := pair in
-  same_colorb colors left right && affordable_betweenb costs p left right.
+  same_colorb colors left right && InnsAffordable costs p left right.
 
-Definition choosing_pairs_up_to (n : Z) : list (Z * Z) :=
-  flat_map (fun right => map (fun left => (left, right)) (zrange right))
-           (zrange n).
+Definition InnsPairs (n : Z) : list (Z * Z) :=
+  flat_map (fun right => map (fun left => (left, right)) (Zrange 0 right)) (Zrange 0 n).
 
-Definition choosing_pair_count (colors costs : list Z) (p n : Z) : Z :=
-  Z.of_nat
-    (length
-       (filter (choosing_pairb colors costs p) (choosing_pairs_up_to n))).
+Definition InnsPairCount (colors costs : list Z) (p n : Z) : Z :=
+  Zlength (filter (InnsPairAllowed colors costs p) (InnsPairs n)).
 
-Definition color_count (colors : list Z) (limit color : Z) : Z :=
-  Z.of_nat
-    (length
-       (filter (fun idx => Z.eqb (Znth idx colors 0) color)
-               (zrange limit))).
+Definition InnsColorCount (colors : list Z) (limit color : Z) : Z :=
+  Zlength (filter (fun idx => Z.eqb (Znth idx colors 0) color) (Zrange 0 limit)).
 
-Definition good_color_count
-    (colors costs : list Z) (limit p color : Z) : Z :=
-  Z.of_nat
-    (length
-       (filter
-          (fun idx =>
-             Z.eqb (Znth idx colors 0) color &&
-             affordable_betweenb costs p idx (limit - 1))
-          (zrange limit))).
+Definition InnsGoodColorCount (colors costs : list Z) (limit p color : Z) : Z :=
+  Zlength (filter (fun idx => Z.eqb (Znth idx colors 0) color &&
+    InnsAffordable costs p idx (limit - 1)) (Zrange 0 limit)).
 
-(** Safety and representation facts for the immutable problem input.  This
-    predicate deliberately contains no statement about the required answer. *)
-Definition ChoosingInputSafe
-    (colors costs : list Z) (n k p : Z) : Prop :=
-  0 <= n <= 200000 /\
-  1 <= k <= 50 /\
-  0 <= p <= 100 /\
-  Zlength colors = n /\
-  Zlength costs = n /\
-  (forall idx, 0 <= idx < n -> 0 <= Znth idx colors 0 < k) /\
-  (forall idx, 0 <= idx < n -> 0 <= Znth idx costs 0 <= 100).
-
-(** Shape and arithmetic bounds for a concrete per-colour count array. *)
-Definition CountArraySafe (xs : list Z) (k limit : Z) : Prop :=
-  Zlength xs = k /\
-  forall idx, 0 <= idx < k -> 0 <= Znth idx xs 0 <= limit.
-
-Definition CountsZeroPrefix (xs : list Z) (written : Z) : Prop :=
-  Zlength xs = written /\
-  forall idx, 0 <= idx < written -> Znth idx xs 0 = 0.
-
-Definition CountsZeroFull (k : Z) (xs : list Z) : Prop :=
-  Zlength xs = k /\
-  forall idx, 0 <= idx < k -> Znth idx xs 0 = 0.
-
-Definition CopyCountsPrefix
-    (src old dst : list Z) (written k : Z) : Prop :=
-  (forall idx, 0 <= idx < written -> Znth idx dst 0 = Znth idx src 0) /\
-  (forall idx, written <= idx < k -> Znth idx dst 0 = Znth idx old 0).
-
-(** Safety facts for the mutable prefix state.  The mathematical meanings of
-    [answer], [seen], and [good] are intentionally absent. *)
-Definition ChoosingPrefixDataSafe
-    (colors costs : list Z) (limit k : Z) (seen good : list Z) : Prop :=
-  0 <= limit <= Zlength colors /\
-  Zlength costs = Zlength colors /\
-  CountArraySafe seen k limit /\
-  CountArraySafe good k limit.
+Definition InnsCopiedPrefix (src old dst : list Z) (written k : Z) : Prop :=
+  Forall2 eq (sublist 0 written dst) (sublist 0 written src) /\
+  Forall2 eq (sublist written k dst) (sublist written k old).
 
 (** Functional meaning of a processed prefix, independent of C array shape
     and machine-integer bounds. *)
-Definition ChoosingPrefixState
-    (colors costs : list Z) (limit k p answer : Z)
-    (seen good : list Z) : Prop :=
-  answer = choosing_pair_count colors costs p limit /\
-  (forall color,
-      0 <= color < k ->
-      Znth color seen 0 = color_count colors limit color) /\
-  (forall color,
-      0 <= color < k ->
-      Znth color good 0 = good_color_count colors costs limit p color).
+Definition InnsPrefixCounts (colors costs : list Z) (limit k p answer : Z)
+  (seen good : list Z) : Prop :=
+  answer = InnsPairCount colors costs p limit /\
+  (forall color, 0 <= color < k -> Znth color seen 0 = InnsColorCount colors limit color) /\
+  (forall color, 0 <= color < k -> Znth color good 0 = InnsGoodColorCount colors costs limit p color).
 
-Definition ChoosingInnsAnswer
-    (colors costs : list Z) (n k p answer : Z) : Prop :=
-  answer = choosing_pair_count colors costs p n.
+Definition InnsPairAnswer (colors costs : list Z) (n p answer : Z) : Prop :=
+  answer = InnsPairCount colors costs p n.
 
 Require Import Coq.micromega.Psatz.
-Lemma CountsZeroPrefix_nil : CountsZeroPrefix nil 0.
+
+Lemma CountsZeroPrefix_nil : (Zlength (@nil Z) = 0 /\ Forall (eq 0) (@nil Z)).
 Proof.
-  unfold CountsZeroPrefix.
-  split.
-  - rewrite Zlength_nil. reflexivity.
-  - intros idx Hidx. lia.
+  split; [reflexivity | constructor].
 Qed.
 Lemma CountsZeroPrefix_snoc_zero :
   forall xs i,
-    CountsZeroPrefix xs i ->
+    (Zlength xs = i /\ Forall (eq 0) xs) ->
     0 <= i ->
-    CountsZeroPrefix (xs ++ [0]) (i + 1).
+    (Zlength (xs ++ [0]) = (i + 1) /\ Forall (eq 0) (xs ++ [0])).
 Proof.
-  intros xs i [Hlen Hzero] Hi.
-  unfold CountsZeroPrefix.
-  split.
-  - rewrite Zlength_app, Zlength_cons, Zlength_nil.
-    lia.
-  - intros idx Hidx.
-    destruct (Z_lt_ge_dec idx i) as [Hlt | Hge].
-    + rewrite app_Znth1.
-      * apply Hzero. lia.
-      * rewrite Hlen. lia.
-    + assert (idx = i) by lia.
-      subst idx.
-      rewrite app_Znth2.
-      * rewrite Hlen.
-        replace (i - i) with 0 by lia.
-        reflexivity.
-      * rewrite Hlen. lia.
+  intros xs i [Hlen Hzero] Hi. split.
+  - rewrite Zlength_app, Zlength_cons, Zlength_nil. lia.
+  - apply Forall_app. split; [exact Hzero | repeat constructor].
 Qed.
-Lemma CountsZeroPrefix_to_full :
-  forall xs k,
-    CountsZeroPrefix xs k ->
-    CountsZeroFull k xs.
+Lemma inns_Forall2_eq : forall (xs ys : list Z), Forall2 eq xs ys <-> xs = ys.
 Proof.
-  intros xs k H.
-  exact H.
+  intros xs ys. split.
+  - intros H. induction H; subst; f_equal; assumption.
+  - intros H. subst ys. induction xs; constructor; auto.
 Qed.
+
+Lemma inns_segments_agree : forall (xs ys : list Z) lo hi other_lo other_hi,
+  0 <= lo <= hi /\ hi <= Zlength xs ->
+  0 <= other_lo <= other_hi /\ other_hi <= Zlength ys ->
+  hi - lo = other_hi - other_lo ->
+  (Forall2 eq (sublist lo hi xs) (sublist other_lo other_hi ys) <->
+   forall k, 0 <= k < hi - lo ->
+     Znth (lo + k) xs 0 = Znth (other_lo + k) ys 0).
+Proof.
+  intros xs ys lo hi other_lo other_hi Hx Hy Hlength.
+  rewrite inns_Forall2_eq, (list_eq_ext _ _ 0).
+  rewrite !Zlength_sublist by lia. split.
+  - intros [_ H] k Hk. specialize (H k Hk).
+    rewrite !Znth_sublist in H by lia.
+    replace (k + lo) with (lo + k) in H by lia.
+    replace (k + other_lo) with (other_lo + k) in H by lia. exact H.
+  - intros H. split; [lia |]. intros k Hk.
+    rewrite !Znth_sublist by lia.
+    replace (k + lo) with (lo + k) by lia.
+    replace (k + other_lo) with (other_lo + k) by lia. apply H. exact Hk.
+Qed.
+
 Lemma CopyCountsPrefix_zero :
   forall src old k,
     Zlength src = k ->
     Zlength old = k ->
-    CopyCountsPrefix src old old 0 k.
+    InnsCopiedPrefix src old old 0 k.
 Proof.
-  unfold CopyCountsPrefix.
   intros src old k Hsrc Hold.
-  split.
-  - intros idx Hidx. lia.
-  - intros idx Hidx. reflexivity.
+  unfold InnsCopiedPrefix. rewrite !inns_Forall2_eq.
+  split; [rewrite !Zsublist_nil by lia |]; reflexivity.
 Qed.
 Lemma CopyCountsPrefix_step_replace :
   forall src old dst i k,
-    CopyCountsPrefix src old dst i k ->
+    Zlength src = k -> Zlength old = k ->
+    InnsCopiedPrefix src old dst i k ->
     Zlength dst = k ->
     0 <= i < k ->
-    CopyCountsPrefix src old (replace_Znth i (Znth i src 0) dst) (i + 1) k.
+    InnsCopiedPrefix src old (replace_Znth i (Znth i src 0) dst) (i + 1) k.
 Proof.
-  unfold CopyCountsPrefix.
-  intros src old dst i k (Hdone & Hrest) Hdst Hi.
+  intros src old dst i k Hsrc Hold Hcopy Hdst Hi.
+  unfold InnsCopiedPrefix in *.
+  rewrite !inns_segments_agree in Hcopy by lia.
+  rewrite !inns_segments_agree by (rewrite ?Zlength_replace_Znth; lia).
+  destruct Hcopy as [Hdone Hrest].
   split.
-  - intros idx Hidx.
+  - intros idx Hidx. simpl in *.
     destruct (Z.eq_dec idx i) as [Heq | Hneq].
-    + subst idx.
-      rewrite Znth_replace_Znth_Same by (rewrite Hdst; lia).
-      reflexivity.
-    + rewrite Znth_replace_Znth_Diff by (try rewrite Hdst; lia).
-      apply Hdone. lia.
+    + subst idx. rewrite Znth_replace_Znth_Same by lia. reflexivity.
+    + rewrite Znth_replace_Znth_Diff by lia. apply Hdone. lia.
   - intros idx Hidx.
-    rewrite Znth_replace_Znth_Diff by (try rewrite Hdst; lia).
-    apply Hrest. lia.
+    rewrite Znth_replace_Znth_Diff by lia.
+    specialize (Hrest (idx + 1) ltac:(lia)).
+    replace (i + 1 + idx) with (i + (idx + 1)) by lia. exact Hrest.
 Qed.
 Lemma CopyCountsPrefix_full_eq :
   forall src old dst i k,
-    CopyCountsPrefix src old dst i k ->
+    InnsCopiedPrefix src old dst i k ->
     Zlength src = k ->
     Zlength dst = k ->
     i >= k ->
     i <= k ->
     dst = src.
 Proof.
-  unfold CopyCountsPrefix.
-  intros src old dst i k (Hdone & Hrest) Hsrc Hdst Hge Hle.
-  apply (proj2 (list_eq_ext dst src 0)).
-  split; [lia |].
-  intros idx Hidx.
-  apply Hdone. lia.
+  intros src old dst i k [Hdone _] Hsrc Hdst Hge Hle.
+  apply inns_Forall2_eq in Hdone.
+  rewrite !sublist_self in Hdone by lia. exact Hdone.
 Qed.
 Lemma replace_Znth_preserves_bounds :
   forall xs i v k lo hi,
     Zlength xs = k ->
     0 <= i < k ->
     lo <= v <= hi ->
-    (forall idx, 0 <= idx < k -> lo <= Znth idx xs 0 <= hi) ->
-    forall idx,
-      0 <= idx < k ->
-      lo <= Znth idx (replace_Znth i v xs) 0 <= hi.
+    Forall (fun value : Z => lo <= value <= hi) xs ->
+    Forall (fun value : Z => lo <= value <= hi) (replace_Znth i v xs).
 Proof.
-  intros xs i v k lo hi Hlen Hi Hv Hxs idx Hidx.
+  intros xs i v k lo hi Hlen Hi Hv Hxs.
+  rewrite (Forall_Znth _ 0 xs) in Hxs.
+  apply (proj2 (Forall_Znth _ 0 _)). intros idx Hidx.
+  rewrite Zlength_replace_Znth in Hidx.
   destruct (Z.eq_dec idx i) as [Heq | Hneq].
-  - subst idx.
-    rewrite Znth_replace_Znth_Same by (rewrite Hlen; lia).
-    exact Hv.
-  - rewrite Znth_replace_Znth_Diff by (try rewrite Hlen; lia).
-    apply Hxs. lia.
+  - subst idx. rewrite Znth_replace_Znth_Same by lia. exact Hv.
+  - rewrite Znth_replace_Znth_Diff by lia. apply Hxs. exact Hidx.
 Qed.
 Lemma CountArraySafe_weaken_limit :
   forall xs k old_limit new_limit,
-    CountArraySafe xs k old_limit ->
+    (Zlength xs = k /\ Forall (fun value : Z => 0 <= value <= old_limit) xs) ->
     old_limit <= new_limit ->
-    CountArraySafe xs k new_limit.
+    (Zlength xs = k /\ Forall (fun value : Z => 0 <= value <= new_limit) xs).
 Proof.
-  unfold CountArraySafe.
   intros xs k old_limit new_limit [Hlen Hbounds] Hle.
   split; [exact Hlen |].
-  intros idx Hidx.
-  specialize (Hbounds idx Hidx).
-  lia.
+  eapply Forall_impl; [| exact Hbounds]. intros value Hvalue. cbn in Hvalue |- *. lia.
 Qed.
 Lemma CountArraySafe_increment_at :
   forall xs k limit c,
-    CountArraySafe xs k limit ->
+    (Zlength xs = k /\ Forall (fun value : Z => 0 <= value <= limit) xs) ->
     0 <= c < k ->
-    CountArraySafe
-      (replace_Znth c (Znth c xs 0 + 1) xs) k (limit + 1).
+    (Zlength (replace_Znth c (Znth c xs 0 + 1) xs) = k /\ Forall (fun value : Z => 0 <= value <= (limit + 1))
+      (replace_Znth c (Znth c xs 0 + 1) xs)).
 Proof.
-  unfold CountArraySafe.
   intros xs k limit c [Hlen Hbounds] Hc.
-  split.
-  - rewrite Zlength_replace_Znth. exact Hlen.
-  - eapply replace_Znth_preserves_bounds with (lo := 0) (hi := limit + 1).
-    + exact Hlen.
-    + exact Hc.
-    + specialize (Hbounds c Hc). lia.
-    + intros idx Hidx. specialize (Hbounds idx Hidx). lia.
+  split; [rewrite Zlength_replace_Znth; exact Hlen |].
+  eapply replace_Znth_preserves_bounds with (k := k); try eassumption.
+  - pose proof (proj1 (Forall_Znth _ 0 xs) Hbounds c ltac:(lia)) as Hvalue. cbn in Hvalue. lia.
+  - eapply Forall_impl; [| exact Hbounds]. intros value Hvalue. cbn in Hvalue |- *. lia.
 Qed.
 Lemma ChoosingPrefixDataSafe_step_affordable_after_copy :
-  forall colors costs i k seen good c,
-    ChoosingPrefixDataSafe colors costs i k seen good ->
+  forall (colors costs : list Z) i k seen good c,
+    (0 <= i <= Zlength colors /\ Zlength costs = Zlength colors /\ (Zlength seen = k /\ Forall (fun value : Z
+      => 0 <= value <= i) seen) /\ (Zlength good = k /\ Forall (fun value : Z => 0 <= value <= i) good)) ->
     i < Zlength colors ->
     0 <= c < k ->
-    ChoosingPrefixDataSafe colors costs (i + 1) k
-      (replace_Znth c (Znth c seen 0 + 1) seen)
-      (replace_Znth c (Znth c seen 0 + 1) seen).
+    (0 <= (i + 1) <= Zlength colors /\ Zlength costs = Zlength colors /\ (Zlength (replace_Znth c (Znth c seen
+      0 + 1) seen) = k /\ Forall (fun value : Z => 0 <= value <= (i + 1)) (replace_Znth c (Znth c seen 0 + 1)
+      seen)) /\ (Zlength (replace_Znth c (Znth c seen 0 + 1) seen) = k /\ Forall (fun value : Z => 0 <= value
+      <= (i + 1)) (replace_Znth c (Znth c seen 0 + 1) seen))).
 Proof.
-  unfold ChoosingPrefixDataSafe.
   intros colors costs i k seen good c
     [Hlimit [Hcosts [Hseen Hgood]]] Hi Hc.
   split; [lia |].
@@ -260,14 +195,15 @@ Proof.
   - now apply CountArraySafe_increment_at.
 Qed.
 Lemma ChoosingPrefixDataSafe_step_expensive :
-  forall colors costs i k seen good c,
-    ChoosingPrefixDataSafe colors costs i k seen good ->
+  forall (colors costs : list Z) i k seen good c,
+    (0 <= i <= Zlength colors /\ Zlength costs = Zlength colors /\ (Zlength seen = k /\ Forall (fun value : Z
+      => 0 <= value <= i) seen) /\ (Zlength good = k /\ Forall (fun value : Z => 0 <= value <= i) good)) ->
     i < Zlength colors ->
     0 <= c < k ->
-    ChoosingPrefixDataSafe colors costs (i + 1) k
-      (replace_Znth c (Znth c seen 0 + 1) seen) good.
+    (0 <= (i + 1) <= Zlength colors /\ Zlength costs = Zlength colors /\ (Zlength (replace_Znth c (Znth c seen
+      0 + 1) seen) = k /\ Forall (fun value : Z => 0 <= value <= (i + 1)) (replace_Znth c (Znth c seen 0 + 1)
+      seen)) /\ (Zlength good = k /\ Forall (fun value : Z => 0 <= value <= (i + 1)) good)).
 Proof.
-  unfold ChoosingPrefixDataSafe.
   intros colors costs i k seen good c
     [Hlimit [Hcosts [Hseen Hgood]]] Hi Hc.
   split; [lia |].
@@ -278,74 +214,76 @@ Proof.
 Qed.
 Require Import Coq.micromega.Lia.
 Lemma choosing_pair_count_zero :
-  forall colors costs p,
-    choosing_pair_count colors costs p 0 = 0.
+  forall (colors costs : list Z) p,
+    InnsPairCount colors costs p 0 = 0.
 Proof.
   intros.
-  unfold choosing_pair_count, choosing_pairs_up_to, zrange.
+  unfold InnsPairCount, InnsPairs, Zrange.
+  try rewrite !Zlength_correct;
   simpl.
   reflexivity.
 Qed.
 Lemma color_count_zero :
   forall colors color,
-    color_count colors 0 color = 0.
+    InnsColorCount colors 0 color = 0.
 Proof.
   intros.
-  unfold color_count, zrange.
+  unfold InnsColorCount, Zrange.
+  try rewrite !Zlength_correct;
   simpl.
   reflexivity.
 Qed.
 Lemma good_color_count_zero :
-  forall colors costs p color,
-    good_color_count colors costs 0 p color = 0.
+  forall (colors costs : list Z) p color,
+    InnsGoodColorCount colors costs 0 p color = 0.
 Proof.
   intros.
-  unfold good_color_count, zrange.
+  unfold InnsGoodColorCount, Zrange.
+  try rewrite !Zlength_correct;
   simpl.
   reflexivity.
 Qed.
 Lemma CountsZeroFull_to_ChoosingPrefixState_zero :
-  forall colors costs k p seen good,
-    CountsZeroFull k seen ->
-    CountsZeroFull k good ->
-    ChoosingPrefixState colors costs 0 k p 0 seen good.
+  forall (colors costs : list Z) k p seen good,
+    (Zlength seen = k /\ Forall (eq 0) seen) ->
+    (Zlength good = k /\ Forall (eq 0) good) ->
+    InnsPrefixCounts colors costs 0 k p 0 seen good.
 Proof.
   intros colors costs k p seen good Hseen Hgood.
-  destruct Hseen as [_ Hseen_zero].
-  destruct Hgood as [_ Hgood_zero].
-  unfold ChoosingPrefixState.
+  destruct Hseen as [Hseen_len Hseen_zero].
+  rewrite (Forall_Znth _ 0 seen), Hseen_len in Hseen_zero.
+  destruct Hgood as [Hgood_len Hgood_zero].
+  rewrite (Forall_Znth _ 0 good), Hgood_len in Hgood_zero.
+  unfold InnsPrefixCounts.
   split.
   - rewrite choosing_pair_count_zero; reflexivity.
   - split.
     + intros color Hcolor.
-      rewrite Hseen_zero by lia.
+      rewrite <- Hseen_zero by lia.
       rewrite color_count_zero.
       reflexivity.
     + intros color Hcolor.
-      rewrite Hgood_zero by lia.
+      rewrite <- Hgood_zero by lia.
       rewrite good_color_count_zero.
       reflexivity.
 Qed.
 Lemma CountsZeroFull_to_CountArraySafe_zero :
   forall k xs,
-    CountsZeroFull k xs ->
-    CountArraySafe xs k 0.
+    (Zlength xs = k /\ Forall (eq 0) xs) ->
+    (Zlength xs = k /\ Forall (fun value : Z => 0 <= value <= 0) xs).
 Proof.
-  intros k xs [Hlen Hzero].
-  split; [exact Hlen |].
-  intros idx Hidx.
-  rewrite Hzero by lia.
-  lia.
+  intros k xs [Hlen Hzero]. split; [exact Hlen |].
+  eapply Forall_impl; [| exact Hzero]. intros value Hvalue. subst value. lia.
 Qed.
 Lemma CountsZeroFull_to_ChoosingPrefixDataSafe_zero :
-  forall colors costs k seen good,
-    CountsZeroFull k seen ->
-    CountsZeroFull k good ->
+  forall (colors costs : list Z) k seen good,
+    (Zlength seen = k /\ Forall (eq 0) seen) ->
+    (Zlength good = k /\ Forall (eq 0) good) ->
     Zlength costs = Zlength colors ->
-    ChoosingPrefixDataSafe colors costs 0 k seen good.
+    (0 <= 0 <= Zlength colors /\ Zlength costs = Zlength colors /\ (Zlength seen = k /\ Forall (fun value : Z
+      => 0 <= value <= 0) seen) /\ (Zlength good = k /\ Forall (fun value : Z => 0 <= value <= 0) good)).
 Proof.
   intros colors costs k seen good Hseen Hgood Hcosts.
-  unfold ChoosingPrefixDataSafe.
   split.
   - pose proof (Zlength_nonneg colors); lia.
   - split; [exact Hcosts |].
@@ -355,97 +293,78 @@ Proof.
 Qed.
 Lemma CountsZeroFull_bounds_zero :
   forall k xs idx,
-    CountsZeroFull k xs ->
+    (Zlength xs = k /\ Forall (eq 0) xs) ->
     0 <= idx < k ->
     0 <= Znth idx xs 0 <= 0.
 Proof.
   intros k xs idx Hfull Hidx.
-  destruct Hfull as [_ Hzero].
-  rewrite Hzero by lia.
+  destruct Hfull as [Hlen Hzero].
+  rewrite (Forall_Znth _ 0 xs), Hlen in Hzero.
+  rewrite <- Hzero by lia.
   lia.
 Qed.
 Lemma ChoosingPrefixState_to_ChoosingInnsAnswer_full :
-  forall colors costs n k p answer seen good,
+  forall (colors costs : list Z) n k p answer seen good,
     Zlength colors = n ->
-    ChoosingPrefixState colors costs n k p answer seen good ->
+    InnsPrefixCounts colors costs n k p answer seen good ->
     1 <= k ->
-    ChoosingInnsAnswer colors costs n k p answer.
+    (InnsPairAnswer colors costs n p answer).
 Proof.
   intros colors costs n k p answer seen good Hcolors Hstate Hk.
-  unfold ChoosingPrefixState in Hstate.
-  unfold ChoosingInnsAnswer.
+  unfold InnsPrefixCounts in Hstate.
+  unfold InnsPairAnswer.
   exact (proj1 Hstate).
 Qed.
 Lemma zrange_length_nonneg :
   forall n,
     0 <= n ->
-    Zlength (zrange n) = n.
+    Zlength ((Zrange 0 n)) = n.
 Proof.
-  intros n Hn.
-  unfold zrange.
-  rewrite Zlength_correct, length_map, length_seq.
-  rewrite Z2Nat.id by lia.
-  reflexivity.
-Qed.
-Lemma zrange_snoc :
-  forall n,
-    0 <= n ->
-    zrange (n + 1) = zrange n ++ [n].
-Proof.
-  intros n Hn.
-  unfold zrange.
-  replace (Z.to_nat (n + 1)) with (Z.to_nat n + 1)%nat.
-  2:{ rewrite Z2Nat.inj_add by lia. reflexivity. }
-  rewrite seq_app.
-  rewrite map_app.
-  simpl.
-  rewrite Z2Nat.id by lia.
-  reflexivity.
-Qed.
-Lemma zrange_In :
-  forall x n,
-    In x (zrange n) ->
-    0 <= x < n.
-Proof.
-  intros x n H.
-  unfold zrange in H.
-  apply in_map_iff in H as [m [Hx Hm]].
-  subst x.
-  apply in_seq in Hm.
-  destruct (Z_lt_ge_dec n 0) as [Hneg | Hnonneg].
-  - destruct n as [|p|p]; simpl in Hm; lia.
-  - simpl in Hm.
-    destruct Hm as [_ Hm].
-    apply Nat2Z.inj_lt in Hm.
-    rewrite Z2Nat.id in Hm by lia.
-    lia.
+  intros n Hn. unfold Zrange.
+  replace (n - 0) with n by lia.
+  remember (Z.to_nat n) as count eqn:Hcount.
+  assert (Hlen : forall lo, Zlength (Zrange_aux lo count) = Z.of_nat count).
+  { clear Hcount. induction count; intros lo; simpl; rewrite ?Zlength_nil, ?Zlength_cons; try rewrite IHcount; lia. }
+  rewrite Hlen. subst count. lia.
 Qed.
 Lemma zrange_between_snoc :
   forall lo hi,
     lo <= hi ->
-    zrange_between lo hi = zrange_between lo (hi - 1) ++ [hi].
+    (Zrange lo (hi + 1)) = (Zrange lo ((hi - 1) + 1)) ++ [hi].
 Proof.
-  intros lo hi Hle.
-  unfold zrange_between.
-  replace (hi - 1 - lo + 1) with (hi - lo) by lia.
-  replace (hi - lo + 1) with ((hi - lo) + 1) by lia.
-  replace (Z.to_nat (hi - lo + 1)) with (Z.to_nat (hi - lo) + 1)%nat.
-  2:{ rewrite Z2Nat.inj_add by lia. reflexivity. }
-  rewrite seq_app.
-  rewrite map_app.
-  simpl.
+  intros lo hi Hle. unfold Zrange.
+  replace (hi - 1 + 1 - lo) with (hi - lo) by lia.
+  replace (hi + 1 - lo) with ((hi - lo) + 1) by lia.
+  rewrite Z2Nat.inj_add by lia.
+  rewrite Zrange_aux_app. simpl.
   rewrite Z2Nat.id by lia.
-  replace (lo + (hi - lo)) with hi by lia.
-  reflexivity.
+  replace (lo + (hi - lo)) with hi by lia. reflexivity.
+Qed.
+
+Lemma zrange_snoc :
+  forall n,
+    0 <= n ->
+    (Zrange 0 (n + 1)) = (Zrange 0 n) ++ [n].
+Proof.
+  intros n Hn.
+  pose proof (zrange_between_snoc 0 n Hn) as H.
+  replace (n - 1 + 1) with n in H by lia. exact H.
+Qed.
+Lemma zrange_In :
+  forall x n,
+    In x ((Zrange 0 n)) ->
+    0 <= x < n.
+Proof.
+  intros x n H. apply (proj2 (In_Zrange 0 n x)). exact H.
 Qed.
 Lemma affordable_betweenb_hi_true :
   forall costs p lo hi,
     lo <= hi ->
     Znth hi costs 0 <= p ->
-    affordable_betweenb costs p lo hi = true.
+    InnsAffordable costs p lo hi = true.
 Proof.
   intros costs p lo hi Hle Hcost.
-  unfold affordable_betweenb.
+  unfold InnsAffordable.
   rewrite zrange_between_snoc by lia.
   rewrite existsb_app.
   simpl.
@@ -458,11 +377,11 @@ Lemma affordable_betweenb_extend_expensive :
   forall costs p lo hi,
     lo <= hi ->
     p < Znth hi costs 0 ->
-    affordable_betweenb costs p lo hi =
-    affordable_betweenb costs p lo (hi - 1).
+    InnsAffordable costs p lo hi =
+    InnsAffordable costs p lo (hi - 1).
 Proof.
   intros costs p lo hi Hle Hcost.
-  unfold affordable_betweenb.
+  unfold InnsAffordable.
   rewrite zrange_between_snoc by lia.
   rewrite existsb_app.
   simpl.
@@ -474,11 +393,11 @@ Qed.
 Lemma affordable_betweenb_single_expensive :
   forall costs p i,
     p < Znth i costs 0 ->
-    affordable_betweenb costs p i i = false.
+    InnsAffordable costs p i i = false.
 Proof.
   intros costs p i Hcost.
-  unfold affordable_betweenb, zrange_between.
-  replace (i - i + 1) with 1 by lia.
+  unfold InnsAffordable. unfold Zrange.
+  replace (i + 1 - i) with 1 by lia.
   simpl.
   replace (i + 0) with i by lia.
   assert (Hleb : (Znth i costs 0 <=? p) = false) by (apply Z.leb_gt; lia).
@@ -512,22 +431,22 @@ Qed.
 Lemma choosing_pairs_up_to_snoc :
   forall n,
     0 <= n ->
-    choosing_pairs_up_to (n + 1) =
-    choosing_pairs_up_to n ++ map (fun left => (left, n)) (zrange n).
+    InnsPairs (n + 1) =
+    InnsPairs n ++ map (fun left => (left, n)) ((Zrange 0 n)).
 Proof.
   intros n Hn.
-  unfold choosing_pairs_up_to at 1.
+  unfold InnsPairs at 1.
   rewrite zrange_snoc by lia.
   rewrite flat_map_app.
   simpl.
-  unfold choosing_pairs_up_to.
+  unfold InnsPairs.
   rewrite app_nil_r.
   reflexivity.
 Qed.
 Lemma choosing_pairs_up_to_Zlength_twice :
   forall n,
     0 <= n ->
-    2 * Zlength (choosing_pairs_up_to n) = n * (n - 1).
+    2 * Zlength (InnsPairs n) = n * (n - 1).
 Proof.
   intros n Hn.
   remember (Z.to_nat n) as m eqn:Hm.
@@ -542,28 +461,29 @@ Proof.
     rewrite choosing_pairs_up_to_snoc by lia.
     rewrite Zlength_app.
     replace
-      (Zlength (map (fun left : Z => (left, Z.of_nat m)) (zrange (Z.of_nat m))))
-      with (Zlength (zrange (Z.of_nat m))).
+      (Zlength (map (fun left : Z => (left, Z.of_nat m)) ((Zrange 0 (Z.of_nat m)))))
+      with (Zlength ((Zrange 0 (Z.of_nat m)))).
     2:{ rewrite !Zlength_correct, length_map. reflexivity. }
     rewrite zrange_length_nonneg by lia.
     nia.
 Qed.
 Lemma choosing_pair_count_prefix_bound :
-  forall colors costs p limit n,
+  forall (colors costs : list Z) p limit n,
     0 <= limit <= n ->
     n <= 200000 ->
-    0 <= choosing_pair_count colors costs p limit <= 19999900000.
+    0 <= InnsPairCount colors costs p limit <= 19999900000.
 Proof.
   intros colors costs p limit n Hlimit Hn.
-  unfold choosing_pair_count.
+  unfold InnsPairCount.
+  try rewrite !Zlength_correct;
   split.
   - apply Nat2Z.is_nonneg.
   - assert (Hfilter :
         Z.of_nat
           (length
-             (filter (choosing_pairb colors costs p)
-                (choosing_pairs_up_to limit))) <=
-        Zlength (choosing_pairs_up_to limit)).
+             (filter (InnsPairAllowed colors costs p)
+                (InnsPairs limit))) <=
+        Zlength (InnsPairs limit)).
     {
       rewrite Zlength_correct.
       apply Nat2Z.inj_le.
@@ -574,9 +494,9 @@ Proof.
     assert (2 *
         Z.of_nat
           (length
-             (filter (choosing_pairb colors costs p)
-                (choosing_pairs_up_to limit)))
-        <= 2 * Zlength (choosing_pairs_up_to limit)) by lia.
+             (filter (InnsPairAllowed colors costs p)
+                (InnsPairs limit)))
+        <= 2 * Zlength (InnsPairs limit)) by lia.
     rewrite Htwice in H.
     assert (limit * (limit - 1) <= 2 * 19999900000) by nia.
     lia.
@@ -584,12 +504,13 @@ Qed.
 Lemma color_count_snoc :
   forall colors i color,
     0 <= i ->
-    color_count colors (i + 1) color =
-    color_count colors i color +
+    InnsColorCount colors (i + 1) color =
+    InnsColorCount colors i color +
     (if Z.eqb (Znth i colors 0) color then 1 else 0).
 Proof.
   intros colors i color Hi.
-  unfold color_count.
+  unfold InnsColorCount.
+  try rewrite !Zlength_correct;
   rewrite zrange_snoc by lia.
   rewrite filter_app, length_app.
   rewrite Nat2Z.inj_add.
@@ -597,22 +518,23 @@ Proof.
   destruct (Z.eqb (Znth i colors 0) color); simpl; lia.
 Qed.
 Lemma good_color_count_affordable_as_color_count :
-  forall colors costs i p color,
+  forall (colors costs : list Z) i p color,
     0 <= i ->
     Znth i costs 0 <= p ->
-    good_color_count colors costs (i + 1) p color =
-    color_count colors (i + 1) color.
+    InnsGoodColorCount colors costs (i + 1) p color =
+    InnsColorCount colors (i + 1) color.
 Proof.
   intros colors costs i p color Hi Hcost.
-  unfold good_color_count, color_count.
+  unfold InnsGoodColorCount, InnsColorCount.
+  try rewrite !Zlength_correct;
   assert (Hf :
     filter
       (fun idx : Z =>
          Z.eqb (Znth idx colors 0) color &&
-         affordable_betweenb costs p idx (i + 1 - 1)) 
-      (zrange (i + 1)) =
+         InnsAffordable costs p idx (i + 1 - 1))
+      ((Zrange 0 (i + 1))) =
     filter (fun idx : Z => Z.eqb (Znth idx colors 0) color)
-      (zrange (i + 1))).
+      ((Zrange 0 (i + 1)))).
   {
     apply filter_ext_in.
     intros idx Hidx.
@@ -626,27 +548,28 @@ Proof.
   reflexivity.
 Qed.
 Lemma good_color_count_snoc_expensive :
-  forall colors costs i p color,
+  forall (colors costs : list Z) i p color,
     0 <= i ->
     p < Znth i costs 0 ->
-    good_color_count colors costs (i + 1) p color =
-    good_color_count colors costs i p color.
+    InnsGoodColorCount colors costs (i + 1) p color =
+    InnsGoodColorCount colors costs i p color.
 Proof.
   intros colors costs i p color Hi Hcost.
-  unfold good_color_count.
+  unfold InnsGoodColorCount.
+  try rewrite !Zlength_correct;
   rewrite zrange_snoc by lia.
   rewrite filter_app, length_app.
   assert (Hf :
     filter
       (fun idx : Z =>
          Z.eqb (Znth idx colors 0) color &&
-         affordable_betweenb costs p idx (i + 1 - 1)) 
-      (zrange i) =
+         InnsAffordable costs p idx (i + 1 - 1))
+      ((Zrange 0 i)) =
     filter
       (fun idx : Z =>
          Z.eqb (Znth idx colors 0) color &&
-         affordable_betweenb costs p idx (i - 1)) 
-      (zrange i)).
+         InnsAffordable costs p idx (i - 1))
+      ((Zrange 0 i))).
   {
     apply filter_ext_in.
     intros idx Hidx.
@@ -663,29 +586,31 @@ Proof.
   destruct (Z.eqb (Znth i colors 0) color); simpl; lia.
 Qed.
 Lemma choosing_pair_count_snoc_affordable :
-  forall colors costs p i c,
+  forall (colors costs : list Z) p i c,
     0 <= i ->
     c = Znth i colors 0 ->
     Znth i costs 0 <= p ->
-    choosing_pair_count colors costs p (i + 1) =
-    choosing_pair_count colors costs p i + color_count colors i c.
+    InnsPairCount colors costs p (i + 1) =
+    InnsPairCount colors costs p i + InnsColorCount colors i c.
 Proof.
   intros colors costs p i c Hi Hc Hcost.
-  unfold choosing_pair_count.
+  unfold InnsPairCount.
+  try rewrite !Zlength_correct;
   rewrite choosing_pairs_up_to_snoc by lia.
   rewrite filter_app, length_app, Nat2Z.inj_add.
   f_equal.
-  unfold color_count.
+  unfold InnsColorCount.
+  try rewrite !Zlength_correct;
   assert (Hmap :
-    filter (choosing_pairb colors costs p)
-      (map (fun left : Z => (left, i)) (zrange i)) =
+    filter (InnsPairAllowed colors costs p)
+      (map (fun left : Z => (left, i)) ((Zrange 0 i))) =
     map (fun left : Z => (left, i))
-      (filter (fun idx : Z => Z.eqb (Znth idx colors 0) c) (zrange i))).
+      (filter (fun idx : Z => Z.eqb (Znth idx colors 0) c) ((Zrange 0 i)))).
   {
     apply filter_map_ext_in.
     intros left Hleft.
     apply zrange_In in Hleft.
-    unfold choosing_pairb, same_colorb.
+    unfold InnsPairAllowed, same_colorb.
     rewrite <- Hc.
     rewrite affordable_betweenb_hi_true by lia.
     rewrite andb_true_r.
@@ -695,33 +620,35 @@ Proof.
   reflexivity.
 Qed.
 Lemma choosing_pair_count_snoc_expensive :
-  forall colors costs p i c,
+  forall (colors costs : list Z) p i c,
     0 <= i ->
     c = Znth i colors 0 ->
     p < Znth i costs 0 ->
-    choosing_pair_count colors costs p (i + 1) =
-    choosing_pair_count colors costs p i +
-    good_color_count colors costs i p c.
+    InnsPairCount colors costs p (i + 1) =
+    InnsPairCount colors costs p i +
+    InnsGoodColorCount colors costs i p c.
 Proof.
   intros colors costs p i c Hi Hc Hcost.
-  unfold choosing_pair_count.
+  unfold InnsPairCount.
+  try rewrite !Zlength_correct;
   rewrite choosing_pairs_up_to_snoc by lia.
   rewrite filter_app, length_app, Nat2Z.inj_add.
   f_equal.
-  unfold good_color_count.
+  unfold InnsGoodColorCount.
+  try rewrite !Zlength_correct;
   assert (Hmap :
-    filter (choosing_pairb colors costs p)
-      (map (fun left : Z => (left, i)) (zrange i)) =
+    filter (InnsPairAllowed colors costs p)
+      (map (fun left : Z => (left, i)) ((Zrange 0 i))) =
     map (fun left : Z => (left, i))
       (filter
         (fun idx : Z =>
           Z.eqb (Znth idx colors 0) c &&
-          affordable_betweenb costs p idx (i - 1)) (zrange i))).
+          InnsAffordable costs p idx (i - 1)) ((Zrange 0 i)))).
   {
     apply filter_map_ext_in.
     intros left Hleft.
     apply zrange_In in Hleft.
-    unfold choosing_pairb, same_colorb.
+    unfold InnsPairAllowed, same_colorb.
     rewrite <- Hc.
     rewrite affordable_betweenb_extend_expensive by lia.
     reflexivity.
@@ -730,17 +657,18 @@ Proof.
   reflexivity.
 Qed.
 Lemma ChoosingPrefixState_answer_bound :
-  forall colors costs limit k p answer seen good n,
-    ChoosingPrefixDataSafe colors costs limit k seen good ->
-    ChoosingPrefixState colors costs limit k p answer seen good ->
+  forall (colors costs : list Z) limit k p answer seen good n,
+    (0 <= limit <= Zlength colors /\ Zlength costs = Zlength colors /\ (Zlength seen = k /\ Forall (fun value
+      : Z => 0 <= value <= limit) seen) /\ (Zlength good = k /\ Forall (fun value : Z => 0 <= value <= limit)
+      good)) ->
+    InnsPrefixCounts colors costs limit k p answer seen good ->
     limit <= n ->
     n <= 200000 ->
     0 <= answer <= 19999900000.
 Proof.
   intros colors costs limit k p answer seen good n Hsafe Hstate Hlimit Hn.
-  unfold ChoosingPrefixDataSafe in Hsafe.
   destruct Hsafe as [Hsafe_limit _].
-  unfold ChoosingPrefixState in Hstate.
+  unfold InnsPrefixCounts in Hstate.
   destruct Hstate as [Hanswer _].
   rewrite Hanswer.
   apply choosing_pair_count_prefix_bound with (n := n).
@@ -748,22 +676,22 @@ Proof.
   - exact Hn.
 Qed.
 Lemma ChoosingPrefixState_step_affordable_after_copy :
-  forall colors costs i k p old_answer answer seen good seen_next c,
-    ChoosingPrefixDataSafe colors costs i k seen good ->
-    ChoosingPrefixState colors costs i k p old_answer seen good ->
+  forall (colors costs : list Z) i k p old_answer answer seen good seen_next c,
+    (0 <= i <= Zlength colors /\ Zlength costs = Zlength colors /\ (Zlength seen = k /\ Forall (fun value : Z
+      => 0 <= value <= i) seen) /\ (Zlength good = k /\ Forall (fun value : Z => 0 <= value <= i) good)) ->
+    InnsPrefixCounts colors costs i k p old_answer seen good ->
     0 <= i < Zlength colors ->
     0 <= c < k ->
     c = Znth i colors 0 ->
     Znth i costs 0 <= p ->
     answer = old_answer + Znth c seen 0 ->
     seen_next = replace_Znth c (Znth c seen 0 + 1) seen ->
-    ChoosingPrefixState colors costs (i + 1) k p answer seen_next seen_next.
+    InnsPrefixCounts colors costs (i + 1) k p answer seen_next seen_next.
 Proof.
   intros colors costs i k p old_answer answer seen good seen_next c
          Hsafe Hstate Hi Hc_range Hc Hcost Hanswer Hseen_next.
-  unfold ChoosingPrefixDataSafe in Hsafe.
   destruct Hsafe as [_ [_ [[Hseen_len _] [Hgood_len _]]]].
-  unfold ChoosingPrefixState in Hstate.
+  unfold InnsPrefixCounts in Hstate.
   destruct Hstate as [Hold_answer [Hseen_count Hgood_count]].
   subst answer.
   subst seen_next.
@@ -771,7 +699,7 @@ Proof.
     forall color,
       0 <= color < k ->
       Znth color (replace_Znth c (Znth c seen 0 + 1) seen) 0 =
-      color_count colors (i + 1) color).
+      InnsColorCount colors (i + 1) color).
   {
     intros color Hcolor.
     rewrite color_count_snoc by lia.
@@ -788,7 +716,7 @@ Proof.
       rewrite H.
       lia.
   }
-  unfold ChoosingPrefixState.
+  unfold InnsPrefixCounts.
   split.
   - rewrite Hold_answer.
     rewrite Hseen_count by lia.
@@ -802,26 +730,26 @@ Proof.
       exact Hcolor.
 Qed.
 Lemma ChoosingPrefixState_step_expensive :
-  forall colors costs i k p old_answer answer seen good seen_next c,
-    ChoosingPrefixDataSafe colors costs i k seen good ->
-    ChoosingPrefixState colors costs i k p old_answer seen good ->
+  forall (colors costs : list Z) i k p old_answer answer seen good seen_next c,
+    (0 <= i <= Zlength colors /\ Zlength costs = Zlength colors /\ (Zlength seen = k /\ Forall (fun value : Z
+      => 0 <= value <= i) seen) /\ (Zlength good = k /\ Forall (fun value : Z => 0 <= value <= i) good)) ->
+    InnsPrefixCounts colors costs i k p old_answer seen good ->
     0 <= i < Zlength colors ->
     0 <= c < k ->
     c = Znth i colors 0 ->
     p < Znth i costs 0 ->
     answer = old_answer + Znth c good 0 ->
     seen_next = replace_Znth c (Znth c seen 0 + 1) seen ->
-    ChoosingPrefixState colors costs (i + 1) k p answer seen_next good.
+    InnsPrefixCounts colors costs (i + 1) k p answer seen_next good.
 Proof.
   intros colors costs i k p old_answer answer seen good seen_next c
          Hsafe Hstate Hi Hc_range Hc Hcost Hanswer Hseen_next.
-  unfold ChoosingPrefixDataSafe in Hsafe.
   destruct Hsafe as [_ [_ [[Hseen_len _] [Hgood_len _]]]].
-  unfold ChoosingPrefixState in Hstate.
+  unfold InnsPrefixCounts in Hstate.
   destruct Hstate as [Hold_answer [Hseen_count Hgood_count]].
   subst answer.
   subst seen_next.
-  unfold ChoosingPrefixState.
+  unfold InnsPrefixCounts.
   split.
   - rewrite Hold_answer.
     rewrite Hgood_count by lia.
@@ -848,31 +776,3 @@ Proof.
     rewrite good_color_count_snoc_expensive by lia.
     reflexivity.
 Qed.
-
-From SumLib Require Import ZRange.
-(** Public count definitions use Z-indexed library enumeration and Zlength.
-    Closed coffee-shop intervals [lo, hi] use Zrange lo (hi + 1). *)
-Definition InnsAffordable (costs : list Z) (p lo hi : Z) : bool :=
-  existsb (fun idx => Z.leb (Znth idx costs 0) p) (Zrange lo (hi + 1)).
-Definition InnsPairAllowed (colors costs : list Z) (p : Z) (pair : Z * Z) : bool :=
-  let (left, right) := pair in
-  same_colorb colors left right && InnsAffordable costs p left right.
-Definition InnsPairs (n : Z) : list (Z * Z) :=
-  flat_map (fun right => map (fun left => (left, right)) (Zrange 0 right)) (Zrange 0 n).
-Definition InnsPairCount (colors costs : list Z) (p n : Z) : Z :=
-  Zlength (filter (InnsPairAllowed colors costs p) (InnsPairs n)).
-Definition InnsColorCount (colors : list Z) (limit color : Z) : Z :=
-  Zlength (filter (fun idx => Z.eqb (Znth idx colors 0) color) (Zrange 0 limit)).
-Definition InnsGoodColorCount (colors costs : list Z) (limit p color : Z) : Z :=
-  Zlength (filter (fun idx => Z.eqb (Znth idx colors 0) color &&
-    InnsAffordable costs p idx (limit - 1)) (Zrange 0 limit)).
-Definition InnsPrefixCounts (colors costs : list Z) (limit k p answer : Z)
-  (seen good : list Z) : Prop :=
-  answer = InnsPairCount colors costs p limit /\
-  (forall color, 0 <= color < k -> Znth color seen 0 = InnsColorCount colors limit color) /\
-  (forall color, 0 <= color < k -> Znth color good 0 = InnsGoodColorCount colors costs limit p color).
-Definition InnsPairAnswer (colors costs : list Z) (n p answer : Z) : Prop :=
-  answer = InnsPairCount colors costs p n.
-Definition InnsCopiedPrefix (src old dst : list Z) (written k : Z) : Prop :=
-  Forall2 eq (sublist 0 written dst) (sublist 0 written src) /\
-  Forall2 eq (sublist written k dst) (sublist written k old).

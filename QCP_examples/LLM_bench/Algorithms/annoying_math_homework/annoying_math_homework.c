@@ -262,9 +262,9 @@ int interval_digits_sum(long long x, long long y)
   /*@ Assert
       x == x@pre && y == y@pre &&
       1 <= x && x <= y && y <= 1000000000000000000 &&
-      IntArray::undef_full(pointer_offset(dp, 0, sizeof(int), int), 200) *
-      IntArray::undef_full(pointer_offset(power, 0, sizeof(int), int), 20) *
-      IntArray::undef_full(pointer_offset(digits, 0, sizeof(int), int), 20)
+      IntArray::undef_full(pointer_offset(dp, 0, int), 200) *
+      IntArray::undef_full(pointer_offset(power, 0, int), 20) *
+      IntArray::undef_full(pointer_offset(digits, 0, int), 20)
    */
   digits_sum_init(dp, power);
   int ans1 = prefix_digits_sum(y, dp, digits);

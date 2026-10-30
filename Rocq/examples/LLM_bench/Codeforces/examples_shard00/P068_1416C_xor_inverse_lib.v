@@ -1647,7 +1647,7 @@ Proof.
   unfold InitializedSlice.
   apply (proj2 (list_eq_ext _ _ d)). split.
   - rewrite Zlength_sublist by lia.
-    rewrite Zlength_correct, map_length, <- Zlength_correct. lia.
+    rewrite Zlength_correct, length_map, <- Zlength_correct. lia.
   - intros j Hj.
     rewrite Zlength_sublist in Hj by lia.
     rewrite Znth_sublist by lia.
@@ -1898,7 +1898,7 @@ Proof.
   intros A B P Q FP FQ f Hmap Hsurj Hinj.
   rewrite !set_card_as_Zlength_enum__solve_recursive.
   rewrite !Zlength_correct. f_equal.
-  rewrite <- map_length with (f := f) (l := @enum A P FP).
+  rewrite <- length_map with (f := f) (l := @enum A P FP).
   apply Permutation_length, NoDup_Permutation.
   - apply Injective_map_NoDup_in.
     + intros x y Hx Hy Hxy. apply Hinj.
@@ -2671,7 +2671,7 @@ Proof.
   revert lo hi.
   induction rows as [|a rows IH]; intros lo hi row Hlen.
   - simpl in Hlen.
-    simpl [store_array_rec].
+    simpl.
     Intros_p Hlo.
     Intros_p Hnil.
     subst hi.
@@ -2680,7 +2680,7 @@ Proof.
       cancel.
     + split_pures; dump_pre_spatial; auto; lia.
   - simpl in Hlen.
-    simpl [store_array_rec].
+    simpl.
     sep_apply (IH (lo + 1) hi row).
     + cancel (Int64Array2.row_store 2 x lo a).
       cancel (store_array_rec (Int64Array2.row_store 2) x
@@ -2710,7 +2710,7 @@ Lemma int64_zero_row_full__solver_zero_cost : forall x,
 Proof.
   intros x.
   unfold Int64Array.full, store_array.
-  simpl [store_array_rec].
+  simpl.
   split_pure_spatial.
   - cancel ((x + 0 * sizeof(INT64)) # Int64 |-> 0).
     cancel ((x + 1 * sizeof(INT64)) # Int64 |-> 0).
@@ -3200,7 +3200,7 @@ Proof.
        Z.of_nat (List.length
          (selected bit ++ concat (map selected bits)))).
     rewrite fold_ones_length__solver_choice_loop.
-    rewrite app_length, Nat2Z.inj_add, IH. reflexivity.
+    rewrite length_app, Nat2Z.inj_add, IH. reflexivity.
   }
   change
     (fold_right
@@ -3216,7 +3216,7 @@ Proof.
       List.length (list_prod xs ys) =
         (List.length xs * List.length ys)%nat).
     { intros xs ys. induction xs as [|z xs IH]; simpl; [reflexivity |].
-      rewrite app_length, length_map, IH. lia. }
+      rewrite length_app, length_map, IH. lia. }
     assert (Haux : forall low m, List.length (Zrange_aux low m) = m).
     { intros low m. revert low. induction m; intros; simpl; congruence. }
     unfold pairs, finite_index_pair.
@@ -3438,7 +3438,7 @@ Proof.
     List.length (list_prod xs ys) =
       (List.length xs * List.length ys)%nat).
   { intros xs ys. induction xs as [|x xs IH]; simpl; [reflexivity |].
-    rewrite app_length, length_map, IH. lia. }
+    rewrite length_app, length_map, IH. lia. }
   change (Z.of_nat (List.length
       (list_prod (@enum A P FP) (@enum B Q FQ))) =
     Z.of_nat (List.length (@enum A P FP)) *

@@ -123,6 +123,42 @@ Abort.
 
 End SetTest1b.
 
+Module SetTest1c.
+
+Goal forall (A: Type) (X Y: A -> Prop) (a: A),
+  a ∈ X ∪ Y ->
+  a ∈ Y ∪ X ∪ Y.
+Proof.
+  idtac "Set Test 1c.".
+  intros A X Y.
+  Sets_unfold.
+  match goal with
+  | |- forall (a : A),
+          a ∈ X \/ a ∈ Y ->
+          (a ∈ Y \/ a ∈ X) \/ a ∈ Y => idtac "  Pass."
+  | _ => idtac "  Fail."
+  end.
+Abort.
+
+End SetTest1c.
+
+Module SetTest1d.
+
+Goal forall (A B: Type) (X Y: A -> B -> Prop) (a: A) (b: B),
+  (a, b) ∈ X ∪ Y ->
+  (a, b) ∈ Y ∪ X ∪ Y.
+Proof.
+  idtac "Set Test 1d.".
+  intros.
+  Sets_unfold.
+  match goal with
+  | |- ((a, b) ∈ Y \/ (a, b) ∈ X) \/ (a, b) ∈ Y => idtac "  Pass."
+  | _ => idtac "  Fail."
+  end.
+Abort.
+
+End SetTest1d.
+
 Module SetTest2a.
 
 Goal forall (A: Type) (X: nat * bool -> A -> Prop) (Y: A -> Prop),
@@ -428,6 +464,22 @@ Abort.
 
 End SetTest9b.
 
+Module SetTest10.
+
+Goal forall X Y: Prop,
+  X ⊆ Y -> X == Y.
+Proof.
+  idtac "Set Test 10.".
+  intros X Y.
+  Sets_unfold.
+  match goal with
+  | |- (X -> Y) -> (X <-> Y) => idtac "  Pass."
+  | _ => idtac "  Fail."
+  end.
+Abort.
+
+End SetTest10.
+
 Module RelTest0.
 
 Goal forall (A: Type) (X: A -> A -> Prop) (x y: A),
@@ -655,6 +707,58 @@ Proof.
 Abort.
 
 End RelTest8d.
+
+Module RelTest9a.
+
+Goal forall (A: Type) (X Y: A -> A -> Prop) (Z: A -> Prop),
+  X ⊆ Y ∘ Rels.test Z.
+Proof.
+  idtac "Rel Test 9a.".
+  intros.
+  Sets_unfold.
+  intros a b ?.
+  exists a.
+  revert H.
+  match goal with
+  | |- (a, b) ∈ X ->
+       (a, a) ∈ Y /\ a ∈ Z /\ a = b => idtac "  Pass."
+  | _ => idtac "  Fail."
+  end.
+Abort.
+
+End RelTest9a.
+
+Module RelTest9b.
+
+Goal forall (A: Type) (X: A -> Prop) (a b: A),
+  (a, b) ∈ Rels.test X.
+Proof.
+  idtac "Rel Test 9b.".
+  intros.
+  Sets_unfold.
+  match goal with
+  | |- a ∈ X /\ a = b => idtac "  Pass."
+  | _ => idtac "  Fail."
+  end.
+Abort.
+
+End RelTest9b.
+
+Module RelTest9c.
+
+Goal forall (A: Type) (X: A -> Prop) (Y: A -> A -> Prop) (a b: A),
+  (a, b) ∈ Y ∘ Rels.test X.
+Proof.
+  idtac "Rel Test 9c.".
+  intros.
+  Sets_unfold.
+  match goal with
+  | |- exists i : A, (a, i) ∈ Y /\ i ∈ X /\ i = b => idtac "  Pass."
+  | _ => idtac "  Fail."
+  end.
+Abort.
+
+End RelTest9c.
 
 Goal forall (A: Type) (X Y: A -> A -> Prop),
   X ⊆ Y ∪ X.

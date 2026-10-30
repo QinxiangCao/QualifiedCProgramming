@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P010_412A_poster_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P010_412A_poster_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.array2_ext_lib.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P010_412A_poster_lib.
@@ -24,23 +8,23 @@ Local Open Scope sac.
 
 Lemma proof_of_write_left_return_wit_1_split_goal_1 : write_left_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold ActionSlotBridge.
   split.
-  - exact PreH2.
+  - exact PreH1.
   - exists (76 :: 69 :: 70 :: 84 :: 0 :: nil).
     split.
     + unfold ActionBytes, LeftAction. left. repeat split; reflexivity.
-    + destruct (poster_Zlength_8_decompose__write_actions before PreH2)
+    + destruct (poster_Zlength_8_decompose__write_actions before PreH1)
         as [a0 [a1 [a2 [a3 [a4 [a5 [a6 [a7 Hbefore]]]]]]]].
       subst before. reflexivity.
 Qed.
 
 Lemma proof_of_write_left_return_wit_1_split_goal_2 : write_left_return_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   repeat rewrite Zlength_replace_Znth.
-  exact PreH2.
+  assumption.
 Qed.
 
 Lemma proof_of_write_left_return_wit_1 : write_left_return_wit_1.
@@ -52,23 +36,23 @@ Qed.
 
 Lemma proof_of_write_right_return_wit_1_split_goal_1 : write_right_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold ActionSlotBridge.
   split.
-  - exact PreH2.
+  - assumption.
   - exists (82 :: 73 :: 71 :: 72 :: 84 :: 0 :: nil).
     split.
     + unfold ActionBytes, RightAction. right. left. repeat split; reflexivity.
-    + destruct (poster_Zlength_8_decompose__write_actions before PreH2)
+    + destruct (poster_Zlength_8_decompose__write_actions before PreH1)
         as [a0 [a1 [a2 [a3 [a4 [a5 [a6 [a7 Hbefore]]]]]]]].
       subst before. reflexivity.
 Qed.
 
 Lemma proof_of_write_right_return_wit_1_split_goal_2 : write_right_return_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   repeat rewrite Zlength_replace_Znth.
-  exact PreH2.
+  assumption.
 Qed.
 
 Lemma proof_of_write_right_return_wit_1 : write_right_return_wit_1.
@@ -80,23 +64,23 @@ Qed.
 
 Lemma proof_of_write_print_return_wit_1_split_goal_1 : write_print_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold ActionSlotBridge.
   split.
-  - exact PreH2.
+  - assumption.
   - exists (80 :: 82 :: 73 :: 78 :: 84 :: 32 :: ch_pre :: 0 :: nil).
     split.
     + unfold ActionBytes, PrintAction. right. right. repeat split; reflexivity.
-    + destruct (poster_Zlength_8_decompose__write_actions before PreH2)
+    + destruct (poster_Zlength_8_decompose__write_actions before PreH1)
         as [a0 [a1 [a2 [a3 [a4 [a5 [a6 [a7 Hbefore]]]]]]]].
       subst before. reflexivity.
 Qed.
 
 Lemma proof_of_write_print_return_wit_1_split_goal_2 : write_print_return_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   repeat rewrite Zlength_replace_Znth.
-  exact PreH2.
+  assumption.
 Qed.
 
 Lemma proof_of_write_print_return_wit_1 : write_print_return_wit_1.
@@ -157,7 +141,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2 : solver_entail_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists rows_2.
   split_pure_spatial.
   - sep_apply_l_atomic
@@ -174,11 +158,9 @@ Proof.
         (CharArray.full (out_pre + t * 8 * sizeof (CHAR)) 8
           (Znth t rows_2 __default__List_Z)).
       replace (out_pre + t * 8 * sizeof (CHAR))
-        with (out_pre + t * (sizeof (CHAR) * 8) + 0 * sizeof (CHAR))
+        with (out_pre + t * (8 * sizeof (CHAR)) + 0 * sizeof (CHAR))
         by (rewrite sizeof_char; lia).
-      cancel (CharArray.full
-        (out_pre + t * (sizeof (CHAR) * 8) + 0 * sizeof (CHAR)) 8
-        (Znth t rows_2 __default__List_Z)).
+      cancel; try (dump_pre_spatial; lia); try assumption.
   - split_pures.
     all: dump_pre_spatial; try assumption; try lia.
     exact (PreH18 t (conj PreH13 PreH14)).
@@ -186,7 +168,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3 : solver_entail_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (replace_Znth t after rows_2).
   split_pure_spatial.
   - cancel (CharArray.full s_pre n_pre text).
@@ -195,16 +177,16 @@ Proof.
     change (CharArray2.ElemArray.full (CharArray2.row_addr out_pre 8 t) 8 after)
       with (CharArray.full (out_pre + t * 8 * sizeof (CHAR)) 8 after) in Hmerge.
     replace (out_pre + t * 8 * sizeof (CHAR))
-      with (out_pre + t * (sizeof (CHAR) * 8) + 0 * sizeof (CHAR)) in Hmerge
+      with (out_pre + t * (8 * sizeof (CHAR)) + 0 * sizeof (CHAR)) in Hmerge
       by (rewrite sizeof_char; lia).
     sep_apply Hmerge; try lia.
     cancel.
   - split_pures.
     all: dump_pre_spatial; try assumption; try lia.
-    + rewrite (left_walk_plan_step__left_walk k_pre p PreH13 PreH14).
+    + rewrite (left_walk_plan_step__left_walk k_pre p PreH12 PreH13).
       rewrite Zlength_app, Zlength_cons. simpl. lia.
-    + rewrite (left_walk_plan_step__left_walk k_pre p PreH13 PreH14).
-      pose proof PreH21 as Hbridge.
+    + rewrite (left_walk_plan_step__left_walk k_pre p PreH12 PreH13).
+      pose proof PreH20 as Hbridge.
       unfold SolverOutputBridge in Hbridge.
       destruct Hbridge as [_ [_ [Hrows _]]].
       assert (Hslot : ActionSlotBridge LeftAction
@@ -213,8 +195,8 @@ Proof.
           by (rewrite Hrows; lia).
         exact PreH2. }
       apply solver_output_bridge_left_append__left_walk;
-        [exact PreH21 | exact Hslot | exact PreH18].
-    + pose proof PreH21 as Hbridge.
+        [exact PreH20 | exact Hslot | exact PreH17].
+    + pose proof PreH20 as Hbridge.
       unfold SolverOutputBridge in Hbridge.
       destruct Hbridge as [_ [_ [Hrows _]]].
       intros i Hi.
@@ -225,7 +207,7 @@ Proof.
         exact PreH1.
       * rewrite (Znth_replace_Znth_Diff __default__List_Z rows_2 t i after)
           by (try rewrite Hrows; lia).
-        apply PreH22. exact Hi.
+        apply PreH21. exact Hi.
 Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_1 : solver_entail_wit_4_split_goal_1.
@@ -242,6 +224,7 @@ Proof.
   simpl.
   simpl in PreH17.
   rewrite app_nil_r.
+  rewrite <- PreH8.
   exact PreH17.
 Qed.
 
@@ -253,6 +236,7 @@ Proof.
   unfold ForwardSweepPlan, ZRange.Zrange.
   simpl.
   rewrite app_nil_r.
+  rewrite <- PreH8.
   exact PreH16.
 Qed.
 
@@ -272,7 +256,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5 : solver_entail_wit_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hcap : t + (2 * (n_pre - p) + 1) < 3 * n_pre).
   { apply PreH14. lia. }
   assert (Hrows_len : Zlength rows_2 = 3 * n_pre).
@@ -289,21 +273,20 @@ Proof.
         (CharArray.full (out_pre + t * 8 * sizeof (CHAR)) 8
           (Znth t rows_2 __default__List_Z)).
       replace (out_pre + t * 8 * sizeof (CHAR)) with
-        (out_pre + t * (sizeof (CHAR) * 8) + 0 * sizeof (CHAR)) by
-        (rewrite sizeof_char; ring).
+        (out_pre + t * (8 * sizeof (CHAR)) + 0 * sizeof (CHAR)) by ring.
       cancel.
   - split_pures.
     all: dump_pre_spatial.
     all: try assumption.
     all: try lia.
-    all: eauto.
+    apply PreH18; lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_6 : solver_entail_wit_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hrows_len : Zlength rows_2 = 3 * n_pre).
-  { unfold SolverOutputBridge in PreH24. tauto. }
+  { unfold SolverOutputBridge in PreH22. tauto. }
   assert (Hslot : ActionSlotBridge
       (PrintAction (Znth (p - 1) text 0)) (Znth t rows_2 (@nil Z)) after).
   { rewrite (Znth_indep rows_2 t (@nil Z) __default__List_Z)
@@ -321,7 +304,7 @@ Proof.
         (LeftWalkPlan k_pre 1 ++ ForwardSweepPlan text p) t out_before rows_2
         (PrintAction (Znth (p - 1) text 0)) after).
       - lia.
-      - exact PreH24.
+      - exact PreH22.
       - exact Hslot. }
     rewrite <- app_assoc in Hbridge_temp.
     exact Hbridge_temp. }
@@ -339,7 +322,7 @@ Proof.
       exact PreH2.
     - rewrite (Znth_replace_Znth_Diff __default__List_Z rows_2 t i after)
         by (try rewrite Hrows_len; lia).
-      apply PreH25. exact Hi. }
+      apply PreH23. exact Hi. }
   assert (Hnext_row_len : Zlength
       (Znth (t + 1) (replace_Znth t after rows_2) __default__List_Z) = 8).
   { apply Hrows_shape. lia. }
@@ -351,8 +334,7 @@ Proof.
       8 after) with (CharArray.full (out_pre + t * 8 * sizeof (CHAR))
         8 after) in Hmerge.
     replace (out_pre + t * 8 * sizeof (CHAR)) with
-      (out_pre + t * (sizeof (CHAR) * 8) + 0 * sizeof (CHAR)) in Hmerge by
-      (rewrite sizeof_char; ring).
+      (out_pre + t * (8 * sizeof (CHAR)) + 0 * sizeof (CHAR)) in Hmerge by ring.
     sep_apply Hmerge; try lia.
     sep_apply_l_atomic (CharArray2.full_split_to_missing_i out_pre (t + 1)
       (3 * n_pre) 8 (replace_Znth t after rows_2)).
@@ -365,21 +347,21 @@ Proof.
         (CharArray.full (out_pre + (t + 1) * 8 * sizeof (CHAR)) 8
           (Znth (t + 1) (replace_Znth t after rows_2) __default__List_Z)).
       replace (out_pre + (t + 1) * 8 * sizeof (CHAR)) with
-        (out_pre + (t + 1) * (sizeof (CHAR) * 8) + 0 * sizeof (CHAR)) by
-        (rewrite sizeof_char; ring).
+        (out_pre + (t + 1) * (8 * sizeof (CHAR)) + 0 * sizeof (CHAR)) by ring.
       cancel.
   - split_pures.
     all: dump_pre_spatial.
     all: try assumption.
     all: try lia.
-    all: try (rewrite <- app_assoc; exact Hnext_ret).
-    all: try (rewrite <- app_assoc; exact Hbridge_next).
-    all: eauto.
+    + rewrite Zlength_app, Zlength_cons, Zlength_nil.
+      lia.
+    + rewrite app_assoc in Hbridge_next.
+      exact Hbridge_next.
 Qed.
 
 Lemma proof_of_solver_entail_wit_7_1 : solver_entail_wit_7_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hrows_len : Zlength rows_2 = 3 * n_pre).
   { match goal with
     | H : SolverOutputBridge _ _ _ _ rows_2 |- _ =>
@@ -399,7 +381,7 @@ Proof.
        PrintAction (Znth (p - 1) text 0)) t out_before rows_2
       RightAction after).
     - lia.
-    - exact PreH21.
+    - exact PreH20.
     - exact Hslot. }
   assert (Hbridge_next : SolverOutputBridge (3 * n_pre)
       (LeftWalkPlan k_pre 1 ++ ForwardSweepPlan text (p + 1))
@@ -421,7 +403,7 @@ Proof.
       exact PreH1.
     - rewrite (Znth_replace_Znth_Diff __default__List_Z rows_2 t i after)
         by (try rewrite Hrows_len; lia).
-      apply PreH22. exact Hi. }
+      apply PreH21. exact Hi. }
   Exists (replace_Znth t after rows_2).
   split_pure_spatial.
   - pose proof (CharArray2.missing_i_merge_to_full out_pre t (3 * n_pre)
@@ -429,9 +411,8 @@ Proof.
     change (CharArray2.ElemArray.full (CharArray2.row_addr out_pre 8 t)
       8 after) with (CharArray.full (out_pre + t * 8 * sizeof (CHAR))
         8 after) in Hmerge.
-    replace (out_pre + t * 8 * sizeof (CHAR)) with
-      (out_pre + t * (sizeof (CHAR) * 8) + 0 * sizeof (CHAR)) in Hmerge by
-      (rewrite sizeof_char; ring).
+    replace (out_pre + t * (8 * sizeof (CHAR)) + 0 * sizeof (CHAR)) with
+      (out_pre + t * 8 * sizeof (CHAR)) by lia.
     sep_apply Hmerge; try lia.
     cancel.
   - split_pures.
@@ -448,20 +429,20 @@ Proof.
   LLM_pre_process ltac:(lia || int_auto).
   Exists (replace_Znth t after rows_2).
   split_pure_spatial.
-  - cancel (CharArray.full s_pre n_pre text).
-    replace (out_pre + t * (sizeof (CHAR) * 8) + 0 * sizeof (CHAR))
-      with (out_pre + t * 8 * sizeof (CHAR)) by ring.
-    change (CharArray.full (out_pre + t * 8 * sizeof (CHAR)) 8 after)
-      with (CharArray2.ElemArray.full (CharArray2.row_addr out_pre 8 t)
-        8 after).
-    sep_apply (CharArray2.missing_i_merge_to_full out_pre t
-      (3 * n_pre) 8 rows_2 after); try lia.
+  - pose proof (CharArray2.missing_i_merge_to_full out_pre t
+      (3 * n_pre) 8 rows_2 after) as Hmerge.
+    change (CharArray2.ElemArray.full (CharArray2.row_addr out_pre 8 t)
+      8 after) with (CharArray.full (out_pre + t * 8 * sizeof (CHAR))
+      8 after) in Hmerge.
+    replace (out_pre + t * (8 * sizeof (CHAR)) + 0 * sizeof (CHAR)) with
+      (out_pre + t * 8 * sizeof (CHAR)) by lia.
+    sep_apply Hmerge; try lia.
     cancel.
-  - destruct PreH24 as [Hret [Hbefore [Hafter [Hactions Hsuffix]]]].
+  - destruct PreH22 as [Hret [Hbefore [Hafter [Hactions Hsuffix]]]].
     assert (Hkpre : 1 <= k_pre <= Zlength text)
-      by (rewrite <- PreH11; lia).
+      by (rewrite <- PreH9; lia).
     assert (Hnpre : 1 <= Zlength text <= 100)
-      by (rewrite <- PreH11; lia).
+      by (rewrite <- PreH9; lia).
     assert (Hp : p = n_pre) by lia.
     subst p.
     assert (Hplan :
@@ -507,17 +488,17 @@ Proof.
         exact PreH2.
       * rewrite (Znth_replace_Znth_Diff __default__List_Z rows_2 t r after)
           by (try rewrite Hafter; lia).
-        apply PreH25. exact Hr.
+        apply PreH23. exact Hr.
 Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_1 : solver_entail_wit_8_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_2 : solver_entail_wit_8_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold SolverOutputBridge, RightWalkPlan.
   rewrite Z.sub_diag.
   simpl.
@@ -526,19 +507,19 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_3 : solver_entail_wit_8_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold RightWalkPlan. rewrite Z.sub_diag. simpl. reflexivity.
 Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_4 : solver_entail_wit_8_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply right_first_spec__trace_count; lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_5 : solver_entail_wit_8_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_8 : solver_entail_wit_8.
@@ -553,7 +534,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9 : solver_entail_wit_9.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists rows_2.
   split_pure_spatial.
   - sep_apply_l_atomic
@@ -563,11 +544,16 @@ Proof.
       unfold SolverOutputBridge in Hbridge.
       destruct Hbridge as [_ [_ [Hrows _]]].
       assert (Htrows : 0 <= t < Zlength rows_2) by (rewrite Hrows; exact Hp).
-      rewrite (Znth_indep rows_2 t nil __default__List_Z Htrows).
       unfold CharArray2.row_addr.
       simpl.
+      change (CharArray.full (out_pre + t * 8 * sizeof (CHAR)) 8
+        (Znth t rows_2 nil)) with
+        (CharArray2.ElemArray.full (out_pre + t * 8 * sizeof (CHAR)) 8
+          (Znth t rows_2 nil)).
+      rewrite (Znth_indep rows_2 t nil __default__List_Z) by exact Htrows.
+      replace (out_pre + t * 8 * sizeof (CHAR)) with
+        (out_pre + t * 8 + 0) by (rewrite sizeof_char; ring).
       cancel.
-      replace (out_pre + t * 8 * 1) with (out_pre + t * 8 + 0) by ring.
       change (CharArray.full (out_pre + t * 8 + 0) 8
         (Znth t rows_2 __default__List_Z) |--
         CharArray.full (out_pre + t * 8 + 0) 8
@@ -582,7 +568,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_10 : solver_entail_wit_10.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Holdbridge : SolverOutputBridge (3 * n_pre)
     (RightWalkPlan k_pre p) t out_before rows_2) by assumption.
   pose proof Holdbridge as Hbridge_parts.
@@ -606,18 +592,15 @@ Proof.
     - exact Haction. }
   Exists (replace_Znth t after rows_2).
   split_pure_spatial.
-  - cancel (CharArray.full s_pre n_pre text).
-    replace (out_pre + t * (sizeof(CHAR) * 8) + 0 * sizeof(CHAR))
-      with (out_pre + t * 8 * 1) by (simpl; ring).
-    change
-      (CharArray2.ElemArray.full (CharArray2.row_addr out_pre 8 t) 8 after **
-       CharArray2.missing_i out_pre t 0 (3 * n_pre) 8 rows_2
-      |-- CharArray2.full out_pre (3 * n_pre) 8
-        (replace_Znth t after rows_2)).
-    sep_apply_l_atomic
-      (CharArray2.missing_i_merge_to_full out_pre t (3 * n_pre) 8 rows_2 after).
-    + dump_pre_spatial. lia.
-    + cancel.
+  - pose proof (CharArray2.missing_i_merge_to_full out_pre t
+      (3 * n_pre) 8 rows_2 after) as Hmerge.
+    change (CharArray2.ElemArray.full (CharArray2.row_addr out_pre 8 t)
+      8 after) with (CharArray.full (out_pre + t * 8 * sizeof (CHAR))
+      8 after) in Hmerge.
+    replace (out_pre + t * (8 * sizeof (CHAR)) + 0 * sizeof (CHAR)) with
+      (out_pre + t * 8 * sizeof (CHAR)) by lia.
+    sep_apply Hmerge; try lia.
+    cancel.
   - split_pures.
     all: dump_pre_spatial.
     all: try assumption.
@@ -643,14 +626,15 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_11_split_goal_1 : solver_entail_wit_11_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_11_split_goal_2 : solver_entail_wit_11_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hp : p = n_pre) by lia.
   subst p.
+  subst cursor.
   assert (Hsweep : BackwardSweepPlan text n_pre = (@nil (Z * Z))).
   { rewrite PreH7. apply backward_sweep_at_end__right_completion. }
   rewrite Hsweep.
@@ -660,9 +644,10 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_11_split_goal_3 : solver_entail_wit_11_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hp : p = n_pre) by lia.
   subst p.
+  subst cursor.
   assert (Hsweep : BackwardSweepPlan text n_pre = (@nil (Z * Z))).
   { rewrite PreH7. apply backward_sweep_at_end__right_completion. }
   rewrite Hsweep.
@@ -672,7 +657,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_11_split_goal_4 : solver_entail_wit_11_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_11 : solver_entail_wit_11.
@@ -686,7 +671,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12 : solver_entail_wit_12.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply (CharArray2.full_Zlength out_pre (3 * n_pre) 8 rows_2).
   Intros.
   Exists rows_2.
@@ -700,9 +685,8 @@ Proof.
         (Znth t rows_2 __default__List_Z)) with
         (CharArray.full (out_pre + t * 8 * sizeof (CHAR)) 8
           (Znth t rows_2 __default__List_Z)).
-      replace (out_pre + t * 8 * sizeof (CHAR)) with
-        (out_pre + t * (sizeof (CHAR) * 8) + 0 * sizeof (CHAR))
-        by (rewrite sizeof_char; lia).
+      replace (out_pre + t * (8 * sizeof (CHAR)) + 0 * sizeof (CHAR)) with
+        (out_pre + t * 8 * sizeof (CHAR)) by lia.
       cancel.
   - split_pures.
     all: dump_pre_spatial.
@@ -711,7 +695,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_13 : solver_entail_wit_13.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (replace_Znth t after rows_2).
   split_pure_spatial.
   - cancel (CharArray.full s_pre n_pre text).
@@ -719,13 +703,13 @@ Proof.
     change (CharArray2.ElemArray.full (CharArray2.row_addr out_pre 8 t) 8 after)
       with (CharArray.full
         (out_pre + t * 8 * sizeof (CHAR)) 8 after) in Hm.
-    replace (out_pre + t * (sizeof (CHAR) * 8) + 0 * sizeof (CHAR))
+    replace (out_pre + t * (8 * sizeof (CHAR)) + 0 * sizeof (CHAR))
       with (out_pre + t * 8 * sizeof (CHAR))
-      by (rewrite sizeof_char; nia).
-    sep_apply Hm; try lia.
-    replace (out_pre + (t + 1) * (sizeof (CHAR) * 8) + 0 * sizeof (CHAR))
+      by lia.
+    replace (out_pre + (t + 1) * (8 * sizeof (CHAR)) + 0 * sizeof (CHAR))
       with (out_pre + (t + 1) * 8 * sizeof (CHAR))
-      by (rewrite sizeof_char; nia).
+      by lia.
+    sep_apply Hm; try lia.
     sep_apply (CharArray2.full_split_to_missing_i out_pre (t + 1) (3 * n_pre) 8
       (replace_Znth t after rows_2)); try lia.
     match goal with H : SolverOutputBridge _ _ _ _ _ |- _ =>
@@ -790,7 +774,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_1 : solver_entail_wit_14_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hret0 : t = Zlength
     ((RightWalkPlan k_pre n_pre ++ BackwardSweepPlan text p) ++
       PrintAction (Znth (p - 1) text 0) :: nil)) by assumption.
@@ -801,9 +785,9 @@ Proof.
     change (CharArray2.ElemArray.full (CharArray2.row_addr out_pre 8 t) 8 after)
       with (CharArray.full
         (out_pre + t * 8 * sizeof (CHAR)) 8 after) in Hm.
-    replace (out_pre + t * (sizeof (CHAR) * 8) + 0 * sizeof (CHAR))
+    replace (out_pre + t * (8 * sizeof (CHAR)) + 0 * sizeof (CHAR))
       with (out_pre + t * 8 * sizeof (CHAR))
-      by (rewrite sizeof_char; nia).
+      by lia.
     sep_apply Hm; try lia.
     cancel.
   - split_pures.
@@ -880,7 +864,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_14_2 : solver_entail_wit_14_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (replace_Znth t after rows_2).
   split_pure_spatial.
   - cancel (CharArray.full s_pre n_pre text).
@@ -888,9 +872,8 @@ Proof.
     change (CharArray2.ElemArray.full (CharArray2.row_addr out_pre 8 t) 8 after)
       with (CharArray.full
         (out_pre + t * 8 * sizeof (CHAR)) 8 after) in Hm.
-    replace (out_pre + t * (sizeof (CHAR) * 8) + 0 * sizeof (CHAR))
-      with (out_pre + t * 8 * sizeof (CHAR))
-      by (rewrite sizeof_char; nia).
+    replace (out_pre + t * (8 * sizeof (CHAR)) + 0 * sizeof (CHAR))
+      with (out_pre + t * 8 * sizeof (CHAR)) by lia.
     sep_apply Hm; try lia.
     cancel.
   - split_pures.
@@ -903,7 +886,7 @@ Proof.
       subst p;
       change (ret + 1 = Zlength (right ++ BackwardSweepPlan text 0));
       assert (Htext : 1 <= Zlength text) by
-        (rewrite <- PreH11; lia);
+        (rewrite <- PreH9; lia);
       rewrite (poster_backward_sweep_exit_prefixed__right_sweep right text Htext);
       rewrite Zlength_app_cons;
       lia
@@ -914,7 +897,7 @@ Proof.
       change (SolverOutputBridge capacity (right ++ BackwardSweepPlan text 0)
         (ret + 1) before (replace_Znth ret newrow rows));
       assert (Htext : 1 <= Zlength text) by
-        (rewrite <- PreH11; lia);
+        (rewrite <- PreH9; lia);
       rewrite (poster_backward_sweep_exit_prefixed__right_sweep right text Htext);
       match goal with Hbridge : SolverOutputBridge _ _ _ _ _ |- _ =>
         pose proof Hbridge as Hbridge';
@@ -950,7 +933,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1 : solver_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hp : p = n_pre + 1) by lia.
   subst p.
   subst cursor.
@@ -966,7 +949,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_2 : solver_return_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst n_pre.
   subst cursor.
   assert (Hp : p = 0) by lia.

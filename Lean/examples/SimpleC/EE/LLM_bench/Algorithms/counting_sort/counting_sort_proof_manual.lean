@@ -104,7 +104,7 @@ private theorem value_bounds (l : List Int) (i : Int)
 
 theorem proof_of_sort_entail_wit_2_split_goal_1 : sort_entail_wit_2_split_goal_1 := by
   unfold sort_entail_wit_2_split_goal_1
-  intro n_pre input value count_mixed_2 output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
+  intro input n_pre value count_mixed_2 output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
   first
   | assumption
   | omega
@@ -118,7 +118,7 @@ theorem proof_of_sort_entail_wit_2_split_goal_1 : sort_entail_wit_2_split_goal_1
 
 theorem proof_of_sort_entail_wit_2_split_goal_2 : sort_entail_wit_2_split_goal_2 := by
   unfold sort_entail_wit_2_split_goal_2
-  intro n_pre input value count_mixed_2 output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
+  intro input n_pre value count_mixed_2 output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
   first
   | assumption
   | omega
@@ -129,7 +129,7 @@ theorem proof_of_sort_entail_wit_2_split_goal_2 : sort_entail_wit_2_split_goal_2
 
 theorem proof_of_sort_entail_wit_5_split_goal_1 : sort_entail_wit_5_split_goal_1 := by
   unfold sort_entail_wit_5_split_goal_1
-  intro n_pre input i output_mixed_2 counts_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro input n_pre i output_mixed_2 counts_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -149,7 +149,7 @@ theorem proof_of_sort_entail_wit_5_split_goal_1 : sort_entail_wit_5_split_goal_1
 
 theorem proof_of_sort_entail_wit_5_split_goal_4 : sort_entail_wit_5_split_goal_4 := by
   unfold sort_entail_wit_5_split_goal_4
-  intro n_pre input i output_mixed_2 counts_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
+  intro input n_pre i output_mixed_2 counts_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20
   first
   | assumption
   | omega
@@ -160,7 +160,7 @@ theorem proof_of_sort_entail_wit_5_split_goal_4 : sort_entail_wit_5_split_goal_4
 
 theorem proof_of_sort_entail_wit_6_split_goal_1 : sort_entail_wit_6_split_goal_1 := by
   unfold sort_entail_wit_6_split_goal_1
-  intro n_pre input i counts output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro input n_pre i counts output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -184,7 +184,7 @@ theorem proof_of_sort_entail_wit_6_split_goal_1 : sort_entail_wit_6_split_goal_1
 
 theorem proof_of_sort_entail_wit_6_split_goal_2 : sort_entail_wit_6_split_goal_2 := by
   unfold sort_entail_wit_6_split_goal_2
-  intro n_pre input i counts output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro input n_pre i counts output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -206,7 +206,7 @@ theorem proof_of_sort_entail_wit_6_split_goal_2 : sort_entail_wit_6_split_goal_2
 
 theorem proof_of_sort_entail_wit_7_split_goal_1 : sort_entail_wit_7_split_goal_1 := by
   unfold sort_entail_wit_7_split_goal_1
-  intro n_pre input value positions_2 output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
+  intro input n_pre value positions_2 output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
   first
   | assumption
   | omega
@@ -231,7 +231,7 @@ theorem proof_of_sort_entail_wit_7_split_goal_1 : sort_entail_wit_7_split_goal_1
 
 theorem proof_of_sort_entail_wit_7_split_goal_2 : sort_entail_wit_7_split_goal_2 := by
   unfold sort_entail_wit_7_split_goal_2
-  intro n_pre input value positions_2 output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
+  intro input n_pre value positions_2 output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
   first
   | assumption
   | omega
@@ -254,7 +254,7 @@ theorem proof_of_sort_entail_wit_7_split_goal_2 : sort_entail_wit_7_split_goal_2
 
 theorem proof_of_sort_entail_wit_7_split_goal_5 : sort_entail_wit_7_split_goal_5 := by
   unfold sort_entail_wit_7_split_goal_5
-  intro n_pre input value positions_2 output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
+  intro input n_pre value positions_2 output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
   first
   | assumption
   | omega
@@ -265,7 +265,7 @@ theorem proof_of_sort_entail_wit_7_split_goal_5 : sort_entail_wit_7_split_goal_5
 
 theorem proof_of_sort_entail_wit_9_split_goal_1 : sort_entail_wit_9_split_goal_1 := by
   unfold sort_entail_wit_9_split_goal_1
-  intro n_pre input i output_mixed bucket_ends sorted positions NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25
+  intro input n_pre i output_mixed bucket_ends sorted positions NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25
   first
   | assumption
   | omega
@@ -287,7 +287,7 @@ theorem proof_of_sort_entail_wit_9_split_goal_1 : sort_entail_wit_9_split_goal_1
 
 theorem proof_of_sort_entail_wit_4_split_goal_3 : sort_entail_wit_4_split_goal_3 := by
   unfold sort_entail_wit_4_split_goal_3
-  intro n_pre input i output_mixed counts NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18
+  intro input n_pre i output_mixed counts NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18
   first
   | assumption
   | omega
@@ -304,7 +304,7 @@ theorem proof_of_sort_entail_wit_4_split_goal_3 : sort_entail_wit_4_split_goal_3
 
 theorem proof_of_sort_entail_wit_4_split_goal_4 : sort_entail_wit_4_split_goal_4 := by
   unfold sort_entail_wit_4_split_goal_4
-  intro n_pre input i output_mixed counts NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18
+  intro input n_pre i output_mixed counts NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18
   first
   | assumption
   | omega
@@ -321,7 +321,7 @@ theorem proof_of_sort_entail_wit_4_split_goal_4 : sort_entail_wit_4_split_goal_4
 
 theorem proof_of_sort_entail_wit_10_split_goal_1 : sort_entail_wit_10_split_goal_1 := by
   unfold sort_entail_wit_10_split_goal_1
-  intro n_pre input i output_mixed bucket_ends sorted positions NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29
+  intro input n_pre i output_mixed bucket_ends sorted positions NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29
   first
   | assumption
   | omega
@@ -332,7 +332,7 @@ theorem proof_of_sort_entail_wit_10_split_goal_1 : sort_entail_wit_10_split_goal
 
 theorem proof_of_sort_entail_wit_10_split_goal_2 : sort_entail_wit_10_split_goal_2 := by
   unfold sort_entail_wit_10_split_goal_2
-  intro n_pre input i output_mixed bucket_ends sorted positions NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29
+  intro input n_pre i output_mixed bucket_ends sorted positions NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29
   first
   | assumption
   | omega
@@ -343,7 +343,7 @@ theorem proof_of_sort_entail_wit_10_split_goal_2 : sort_entail_wit_10_split_goal
 
 theorem proof_of_sort_entail_wit_13_split_goal_1 : sort_entail_wit_13_split_goal_1 := by
   unfold sort_entail_wit_13_split_goal_1
-  intro n_pre input i bucket_starts_2 live_2 sorted_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13
+  intro input n_pre i bucket_starts_2 live_2 sorted_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13
   first
   | assumption
   | omega
@@ -355,7 +355,7 @@ theorem proof_of_sort_entail_wit_13_split_goal_1 : sort_entail_wit_13_split_goal
 
 theorem proof_of_sort_entail_wit_13_split_goal_2 : sort_entail_wit_13_split_goal_2 := by
   unfold sort_entail_wit_13_split_goal_2
-  intro n_pre input i bucket_starts_2 live_2 sorted_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13
+  intro input n_pre i bucket_starts_2 live_2 sorted_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13
   first
   | assumption
   | omega
@@ -366,7 +366,7 @@ theorem proof_of_sort_entail_wit_13_split_goal_2 : sort_entail_wit_13_split_goal
 
 theorem proof_of_sort_entail_wit_14_split_goal_1 : sort_entail_wit_14_split_goal_1 := by
   unfold sort_entail_wit_14_split_goal_1
-  intro n_pre input i bucket_starts live sorted_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13
+  intro input n_pre i bucket_starts live sorted_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13
   first
   | assumption
   | omega
@@ -383,7 +383,7 @@ theorem proof_of_sort_entail_wit_14_split_goal_1 : sort_entail_wit_14_split_goal
 
 theorem proof_of_sort_entail_wit_14_split_goal_spatial : sort_entail_wit_14_split_goal_spatial := by
   unfold sort_entail_wit_14_split_goal_spatial
-  intro n_pre input i bucket_starts live sorted_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13
+  intro input n_pre i bucket_starts live sorted_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13
   have PreH2 : ((0 : Int) <= n_pre) := NewPreH2
   have PreH3 : (n_pre <= 100) := NewPreH3
   have hout : intArray.seg (&("output")) 0 n_pre sorted_2 ** intArray.undef_seg (&("output")) n_pre 100
@@ -404,7 +404,7 @@ theorem proof_of_sort_entail_wit_14_split_goal_spatial : sort_entail_wit_14_spli
 
 theorem proof_of_sort_return_wit_1_split_goal_1 : sort_return_wit_1_split_goal_1 := by
   unfold sort_return_wit_1_split_goal_1
-  intro n_pre input sorted NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+  intro input n_pre sorted NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
   first
   | assumption
   | omega
@@ -415,7 +415,7 @@ theorem proof_of_sort_return_wit_1_split_goal_1 : sort_return_wit_1_split_goal_1
 
 theorem proof_of_sort_return_wit_1_split_goal_2 : sort_return_wit_1_split_goal_2 := by
   unfold sort_return_wit_1_split_goal_2
-  intro n_pre input sorted NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+  intro input n_pre sorted NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
   first
   | assumption
   | omega
@@ -427,7 +427,7 @@ theorem proof_of_sort_return_wit_1_split_goal_2 : sort_return_wit_1_split_goal_2
 theorem proof_of_sort_safety_wit_10 : sort_safety_wit_10 := by
   unfold sort_safety_wit_10
   right
-  intro n_pre a_pre input value positions output_mixed PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro input a_pre n_pre value positions output_mixed PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   have h0 := bounds_index positions 0 n_pre value PreH11 PreH12 ⟨by omega, by omega⟩
   have h1 := bounds_index positions 0 n_pre (value-1) PreH11 PreH12 ⟨by omega, by omega⟩
   have hb := PreH13 PreH1
@@ -436,7 +436,7 @@ theorem proof_of_sort_safety_wit_10 : sort_safety_wit_10 := by
 theorem proof_of_sort_entail_wit_1 : sort_entail_wit_1 := by
   unfold sort_entail_wit_1
   right
-  intro n_pre input NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+  intro input n_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
   have hnone : Forall (Eq (none : Option Int)) (List.replicate 100 (none : Option Int)) := by
     apply Forall.iff_forall_mem.mpr
     intro x hx
@@ -462,7 +462,7 @@ theorem proof_of_sort_entail_wit_1 : sort_entail_wit_1 := by
 theorem proof_of_sort_entail_wit_2 : sort_entail_wit_2 := by
   unfold sort_entail_wit_2
   right
-  intro n_pre input value count_mixed_2 output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
+  intro input n_pre value count_mixed_2 output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
   have PreH1 : (value < 100) := NewPreH1
   have PreH2 : ((0 : Int) <= n_pre) := NewPreH2
   have PreH3 : (n_pre <= 100) := NewPreH3
@@ -488,14 +488,14 @@ theorem proof_of_sort_entail_wit_2 : sort_entail_wit_2 := by
       | assumption
       | omega
       | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-      | exact proof_of_sort_entail_wit_2_split_goal_1 n_pre input value count_mixed_2 output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
-      | exact proof_of_sort_entail_wit_2_split_goal_2 n_pre input value count_mixed_2 output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
+      | exact proof_of_sort_entail_wit_2_split_goal_1 input n_pre value count_mixed_2 output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
+      | exact proof_of_sort_entail_wit_2_split_goal_2 input n_pre value count_mixed_2 output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
 
 
 theorem proof_of_sort_entail_wit_3 : sort_entail_wit_3 := by
   unfold sort_entail_wit_3
   right
-  intro n_pre input value count_mixed output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
+  intro input n_pre value count_mixed output_mixed_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
   let value_2 : Int := value
   have PreH6 : ((Zlength (count_mixed)) = 100) := NewPreH6
   have PreH11 : (CountingZeroedPrefix count_mixed value_2) := by first | assumption | omega
@@ -520,7 +520,7 @@ theorem proof_of_sort_entail_wit_3 : sort_entail_wit_3 := by
 theorem proof_of_sort_entail_wit_4 : sort_entail_wit_4 := by
   unfold sort_entail_wit_4
   right
-  intro n_pre input i output_mixed counts PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro input n_pre i output_mixed counts PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have hv := value_bounds input i PreH13 PreH14 ⟨PreH11, by omega⟩
   have hc := bounds_index counts 0 i (Znth i input 0) PreH15 PreH16 ⟨hv.1, by omega⟩
   split_pure_spatial
@@ -531,15 +531,15 @@ theorem proof_of_sort_entail_wit_4 : sort_entail_wit_4 := by
 theorem proof_of_sort_entail_wit_5 : sort_entail_wit_5 := by
   unfold sort_entail_wit_5
   right
-  intro n_pre input i output_mixed_2 counts_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro input n_pre i output_mixed_2 counts_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   have hc := bounds_index counts_2 0 i (Znth i input 0) PreH17 PreH18 ⟨PreH1, by omega⟩
   have hu : Forall (GE.ge (i+1)) counts_2 := forall_weaken PreH18 (by intro x hx; omega)
   have hl := forall_replace (LE.le (0 : Int)) 0 (Znth (Znth i input 0) counts_2 0+1) counts_2
     (Znth i input 0) ⟨PreH1, by omega⟩ PreH17 (by omega)
   have hh := forall_replace (GE.ge (i+1)) 0 (Znth (Znth i input 0) counts_2 0+1) counts_2
     (Znth i input 0) ⟨PreH1, by omega⟩ hu (by omega)
-  have hp := proof_of_sort_entail_wit_5_split_goal_1 n_pre input i output_mixed_2 counts_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
-  have hlen := proof_of_sort_entail_wit_5_split_goal_4 n_pre input i output_mixed_2 counts_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  have hp := proof_of_sort_entail_wit_5_split_goal_1 input n_pre i output_mixed_2 counts_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  have hlen := proof_of_sort_entail_wit_5_split_goal_4 input n_pre i output_mixed_2 counts_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -548,12 +548,12 @@ theorem proof_of_sort_entail_wit_5 : sort_entail_wit_5 := by
 theorem proof_of_sort_entail_wit_6 : sort_entail_wit_6 := by
   unfold sort_entail_wit_6
   right
-  intro n_pre input i counts output_mixed_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro input n_pre i counts output_mixed_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   have hh : Forall (GE.ge n_pre) counts := by
     have hi : i = n_pre := by omega
     simpa only [hi] using PreH12
-  have hc := proof_of_sort_entail_wit_6_split_goal_1 n_pre input i counts output_mixed_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
-  have hb := proof_of_sort_entail_wit_6_split_goal_2 n_pre input i counts output_mixed_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  have hc := proof_of_sort_entail_wit_6_split_goal_1 input n_pre i counts output_mixed_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  have hb := proof_of_sort_entail_wit_6_split_goal_2 input n_pre i counts output_mixed_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -562,7 +562,7 @@ theorem proof_of_sort_entail_wit_6 : sort_entail_wit_6 := by
 theorem proof_of_sort_entail_wit_7 : sort_entail_wit_7 := by
   unfold sort_entail_wit_7
   right
-  intro n_pre input value positions_2 output_mixed_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro input n_pre value positions_2 output_mixed_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   have hv := bounds_index positions_2 0 n_pre value PreH11 PreH12 ⟨by omega, by omega⟩
   have hp := bounds_index positions_2 0 n_pre (value-1) PreH11 PreH12 ⟨by omega, by omega⟩
   have hs := PreH13 PreH1
@@ -572,9 +572,9 @@ theorem proof_of_sort_entail_wit_7 : sort_entail_wit_7 := by
   have hh := forall_replace (GE.ge n_pre) 0
     (Znth value positions_2 0+Znth (value-1) positions_2 0) positions_2 value
     ⟨by omega, by omega⟩ PreH12 hs
-  have hc := proof_of_sort_entail_wit_7_split_goal_1 n_pre input value positions_2 output_mixed_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
-  have hb := proof_of_sort_entail_wit_7_split_goal_2 n_pre input value positions_2 output_mixed_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
-  have hlen := proof_of_sort_entail_wit_7_split_goal_5 n_pre input value positions_2 output_mixed_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  have hc := proof_of_sort_entail_wit_7_split_goal_1 input n_pre value positions_2 output_mixed_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  have hb := proof_of_sort_entail_wit_7_split_goal_2 input n_pre value positions_2 output_mixed_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  have hlen := proof_of_sort_entail_wit_7_split_goal_5 input n_pre value positions_2 output_mixed_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -583,7 +583,7 @@ theorem proof_of_sort_entail_wit_7 : sort_entail_wit_7 := by
 theorem proof_of_sort_entail_wit_8 : sort_entail_wit_8 := by
   unfold sort_entail_wit_8
   right
-  intro n_pre input value positions_2 output_mixed_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro input n_pre value positions_2 output_mixed_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   have he : value = 100 := by omega
   subst value
   have hinput : ∀ x, In x input → 0 ≤ x ∧ x < 100 := by
@@ -613,7 +613,7 @@ theorem proof_of_sort_entail_wit_8 : sort_entail_wit_8 := by
 theorem proof_of_sort_entail_wit_9 : sort_entail_wit_9 := by
   unfold sort_entail_wit_9
   right
-  intro n_pre input i output_mixed bucket_ends sorted positions PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+  intro input n_pre i output_mixed bucket_ends sorted positions PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   have hv := value_bounds input i PreH17 PreH18 ⟨PreH7, by omega⟩
   have hc := bounds_index positions 0 n_pre (Znth i input 0) PreH21 PreH22 ⟨hv.1, by omega⟩
   split_pure_spatial
@@ -624,7 +624,7 @@ theorem proof_of_sort_entail_wit_9 : sort_entail_wit_9 := by
 theorem proof_of_sort_entail_wit_10 : sort_entail_wit_10 := by
   unfold sort_entail_wit_10
   right
-  intro n_pre input i output_mixed bucket_ends sorted positions PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro input n_pre i output_mixed bucket_ends sorted positions PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   have he := Znth_replace_Znth_Same 0 positions (Znth i input 0)
     (Znth (Znth i input 0) positions 0-1) ⟨PreH5, by omega⟩
   split_pure_spatial
@@ -634,7 +634,7 @@ theorem proof_of_sort_entail_wit_10 : sort_entail_wit_10 := by
 theorem proof_of_sort_entail_wit_11 : sort_entail_wit_11 := by
   unfold sort_entail_wit_11
   right
-  intro n_pre input i output_mixed_2 bucket_ends_2 sorted_2 positions_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro input n_pre i output_mixed_2 bucket_ends_2 sorted_2 positions_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   have hbi : ∀ k, 0 ≤ k ∧ k < n_pre → 0 ≤ Znth k input 0 ∧ Znth k input 0 < 100 :=
     by intro k hk; exact value_bounds input k PreH21 PreH22 ⟨hk.1, by omega⟩
   have hbs : ∀ k, 0 ≤ k ∧ k < n_pre → 0 ≤ Znth k sorted_2 0 ∧ Znth k sorted_2 0 < 100 :=
@@ -674,7 +674,7 @@ theorem proof_of_sort_entail_wit_11 : sort_entail_wit_11 := by
 theorem proof_of_sort_entail_wit_12 : sort_entail_wit_12 := by
   unfold sort_entail_wit_12
   right
-  intro n_pre input i output_mixed bucket_ends positions sorted_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro input n_pre i output_mixed bucket_ends positions sorted_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have he : i = -1 := by omega
   subst i
   have hinput : ∀ x, In x input → 0 ≤ x ∧ x < 100 := by
@@ -697,9 +697,9 @@ theorem proof_of_sort_entail_wit_12 : sort_entail_wit_12 := by
 theorem proof_of_sort_entail_wit_13 : sort_entail_wit_13 := by
   unfold sort_entail_wit_13
   right
-  intro n_pre input i bucket_starts_2 live_2 sorted_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-  have hc := proof_of_sort_entail_wit_13_split_goal_1 n_pre input i bucket_starts_2 live_2 sorted_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-  have hl := proof_of_sort_entail_wit_13_split_goal_2 n_pre input i bucket_starts_2 live_2 sorted_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro input n_pre i bucket_starts_2 live_2 sorted_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  have hc := proof_of_sort_entail_wit_13_split_goal_1 input n_pre i bucket_starts_2 live_2 sorted_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  have hl := proof_of_sort_entail_wit_13_split_goal_2 input n_pre i bucket_starts_2 live_2 sorted_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -708,15 +708,15 @@ theorem proof_of_sort_entail_wit_13 : sort_entail_wit_13 := by
 theorem proof_of_sort_entail_wit_14 : sort_entail_wit_14 := by
   unfold sort_entail_wit_14
   right
-  intro n_pre input i bucket_starts live sorted_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro input n_pre i bucket_starts live sorted_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   split_pure_spatial
-  · exact proof_of_sort_entail_wit_14_split_goal_spatial n_pre input i bucket_starts live sorted_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-  · exact proof_of_sort_entail_wit_14_split_goal_1 n_pre input i bucket_starts live sorted_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  · exact proof_of_sort_entail_wit_14_split_goal_spatial input n_pre i bucket_starts live sorted_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  · exact proof_of_sort_entail_wit_14_split_goal_1 input n_pre i bucket_starts live sorted_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
 
 theorem proof_of_sort_return_wit_1 : sort_return_wit_1 := by
   unfold sort_return_wit_1
   right
-  intro n_pre input sorted NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+  intro input n_pre sorted NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
   have PreH1 : ((0 : Int) <= n_pre) := NewPreH1
   have PreH2 : (n_pre <= 100) := NewPreH2
   have PreH3 : ((Zlength (input)) = n_pre) := NewPreH3
@@ -729,7 +729,7 @@ theorem proof_of_sort_return_wit_1 : sort_return_wit_1 := by
       | assumption
       | omega
       | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-      | exact proof_of_sort_return_wit_1_split_goal_1 n_pre input sorted NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
-      | exact proof_of_sort_return_wit_1_split_goal_2 n_pre input sorted NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+      | exact proof_of_sort_return_wit_1_split_goal_1 input n_pre sorted NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+      | exact proof_of_sort_return_wit_1_split_goal_2 input n_pre sorted NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
 
 end SimpleC.EE.LLM_bench.Algorithms.counting_sort.counting_sort_proof_manual

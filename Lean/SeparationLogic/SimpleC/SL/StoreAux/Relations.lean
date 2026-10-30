@@ -58,6 +58,8 @@ local notation "store_char" => DerivedPredSig.store_char Arch
 local notation "undef_store_char" => DerivedPredSig.undef_store_char Arch
 local notation "store_uchar" => DerivedPredSig.store_uchar Arch
 local notation "undef_store_uchar" => DerivedPredSig.undef_store_uchar Arch
+local notation "store_bool" => DerivedPredSig.store_bool Arch
+local notation "undef_store_bool" => DerivedPredSig.undef_store_bool Arch
 local notation "store_short" => DerivedPredSig.store_short Arch Endian
 local notation "undef_store_short" => DerivedPredSig.undef_store_short Arch
 local notation "store_ushort" => DerivedPredSig.store_ushort Arch Endian
@@ -507,6 +509,17 @@ theorem store_uchar_undef_store_uchar (CRules : SeparationLogicSig) (x v : Int) 
   intro state h
   exact ⟨h.1.1, store_byte_store_byte_noinit CRules x v state h.2⟩
 
+theorem store_bool_undef_store_bool (CRules : SeparationLogicSig) (x v : Int) :
+    CRules.derivable1 (store_bool CRules x v) (undef_store_bool CRules x) := by
+  intro state h
+  exact ⟨h.1.1, store_byte_store_byte_noinit CRules x v state h.2⟩
+
+theorem valid_store_bool (CRules : SeparationLogicSig) (x v : Int) :
+    CRules.derivable1 (store_bool CRules x v) (CRules.coq_prop (0 <= v ∧ v <= 1)) := by
+  intro _ h
+  change 0 <= v ∧ v <= 1
+  rcases h.1.2 with hzero | hone <;> omega
+
 theorem store_ushort_range (CRules : SeparationLogicSig) (x v : Int) :
     CRules.derivable1 (store_ushort CRules x v)
       (CRules.coq_prop (0 <= v ∧ v <= 65535)) := by
@@ -604,6 +617,7 @@ theorem poly_store_poly_undef_store (CRules : SeparationLogicSig)
   | FET_struct _ | FET_union _ | FET_enum _ | FET_alias _ =>
       exact CRules.toContext.derivable1_refl _
   | FET_int => exact store_int_undef_store_int CRules x v
+  | FET_bool => exact store_bool_undef_store_bool CRules x v
   | FET_char => exact store_char_undef_store_char CRules x v
   | FET_int64 => exact store_int64_undef_store_int64 CRules x v
   | FET_short => exact store_short_undef_store_short CRules x v
@@ -626,6 +640,7 @@ theorem typed_poly_store_poly_undef_store (CRules : SeparationLogicSig)
   | FET_struct _ | FET_union _ | FET_enum _ | FET_alias _ =>
       exact CRules.toContext.derivable1_refl _
   | FET_int => exact store_int_undef_store_int CRules x v
+  | FET_bool => exact store_bool_undef_store_bool CRules x v
   | FET_char => exact store_char_undef_store_char CRules x v
   | FET_int64 => exact store_int64_undef_store_int64 CRules x v
   | FET_short => exact store_short_undef_store_short CRules x v

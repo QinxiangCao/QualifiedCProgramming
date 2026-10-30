@@ -255,7 +255,7 @@ private theorem row_span_bounds (row count width : Int)
 theorem proof_of_quicksort_numbers_entail_wit_1 : quicksort_numbers_entail_wit_1 := by
   unfold quicksort_numbers_entail_wit_1
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre flat lens rows NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23
+  intro flat lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23
   have hspan := row_span_bounds high_pre count_pre number_width_pre (by omega) (by omega) (by omega)
   have PreH14 : (RowsWellFormed rows lens count_pre number_width_pre) := rows_from_annotation rows lens count_pre number_width_pre NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22
   have hw := PreH14.2.2 high_pre ⟨by omega,by omega⟩
@@ -286,7 +286,7 @@ theorem proof_of_quicksort_numbers_entail_wit_1 : quicksort_numbers_entail_wit_1
 theorem proof_of_quicksort_numbers_entail_wit_2 : quicksort_numbers_entail_wit_2 := by
   unfold quicksort_numbers_entail_wit_2
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows flat1_2 rows1_2 lens1 pivot_length scan boundary NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre flat1_2 rows1_2 lens1 pivot_length scan boundary NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31
   have hspan := row_span_bounds scan count_pre number_width_pre (by omega) (by omega) (by omega)
   have PreH18 : (RowsWellFormed rows1_2 lens1 count_pre number_width_pre) := rows_from_annotation rows1_2 lens1 count_pre number_width_pre NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28
   have hw := PreH18.2.2 scan ⟨by omega,by omega⟩
@@ -315,7 +315,7 @@ theorem proof_of_quicksort_numbers_entail_wit_2 : quicksort_numbers_entail_wit_2
 theorem proof_of_quicksort_numbers_entail_wit_3_1 : quicksort_numbers_entail_wit_3_1 := by
   unfold quicksort_numbers_entail_wit_3_1
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows flat1 rows1_2 position comparison total_length current_length lens1_2 pivot_length boundary scan NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre flat1 rows1_2 position comparison total_length current_length lens1_2 pivot_length boundary scan NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42
   have PreH48 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre) := rows_from_annotation rows1_2 lens1_2 count_pre number_width_pre NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38
   have PreH52 : (FlatRows flat1 rows1_2 count_pre number_width_pre) := NewPreH42
   have hd : Znth (scan*number_width_pre+position) flat1 0=ConcatLeftDigit rows1_2 lens1_2 scan high_pre position := by
@@ -346,7 +346,7 @@ theorem proof_of_quicksort_numbers_entail_wit_3_1 : quicksort_numbers_entail_wit
 theorem proof_of_quicksort_numbers_entail_wit_3_2 : quicksort_numbers_entail_wit_3_2 := by
   unfold quicksort_numbers_entail_wit_3_2
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows flat1 rows1_2 position comparison total_length current_length lens1_2 pivot_length boundary scan NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre flat1 rows1_2 position comparison total_length current_length lens1_2 pivot_length boundary scan NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42
   have PreH37 : (current_length = (Znth (scan) (lens1_2) ((0 : Int)))) := NewPreH21
   have PreH46 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre) := rows_from_annotation rows1_2 lens1_2 count_pre number_width_pre NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38
   have PreH50 : (FlatRows flat1 rows1_2 count_pre number_width_pre) := NewPreH42
@@ -378,7 +378,7 @@ theorem proof_of_quicksort_numbers_entail_wit_3_2 : quicksort_numbers_entail_wit
 theorem proof_of_quicksort_numbers_entail_wit_4_1 : quicksort_numbers_entail_wit_4_1 := by
   unfold quicksort_numbers_entail_wit_4_1
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows rows1_2 lens1_2 flat1 scan boundary pivot_length current_length total_length comparison position left_digit NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre rows1_2 lens1_2 flat1 scan boundary pivot_length current_length total_length comparison position left_digit NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42
   have PreH50 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre) := rows_from_annotation rows1_2 lens1_2 count_pre number_width_pre NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38
   have PreH54 : (FlatRows flat1 rows1_2 count_pre number_width_pre) := NewPreH42
   have hd := ConcatRightDigit_first_flat__compare_right_digit flat1 rows1_2 lens1_2 count_pre number_width_pre scan high_pre position PreH54 PreH50 ⟨by omega,by omega⟩ ⟨by omega,by omega⟩
@@ -407,7 +407,7 @@ theorem proof_of_quicksort_numbers_entail_wit_4_1 : quicksort_numbers_entail_wit
 theorem proof_of_quicksort_numbers_entail_wit_4_2 : quicksort_numbers_entail_wit_4_2 := by
   unfold quicksort_numbers_entail_wit_4_2
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows rows1_2 lens1_2 flat1 scan boundary pivot_length current_length total_length comparison position left_digit NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre rows1_2 lens1_2 flat1 scan boundary pivot_length current_length total_length comparison position left_digit NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42
   have PreH37 : (pivot_length = (Znth (high_pre) (lens1_2) ((0 : Int)))) := NewPreH19
   have PreH48 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre) := rows_from_annotation rows1_2 lens1_2 count_pre number_width_pre NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38
   have PreH52 : (FlatRows flat1 rows1_2 count_pre number_width_pre) := NewPreH42
@@ -438,7 +438,7 @@ theorem proof_of_quicksort_numbers_entail_wit_4_2 : quicksort_numbers_entail_wit
 theorem proof_of_quicksort_numbers_entail_wit_5 : quicksort_numbers_entail_wit_5 := by
   unfold quicksort_numbers_entail_wit_5
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows rows1_2 lens1_2 flat1_2 scan boundary pivot_length current_length total_length comparison position left_digit right_digit NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre rows1_2 lens1_2 flat1_2 scan boundary pivot_length current_length total_length comparison position left_digit right_digit NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43
   have PreH1 : (left_digit = right_digit) := NewPreH1
   have PreH25 : (left_digit = (ConcatLeftDigit (rows1_2) (lens1_2) (scan) (high_pre) (position))) := NewPreH29
   have PreH26 : (right_digit = (ConcatRightDigit (rows1_2) (lens1_2) (scan) (high_pre) (position))) := NewPreH30
@@ -471,7 +471,7 @@ theorem proof_of_quicksort_numbers_entail_wit_5 : quicksort_numbers_entail_wit_5
 theorem proof_of_quicksort_numbers_entail_wit_6_1 : quicksort_numbers_entail_wit_6_1 := by
   unfold quicksort_numbers_entail_wit_6_1
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows flat1_2 rows1_2 position comparison total_length current_length lens1_2 pivot_length boundary scan NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre flat1_2 rows1_2 position comparison total_length current_length lens1_2 pivot_length boundary scan NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41
   have PreH22 : (comparison = (0 : Int)) := NewPreH26
   have PreH25 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre) := rows_from_annotation rows1_2 lens1_2 count_pre number_width_pre NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37
   have PreH27 : (ConcatComparePrefix rows1_2 lens1_2 scan high_pre position) := NewPreH39
@@ -506,7 +506,7 @@ theorem proof_of_quicksort_numbers_entail_wit_6_1 : quicksort_numbers_entail_wit
 theorem proof_of_quicksort_numbers_entail_wit_6_2 : quicksort_numbers_entail_wit_6_2 := by
   unfold quicksort_numbers_entail_wit_6_2
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows rows1_2 lens1_2 flat1_2 scan boundary pivot_length current_length total_length comparison position left_digit right_digit NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre rows1_2 lens1_2 flat1_2 scan boundary pivot_length current_length total_length comparison position left_digit right_digit NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43
   have PreH1 : (left_digit ≠ right_digit) := NewPreH1
   have PreH22 : (comparison = (0 : Int)) := NewPreH26
   have PreH25 : (left_digit = (ConcatLeftDigit (rows1_2) (lens1_2) (scan) (high_pre) (position))) := NewPreH29
@@ -545,7 +545,7 @@ theorem proof_of_quicksort_numbers_entail_wit_6_2 : quicksort_numbers_entail_wit
 theorem proof_of_quicksort_numbers_entail_wit_7 : quicksort_numbers_entail_wit_7 := by
   unfold quicksort_numbers_entail_wit_7
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows rows1 lens1_2 flat1 scan boundary pivot_length current_length total_length comparison NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre rows1 lens1_2 flat1 scan boundary pivot_length current_length total_length comparison NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38
   have hspan := row_span_bounds (boundary+1) count_pre number_width_pre (by omega) (by omega) (by omega)
   have PreH22 : (RowsWellFormed rows1 lens1_2 count_pre number_width_pre) := rows_from_annotation rows1 lens1_2 count_pre number_width_pre NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34
   have PreH23 : (PartitionScanState rows rows1 lens lens1_2 low_pre high_pre boundary scan) := NewPreH35
@@ -580,7 +580,7 @@ theorem proof_of_quicksort_numbers_entail_wit_7 : quicksort_numbers_entail_wit_7
 theorem proof_of_quicksort_numbers_entail_wit_8 : quicksort_numbers_entail_wit_8 := by
   unfold quicksort_numbers_entail_wit_8
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows flat_now_2 rows_now_2 comparison rows_before_2 lens1_2 pivot_length column scan boundary NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre flat_now_2 rows_now_2 comparison rows_before_2 lens1_2 pivot_length column scan boundary NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39
   have PreH35 : (RowsWellFormed rows_before_2 lens1_2 count_pre number_width_pre) := rows_from_annotation rows_before_2 lens1_2 count_pre number_width_pre NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33
   have PreH39 : (SwapRowsPrefix rows_before_2 rows_now_2 boundary scan column number_width_pre) := NewPreH37
   have PreH41 : (FlatRows flat_now_2 rows_now_2 count_pre number_width_pre) := NewPreH39
@@ -613,7 +613,7 @@ theorem proof_of_quicksort_numbers_entail_wit_8 : quicksort_numbers_entail_wit_8
 theorem proof_of_quicksort_numbers_entail_wit_9_1 : quicksort_numbers_entail_wit_9_1 := by
   unfold quicksort_numbers_entail_wit_9_1
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows flat_now rows_now comparison rows_before lens1_2 pivot_length column scan boundary NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre flat_now rows_now comparison rows_before lens1_2 pivot_length column scan boundary NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39
   have PreH16 : (pivot_length = (Znth (high_pre) (lens1_2) ((0 : Int)))) := NewPreH22
   have PreH19 : (RowsWellFormed rows_before lens1_2 count_pre number_width_pre) := rows_from_annotation rows_before lens1_2 count_pre number_width_pre NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33
   have PreH20 : (PartitionScanState rows rows_before lens lens1_2 low_pre high_pre (boundary - 1) scan) := NewPreH34
@@ -663,7 +663,7 @@ theorem proof_of_quicksort_numbers_entail_wit_9_1 : quicksort_numbers_entail_wit
 theorem proof_of_quicksort_numbers_entail_wit_9_2 : quicksort_numbers_entail_wit_9_2 := by
   unfold quicksort_numbers_entail_wit_9_2
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows rows1_2 lens1_2 flat1_2 scan boundary pivot_length current_length total_length comparison NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre rows1_2 lens1_2 flat1_2 scan boundary pivot_length current_length total_length comparison NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38
   have PreH1 : (comparison <= (0 : Int)) := NewPreH1
   have PreH23 : (PartitionScanState rows rows1_2 lens lens1_2 low_pre high_pre boundary scan) := NewPreH35
   have PreH24 : (ConcatCompareOutcome rows1_2 lens1_2 scan high_pre comparison) := NewPreH36
@@ -698,7 +698,7 @@ theorem proof_of_quicksort_numbers_entail_wit_9_2 : quicksort_numbers_entail_wit
 theorem proof_of_quicksort_numbers_entail_wit_10 : quicksort_numbers_entail_wit_10 := by
   unfold quicksort_numbers_entail_wit_10
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows rows1_2 lens1_2 flat1_2 boundary scan pivot_length NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre rows1_2 lens1_2 flat1_2 boundary scan pivot_length NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29
   Exists flat1_2 rows1_2 lens1_2
   split_pure_spatial
   · cancel
@@ -723,7 +723,7 @@ theorem proof_of_quicksort_numbers_entail_wit_10 : quicksort_numbers_entail_wit_
 theorem proof_of_quicksort_numbers_entail_wit_11 : quicksort_numbers_entail_wit_11 := by
   unfold quicksort_numbers_entail_wit_11
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows flat1 rows1 lens1_2 pivot_length scan boundary NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre flat1 rows1 lens1_2 pivot_length scan boundary NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31
   have hspan := row_span_bounds (boundary+1) count_pre number_width_pre (by omega) (by omega) (by omega)
   have PreH18 : (RowsWellFormed rows1 lens1_2 count_pre number_width_pre) := rows_from_annotation rows1 lens1_2 count_pre number_width_pre NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28
   have PreH19 : (PartitionScanState rows rows1 lens lens1_2 low_pre high_pre boundary scan) := NewPreH29
@@ -760,7 +760,7 @@ theorem proof_of_quicksort_numbers_entail_wit_11 : quicksort_numbers_entail_wit_
 theorem proof_of_quicksort_numbers_entail_wit_12 : quicksort_numbers_entail_wit_12 := by
   unfold quicksort_numbers_entail_wit_12
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows flat_now_2 rows_now_2 rows_before_2 lens1_2 pivot_length column pivot NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre flat_now_2 rows_now_2 rows_before_2 lens1_2 pivot_length column pivot NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34
   have PreH30 : (RowsWellFormed rows_before_2 lens1_2 count_pre number_width_pre) := rows_from_annotation rows_before_2 lens1_2 count_pre number_width_pre NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30
   have PreH32 : (SwapRowsPrefix rows_before_2 rows_now_2 pivot high_pre column number_width_pre) := NewPreH32
   have PreH34 : (FlatRows flat_now_2 rows_now_2 count_pre number_width_pre) := NewPreH34
@@ -793,7 +793,7 @@ theorem proof_of_quicksort_numbers_entail_wit_12 : quicksort_numbers_entail_wit_
 theorem proof_of_quicksort_numbers_entail_wit_13 : quicksort_numbers_entail_wit_13 := by
   unfold quicksort_numbers_entail_wit_13
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows flat_now rows_now rows_before lens1_2 pivot_length column pivot NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre flat_now rows_now rows_before lens1_2 pivot_length column pivot NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34
   have PreH15 : (pivot_length = (Znth (high_pre) (lens1_2) ((0 : Int)))) := NewPreH19
   have PreH18 : (RowsWellFormed rows_before lens1_2 count_pre number_width_pre) := rows_from_annotation rows_before lens1_2 count_pre number_width_pre NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30
   have PreH19 : (PartitionScanState rows rows_before lens lens1_2 low_pre high_pre (pivot - 1) high_pre) := NewPreH31
@@ -849,7 +849,7 @@ theorem proof_of_quicksort_numbers_entail_wit_13 : quicksort_numbers_entail_wit_
 
 theorem proof_of_quicksort_numbers_safety_wit_6_split_goal_1 : quicksort_numbers_safety_wit_6_split_goal_1 := by
   unfold quicksort_numbers_safety_wit_6_split_goal_1
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows flat1 rows1 lens1 pivot_length scan boundary NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre flat1 rows1 lens1 pivot_length scan boundary NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31
   have PreH18 : (RowsWellFormed rows1 lens1 count_pre number_width_pre) := rows_from_annotation rows1 lens1 count_pre number_width_pre NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28
   have hb := PreH18.2.2 scan ⟨by omega,by omega⟩
   dump_pre_spatial
@@ -859,7 +859,7 @@ theorem proof_of_quicksort_numbers_safety_wit_6_split_goal_1 : quicksort_numbers
 
 theorem proof_of_quicksort_numbers_safety_wit_6_split_goal_2 : quicksort_numbers_safety_wit_6_split_goal_2 := by
   unfold quicksort_numbers_safety_wit_6_split_goal_2
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows flat1 rows1 lens1 pivot_length scan boundary NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre flat1 rows1 lens1 pivot_length scan boundary NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31
   have PreH18 : (RowsWellFormed rows1 lens1 count_pre number_width_pre) := rows_from_annotation rows1 lens1 count_pre number_width_pre NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28
   have hb := PreH18.2.2 scan ⟨by omega,by omega⟩
   dump_pre_spatial
@@ -869,7 +869,7 @@ theorem proof_of_quicksort_numbers_safety_wit_6_split_goal_2 : quicksort_numbers
 
 theorem proof_of_quicksort_numbers_safety_wit_19_split_goal_1 : quicksort_numbers_safety_wit_19_split_goal_1 := by
   unfold quicksort_numbers_safety_wit_19_split_goal_1
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows rows1 lens1 flat1 scan boundary pivot_length current_length total_length comparison position left_digit right_digit NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre rows1 lens1 flat1 scan boundary pivot_length current_length total_length comparison position left_digit right_digit NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43
   have PreH27 : (RowsWellFormed rows1 lens1 count_pre number_width_pre) := rows_from_annotation rows1 lens1 count_pre number_width_pre NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39
   subst left_digit right_digit
   have hl := concat_left_digit_bounds__safety_arithmetic rows1 lens1 count_pre number_width_pre scan high_pre position PreH27 ⟨by omega,by omega⟩ ⟨by omega,by omega⟩ ⟨by omega,by omega⟩
@@ -881,7 +881,7 @@ theorem proof_of_quicksort_numbers_safety_wit_19_split_goal_1 : quicksort_number
 
 theorem proof_of_quicksort_numbers_safety_wit_19_split_goal_2 : quicksort_numbers_safety_wit_19_split_goal_2 := by
   unfold quicksort_numbers_safety_wit_19_split_goal_2
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows rows1 lens1 flat1 scan boundary pivot_length current_length total_length comparison position left_digit right_digit NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre rows1 lens1 flat1 scan boundary pivot_length current_length total_length comparison position left_digit right_digit NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43
   have PreH27 : (RowsWellFormed rows1 lens1 count_pre number_width_pre) := rows_from_annotation rows1 lens1 count_pre number_width_pre NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39
   subst left_digit right_digit
   have hl := concat_left_digit_bounds__safety_arithmetic rows1 lens1 count_pre number_width_pre scan high_pre position PreH27 ⟨by omega,by omega⟩ ⟨by omega,by omega⟩ ⟨by omega,by omega⟩
@@ -894,7 +894,7 @@ theorem proof_of_quicksort_numbers_safety_wit_19_split_goal_2 : quicksort_number
 theorem proof_of_quicksort_numbers_return_wit_1 : quicksort_numbers_return_wit_1 := by
   unfold quicksort_numbers_return_wit_1
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows pivot rows1_2 lens1_2 flat1_2 rows2 lens2 flat2 lens1_3 flat1_3 rows1_3 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre pivot rows1_2 lens1_2 flat1_2 rows2 lens2 flat2 lens1_3 flat1_3 rows1_3 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39
   have hTransport0 := RowsWellFormed_permutation__annotation rows2 rows1_3 lens2 lens1_3 count_pre number_width_pre ((RowsWellFormed_permutation__annotation rows1_2 rows2 lens1_2 lens2 count_pre number_width_pre (rows_from_annotation rows1_2 lens1_2 count_pre number_width_pre NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34) NewPreH7).1) NewPreH2
   have hTransportSum0 := hTransport0.2
   have hTransport1 := RowsWellFormed_permutation__annotation rows1_2 rows2 lens1_2 lens2 count_pre number_width_pre (rows_from_annotation rows1_2 lens1_2 count_pre number_width_pre NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34) NewPreH7
@@ -947,7 +947,7 @@ theorem proof_of_quicksort_numbers_return_wit_1 : quicksort_numbers_return_wit_1
 theorem proof_of_quicksort_numbers_return_wit_2 : quicksort_numbers_return_wit_2 := by
   unfold quicksort_numbers_return_wit_2
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows pivot rows1_2 lens1_2 flat1_2 rows2 lens2 flat2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre pivot rows1_2 lens1_2 flat1_2 rows2 lens2 flat2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35
   have hTransport0 := RowsWellFormed_permutation__annotation rows1_2 rows2 lens1_2 lens2 count_pre number_width_pre (rows_from_annotation rows1_2 lens1_2 count_pre number_width_pre NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30) NewPreH3
   have hTransportSum0 := hTransport0.2
   have PreH2 : (RowsWellFormed rows2 lens2 count_pre number_width_pre) := (RowsWellFormed_permutation__annotation rows1_2 rows2 lens1_2 lens2 count_pre number_width_pre (rows_from_annotation rows1_2 lens1_2 count_pre number_width_pre NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30) NewPreH3).1
@@ -990,7 +990,7 @@ theorem proof_of_quicksort_numbers_return_wit_2 : quicksort_numbers_return_wit_2
 theorem proof_of_quicksort_numbers_return_wit_3 : quicksort_numbers_return_wit_3 := by
   unfold quicksort_numbers_return_wit_3
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows pivot rows1_2 lens1_2 flat1_2 lens1_3 flat1_3 rows1_3 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre pivot rows1_2 lens1_2 flat1_2 lens1_3 flat1_3 rows1_3 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35
   have hTransport0 := RowsWellFormed_permutation__annotation rows1_2 rows1_3 lens1_2 lens1_3 count_pre number_width_pre (rows_from_annotation rows1_2 lens1_2 count_pre number_width_pre NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30) NewPreH2
   have hTransportSum0 := hTransport0.2
   have PreH1 : (RowsWellFormed rows1_3 lens1_3 count_pre number_width_pre) := (RowsWellFormed_permutation__annotation rows1_2 rows1_3 lens1_2 lens1_3 count_pre number_width_pre (rows_from_annotation rows1_2 lens1_2 count_pre number_width_pre NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30) NewPreH2).1
@@ -1033,7 +1033,7 @@ theorem proof_of_quicksort_numbers_return_wit_3 : quicksort_numbers_return_wit_3
 theorem proof_of_quicksort_numbers_return_wit_4 : quicksort_numbers_return_wit_4 := by
   unfold quicksort_numbers_return_wit_4
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre flat lens rows NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22
+  intro flat lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22
   have PreH13 : (RowsWellFormed rows lens count_pre number_width_pre) := rows_from_annotation rows lens count_pre number_width_pre NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21
   Exists lens flat rows
   split_pure_spatial
@@ -1062,7 +1062,7 @@ theorem proof_of_quicksort_numbers_return_wit_4 : quicksort_numbers_return_wit_4
 theorem proof_of_concatenating_numbers_entail_wit_3 : concatenating_numbers_entail_wit_3 := by
   unfold concatenating_numbers_entail_wit_3
   left
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre lens rows flat1_2 result_length output_2 lens1_2 rows1_2 i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26
+  intro lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre flat1_2 result_length output_2 lens1_2 rows1_2 i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26
   have hspan := row_span_bounds i count_pre number_width_pre (by omega) (by omega) (by omega)
   have PreH10 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre) := rows_from_annotation rows1_2 lens1_2 count_pre number_width_pre NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18
   have PreH14 : (output_2 = (ConcatenatedPrefix (rows1_2) (lens1_2) (i))) := NewPreH22
@@ -1098,7 +1098,7 @@ theorem proof_of_concatenating_numbers_entail_wit_3 : concatenating_numbers_enta
 theorem proof_of_concatenating_numbers_entail_wit_4 : concatenating_numbers_entail_wit_4 := by
   unfold concatenating_numbers_entail_wit_4
   left
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre lens rows flat1_2 output_2 rows1_2 result_length lens1_2 j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33
+  intro lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre flat1_2 output_2 rows1_2 result_length lens1_2 j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33
   have PreH28 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre) := rows_from_annotation rows1_2 lens1_2 count_pre number_width_pre NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25
   have PreH32 : (output_2 = (ConcatenatedOutputPrefix (rows1_2) (lens1_2) (i) (j))) := NewPreH29
   have PreH33 : (result_length = (Zlength (output_2))) := NewPreH30
@@ -1139,7 +1139,7 @@ theorem proof_of_concatenating_numbers_entail_wit_4 : concatenating_numbers_enta
 theorem proof_of_concatenating_numbers_entail_wit_5 : concatenating_numbers_entail_wit_5 := by
   unfold concatenating_numbers_entail_wit_5
   left
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre lens rows flat1_2 output_2 rows1_2 result_length lens1_2 j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33
+  intro lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre flat1_2 output_2 rows1_2 result_length lens1_2 j i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33
   have PreH14 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre) := rows_from_annotation rows1_2 lens1_2 count_pre number_width_pre NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25
   have PreH18 : (output_2 = (ConcatenatedOutputPrefix (rows1_2) (lens1_2) (i) (j))) := NewPreH29
   Exists flat1_2 output_2 lens1_2 rows1_2
@@ -1167,7 +1167,7 @@ theorem proof_of_concatenating_numbers_entail_wit_5 : concatenating_numbers_enta
 theorem proof_of_concatenating_numbers_entail_wit_1 : concatenating_numbers_entail_wit_1 := by
   unfold concatenating_numbers_entail_wit_1
   left
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have hwidth := decimal_rows_lengths_from_map rows number_width_pre PreH9
   have hflat : FlatRows flat rows count_pre number_width_pre := by
     refine ⟨?_, PreH7, ?_⟩
@@ -1201,7 +1201,7 @@ theorem proof_of_concatenating_numbers_entail_wit_1 : concatenating_numbers_enta
 theorem proof_of_concatenating_numbers_entail_wit_2_1 : concatenating_numbers_entail_wit_2_1 := by
   unfold concatenating_numbers_entail_wit_2_1
   left
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows lens1_2 flat1_2 rows1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre lens1_2 flat1_2 rows1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   have hWF := rows_from_annotation rows lens count_pre number_width_pre PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   obtain ⟨hWF1, hsum⟩ := RowsWellFormed_permutation__annotation rows rows1_2 lens lens1_2 count_pre number_width_pre hWF PreH2
   have hsorted : GreedySorted rows1_2 lens1_2 := by
@@ -1236,7 +1236,7 @@ theorem proof_of_concatenating_numbers_entail_wit_2_1 : concatenating_numbers_en
 theorem proof_of_concatenating_numbers_entail_wit_2_2 : concatenating_numbers_entail_wit_2_2 := by
   unfold concatenating_numbers_entail_wit_2_2
   left
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have hWF := rows_from_annotation rows lens count_pre number_width_pre PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have hcount : count_pre = 1 := by omega
   have hperm := paired_permutation_refl__quicksort_range_composition rows lens (PreH8.trans PreH9.symm)
@@ -1272,7 +1272,7 @@ theorem proof_of_concatenating_numbers_entail_wit_2_2 : concatenating_numbers_en
 theorem proof_of_quicksort_numbers_partial_solve_wit_23_pure : quicksort_numbers_partial_solve_wit_23_pure := by
   unfold quicksort_numbers_partial_solve_wit_23_pure
   left
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows pivot rows1 lens1 flat1 rows2 lens2 flat2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre pivot rows1 lens1 flat1 rows2 lens2 flat2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
   have hWF := rows_from_annotation rows1 lens1 count_pre number_width_pre PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   obtain ⟨hWF2, hsum⟩ := RowsWellFormed_permutation__annotation rows1 rows2 lens1 lens2 count_pre number_width_pre hWF PreH3
   split_pures <;> dump_pre_spatial
@@ -1293,7 +1293,7 @@ theorem proof_of_quicksort_numbers_partial_solve_wit_23_pure : quicksort_numbers
 theorem proof_of_quicksort_numbers_safety_wit_6 : quicksort_numbers_safety_wit_6 := by
   unfold quicksort_numbers_safety_wit_6
   right
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows flat1 rows1 lens1 pivot_length scan boundary PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre flat1 rows1 lens1 pivot_length scan boundary PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
   have hw := rows_from_annotation rows1 lens1 count_pre number_width_pre PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   have hb := hw.2.2 scan ⟨by omega, by omega⟩
   split_pures <;> dump_pre_spatial
@@ -1305,7 +1305,7 @@ theorem proof_of_quicksort_numbers_safety_wit_6 : quicksort_numbers_safety_wit_6
 theorem proof_of_quicksort_numbers_safety_wit_19 : quicksort_numbers_safety_wit_19 := by
   unfold quicksort_numbers_safety_wit_19
   right
-  intro high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre lens rows rows1 lens1 flat1 scan boundary pivot_length current_length total_length comparison position left_digit right_digit PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43
+  intro lens rows numbers_pre lengths_pre count_pre number_width_pre low_pre high_pre rows1 lens1 flat1 scan boundary pivot_length current_length total_length comparison position left_digit right_digit PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43
   have hw := rows_from_annotation rows1 lens1 count_pre number_width_pre PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   subst left_digit right_digit
   have hleft := concat_left_digit_bounds__safety_arithmetic rows1 lens1 count_pre number_width_pre scan high_pre position hw ⟨by omega, by omega⟩ ⟨by omega, by omega⟩ ⟨by omega, by omega⟩
@@ -1319,7 +1319,7 @@ theorem proof_of_quicksort_numbers_safety_wit_19 : quicksort_numbers_safety_wit_
 theorem proof_of_concatenating_numbers_return_wit_1 : concatenating_numbers_return_wit_1 := by
   unfold concatenating_numbers_return_wit_1
   left
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre lens rows flat1 result_length output_2 lens1_2 rows1_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre flat1 result_length output_2 lens1_2 rows1_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   have hWF := rows_from_annotation rows1_2 lens1_2 count_pre number_width_pre PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have hi : i = count_pre := by omega
   have hout : output_2 = concatenate_rows rows1_2 lens1_2 := by

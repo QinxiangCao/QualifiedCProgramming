@@ -10,6 +10,12 @@ def common_Strategy_Correctness : SimpleC.EE.QCP_demos_LLM.generated.common_stra
   common_strategy20_correctness := SimpleC.EE.QCP_demos_LLM.generated.common_strategy_proof.common_strategy20_correctness
   common_strategy21_correctness := SimpleC.EE.QCP_demos_LLM.generated.common_strategy_proof.common_strategy21_correctness
   common_strategy22_correctness := SimpleC.EE.QCP_demos_LLM.generated.common_strategy_proof.common_strategy22_correctness
+  common_strategy36_correctness := SimpleC.EE.QCP_demos_LLM.generated.common_strategy_proof.common_strategy36_correctness
+  common_strategy37_correctness := SimpleC.EE.QCP_demos_LLM.generated.common_strategy_proof.common_strategy37_correctness
+  common_strategy38_correctness := SimpleC.EE.QCP_demos_LLM.generated.common_strategy_proof.common_strategy38_correctness
+  common_strategy39_correctness := SimpleC.EE.QCP_demos_LLM.generated.common_strategy_proof.common_strategy39_correctness
+  common_strategy46_correctness := SimpleC.EE.QCP_demos_LLM.generated.common_strategy_proof.common_strategy46_correctness
+  common_strategy47_correctness := SimpleC.EE.QCP_demos_LLM.generated.common_strategy_proof.common_strategy47_correctness
   common_strategy3_correctness := SimpleC.EE.QCP_demos_LLM.generated.common_strategy_proof.common_strategy3_correctness
   common_strategy15_correctness := SimpleC.EE.QCP_demos_LLM.generated.common_strategy_proof.common_strategy15_correctness
   common_strategy16_correctness := SimpleC.EE.QCP_demos_LLM.generated.common_strategy_proof.common_strategy16_correctness

@@ -147,7 +147,7 @@ def _recipe(argv: Sequence[str]) -> str:
 
 
 def _makefile(root: Path, graph: dict[Path, tuple[Path, ...]], family: set[Path], flags: list[str]) -> str:
-    base = set(graph) - family
+    base = set(graph) - common.current_sources(graph, family)
     for source in base:
         outside = set(graph[source]) - base
         if outside:

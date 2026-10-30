@@ -321,7 +321,7 @@ Proof.
     Intros y.
     replace (Zlength (a :: l) * 2) with (2 + Zlength l * 2) by (rewrite Zlength_cons; lia).
     sep_apply (store_int_align4 (&(x # "list" ->ₛ "data")) a).
-    sep_apply (store_ptr_align4_32 (&(x # "list" ->ₛ "next")) y).
+    sep_apply (store_ptr_align4 (&(x # "list" ->ₛ "next")) y ltac:(solve_arch) ltac:(exists 1; reflexivity)).
     sep_apply (IHl y).
     sep_apply (store_align4_merge 1 1).
     replace (1 + 1) with 2 by lia.
@@ -337,6 +337,6 @@ Proof.
   prop_apply store_align4_n_valid.
   Intros.
   dump_pre_spatial.
-  rewrite addr_max_unsigned_eq_int in H.
+  replace addr_max_unsigned with Int.max_unsigned in H by solve_arch.
   exact H.
 Qed. 

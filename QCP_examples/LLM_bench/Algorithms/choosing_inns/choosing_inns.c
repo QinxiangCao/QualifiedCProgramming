@@ -100,8 +100,8 @@ long long countChoosingInns(
       0 <= n && n <= 200000 && 1 <= k && k <= 50 && 0 <= p && p <= 100 && Zlength(colors_l) == n && Zlength(costs_l) == n && Forall(Z::le(0), colors_l) && Forall(Z::ge(k - 1), colors_l) && Forall(Z::le(0), costs_l) && Forall(Z::ge(100), costs_l) &&
       IntArray::full(colors, n, colors_l) *
       IntArray::full(costs, n, costs_l) *
-      IntArray::undef_full(pointer_offset(seen, 0, sizeof(int), int), k) *
-      IntArray::undef_full(pointer_offset(good, 0, sizeof(int), int), k) *
+      IntArray::undef_full(pointer_offset(seen, 0, int), k) *
+      IntArray::undef_full(pointer_offset(good, 0, int), k) *
       IntArray::undef_seg(seen, k, 50) *
       IntArray::undef_seg(good, k, 50)
    */
@@ -173,8 +173,8 @@ long long countChoosingInns(
           Zlength(good_l) == k@pre && Forall(Z::le(0), good_l) && Forall(Z::ge(200000), good_l) &&
           IntArray::full(colors@pre, n@pre, colors_l) *
           IntArray::full(costs@pre, n@pre, costs_l) *
-          IntArray::full(pointer_offset(seen, 0, sizeof(int), int), k@pre, seen_next) *
-          IntArray::full(pointer_offset(good, 0, sizeof(int), int), k@pre, good_l) *
+          IntArray::full(pointer_offset(seen, 0, int), k@pre, seen_next) *
+          IntArray::full(pointer_offset(good, 0, int), k@pre, good_l) *
       IntArray::undef_seg(seen, k@pre, 50) *
       IntArray::undef_seg(good, k@pre, 50)
          */

@@ -28,13 +28,13 @@ id : 5
 priority : core(6)
 left : dlistrep_shape(?p : Z, ?prev) at 0
        (p != NULL || NULL != p) at 1
-right : (store(field_addr(p, list, data), I32, ?q : Z) || store(field_addr(p, list, next), PTR(struct list), ?q : Z) || store(field_addr(p, list, prev), PTR(struct list), ?q : Z)) at 2
+right : (store(field_addr(p, list, data), I32, ?q : Z) || store(field_addr(p, list, next), PTR, ?q : Z) || store(field_addr(p, list, prev), PTR, ?q : Z)) at 2
 action : left_erase(0);
          left_exist_add(x : Z);
          left_exist_add(y : Z);
          left_add(store(field_addr(p, list, data), I32, x));
-         left_add(store(field_addr(p, list, next), PTR(struct list), y));
-         left_add(store(field_addr(p, list, prev), PTR(struct list), prev));
+         left_add(store(field_addr(p, list, next), PTR, y));
+         left_add(store(field_addr(p, list, prev), PTR, prev));
          left_add(dlistrep_shape(y, p));
 
 id : 6 
@@ -45,8 +45,8 @@ action : right_erase(1);
          right_exist_add(x : Z);
          right_exist_add(y : Z);
          right_add(store(field_addr(p, list, data), I32, x));
-         right_add(store(field_addr(p, list, next), PTR(struct list), y));
-         right_add(store(field_addr(p, list, prev), PTR(struct list), prev));
+         right_add(store(field_addr(p, list, next), PTR, y));
+         right_add(store(field_addr(p, list, prev), PTR, prev));
          right_add(dlistrep_shape(y, p));
 
 id : 7
@@ -84,28 +84,28 @@ action : right_erase(0);
 id : 13
 priority : core(3)
 right : dllseg_shape(?p, ?q, ?s, ?m : Z) at 1
-left : store(field_addr(s, list, next), PTR(struct list), ?n) at 2
+left : store(field_addr(s, list, next), PTR, ?n) at 2
 check : infer(m == n);
         infer(s != 0);
 action : right_erase(1);
          right_exist_add(x : Z);
          right_exist_add(y : Z);
          right_add(store(field_addr(s, list, data), I32, x));
-         right_add(store(field_addr(s, list, next), PTR(struct list), m));
-         right_add(store(field_addr(s, list, prev), PTR(struct list), y));
+         right_add(store(field_addr(s, list, next), PTR, m));
+         right_add(store(field_addr(s, list, prev), PTR, y));
          right_add(dllseg_shape(p, q, y, s));
 
 id : 14
 priority : core(3)
 left : dllseg_shape(?p, ?q, ?s, ?m : Z) at 0
-right : store(field_addr(s, list, prev), PTR(struct list), ?n) at 1
+right : store(field_addr(s, list, prev), PTR, ?n) at 1
 check : infer(m != p);
 action : left_erase(0);
          left_exist_add(x : Z);
          left_exist_add(y : Z);
          left_add(store(field_addr(s, list, data), I32, x));
-         left_add(store(field_addr(s, list, next), PTR(struct list), m));
-         left_add(store(field_addr(s, list, prev), PTR(struct list), y));
+         left_add(store(field_addr(s, list, next), PTR, m));
+         left_add(store(field_addr(s, list, prev), PTR, y));
          left_add(dllseg_shape(p, q, y, s));
          left_add(s != 0);
 
@@ -122,12 +122,12 @@ action : right_erase(1);
 id : 16
 priority : core(3)
 left : dllseg_shape(?p, ?q, ?s, ?m : Z) at 1
-right : store(field_addr(s, list, next), PTR(struct list), ?n) at 2
+right : store(field_addr(s, list, next), PTR, ?n) at 2
 check : infer(s != q);
 action : left_erase(1);
          left_exist_add(x : Z);
          left_exist_add(y : Z);
          left_add(store(field_addr(s, list, data), I32, x));
-         left_add(store(field_addr(s, list, next), PTR(struct list), m));
-         left_add(store(field_addr(s, list, prev), PTR(struct list), y));
+         left_add(store(field_addr(s, list, next), PTR, m));
+         left_add(store(field_addr(s, list, prev), PTR, y));
          left_add(dllseg_shape(p, q, y, s));

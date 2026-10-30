@@ -60,14 +60,14 @@ private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def max_return_wit_1 : Prop :=
   (
-forall (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre > b_pre)) ,
+forall (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre > b_pre)) ,
   TT && emp 
 |--
   “ (a_pre = (max_Z (a_pre) (b_pre))) ”
   &&  emp
 ) \/
 (
-forall (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre > b_pre)) ,
+forall (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre > b_pre)) ,
   TT && emp 
 |--
   “ (a_pre = (max_Z (a_pre) (b_pre))) ”
@@ -75,19 +75,19 @@ forall (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre > b_pre)) ,
 )
 
 noncomputable def max_return_wit_1_split_goal_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre > b_pre)) ,
+  forall (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre > b_pre)) ,
   (a_pre = (max_Z (a_pre) (b_pre)))
 
 noncomputable def max_return_wit_2 : Prop :=
   (
-forall (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre <= b_pre)) ,
+forall (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre <= b_pre)) ,
   TT && emp 
 |--
   “ (b_pre = (max_Z (a_pre) (b_pre))) ”
   &&  emp
 ) \/
 (
-forall (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre <= b_pre)) ,
+forall (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre <= b_pre)) ,
   TT && emp 
 |--
   “ (b_pre = (max_Z (a_pre) (b_pre))) ”
@@ -95,11 +95,11 @@ forall (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre <= b_pre)) ,
 )
 
 noncomputable def max_return_wit_2_split_goal_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre <= b_pre)) ,
+  forall (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre <= b_pre)) ,
   (b_pre = (max_Z (a_pre) (b_pre)))
 
 noncomputable def max_sub_array_safety_wit_1 : Prop :=
-  forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** (intArray.full arr_pre n_pre l)
@@ -108,7 +108,7 @@ noncomputable def max_sub_array_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def max_sub_array_safety_wit_2 : Prop :=
-  forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (PreH1 : (n_pre = (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (PreH1 : (n_pre = (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** (intArray.full arr_pre n_pre l)
@@ -116,7 +116,7 @@ noncomputable def max_sub_array_safety_wit_2 : Prop :=
   “ False ”
 
 noncomputable def max_sub_array_safety_wit_3 : Prop :=
-  forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   ((( &( "cur" ) )) # Int |->_)
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -126,7 +126,7 @@ noncomputable def max_sub_array_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def max_sub_array_safety_wit_4 : Prop :=
-  forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   ((( &( "res" ) )) # Int |->_)
   ** (intArray.full arr_pre n_pre l)
   ** ((( &( "cur" ) )) # Int |-> ((Znth (0 : Int) l (0 : Int))))
@@ -137,7 +137,7 @@ noncomputable def max_sub_array_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def max_sub_array_safety_wit_5 : Prop :=
-  forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   ((( &( "i" ) )) # Int |->_)
   ** (intArray.full arr_pre n_pre l)
   ** ((( &( "res" ) )) # Int |-> ((Znth (0 : Int) l (0 : Int))))
@@ -150,7 +150,7 @@ noncomputable def max_sub_array_safety_wit_5 : Prop :=
 
 noncomputable def max_sub_array_safety_wit_6 : Prop :=
   (
-forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (intArray.full arr_pre n_pre l)
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -162,7 +162,7 @@ forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i
   “ ((INT_MIN) <= (cur + (Znth i l (0 : Int)))) ”
 ) \/
 (
-forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (intArray.full arr_pre n_pre l)
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -175,7 +175,7 @@ forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i
 )
 
 noncomputable def max_sub_array_safety_wit_6_split_goal_1 : Prop :=
-  forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (intArray.full arr_pre n_pre l)
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -186,7 +186,7 @@ noncomputable def max_sub_array_safety_wit_6_split_goal_1 : Prop :=
   “ ((cur + (Znth i l (0 : Int))) <= INT_MAX) ”
 
 noncomputable def max_sub_array_safety_wit_6_split_goal_2 : Prop :=
-  forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (intArray.full arr_pre n_pre l)
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -197,7 +197,7 @@ noncomputable def max_sub_array_safety_wit_6_split_goal_2 : Prop :=
   “ ((INT_MIN) <= (cur + (Znth i l (0 : Int)))) ”
 
 noncomputable def max_sub_array_safety_wit_7 : Prop :=
-  forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (intArray.full arr_pre n_pre l)
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -210,7 +210,7 @@ noncomputable def max_sub_array_safety_wit_7 : Prop :=
 
 noncomputable def max_sub_array_entail_wit_1 : Prop :=
   (
-forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (intArray.full arr_pre n_pre l)
 |--
   “ (1 <= n_pre) ” &&
@@ -229,7 +229,7 @@ forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (PreH1 : (n_pre ≠ (0 : I
   &&  (intArray.full arr_pre n_pre l)
 ) \/
 (
-forall (n_pre : Int) (l : (List Int)) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+forall (l : (List Int)) (n_pre : Int) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   TT && emp 
 |--
   “ (MaxSubarraySumPrefix l 1 (Znth (0 : Int) l (0 : Int))) ” &&
@@ -242,32 +242,32 @@ forall (n_pre : Int) (l : (List Int)) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (
 )
 
 noncomputable def max_sub_array_entail_wit_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (n_pre : Int) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (MaxSubarraySumPrefix l 1 (Znth (0 : Int) l (0 : Int)))
 
 noncomputable def max_sub_array_entail_wit_1_split_goal_2 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (n_pre : Int) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (MaxSuffixSumPrefix l 1 (Znth (0 : Int) l (0 : Int)))
 
 noncomputable def max_sub_array_entail_wit_1_split_goal_3 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (n_pre : Int) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   ((Znth (0 : Int) l (0 : Int)) <= 1000000000)
 
 noncomputable def max_sub_array_entail_wit_1_split_goal_4 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (n_pre : Int) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   ((-10000) <= (Znth (0 : Int) l (0 : Int)))
 
 noncomputable def max_sub_array_entail_wit_1_split_goal_5 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (n_pre : Int) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   ((Znth (0 : Int) l (0 : Int)) <= 1000000000)
 
 noncomputable def max_sub_array_entail_wit_1_split_goal_6 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (n_pre : Int) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   ((-10000) <= (Znth (0 : Int) l (0 : Int)))
 
 noncomputable def max_sub_array_entail_wit_2 : Prop :=
   (
-forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (intArray.full arr_pre n_pre l)
 |--
   “ (1 <= n_pre) ” &&
@@ -286,7 +286,7 @@ forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i
   &&  (intArray.full arr_pre n_pre l)
 ) \/
 (
-forall (n_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+forall (l : (List Int)) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   TT && emp 
 |--
   “ (MaxSubarraySumPrefix l (i + 1) retval_2) ” &&
@@ -299,39 +299,39 @@ forall (n_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (retval 
 )
 
 noncomputable def max_sub_array_entail_wit_2_split_goal_1 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (MaxSubarraySumPrefix l (i + 1) retval_2)
 
 noncomputable def max_sub_array_entail_wit_2_split_goal_2 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (MaxSuffixSumPrefix l (i + 1) retval)
 
 noncomputable def max_sub_array_entail_wit_2_split_goal_3 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (retval_2 <= 1000000000)
 
 noncomputable def max_sub_array_entail_wit_2_split_goal_4 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   ((-10000) <= retval_2)
 
 noncomputable def max_sub_array_entail_wit_2_split_goal_5 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (retval <= 1000000000)
 
 noncomputable def max_sub_array_entail_wit_2_split_goal_6 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (retval : Int) (retval_2 : Int) (PreH1 : (retval_2 = (max_Z (res) (retval)))) (PreH2 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((-10000) <= cur)) (PreH10 : (cur <= 1000000000)) (PreH11 : ((-10000) <= res)) (PreH12 : (res <= 1000000000)) (PreH13 : (MaxSuffixSumPrefix l i cur)) (PreH14 : (MaxSubarraySumPrefix l i res)) (PreH15 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH16 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   ((-10000) <= retval)
 
 noncomputable def max_sub_array_return_wit_1 : Prop :=
   (
-forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (intArray.full arr_pre n_pre l)
 |--
   “ (MaxSubarraySumPrefix l n_pre res) ”
   &&  (intArray.full arr_pre n_pre l)
 ) \/
 (
-forall (n_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+forall (l : (List Int)) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   TT && emp 
 |--
   “ (MaxSubarraySumPrefix l n_pre res) ”
@@ -339,11 +339,11 @@ forall (n_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (PreH1 :
 )
 
 noncomputable def max_sub_array_return_wit_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (MaxSubarraySumPrefix l n_pre res)
 
 noncomputable def max_sub_array_partial_solve_wit_1 : Prop :=
-  forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (intArray.full arr_pre n_pre l)
 |--
   “ (n_pre ≠ (0 : Int)) ” &&
@@ -356,7 +356,7 @@ noncomputable def max_sub_array_partial_solve_wit_1 : Prop :=
   ** (intArray.missing_i arr_pre (0 : Int) (0 : Int) n_pre l)
 
 noncomputable def max_sub_array_partial_solve_wit_2 : Prop :=
-  forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (PreH1 : (n_pre ≠ (0 : Int))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (intArray.full arr_pre n_pre l)
 |--
   “ (n_pre ≠ (0 : Int)) ” &&
@@ -369,7 +369,7 @@ noncomputable def max_sub_array_partial_solve_wit_2 : Prop :=
   ** (intArray.missing_i arr_pre (0 : Int) (0 : Int) n_pre l)
 
 noncomputable def max_sub_array_partial_solve_wit_3 : Prop :=
-  forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (intArray.full arr_pre n_pre l)
 |--
   “ (i < n_pre) ” &&
@@ -390,7 +390,7 @@ noncomputable def max_sub_array_partial_solve_wit_3 : Prop :=
   ** (intArray.missing_i arr_pre i (0 : Int) n_pre l)
 
 noncomputable def max_sub_array_partial_solve_wit_4 : Prop :=
-  forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (intArray.full arr_pre n_pre l)
 |--
   “ (i < n_pre) ” &&
@@ -411,7 +411,7 @@ noncomputable def max_sub_array_partial_solve_wit_4 : Prop :=
   ** (intArray.missing_i arr_pre i (0 : Int) n_pre l)
 
 noncomputable def max_sub_array_partial_solve_wit_5 : Prop :=
-  forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur)) (PreH12 : (MaxSubarraySumPrefix l i res)) (PreH13 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH14 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (intArray.full arr_pre n_pre l)
 |--
   “ (i < n_pre) ” &&
@@ -431,7 +431,7 @@ noncomputable def max_sub_array_partial_solve_wit_5 : Prop :=
   &&  (intArray.full arr_pre n_pre l)
 
 noncomputable def max_sub_array_partial_solve_wit_6 : Prop :=
-  forall (n_pre : Int) (arr_pre : Int) (l : (List Int)) (res : Int) (cur : Int) (i : Int) (retval : Int) (PreH1 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH2 : (i < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : (1 <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((-10000) <= cur)) (PreH9 : (cur <= 1000000000)) (PreH10 : ((-10000) <= res)) (PreH11 : (res <= 1000000000)) (PreH12 : (MaxSuffixSumPrefix l i cur)) (PreH13 : (MaxSubarraySumPrefix l i res)) (PreH14 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH15 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (res : Int) (cur : Int) (i : Int) (retval : Int) (PreH1 : (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int))))))) (PreH2 : (i < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : (1 <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((-10000) <= cur)) (PreH9 : (cur <= 1000000000)) (PreH10 : ((-10000) <= res)) (PreH11 : (res <= 1000000000)) (PreH12 : (MaxSuffixSumPrefix l i cur)) (PreH13 : (MaxSubarraySumPrefix l i res)) (PreH14 : (Forall ((LE.le (α := Int)) ((-10000))) l)) (PreH15 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (intArray.full arr_pre n_pre l)
 |--
   “ (retval = (max_Z ((Znth i l (0 : Int))) ((cur + (Znth i l (0 : Int)))))) ” &&

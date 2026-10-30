@@ -17,7 +17,7 @@ open bubble_sort_lib
 theorem proof_of_sortArray_entail_wit_1 : sortArray_entail_wit_1 := by
   unfold sortArray_entail_wit_1
   right
-  intro numsSize_pre l PreH1 PreH2 PreH3 PreH4
+  intro l numsSize_pre PreH1 PreH2 PreH3 PreH4
   Exists l ([] : List Int)
   have hn : prefix_suffix_sorted l [] := by intro x hx; trivial
   split_pure_spatial
@@ -35,7 +35,7 @@ theorem proof_of_sortArray_entail_wit_1 : sortArray_entail_wit_1 := by
 theorem proof_of_sortArray_entail_wit_2 : sortArray_entail_wit_2 := by
   unfold sortArray_entail_wit_2
   right
-  intro numsSize_pre l i l1_2 l2_2 l3_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro l numsSize_pre i l1_2 l2_2 l3_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have hlen : Zlength l = Zlength l3_2 := congrArg (fun n : Nat => (n : Int)) PreH10.length_eq
   cases l1_2 with
   | nil => simp [Zlength] at PreH9
@@ -55,7 +55,7 @@ theorem proof_of_sortArray_entail_wit_2 : sortArray_entail_wit_2 := by
 theorem proof_of_sortArray_entail_wit_3_1 : sortArray_entail_wit_3_1 := by
   unfold sortArray_entail_wit_3_1
   right
-  intro numsSize_pre l j i l1_2 key_2 l2_2 l4_2 l3_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro l numsSize_pre j i l1_2 key_2 l2_2 l4_2 l3_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   cases l2_2 with
   | nil => simp [Zlength, Int.ofNat_eq_coe] at PreH14 PreH11; omega
   | cons z tail =>
@@ -89,7 +89,7 @@ theorem proof_of_sortArray_entail_wit_3_1 : sortArray_entail_wit_3_1 := by
 theorem proof_of_sortArray_entail_wit_3_2 : sortArray_entail_wit_3_2 := by
   unfold sortArray_entail_wit_3_2
   right
-  intro numsSize_pre l j i l1_2 key_2 l2_2 l4_2 l3_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro l numsSize_pre j i l1_2 key_2 l2_2 l4_2 l3_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   cases l2_2 with
   | nil => simp [Zlength, Int.ofNat_eq_coe] at PreH14 PreH11; omega
   | cons z tail =>
@@ -116,7 +116,7 @@ theorem proof_of_sortArray_entail_wit_3_2 : sortArray_entail_wit_3_2 := by
 theorem proof_of_sortArray_entail_wit_4 : sortArray_entail_wit_4 := by
   unfold sortArray_entail_wit_4
   right
-  intro numsSize_pre l j i l1_2 key l2_2 l4 l3_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro l numsSize_pre j i l1_2 key l2_2 l4 l3_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have hnil : l2_2 = [] := by
     have := Zlength_nonneg l2_2
     have hn : Zlength l2_2 = 0 := by
@@ -142,7 +142,7 @@ theorem proof_of_sortArray_entail_wit_4 : sortArray_entail_wit_4 := by
 theorem proof_of_sortArray_return_wit_1 : sortArray_return_wit_1 := by
   unfold sortArray_return_wit_1
   right
-  intro numsSize_pre l i l1_2 l2 l3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro l numsSize_pre i l1_2 l2 l3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have hlen := congrArg (fun n : Nat => (n : Int)) PreH10.length_eq
   have hlen1 : Zlength l1_2 = 1 := by
     rw [PreH4] at hlen
@@ -171,7 +171,7 @@ theorem proof_of_sortArray_return_wit_1 : sortArray_return_wit_1 := by
 theorem proof_of_sortArray_return_wit_2 : sortArray_return_wit_2 := by
   unfold sortArray_return_wit_2
   right
-  intro numsSize_pre l PreH1 PreH2 PreH3 PreH4
+  intro l numsSize_pre PreH1 PreH2 PreH3 PreH4
   have hn : Zlength l = 1 := by omega
   cases l with
   | nil => simp [Zlength] at hn

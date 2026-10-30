@@ -1,5 +1,0 @@
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_goal undef_uint_array_strategy_proof.
-
-Module undef_uint_array_Strategy_Correctness : undef_uint_array_Strategy_Correct.
-  Include undef_uint_array_strategy_proof.
-End undef_uint_array_Strategy_Correctness.

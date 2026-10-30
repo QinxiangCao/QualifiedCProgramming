@@ -1,0 +1,5 @@
+From SimpleC.Verification.BuiltIn Require Import ptr_array_strategy_goal ptr_array_strategy_proof.
+
+Module ptr_array_Strategy_Correctness : ptr_array_Strategy_Correct.
+  Include ptr_array_strategy_proof.
+End ptr_array_Strategy_Correctness.

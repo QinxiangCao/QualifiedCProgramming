@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Engineering.minisat Require Import vec_goal.
 From SimpleC.EE.LLM_bench.Engineering.minisat Require Import vec_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import vec_lib.
 Local Open Scope sac.
@@ -296,28 +280,19 @@ Proof.
 Qed.
 
 Lemma proof_of_veci_push_partial_solve_wit_2_pure_split_goal_1 : veci_push_partial_solve_wit_2_pure_split_goal_1.
+Abort.
+
+Lemma proof_of_veci_push_partial_solve_wit_2_pure : veci_push_partial_solve_wit_2_pure.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  specialize (PreH18 PreH9).
-  destruct PreH18 as [[Hgrowth Hcap_limit] Huint_limit].
+  specialize (PreH10 PreH1).
+  destruct PreH10 as [[Hgrowth Hcap_limit] Huint_limit].
   unfold vec_growth_ok in Hgrowth.
   destruct Hgrowth as
       [Hstride [Hcap_nonneg
         [Htwocap_signed [Hgcap_signed [Hgalloc Haddr]]]]].
   unfold vec_alloc_ok.
-  dump_pre_spatial.
-  repeat split; lia.
-Qed.
-
-Lemma proof_of_veci_push_partial_solve_wit_2_pure : veci_push_partial_solve_wit_2_pure.
-Proof.
-  aggressive_pre_process.
-  Goal_apply
-    (reassociate_sepcon_7_entail__push_nongrowth
-      (@proof_of_veci_push_partial_solve_wit_2_pure_split_goal_1
-        e_pre v_pre cap buf xs
-        PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-        PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18)).
+  entailer!; lia.
 Qed.
 
 Lemma proof_of_veci_push_which_implies_wit_1_split_goal_1 : veci_push_which_implies_wit_1_split_goal_1.
@@ -693,28 +668,19 @@ Proof.
 Qed.
 
 Lemma proof_of_vecp_push_partial_solve_wit_2_pure_split_goal_1 : vecp_push_partial_solve_wit_2_pure_split_goal_1.
+Abort.
+
+Lemma proof_of_vecp_push_partial_solve_wit_2_pure : vecp_push_partial_solve_wit_2_pure.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  specialize (PreH16 PreH7).
-  destruct PreH16 as [[Hgrowth Hcap_limit] Huint_limit].
+  specialize (PreH10 PreH1).
+  destruct PreH10 as [[Hgrowth Hcap_limit] Huint_limit].
   unfold vec_growth_ok in Hgrowth.
   destruct Hgrowth as
       [Hstride [Hcap_nonneg
         [Htwocap_signed [Hgcap_signed [Hgalloc Haddr]]]]].
   unfold vec_alloc_ok.
-  dump_pre_spatial.
-  repeat split; lia.
-Qed.
-
-Lemma proof_of_vecp_push_partial_solve_wit_2_pure : vecp_push_partial_solve_wit_2_pure.
-Proof.
-  aggressive_pre_process.
-  Goal_apply
-    (reassociate_sepcon_7_entail__push_nongrowth
-      (@proof_of_vecp_push_partial_solve_wit_2_pure_split_goal_1
-        e_pre v_pre cap buf xs
-        PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
-        PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)).
+  entailer!; lia.
 Qed.
 
 Lemma proof_of_vecp_push_which_implies_wit_1_split_goal_1 : vecp_push_which_implies_wit_1_split_goal_1.

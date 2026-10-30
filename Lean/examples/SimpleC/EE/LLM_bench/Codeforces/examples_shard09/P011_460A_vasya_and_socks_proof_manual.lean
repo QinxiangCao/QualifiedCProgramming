@@ -55,51 +55,51 @@ theorem proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_go
   omega
 
 theorem proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2 := by
-  intro m n hn hnmax hm hmmax
+  intro n m hn hnmax hm hmmax
   rw [Z.quot_0_l m (by omega)]
   omega
 
 theorem proof_of_solver_entail_wit_1 : solver_entail_wit_1 := by
   right
-  intro m n hn hnmax hm hmmax
-  have h1 := proof_of_solver_entail_wit_1_split_goal_1 m n hn hnmax hm hmmax
-  have h2 := proof_of_solver_entail_wit_1_split_goal_2 m n hn hnmax hm hmmax
+  intro n m hn hnmax hm hmmax
+  have h1 := proof_of_solver_entail_wit_1_split_goal_1 n m hn hnmax hm hmmax
+  have h2 := proof_of_solver_entail_wit_1_split_goal_2 n m hn hnmax hm hmmax
   entailer!
 
 theorem proof_of_solver_entail_wit_2_1_split_goal_1 : solver_entail_wit_2_1_split_goal_1 := by
-  intro m n₀ n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
+  intro n₀ m n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
   have hstep := quot_step_zero d m hd hm hr
   omega
 
 theorem proof_of_solver_entail_wit_2_1_split_goal_2 : solver_entail_wit_2_1_split_goal_2 := by
-  intro m n₀ n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
+  intro n₀ m n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
   exact days_bound m n₀ n d hm hn₀max hn hd heq
 
 theorem proof_of_solver_entail_wit_2_1 : solver_entail_wit_2_1 := by
   right
-  intro m n₀ n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
-  have h1 := proof_of_solver_entail_wit_2_1_split_goal_1 m n₀ n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
-  have h2 := proof_of_solver_entail_wit_2_1_split_goal_2 m n₀ n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
+  intro n₀ m n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
+  have h1 := proof_of_solver_entail_wit_2_1_split_goal_1 n₀ m n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
+  have h2 := proof_of_solver_entail_wit_2_1_split_goal_2 n₀ m n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
   entailer!
 
 theorem proof_of_solver_entail_wit_2_2_split_goal_1 : solver_entail_wit_2_2_split_goal_1 := by
-  intro m n₀ n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
+  intro n₀ m n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
   have hstep := quot_step_nonzero d m hd hm hr
   omega
 
 theorem proof_of_solver_entail_wit_2_2_split_goal_2 : solver_entail_wit_2_2_split_goal_2 := by
-  intro m n₀ n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
+  intro n₀ m n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
   exact days_bound m n₀ n d hm hn₀max hn hd heq
 
 theorem proof_of_solver_entail_wit_2_2 : solver_entail_wit_2_2 := by
   right
-  intro m n₀ n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
-  have h1 := proof_of_solver_entail_wit_2_2_split_goal_1 m n₀ n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
-  have h2 := proof_of_solver_entail_wit_2_2_split_goal_2 m n₀ n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
+  intro n₀ m n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
+  have h1 := proof_of_solver_entail_wit_2_2_split_goal_1 n₀ m n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
+  have h2 := proof_of_solver_entail_wit_2_2_split_goal_2 n₀ m n d hr hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
   entailer!
 
 theorem proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1 := by
-  intro m n₀ n days hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
+  intro n₀ m n days hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
   have hq := Z.quot_pos days m hd (by omega)
   refine ⟨by omega, ?_, ?_⟩
   · intro d hbound
@@ -110,8 +110,8 @@ theorem proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_go
 
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   right
-  intro m n₀ n days hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
-  have hs := proof_of_solver_return_wit_1_split_goal_1 m n₀ n days hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
+  intro n₀ m n days hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
+  have hs := proof_of_solver_return_wit_1_split_goal_1 n₀ m n days hn hn₀ hn₀max hm hmmax hd hdmax hn0 hnmax heq hprev
   entailer!
 
 end SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P011_460A_vasya_and_socks_proof_manual

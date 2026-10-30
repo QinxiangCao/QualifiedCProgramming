@@ -1,29 +1,13 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P061_2042C_competitive_fishing_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P061_2042C_competitive_fishing_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P061_2042C_competitive_fishing_lib.
 Local Open Scope sac.
 
 Lemma proof_of_solver_entail_wit_1_1 : solver_entail_wit_1_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (@nil Z).
   replace (n_pre - 2 + 1) with (n_pre - 1) by lia.
   split_pure_spatial.
@@ -56,7 +40,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_2 : solver_entail_wit_1_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (@nil Z).
   replace (n_pre - 2 + 1) with (n_pre - 1) by lia.
   split_pure_spatial.
@@ -89,7 +73,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_1 : solver_entail_wit_2_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (sum :: built_gains_2).
   replace (i - 1 + 1) with i by lia.
   split_pure_spatial.
@@ -121,7 +105,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_2 : solver_entail_wit_2_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (sum :: built_gains_2).
   replace (i - 1 + 1) with i by lia.
   split_pure_spatial.
@@ -155,7 +139,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3 : solver_entail_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = -1) by lia. subst i.
   replace (-1 + 1) with 0 in * by lia.
   Exists built_gains.
@@ -180,7 +164,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_1 : solver_entail_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PreparedGains.
   split.
   - assert (Hcanonical : canonical_gains = FishingGains f).
@@ -192,7 +176,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_2 : solver_entail_wit_4_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply (permutation_preserves_Znth_bounds__gain_construction
     canonical_gains sorted (-n_pre) n_pre PreH1).
   intros j Hj. apply PreH11. lia.
@@ -201,7 +185,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_3 : solver_entail_wit_4_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_4 : solver_entail_wit_4.
@@ -214,7 +198,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_1 : solver_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GainSearchState.
   split.
   - reflexivity.
@@ -226,14 +210,14 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_2 : solver_entail_wit_5_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH8.
   exact H.
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_3 : solver_entail_wit_5_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_5 : solver_entail_wit_5.
@@ -246,7 +230,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_split_goal_1 : solver_entail_wit_6_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GainSearchState in *.
   destruct PreH19 as [Hcur Hbelow].
   split.
@@ -263,7 +247,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_split_goal_2 : solver_entail_wit_6_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GainSearchState in PreH19.
   destruct PreH19 as [Hcur _].
   rewrite Hcur.
@@ -284,7 +268,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_1 : solver_entail_wit_7_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply Z.ge_le in PreH1.
   assert (Hiend : i = Zlength sorted_gains_2) by lia.
   assert (Hresult :
@@ -304,7 +288,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_2 : solver_entail_wit_7_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hflen : 1 <= Zlength f) by lia.
   assert (Hinext : 0 <= i < Zlength sorted_gains) by lia.
   assert (Hresult :

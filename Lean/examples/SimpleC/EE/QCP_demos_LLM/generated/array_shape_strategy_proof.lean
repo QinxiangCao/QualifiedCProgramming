@@ -54,7 +54,7 @@ theorem array_shape_strategy6_correctness : SimpleC.EE.QCP_demos_LLM.generated.a
   pre_process_default
   pureIntros
   subst_vars
-  exact (naive_C_Rules.UIntArray.seg_shape_empty _ _).1
+  exact fun s h => (naive_C_Rules.UIntArray.seg_shape_empty _ _).1 s h _
   all_goals (try cancel; try wand_elim; pureIntros; subst_vars; try cancel; try entailer!)
   all_goals (try exact fun _ h => h)
 
@@ -127,7 +127,7 @@ theorem array_shape_strategy16_correctness : SimpleC.EE.QCP_demos_LLM.generated.
   pre_process_default
   pureIntros
   subst_vars
-  exact (naive_C_Rules.IntArray.seg_shape_empty _ _).1
+  exact fun s h => (naive_C_Rules.IntArray.seg_shape_empty _ _).1 s h _
   all_goals (try cancel; try wand_elim; pureIntros; subst_vars; try cancel; try entailer!)
   all_goals (try exact fun _ h => h)
 

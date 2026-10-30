@@ -57,7 +57,7 @@ theorem aux_maxAreaLinear_entail_wit_1_split_goal_1 : (forall (heightSize_pre : 
 
 theorem proof_of_maxAreaLinear_entail_wit_1_split_goal_1 : maxAreaLinear_entail_wit_1_split_goal_1 := by
   unfold maxAreaLinear_entail_wit_1_split_goal_1
-  intro heightSize_pre height_pre l NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
+  intro l height_pre heightSize_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
   first
   | assumption
   | omega
@@ -73,7 +73,7 @@ theorem proof_of_maxAreaLinear_entail_wit_1_split_goal_1 : maxAreaLinear_entail_
 theorem proof_of_maxAreaLinear_entail_wit_1 : maxAreaLinear_entail_wit_1 := by
   unfold maxAreaLinear_entail_wit_1
   right
-  intro heightSize_pre height_pre l NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
+  intro l height_pre heightSize_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
   have PreH1 : (heightSize_pre >= 2) := NewPreH1
   have PreH2 : (height_pre ≠ (0 : Int)) := NewPreH2
   have PreH3 : (2 <= heightSize_pre) := NewPreH3
@@ -92,11 +92,11 @@ theorem proof_of_maxAreaLinear_entail_wit_1 : maxAreaLinear_entail_wit_1 := by
     | omega
     | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
     | Goal_apply (aux_maxAreaLinear_entail_wit_1_split_goal_1 heightSize_pre height_pre l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7)
-    | Goal_apply (proof_of_maxAreaLinear_entail_wit_1_split_goal_1 heightSize_pre height_pre l NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8)
+    | Goal_apply (proof_of_maxAreaLinear_entail_wit_1_split_goal_1 l height_pre heightSize_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8)
 
 theorem proof_of_maxAreaLinear_entail_wit_2_1_split_goal_1 : maxAreaLinear_entail_wit_2_1_split_goal_1 := by
   unfold maxAreaLinear_entail_wit_2_1_split_goal_1
-  intro heightSize_pre l maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro l heightSize_pre maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -116,7 +116,7 @@ theorem proof_of_maxAreaLinear_entail_wit_2_1_split_goal_1 : maxAreaLinear_entai
 
 theorem proof_of_maxAreaLinear_entail_wit_2_1_split_goal_3 : maxAreaLinear_entail_wit_2_1_split_goal_3 := by
   unfold maxAreaLinear_entail_wit_2_1_split_goal_3
-  intro heightSize_pre l maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro l heightSize_pre maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -128,7 +128,7 @@ theorem proof_of_maxAreaLinear_entail_wit_2_1_split_goal_3 : maxAreaLinear_entai
 theorem proof_of_maxAreaLinear_entail_wit_2_1 : maxAreaLinear_entail_wit_2_1 := by
   unfold maxAreaLinear_entail_wit_2_1
   right
-  intro n l best right left hbest hcmp hlr hn0 hn hlen hl0 hle hrn hb0 hb hinv hlow hhigh
+  intro l n best right left hbest hcmp hlr hn0 hn hlen hl0 hle hrn hb0 hb hinv hlow hhigh
   have low := annotation_Forall_nth _ l left 0 hlow (by omega)
   have high := annotation_Forall_nth _ l left 0 hhigh (by omega)
   have bounds := rectangle_bounds l n left right hn hl0 hlr hrn hlow hhigh left
@@ -146,7 +146,7 @@ theorem proof_of_maxAreaLinear_entail_wit_2_1 : maxAreaLinear_entail_wit_2_1 := 
 
 theorem proof_of_maxAreaLinear_entail_wit_2_2_split_goal_1 : maxAreaLinear_entail_wit_2_2_split_goal_1 := by
   unfold maxAreaLinear_entail_wit_2_2_split_goal_1
-  intro heightSize_pre l maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro l heightSize_pre maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -166,7 +166,7 @@ theorem proof_of_maxAreaLinear_entail_wit_2_2_split_goal_1 : maxAreaLinear_entai
 
 theorem proof_of_maxAreaLinear_entail_wit_2_2_split_goal_3 : maxAreaLinear_entail_wit_2_2_split_goal_3 := by
   unfold maxAreaLinear_entail_wit_2_2_split_goal_3
-  intro heightSize_pre l maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro l heightSize_pre maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -178,7 +178,7 @@ theorem proof_of_maxAreaLinear_entail_wit_2_2_split_goal_3 : maxAreaLinear_entai
 theorem proof_of_maxAreaLinear_entail_wit_2_2 : maxAreaLinear_entail_wit_2_2 := by
   unfold maxAreaLinear_entail_wit_2_2
   right
-  intro n l best right left hbest hcmp hlr hn0 hn hlen hl0 hle hrn hb0 hb hinv hlow hhigh
+  intro l n best right left hbest hcmp hlr hn0 hn hlen hl0 hle hrn hb0 hb hinv hlow hhigh
   have low := annotation_Forall_nth _ l right 0 hlow (by omega)
   have high := annotation_Forall_nth _ l right 0 hhigh (by omega)
   have bounds := rectangle_bounds l n left right hn hl0 hlr hrn hlow hhigh right
@@ -196,7 +196,7 @@ theorem proof_of_maxAreaLinear_entail_wit_2_2 : maxAreaLinear_entail_wit_2_2 := 
 
 theorem proof_of_maxAreaLinear_entail_wit_2_3_split_goal_1 : maxAreaLinear_entail_wit_2_3_split_goal_1 := by
   unfold maxAreaLinear_entail_wit_2_3_split_goal_1
-  intro heightSize_pre l maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro l heightSize_pre maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -212,7 +212,7 @@ theorem proof_of_maxAreaLinear_entail_wit_2_3_split_goal_1 : maxAreaLinear_entai
 
 theorem proof_of_maxAreaLinear_entail_wit_2_3_split_goal_2 : maxAreaLinear_entail_wit_2_3_split_goal_2 := by
   unfold maxAreaLinear_entail_wit_2_3_split_goal_2
-  intro heightSize_pre l maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro l heightSize_pre maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -224,7 +224,7 @@ theorem proof_of_maxAreaLinear_entail_wit_2_3_split_goal_2 : maxAreaLinear_entai
 theorem proof_of_maxAreaLinear_entail_wit_2_3 : maxAreaLinear_entail_wit_2_3 := by
   unfold maxAreaLinear_entail_wit_2_3
   right
-  intro n l best right left hbest hcmp hlr hn0 hn hlen hl0 hle hrn hb0 hb hinv hlow hhigh
+  intro l n best right left hbest hcmp hlr hn0 hn hlen hl0 hle hrn hb0 hb hinv hlow hhigh
   have low := annotation_Forall_nth _ l left 0 hlow (by omega)
   have high := annotation_Forall_nth _ l left 0 hhigh (by omega)
   have bounds := rectangle_bounds l n left right hn hl0 hlr hrn hlow hhigh left
@@ -239,7 +239,7 @@ theorem proof_of_maxAreaLinear_entail_wit_2_3 : maxAreaLinear_entail_wit_2_3 := 
 
 theorem proof_of_maxAreaLinear_entail_wit_2_4_split_goal_1 : maxAreaLinear_entail_wit_2_4_split_goal_1 := by
   unfold maxAreaLinear_entail_wit_2_4_split_goal_1
-  intro heightSize_pre l maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro l heightSize_pre maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -255,7 +255,7 @@ theorem proof_of_maxAreaLinear_entail_wit_2_4_split_goal_1 : maxAreaLinear_entai
 
 theorem proof_of_maxAreaLinear_entail_wit_2_4_split_goal_2 : maxAreaLinear_entail_wit_2_4_split_goal_2 := by
   unfold maxAreaLinear_entail_wit_2_4_split_goal_2
-  intro heightSize_pre l maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
+  intro l heightSize_pre maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14
   first
   | assumption
   | omega
@@ -267,7 +267,7 @@ theorem proof_of_maxAreaLinear_entail_wit_2_4_split_goal_2 : maxAreaLinear_entai
 theorem proof_of_maxAreaLinear_entail_wit_2_4 : maxAreaLinear_entail_wit_2_4 := by
   unfold maxAreaLinear_entail_wit_2_4
   right
-  intro n l best right left hbest hcmp hlr hn0 hn hlen hl0 hle hrn hb0 hb hinv hlow hhigh
+  intro l n best right left hbest hcmp hlr hn0 hn hlen hl0 hle hrn hb0 hb hinv hlow hhigh
   have low := annotation_Forall_nth _ l right 0 hlow (by omega)
   have high := annotation_Forall_nth _ l right 0 hhigh (by omega)
   have bounds := rectangle_bounds l n left right hn hl0 hlr hrn hlow hhigh right
@@ -293,7 +293,7 @@ theorem aux_maxAreaLinear_entail_wit_3_1_split_goal_1 : (forall (heightSize_pre 
 
 theorem proof_of_maxAreaLinear_entail_wit_3_1_split_goal_1 : maxAreaLinear_entail_wit_3_1_split_goal_1 := by
   unfold maxAreaLinear_entail_wit_3_1_split_goal_1
-  intro heightSize_pre l left right width shorterHeight area maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21
+  intro l heightSize_pre left right width shorterHeight area maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21
   first
   | assumption
   | omega
@@ -319,7 +319,7 @@ theorem proof_of_maxAreaLinear_entail_wit_3_1_split_goal_1 : maxAreaLinear_entai
 theorem proof_of_maxAreaLinear_entail_wit_3_1 : maxAreaLinear_entail_wit_3_1 := by
   unfold maxAreaLinear_entail_wit_3_1
   right
-  intro heightSize_pre l left right width shorterHeight area maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21
+  intro l heightSize_pre left right width shorterHeight area maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21
   have PreH1 : ((Znth left l (0 : Int)) < (Znth right l (0 : Int))) := NewPreH1
   have PreH2 : (2 <= heightSize_pre) := NewPreH2
   have PreH3 : (heightSize_pre <= 100000) := NewPreH3
@@ -351,7 +351,7 @@ theorem proof_of_maxAreaLinear_entail_wit_3_1 : maxAreaLinear_entail_wit_3_1 := 
     | omega
     | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
     | Goal_apply (aux_maxAreaLinear_entail_wit_3_1_split_goal_1 heightSize_pre l left right width shorterHeight area maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
-    | Goal_apply (proof_of_maxAreaLinear_entail_wit_3_1_split_goal_1 heightSize_pre l left right width shorterHeight area maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21)
+    | Goal_apply (proof_of_maxAreaLinear_entail_wit_3_1_split_goal_1 l heightSize_pre left right width shorterHeight area maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21)
 
 theorem aux_maxAreaLinear_entail_wit_3_2_split_goal_1 : (forall (heightSize_pre : Int) (l : (List Int)) (left : Int) (right : Int) (width : Int) (shorterHeight : Int) (area : Int) (maximumArea : Int) (PreH1 : ((Znth left l (0 : Int)) >= (Znth right l (0 : Int)))) (PreH2 : (2 <= heightSize_pre)) (PreH3 : (heightSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = heightSize_pre)) (PreH5 : ((0 : Int) <= left)) (PreH6 : (left < right)) (PreH7 : (right < heightSize_pre)) (PreH8 : (width = (right - left))) (PreH9 : (1 <= width)) (PreH10 : (width <= 99999)) (PreH11 : (shorterHeight = (LinearContainerHeight (l) (left) (right)))) (PreH12 : ((0 : Int) <= shorterHeight)) (PreH13 : (shorterHeight <= 10000)) (PreH14 : (area = (LinearContainerArea (l) (left) (right)))) (PreH15 : ((0 : Int) <= area)) (PreH16 : (area <= maximumArea)) (PreH17 : ((0 : Int) <= maximumArea)) (PreH18 : (maximumArea <= 999990000)) (PreH19 : (LinearContainerTwoPointerInvariant l left right maximumArea)) (PreH20 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < heightSize_pre)) -> (((0 : Int) <= (Znth k_2 l (0 : Int))) ∧ ((Znth k_2 l (0 : Int)) <= 10000)))) ,
   forall (k : Int) , ((((0 : Int) <= k) ∧ (k < heightSize_pre)) -> (((0 : Int) <= (Znth k l (0 : Int))) ∧ ((Znth k l (0 : Int)) <= 10000)))) := by
@@ -366,7 +366,7 @@ theorem aux_maxAreaLinear_entail_wit_3_2_split_goal_1 : (forall (heightSize_pre 
 
 theorem proof_of_maxAreaLinear_entail_wit_3_2_split_goal_1 : maxAreaLinear_entail_wit_3_2_split_goal_1 := by
   unfold maxAreaLinear_entail_wit_3_2_split_goal_1
-  intro heightSize_pre l left right width shorterHeight area maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21
+  intro l heightSize_pre left right width shorterHeight area maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21
   first
   | assumption
   | omega
@@ -392,7 +392,7 @@ theorem proof_of_maxAreaLinear_entail_wit_3_2_split_goal_1 : maxAreaLinear_entai
 theorem proof_of_maxAreaLinear_entail_wit_3_2 : maxAreaLinear_entail_wit_3_2 := by
   unfold maxAreaLinear_entail_wit_3_2
   right
-  intro heightSize_pre l left right width shorterHeight area maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21
+  intro l heightSize_pre left right width shorterHeight area maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21
   have PreH1 : ((Znth left l (0 : Int)) >= (Znth right l (0 : Int))) := NewPreH1
   have PreH2 : (2 <= heightSize_pre) := NewPreH2
   have PreH3 : (heightSize_pre <= 100000) := NewPreH3
@@ -424,11 +424,11 @@ theorem proof_of_maxAreaLinear_entail_wit_3_2 : maxAreaLinear_entail_wit_3_2 := 
     | omega
     | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
     | Goal_apply (aux_maxAreaLinear_entail_wit_3_2_split_goal_1 heightSize_pre l left right width shorterHeight area maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
-    | Goal_apply (proof_of_maxAreaLinear_entail_wit_3_2_split_goal_1 heightSize_pre l left right width shorterHeight area maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21)
+    | Goal_apply (proof_of_maxAreaLinear_entail_wit_3_2_split_goal_1 l heightSize_pre left right width shorterHeight area maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21)
 
 theorem proof_of_maxAreaLinear_return_wit_1_split_goal_1 : maxAreaLinear_return_wit_1_split_goal_1 := by
   unfold maxAreaLinear_return_wit_1_split_goal_1
-  intro heightSize_pre l maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
+  intro l heightSize_pre maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
   first
   | assumption
   | omega
@@ -450,7 +450,7 @@ theorem proof_of_maxAreaLinear_return_wit_1_split_goal_1 : maxAreaLinear_return_
 theorem proof_of_maxAreaLinear_return_wit_1 : maxAreaLinear_return_wit_1 := by
   unfold maxAreaLinear_return_wit_1
   right
-  intro heightSize_pre l maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
+  intro l heightSize_pre maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
   have PreH1 : (left >= right) := NewPreH1
   have PreH2 : (2 <= heightSize_pre) := NewPreH2
   have PreH3 : (heightSize_pre <= 100000) := NewPreH3
@@ -472,12 +472,12 @@ theorem proof_of_maxAreaLinear_return_wit_1 : maxAreaLinear_return_wit_1 := by
     | assumption
     | omega
     | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-    | Goal_apply (proof_of_maxAreaLinear_return_wit_1_split_goal_1 heightSize_pre l maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12)
+    | Goal_apply (proof_of_maxAreaLinear_return_wit_1_split_goal_1 l heightSize_pre maximumArea right left NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12)
 
 theorem proof_of_maxAreaLinear_safety_wit_10 : maxAreaLinear_safety_wit_10 := by
   unfold maxAreaLinear_safety_wit_10
   right
-  intro n addr l best right left hcmp hlr hn0 hn hlen hl0 hle hrn hb0 hb hinv hlow hhigh
+  intro l addr n best right left hcmp hlr hn0 hn hlen hl0 hle hrn hb0 hb hinv hlow hhigh
   have bounds := rectangle_bounds l n left right hn hl0 hlr hrn hlow hhigh left
   split_pures <;> dump_pre_spatial <;> simp only [INT_MIN, INT_MAX] <;> omega
 
@@ -485,7 +485,7 @@ theorem proof_of_maxAreaLinear_safety_wit_10 : maxAreaLinear_safety_wit_10 := by
 theorem proof_of_maxAreaLinear_safety_wit_11 : maxAreaLinear_safety_wit_11 := by
   unfold maxAreaLinear_safety_wit_11
   right
-  intro n addr l best right left hcmp hlr hn0 hn hlen hl0 hle hrn hb0 hb hinv hlow hhigh
+  intro l addr n best right left hcmp hlr hn0 hn hlen hl0 hle hrn hb0 hb hinv hlow hhigh
   have bounds := rectangle_bounds l n left right hn hl0 hlr hrn hlow hhigh right
   split_pures <;> dump_pre_spatial <;> simp only [INT_MIN, INT_MAX] <;> omega
 

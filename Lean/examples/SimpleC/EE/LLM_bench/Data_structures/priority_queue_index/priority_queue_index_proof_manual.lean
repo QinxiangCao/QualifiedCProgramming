@@ -15,7 +15,7 @@ private noncomputable abbrev intArray := naive_C_Rules.IntArray
 theorem proof_of_push_entail_wit_1 : push_entail_wit_1 := by
   unfold push_entail_wit_1
   left
-  intro n_pre data_pre key_pre S_before PreH1 PreH2
+  intro S_before key_pre data_pre n_pre PreH1 PreH2
   unfold store_heap
   Intros key_base data_base
   have hr : heap_representation S_before key_base data_base n_pre := by assumption
@@ -30,7 +30,7 @@ theorem proof_of_push_entail_wit_1 : push_entail_wit_1 := by
 theorem proof_of_push_entail_wit_2 : push_entail_wit_2 := by
   unfold push_entail_wit_2
   left
-  intro key_x_pre data_x_pre n_pre data_pre key_pre S_before key_base data_base PreH1 PreH2 PreH3
+  intro S_before key_pre data_pre n_pre data_x_pre key_x_pre key_base data_base PreH1 PreH2 PreH3
   have hl := push_appended_loop_state__push_initialization S_before key_base data_base n_pre data_x_pre key_x_pre PreH3
   have hs := push_appended_source__push_initialization S_before key_base data_base n_pre data_x_pre key_x_pre PreH3
   Exists (key_base ++ [key_x_pre]) (data_base ++ [data_x_pre]) (key_base ++ [key_x_pre]) (data_base ++ [data_x_pre])
@@ -42,7 +42,7 @@ theorem proof_of_push_entail_wit_2 : push_entail_wit_2 := by
 theorem proof_of_push_entail_wit_3 : push_entail_wit_3 := by
   unfold push_entail_wit_3
   left
-  intro key_x_pre data_x_pre n_pre data_pre key_pre S_before key_current_2 data_current_2 key_written_2 data_written_2 child PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro S_before key_pre data_pre n_pre data_x_pre key_x_pre key_current_2 data_current_2 key_written_2 data_written_2 child PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   obtain ⟨h0,h1,h2⟩ := heap_parent_positive_bounds__push_sift_up child n_pre PreH1 PreH5
   unfold heap_parent at h0 h1 h2
   Exists key_current_2 data_current_2 key_written_2 data_written_2
@@ -54,13 +54,13 @@ theorem proof_of_push_entail_wit_3 : push_entail_wit_3 := by
 
 theorem proof_of_push_entail_wit_4_split_goal_1 : push_entail_wit_4_split_goal_1 := by
   unfold push_entail_wit_4_split_goal_1
-  intro key_x_pre data_x_pre n_pre S_before key_written_2 data_written_2 key_current_2 data_current_2 child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro S_before n_pre data_x_pre key_x_pre key_written_2 data_written_2 key_current_2 data_current_2 child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   exact push_break_establishes_result__push_sift_up S_before key_written_2 data_written_2 key_current_2 data_current_2 n_pre child parent data_x_pre key_x_pre PreH10 PreH11 PreH9 PreH1
 
 theorem proof_of_push_entail_wit_4 : push_entail_wit_4 := by
   unfold push_entail_wit_4
   right
-  intro key_x_pre data_x_pre n_pre S_before key_written_2 data_written_2 key_current_2 data_current_2 child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro S_before n_pre data_x_pre key_x_pre key_written_2 data_written_2 key_current_2 data_current_2 child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have h := push_break_establishes_result__push_sift_up S_before key_written_2 data_written_2 key_current_2 data_current_2 n_pre child parent data_x_pre key_x_pre PreH10 PreH11 PreH9 PreH1
   split_pure_spatial
   · cancel
@@ -70,7 +70,7 @@ theorem proof_of_push_entail_wit_4 : push_entail_wit_4 := by
 theorem proof_of_push_entail_wit_5 : push_entail_wit_5 := by
   unfold push_entail_wit_5
   left
-  intro key_x_pre data_x_pre n_pre data_pre key_pre S_before key_written_2 data_written_2 key_current_2 data_current_2 child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro S_before key_pre data_pre n_pre data_x_pre key_x_pre key_written_2 data_written_2 key_current_2 data_current_2 child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   obtain ⟨hk,hd,hl⟩ := push_swap_advances_loop__push_sift_up key_written_2 data_written_2 key_current_2 data_current_2 n_pre child parent data_x_pre key_x_pre PreH11 PreH4 PreH9 PreH1
   Exists (replace_Znth child (Znth parent key_current_2 0)       (replace_Znth parent (Znth child key_current_2 0) key_current_2)) (replace_Znth child (Znth parent data_current_2 0)       (replace_Znth parent (Znth child data_current_2 0) data_current_2)) key_written_2 data_written_2
   split_pure_spatial
@@ -81,7 +81,7 @@ theorem proof_of_push_entail_wit_5 : push_entail_wit_5 := by
 
 theorem proof_of_push_return_wit_1_split_goal_spatial : push_return_wit_1_split_goal_spatial := by
   unfold push_return_wit_1_split_goal_spatial
-  intro key_x_pre data_x_pre n_pre data_pre key_pre S_before key_current data_current key_written data_written child PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro S_before key_pre data_pre n_pre data_x_pre key_x_pre key_current data_current key_written data_written child PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   have hz : child = 0 := by omega
   have hresult := push_zero_exit_result__push_finalization S_before key_written data_written key_current data_current n_pre data_x_pre key_x_pre PreH6 (by simpa only [hz] using PreH7)
   have hr := push_result_representation__push_finalization S_before key_current data_current n_pre data_x_pre key_x_pre (by assumption) hresult
@@ -95,7 +95,7 @@ theorem proof_of_push_return_wit_1 : push_return_wit_1 := by
 
 theorem proof_of_push_return_wit_2_split_goal_spatial : push_return_wit_2_split_goal_spatial := by
   unfold push_return_wit_2_split_goal_spatial
-  intro key_x_pre data_x_pre n_pre data_pre key_pre S_before key_written data_written key_current data_current child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro S_before key_pre data_pre n_pre data_x_pre key_x_pre key_written data_written key_current data_current child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have hr := push_result_representation__push_finalization S_before key_current data_current n_pre data_x_pre key_x_pre (by assumption) (by assumption)
   sep_apply (concrete_arrays_to_store_heap__build_finalization key_pre data_pre _ _ _ (n_pre+1) (by omega) hr)
   cancel
@@ -107,7 +107,7 @@ theorem proof_of_push_return_wit_2 : push_return_wit_2 := by
 
 theorem proof_of_build_entail_wit_1 : build_entail_wit_1 := by
   unfold build_entail_wit_1
-  intro n_pre data_pre key_pre data_input key_input PreH1 PreH2 PreH3 PreH4
+  intro data_input key_input key_pre data_pre n_pre PreH1 PreH2 PreH3 PreH4
   by_cases hz : n_pre = 0
   · Left
     split_pure_spatial
@@ -133,7 +133,7 @@ theorem proof_of_build_entail_wit_1 : build_entail_wit_1 := by
 theorem proof_of_build_entail_wit_2 : build_entail_wit_2 := by
   unfold build_entail_wit_2
   left
-  intro n_pre data_pre key_pre data_input key_input key_prefix data_prefix S_prefix_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro data_input key_input key_pre data_pre n_pre key_prefix data_prefix S_prefix_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   have hdk : Znth (i-i) (sublist i n_pre data_input) 0 = Znth i data_input 0 := by
     rw [Znth_sublist 0 i (i-i) n_pre data_input (by omega) (by omega)]
     congr 1 <;> omega
@@ -158,7 +158,7 @@ theorem proof_of_build_entail_wit_2 : build_entail_wit_2 := by
 theorem proof_of_build_entail_wit_3 : build_entail_wit_3 := by
   unfold build_entail_wit_3
   left
-  intro n_pre data_pre key_pre data_input key_input key_current_2 data_current_2 key_written_2 data_written_2 S_prefix_2 child key_x i data_x PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro data_input key_input key_pre data_pre n_pre key_current_2 data_current_2 key_written_2 data_written_2 S_prefix_2 child key_x i data_x PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   obtain ⟨h0,h1,h2⟩ := heap_parent_positive_bounds__push_sift_up child i PreH1 (by omega)
   unfold heap_parent at h0 h1 h2
   Exists key_current_2 data_current_2     key_written_2 data_written_2 S_prefix_2
@@ -171,7 +171,7 @@ theorem proof_of_build_entail_wit_3 : build_entail_wit_3 := by
 theorem proof_of_build_entail_wit_4 : build_entail_wit_4 := by
   unfold build_entail_wit_4
   left
-  intro n_pre data_pre key_pre data_input key_input S_prefix_2 key_written_2 data_written_2 key_current_2 data_current_2 data_x i key_x child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro data_input key_input key_pre data_pre n_pre S_prefix_2 key_written_2 data_written_2 key_current_2 data_current_2 data_x i key_x child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have h := push_break_establishes_result__push_sift_up S_prefix_2 key_written_2 data_written_2 key_current_2 data_current_2 i child parent data_x key_x (by assumption) (by assumption) (by assumption) PreH1
   Exists data_current_2 key_written_2     data_written_2 S_prefix_2 key_current_2
   split_pure_spatial
@@ -183,7 +183,7 @@ theorem proof_of_build_entail_wit_4 : build_entail_wit_4 := by
 theorem proof_of_build_entail_wit_5 : build_entail_wit_5 := by
   unfold build_entail_wit_5
   left
-  intro n_pre data_pre key_pre data_input key_input S_prefix_2 key_written_2 data_written_2 key_current_2 data_current_2 data_x i key_x child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro data_input key_input key_pre data_pre n_pre S_prefix_2 key_written_2 data_written_2 key_current_2 data_current_2 data_x i key_x child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   obtain ⟨hk,hd,hl⟩ := push_swap_advances_loop__push_sift_up key_written_2 data_written_2 key_current_2 data_current_2 i child parent data_x key_x PreH18 PreH8 PreH13 PreH1
   Exists (replace_Znth child (Znth parent key_current_2 0)       (replace_Znth parent (Znth child key_current_2 0) key_current_2)) (replace_Znth child (Znth parent data_current_2 0)       (replace_Znth parent (Znth child data_current_2 0) data_current_2)) key_written_2 data_written_2 S_prefix_2
   split_pure_spatial
@@ -195,7 +195,7 @@ theorem proof_of_build_entail_wit_5 : build_entail_wit_5 := by
 theorem proof_of_build_entail_wit_6_1 : build_entail_wit_6_1 := by
   unfold build_entail_wit_6_1
   left
-  intro n_pre data_pre key_pre data_input key_input key_current data_current key_written data_written S_prefix_2 child key_x i data_x PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro data_input key_input key_pre data_pre n_pre key_current data_current key_written data_written S_prefix_2 child key_x i data_x PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   have hz : child = 0 := by omega
   have hresult := push_zero_exit_result__push_finalization S_prefix_2 key_written data_written key_current data_current i data_x key_x PreH13 (by simpa only [hz] using PreH14)
   have hr := push_result_representation__push_finalization S_prefix_2 key_current data_current i data_x key_x (by omega) hresult
@@ -209,7 +209,7 @@ theorem proof_of_build_entail_wit_6_1 : build_entail_wit_6_1 := by
 theorem proof_of_build_entail_wit_6_2 : build_entail_wit_6_2 := by
   unfold build_entail_wit_6_2
   left
-  intro n_pre data_pre key_pre data_input key_input S_prefix_2 key_written data_written key_current data_current data_x i key_x child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro data_input key_input key_pre data_pre n_pre S_prefix_2 key_written data_written key_current data_current data_x i key_x child parent PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have hresult := PreH18
   have hr := push_result_representation__push_finalization S_prefix_2 key_current data_current i data_x key_x (by omega) hresult
   have hp := build_prefix_extend__build_progress S_prefix_2 key_input data_input i data_x key_x (by omega) (by omega) (by omega) (by assumption) (by assumption) (by assumption)
@@ -221,7 +221,7 @@ theorem proof_of_build_entail_wit_6_2 : build_entail_wit_6_2 := by
 
 theorem proof_of_build_return_wit_1_split_goal_spatial : build_return_wit_1_split_goal_spatial := by
   unfold build_return_wit_1_split_goal_spatial
-  intro n_pre data_pre key_pre data_input key_input i PreH1 PreH2 PreH3 PreH4 PreH5
+  intro data_input key_input key_pre data_pre n_pre i PreH1 PreH2 PreH3 PreH4 PreH5
   subst n_pre
   have hk : key_input = [] := by
     apply List.eq_nil_of_length_eq_zero
@@ -245,12 +245,21 @@ theorem proof_of_build_return_wit_1 : build_return_wit_1 := by
 
 theorem proof_of_build_return_wit_2_split_goal_spatial : build_return_wit_2_split_goal_spatial := by
   unfold build_return_wit_2_split_goal_spatial
-  intro n_pre data_pre key_pre data_input key_input key_prefix data_prefix S_prefix i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro data_input key_input key_pre data_pre n_pre key_prefix data_prefix S_prefix i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   have hi : i = n_pre := by omega
   subst i
   have he := build_prefix_complete__build_finalization S_prefix key_input data_input n_pre PreH8 (by omega) (by omega)
   have hr := store_heap_equiv_transport__build_finalization S_prefix (list_to_multiset (pair_list key_input data_input)) key_prefix data_prefix n_pre he PreH9
   sep_apply (concrete_arrays_to_store_heap__build_finalization key_pre data_pre _ _ _ n_pre (by omega) hr)
+  cancel
+  rw [AUXLib.Zsublist_nil key_input n_pre n_pre (by omega),
+    AUXLib.Zsublist_nil data_input n_pre n_pre (by omega)]
+  have hk : naive_C_Rules.IntArray.seg key_pre n_pre n_pre [] |-- emp :=
+    fun h hs => ((naive_C_Rules.IntArray.seg_empty key_pre n_pre n_pre).1 h hs).2
+  have hd : naive_C_Rules.IntArray.seg data_pre n_pre n_pre [] |-- emp :=
+    fun h hs => ((naive_C_Rules.IntArray.seg_empty data_pre n_pre n_pre).1 h hs).2
+  refine naive_C_Rules.toContext.derivable1_trans _ _ _
+    (naive_C_Rules.toContext.derivable1_sepcon_mono _ _ _ _ hk hd) ?_
   cancel
 
 theorem proof_of_build_return_wit_2 : build_return_wit_2 := by
@@ -261,7 +270,7 @@ theorem proof_of_build_return_wit_2 : build_return_wit_2 := by
 theorem proof_of_pop_entail_wit_1 : pop_entail_wit_1 := by
   unfold pop_entail_wit_1
   left
-  intro key_out_pre data_out_pre n_pre data_pre key_pre S_before PreH1
+  intro S_before key_pre data_pre n_pre data_out_pre key_out_pre PreH1
   unfold store_heap
   Intros before_key before_data
   have hr : heap_representation S_before before_key before_data n_pre := by assumption
@@ -281,7 +290,7 @@ theorem proof_of_pop_entail_wit_1 : pop_entail_wit_1 := by
 theorem proof_of_pop_entail_wit_2 : pop_entail_wit_2 := by
   unfold pop_entail_wit_2
   left
-  intro key_out_pre data_out_pre n_pre data_pre key_pre S_before before_key before_data popped_2 PreH1 PreH2 PreH3 PreH4 PreH5
+  intro S_before key_pre data_pre n_pre data_out_pre key_out_pre before_key before_data popped_2 PreH1 PreH2 PreH3 PreH4 PreH5
   have hh := PreH4.2.2.2.1
   have hk : item_key popped_2 = Znth 0 before_key 0 := by rw [hh]; rfl
   have hd : item_data popped_2 = Znth 0 before_data 0 := by rw [hh]; rfl
@@ -296,7 +305,7 @@ theorem proof_of_pop_entail_wit_2 : pop_entail_wit_2 := by
 theorem proof_of_pop_entail_wit_3 : pop_entail_wit_3 := by
   unfold pop_entail_wit_3
   right
-  intro n_pre data_pre key_pre S_before before_key before_data popped_2 result_key result_data PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro S_before key_pre data_pre n_pre before_key before_data popped_2 result_key result_data PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   subst n_pre
   Exists popped_2
   sep_apply (singleton_store_heap_after_remove__pop_singleton key_pre data_pre S_before before_key before_data popped_2 (by assumption) (by assumption))
@@ -308,7 +317,7 @@ theorem proof_of_pop_entail_wit_3 : pop_entail_wit_3 := by
 theorem proof_of_pop_entail_wit_4 : pop_entail_wit_4 := by
   unfold pop_entail_wit_4
   left
-  intro key_out_pre data_out_pre n_pre data_pre key_pre S_before before_key_2 before_data_2 popped_2 result_key result_data PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro S_before key_pre data_pre n_pre data_out_pre key_out_pre before_key_2 before_data_2 popped_2 result_key result_data PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   have hc : heap_capacity = 100000 := rfl
   have hmax : INT_MAX = 2147483647 := rfl
   Exists before_key_2 before_data_2 popped_2
@@ -322,7 +331,7 @@ theorem proof_of_pop_entail_wit_4 : pop_entail_wit_4 := by
 theorem proof_of_pop_entail_wit_5 : pop_entail_wit_5 := by
   unfold pop_entail_wit_5
   left
-  intro key_out_pre data_out_pre n_pre data_pre key_pre S_before before_key_2 before_data_2 popped_2 result_key result_data PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro S_before key_pre data_pre n_pre data_out_pre key_out_pre before_key_2 before_data_2 popped_2 result_key result_data PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   have hk := PreH8.2.2.2.1
   have hd := PreH8.2.2.2.2.1
   have ho := PreH8.2.2.2.2.2.2
@@ -338,7 +347,7 @@ theorem proof_of_pop_entail_wit_5 : pop_entail_wit_5 := by
 theorem proof_of_pop_entail_wit_6 : pop_entail_wit_6 := by
   unfold pop_entail_wit_6
   left
-  intro key_out_pre data_out_pre n_pre data_pre key_pre S_before current_key_2 current_data_2 before_key_2 before_data_2 idx result_data popped_2 result_key PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro S_before key_pre data_pre n_pre data_out_pre key_out_pre current_key_2 current_data_2 before_key_2 before_data_2 idx result_data popped_2 result_key PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   Exists current_key_2 current_data_2     before_key_2 before_data_2 popped_2
   pureIntros
   split_pure_spatial
@@ -350,7 +359,7 @@ theorem proof_of_pop_entail_wit_6 : pop_entail_wit_6 := by
 theorem proof_of_pop_entail_wit_7_1 : pop_entail_wit_7_1 := by
   unfold pop_entail_wit_7_1
   left
-  intro key_out_pre data_out_pre n_pre data_pre key_pre S_before before_key_2 before_data_2 current_key_2 current_data_2 popped_2 result_key result_data idx left right smallest PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro S_before key_pre data_pre n_pre data_out_pre key_out_pre before_key_2 before_data_2 current_key_2 current_data_2 popped_2 result_key result_data idx left right smallest PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   subst smallest left right
   have hsel := pop_select_right__pop_child_selection current_key_2 (n_pre-1) idx PreH7
     (by unfold heap_right_child; omega)
@@ -367,7 +376,7 @@ theorem proof_of_pop_entail_wit_7_1 : pop_entail_wit_7_1 := by
 theorem proof_of_pop_entail_wit_7_2 : pop_entail_wit_7_2 := by
   unfold pop_entail_wit_7_2
   left
-  intro key_out_pre data_out_pre n_pre data_pre key_pre S_before before_key_2 before_data_2 current_key_2 current_data_2 popped_2 result_key result_data idx left right smallest PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro S_before key_pre data_pre n_pre data_out_pre key_out_pre before_key_2 before_data_2 current_key_2 current_data_2 popped_2 result_key result_data idx left right smallest PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   subst smallest left right
   have hsel := pop_select_left__pop_child_selection current_key_2 (n_pre-1) idx PreH6 (by unfold heap_left_child; omega)
     (Or.inl (by unfold heap_right_child; omega))
@@ -383,7 +392,7 @@ theorem proof_of_pop_entail_wit_7_2 : pop_entail_wit_7_2 := by
 theorem proof_of_pop_entail_wit_7_3 : pop_entail_wit_7_3 := by
   unfold pop_entail_wit_7_3
   left
-  intro key_out_pre data_out_pre n_pre data_pre key_pre S_before before_key_2 before_data_2 current_key_2 current_data_2 popped_2 result_key result_data idx left right smallest PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro S_before key_pre data_pre n_pre data_out_pre key_out_pre before_key_2 before_data_2 current_key_2 current_data_2 popped_2 result_key result_data idx left right smallest PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   subst smallest left right
   have hsel := pop_select_left__pop_child_selection current_key_2 (n_pre-1) idx PreH7 (by unfold heap_left_child; omega)
     (Or.inr (by simpa only [heap_left_child,heap_right_child,show idx*2+2=idx*2+1+1 by omega] using PreH1))
@@ -399,7 +408,7 @@ theorem proof_of_pop_entail_wit_7_3 : pop_entail_wit_7_3 := by
 theorem proof_of_pop_entail_wit_8 : pop_entail_wit_8 := by
   unfold pop_entail_wit_8
   left
-  intro key_out_pre data_out_pre n_pre data_pre key_pre S_before before_key_2 before_data_2 current_key_2 current_data_2 popped_2 result_key result_data idx left right smallest PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro S_before key_pre data_pre n_pre data_out_pre key_out_pre before_key_2 before_data_2 current_key_2 current_data_2 popped_2 result_key result_data idx left right smallest PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have hr := pop_comparison_ready__pop_ready_exit before_key_2 before_data_2 current_key_2 current_data_2 n_pre popped_2 idx smallest (by assumption) (by assumption) (by assumption) PreH1
   have hc := PreH12.2.2.2.2.2.2.1
   obtain ⟨hln,hll,hrn,hrb⟩ := pop_next_index_arithmetic__pop_swap_transition current_key_2 (n_pre-1) idx smallest (by omega) (by omega) hc
@@ -415,7 +424,7 @@ theorem proof_of_pop_entail_wit_8 : pop_entail_wit_8 := by
 theorem proof_of_pop_entail_wit_9 : pop_entail_wit_9 := by
   unfold pop_entail_wit_9
   left
-  intro key_out_pre data_out_pre n_pre data_pre key_pre S_before before_key_2 before_data_2 current_key_2 current_data_2 popped_2 result_key result_data idx left right smallest PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro S_before key_pre data_pre n_pre data_out_pre key_out_pre before_key_2 before_data_2 current_key_2 current_data_2 popped_2 result_key result_data idx left right smallest PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have his := PreH12.2.2.1
   have hc := PreH12.2.2.2.2.2.2.1
   obtain ⟨hln,hll,hrn,hrb⟩ := pop_next_index_arithmetic__pop_swap_transition current_key_2 (n_pre-1) idx smallest PreH6 PreH11 hc
@@ -434,7 +443,7 @@ theorem proof_of_pop_entail_wit_9 : pop_entail_wit_9 := by
 theorem proof_of_pop_return_wit_1 : pop_return_wit_1 := by
   unfold pop_return_wit_1
   left
-  intro key_out_pre data_out_pre n_pre data_pre key_pre S_before current_key current_data before_key before_data idx result_data popped_2 result_key PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro S_before key_pre data_pre n_pre data_out_pre key_out_pre current_key current_data before_key before_data idx result_data popped_2 result_key PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   have hready := pop_leaf_ready__pop_ready_exit before_key before_data current_key current_data n_pre popped_2 idx PreH11 PreH13 (by unfold heap_left_child; omega)
   have hr := pop_ready_write_result__pop_finalization S_before before_key before_data current_key current_data n_pre popped_2 (by assumption) (by assumption) hready
   sep_apply (pop_result_store_retired_pair__pop_finalization key_pre data_pre S_before before_key before_data current_key current_data n_pre popped_2 (by omega) hr)
@@ -448,7 +457,7 @@ theorem proof_of_pop_return_wit_1 : pop_return_wit_1 := by
 theorem proof_of_pop_return_wit_2 : pop_return_wit_2 := by
   unfold pop_return_wit_2
   left
-  intro key_out_pre data_out_pre n_pre data_pre key_pre S_before before_key before_data current_key current_data popped_2 result_key result_data idx left right smallest PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro S_before key_pre data_pre n_pre data_out_pre key_out_pre before_key before_data current_key current_data popped_2 result_key result_data idx left right smallest PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   have hready := PreH20
   have hr := pop_ready_write_result__pop_finalization S_before before_key before_data current_key current_data n_pre popped_2 (by assumption) (by assumption) hready
   sep_apply (pop_result_store_retired_pair__pop_finalization key_pre data_pre S_before before_key before_data current_key current_data n_pre popped_2 (by omega) hr)
@@ -462,7 +471,7 @@ theorem proof_of_pop_return_wit_2 : pop_return_wit_2 := by
 theorem proof_of_pop_return_wit_3 : pop_return_wit_3 := by
   unfold pop_return_wit_3
   left
-  intro key_out_pre data_out_pre n_pre data_pre key_pre S_before popped_2 result_key result_data PreH1 PreH2 PreH3 PreH4
+  intro S_before key_pre data_pre n_pre data_out_pre key_out_pre popped_2 result_key result_data PreH1 PreH2 PreH3 PreH4
   subst n_pre
   Exists result_data popped_2 result_key
   simp only [show (1 : Int)-1=0 from rfl]

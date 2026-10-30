@@ -1,17 +1,10 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.glob_vars_and_defs.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.Los_Verify_State_def.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.dll.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.sortlink.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
 
 Definition los_sortlink_strategy7 :=
   forall (A : Type) (storeA : (Z -> (A -> Assertion))) (l0 : (@list (@DL_Node A))) (x : Z),

@@ -1,12 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.QCP_demos_LLM Require Import sll_strategy_goal.
 From SimpleC.EE.QCP_demos_LLM Require Import sll_lib.
 Import naive_C_Rules.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 
@@ -165,6 +160,7 @@ Qed.
 Lemma sll_strategy21_correctness : sll_strategy21.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   rewrite <- logic_equiv_coq_prop_or.
   Intros_p Hnz.
   assert (Hp : p <> 0).
@@ -183,14 +179,12 @@ Proof.
   Exists d.
   Exists q.
   Exists l0.
-  normalize.
+  entailer!.
   wand_elim.
-  cancel.
   split_pures.
   rewrite <- logic_equiv_coq_prop_or.
   split_pure_spatial.
   - cancel.
-    cancel.
   - split_pures.
     + dump_pre_spatial.
       exact Hnz.
@@ -239,6 +233,8 @@ Qed.
 Lemma sll_strategy10_correctness : sll_strategy10.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
+  cbn [sll].
   Intros y.
   Exists y.
   normalize.
@@ -250,6 +246,8 @@ Qed.
 Lemma sll_strategy11_correctness : sll_strategy11.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
+  cbn [sll].
   Intros_p H.
   Exists y.
   split_pure_spatial.
@@ -279,6 +277,7 @@ Proof.
   Intros l0.
   Exists x.
   Exists l0.
+  cbn [sll].
   normalize.
   Exists y.
   rewrite <- logic_equiv_coq_prop_or.

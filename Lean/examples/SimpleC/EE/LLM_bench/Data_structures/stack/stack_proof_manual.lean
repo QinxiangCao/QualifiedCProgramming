@@ -18,7 +18,7 @@ local instance : SacContext := ⟨naive_C_Rules⟩
 
 theorem proof_of_push_return_wit_1_split_goal_spatial : push_return_wit_1_split_goal_spatial := by
   unfold push_return_wit_1_split_goal_spatial
-  intro x n p before hxmax hxmin hn hc
+  intro before p n x hxmax hxmin hn hc
   unfold store_stack
   Intros concrete
   have hr : stack_representation before concrete n := by assumption
@@ -40,7 +40,7 @@ theorem proof_of_push_return_wit_1 : push_return_wit_1 := by
 theorem proof_of_pop_entail_wit_1 : pop_entail_wit_1 := by
   unfold pop_entail_wit_1
   right
-  intro n p rest top hn hc
+  intro rest top p n hn hc
   unfold store_stack
   Intros concrete
   have hr : stack_representation (sll_cons top rest) concrete n := by assumption
@@ -51,13 +51,13 @@ theorem proof_of_pop_entail_wit_1 : pop_entail_wit_1 := by
 
 theorem proof_of_pop_return_wit_1_split_goal_1 : pop_return_wit_1_split_goal_1 := by
   unfold pop_return_wit_1_split_goal_1
-  intro n p rest top concrete hn hc hr
+  intro rest top p n concrete hn hc hr
   dump_pre_spatial
   exact (stack_representation_pop__pop_state top rest concrete n hn hr).2.2.2
 
 theorem proof_of_pop_return_wit_1_split_goal_spatial : pop_return_wit_1_split_goal_spatial := by
   unfold pop_return_wit_1_split_goal_spatial
-  intro n p rest top concrete hn hc hr
+  intro rest top p n concrete hn hc hr
   obtain ⟨hconcrete, hlen, hrest, htop⟩ :=
     stack_representation_pop__pop_state top rest concrete n hn hr
   have hpfx : sublist 0 (n - 1) concrete = rest.reverse := by
@@ -78,14 +78,14 @@ theorem proof_of_pop_return_wit_1_split_goal_spatial : pop_return_wit_1_split_go
 theorem proof_of_pop_return_wit_1 : pop_return_wit_1 := by
   unfold pop_return_wit_1
   right
-  intro n p rest top concrete hn hc hr
+  intro rest top p n concrete hn hc hr
   split_pure_spatial
-  · exact proof_of_pop_return_wit_1_split_goal_spatial n p rest top concrete hn hc hr
-  · exact proof_of_pop_return_wit_1_split_goal_1 n p rest top concrete hn hc hr
+  · exact proof_of_pop_return_wit_1_split_goal_spatial rest top p n concrete hn hc hr
+  · exact proof_of_pop_return_wit_1_split_goal_1 rest top p n concrete hn hc hr
 
 theorem proof_of_build_entail_wit_1 : build_entail_wit_1 := by
   unfold build_entail_wit_1
-  intro n p input hn hc
+  intro input p n hn hc
   prop_apply (naive_C_Rules.IntArray.full_Zlength p n input)
   Intros_p hl
   by_cases hz : n = 0
@@ -108,7 +108,7 @@ theorem proof_of_build_entail_wit_1 : build_entail_wit_1 := by
 theorem proof_of_build_entail_wit_2 : build_entail_wit_2 := by
   unfold build_entail_wit_2
   right
-  intro n p input pfx i hi hn hc hi0 hin hl hp
+  intro input p n pfx i hi hn hc hi0 hin hl hp
   Exists pfx
   sep_apply (naive_C_Rules.IntArray.seg_split_to_seg p i (i + 1) n
     (sublist i n input) (by omega))
@@ -128,23 +128,23 @@ theorem proof_of_build_entail_wit_2 : build_entail_wit_2 := by
 
 theorem proof_of_build_entail_wit_3_split_goal_1 : build_entail_wit_3_split_goal_1 := by
   unfold build_entail_wit_3_split_goal_1
-  intro n input pfx i x hn hc hi hin hx hl hp
+  intro input n pfx i x hn hc hi hin hx hl hp
   exact build_stack_prefix_succ__build_loop pfx input i x (by omega) hp hx
 
 theorem proof_of_build_entail_wit_3 : build_entail_wit_3 := by
   unfold build_entail_wit_3
   right
-  intro n input pfx i x hn hc hi hin hx hl hp
+  intro input n pfx i x hn hc hi hin hx hl hp
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    exact proof_of_build_entail_wit_3_split_goal_1 n input pfx i x hn hc hi hin hx hl hp
+    exact proof_of_build_entail_wit_3_split_goal_1 input n pfx i x hn hc hi hin hx hl hp
 
 
 
 theorem proof_of_build_return_wit_1_split_goal_spatial : build_return_wit_1_split_goal_spatial := by
   unfold build_return_wit_1_split_goal_spatial
-  intro n p input i hin hz hi
+  intro input p n i hin hz hi
   prop_apply (naive_C_Rules.IntArray.full_Zlength p n input)
   Intros_p hl
   subst n
@@ -168,7 +168,7 @@ theorem proof_of_build_return_wit_1 : build_return_wit_1 := by
 
 theorem proof_of_build_return_wit_2_split_goal_spatial : build_return_wit_2_split_goal_spatial := by
   unfold build_return_wit_2_split_goal_spatial
-  intro n p input pfx i hin hn hc hi hle hl hp
+  intro input p n pfx i hin hn hc hi hle hl hp
   obtain ⟨he, hpfx⟩ := build_stack_prefix_complete__build_completion pfx input i n hin hle hl hp
   subst i
   subst pfx

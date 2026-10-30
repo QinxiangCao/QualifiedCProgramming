@@ -46,10 +46,10 @@ Definition undef_pointf (p : addr) : Assertion :=
 
 (* Bit-level companions used by the float field projection strategies. *)
 Definition store_pointf_x_bits (p : addr) (bits : Z) : Assertion :=
-  poly_store FET_float p bits.
+  poly_store FET_float p (fp32_of_bits bits).
 
 Definition store_pointf_y_bits (p : addr) (bits : Z) : Assertion :=
-  poly_store FET_float p bits.
+  poly_store FET_float p (fp32_of_bits bits).
 
 Lemma fp32_of_bits_of_fp32 : forall v,
   fp32_of_bits (bits_of_fp32 v) = v.
@@ -121,13 +121,6 @@ Module StorePointFAsElement <: ELEMENT_STORE.
     sep_apply (store_align4_to_store_align 2).
     replace (4 * 2) with 8 by lia.
     reflexivity.
-  Qed.
-
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA. rewrite sizeof_PointF.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
   Qed.
 End StorePointFAsElement.
 
@@ -2660,7 +2653,8 @@ Lemma pointf_lower_pop_legacy_view : forall sorted before chain read top,
 Proof.
   intros. unfold pointf_lower_pop_inv_legacy, pointf_lower_scan_inv_legacy,
     pointf_lower_pop_inv, pointf_lower_scan_inv.
-  rewrite pointf_scan_from_equiv, pointf_pop_trace_equiv. intuition.
+  rewrite pointf_scan_from_equiv, pointf_pop_trace_equiv.
+  intuition (auto with *).
 Qed.
 Lemma pointf_upper_scan_legacy_view : forall sorted lower chain read top lower_n,
   pointf_upper_scan_inv_legacy sorted lower chain read top lower_n <->
@@ -2683,7 +2677,7 @@ Proof.
   intros. unfold pointf_upper_pop_inv_legacy, pointf_upper_scan_inv_legacy,
     pointf_upper_pop_inv, pointf_upper_scan_inv.
   rewrite pointf_scan_from_equiv, pointf_upper_scan_from_equiv,
-    pointf_upper_pop_trace_equiv. intuition.
+    pointf_upper_pop_trace_equiv. intuition (auto with *).
 Qed.
 Lemma pointf_lower_scan_math_of_legacy : forall sorted chain read top,
   pointf_lower_scan_inv_legacy sorted chain read top ->

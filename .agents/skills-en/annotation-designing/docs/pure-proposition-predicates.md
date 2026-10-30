@@ -221,6 +221,38 @@ Check (fun (step : Z -> Z -> Prop) =>
 
 It includes the zero-step identity and any finite number of steps. A fixed number of relation compositions cannot replace it. Reuse type-compatible `valid_vpath` / `reachable` for graph-path semantics, and distinguish the repository closure from its standard-library namesake.
 
+### CDCLLib
+
+Literals, clauses, CNFs, valuations, and SAT/UNSAT verdicts must use CDCLLib (`Rocq/cdcllib`, logical root `CDCLLib`). Do not define another literal type, clause type, satisfaction relation, or `satisfiable`. `formal_case_lib` imports it with Export so that generated files also see the names. Under dune, the import needs the case's dune `coq.theory` to list `CDCLLib` (as `Rocq/examples/Applications_human/dune` does); a case in another theory hands it back to main. CDCLLib opens `Z_scope` and imports ListLib only locally, so a case lib that uses `Znth` or `Zlength` imports and opens them itself:
+
+```coq
+From CDCLLib Require Export sat_shared_lib.   (* cdcl_shared_lib adds the solver state cdcl_view *)
+```
+
+Common names: `literal` (`Pos x | Neg x`, variables 0-based, `literal_wf n`), `clause := list literal`, `cnf := list clause`, `valuation := Z -> bool`, `partial_valuation := Z -> option bool`, `clause_satisfied rho c`, `models rho F`, `cnf_wf n F`, `cnf_sat n F` and `cnf_unsat n F` (over valuations bounded to `[0, n)`), `entails_clause F c`, `cnf_with_units F A` for assumptions, `sat_function_update` for a one-variable update, and `clause_true_count` / `clause_unassigned_count` / `clause_false` / `clause_unit` for per-clause counters. There is no `clause_wf`; write `Forall (literal_wf n) c`. Solver state maps to `cdcl_view`; a stronger case invariant is the shared predicate `/\` named local conditions.
+
+The C encoding is case-specific. Define one decoder in `formal_case_lib` from the C word or row to `literal` / `clause` (dropping padding and shifting 1-based variables), with one lemma per C primitive, and reach library semantics only through it. State `cnf_wf(n, F)` once on the decoded input instead of raw ranges. Declare `clause` and `cnf` as opaque types and build clause lists inside the decoder; annotation text never applies `cons` / `app` to a `cnf`:
+
+```c
+/*@ Extern Coq
+      (literal :: *)
+      (clause :: *)
+      (cnf :: *)
+      (valuation :: *)
+      (clause_satisfied : valuation -> clause -> Prop)
+      (models : valuation -> cnf -> Prop)
+      (cnf_unsat : Z -> cnf -> Prop)
+ */
+```
+
+State verdicts about the input `F` directly, pairing the return code with the verdict in the Ensure. The verdict in the Ensure is itself the workflow §2 `Spec`; any extra name must add meaning beyond `models` / `cnf_sat` / `cnf_unsat` (knowledge rules §3.1):
+
+```c
+__return == 0 && cnf_unsat(n, F)
+```
+
+Under assumptions `A`, UNSAT is `cnf_unsat(n, cnf_with_units(F, A))`. Loop progress uses the same names on decoded prefixes, for example `models(rho, dec_cnf(k, ...))` for the first `k` clauses, where `dec_cnf` is the case decoder. CDCLLib has no general formula type or Tseitin transformation: define the formula and its evaluation into `valuation` in `formal_case_lib`, and state equisatisfiability or model correspondence rather than a Fixpoint that replays the algorithm. A generic lemma CDCLLib lacks is proved in `formal_case_lib` over CDCLLib names only and recorded as a library gap in `agent_output.md`; CDCLLib itself is never edited.
+
 ## Designing New Predicates and Invariants
 
 When existing predicates are not enough, design the new predicate as a compact mathematical relation, not as an executable list program.

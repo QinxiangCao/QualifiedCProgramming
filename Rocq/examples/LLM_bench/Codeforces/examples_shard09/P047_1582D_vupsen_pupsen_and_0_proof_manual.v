@@ -1,29 +1,13 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P047_1582D_vupsen_pupsen_and_0_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P047_1582D_vupsen_pupsen_and_0_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P047_1582D_vupsen_pupsen_and_0_lib.
 Local Open Scope sac.
 
 Lemma proof_of_llabs_return_wit_1_split_goal_1 : llabs_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_llabs_return_wit_1 : llabs_return_wit_1.
@@ -34,7 +18,7 @@ Qed.
 
 Lemma proof_of_llabs_return_wit_2_split_goal_1 : llabs_return_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_llabs_return_wit_2 : llabs_return_wit_2.
@@ -45,7 +29,7 @@ Qed.
 
 Lemma proof_of_gcdll_entail_wit_2_split_goal_1 : gcdll_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GcdValue in *.
   pose proof (Z.gcd_rem a b PreH6) as Hg.
   transitivity (Z.gcd (Z.rem a b) b).
@@ -59,14 +43,14 @@ Qed.
 
 Lemma proof_of_gcdll_entail_wit_2_split_goal_2 : gcdll_entail_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (Z.rem_bound_pos a b ltac:(lia) ltac:(lia)) as Hrem.
   lia.
 Qed.
 
 Lemma proof_of_gcdll_entail_wit_2_split_goal_3 : gcdll_entail_wit_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (Z.rem_bound_pos a b ltac:(lia) ltac:(lia)) as Hrem.
   lia.
 Qed.
@@ -81,7 +65,7 @@ Qed.
 
 Lemma proof_of_gcdll_return_wit_1_split_goal_1 : gcdll_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst b.
   unfold GcdValue in *.
   rewrite Z.gcd_0_r in PreH6.
@@ -97,12 +81,12 @@ Qed.
 
 Lemma proof_of_pair_fill_safety_wit_2_split_goal_1 : pair_fill_safety_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_pair_fill_safety_wit_2_split_goal_2 : pair_fill_safety_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GcdValue in PreH1.
   dump_pre_spatial.
   rewrite PreH1, PreH2, PreH3.
@@ -119,12 +103,12 @@ Qed.
 
 Lemma proof_of_pair_fill_safety_wit_4_split_goal_1 : pair_fill_safety_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_pair_fill_safety_wit_4_split_goal_2 : pair_fill_safety_wit_4_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GcdValue in PreH1.
   dump_pre_spatial.
   rewrite PreH1, PreH2, PreH3.
@@ -141,7 +125,7 @@ Qed.
 
 Lemma proof_of_pair_fill_return_wit_1 : pair_fill_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (cons (b_pre ÷ retval_3)
     (cons ((-a_pre) ÷ retval_3) (@nil Z))).
   split_pure_spatial.
@@ -162,22 +146,22 @@ Qed.
 
 Lemma proof_of_pair_fill_partial_solve_wit_3_pure_split_goal_1 : pair_fill_partial_solve_wit_3_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_pair_fill_partial_solve_wit_3_pure_split_goal_2 : pair_fill_partial_solve_wit_3_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_pair_fill_partial_solve_wit_3_pure_split_goal_3 : pair_fill_partial_solve_wit_3_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_pair_fill_partial_solve_wit_3_pure_split_goal_4 : pair_fill_partial_solve_wit_3_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_pair_fill_partial_solve_wit_3_pure : pair_fill_partial_solve_wit_3_pure.
@@ -191,7 +175,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_19_split_goal_1 : solver_safety_wit_19_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH6 0 ltac:(lia)) as Hx.
   specialize (PreH6 2 ltac:(lia)) as Hz.
   dump_pre_spatial.
@@ -206,7 +190,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_20_split_goal_1 : solver_safety_wit_20_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH6 0 ltac:(lia)) as Hx.
   specialize (PreH6 2 ltac:(lia)) as Hz.
   dump_pre_spatial.
@@ -215,7 +199,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_20_split_goal_2 : solver_safety_wit_20_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH6 0 ltac:(lia)) as Hx.
   specialize (PreH6 2 ltac:(lia)) as Hz.
   dump_pre_spatial.
@@ -231,7 +215,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z.eq_dec n_pre 2) as [Heq | Hneq].
   - exfalso. apply PreH9. rewrite Heq. reflexivity.
   - lia.
@@ -519,7 +503,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_2_split_goal_spatial : solver_entail_wit_5_2_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   sep_apply_l_atomic
     (Int64Array.undef_seg_split_to_undef_seg b_pre i (i + 2) n_pre).
   - dump_pre_spatial. lia.
@@ -538,7 +522,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_1 : solver_entail_wit_6_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (written_2 ++ pair_out).
   split_pure_spatial.
   - sep_apply_l_atomic
@@ -561,7 +545,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_2 : solver_entail_wit_6_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (written_2 ++ pair_out).
   split_pure_spatial.
   - sep_apply_l_atomic
@@ -584,7 +568,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1 : solver_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (output_prefix_to_spec_by_parity__final_result
        n_pre values written i start
@@ -604,7 +588,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_2 : solver_return_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (output_prefix_to_spec_by_parity__final_result
        n_pre values written i start

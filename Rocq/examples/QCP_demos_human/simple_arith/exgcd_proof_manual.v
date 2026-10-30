@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.QCP_demos_human.simple_arith Require Import exgcd_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 Import naive_C_Rules.
 Local Open Scope sac.
 
@@ -254,13 +239,13 @@ Qed.
 Lemma proof_of_exgcd_return_wit_2 : exgcd_return_wit_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists (x_callee_v - a_pre ÷ b_pre * y_callee_v) y_callee_v .
-  subst x_callee_v.
+  Exists (x_v_4 - a_pre ÷ b_pre * y_v_4) y_v_4.
+  subst x_v_4.
   rewrite Z.gcd_comm.
   rewrite <- (Z.gcd_rem a_pre b_pre PreH7).
   rewrite Z.gcd_comm.
-  replace (0 - a_pre ÷ b_pre * y_callee_v) with (-(a_pre ÷ b_pre * y_callee_v)) by lia.
-  replace (Zabs (-(a_pre ÷ b_pre * y_callee_v))) with (Zabs(a_pre ÷ b_pre * y_callee_v)) by lia.
+  replace (0 - a_pre ÷ b_pre * y_v_4) with (-(a_pre ÷ b_pre * y_v_4)) by lia.
+  replace (Zabs (-(a_pre ÷ b_pre * y_v_4))) with (Zabs(a_pre ÷ b_pre * y_v_4)) by lia.
   replace (Zgcd b_pre (a_pre % (b_pre))) with (Zabs (a_pre % (b_pre))) in *.
   2: { rewrite Z.gcd_comm.
       rewrite <- (Z.gcd_rem b_pre (a_pre % (b_pre)) ltac:(lia)).
@@ -296,7 +281,7 @@ Qed.
 Lemma proof_of_exgcd_return_wit_3 : exgcd_return_wit_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists (x_callee_v - a_pre ÷ b_pre * y_callee_v) y_callee_v .
+  Exists (x_v_4 - a_pre ÷ b_pre * y_v_4) y_v_4.
   rewrite Z.gcd_comm.
   rewrite <- (Z.gcd_rem a_pre b_pre PreH7).
   rewrite Z.gcd_comm.
@@ -325,7 +310,7 @@ Qed.
 Lemma proof_of_exgcd_safety_wit_18 : exgcd_safety_wit_18.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  pose proof exgcd_reduction a_pre b_pre x_callee_v y_callee_v PreH7 PreH5 PreH6.
+  pose proof exgcd_reduction a_pre b_pre x_v y_v PreH7 PreH5 PreH6.
   assert(Zgcd b_pre (a_pre % (b_pre)) >= 1). {
     pose proof (Z_gcd_pos_l b_pre (a_pre % (b_pre)) PreH7).
     lia.
@@ -339,7 +324,7 @@ Qed.
 Lemma proof_of_exgcd_safety_wit_19 : exgcd_safety_wit_19.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  pose proof exgcd_reduction' a_pre b_pre x_callee_v y_callee_v PreH7 PreH5 PreH6.
+  pose proof exgcd_reduction' a_pre b_pre x_v y_v PreH7 PreH5 PreH6.
   assert(Zgcd b_pre (a_pre % (b_pre)) >= 1). {
     pose proof (Z_gcd_pos_l b_pre (a_pre % (b_pre)) PreH7).
     nia.
@@ -347,14 +332,14 @@ Proof.
   assert(Zabs a_pre ÷ Zgcd b_pre (a_pre % (b_pre)) <= 2147483647). {
     apply Z.quot_le_upper_bound; lia.
   }
-  assert(Zabs (a_pre ÷ b_pre * y_callee_v) <= Zabs x_callee_v + Zabs (a_pre ÷ b_pre * y_callee_v)) by lia.
+  assert(Zabs (a_pre ÷ b_pre * y_v) <= Zabs x_v + Zabs (a_pre ÷ b_pre * y_v)) by lia.
   repeat (split_pure_spatial || split_pures); try cancel; dump_pre_spatial; lia.
 Qed.
 
 Lemma proof_of_exgcd_safety_wit_15 : exgcd_safety_wit_15.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  assert(Zabs(a_pre ÷ b_pre * y_callee_v) <= 2147483647). {
+  assert(Zabs(a_pre ÷ b_pre * y_v) <= 2147483647). {
     rewrite Z.abs_mul.
     rewrite <- Z.quot_abs by ltac:(lia).
     pose proof Z.quot_le_upper_bound (Zabs(a_pre)) (Zabs(b_pre)) 2147483647 ltac:(lia) ltac:(lia).
@@ -366,7 +351,7 @@ Qed.
 Lemma proof_of_exgcd_safety_wit_16 : exgcd_safety_wit_16.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  assert(Zabs(a_pre ÷ b_pre * y_callee_v) <= 2147483647). {
+  assert(Zabs(a_pre ÷ b_pre * y_v) <= 2147483647). {
     rewrite Z.abs_mul.
     rewrite <- Z.quot_abs by ltac:(lia).
     pose proof Z.quot_le_upper_bound (Zabs(a_pre)) (Zabs(b_pre)) 2147483647 ltac:(lia) ltac:(lia).
@@ -375,22 +360,14 @@ Proof.
   repeat (split_pure_spatial || split_pures); try cancel; dump_pre_spatial; lia.
 Qed.
 
-Lemma proof_of_exgcd_derive_Inter_by_Proof: exgcd_derive_Inter_by_Proof.
+Lemma proof_of_exgcd_Proof_entail_Inter: exgcd_Proof_entail_Inter.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  repeat (split_pure_spatial || split_pures).
-  - cancel.
-    apply derivable1_wand_sepcon_adjoint.
-    Split.
-    + Split.
-      * Intros x y ret; Exists x y ret;
-          repeat (split_pure_spatial || split_pures); try cancel; dump_pre_spatial; auto.
-      * Intros x y ret; Exists x y ret;
-          repeat (split_pure_spatial || split_pures); try cancel; dump_pre_spatial; auto.
-    + Intros x y ret; Exists x y ret;
-        repeat (split_pure_spatial || split_pures); try cancel; dump_pre_spatial; auto.
-  - dump_pre_spatial. exact H.
-  - dump_pre_spatial. exact H0.
-  - dump_pre_spatial. exact H1.
-  - dump_pre_spatial. exact H2.
+  entailer!.
+  Intros_r r.
+  apply derivable1_wand_sepcon_adjoint.
+  Split; [|Split].
+  - Intros y_v x_v; Exists y_v x_v; entailer!.
+  - Intros y_v x_v; Exists y_v x_v; entailer!.
+  - Intros y_v x_v; Exists y_v x_v; entailer!.
 Qed.

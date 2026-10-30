@@ -272,7 +272,7 @@ Context {andpL: AndLanguage L}
 Proof.
   hnf;intros.
   hnf;intros.
-  apply derivable1s_truep_intros.
+  apply derivable1s_andp_intros.
   -pose proof derivable1_andp_elim1 x x0.
    pose proof derivable1_trans _ _ _ H1 H. auto.
   -pose proof derivable1_andp_elim2 x x0.

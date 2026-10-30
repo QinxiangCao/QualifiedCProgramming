@@ -1,23 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.optimized_selection_sort Require Import optimized_selection_sort_goal.
 From SimpleC.EE.QCP_demos_LLM Require Import bubble_sort_lib.
 From AUXLib Require Import MonotonicList.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.optimized_selection_sort.optimized_selection_sort_lib.
 Local Open Scope sac.
@@ -52,7 +36,8 @@ Qed.
 Lemma proof_of_optimized_selection_sort_entail_wit_1 : optimized_selection_sort_entail_wit_1.
 Proof.
   aggressive_pre_process.
-  all: first [ Goal_apply proof_of_optimized_selection_sort_entail_wit_1_split_goal_1 | Goal_apply proof_of_optimized_selection_sort_entail_wit_1_split_goal_2 | Goal_apply proof_of_optimized_selection_sort_entail_wit_1_split_goal_3 ].
+  - Goal_apply proof_of_optimized_selection_sort_entail_wit_1_split_goal_1.
+  - Goal_apply proof_of_optimized_selection_sort_entail_wit_1_split_goal_3.
 Qed.
 
 Lemma proof_of_optimized_selection_sort_entail_wit_2_split_goal_1 : optimized_selection_sort_entail_wit_2_split_goal_1.
@@ -70,7 +55,8 @@ Qed.
 Lemma proof_of_optimized_selection_sort_entail_wit_2 : optimized_selection_sort_entail_wit_2.
 Proof.
   aggressive_pre_process.
-  all: first [ Goal_apply proof_of_optimized_selection_sort_entail_wit_2_split_goal_1 | Goal_apply proof_of_optimized_selection_sort_entail_wit_2_split_goal_2 ].
+  - Goal_apply proof_of_optimized_selection_sort_entail_wit_2_split_goal_1.
+  - Goal_apply proof_of_optimized_selection_sort_entail_wit_2_split_goal_2.
 Qed.
 
 Lemma proof_of_optimized_selection_sort_entail_wit_3_1_split_goal_1 : optimized_selection_sort_entail_wit_3_1_split_goal_1.
@@ -85,7 +71,7 @@ Qed.
 Lemma proof_of_optimized_selection_sort_entail_wit_3_1 : optimized_selection_sort_entail_wit_3_1.
 Proof.
   aggressive_pre_process.
-  all: first [ Goal_apply proof_of_optimized_selection_sort_entail_wit_3_1_split_goal_1 ].
+  - Goal_apply proof_of_optimized_selection_sort_entail_wit_3_1_split_goal_1.
 Qed.
 
 Lemma proof_of_optimized_selection_sort_entail_wit_3_2_split_goal_1 : optimized_selection_sort_entail_wit_3_2_split_goal_1.
@@ -100,7 +86,7 @@ Qed.
 Lemma proof_of_optimized_selection_sort_entail_wit_3_2 : optimized_selection_sort_entail_wit_3_2.
 Proof.
   aggressive_pre_process.
-  all: first [ Goal_apply proof_of_optimized_selection_sort_entail_wit_3_2_split_goal_1 ].
+  - Goal_apply proof_of_optimized_selection_sort_entail_wit_3_2_split_goal_1.
 Qed.
 
 Lemma proof_of_optimized_selection_sort_entail_wit_4_1_split_goal_1 : optimized_selection_sort_entail_wit_4_1_split_goal_1.
@@ -141,7 +127,9 @@ Qed.
 Lemma proof_of_optimized_selection_sort_entail_wit_4_1 : optimized_selection_sort_entail_wit_4_1.
 Proof.
   aggressive_pre_process.
-  all: first [ Goal_apply proof_of_optimized_selection_sort_entail_wit_4_1_split_goal_1 | Goal_apply proof_of_optimized_selection_sort_entail_wit_4_1_split_goal_2 | Goal_apply proof_of_optimized_selection_sort_entail_wit_4_1_split_goal_3 ].
+  - Goal_apply proof_of_optimized_selection_sort_entail_wit_4_1_split_goal_1.
+  - Goal_apply proof_of_optimized_selection_sort_entail_wit_4_1_split_goal_2.
+  - Goal_apply proof_of_optimized_selection_sort_entail_wit_4_1_split_goal_3.
 Qed.
 
 Lemma proof_of_optimized_selection_sort_entail_wit_4_2_split_goal_1 : optimized_selection_sort_entail_wit_4_2_split_goal_1.
@@ -169,7 +157,8 @@ Qed.
 Lemma proof_of_optimized_selection_sort_entail_wit_4_2 : optimized_selection_sort_entail_wit_4_2.
 Proof.
   aggressive_pre_process.
-  all: first [ Goal_apply proof_of_optimized_selection_sort_entail_wit_4_2_split_goal_1 | Goal_apply proof_of_optimized_selection_sort_entail_wit_4_2_split_goal_2 ].
+  - Goal_apply proof_of_optimized_selection_sort_entail_wit_4_2_split_goal_1.
+  - Goal_apply proof_of_optimized_selection_sort_entail_wit_4_2_split_goal_2.
 Qed.
 
 Lemma proof_of_optimized_selection_sort_return_wit_1_split_goal_1 : optimized_selection_sort_return_wit_1_split_goal_1.
@@ -189,5 +178,5 @@ Qed.
 Lemma proof_of_optimized_selection_sort_return_wit_1 : optimized_selection_sort_return_wit_1.
 Proof.
   aggressive_pre_process.
-  all: first [ Goal_apply proof_of_optimized_selection_sort_return_wit_1_split_goal_1 ].
+  - Goal_apply proof_of_optimized_selection_sort_return_wit_1_split_goal_1.
 Qed.

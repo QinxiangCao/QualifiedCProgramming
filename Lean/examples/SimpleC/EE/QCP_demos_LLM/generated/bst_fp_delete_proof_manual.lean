@@ -69,7 +69,7 @@ theorem proof_of_Delete_return_wit_4 : SimpleC.EE.QCP_demos_LLM.generated.bst_fp
 theorem proof_of_Delete_return_wit_5 : SimpleC.EE.QCP_demos_LLM.generated.bst_fp_delete_goal.Delete_return_wit_5 := by
   sorry
 
-theorem proof_of_Delete_derive_high_level_spec_by_low_level_spec : SimpleC.EE.QCP_demos_LLM.generated.bst_fp_delete_goal.Delete_derive_high_level_spec_by_low_level_spec := by
+theorem proof_of_Delete_low_level_spec_entail_high_level_spec : SimpleC.EE.QCP_demos_LLM.generated.bst_fp_delete_goal.Delete_low_level_spec_entail_high_level_spec := by
   sorry
 
 

@@ -1,23 +1,8 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.QCP_demos_LLM Require Import union_find_err_rel_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 Import naive_C_Rules.
 Local Open Scope monad.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
+From AUXLib Require Import relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Require Import SimpleC.EE.QCP_demos_LLM.union_find_err_rel_lib.
 Local Open Scope monad.
@@ -379,8 +364,10 @@ Proof.
   LLM_pre_process ltac:(int_auto).
 Qed.
 
-Lemma proof_of_uf_union_c_derive_high_level_spec_by_low_level_spec : uf_union_c_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_uf_union_c_low_level_spec_entail_high_level_spec : uf_union_c_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold uf_union_c_low_level_spec_entail_high_level_spec.
+  intros n_pre parent_pre rank_pre x_pre y_pre ps_high_level_spec rs_high_level_spec repr_of_high_level_spec.
   LLM_pre_process ltac:(int_auto).
   Exists ps_high_level_spec rs_high_level_spec
     (fun r s =>
@@ -445,8 +432,10 @@ Proof.
       exact Hnoerr.
 Qed.
 
-Lemma proof_of_uf_find_c_derive_low_level_spec_aux_by_low_level_spec : uf_find_c_derive_low_level_spec_aux_by_low_level_spec.
+Lemma proof_of_uf_find_c_low_level_spec_entail_low_level_spec_aux : uf_find_c_low_level_spec_entail_low_level_spec_aux.
 Proof.
+  unfold uf_find_c_low_level_spec_entail_low_level_spec_aux.
+  intros B n_pre parent_pre rank_pre x ps_low_level_spec_aux rs_low_level_spec_aux c_low_level_spec_aux X_low_level_spec_aux.
   LLM_pre_process ltac:(int_auto).
   rename H3 into Hsafe_bind.
   apply safeExec_bind in Hsafe_bind as (X_find & Hsafe_find & Hsafe_cont).
@@ -454,9 +443,10 @@ Proof.
   split_pure_spatial.
   - cancel (IntArray.full parent_pre n_pre ps_low_level_spec_aux).
     cancel (IntArray.full rank_pre n_pre rs_low_level_spec_aux).
+    Intros_r retval.
     apply derivable1_wand_sepcon_adjoint.
-    Intros ps1_2 retval_2.
-    Exists ps1_2 retval_2.
+    Intros ps1_2.
+    Exists ps1_2.
     split_pure_spatial.
     + cancel.
     + split_pures; try (dump_pre_spatial; assumption).
@@ -466,8 +456,10 @@ Proof.
   - split_pures; try (dump_pre_spatial; assumption).
 Qed.
 
-Lemma proof_of_uf_find_c_derive_high_level_spec_by_low_level_spec : uf_find_c_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_uf_find_c_low_level_spec_entail_high_level_spec : uf_find_c_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold uf_find_c_low_level_spec_entail_high_level_spec.
+  intros n_pre parent_pre rank_pre x_pre ps_high_level_spec rs_high_level_spec repr_of_high_level_spec.
   LLM_pre_process ltac:(int_auto).
   Exists ps_high_level_spec rs_high_level_spec
     (fun r s =>
@@ -476,8 +468,9 @@ Proof.
   split_pure_spatial.
   - cancel (IntArray.full parent_pre n_pre ps_high_level_spec).
     cancel (IntArray.full rank_pre n_pre rs_high_level_spec).
+    Intros_r retval.
     apply derivable1_wand_sepcon_adjoint.
-    Intros ps1_2 retval_2.
+    Intros ps1_2.
     rename H6 into Hsafe_ret.
     pose proof (Hoare_safeexec_compose
                   (fun s => uf_abstract s repr_of_high_level_spec /\ valid s x_pre)
@@ -487,13 +480,13 @@ Proof.
                      uf_abstract s repr_of_high_level_spec)
                   (uf_find_correct x_pre repr_of_high_level_spec)
                   (equiv (uf_state_of n_pre ps1_2 rs_high_level_spec))
-                  retval_2
+                  retval
                   (uf_state_of n_pre ps_high_level_spec rs_high_level_spec)
                   Hsafe_ret) as Hcomp.
     assert (Hvalid_x : valid (uf_state_of n_pre ps_high_level_spec rs_high_level_spec) x_pre)
       by (unfold valid; simpl; lia).
     destruct (Hcomp (conj H3 Hvalid_x)) as [sigma [[Hret Habs_sigma] Heq_sigma]].
-    Exists ps1_2 retval_2.
+    Exists ps1_2.
     split_pure_spatial.
     + cancel.
     + split_pures; try (dump_pre_spatial; assumption).

@@ -1,12 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.QCP_demos_LLM Require Import poly_sll_strategy_goal.
 Import naive_C_Rules.
 From SimpleC.EE.QCP_demos_LLM Require Import poly_sll_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 
@@ -114,6 +109,7 @@ Qed.
 Lemma poly_sll_strategy10_correctness : poly_sll_strategy10.
 Proof.
   pre_process_default.
+  simpl.
   Intros h.
   Intros y.
   Exists y.
@@ -128,6 +124,7 @@ Qed.
 Lemma poly_sll_strategy11_correctness : poly_sll_strategy11.
 Proof.
   pre_process_default.
+  simpl.
   Intros_p H.
   Exists h.
   Exists y.

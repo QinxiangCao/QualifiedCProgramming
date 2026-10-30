@@ -32,8 +32,8 @@ git submodule update --init --recursive
 
 Choose the matching QCP binary directory for your Mac:
 
-- Apple Silicon: `mac-arm64-binary/`
-- Intel Mac: `mac-x86-64-binary/`
+- Apple Silicon: `bin/macos-arm64/`
+- Intel Mac: `bin/macos-x86_64/`
 
 You can check with:
 
@@ -120,10 +120,11 @@ make clean
 
 ## QCP Command-Line Tool
 
-Use the matching `symexec` binary from your macOS directory.
+Use `python3 scripts/generate.py` to regenerate repository Rocq examples, or run the
+matching `symexec` binary directly.
 
-Use `mac-arm64-binary/symexec` on Apple Silicon and
-`mac-x86-64-binary/symexec` on Intel Mac.
+Use `bin/macos-arm64/symexec` on Apple Silicon and
+`bin/macos-x86_64/symexec` on Intel Mac.
 
 For command-line options, preprocessing, CRules imports, and Rocq/Lean
 generation examples, see [qcp-cli.md](qcp-cli.md).

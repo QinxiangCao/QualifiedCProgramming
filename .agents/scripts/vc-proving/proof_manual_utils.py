@@ -116,6 +116,34 @@ ASSUMPTION_DECLARATION_KINDS = (
     UNCONDITIONAL_ASSUMPTION_KINDS | SECTION_CONTEXT_DECLARATION_KINDS
 )
 PROOF_DECLARATION_KINDS = set(LEMMA_KEYWORDS.split("|"))
+SIGNATURE_PARAMETER_KINDS = {"Parameter", "Parameters"}
+
+
+def _opens_module_scope(command: str) -> tuple[str, str] | None:
+    """Recognize interactive module headers, not aliases or applications.
+
+    This is lexical scope tracking, not a replacement for Rocq's parser. An
+    assignment inside a functor argument (``with Definition ... := ...``)
+    does not close the outer header. Strings are already comment-free and
+    masked here so they cannot impersonate module syntax.
+    """
+    source = mask_coq_strings(command)
+    match = re.match(
+        r"Module\s+(?:(Type|Import|Export)\s+)?([A-Za-z_][A-Za-z0-9_']*)\b",
+        source,
+    )
+    if match is None:
+        return None
+    depth = 0
+    for index in range(match.end(), len(source)):
+        char = source[index]
+        if char in "([{":
+            depth += 1
+        elif char in ")]}":
+            depth -= 1
+        elif depth == 0 and source.startswith(":=", index):
+            return None
+    return ("module_type" if match.group(1) == "Type" else "module", match.group(2))
 
 
 def strip_coq_comments(text: str) -> str:
@@ -378,12 +406,26 @@ def top_level_commands(
             }
         )
         unsafe_typing_match = UNSAFE_TYPING_RE.match(command[head_start:])
+        scope = None
+        if not control and not in_proof:
+            if head == "Module":
+                scope = _opens_module_scope(command[head_start:])
+            elif head == "Section":
+                scope = ("section", name)
+        # Declaring an implementation without a body can instantiate a
+        # signature's requirements as global assumptions. Never grant it the
+        # exemption intended for Parameter fields in an abstract signature.
+        abstract_module = head == "Declare" and re.match(
+            r"Declare\s+Module\b", command[head_start:]
+        ) is not None
         commands.append(
             {
                 "kind": head,
                 "name": name,
                 "line": uncommented.count("\n", 0, offset + head_start) + 1,
                 **({"in_proof": in_proof} if include_proof_commands else {}),
+                **({"scope_open": scope} if scope is not None else {}),
+                **({"abstract_module": True} if abstract_module else {}),
                 **({"bypass_checks": bypass_checks} if bypass_checks else {}),
                 **(
                     {"unsafe_typing_control": unsafe_typing_match.group(1).lower()}
@@ -434,40 +476,49 @@ def unsafe_typing_commands(text: str) -> list[dict[str, Any]]:
 
 
 def unsafe_assumption_declarations(text: str) -> list[dict[str, Any]]:
-    """Find axioms and section-context commands that occur outside a Section."""
-
-    active_sections: list[str] = []
-    findings: list[dict[str, Any]] = []
-    for command in top_level_commands(text, include_proof_commands=True):
-        kind = str(command["kind"])
-        name = str(command["name"])
-        if kind == "Section":
-            active_sections.append(name)
-        elif kind == "End" and active_sections and name == active_sections[-1]:
-            active_sections.pop()
-        elif kind in UNCONDITIONAL_ASSUMPTION_KINDS or (
-            kind in SECTION_CONTEXT_DECLARATION_KINDS and not active_sections
-        ):
-            findings.append(command)
-    return findings
+    """Use the same scope-sensitive assumption policy as all safety gates."""
+    return [
+        command
+        for command in unsafe_commands(top_level_commands(text, include_proof_commands=True))
+        if command["kind"] in ASSUMPTION_DECLARATION_KINDS
+        or command.get("abstract_module")
+    ]
 
 
 def unsafe_commands(commands: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
     """Find all forbidden assumptions, rollback and typing controls in one scan."""
-    sections: list[str] = []
+    scopes: list[tuple[str, str]] = []
     findings: list[dict[str, Any]] = []
     for command in commands:
         kind, name = command["kind"], command["name"]
-        if kind == "Section":
-            sections.append(name)
-        elif kind == "End" and sections and name == sections[-1]:
-            sections.pop()
-        elif (
-            kind in UNCONDITIONAL_ASSUMPTION_KINDS | ROLLBACK_CONTROL_KINDS
-            or (kind in SECTION_CONTEXT_DECLARATION_KINDS and not sections)
+        # Section commands predating scope metadata are still accepted by the
+        # public iterable API. Module Type exemptions require parsed metadata.
+        scope = command.get("scope_open")
+        if scope is None and kind == "Section" and not command.get("in_proof"):
+            scope = ("section", name)
+        modules = [entry for entry in scopes if entry[0] != "section"]
+        signature_parameter = (
+            kind in SIGNATURE_PARAMETER_KINDS
+            and not command.get("in_proof")
+            and bool(modules) and modules[-1][0] == "module_type"
+        )
+        if (
+            (kind in UNCONDITIONAL_ASSUMPTION_KINDS and not signature_parameter)
+            or kind in ROLLBACK_CONTROL_KINDS
+            or (kind in SECTION_CONTEXT_DECLARATION_KINDS
+                and not any(entry[0] == "section" for entry in scopes))
+            or command.get("abstract_module")
             or command.get("unsafe_typing_control") or command.get("bypass_checks")
         ):
             findings.append(command)
+        if scope is not None and not command.get("in_proof"):
+            scopes.append(tuple(scope))
+        elif kind == "End" and not command.get("in_proof"):
+            if scopes and name == scopes[-1][1]:
+                scopes.pop()
+            else:
+                findings.append({**command, "unsafe_scope_control": True})
+                scopes.clear()  # malformed input must not retain an exemption
     return findings
 
 
@@ -663,8 +714,17 @@ def proof_mode_errors(block: str, proof_mode: str) -> list[str]:
     except ValueError as exc:
         return [str(exc)]
     commands = _coq_commands(proof)
-    if len(commands) < 2 or re.match(
-        rf"\s*{proof_mode}\b", mask_coq_strings(commands[1][0])
+    # Coq permits tactic parentheses, including historical `(LLM_pre_process
+    # ltac:(int_auto)); ...` proofs. Parentheses do not change the opening
+    # tactic; the native compiler still checks their syntax and semantics.
+    opening_index = 1
+    # Historical whole-goal proofs select the left disjunct before preprocessing.
+    # Accept only this exact command, once, and only for the whole-goal route.
+    if (proof_mode == "LLM_pre_process" and len(commands) > 2
+            and strip_coq_comments(commands[1][0]).strip() == "left."):
+        opening_index = 2
+    if len(commands) <= opening_index or re.match(
+        rf"\s*(?:\(\s*)*{proof_mode}\b", mask_coq_strings(commands[opening_index][0])
     ) is None:
         return [f"must open its proof with {proof_mode}"]
     other_mode = (
@@ -797,6 +857,10 @@ def lib_contract_errors(
             errors.append(f"lib contains forbidden rollback control command {command['kind']}.")
         elif command.get("unsafe_typing_control") or command.get("bypass_checks"):
             errors.append("lib contains unsafe typing control.")
+        elif command.get("unsafe_scope_control"):
+            errors.append("lib contains mismatched scope terminator.")
+        elif command.get("abstract_module"):
+            errors.append("lib contains an abstract module declaration without implementation.")
         else:
             errors.append(f"lib contains assumption declaration {command['kind']}.")
     forbidden = frozenset(str(module) for module in forbidden_modules)

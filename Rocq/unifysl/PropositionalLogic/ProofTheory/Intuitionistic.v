@@ -91,7 +91,7 @@ Class TrueSequentCalculus (L: Language) {truepL: TrueLanguage L} (Gamma: Derivab
 }.
 
 Class AndDeduction (L: Language) {andpL: AndLanguage L} (GammaD1: Derivable1 L) := {
-  derivable1s_truep_intros: forall x y z,derivable1 x y -> derivable1 x z -> derivable1 x (y && z);
+  derivable1s_andp_intros: forall x y z,derivable1 x y -> derivable1 x z -> derivable1 x (y && z);
   derivable1_andp_elim1: forall x y, x && y |-- x;
   derivable1_andp_elim2: forall x y, x && y |-- y
 }.
@@ -198,7 +198,7 @@ Lemma derivable1_andp_comm: forall (x y: expr),
   x && y |-- y && x.
 Proof.
   intros.
-  apply derivable1s_truep_intros.
+  apply derivable1s_andp_intros.
   + apply derivable1_andp_elim2.
   + apply derivable1_andp_elim1.
 Qed.
@@ -207,7 +207,7 @@ Lemma derivable1_andp_assoc: forall (x y z: expr),
   x && y && z |-- x && (y && z).
 Proof.
   intros.
-  repeat apply derivable1s_truep_intros.
+  repeat apply derivable1s_andp_intros.
   + rewrite derivable1_andp_elim1.
     apply derivable1_andp_elim1.
   + rewrite derivable1_andp_elim1.
@@ -221,7 +221,7 @@ y1 |-- y2 ->
 x1 && y1 |-- x2 && y2.
 Proof.
   intros.
-  apply derivable1s_truep_intros.
+  apply derivable1s_andp_intros.
   + pose proof derivable1_andp_elim1 x1 y1. eapply derivable1_trans; eauto.
   + pose proof derivable1_andp_elim1 y1 x1. pose proof derivable1_andp_comm x1 y1. eapply derivable1_trans; eauto. eapply derivable1_trans; eauto.
 Qed.
@@ -304,7 +304,7 @@ Proof.
   intros.
   rewrite (derivable1_contrapositivePP FF x).
   assert (~~ FF --> ~~ x |-- (~~ FF --> ~~ x) && ~~ FF).
-  + apply derivable1s_truep_intros.
+  + apply derivable1s_andp_intros.
     - apply derivable1_refl.
     - rewrite derivable1_double_negp_intros.
       apply derivable1s_contrapositivePP.
@@ -341,7 +341,7 @@ Proof.
     apply __provable_derivable1 in H.
     apply derivable1s_impp_andp_adjoint in H.
     rewrite <- H.
-    apply derivable1s_truep_intros.
+    apply derivable1s_andp_intros.
     - apply derivable1_impp_refl.
     - reflexivity.
 Qed.
@@ -353,7 +353,7 @@ Proof.
     rewrite __provable_derivable1 in H, H0 |- *.
     rewrite derivable1s_impp_andp_adjoint in H.
     rewrite <- H at 3.
-    apply derivable1s_truep_intros.
+    apply derivable1s_andp_intros.
     - apply derivable1_impp_refl.
     - rewrite <- H0.
       apply derivable1_impp_refl.
@@ -368,7 +368,7 @@ Proof.
     rewrite derivable1_andp_elim2.
     rewrite ! derivable1s_impp_andp_adjoint.
     rewrite <- (derivable1_andp_modus_ponens y z) at 2.
-    apply derivable1s_truep_intros.
+    apply derivable1s_andp_intros.
     - rewrite <- derivable1s_impp_andp_adjoint.
       apply derivable1_andp_elim1.
     - rewrite <- derivable1s_impp_andp_adjoint.
@@ -1906,7 +1906,7 @@ Proof.
   -apply derivable1_andp_comm.
   -apply derivable1_andp_comm.
   -apply derivable1_andp_assoc.
-  -repeat apply derivable1s_truep_intros.
+  -repeat apply derivable1s_andp_intros.
   + rewrite derivable1_andp_elim1.
     apply derivable1_refl.
   + rewrite derivable1_andp_elim2.
@@ -1946,10 +1946,10 @@ Lemma Deduction2LogicEquiv_truepandpE : TrueAndLogicEquiv L GammaE.
 Proof. 
   constructor. intros. rewrite __logic_equiv_derivable1. split.
   -apply derivable1_andp_elim1.
-  -apply derivable1s_truep_intros. apply derivable1_refl. apply derivable1_truep_intros.
+  -apply derivable1s_andp_intros. apply derivable1_refl. apply derivable1_truep_intros.
   -intros. rewrite __logic_equiv_derivable1. split.
   --apply derivable1_andp_elim2.
-  --apply derivable1s_truep_intros. apply derivable1_truep_intros. apply derivable1_refl.
+  --apply derivable1s_andp_intros. apply derivable1_truep_intros. apply derivable1_refl.
 Qed.
 
 Lemma logic_equiv_andp_swap

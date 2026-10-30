@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse Require Import euler_theorem_inverse_goal.
 From SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse Require Import euler_theorem_inverse_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse.euler_theorem_inverse_lib.
 Local Open Scope sac.
@@ -63,7 +47,7 @@ Qed.
 Lemma proof_of_euler_phi_entail_wit_1 : euler_phi_entail_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_euler_phi_entail_wit_1_split_goal_1.
+  - Goal_apply proof_of_euler_phi_entail_wit_1_split_goal_1.
 Qed. 
 
 Lemma proof_of_euler_phi_entail_wit_2_split_goal_1 : euler_phi_entail_wit_2_split_goal_1.
@@ -84,7 +68,7 @@ Qed.
 Lemma proof_of_euler_phi_entail_wit_2 : euler_phi_entail_wit_2.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_euler_phi_entail_wit_2_split_goal_1.
+  - Goal_apply proof_of_euler_phi_entail_wit_2_split_goal_1.
 Qed. 
 
 Lemma proof_of_euler_phi_entail_wit_3_split_goal_1 : euler_phi_entail_wit_3_split_goal_1.
@@ -204,7 +188,7 @@ Qed.
 Lemma proof_of_euler_phi_entail_wit_4_2 : euler_phi_entail_wit_4_2.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_euler_phi_entail_wit_4_2_split_goal_1.
+  - Goal_apply proof_of_euler_phi_entail_wit_4_2_split_goal_1.
 Qed. 
 
 Lemma proof_of_euler_phi_entail_wit_5 : euler_phi_entail_wit_5.
@@ -252,7 +236,7 @@ Qed.
 Lemma proof_of_euler_phi_return_wit_1 : euler_phi_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_euler_phi_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_euler_phi_return_wit_1_split_goal_1.
 Qed. 
 
 Lemma proof_of_euler_phi_return_wit_2_split_goal_1 : euler_phi_return_wit_2_split_goal_1.
@@ -264,7 +248,7 @@ Qed.
 Lemma proof_of_euler_phi_return_wit_2 : euler_phi_return_wit_2.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_euler_phi_return_wit_2_split_goal_1.
+  - Goal_apply proof_of_euler_phi_return_wit_2_split_goal_1.
 Qed. 
 
 Lemma proof_of_euler_phi_return_wit_3_split_goal_1 : euler_phi_return_wit_3_split_goal_1.
@@ -276,7 +260,7 @@ Qed.
 Lemma proof_of_euler_phi_return_wit_3 : euler_phi_return_wit_3.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_euler_phi_return_wit_3_split_goal_1.
+  - Goal_apply proof_of_euler_phi_return_wit_3_split_goal_1.
 Qed. 
 
 Lemma proof_of_modular_power_entail_wit_1_split_goal_1 : modular_power_entail_wit_1_split_goal_1.
@@ -290,7 +274,7 @@ Qed.
 Lemma proof_of_modular_power_entail_wit_1 : modular_power_entail_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_modular_power_entail_wit_1_split_goal_1.
+  - Goal_apply proof_of_modular_power_entail_wit_1_split_goal_1.
 Qed. 
 
 Lemma proof_of_modular_power_entail_wit_2_1_split_goal_1 : modular_power_entail_wit_2_1_split_goal_1.
@@ -410,7 +394,7 @@ Qed.
 Lemma proof_of_modular_power_return_wit_1 : modular_power_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_modular_power_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_modular_power_return_wit_1_split_goal_1.
 Qed. 
 
 Lemma proof_of_euler_theorem_inverse_return_wit_1_split_goal_1 : euler_theorem_inverse_return_wit_1_split_goal_1.
@@ -422,6 +406,5 @@ Qed.
 Lemma proof_of_euler_theorem_inverse_return_wit_1 : euler_theorem_inverse_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_euler_theorem_inverse_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_euler_theorem_inverse_return_wit_1_split_goal_1.
 Qed. 
-

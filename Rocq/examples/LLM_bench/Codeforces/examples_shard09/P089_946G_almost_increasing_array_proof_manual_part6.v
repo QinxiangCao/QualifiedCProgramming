@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P089_946G_almost_increasing_array_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P089_946G_almost_increasing_array_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P089_946G_almost_increasing_array_lib.
 Local Open Scope sac.
@@ -25,37 +9,32 @@ Local Open Scope sac.
 
 Lemma proof_of_solver_partial_solve_wit_109_pure : solver_partial_solve_wit_109_pure.
 Proof.
-  aggressive_pre_process.
-  -
-    dump_pre_spatial.
-    match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
-    match goal with H : nvals = uniq |- _ => rewrite <- H end.
-    exact HSI.
-  -
-    dump_pre_spatial.
-    match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
-    match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
-    match goal with H : nvals = uniq |- _ => rewrite <- H end.
-    exact (proj1 (HMEM (i - 1) ltac:(lia))).
-  -
-    dump_pre_spatial.
-    assumption.
-  -
-    dump_pre_spatial.
-    match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
-    match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
-    match goal with H : nvals = uniq |- _ => rewrite <- H end.
-    exact (proj1 (HMEM (i - 1) ltac:(lia))).
-  -
-    dump_pre_spatial.
-    match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
-    match goal with H : nvals = uniq |- _ => rewrite <- H end.
-    exact HSI.
+  LLM_pre_process ltac:(assumption || lia || int_auto).
+  subst uniq.
+  match goal with
+  | H : CompressedKeys _ _ _ |- _ => destruct H as [Hinc [Hmem Hvals]]
+  end.
+  assert (Hmember : MemberPrefix vals_l nvals (Znth (i - 1) c_l 0)).
+  {
+    match goal with H : KeyPrefix _ _ _ |- _ => rewrite H by lia end.
+    apply (proj1 (Hmem (i - 1) ltac:(lia))).
+  }
+  repeat (split_pure_spatial || split_pures).
+  all: dump_pre_spatial; try assumption; try lia.
+  all: match goal with H : KeyPrefix _ _ _ |- _ => rewrite H by lia end;
+    try lia; try assumption.
+  all: match goal with
+    | H : forall q : Z, 0 <= q < ?n -> _ <= Znth q ?xs 0 <= _
+      |- context [KeyAt ?xs (?idx - 1)] =>
+        unfold KeyAt;
+        specialize (H (idx - 1) ltac:(lia));
+        lia
+    end.
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_112_pure_split_goal_1 : solver_partial_solve_wit_112_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -64,7 +43,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_112_pure_split_goal_2 : solver_partial_solve_wit_112_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -74,12 +53,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_112_pure_split_goal_3 : solver_partial_solve_wit_112_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_112_pure_split_goal_4 : solver_partial_solve_wit_112_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -89,7 +68,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_112_pure_split_goal_5 : solver_partial_solve_wit_112_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -128,7 +107,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_115_pure_split_goal_1 : solver_partial_solve_wit_115_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -137,7 +116,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_115_pure_split_goal_2 : solver_partial_solve_wit_115_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -147,12 +126,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_115_pure_split_goal_3 : solver_partial_solve_wit_115_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_115_pure_split_goal_4 : solver_partial_solve_wit_115_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -162,7 +141,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_115_pure_split_goal_5 : solver_partial_solve_wit_115_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -201,7 +180,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_118_pure_split_goal_1 : solver_partial_solve_wit_118_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -210,7 +189,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_118_pure_split_goal_2 : solver_partial_solve_wit_118_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -220,12 +199,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_118_pure_split_goal_3 : solver_partial_solve_wit_118_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_118_pure_split_goal_4 : solver_partial_solve_wit_118_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -235,7 +214,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_118_pure_split_goal_5 : solver_partial_solve_wit_118_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -274,7 +253,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_121_pure_split_goal_1 : solver_partial_solve_wit_121_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -283,7 +262,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_121_pure_split_goal_2 : solver_partial_solve_wit_121_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -293,12 +272,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_121_pure_split_goal_3 : solver_partial_solve_wit_121_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_121_pure_split_goal_4 : solver_partial_solve_wit_121_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -308,7 +287,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_121_pure_split_goal_5 : solver_partial_solve_wit_121_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -347,7 +326,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_124_pure_split_goal_1 : solver_partial_solve_wit_124_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -356,7 +335,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_124_pure_split_goal_2 : solver_partial_solve_wit_124_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -366,12 +345,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_124_pure_split_goal_3 : solver_partial_solve_wit_124_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_124_pure_split_goal_4 : solver_partial_solve_wit_124_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -381,7 +360,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_124_pure_split_goal_5 : solver_partial_solve_wit_124_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -420,7 +399,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_127_pure_split_goal_1 : solver_partial_solve_wit_127_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -429,7 +408,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_127_pure_split_goal_2 : solver_partial_solve_wit_127_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -439,12 +418,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_127_pure_split_goal_3 : solver_partial_solve_wit_127_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_127_pure_split_goal_4 : solver_partial_solve_wit_127_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -454,7 +433,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_127_pure_split_goal_5 : solver_partial_solve_wit_127_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -493,7 +472,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_130_pure_split_goal_1 : solver_partial_solve_wit_130_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -502,7 +481,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_130_pure_split_goal_2 : solver_partial_solve_wit_130_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -512,12 +491,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_130_pure_split_goal_3 : solver_partial_solve_wit_130_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_130_pure_split_goal_4 : solver_partial_solve_wit_130_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -527,7 +506,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_130_pure_split_goal_5 : solver_partial_solve_wit_130_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -566,7 +545,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_133_pure_split_goal_1 : solver_partial_solve_wit_133_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -575,7 +554,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_133_pure_split_goal_2 : solver_partial_solve_wit_133_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -585,12 +564,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_133_pure_split_goal_3 : solver_partial_solve_wit_133_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_133_pure_split_goal_4 : solver_partial_solve_wit_133_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -600,7 +579,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_133_pure_split_goal_5 : solver_partial_solve_wit_133_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -639,7 +618,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_136_pure_split_goal_1 : solver_partial_solve_wit_136_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -648,7 +627,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_136_pure_split_goal_2 : solver_partial_solve_wit_136_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -658,12 +637,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_136_pure_split_goal_3 : solver_partial_solve_wit_136_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_136_pure_split_goal_4 : solver_partial_solve_wit_136_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -673,7 +652,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_136_pure_split_goal_5 : solver_partial_solve_wit_136_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -712,7 +691,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_139_pure_split_goal_1 : solver_partial_solve_wit_139_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -721,7 +700,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_139_pure_split_goal_2 : solver_partial_solve_wit_139_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -731,12 +710,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_139_pure_split_goal_3 : solver_partial_solve_wit_139_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_139_pure_split_goal_4 : solver_partial_solve_wit_139_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [_ [HMEM _]] end.
   match goal with H : KeyPrefix _ _ _ |- _ => unfold KeyPrefix in H; rewrite (H (i - 1)) by lia end.
@@ -746,7 +725,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_139_pure_split_goal_5 : solver_partial_solve_wit_139_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with H : CompressedKeys _ _ _ |- _ => unfold CompressedKeys in H; destruct H as [HSI _] end.
   match goal with H : nvals = uniq |- _ => rewrite <- H end.
@@ -785,7 +764,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_142_pure_split_goal_1 : solver_partial_solve_wit_142_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -793,7 +772,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_142_pure_split_goal_2 : solver_partial_solve_wit_142_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -803,12 +782,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_142_pure_split_goal_3 : solver_partial_solve_wit_142_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_142_pure_split_goal_4 : solver_partial_solve_wit_142_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -818,7 +797,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_142_pure_split_goal_5 : solver_partial_solve_wit_142_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -851,7 +830,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_145_pure_split_goal_1 : solver_partial_solve_wit_145_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -859,7 +838,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_145_pure_split_goal_2 : solver_partial_solve_wit_145_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -869,12 +848,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_145_pure_split_goal_3 : solver_partial_solve_wit_145_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_145_pure_split_goal_4 : solver_partial_solve_wit_145_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -884,7 +863,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_145_pure_split_goal_5 : solver_partial_solve_wit_145_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -917,7 +896,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_148_pure_split_goal_1 : solver_partial_solve_wit_148_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -925,7 +904,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_148_pure_split_goal_2 : solver_partial_solve_wit_148_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -935,12 +914,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_148_pure_split_goal_3 : solver_partial_solve_wit_148_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_148_pure_split_goal_4 : solver_partial_solve_wit_148_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -950,7 +929,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_148_pure_split_goal_5 : solver_partial_solve_wit_148_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -983,7 +962,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_151_pure_split_goal_1 : solver_partial_solve_wit_151_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -991,7 +970,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_151_pure_split_goal_2 : solver_partial_solve_wit_151_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -1001,12 +980,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_151_pure_split_goal_3 : solver_partial_solve_wit_151_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_151_pure_split_goal_4 : solver_partial_solve_wit_151_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -1016,7 +995,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_151_pure_split_goal_5 : solver_partial_solve_wit_151_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -1049,7 +1028,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_154_pure_split_goal_1 : solver_partial_solve_wit_154_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -1057,7 +1036,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_154_pure_split_goal_2 : solver_partial_solve_wit_154_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -1067,12 +1046,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_154_pure_split_goal_3 : solver_partial_solve_wit_154_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_154_pure_split_goal_4 : solver_partial_solve_wit_154_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -1082,7 +1061,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_154_pure_split_goal_5 : solver_partial_solve_wit_154_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -1115,7 +1094,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_157_pure_split_goal_1 : solver_partial_solve_wit_157_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -1123,7 +1102,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_157_pure_split_goal_2 : solver_partial_solve_wit_157_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -1133,12 +1112,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_157_pure_split_goal_3 : solver_partial_solve_wit_157_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_157_pure_split_goal_4 : solver_partial_solve_wit_157_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -1148,7 +1127,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_157_pure_split_goal_5 : solver_partial_solve_wit_157_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -1181,7 +1160,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_160_pure_split_goal_1 : solver_partial_solve_wit_160_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -1189,7 +1168,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_160_pure_split_goal_2 : solver_partial_solve_wit_160_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -1199,12 +1178,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_160_pure_split_goal_3 : solver_partial_solve_wit_160_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_160_pure_split_goal_4 : solver_partial_solve_wit_160_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -1214,7 +1193,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_160_pure_split_goal_5 : solver_partial_solve_wit_160_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -1247,7 +1226,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_163_pure_split_goal_1 : solver_partial_solve_wit_163_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -1255,7 +1234,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_163_pure_split_goal_2 : solver_partial_solve_wit_163_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -1265,12 +1244,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_163_pure_split_goal_3 : solver_partial_solve_wit_163_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_163_pure_split_goal_4 : solver_partial_solve_wit_163_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -1280,7 +1259,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_163_pure_split_goal_5 : solver_partial_solve_wit_163_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -1313,7 +1292,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_166_pure_split_goal_1 : solver_partial_solve_wit_166_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -1321,7 +1300,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_166_pure_split_goal_2 : solver_partial_solve_wit_166_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -1331,12 +1310,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_166_pure_split_goal_3 : solver_partial_solve_wit_166_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_166_pure_split_goal_4 : solver_partial_solve_wit_166_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -1346,7 +1325,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_166_pure_split_goal_5 : solver_partial_solve_wit_166_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -1379,7 +1358,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_169_pure_split_goal_1 : solver_partial_solve_wit_169_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -1387,7 +1366,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_169_pure_split_goal_2 : solver_partial_solve_wit_169_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -1397,12 +1376,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_169_pure_split_goal_3 : solver_partial_solve_wit_169_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_169_pure_split_goal_4 : solver_partial_solve_wit_169_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -1412,7 +1391,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_169_pure_split_goal_5 : solver_partial_solve_wit_169_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -1445,7 +1424,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_172_pure_split_goal_1 : solver_partial_solve_wit_172_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -1453,7 +1432,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_172_pure_split_goal_2 : solver_partial_solve_wit_172_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -1463,12 +1442,12 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_172_pure_split_goal_3 : solver_partial_solve_wit_172_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_172_pure_split_goal_4 : solver_partial_solve_wit_172_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with HK : KeyPrefix _ _ _ |- _ => rewrite (HK (i - 1) ltac:(lia)) end.
@@ -1478,7 +1457,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_172_pure_split_goal_5 : solver_partial_solve_wit_172_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace uniq with nvals by lia.
   match goal with H : CompressedKeys _ _ _ |- _ => exact (proj1 H) end.
@@ -1510,138 +1489,76 @@ Proof.
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_175_pure_split_goal_1 : solver_partial_solve_wit_175_pure_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  dump_pre_spatial.
-  match goal with
-  | H : CompressedKeys _ _ _ |- _ => destruct H as [Hinc [_ _]]
-  end.
-  replace uniq with nvals by lia.
-  exact Hinc.
-Qed.
+Abort.
 
 Lemma proof_of_solver_partial_solve_wit_175_pure_split_goal_2 : solver_partial_solve_wit_175_pure_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  dump_pre_spatial.
-  match goal with
-  | H : CompressedKeys _ _ _ |- _ => destruct H as [_ [Hmem _]]
-  end.
-  match goal with
-  | H : KeyPrefix _ _ _ |- _ => rewrite H by lia
-  end.
-  replace uniq with nvals by lia.
-  apply (proj1 (Hmem (i - 1) ltac:(lia))).
-Qed.
+Abort.
 
 Lemma proof_of_solver_partial_solve_wit_175_pure_split_goal_3 : solver_partial_solve_wit_175_pure_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(assumption || lia || nia || int_auto).
-Qed.
+Abort.
 
 Lemma proof_of_solver_partial_solve_wit_175_pure_split_goal_4 : solver_partial_solve_wit_175_pure_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  dump_pre_spatial.
-  match goal with
-  | H : CompressedKeys _ _ _ |- _ => destruct H as [_ [Hmem _]]
-  end.
-  match goal with
-  | H : KeyPrefix _ _ _ |- _ => rewrite H by lia
-  end.
-  replace uniq with nvals by lia.
-  apply (proj1 (Hmem (i - 1) ltac:(lia))).
-Qed.
+Abort.
 
 Lemma proof_of_solver_partial_solve_wit_175_pure_split_goal_5 : solver_partial_solve_wit_175_pure_split_goal_5.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  dump_pre_spatial.
-  match goal with
-  | H : CompressedKeys _ _ _ |- _ => destruct H as [Hinc [_ _]]
-  end.
-  replace uniq with nvals by lia.
-  exact Hinc.
-Qed.
+Abort.
 
 Lemma proof_of_solver_partial_solve_wit_175_pure : solver_partial_solve_wit_175_pure.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply (proof_of_solver_partial_solve_wit_175_pure_split_goal_1 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
-  - Goal_apply (proof_of_solver_partial_solve_wit_175_pure_split_goal_2 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
-  - Goal_apply (proof_of_solver_partial_solve_wit_175_pure_split_goal_3 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
-  - Goal_apply (proof_of_solver_partial_solve_wit_175_pure_split_goal_4 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
-  - Goal_apply (proof_of_solver_partial_solve_wit_175_pure_split_goal_5 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
+  LLM_pre_process ltac:(lia || int_auto).
+  repeat split_pures.
+  all: dump_pre_spatial; try assumption; try lia.
+  - pose proof (PreH44 (i - 1) ltac:(lia)) as Hc; lia.
+  - pose proof (PreH44 (i - 1) ltac:(lia)) as Hc; lia.
+  - exact (proj1 PreH46).
+  - destruct PreH46 as [_ [Hmem _]].
+    rewrite PreH43 by lia.
+    apply (proj1 (Hmem (i - 1) ltac:(lia))).
+  - replace uniq with nvals by lia.
+    destruct PreH46 as [_ [Hmem _]].
+    rewrite PreH43 by lia.
+    apply (proj1 (Hmem (i - 1) ltac:(lia))).
+  - replace uniq with nvals by lia.
+    exact (proj1 PreH46).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_178_pure_split_goal_1 : solver_partial_solve_wit_178_pure_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  dump_pre_spatial.
-  match goal with
-  | H : CompressedKeys _ _ _ |- _ => destruct H as [Hinc [_ _]]
-  end.
-  replace uniq with nvals by lia.
-  exact Hinc.
-Qed.
+Abort.
 
 Lemma proof_of_solver_partial_solve_wit_178_pure_split_goal_2 : solver_partial_solve_wit_178_pure_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  dump_pre_spatial.
-  match goal with
-  | H : CompressedKeys _ _ _ |- _ => destruct H as [_ [Hmem _]]
-  end.
-  match goal with
-  | H : KeyPrefix _ _ _ |- _ => rewrite H by lia
-  end.
-  replace uniq with nvals by lia.
-  apply (proj1 (Hmem (i - 1) ltac:(lia))).
-Qed.
+Abort.
 
 Lemma proof_of_solver_partial_solve_wit_178_pure_split_goal_3 : solver_partial_solve_wit_178_pure_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(assumption || lia || nia || int_auto).
-Qed.
+Abort.
 
 Lemma proof_of_solver_partial_solve_wit_178_pure_split_goal_4 : solver_partial_solve_wit_178_pure_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  dump_pre_spatial.
-  match goal with
-  | H : CompressedKeys _ _ _ |- _ => destruct H as [_ [Hmem _]]
-  end.
-  match goal with
-  | H : KeyPrefix _ _ _ |- _ => rewrite H by lia
-  end.
-  replace uniq with nvals by lia.
-  apply (proj1 (Hmem (i - 1) ltac:(lia))).
-Qed.
+Abort.
 
 Lemma proof_of_solver_partial_solve_wit_178_pure_split_goal_5 : solver_partial_solve_wit_178_pure_split_goal_5.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  dump_pre_spatial.
-  match goal with
-  | H : CompressedKeys _ _ _ |- _ => destruct H as [Hinc [_ _]]
-  end.
-  replace uniq with nvals by lia.
-  exact Hinc.
-Qed.
+Abort.
 
 Lemma proof_of_solver_partial_solve_wit_178_pure : solver_partial_solve_wit_178_pure.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply (proof_of_solver_partial_solve_wit_178_pure_split_goal_1 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
-  - Goal_apply (proof_of_solver_partial_solve_wit_178_pure_split_goal_2 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
-  - Goal_apply (proof_of_solver_partial_solve_wit_178_pure_split_goal_3 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
-  - Goal_apply (proof_of_solver_partial_solve_wit_178_pure_split_goal_4 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
-  - Goal_apply (proof_of_solver_partial_solve_wit_178_pure_split_goal_5 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
+  LLM_pre_process ltac:(assumption || lia || int_auto).
+  repeat split_pures.
+  all: dump_pre_spatial; try assumption; try lia.
+  - pose proof (PreH44 (i - 1) ltac:(lia)) as Hc; lia.
+  - pose proof (PreH44 (i - 1) ltac:(lia)) as Hc; lia.
+  - exact (proj1 PreH46).
+  - destruct PreH46 as [_ [Hmem _]].
+    rewrite PreH43 by lia.
+    apply (proj1 (Hmem (i - 1) ltac:(lia))).
+  - replace uniq with nvals by lia.
+    destruct PreH46 as [_ [Hmem _]].
+    rewrite PreH43 by lia.
+    apply (proj1 (Hmem (i - 1) ltac:(lia))).
+  - replace uniq with nvals by lia.
+    exact (proj1 PreH46).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_181_pure_split_goal_1 : solver_partial_solve_wit_181_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with
   | H : CompressedKeys _ _ _ |- _ => destruct H as [Hinc [_ _]]
@@ -1652,7 +1569,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_181_pure_split_goal_2 : solver_partial_solve_wit_181_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with
   | H : CompressedKeys _ _ _ |- _ => destruct H as [_ [Hmem _]]
@@ -1671,7 +1588,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_181_pure_split_goal_4 : solver_partial_solve_wit_181_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with
   | H : CompressedKeys _ _ _ |- _ => destruct H as [_ [Hmem _]]
@@ -1685,7 +1602,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_181_pure_split_goal_5 : solver_partial_solve_wit_181_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with
   | H : CompressedKeys _ _ _ |- _ => destruct H as [Hinc [_ _]]
@@ -1697,16 +1614,16 @@ Qed.
 Lemma proof_of_solver_partial_solve_wit_181_pure : solver_partial_solve_wit_181_pure.
 Proof.
   aggressive_pre_process.
-  - Goal_apply (proof_of_solver_partial_solve_wit_181_pure_split_goal_1 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
-  - Goal_apply (proof_of_solver_partial_solve_wit_181_pure_split_goal_2 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
-  - Goal_apply (proof_of_solver_partial_solve_wit_181_pure_split_goal_3 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
-  - Goal_apply (proof_of_solver_partial_solve_wit_181_pure_split_goal_4 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
-  - Goal_apply (proof_of_solver_partial_solve_wit_181_pure_split_goal_5 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
+  - Goal_apply proof_of_solver_partial_solve_wit_181_pure_split_goal_1.
+  - Goal_apply proof_of_solver_partial_solve_wit_181_pure_split_goal_2.
+  - Goal_apply proof_of_solver_partial_solve_wit_181_pure_split_goal_3.
+  - Goal_apply proof_of_solver_partial_solve_wit_181_pure_split_goal_4.
+  - Goal_apply proof_of_solver_partial_solve_wit_181_pure_split_goal_5.
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_184_pure_split_goal_1 : solver_partial_solve_wit_184_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with
   | H : CompressedKeys _ _ _ |- _ => destruct H as [Hinc [_ _]]
@@ -1717,7 +1634,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_184_pure_split_goal_2 : solver_partial_solve_wit_184_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with
   | H : CompressedKeys _ _ _ |- _ => destruct H as [_ [Hmem _]]
@@ -1736,7 +1653,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_184_pure_split_goal_4 : solver_partial_solve_wit_184_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with
   | H : CompressedKeys _ _ _ |- _ => destruct H as [_ [Hmem _]]
@@ -1750,7 +1667,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_184_pure_split_goal_5 : solver_partial_solve_wit_184_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with
   | H : CompressedKeys _ _ _ |- _ => destruct H as [Hinc [_ _]]
@@ -1762,16 +1679,16 @@ Qed.
 Lemma proof_of_solver_partial_solve_wit_184_pure : solver_partial_solve_wit_184_pure.
 Proof.
   aggressive_pre_process.
-  - Goal_apply (proof_of_solver_partial_solve_wit_184_pure_split_goal_1 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
-  - Goal_apply (proof_of_solver_partial_solve_wit_184_pure_split_goal_2 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
-  - Goal_apply (proof_of_solver_partial_solve_wit_184_pure_split_goal_3 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
-  - Goal_apply (proof_of_solver_partial_solve_wit_184_pure_split_goal_4 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
-  - Goal_apply (proof_of_solver_partial_solve_wit_184_pure_split_goal_5 bitX_pre bit1_pre bit0_pre vals_pre dp0_pre c_pre n_pre a_pre values best0_prefix best1 best0 mX m1 m0 bitX_l bit1_l bit0_l dp0_l vals_l c_l i uniq nvals retval retval_2 retval_3 retval_4 retval_5 bit_l1 bit_l1_2 ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(assumption)).
+  - Goal_apply proof_of_solver_partial_solve_wit_184_pure_split_goal_1.
+  - Goal_apply proof_of_solver_partial_solve_wit_184_pure_split_goal_2.
+  - Goal_apply proof_of_solver_partial_solve_wit_184_pure_split_goal_3.
+  - Goal_apply proof_of_solver_partial_solve_wit_184_pure_split_goal_4.
+  - Goal_apply proof_of_solver_partial_solve_wit_184_pure_split_goal_5.
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_187_pure_split_goal_1 : solver_partial_solve_wit_187_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with
   | H : CompressedKeys _ _ _ |- _ => destruct H as [Hinc [_ _]]
@@ -1782,7 +1699,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_187_pure_split_goal_2 : solver_partial_solve_wit_187_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with
   | H : CompressedKeys _ _ _ |- _ => destruct H as [_ [Hmem _]]
@@ -1801,7 +1718,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_187_pure_split_goal_4 : solver_partial_solve_wit_187_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with
   | H : CompressedKeys _ _ _ |- _ => destruct H as [_ [Hmem _]]
@@ -1815,7 +1732,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_187_pure_split_goal_5 : solver_partial_solve_wit_187_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with
   | H : CompressedKeys _ _ _ |- _ => destruct H as [Hinc [_ _]]
@@ -1836,7 +1753,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_190_pure_split_goal_1 : solver_partial_solve_wit_190_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with
   | H : CompressedKeys _ _ _ |- _ => destruct H as [Hinc [_ _]]
@@ -1847,7 +1764,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_190_pure_split_goal_2 : solver_partial_solve_wit_190_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with
   | H : CompressedKeys _ _ _ |- _ => destruct H as [_ [Hmem _]]
@@ -1866,7 +1783,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_190_pure_split_goal_4 : solver_partial_solve_wit_190_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with
   | H : CompressedKeys _ _ _ |- _ => destruct H as [_ [Hmem _]]
@@ -1880,7 +1797,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_190_pure_split_goal_5 : solver_partial_solve_wit_190_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   match goal with
   | H : CompressedKeys _ _ _ |- _ => destruct H as [Hinc [_ _]]

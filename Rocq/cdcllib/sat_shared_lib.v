@@ -152,8 +152,8 @@ Definition cnf_unsat (n : Z) (f : cnf) : Prop :=
 (* ==================== Exact clause summaries ==================== *)
 (* Per-clause counters: how many literals are already true, and how many are
    still unassigned.  The CDCL solver keeps exactly this pair in its C state
-   (the true_counts and unassigned arrays of CDCL_qcp_def.h), and both solvers
-   read a conflict and a unit clause off the two counters alone. *)
+   (the true_counts and unassigned arrays of CDCL_qcp_def.h) and reads a
+   conflict and a unit clause off the two counters. *)
 
 (** Exact summaries used as semantic state by the implementation. *)
 Fixpoint clause_true_count
@@ -229,19 +229,15 @@ Definition falsified_literal (x : Z) (b : bool) : literal :=
   if b then Neg x else Pos x.
 
 (* ==================== Decidability ==================== *)
-(* Case splits over a finite list of literals are discharged constructively
-   rather than classically: Coq.Logic.Classical_Prop is deliberately not among
-   the Require lines at the top of this file, and every case split over a
-   literal or a clause membership is decided by one of the three procedures
-   below. *)
+(* Every case split over a literal or a clause membership is decided by one
+   of the three procedures below. *)
 
 (* Decidable equality of literals; the case-split engine for clause_mem_dec,
    for the counting lemmas below and for the watch frontier. *)
 Definition literal_eq_dec (l1 l2 : literal) : {l1 = l2} + {l1 <> l2}.
 Proof. decide equality; apply Z.eq_dec. Defined.
 
-(* Decide clause membership by induction using [literal_eq_dec].
-   The proof is self-contained and does not rely on an unqualified [In_dec]. *)
+(* Decide clause membership by induction using [literal_eq_dec]. *)
 Lemma clause_mem_dec :
   forall (l : literal) (c : clause), {In l c} + {~ In l c}.
 Proof.
@@ -274,8 +270,7 @@ Proof.
         -- exact (Hno (ex_intro _ l' (conj Hin' Hvar))).
 Qed.
 
-(** ===== SEED CANDIDATES: generic list lemmas, future ListLib promotion targets ===== *)
-(* promotion target: ListLib/Forall.v *)
+(** ===== Generic list lemmas ===== *)
 Lemma Forall_Znth_elim :
   forall (A : Type) (P : A -> Prop) (l : list A) (d : A) i,
     Forall P l -> 0 <= i < Zlength l -> P (Znth i l d).
@@ -290,7 +285,6 @@ Proof.
       apply IH; [exact Htail|lia].
 Qed.
 
-(* promotion target: ListLib/Length.v *)
 Lemma Znth_In :
   forall (A : Type) (l : list A) (d : A) i,
     0 <= i < Zlength l -> In (Znth i l d) l.
@@ -303,7 +297,6 @@ Proof.
     + rewrite Znth_cons by lia; right; apply IH; lia.
 Qed.
 
-(* promotion target: ListLib/Base/Positional.v *)
 Lemma Znth_map :
   forall (A B : Type) (f : A -> B) (l : list A) (i : Z) (da : A) (db : B),
     0 <= i < Zlength l ->
@@ -319,7 +312,6 @@ Proof.
       apply IH. lia.
 Qed.
 
-(* promotion target: ListLib/Base/Positional.v *)
 Lemma replace_Znth_replace_Znth_Same :
   forall (A : Type) (l : list A) i a b,
   0 <= i ->
@@ -333,7 +325,6 @@ Proof.
       f_equal. apply IH. lia.
 Qed.
 
-(* promotion target: ListLib/NoDup.v *)
 Lemma NoDup_Z_bounded_length : forall xs n,
   0 <= n ->
   NoDup xs ->
@@ -433,14 +424,8 @@ Proof.
   contradiction.
 Qed.
 
-(** The constructive core of the SAT verdict.  Under "every literal of [c] is
-    assigned", the clause is either false outright or contains a true literal.
-    This dichotomy is what [classic] used to supply; it needs no axiom, because
-    [c] is a finite list and each literal's value under [sigma] is a
-    computation.  Establishing it constructively is what makes the CDCL
-    endgame -- and hence the whole mathematical core of both developments --
-    axiom-free. *)
-(* A fully assigned clause is either false or holds by a true literal. *)
+(** A clause whose literals are all assigned is either false or contains a
+    true literal.  The proof is by computation over the finite list [c]. *)
 Lemma partial_clause_false_or_true :
   forall sigma c,
     (forall l, In l c ->
@@ -1060,21 +1045,6 @@ Proof.
         cbn -[Z.add Z.sub]; rewrite Hyx; lia.
 Qed.
 
-(* Compatibility name for the same fact as
-   [clause_unassigned_count_nonnegative_base].  Existing callers use this name;
-   the binder spelling does not change the proposition. *)
-Lemma clause_unassigned_count_nonneg :
-  forall sigma L, 0 <= clause_unassigned_count sigma L.
-Proof.
-  intros sigma L.
-  induction L as [|l L IH]; [reflexivity|].
-  simpl.
-  destruct (eval_partial_literal sigma l) as [b|] eqn:Heval.
-  - exact IH.
-  - change (0 <= 1 + clause_unassigned_count sigma L).
-    lia.
-Qed.
-
 (* An unassigned member puts the unassigned count of L at one or more. *)
 Lemma clause_unassigned_count_ge_one :
   forall sigma L u,
@@ -1089,7 +1059,7 @@ Proof.
     destruct Hin as [<-|Hin].
     + simpl. rewrite Hnone.
       pose proof
-        (clause_unassigned_count_nonneg
+        (clause_unassigned_count_nonnegative_base
           sigma L) as Hcount_nonneg.
       change (1 + 0 <= 1 + clause_unassigned_count sigma L).
       apply Z.add_le_mono_l.
@@ -1268,7 +1238,8 @@ Proof.
       * exact IH.
 Qed.
 
-(* No variable occurs twice in c, so a variable determines its literal. *)
+(* In c, a variable determines its literal: two literals of c with the same
+   variable are equal (the same literal may still occur twice). *)
 Definition clause_var_injective (c : clause) : Prop :=
   forall l1 l2,
     In l1 c -> In l2 c -> literal_var l1 = literal_var l2 -> l1 = l2.

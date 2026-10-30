@@ -101,7 +101,7 @@ private theorem extend_sorted_prefix (l : List Int) (i : Int)
 theorem proof_of_optimized_selection_sort_entail_wit_1 : optimized_selection_sort_entail_wit_1 := by
   unfold optimized_selection_sort_entail_wit_1
   right
-  intro n input hn hnmax hlen
+  intro input n hn hnmax hlen
   have hsorted : increasing (sublist 0 0 input) := by simp [Sorting.increasing, sublist]
   have hperm : Permutation input input := List.Perm.refl _
   aggressive_pre_process
@@ -111,7 +111,7 @@ theorem proof_of_optimized_selection_sort_entail_wit_1 : optimized_selection_sor
 theorem proof_of_optimized_selection_sort_entail_wit_2 : optimized_selection_sort_entail_wit_2 := by
   unfold optimized_selection_sort_entail_wit_2
   right
-  intro n input i l hloop hn hnmax hinput hlen hi hin himax hperm hsorted hcross
+  intro input n i l hloop hn hnmax hinput hlen hi hin himax hperm hsorted hcross
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
@@ -125,7 +125,7 @@ theorem proof_of_optimized_selection_sort_entail_wit_2 : optimized_selection_sor
 theorem proof_of_optimized_selection_sort_entail_wit_4_1 : optimized_selection_sort_entail_wit_4_1 := by
   unfold optimized_selection_sort_entail_wit_4_1
   right
-  intro n input j m i l hnewlen hne hj hn hnmax hinput hlen hi hloop him hmj hij hjn
+  intro input n j m i l hnewlen hne hj hn hnmax hinput hlen hi hloop him hmj hij hjn
     hperm hsorted hcross hmin
   have hmin := selection_minimum_sublist_bound l i j (Znth m l 0) (hlo := by omega) (hhi := by omega) (hm := hmin)
   let swapped := replace_Znth m (Znth i l 0) (replace_Znth i (Znth m l 0) l)
@@ -181,7 +181,7 @@ theorem proof_of_optimized_selection_sort_entail_wit_4_1 : optimized_selection_s
 theorem proof_of_optimized_selection_sort_entail_wit_4_2 : optimized_selection_sort_entail_wit_4_2 := by
   unfold optimized_selection_sort_entail_wit_4_2
   right
-  intro n input j m i l hmi hj hn hnmax hinput hlen hi hloop him hmj hij hjn
+  intro input n j m i l hmi hj hn hnmax hinput hlen hi hloop him hmj hij hjn
     hperm hsorted hcross hmin
   have hmin := selection_minimum_sublist_bound l i j (Znth m l 0) (hlo := by omega) (hhi := by omega) (hm := hmin)
   subst m
@@ -202,7 +202,7 @@ theorem proof_of_optimized_selection_sort_entail_wit_4_2 : optimized_selection_s
 theorem proof_of_optimized_selection_sort_return_wit_1 : optimized_selection_sort_return_wit_1 := by
   unfold optimized_selection_sort_return_wit_1
   right
-  intro n input i l hdone hn hnmax hinput hlen hi hin himax hperm hsorted hcross
+  intro input n i l hdone hn hnmax hinput hlen hi hin himax hperm hsorted hcross
   have hsorted_all : increasing l := by
     rw [← sublist_self l n hlen.symm]
     apply increasing_sublist_intro l 0 n (by omega) (by omega)
@@ -221,7 +221,7 @@ theorem proof_of_optimized_selection_sort_return_wit_1 : optimized_selection_sor
 theorem proof_of_optimized_selection_sort_entail_wit_3_1 : optimized_selection_sort_entail_wit_3_1 := by
   unfold optimized_selection_sort_entail_wit_3_1
   right
-  intro n input j m i current hread hj hn hnmax hinput hlen hi hloop him hmj hij hjn hperm hsorted hcross hmin
+  intro input n j m i current hread hj hn hnmax hinput hlen hi hloop him hmj hij hjn hperm hsorted hcross hmin
   have hnew : selection_minimum (sublist i (j+1) current) (Znth j current 0) := by
     rw [sublist_split i (j+1) j current (by omega) (by omega), sublist_single 0 j current (by omega)]
     exact minimum_append_smaller _ _ _ hmin (by omega)
@@ -234,7 +234,7 @@ theorem proof_of_optimized_selection_sort_entail_wit_3_1 : optimized_selection_s
 theorem proof_of_optimized_selection_sort_entail_wit_3_2 : optimized_selection_sort_entail_wit_3_2 := by
   unfold optimized_selection_sort_entail_wit_3_2
   right
-  intro n input j m i current hread hj hn hnmax hinput hlen hi hloop him hmj hij hjn hperm hsorted hcross hmin
+  intro input n j m i current hread hj hn hnmax hinput hlen hi hloop him hmj hij hjn hperm hsorted hcross hmin
   have hnew : selection_minimum (sublist i (j+1) current) (Znth m current 0) := by
     rw [sublist_split i (j+1) j current (by omega) (by omega), sublist_single 0 j current (by omega)]
     exact minimum_append_larger _ _ _ hmin (by omega)

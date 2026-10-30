@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.Applications_human.LiteOS Require Import GetSortLinkNextExpireTime_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.glob_vars_and_defs.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.sortlink.
@@ -446,39 +431,32 @@ Proof.
     Goal_apply proof_of_GetSortLinkNextExpireTime_which_implies_wit_4_split_goal_spatial.
 Qed.
 
-Lemma proof_of_LOS_ListEmpty_derive_getfirstSpec_by_highSpec : LOS_ListEmpty_derive_getfirstSpec_by_highSpec.
+Lemma proof_of_LOS_ListEmpty_highSpec_entail_getfirstSpec : LOS_ListEmpty_highSpec_entail_getfirstSpec.
 Proof. 
     LLM_pre_process ltac:(int_auto).
     Exists A storeA_getfirstSpec l_getfirstSpec.
-    cancel (store_dll storeA_getfirstSpec node_pre l_getfirstSpec).
+    cancel.
+    Intros_r retval_2.
     apply derivable1_wand_sepcon_adjoint.
     normalize.
     Split.
-    - Intros retval_2.
+    - Intros.
       unfold store_dll.
       Intros h pt.
       unfold dllseg.
       destruct l_getfirstSpec.
-      + Intros Hnil.
-        contradiction.
+      + contradiction.
       + Intros z.
         Right.
-        Exists d l_getfirstSpec retval_2.
-        Exists h pt.
-        Exists z.
+        Exists d l_getfirstSpec.
+        repeat (split_pure_spatial || split_pures).
+        Exists h pt z.
         split_pure_spatial.
-        * fold (dllseg storeA_getfirstSpec z h node_pre pt l_getfirstSpec).
-          cancel (storeA_getfirstSpec h d.(dll_data)).
-          cancel (&( h # "LOS_DL_LIST" ->ₛ "pstPrev") # Ptr |-> node_pre).
-          cancel (&( h # "LOS_DL_LIST" ->ₛ "pstNext") # Ptr |-> z).
-          cancel (dllseg storeA_getfirstSpec z h node_pre pt l_getfirstSpec).
-          cancel (&( node_pre # "LOS_DL_LIST" ->ₛ "pstPrev") # Ptr |-> pt).
-          cancel (&( node_pre # "LOS_DL_LIST" ->ₛ "pstNext") # Ptr |-> h).
+        * repeat cancel.
         * repeat split_pures; dump_pre_spatial;
             try assumption; try reflexivity; try congruence.
-    - Intros retval_2.
+    - Intros.
       Left.
-      Exists retval_2.
       split_pure_spatial.
       + cancel.
       + repeat split_pures; dump_pre_spatial;

@@ -12,12 +12,16 @@
 -R _build/default/Rocq/auxlibs AUXLib
 -R Rocq/examples SimpleC.EE
 -R _build/default/Rocq/examples SimpleC.EE
+-R Rocq/Verification SimpleC.Verification
+-R _build/default/Rocq/Verification SimpleC.Verification
 -R Rocq/stdlib SimpleC.StdLib
 -R _build/default/Rocq/stdlib SimpleC.StdLib
 -R Rocq/StrategyLib SimpleC.StrategyLib
 -R _build/default/Rocq/StrategyLib SimpleC.StrategyLib
 -R Rocq/Common SimpleC.Common
 -R _build/default/Rocq/Common SimpleC.Common
+-R Rocq/CoreLang/ SimpleC.CoreLang
+-R _build/default/Rocq/CoreLang SimpleC.CoreLang
 -R Rocq/cdcllib CDCLLib
 -R _build/default/Rocq/cdcllib CDCLLib
 -R Rocq/fixedpoints FP

@@ -11,11 +11,7 @@ powershell_list = $(subst $(space),$(comma) ,$(strip $(foreach item,$(1),'$(item
 COQC=$(COQBIN)coqc$(SUF)
 COQDEP=$(COQBIN)coqdep$(SUF)
 
-# Cygwin also exports OS=Windows_NT, but its make is built for *-cygwin and
-# expects POSIX recipes. Native/MinGW/MSYS make must use the Windows branch.
-USE_WINDOWS_COMMANDS := $(if $(and $(filter Windows_NT,$(OS)),$(if $(findstring cygwin,$(MAKE_HOST)),,yes)),yes)
-
-ifeq ($(USE_WINDOWS_COMMANDS),yes)
+ifeq ($(OS),Windows_NT)
 SHELL := cmd
 
 define BACKUP_FILES
@@ -195,7 +191,7 @@ MetaLogicInj_FILES = \
 
 ModalLogic_ProofTheory_FILES = \
   ModalLogic.v RewriteClass.v \
-  ClassicalDerivedRules.v IntuitionisticDerivedRules.v
+  IntuitionisticDerivedRules.v
 
 ModalLogic_Model_FILES = \
   KripkeModel.v OrderedKripkeModel.v
@@ -294,13 +290,11 @@ Extensions_Sound_FILES = \
   StableSound.v
 
 Extensions_ShallowEmbedded_FILES = \
-  MonoPredicateStable.v
+  ModelLanguageCorableStable.v
 
 Extensions_FILES = \
   Syntax_CoreTransit.v \
   $(Extensions_ProofTheory_FILES:%.v=ProofTheory/%.v) \
-  $(Extensions_Semantics_FILES:%.v=Semantics/%.v) \
-  $(Extensions_Sound_FILES:%.v=Sound/%.v) \
   $(Extensions_ShallowEmbedded_FILES:%.v=ShallowEmbedded/%.v)
 
 HoareLogic_FILES = \
@@ -332,11 +326,12 @@ FILES = \
   $(QuantifierLogic_FILES:%.v=QuantifierLogic/%.v) \
   $(SeparationLogic_FILES:%.v=SeparationLogic/%.v) \
   $(ExportSolvers_FILES:%.v=ExportSolvers/%.v) \
+  ModalLogic/Syntax.v \
+  $(ModalLogic_ProofTheory_FILES:%.v=ModalLogic/ProofTheory/%.v) \
+  $(Extensions_FILES:%.v=Extensions/%.v) \
   $(HoareLogic_FILES:%.v=HoareLogic/%.v) \
   $(ShallowQuantifierLogic_FILES:%.v=ShallowQuantifierLogic/%.v) \
   $(LogicGenerator_FILES:%.v=LogicGenerator/%.v) 
-#  $(ModalLogic_FILES:%.v=ModalLogic/%.v) \
-#  $(Extensions_FILES:%.v=Extensions/%.v) \
 #  $(Example_Files:%.v=Examples/%.v) \
 
 $(FILES:%.v=%.vo): %.vo: %.v

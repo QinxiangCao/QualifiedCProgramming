@@ -1,29 +1,13 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 Require Import SimpleC.EE.QCP_demos_LLM.graph_matrix_lib.
 From SimpleC.EE.LLM_bench.Algorithms.DFS Require Import DFS_adjacency_matrix_goal.
 From SimpleC.EE.LLM_bench.Algorithms.DFS Require Import DFS_adjacency_matrix_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 From MonadLib Require Export MonadLib.
 From MonadLib.StateRelMonad Require Export StateRelMonad.
 Export MonadNotation.
 Local Open Scope monad.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
+From AUXLib Require Import relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Require Import Algorithms.DFS.DFS.
 Require Import SimpleC.EE.LLM_bench.Algorithms.DFS.DFS_adjacency_matrix_lib.
@@ -42,10 +26,9 @@ Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_safety_wit_3 : dfs_adjacency_matrix_safety_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  split_pures;
-  dump_pre_spatial ;
-  nia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_dfs_adjacency_matrix_safety_wit_3_split_goal_1.
+  - Goal_apply proof_of_dfs_adjacency_matrix_safety_wit_3_split_goal_2.
 Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_safety_wit_4_split_goal_1 : dfs_adjacency_matrix_safety_wit_4_split_goal_1.
@@ -60,10 +43,9 @@ Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_safety_wit_4 : dfs_adjacency_matrix_safety_wit_4.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  split_pures;
-  dump_pre_spatial ;
-  nia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_dfs_adjacency_matrix_safety_wit_4_split_goal_1.
+  - Goal_apply proof_of_dfs_adjacency_matrix_safety_wit_4_split_goal_2.
 Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_entail_wit_1 : dfs_adjacency_matrix_entail_wit_1.
@@ -312,8 +294,10 @@ Proof.
   entailer!.
 Qed. 
 
-Lemma proof_of_dfs_adjacency_matrix_derive_bind_spec_by_low_level_spec : dfs_adjacency_matrix_derive_bind_spec_by_low_level_spec.
+Lemma proof_of_dfs_adjacency_matrix_low_level_spec_entail_bind_spec : dfs_adjacency_matrix_low_level_spec_entail_bind_spec.
 Proof.
+  unfold dfs_adjacency_matrix_low_level_spec_entail_bind_spec.
+  intros B matrix_pre vertex_count_pre visited_pre vertex g_bind_spec rows_bind_spec visited_set_bind_spec c_bind_spec X_bind_spec.
   LLM_pre_process ltac:(lia || int_auto).
   match goal with
   | Hsafe: safeExec _ (bind _ _) _ |- _ =>
@@ -346,8 +330,10 @@ Proof.
       dump_pre_spatial; assumption.
 Qed. 
 
-Lemma proof_of_dfs_adjacency_matrix_derive_high_level_spec_by_low_level_spec : dfs_adjacency_matrix_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_dfs_adjacency_matrix_low_level_spec_entail_high_level_spec : dfs_adjacency_matrix_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold dfs_adjacency_matrix_low_level_spec_entail_high_level_spec.
+  intros matrix_pre vertex_count_pre visited_pre vertex_pre g_high_level_spec initial_visited_set_high_level_spec.
   LLM_pre_process ltac:(lia || int_auto).
   Intros rows_low_level_spec.
   assert (Hinitial_empty:
@@ -416,4 +402,3 @@ Proof.
   - repeat (split_pure_spatial || split_pures);
       dump_pre_spatial; assumption.
 Qed. 
-

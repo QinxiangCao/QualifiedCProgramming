@@ -272,7 +272,7 @@ Qed.
 
 Lemma derivable1s_coq_prop_andp_r: forall (P:Prop)(Q R:expr), R |-- Q -> P -> R |-- !!P && Q.
 Proof.
-  intros. apply derivable1s_truep_intros. apply derivable1s_coq_prop_r. apply H0. apply H.
+  intros. apply derivable1s_andp_intros. apply derivable1s_coq_prop_r. apply H0. apply H.
 Qed.
 
 Lemma derivables_coq_prop_imply: forall (P Q: Prop), (P -> Q) -> !!P |-- !!Q.
@@ -293,7 +293,7 @@ Context {GammaE: LogicEquiv L}
 Lemma logic_equiv_coq_prop_andp1: forall P Q, P |-- !!Q -> P --||-- !!Q && P.
 Proof.
   intros. rewrite __logic_equiv_derivable1. split.
-  -apply derivable1s_truep_intros. apply H. apply derivable1_refl.
+  -apply derivable1s_andp_intros. apply H. apply derivable1_refl.
   -apply derivable1_andp_elim2.
 Qed. 
 
@@ -310,7 +310,7 @@ Proof.
   intros.
   apply __logic_equiv_derivable1; split.
   + apply derivable1_andp_elim2.
-  + apply derivable1s_truep_intros.
+  + apply derivable1s_andp_intros.
     - apply derivable1s_coq_prop_r; auto.
     - reflexivity.
 Qed.
@@ -320,7 +320,7 @@ Proof.
   intros.
   apply __logic_equiv_derivable1; split.
   + apply derivable1_andp_elim1.
-  + apply derivable1s_truep_intros.
+  + apply derivable1s_andp_intros.
     - reflexivity.
     - apply derivable1s_coq_prop_r; auto.
 Qed.
@@ -329,7 +329,7 @@ Lemma logic_equiv_coq_prop_and: forall P Q: Prop, !! (P /\ Q) --||-- !! P && !! 
 Proof.
   intros.
   apply __logic_equiv_derivable1; split.
-  + apply derivable1s_truep_intros.
+  + apply derivable1s_andp_intros.
     - apply derivable1s_coq_prop_l; intros.
       apply derivable1s_coq_prop_r; tauto.
     - apply derivable1s_coq_prop_l; intros.

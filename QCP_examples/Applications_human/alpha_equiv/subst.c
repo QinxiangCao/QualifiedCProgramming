@@ -1,16 +1,7 @@
 #include "ast.h"
 
 term *subst_var(char *den, char *src, term *t)
-/*@ With trm src_str den_str
-      Require den != 0 && src != 0 && t != 0 &&
-              store_term(t, trm) *
-              store_string(src, src_str) *
-              store_string(den, den_str)
-      Ensure __return == t && t == t@pre && den == den@pre && src == src@pre &&
-             store_term(t, term_subst_v(den_str, src_str, trm)) *
-             store_string(den, den_str) *
-             store_string(src, src_str)
-*/
+/*@ default */
 {
   /*@ store_term(t, trm) 
       which implies
@@ -101,7 +92,8 @@ term *subst_var(char *den, char *src, term *t)
 }
 
 term *subst_term(term *den, char *src, term *t)
-/*@ With trm src_str den_term
+/*@ implementation
+    With trm src_str den_term
       Require den != 0 && src != 0 && t != 0 &&
               store_term(t, trm) *
               store_string(src, src_str) *
@@ -176,8 +168,8 @@ term *subst_term(term *den, char *src, term *t)
             store(&(t -> content.Apply.right), z) *
             store_term(y, lt) * store_term(z, rt)
       */
-      t->content.Apply.left = subst_term(den, src, t->content.Apply.left);
-      t->content.Apply.right = subst_term(den, src, t->content.Apply.right);
+      t->content.Apply.left = subst_term(den, src, t->content.Apply.left) /*@ where(implementation) */;
+      t->content.Apply.right = subst_term(den, src, t->content.Apply.right) /*@ where(implementation) */;
       break;
     }
     case Quant: {
@@ -196,7 +188,7 @@ term *subst_term(term *den, char *src, term *t)
             store_string(y, qvar) * store_term(z, qterm)
       */
       if (strcmp(t->content.Quant.var, src)) {
-        t->content.Quant.body = subst_term(den, src, t->content.Quant.body);
+        t->content.Quant.body = subst_term(den, src, t->content.Quant.body) /*@ where(implementation) */;
       }
       break;
     }

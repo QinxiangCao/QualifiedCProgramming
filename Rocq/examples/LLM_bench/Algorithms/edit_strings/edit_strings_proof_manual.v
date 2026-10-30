@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.edit_strings Require Import edit_strings_goal.
 From SimpleC.EE.LLM_bench.Algorithms.edit_strings Require Import edit_strings_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.edit_strings.edit_strings_lib.
 Local Open Scope sac.
@@ -199,6 +183,22 @@ Proof.
   edit_split_pures; dump_pre_spatial; lia.
 Qed. 
 
+Lemma proof_of_max_edit_string_matches_entail_wit_1_split_goal_spatial : max_edit_string_matches_entail_wit_1_split_goal_spatial.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  remember 100000 as capacity eqn:Hcapacity.
+  sep_apply_l_atomic (IntArray.undef_full_split_to_undef_seg (&("seg1")) n_pre capacity ltac:(lia)).
+  sep_apply_l_atomic (IntArray.undef_full_split_to_undef_seg (&("seg2")) n_pre capacity ltac:(lia)).
+  sep_apply_l_atomic (IntArray.undef_full_split_to_undef_seg (&("cnt10")) n_pre capacity ltac:(lia)).
+  sep_apply_l_atomic (IntArray.undef_full_split_to_undef_seg (&("cnt11")) n_pre capacity ltac:(lia)).
+  sep_apply_l_atomic (IntArray.undef_full_split_to_undef_seg (&("cnt20")) n_pre capacity ltac:(lia)).
+  sep_apply_l_atomic (IntArray.undef_full_split_to_undef_seg (&("cnt21")) n_pre capacity ltac:(lia)).
+  sep_apply_l_atomic (IntArray.undef_seg_to_undef_full (&("seg1")) 0 n_pre).
+  sep_apply_l_atomic (IntArray.undef_seg_to_undef_full (&("seg2")) 0 n_pre).
+  rewrite ?Z.mul_0_l, ?Z.add_0_r, ?Z.sub_0_r.
+  repeat cancel.
+Qed.
+
 Lemma proof_of_max_edit_string_matches_entail_wit_1_split_goal_1 : max_edit_string_matches_entail_wit_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
@@ -225,18 +225,12 @@ Qed.
 
 Lemma proof_of_max_edit_string_matches_entail_wit_1 : max_edit_string_matches_entail_wit_1.
 Proof.
-  unfold max_edit_string_matches_entail_wit_1; right; intros.
-  remember 100000 as capacity eqn:Hcapacity.
-  sep_apply_l_atomic (IntArray.undef_full_split_to_undef_seg (&("seg1")) n_pre capacity ltac:(lia)).
-  sep_apply_l_atomic (IntArray.undef_full_split_to_undef_seg (&("seg2")) n_pre capacity ltac:(lia)).
-  sep_apply_l_atomic (IntArray.undef_full_split_to_undef_seg (&("cnt10")) n_pre capacity ltac:(lia)).
-  sep_apply_l_atomic (IntArray.undef_full_split_to_undef_seg (&("cnt11")) n_pre capacity ltac:(lia)).
-  sep_apply_l_atomic (IntArray.undef_full_split_to_undef_seg (&("cnt20")) n_pre capacity ltac:(lia)).
-  sep_apply_l_atomic (IntArray.undef_full_split_to_undef_seg (&("cnt21")) n_pre capacity ltac:(lia)).
-  sep_apply_l_atomic (IntArray.undef_seg_to_undef_full (&("seg1")) 0 n_pre).
-  sep_apply_l_atomic (IntArray.undef_seg_to_undef_full (&("seg2")) 0 n_pre).
-  rewrite ?Z.mul_0_l, ?Z.add_0_r, ?Z.sub_0_r.
-  split_pure_spatial; [edit_cancel | edit_split_pures; dump_pre_spatial; constructor].
+  aggressive_pre_process.
+  - Goal_apply proof_of_max_edit_string_matches_entail_wit_1_split_goal_spatial.
+  - Goal_apply proof_of_max_edit_string_matches_entail_wit_1_split_goal_1.
+  - Goal_apply proof_of_max_edit_string_matches_entail_wit_1_split_goal_2.
+  - Goal_apply proof_of_max_edit_string_matches_entail_wit_1_split_goal_3.
+  - Goal_apply proof_of_max_edit_string_matches_entail_wit_1_split_goal_4.
 Qed. 
 
 Lemma proof_of_max_edit_string_matches_entail_wit_2_split_goal_1 : max_edit_string_matches_entail_wit_2_split_goal_1.
@@ -270,7 +264,6 @@ Proof.
   - Goal_apply proof_of_max_edit_string_matches_entail_wit_2_split_goal_2.
   - Goal_apply proof_of_max_edit_string_matches_entail_wit_2_split_goal_3.
   - Goal_apply proof_of_max_edit_string_matches_entail_wit_2_split_goal_4.
-
 Qed. 
 
 Lemma proof_of_max_edit_string_matches_entail_wit_3_1 : max_edit_string_matches_entail_wit_3_1.

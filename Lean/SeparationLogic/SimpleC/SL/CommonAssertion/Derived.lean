@@ -18,6 +18,9 @@ def canonical : DerivedPredSig Arch Endian CRules := {}
 noncomputable abbrev sizeof_front_end_type : front_end_type -> Int :=
   CNotationSig.sizeof_front_end_type Arch
 
+theorem sizeof_bool : sizeof_front_end_type Arch FET_bool = 1 :=
+  CNotationSig.sizeof_bool Arch
+
 theorem sizeof_int : sizeof_front_end_type Arch FET_int = 4 :=
   CNotationSig.sizeof_int Arch
 
@@ -324,6 +327,15 @@ def undef_store_uchar (x : addr) : CRules.expr :=
   CRules.andp (CRules.coq_prop (isvalidptr_char Arch x))
     (store_byte_noninit CRules x)
 
+def store_bool (x : addr) (value : Int) : CRules.expr :=
+  CRules.andp
+    (CRules.coq_prop (isvalidptr_char Arch x ∧ (value = 0 ∨ value = 1)))
+    (store_byte CRules x value)
+
+def undef_store_bool (x : addr) : CRules.expr :=
+  CRules.andp (CRules.coq_prop (isvalidptr_char Arch x))
+    (store_byte_noninit CRules x)
+
 def store_short (x : addr) (value : Int) : CRules.expr :=
   CRules.andp
     (CRules.coq_prop
@@ -572,6 +584,7 @@ def front_end_type_value : front_end_type -> Type
 def typed_poly_store (type : front_end_type) :
     addr -> front_end_type_value type -> CRules.expr :=
   match type with
+  | FET_bool => store_bool Arch CRules
   | FET_int => store_int Arch Endian CRules
   | FET_char => store_char Arch CRules
   | FET_int64 => store_int64 Arch Endian CRules
@@ -589,6 +602,7 @@ def typed_poly_store (type : front_end_type) :
   | FET_struct _ | FET_union _ | FET_enum _ | FET_alias _ => Invalid_store CRules
 
 def poly_store : front_end_type -> addr -> Int -> CRules.expr
+  | FET_bool => store_bool Arch CRules
   | FET_int => store_int Arch Endian CRules
   | FET_char => store_char Arch CRules
   | FET_int64 => store_int64 Arch Endian CRules
@@ -606,6 +620,7 @@ def poly_store : front_end_type -> addr -> Int -> CRules.expr
   | FET_struct _ | FET_union _ | FET_enum _ | FET_alias _ => Invalid_store CRules
 
 def poly_undef_store : front_end_type -> addr -> CRules.expr
+  | FET_bool => undef_store_bool Arch CRules
   | FET_int => undef_store_int Arch CRules
   | FET_char => undef_store_char Arch CRules
   | FET_int64 => undef_store_int64 Arch CRules
@@ -858,6 +873,8 @@ abbrev store_16byte := DerivedPredSig.store_16byte CArch.BigEndian
 abbrev store_char := DerivedPredSig.store_char CArch.Arch32
 abbrev undef_store_char := DerivedPredSig.undef_store_char CArch.Arch32
 abbrev store_uchar := DerivedPredSig.store_uchar CArch.Arch32
+abbrev store_bool := DerivedPredSig.store_bool CArch.Arch32
+abbrev undef_store_bool := DerivedPredSig.undef_store_bool CArch.Arch32
 abbrev undef_store_uchar := DerivedPredSig.undef_store_uchar CArch.Arch32
 abbrev store_short := DerivedPredSig.store_short CArch.Arch32 CArch.BigEndian
 abbrev undef_store_short := DerivedPredSig.undef_store_short CArch.Arch32

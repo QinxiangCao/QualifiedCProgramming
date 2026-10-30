@@ -157,11 +157,16 @@ Ltac SETS_ELE_transfer_aux_simplify_rec T :=
   end.
 
 Ltac SETS_ELE_transfer_simplify_func T :=
-  let tr := SETS_ELE_transfer_aux_simplify_rec
-              (fun X: T => @SetsEle.set_transfer_aux T Prop _ _
-                              (fun a => @SetsEle.In T _ _ a X)) in
-  let F := eval cbv beta in tr in
-  constr:(F).
+  let T0 := T in
+  match T0 with
+  | Prop => constr:(fun X: Prop => X)
+  | _ =>
+      let tr := SETS_ELE_transfer_aux_simplify_rec
+                  (fun X: T => @SetsEle.set_transfer_aux T Prop _ _
+                                  (fun a => @SetsEle.In T _ _ a X)) in
+      let F := eval cbv beta in tr in
+      constr:(F)
+  end.
 
 Ltac SETS_ELE_transfer_simplify X :=
   match type of X with

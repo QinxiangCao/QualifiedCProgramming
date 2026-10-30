@@ -1731,14 +1731,13 @@ Proof.
     unfold IntPtrArray2.row_blocks.
     rewrite (combine_app row_ptrs [newp] rows [row] Hlen).
     rewrite map_app.
-    rewrite <- derivable1_sepcon_iter_sepcon1.
+    rewrite logic_equiv_iter_sepcon_app.
     unfold IntPtrArray2.row_block.
     change (IntArray.full newp (Zlength row) row)
       with (IntPtrArray2.ElemArray.full newp (Zlength row) row).
-    sep_apply (IntPtrArray2.single_to_iter_sepcon
+    simpl.
+    rewrite (logic_equiv_iter_sepcon_single
       (IntPtrArray2.ElemArray.full newp (Zlength row) row)).
-    simpl map.
-    simpl combine.
     cdcl_entailer.
 Qed.
 
@@ -10167,13 +10166,13 @@ Proof.
 Qed.
 Lemma remove_Znth_app_last__decide_exit_solver_setup :
   forall {A : Type} (l : list A) a,
-    IntPtrArray2.remove_Znth (Z.of_nat (List.length l))
+    remove_Znth (Z.of_nat (List.length l))
       (l ++ a :: nil) = l.
 Proof.
   intros A l.
   induction l as [| b l IHl]; intros a.
   - reflexivity.
-  - unfold IntPtrArray2.remove_Znth in *.
+  - unfold remove_Znth in *.
     rewrite !Nat2Z.id in *.
     simpl in *.
     f_equal.
@@ -10216,11 +10215,11 @@ Proof.
       lia.
     }
     assert (Hremove :
-      IntPtrArray2.remove_Znth live
+      remove_Znth live
         (combine (row_ptrs ++ newp :: nil) (rows ++ row :: nil)) =
       combine row_ptrs rows).
     {
-      unfold IntPtrArray2.remove_Znth.
+      unfold remove_Znth.
       rewrite
         (combine_app row_ptrs (newp :: nil) rows (row :: nil) Hlen).
       simpl combine.

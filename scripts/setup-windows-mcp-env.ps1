@@ -4,7 +4,7 @@ Set-StrictMode -Version Latest
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $qcpVenv = Join-Path $repoRoot "mcp\qcp-mcp\.venv-win"
 $qcpPython = Join-Path $qcpVenv "Scripts\python.exe"
-$qcpBin = Join-Path $repoRoot "win-binary\mcp.exe"
+$qcpBin = Join-Path $repoRoot "bin\windows\mcp.exe"
 
 foreach ($path in @($qcpPython, $qcpBin)) {
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {

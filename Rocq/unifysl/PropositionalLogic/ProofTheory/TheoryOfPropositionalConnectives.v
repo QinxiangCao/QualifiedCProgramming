@@ -12,6 +12,7 @@ if possible, write about from Coq prop to true and false*)
 
 Require Import Logic.GeneralLogic.Base.
 Require Import Logic.GeneralLogic.ProofTheory.BasicSequentCalculus.
+Require Import Logic.GeneralLogic.ProofTheory.BasicDeduction.
 Require Import Logic.MinimumLogic.Syntax.
 Require Import Logic.MinimumLogic.ProofTheory.Minimum.
 Require Import Logic.MinimumLogic.ProofTheory.RewriteClass.
@@ -99,6 +100,36 @@ Class FalseDefinition_Neg_True
   negp_truep2falsep:
   FF = ~~ TT
 }.
+
+Section IffDeductionFromDefinition.
+
+Context {L: Language}
+        {minL: MinimumLanguage L}
+        {andpL: AndLanguage L}
+        {iffpL: IffLanguage L}
+        {GammaD1: Derivable1 L}
+        {iffpDef: IffDefinition_And_Imp L}
+        {bD: BasicDeduction L GammaD1}
+        {adjD: ImpAndAdjointDeduction L GammaD1}
+        {andpD: AndDeduction L GammaD1}.
+
+Lemma IffDefinitionAndImp2IffDeduction:
+  IffDeduction L GammaD1.
+Proof.
+  constructor.
+  - intros x y.
+    rewrite andp_impp2iffp.
+    apply derivable1s_impp_andp_adjoint.
+    apply derivable1_refl.
+  - intros x y.
+    rewrite andp_impp2iffp.
+    apply derivable1_andp_elim1.
+  - intros x y.
+    rewrite andp_impp2iffp.
+    apply derivable1_andp_elim2.
+Qed.
+
+End IffDeductionFromDefinition.
 
 Definition OrNeg2And
            {L: Language}
@@ -436,4 +467,3 @@ Tactic Notation "AddConnective_truep_impp_self" :=
 
 Tactic Notation "AddConnective_truep_impp_self" constr(x) :=
   AddConnective_truep_impp_self_tac1 x.
-

@@ -523,7 +523,7 @@ noncomputable def euler_phi_return_wit_3_split_goal_1 : Prop :=
   (EulerPhi value_pre result)
 
 noncomputable def modular_power_safety_wit_1 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (PreH1 : ((0 : Int) <= base_pre)) (PreH2 : (base_pre < modulus_pre)) (PreH3 : ((0 : Int) <= exponent_pre)) (PreH4 : (2 <= modulus_pre)) (PreH5 : (modulus_pre <= 46341)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (PreH1 : ((0 : Int) <= base_pre)) (PreH2 : (base_pre < modulus_pre)) (PreH3 : ((0 : Int) <= exponent_pre)) (PreH4 : (2 <= modulus_pre)) (PreH5 : (modulus_pre <= 46341)) ,
   ((( &( "result" ) )) # Int |->_)
   ** ((( &( "base" ) )) # Int |-> (base_pre))
   ** ((( &( "exponent" ) )) # Int |-> (exponent_pre))
@@ -533,7 +533,7 @@ noncomputable def modular_power_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def modular_power_safety_wit_2 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : (2 <= modulus_pre)) (PreH2 : (modulus_pre <= 46341)) (PreH3 : ((0 : Int) <= base)) (PreH4 : (base < modulus_pre)) (PreH5 : ((0 : Int) <= exponent)) (PreH6 : ((0 : Int) <= result)) (PreH7 : (result < modulus_pre)) (PreH8 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : (2 <= modulus_pre)) (PreH2 : (modulus_pre <= 46341)) (PreH3 : ((0 : Int) <= base)) (PreH4 : (base < modulus_pre)) (PreH5 : ((0 : Int) <= exponent)) (PreH6 : ((0 : Int) <= result)) (PreH7 : (result < modulus_pre)) (PreH8 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "base" ) )) # Int |-> (base))
   ** ((( &( "exponent" ) )) # Int |-> (exponent))
@@ -543,7 +543,7 @@ noncomputable def modular_power_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def modular_power_safety_wit_3 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : (exponent > (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 46341)) (PreH4 : ((0 : Int) <= base)) (PreH5 : (base < modulus_pre)) (PreH6 : ((0 : Int) <= exponent)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : (exponent > (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 46341)) (PreH4 : ((0 : Int) <= base)) (PreH5 : (base < modulus_pre)) (PreH6 : ((0 : Int) <= exponent)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "base" ) )) # Int |-> (base))
   ** ((( &( "exponent" ) )) # Int |-> (exponent))
@@ -553,7 +553,7 @@ noncomputable def modular_power_safety_wit_3 : Prop :=
   “ (2 ≠ (0 : Int)) ”
 
 noncomputable def modular_power_safety_wit_4 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : (exponent > (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 46341)) (PreH4 : ((0 : Int) <= base)) (PreH5 : (base < modulus_pre)) (PreH6 : ((0 : Int) <= exponent)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : (exponent > (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 46341)) (PreH4 : ((0 : Int) <= base)) (PreH5 : (base < modulus_pre)) (PreH6 : ((0 : Int) <= exponent)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "base" ) )) # Int |-> (base))
   ** ((( &( "exponent" ) )) # Int |-> (exponent))
@@ -563,7 +563,7 @@ noncomputable def modular_power_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def modular_power_safety_wit_5 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : (exponent > (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 46341)) (PreH4 : ((0 : Int) <= base)) (PreH5 : (base < modulus_pre)) (PreH6 : ((0 : Int) <= exponent)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : (exponent > (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 46341)) (PreH4 : ((0 : Int) <= base)) (PreH5 : (base < modulus_pre)) (PreH6 : ((0 : Int) <= exponent)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "base" ) )) # Int |-> (base))
   ** ((( &( "exponent" ) )) # Int |-> (exponent))
@@ -573,7 +573,7 @@ noncomputable def modular_power_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def modular_power_safety_wit_6 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "base" ) )) # Int |-> (base))
   ** ((( &( "exponent" ) )) # Int |-> (exponent))
@@ -583,7 +583,7 @@ noncomputable def modular_power_safety_wit_6 : Prop :=
   “ (modulus_pre ≠ (0 : Int)) ”
 
 noncomputable def modular_power_safety_wit_7 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "base" ) )) # Int |-> (base))
   ** ((( &( "exponent" ) )) # Int |-> (exponent))
@@ -593,7 +593,7 @@ noncomputable def modular_power_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= (result * base)) ”
 
 noncomputable def modular_power_safety_wit_8 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "base" ) )) # Int |-> (base))
   ** ((( &( "exponent" ) )) # Int |-> (exponent))
@@ -603,7 +603,7 @@ noncomputable def modular_power_safety_wit_8 : Prop :=
   “ (modulus_pre ≠ (0 : Int)) ”
 
 noncomputable def modular_power_safety_wit_9 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "base" ) )) # Int |-> (base))
   ** ((( &( "exponent" ) )) # Int |-> (exponent))
@@ -613,7 +613,7 @@ noncomputable def modular_power_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= (base * base)) ”
 
 noncomputable def modular_power_safety_wit_10 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "base" ) )) # Int |-> (base))
   ** ((( &( "exponent" ) )) # Int |-> (exponent))
@@ -623,7 +623,7 @@ noncomputable def modular_power_safety_wit_10 : Prop :=
   “ (modulus_pre ≠ (0 : Int)) ”
 
 noncomputable def modular_power_safety_wit_11 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "base" ) )) # Int |-> (base))
   ** ((( &( "exponent" ) )) # Int |-> (exponent))
@@ -633,7 +633,7 @@ noncomputable def modular_power_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= (base * base)) ”
 
 noncomputable def modular_power_safety_wit_12 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "base" ) )) # Int |-> ((Z.rem (base * base) modulus_pre)))
   ** ((( &( "exponent" ) )) # Int |-> (exponent))
@@ -643,7 +643,7 @@ noncomputable def modular_power_safety_wit_12 : Prop :=
   “ (2 ≠ (0 : Int)) ”
 
 noncomputable def modular_power_safety_wit_13 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "base" ) )) # Int |-> ((Z.rem (base * base) modulus_pre)))
   ** ((( &( "exponent" ) )) # Int |-> (exponent))
@@ -653,7 +653,7 @@ noncomputable def modular_power_safety_wit_13 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def modular_power_safety_wit_14 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "base" ) )) # Int |-> ((Z.rem (base * base) modulus_pre)))
   ** ((( &( "exponent" ) )) # Int |-> (exponent))
@@ -663,7 +663,7 @@ noncomputable def modular_power_safety_wit_14 : Prop :=
   “ (2 ≠ (0 : Int)) ”
 
 noncomputable def modular_power_safety_wit_15 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((( &( "modulus" ) )) # Int |-> (modulus_pre))
   ** ((( &( "base" ) )) # Int |-> ((Z.rem (base * base) modulus_pre)))
   ** ((( &( "exponent" ) )) # Int |-> (exponent))
@@ -674,7 +674,7 @@ noncomputable def modular_power_safety_wit_15 : Prop :=
 
 noncomputable def modular_power_entail_wit_1 : Prop :=
   (
-forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (PreH1 : ((0 : Int) <= base_pre)) (PreH2 : (base_pre < modulus_pre)) (PreH3 : ((0 : Int) <= exponent_pre)) (PreH4 : (2 <= modulus_pre)) (PreH5 : (modulus_pre <= 46341)) ,
+forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (PreH1 : ((0 : Int) <= base_pre)) (PreH2 : (base_pre < modulus_pre)) (PreH3 : ((0 : Int) <= exponent_pre)) (PreH4 : (2 <= modulus_pre)) (PreH5 : (modulus_pre <= 46341)) ,
   TT && emp 
 |--
   “ (2 <= modulus_pre) ” &&
@@ -688,7 +688,7 @@ forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (PreH1 : ((0 : 
   &&  emp
 ) \/
 (
-forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (PreH1 : ((0 : Int) <= base_pre)) (PreH2 : (base_pre < modulus_pre)) (PreH3 : ((0 : Int) <= exponent_pre)) (PreH4 : (2 <= modulus_pre)) (PreH5 : (modulus_pre <= 46341)) ,
+forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (PreH1 : ((0 : Int) <= base_pre)) (PreH2 : (base_pre < modulus_pre)) (PreH3 : ((0 : Int) <= exponent_pre)) (PreH4 : (2 <= modulus_pre)) (PreH5 : (modulus_pre <= 46341)) ,
   TT && emp 
 |--
   “ (EulerModularPowerProgress base_pre exponent_pre modulus_pre base_pre exponent_pre 1) ”
@@ -696,12 +696,12 @@ forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (PreH1 : ((0 : 
 )
 
 noncomputable def modular_power_entail_wit_1_split_goal_1 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (PreH1 : ((0 : Int) <= base_pre)) (PreH2 : (base_pre < modulus_pre)) (PreH3 : ((0 : Int) <= exponent_pre)) (PreH4 : (2 <= modulus_pre)) (PreH5 : (modulus_pre <= 46341)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (PreH1 : ((0 : Int) <= base_pre)) (PreH2 : (base_pre < modulus_pre)) (PreH3 : ((0 : Int) <= exponent_pre)) (PreH4 : (2 <= modulus_pre)) (PreH5 : (modulus_pre <= 46341)) ,
   (EulerModularPowerProgress base_pre exponent_pre modulus_pre base_pre exponent_pre 1)
 
 noncomputable def modular_power_entail_wit_2_1 : Prop :=
   (
-forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   TT && emp 
 |--
   “ (2 <= modulus_pre) ” &&
@@ -715,7 +715,7 @@ forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) 
   &&  emp
 ) \/
 (
-forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   TT && emp 
 |--
   “ (EulerModularPowerProgress base_pre exponent_pre modulus_pre (Z.rem (base * base) modulus_pre) (Z.quot exponent 2) (Z.rem (result * base) modulus_pre)) ” &&
@@ -728,32 +728,32 @@ forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) 
 )
 
 noncomputable def modular_power_entail_wit_2_1_split_goal_1 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   (EulerModularPowerProgress base_pre exponent_pre modulus_pre (Z.rem (base * base) modulus_pre) (Z.quot exponent 2) (Z.rem (result * base) modulus_pre))
 
 noncomputable def modular_power_entail_wit_2_1_split_goal_2 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((Z.rem (result * base) modulus_pre) < modulus_pre)
 
 noncomputable def modular_power_entail_wit_2_1_split_goal_3 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((0 : Int) <= (Z.rem (result * base) modulus_pre))
 
 noncomputable def modular_power_entail_wit_2_1_split_goal_4 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((0 : Int) <= (Z.quot exponent 2))
 
 noncomputable def modular_power_entail_wit_2_1_split_goal_5 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((Z.rem (base * base) modulus_pre) < modulus_pre)
 
 noncomputable def modular_power_entail_wit_2_1_split_goal_6 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) = 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((0 : Int) <= (Z.rem (base * base) modulus_pre))
 
 noncomputable def modular_power_entail_wit_2_2 : Prop :=
   (
-forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   TT && emp 
 |--
   “ (2 <= modulus_pre) ” &&
@@ -767,7 +767,7 @@ forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) 
   &&  emp
 ) \/
 (
-forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   TT && emp 
 |--
   “ (EulerModularPowerProgress base_pre exponent_pre modulus_pre (Z.rem (base * base) modulus_pre) (Z.quot exponent 2) result) ” &&
@@ -778,24 +778,24 @@ forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) 
 )
 
 noncomputable def modular_power_entail_wit_2_2_split_goal_1 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   (EulerModularPowerProgress base_pre exponent_pre modulus_pre (Z.rem (base * base) modulus_pre) (Z.quot exponent 2) result)
 
 noncomputable def modular_power_entail_wit_2_2_split_goal_2 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((0 : Int) <= (Z.quot exponent 2))
 
 noncomputable def modular_power_entail_wit_2_2_split_goal_3 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((Z.rem (base * base) modulus_pre) < modulus_pre)
 
 noncomputable def modular_power_entail_wit_2_2_split_goal_4 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : ((Z.rem exponent 2) ≠ 1)) (PreH2 : (exponent > (0 : Int))) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((0 : Int) <= base)) (PreH6 : (base < modulus_pre)) (PreH7 : ((0 : Int) <= exponent)) (PreH8 : ((0 : Int) <= result)) (PreH9 : (result < modulus_pre)) (PreH10 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   ((0 : Int) <= (Z.rem (base * base) modulus_pre))
 
 noncomputable def modular_power_return_wit_1 : Prop :=
   (
-forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : (exponent <= (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 46341)) (PreH4 : ((0 : Int) <= base)) (PreH5 : (base < modulus_pre)) (PreH6 : ((0 : Int) <= exponent)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : (exponent <= (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 46341)) (PreH4 : ((0 : Int) <= base)) (PreH5 : (base < modulus_pre)) (PreH6 : ((0 : Int) <= exponent)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   TT && emp 
 |--
   “ ((0 : Int) <= result) ” &&
@@ -804,7 +804,7 @@ forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) 
   &&  emp
 ) \/
 (
-forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : (exponent <= (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 46341)) (PreH4 : ((0 : Int) <= base)) (PreH5 : (base < modulus_pre)) (PreH6 : ((0 : Int) <= exponent)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : (exponent <= (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 46341)) (PreH4 : ((0 : Int) <= base)) (PreH5 : (base < modulus_pre)) (PreH6 : ((0 : Int) <= exponent)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   TT && emp 
 |--
   “ (ModularPower base_pre exponent_pre modulus_pre result) ”
@@ -812,11 +812,11 @@ forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) 
 )
 
 noncomputable def modular_power_return_wit_1_split_goal_1 : Prop :=
-  forall (modulus_pre : Int) (exponent_pre : Int) (base_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : (exponent <= (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 46341)) (PreH4 : ((0 : Int) <= base)) (PreH5 : (base < modulus_pre)) (PreH6 : ((0 : Int) <= exponent)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
+  forall (base_pre : Int) (exponent_pre : Int) (modulus_pre : Int) (result : Int) (exponent : Int) (base : Int) (PreH1 : (exponent <= (0 : Int))) (PreH2 : (2 <= modulus_pre)) (PreH3 : (modulus_pre <= 46341)) (PreH4 : ((0 : Int) <= base)) (PreH5 : (base < modulus_pre)) (PreH6 : ((0 : Int) <= exponent)) (PreH7 : ((0 : Int) <= result)) (PreH8 : (result < modulus_pre)) (PreH9 : (EulerModularPowerProgress base_pre exponent_pre modulus_pre base exponent result)) ,
   (ModularPower base_pre exponent_pre modulus_pre result)
 
 noncomputable def euler_theorem_inverse_safety_wit_1 : Prop :=
-  forall (modulus_pre : Int) (value_pre : Int) (retval : Int) (PreH1 : (1 <= retval)) (PreH2 : (retval <= modulus_pre)) (PreH3 : (EulerPhi modulus_pre retval)) (PreH4 : ((0 : Int) < value_pre)) (PreH5 : (value_pre < modulus_pre)) (PreH6 : (2 <= modulus_pre)) (PreH7 : (modulus_pre <= 46341)) (PreH8 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
+  forall (value_pre : Int) (modulus_pre : Int) (retval : Int) (PreH1 : (1 <= retval)) (PreH2 : (retval <= modulus_pre)) (PreH3 : (EulerPhi modulus_pre retval)) (PreH4 : ((0 : Int) < value_pre)) (PreH5 : (value_pre < modulus_pre)) (PreH6 : (2 <= modulus_pre)) (PreH7 : (modulus_pre <= 46341)) (PreH8 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
   ((( &( "exponent" ) )) # Int |->_)
   ** ((( &( "value" ) )) # Int |-> (value_pre))
   ** ((( &( "modulus" ) )) # Int |-> (modulus_pre))
@@ -825,7 +825,7 @@ noncomputable def euler_theorem_inverse_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (retval - 1)) ”
 
 noncomputable def euler_theorem_inverse_safety_wit_2 : Prop :=
-  forall (modulus_pre : Int) (value_pre : Int) (retval : Int) (PreH1 : (1 <= retval)) (PreH2 : (retval <= modulus_pre)) (PreH3 : (EulerPhi modulus_pre retval)) (PreH4 : ((0 : Int) < value_pre)) (PreH5 : (value_pre < modulus_pre)) (PreH6 : (2 <= modulus_pre)) (PreH7 : (modulus_pre <= 46341)) (PreH8 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
+  forall (value_pre : Int) (modulus_pre : Int) (retval : Int) (PreH1 : (1 <= retval)) (PreH2 : (retval <= modulus_pre)) (PreH3 : (EulerPhi modulus_pre retval)) (PreH4 : ((0 : Int) < value_pre)) (PreH5 : (value_pre < modulus_pre)) (PreH6 : (2 <= modulus_pre)) (PreH7 : (modulus_pre <= 46341)) (PreH8 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
   ((( &( "exponent" ) )) # Int |->_)
   ** ((( &( "value" ) )) # Int |-> (value_pre))
   ** ((( &( "modulus" ) )) # Int |-> (modulus_pre))
@@ -835,7 +835,7 @@ noncomputable def euler_theorem_inverse_safety_wit_2 : Prop :=
 
 noncomputable def euler_theorem_inverse_return_wit_1 : Prop :=
   (
-forall (modulus_pre : Int) (value_pre : Int) (retval_2 : Int) (retval : Int) (PreH1 : ((0 : Int) <= retval)) (PreH2 : (retval < modulus_pre)) (PreH3 : (ModularPower value_pre (retval_2 - 1) modulus_pre retval)) (PreH4 : (1 <= retval_2)) (PreH5 : (retval_2 <= modulus_pre)) (PreH6 : (EulerPhi modulus_pre retval_2)) (PreH7 : ((0 : Int) < value_pre)) (PreH8 : (value_pre < modulus_pre)) (PreH9 : (2 <= modulus_pre)) (PreH10 : (modulus_pre <= 46341)) (PreH11 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
+forall (value_pre : Int) (modulus_pre : Int) (retval_2 : Int) (retval : Int) (PreH1 : ((0 : Int) <= retval)) (PreH2 : (retval < modulus_pre)) (PreH3 : (ModularPower value_pre (retval_2 - 1) modulus_pre retval)) (PreH4 : (1 <= retval_2)) (PreH5 : (retval_2 <= modulus_pre)) (PreH6 : (EulerPhi modulus_pre retval_2)) (PreH7 : ((0 : Int) < value_pre)) (PreH8 : (value_pre < modulus_pre)) (PreH9 : (2 <= modulus_pre)) (PreH10 : (modulus_pre <= 46341)) (PreH11 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
   TT && emp 
 |--
   “ ((0 : Int) <= retval) ” &&
@@ -844,7 +844,7 @@ forall (modulus_pre : Int) (value_pre : Int) (retval_2 : Int) (retval : Int) (Pr
   &&  emp
 ) \/
 (
-forall (modulus_pre : Int) (value_pre : Int) (retval_2 : Int) (retval : Int) (PreH1 : ((0 : Int) <= retval)) (PreH2 : (retval < modulus_pre)) (PreH3 : (ModularPower value_pre (retval_2 - 1) modulus_pre retval)) (PreH4 : (1 <= retval_2)) (PreH5 : (retval_2 <= modulus_pre)) (PreH6 : (EulerPhi modulus_pre retval_2)) (PreH7 : ((0 : Int) < value_pre)) (PreH8 : (value_pre < modulus_pre)) (PreH9 : (2 <= modulus_pre)) (PreH10 : (modulus_pre <= 46341)) (PreH11 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
+forall (value_pre : Int) (modulus_pre : Int) (retval_2 : Int) (retval : Int) (PreH1 : ((0 : Int) <= retval)) (PreH2 : (retval < modulus_pre)) (PreH3 : (ModularPower value_pre (retval_2 - 1) modulus_pre retval)) (PreH4 : (1 <= retval_2)) (PreH5 : (retval_2 <= modulus_pre)) (PreH6 : (EulerPhi modulus_pre retval_2)) (PreH7 : ((0 : Int) < value_pre)) (PreH8 : (value_pre < modulus_pre)) (PreH9 : (2 <= modulus_pre)) (PreH10 : (modulus_pre <= 46341)) (PreH11 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
   TT && emp 
 |--
   “ (EulerTheoremInverse value_pre modulus_pre retval) ”
@@ -852,11 +852,11 @@ forall (modulus_pre : Int) (value_pre : Int) (retval_2 : Int) (retval : Int) (Pr
 )
 
 noncomputable def euler_theorem_inverse_return_wit_1_split_goal_1 : Prop :=
-  forall (modulus_pre : Int) (value_pre : Int) (retval_2 : Int) (retval : Int) (PreH1 : ((0 : Int) <= retval)) (PreH2 : (retval < modulus_pre)) (PreH3 : (ModularPower value_pre (retval_2 - 1) modulus_pre retval)) (PreH4 : (1 <= retval_2)) (PreH5 : (retval_2 <= modulus_pre)) (PreH6 : (EulerPhi modulus_pre retval_2)) (PreH7 : ((0 : Int) < value_pre)) (PreH8 : (value_pre < modulus_pre)) (PreH9 : (2 <= modulus_pre)) (PreH10 : (modulus_pre <= 46341)) (PreH11 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
+  forall (value_pre : Int) (modulus_pre : Int) (retval_2 : Int) (retval : Int) (PreH1 : ((0 : Int) <= retval)) (PreH2 : (retval < modulus_pre)) (PreH3 : (ModularPower value_pre (retval_2 - 1) modulus_pre retval)) (PreH4 : (1 <= retval_2)) (PreH5 : (retval_2 <= modulus_pre)) (PreH6 : (EulerPhi modulus_pre retval_2)) (PreH7 : ((0 : Int) < value_pre)) (PreH8 : (value_pre < modulus_pre)) (PreH9 : (2 <= modulus_pre)) (PreH10 : (modulus_pre <= 46341)) (PreH11 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
   (EulerTheoremInverse value_pre modulus_pre retval)
 
 noncomputable def euler_theorem_inverse_partial_solve_wit_1_pure : Prop :=
-  forall (modulus_pre : Int) (value_pre : Int) (PreH1 : ((0 : Int) < value_pre)) (PreH2 : (value_pre < modulus_pre)) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
+  forall (value_pre : Int) (modulus_pre : Int) (PreH1 : ((0 : Int) < value_pre)) (PreH2 : (value_pre < modulus_pre)) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
   ((( &( "exponent" ) )) # Int |->_)
   ** ((( &( "value" ) )) # Int |-> (value_pre))
   ** ((( &( "modulus" ) )) # Int |-> (modulus_pre))
@@ -865,7 +865,7 @@ noncomputable def euler_theorem_inverse_partial_solve_wit_1_pure : Prop :=
   “ (modulus_pre <= 46341) ”
 
 noncomputable def euler_theorem_inverse_partial_solve_wit_1_aux : Prop :=
-  forall (modulus_pre : Int) (value_pre : Int) (PreH1 : ((0 : Int) < value_pre)) (PreH2 : (value_pre < modulus_pre)) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
+  forall (value_pre : Int) (modulus_pre : Int) (PreH1 : ((0 : Int) < value_pre)) (PreH2 : (value_pre < modulus_pre)) (PreH3 : (2 <= modulus_pre)) (PreH4 : (modulus_pre <= 46341)) (PreH5 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
   TT && emp 
 |--
   “ (2 <= modulus_pre) ” &&
@@ -880,7 +880,7 @@ noncomputable def euler_theorem_inverse_partial_solve_wit_1_aux : Prop :=
 noncomputable def euler_theorem_inverse_partial_solve_wit_1 : Prop := euler_theorem_inverse_partial_solve_wit_1_pure -> euler_theorem_inverse_partial_solve_wit_1_aux
 
 noncomputable def euler_theorem_inverse_partial_solve_wit_2_pure : Prop :=
-  forall (modulus_pre : Int) (value_pre : Int) (retval : Int) (PreH1 : (1 <= retval)) (PreH2 : (retval <= modulus_pre)) (PreH3 : (EulerPhi modulus_pre retval)) (PreH4 : ((0 : Int) < value_pre)) (PreH5 : (value_pre < modulus_pre)) (PreH6 : (2 <= modulus_pre)) (PreH7 : (modulus_pre <= 46341)) (PreH8 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
+  forall (value_pre : Int) (modulus_pre : Int) (retval : Int) (PreH1 : (1 <= retval)) (PreH2 : (retval <= modulus_pre)) (PreH3 : (EulerPhi modulus_pre retval)) (PreH4 : ((0 : Int) < value_pre)) (PreH5 : (value_pre < modulus_pre)) (PreH6 : (2 <= modulus_pre)) (PreH7 : (modulus_pre <= 46341)) (PreH8 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
   ((( &( "exponent" ) )) # Int |-> ((retval - 1)))
   ** ((( &( "value" ) )) # Int |-> (value_pre))
   ** ((( &( "modulus" ) )) # Int |-> (modulus_pre))
@@ -892,7 +892,7 @@ noncomputable def euler_theorem_inverse_partial_solve_wit_2_pure : Prop :=
   “ (modulus_pre <= 46341) ”
 
 noncomputable def euler_theorem_inverse_partial_solve_wit_2_aux : Prop :=
-  forall (modulus_pre : Int) (value_pre : Int) (retval : Int) (PreH1 : (1 <= retval)) (PreH2 : (retval <= modulus_pre)) (PreH3 : (EulerPhi modulus_pre retval)) (PreH4 : ((0 : Int) < value_pre)) (PreH5 : (value_pre < modulus_pre)) (PreH6 : (2 <= modulus_pre)) (PreH7 : (modulus_pre <= 46341)) (PreH8 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
+  forall (value_pre : Int) (modulus_pre : Int) (retval : Int) (PreH1 : (1 <= retval)) (PreH2 : (retval <= modulus_pre)) (PreH3 : (EulerPhi modulus_pre retval)) (PreH4 : ((0 : Int) < value_pre)) (PreH5 : (value_pre < modulus_pre)) (PreH6 : (2 <= modulus_pre)) (PreH7 : (modulus_pre <= 46341)) (PreH8 : ((Zgcd (value_pre) (modulus_pre)) = 1)) ,
   TT && emp 
 |--
   “ ((0 : Int) <= value_pre) ” &&

@@ -45,13 +45,13 @@ id : 8
 priority : core(6)
 left : sll(?p : Z, ?l) at 0
        (p != NULL || NULL != p) at 1
-right : (store(field_addr(p, list, data), I32, ?q : Z) || store(field_addr(p, list, next), PTR(struct list), ?q : Z)) at 2
+right : (store(field_addr(p, list, data), I32, ?q : Z) || store(field_addr(p, list, next), PTR, ?q : Z)) at 2
 action : left_erase(0);
          left_exist_add(x : Z);
          left_exist_add(y : Z);
          left_exist_add(l0);
          left_add(store(field_addr(p, list, data), I32, x));
-         left_add(store(field_addr(p, list, next), PTR(struct list), y));
+         left_add(store(field_addr(p, list, next), PTR, y));
          left_add(sll(y, l0));
          left_add(l == cons{Z}(x, l0));
 
@@ -64,7 +64,7 @@ action : right_erase(1);
          right_exist_add(y : Z);
          right_exist_add(l0);
          right_add(store(field_addr(p, list, data), I32, x));
-         right_add(store(field_addr(p, list, next), PTR(struct list), y));
+         right_add(store(field_addr(p, list, next), PTR, y));
          right_add(sll(y, l0));
          right_add(l == cons{Z}(x, l0));
 
@@ -80,7 +80,7 @@ action: left_erase(0);
 
 id : 11
 priority : core(4)
-left : (store(field_addr(?p, list, data), I32, ?q : Z) || store(field_addr(?p, list, next), PTR(struct list), ?q : Z)) at 0
+left : (store(field_addr(?p, list, data), I32, ?q : Z) || store(field_addr(?p, list, next), PTR, ?q : Z)) at 0
        (p != NULL || NULL != p) at 1
 right : sll(p, ?l) at 2
 action : right_erase(2);
@@ -88,7 +88,7 @@ action : right_erase(2);
          right_exist_add(y : Z);
          right_exist_add(l0);
          right_add(store(field_addr(p, list, data), I32, x));
-         right_add(store(field_addr(p, list, next), PTR(struct list), y));
+         right_add(store(field_addr(p, list, next), PTR, y));
          right_add(sll(y, l0));
          right_add(l == cons{Z}(x, l0));
 
@@ -102,14 +102,14 @@ action : right_erase(0);
 id : 15
 priority : core(0)
 right : sllseg(?p : Z, p, ?l) at 0
-        (store(field_addr(p, list, data), I32, ?q : Z) || store(field_addr(p, list, next), PTR(struct list), ?q : Z)) at 1
+        (store(field_addr(p, list, data), I32, ?q : Z) || store(field_addr(p, list, next), PTR, ?q : Z)) at 1
 action : right_erase(0);
          right_add(l == nil{Z});
 
 id : 16
 priority : core(3)
 left : sllseg(?p : Z, ?q, ?l1) at 0
-        store(field_addr(q, list, next), PTR(struct list), ?z : Z) at 1
+        store(field_addr(q, list, next), PTR, ?z : Z) at 1
         (q != NULL || NULL != q) at 2
 right : sllseg(p, z, ?l2) at 3
 action : left_erase(0);
@@ -121,7 +121,7 @@ action : left_erase(0);
 
 id : 17
 priority : core(4)
-left : store(field_addr(?p, list, next), PTR(struct list), ?q : Z) at 0
+left : store(field_addr(?p, list, next), PTR, ?q : Z) at 0
        (p != NULL || NULL != p) at 1
 right : sllseg(p, ?z, ?l) at 2
 action : right_erase(2);
@@ -129,7 +129,7 @@ action : right_erase(2);
          right_exist_add(y : Z);
          right_exist_add(l0);
          right_add(store(field_addr(p, list, data), I32, x));
-         right_add(store(field_addr(p, list, next), PTR(struct list), y));
+         right_add(store(field_addr(p, list, next), PTR, y));
          right_add(sllseg(y, z, l0));
          right_add(l == cons{Z}(x, l0));
 
@@ -191,13 +191,13 @@ priority : core(6)
 left : sllseg(?p : Z, ?q : Z, ?l) at 0
        (p != q || q != p) at 1
        (p != NULL || NULL != p) at 2
-right : (store(field_addr(p, list, data), I32, ?v : Z) || store(field_addr(p, list, next), PTR(struct list), ?n : Z)) at 3
+right : (store(field_addr(p, list, data), I32, ?v : Z) || store(field_addr(p, list, next), PTR, ?n : Z)) at 3
 action : left_erase(0);
          left_exist_add(x : Z);
          left_exist_add(y : Z);
          left_exist_add(l0);
          left_add(store(field_addr(p, list, data), I32, x));
-         left_add(store(field_addr(p, list, next), PTR(struct list), y));
+         left_add(store(field_addr(p, list, next), PTR, y));
          left_add(sllseg(y, q, l0));
          left_add(l == cons{Z}(x, l0));
 

@@ -177,13 +177,13 @@ PATH，确保 controller direct check 和 Dune 子进程使用同一套 Coq 8.20
 直接运行 Windows QCP binary：
 
 ```powershell
-.\win-binary\symexec.exe --help
+.\bin\windows\symexec.exe --help
 ```
 
-仓库 example runner 面向 Rocq，可从 PowerShell 启动：
+仓库 example runner 面向 Rocq，需要 Python 3，可从 PowerShell 启动：
 
 ```powershell
-.\run-example-windows.cmd
+python .\scripts\generate.py
 ```
 
 只使用 Lean 时运行 `run-example-lean-windows.cmd`。命令行选项、预处理、CRules import 与
@@ -192,7 +192,7 @@ Rocq/Lean 生成示例见 [qcp-cli.md](qcp-cli.md)。
 ## 六、MCP
 
 MCP 是可选组件，按 [mcp-setup.md](mcp-setup.md) 单独配置。基础 verification setup 不要求
-`win-binary\mcp.exe`，也不设置 `QCP_MCP_EXE`；需要 MCP 时才额外 dot-source：
+`bin\windows\mcp.exe`，也不设置 `QCP_MCP_EXE`；需要 MCP 时才额外 dot-source：
 
 ```powershell
 . .\scripts\setup-windows-mcp-env.ps1

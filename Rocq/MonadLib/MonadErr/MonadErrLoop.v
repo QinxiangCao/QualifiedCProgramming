@@ -1182,6 +1182,8 @@ Tactic Notation "unfold_loop" "in" hyp(H) :=
 (*  the predicate [fun s => P : Σ -> Prop].  The loop index [i] of FOR is a [Z] bound in the body.            *)
 (*                                                                                                          *)
 
+Module MonadErrProgNotations.
+
 Declare Scope progerr_scope.
 Delimit Scope progerr_scope with progerr.
 
@@ -1249,3 +1251,5 @@ Notation "'REPEAT' ' p 'FROM' a0 'DO' c 'END'" :=
 Notation "'BREAK' e" := (break e) (at level 50) : progerr_scope.
 Notation "'NEXT' a" := (continue a) (at level 50) : progerr_scope.
 Notation "'CONTINUE'" := (continue tt) (at level 0) : progerr_scope.
+
+End MonadErrProgNotations.

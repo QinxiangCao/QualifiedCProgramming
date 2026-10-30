@@ -668,20 +668,20 @@ long long superPiano(
       SuperPianoAnswerByPrefix(ps, n, L, R, k, ans) &&
       -9223372036854775808 <= ans && ans <= 9223372036854775807 &&
       IntArray::full(arr, n, l) *
-      IntArray::undef_full(pointer_offset(prefix, 0, sizeof(int), int), n + 1) *
-      IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n + 1, 100001) *
-      IntArray::undef_full(pointer_offset(st, 0, sizeof(int), int), (n + 1) * 17) *
-      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n + 1) * 17, 1700017) *
-      IntArray::undef_full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap) *
-      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap) *
-      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap) *
-      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap) *
-      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap) *
-      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) &&
+      IntArray::undef_full(pointer_offset(prefix, 0, int), n + 1) *
+      IntArray::undef_seg(pointer_offset(prefix, 0, int), n + 1, 100001) *
+      IntArray::undef_full(pointer_offset(st, 0, int), (n + 1) * 17) *
+      IntArray::undef_seg(pointer_offset(st, 0, int), (n + 1) * 17, 1700017) *
+      IntArray::undef_full(pointer_offset(heap_value, 0, int), heap_cap) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, int), heap_cap, 200000) *
+      IntArray::undef_full(pointer_offset(heap_start, 0, int), heap_cap) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, int), heap_cap, 200000) *
+      IntArray::undef_full(pointer_offset(heap_lo, 0, int), heap_cap) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, int), heap_cap, 200000) *
+      IntArray::undef_full(pointer_offset(heap_hi, 0, int), heap_cap) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, int), heap_cap, 200000) *
+      IntArray::undef_full(pointer_offset(heap_best, 0, int), heap_cap) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, int), heap_cap, 200000) &&
       Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
  */
 
@@ -698,21 +698,21 @@ long long superPiano(
       Zlength(st_slots) == (n@pre + 1) * 17 &&
       Forall(Z::le(INT_MIN), ps) && Forall(Z::ge(INT_MAX), ps) &&
       SuperPianoAnswerByPrefix(ps, n@pre, L@pre, R@pre, k@pre, ans) &&
-      IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
-      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
-      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(prefix, 0, int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, int), heap_cap, 200000) *
       IntArray::full(arr@pre, n@pre, l) *
-      IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
-      IntArray::undef_full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17) *
-      IntArray::undef_full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap) *
-      IntArray::undef_full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap) *
-      IntArray::undef_full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap) *
-      IntArray::undef_full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap) *
-      IntArray::undef_full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap) &&
+      IntArray::full(pointer_offset(prefix, 0, int), n@pre + 1, ps) *
+      IntArray::undef_full(pointer_offset(st, 0, int), (n@pre + 1) * 17) *
+      IntArray::undef_full(pointer_offset(heap_value, 0, int), heap_cap) *
+      IntArray::undef_full(pointer_offset(heap_start, 0, int), heap_cap) *
+      IntArray::undef_full(pointer_offset(heap_lo, 0, int), heap_cap) *
+      IntArray::undef_full(pointer_offset(heap_hi, 0, int), heap_cap) *
+      IntArray::undef_full(pointer_offset(heap_best, 0, int), heap_cap) &&
       Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
    */
 
@@ -747,21 +747,21 @@ long long superPiano(
       FrontierState(ps, n@pre, L@pre, R@pre, chosen, t, total, sublist(0, hsize, slots)) &&
       NodeHeapState(slots, hsize) &&
       (t < k@pre => 0 < hsize) &&
-      IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
-      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
-      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(prefix, 0, int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, int), heap_cap, 200000) *
       IntArray::full(arr@pre, n@pre, l) *
-      IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
-      IntArray::full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, st_slots) *
-      IntArray::full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, vals) *
-      IntArray::full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, starts) *
-      IntArray::full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, los) *
-      IntArray::full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, his) *
-      IntArray::full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, bests) &&
+      IntArray::full(pointer_offset(prefix, 0, int), n@pre + 1, ps) *
+      IntArray::full(pointer_offset(st, 0, int), (n@pre + 1) * 17, st_slots) *
+      IntArray::full(pointer_offset(heap_value, 0, int), heap_cap, vals) *
+      IntArray::full(pointer_offset(heap_start, 0, int), heap_cap, starts) *
+      IntArray::full(pointer_offset(heap_lo, 0, int), heap_cap, los) *
+      IntArray::full(pointer_offset(heap_hi, 0, int), heap_cap, his) *
+      IntArray::full(pointer_offset(heap_best, 0, int), heap_cap, bests) &&
       Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
     */
    for (int t = 0; t < k; ++t) {
@@ -799,21 +799,21 @@ long long superPiano(
         0 <= start - 1 && start - 1 < n@pre + 1 &&
         start + L@pre - 1 <= lo &&
         0 <= lo && lo <= best && best <= hi && hi <= n@pre &&
-        IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
-      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
-      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
+        IntArray::undef_seg(pointer_offset(prefix, 0, int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, int), heap_cap, 200000) *
       IntArray::full(arr@pre, n@pre, l) *
-        IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
-        IntArray::full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, st_slots) *
-        IntArray::full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, vals) *
-        IntArray::full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, starts) *
-        IntArray::full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, los) *
-        IntArray::full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, his) *
-        IntArray::full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, bests) &&
+        IntArray::full(pointer_offset(prefix, 0, int), n@pre + 1, ps) *
+        IntArray::full(pointer_offset(st, 0, int), (n@pre + 1) * 17, st_slots) *
+        IntArray::full(pointer_offset(heap_value, 0, int), heap_cap, vals) *
+        IntArray::full(pointer_offset(heap_start, 0, int), heap_cap, starts) *
+        IntArray::full(pointer_offset(heap_lo, 0, int), heap_cap, los) *
+        IntArray::full(pointer_offset(heap_hi, 0, int), heap_cap, his) *
+        IntArray::full(pointer_offset(heap_best, 0, int), heap_cap, bests) &&
         Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
      */
 
@@ -888,21 +888,21 @@ long long superPiano(
             best + 1 <= right_best && right_best <= hi &&
             ValidNodeFields(ps, n@pre, L@pre, R@pre, right_value, start, best + 1, hi, right_best) &&
             ValidNodeFields(ps, n@pre, L@pre, R@pre, value, start, lo, hi, best) &&
-            IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
-      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
-      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
+            IntArray::undef_seg(pointer_offset(prefix, 0, int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, int), heap_cap, 200000) *
       IntArray::full(arr@pre, n@pre, l) *
-            IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
-            IntArray::full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, st_slots) *
-            IntArray::full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, vals) *
-            IntArray::full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, starts) *
-            IntArray::full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, los) *
-            IntArray::full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, his) *
-            IntArray::full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, bests) &&
+            IntArray::full(pointer_offset(prefix, 0, int), n@pre + 1, ps) *
+            IntArray::full(pointer_offset(st, 0, int), (n@pre + 1) * 17, st_slots) *
+            IntArray::full(pointer_offset(heap_value, 0, int), heap_cap, vals) *
+            IntArray::full(pointer_offset(heap_start, 0, int), heap_cap, starts) *
+            IntArray::full(pointer_offset(heap_lo, 0, int), heap_cap, los) *
+            IntArray::full(pointer_offset(heap_hi, 0, int), heap_cap, his) *
+            IntArray::full(pointer_offset(heap_best, 0, int), heap_cap, bests) &&
             Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
          */
         } else {
@@ -942,21 +942,21 @@ long long superPiano(
             right_best == 0 &&
             right_value == 0 &&
             ValidNodeFields(ps, n@pre, L@pre, R@pre, value, start, lo, hi, best) &&
-            IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
-      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
-      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
+            IntArray::undef_seg(pointer_offset(prefix, 0, int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, int), heap_cap, 200000) *
       IntArray::full(arr@pre, n@pre, l) *
-            IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
-            IntArray::full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, st_slots) *
-            IntArray::full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, vals) *
-            IntArray::full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, starts) *
-            IntArray::full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, los) *
-            IntArray::full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, his) *
-            IntArray::full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, bests) &&
+            IntArray::full(pointer_offset(prefix, 0, int), n@pre + 1, ps) *
+            IntArray::full(pointer_offset(st, 0, int), (n@pre + 1) * 17, st_slots) *
+            IntArray::full(pointer_offset(heap_value, 0, int), heap_cap, vals) *
+            IntArray::full(pointer_offset(heap_start, 0, int), heap_cap, starts) *
+            IntArray::full(pointer_offset(heap_lo, 0, int), heap_cap, los) *
+            IntArray::full(pointer_offset(heap_hi, 0, int), heap_cap, his) *
+            IntArray::full(pointer_offset(heap_best, 0, int), heap_cap, bests) &&
             Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
          */
         }
@@ -1006,21 +1006,21 @@ long long superPiano(
           0 <= start - 1 && start - 1 < n@pre + 1 &&
           lo == best && best == hi &&
           ValidNodeFields(ps, n@pre, L@pre, R@pre, value, start, lo, hi, best) &&
-          IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
-      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
-      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
+          IntArray::undef_seg(pointer_offset(prefix, 0, int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, int), heap_cap, 200000) *
       IntArray::full(arr@pre, n@pre, l) *
-          IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
-          IntArray::full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, st_slots) *
-          IntArray::full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, vals) *
-          IntArray::full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, starts) *
-          IntArray::full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, los) *
-          IntArray::full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, his) *
-          IntArray::full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, bests) &&
+          IntArray::full(pointer_offset(prefix, 0, int), n@pre + 1, ps) *
+          IntArray::full(pointer_offset(st, 0, int), (n@pre + 1) * 17, st_slots) *
+          IntArray::full(pointer_offset(heap_value, 0, int), heap_cap, vals) *
+          IntArray::full(pointer_offset(heap_start, 0, int), heap_cap, starts) *
+          IntArray::full(pointer_offset(heap_lo, 0, int), heap_cap, los) *
+          IntArray::full(pointer_offset(heap_hi, 0, int), heap_cap, his) *
+          IntArray::full(pointer_offset(heap_best, 0, int), heap_cap, bests) &&
           Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
        */
       }
@@ -1067,21 +1067,21 @@ long long superPiano(
             lo <= left_best && left_best <= best - 1 &&
             ValidNodeFields(ps, n@pre, L@pre, R@pre, left_value, start, lo, best - 1, left_best) &&
             ValidNodeFields(ps, n@pre, L@pre, R@pre, value, start, lo, hi, best) &&
-            IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
-      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
-      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
+            IntArray::undef_seg(pointer_offset(prefix, 0, int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, int), heap_cap, 200000) *
       IntArray::full(arr@pre, n@pre, l) *
-            IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
-            IntArray::full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, st_slots) *
-            IntArray::full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, vals) *
-            IntArray::full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, starts) *
-            IntArray::full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, los) *
-            IntArray::full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, his) *
-            IntArray::full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, bests) &&
+            IntArray::full(pointer_offset(prefix, 0, int), n@pre + 1, ps) *
+            IntArray::full(pointer_offset(st, 0, int), (n@pre + 1) * 17, st_slots) *
+            IntArray::full(pointer_offset(heap_value, 0, int), heap_cap, vals) *
+            IntArray::full(pointer_offset(heap_start, 0, int), heap_cap, starts) *
+            IntArray::full(pointer_offset(heap_lo, 0, int), heap_cap, los) *
+            IntArray::full(pointer_offset(heap_hi, 0, int), heap_cap, his) *
+            IntArray::full(pointer_offset(heap_best, 0, int), heap_cap, bests) &&
             Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
          */
         } else {
@@ -1121,21 +1121,21 @@ long long superPiano(
             best + 1 <= right_best && right_best <= hi &&
             ValidNodeFields(ps, n@pre, L@pre, R@pre, right_value, start, best + 1, hi, right_best) &&
             ValidNodeFields(ps, n@pre, L@pre, R@pre, value, start, lo, hi, best) &&
-            IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
-      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
-      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
+            IntArray::undef_seg(pointer_offset(prefix, 0, int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, int), heap_cap, 200000) *
       IntArray::full(arr@pre, n@pre, l) *
-            IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
-            IntArray::full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, st_slots) *
-            IntArray::full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, vals) *
-            IntArray::full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, starts) *
-            IntArray::full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, los) *
-            IntArray::full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, his) *
-            IntArray::full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, bests) &&
+            IntArray::full(pointer_offset(prefix, 0, int), n@pre + 1, ps) *
+            IntArray::full(pointer_offset(st, 0, int), (n@pre + 1) * 17, st_slots) *
+            IntArray::full(pointer_offset(heap_value, 0, int), heap_cap, vals) *
+            IntArray::full(pointer_offset(heap_start, 0, int), heap_cap, starts) *
+            IntArray::full(pointer_offset(heap_lo, 0, int), heap_cap, los) *
+            IntArray::full(pointer_offset(heap_hi, 0, int), heap_cap, his) *
+            IntArray::full(pointer_offset(heap_best, 0, int), heap_cap, bests) &&
             Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
          */
         }
@@ -1185,21 +1185,21 @@ long long superPiano(
           0 <= start - 1 && start - 1 < n@pre + 1 &&
           start + L@pre - 1 <= lo &&
           0 <= lo && lo <= best && best <= hi && hi <= n@pre &&
-          IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
-      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
-      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
-      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
+          IntArray::undef_seg(pointer_offset(prefix, 0, int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, int), heap_cap, 200000) *
       IntArray::full(arr@pre, n@pre, l) *
-          IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
-          IntArray::full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, st_slots) *
-          IntArray::full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, vals) *
-          IntArray::full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, starts) *
-          IntArray::full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, los) *
-          IntArray::full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, his) *
-          IntArray::full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, bests) &&
+          IntArray::full(pointer_offset(prefix, 0, int), n@pre + 1, ps) *
+          IntArray::full(pointer_offset(st, 0, int), (n@pre + 1) * 17, st_slots) *
+          IntArray::full(pointer_offset(heap_value, 0, int), heap_cap, vals) *
+          IntArray::full(pointer_offset(heap_start, 0, int), heap_cap, starts) *
+          IntArray::full(pointer_offset(heap_lo, 0, int), heap_cap, los) *
+          IntArray::full(pointer_offset(heap_hi, 0, int), heap_cap, his) *
+          IntArray::full(pointer_offset(heap_best, 0, int), heap_cap, bests) &&
           Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
        */
     }

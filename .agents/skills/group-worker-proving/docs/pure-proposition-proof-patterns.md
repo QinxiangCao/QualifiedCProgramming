@@ -1,6 +1,6 @@
 # 纯命题证明模式
 
-本指南用于 group-worker 证明工作。annotation 使用 `increasing`、`decreasing`、边界、`sum`，或封装 `MaxMinLib` / `SumLib` 的 case 谓词时，应让 annotation 保持语义化，并在 group 证明中桥接到便于证明的形式。
+本指南用于 group-worker 证明工作。annotation 使用 `increasing`、`decreasing`、边界、`sum`、封装 `MaxMinLib` / `SumLib` 的 case 谓词，或 CDCLLib 名称时，应让 annotation 保持语义化，并在 group 证明中桥接到便于证明的形式。
 
 不要把面向证明的形式反推回 C annotation。缺少桥接 lemma 时，先检查 proof_reuse.md，并按 lemma/predicate 名读取指定历史 candidate；适用时复制必要 helper closure 并使用当前 suffix，否则在 `group_worker_lib` 中添加并证明带当前 group 后缀的 helper。
 
@@ -91,6 +91,25 @@ CannotSplit l m cap
 - 不可行性给出最优值的下界，例如 `CannotSplit l m mid -> MinimizedMaxSegmentSum l m ans -> mid < ans`。
 
 新增或改写的形式应作为带当前 helper 后缀的 group-local helper 来证明。复用历史 helper 也使用当前后缀。不要把 helper 留在正式 `*_proof_manual.v` 中，不直接 import 历史候选库。
+
+## CNF 与 SAT 谓词
+
+对 CDCLLib 名称（`models`、`cnf_sat`、`cnf_unsat`、`entails_clause`、`cnf_with_units`、计数器、`cdcl_view`），使用 `Rocq/cdcllib/sat_shared_lib.v` 与 `cdcl_shared_lib.v` 中的 lemma。不重述共享定义，也不以 case 名或 group 后缀复制 lemma。对强化的 case invariant，先用 `proj1` 或 `formal_case_lib` 中的 `_elim` 取出共享谓词。CDCLLib 名称经由 seed `formal_case_lib` 的 `From CDCLLib Require Export` 可见；`group_worker_lib` 只能新增 `Coq` / `Coq.*` import，不能自行添加 `From CDCLLib Require`，seed 未导出所需 CDCLLib 文件时按 annotation/spec 缺口写 blocker。
+
+- 单点更新：`sat_function_update_eq` / `_neq`，不 `unfold` 后对 `Z.eq_dec` 分情况；
+- 取反：`eval_literal_neg`、`eval_partial_literal_neg`、`literal_neg_involutive`；
+- 计数器：`clause_counts_assign` / `clause_counts_clear`、`clause_false_counts` / `clause_counts_zero_false`、`clause_unit_other_false`；
+- 蕴含：`entails_clause_in`、`entails_clause_mono`、`entails_clause_perm`、`entails_unit_step`、`entails_clause_units_weaken`；
+- UNSAT：由被蕴含的空 clause 用 `entails_empty_cnf_unsat`，assumption 增加用 `cnf_unsat_units_mono`，用 `models_cnf_with_units` 拆出 assumption；
+- SAT：`partial_clause_has_true` 配合 `eval_partial_literal_total_agree`；由 model 得到 `cnf_sat` 用 `rho_restrict_bounded` 与 `models_rho_restrict`；
+- 拼接：没有 `models_app`；`unfold models` 后用 `Forall_app` / `Forall_cons`，`clause_satisfied` 用 `in_app_iff`。
+
+```coq
+rewrite sat_function_update_neq by lia.
+eapply entails_empty_cnf_unsat; eauto.   (* cnf_wf n F -> entails_clause F nil -> cnf_unsat n F *)
+```
+
+CDCLLib 缺少的通用事实（例如 `entails_clause` 的传递性）写成一条只用 CDCLLib 名称表述的当前 suffix helper，并在 `group_worker_output.md` 中记为库缺口。
 
 ## 交接规则
 

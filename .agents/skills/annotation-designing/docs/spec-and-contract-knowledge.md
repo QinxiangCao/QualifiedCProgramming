@@ -74,6 +74,8 @@
 | 闭区间求和、实数值有限集合求和 | `SimpleC.EE.LLM_bench.Codeforces.SpecHelpers`：`sum_range a b f` 对 `[a, b]` 求和；`sum_set_R P f` 需要 `Finite P` 且 `f : A -> R` |
 | 区间枚举 | `SumLib.ZRange`：`Zrange lo hi` 枚举 `[lo, hi)`；枚举闭区间 `[a, b]` 写 `Zrange a (b + 1)` |
 | 自反传递闭包 | `SetsClass.RelsDomain`：`SetsClass.RelsDomain.clos_refl_trans step`；确认 relation instances，避免与标准库同名接口混淆 |
+| 可增长 vector 及其数组 | `vec_qcp_lib`（C 侧 `#include "vec_qcp.h"`）：`Veci::rep(v, l)`、`Veci::rep_ptr(v, p, l)`、`Veci::shell(v)`，`Vecp::` 同理；`vecp_t` 数组用 `VecpArray::full` / `missing_i` / `missing2` / `undef_seg`；capacity 始终隐藏。其他 vector struct 需要 main 新增 `DynVec` instance |
+| literal、clause、CNF 与 SAT 判定 | `CDCLLib.sat_shared_lib`（`CDCLLib.cdcl_shared_lib` 另含求解器状态 `cdcl_view`）：`models rho F`、`cnf_sat n F`、`cnf_unsat n F`、`cnf_wf n F`、`clause_satisfied rho c`、`entails_clause F c`、`cnf_with_units F A`；变量从 0 开始 |
 
 `sum_range` 包含右端点，`Zrange` 不包含右端点。对 `[lo, hi)` 上的 indexed sum 使用 `sum_range lo (hi - 1) f`，或直接用 `SumLib.Sum.sum (fun i : Z => lo <= i < hi) f`。不要混用 list `sum l` 与 finite-set `sum P f` 的签名。
 

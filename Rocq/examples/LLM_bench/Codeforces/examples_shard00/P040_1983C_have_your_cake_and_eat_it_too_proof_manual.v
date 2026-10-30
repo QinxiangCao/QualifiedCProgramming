@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P040_1983C_have_your_cake_and_eat_it_too_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P040_1983C_have_your_cake_and_eat_it_too_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.array2_ext_lib.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P040_1983C_have_your_cake_and_eat_it_too_lib.
@@ -25,7 +9,7 @@ Local Open Scope sac.
 
 Lemma proof_of_try_order_safety_wit_11_split_goal_1 : try_order_safety_wit_11_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH7 who pos ltac:(lia)).
   dump_pre_spatial.
   lia.
@@ -33,7 +17,7 @@ Qed.
 
 Lemma proof_of_try_order_safety_wit_11_split_goal_2 : try_order_safety_wit_11_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH7 who pos ltac:(lia)).
   dump_pre_spatial.
   lia.
@@ -48,7 +32,7 @@ Qed.
 
 Lemma proof_of_try_order_safety_wit_20_split_goal_1 : try_order_safety_wit_20_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH6 who i ltac:(lia)).
   dump_pre_spatial.
   lia.
@@ -56,7 +40,7 @@ Qed.
 
 Lemma proof_of_try_order_safety_wit_20_split_goal_2 : try_order_safety_wit_20_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH6 who i ltac:(lia)).
   dump_pre_spatial.
   lia.
@@ -71,7 +55,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_1_split_goal_1 : try_order_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GreedyRawState.
   repeat split; try assumption; try lia.
   - repeat rewrite Znth0_cons. lia.
@@ -79,7 +63,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_1_split_goal_2 : try_order_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold Pre in PreH6.
   destruct PreH6 as (_ & _ & _ & HFa & _).
   pose proof (cake_sum_bounds_from_forall__try_initialization a HFa) as [Hsumlo Hsum].
@@ -95,7 +79,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_1_split_goal_3 : try_order_entail_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold Pre in PreH6.
   destruct PreH6 as (_ & _ & _ & HFa & _).
   pose proof (cake_sum_bounds_from_forall__try_initialization a HFa) as [Hsum _].
@@ -118,7 +102,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_2 : try_order_entail_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   remember (Znth part ord 0) as who.
   assert (Hwho : 0 <= who < 3).
   {
@@ -160,7 +144,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_3_split_goal_1 : try_order_entail_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GreedyRawState in PreH20.
   destruct PreH20 as (_ & _ & _ & _ & Hpos & _).
   repeat rewrite Znth0_cons in Hpos.
@@ -177,7 +161,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_3_split_goal_2 : try_order_entail_wit_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GreedyRawState in PreH20.
   destruct PreH20 as (_ & _ & _ & _ & Hpos & _).
   repeat rewrite Znth0_cons in Hpos.
@@ -187,7 +171,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_3_split_goal_3 : try_order_entail_wit_3_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GreedyRawState in PreH20.
   destruct PreH20 as (_ & _ & _ & _ & Hpos & _).
   repeat rewrite Znth0_cons in Hpos.
@@ -197,7 +181,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_3_split_goal_4 : try_order_entail_wit_3_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GreedyRawState in PreH20.
   destruct PreH20 as (_ & _ & _ & _ & Hpos & _).
   repeat rewrite Znth0_cons in Hpos.
@@ -207,7 +191,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_3_split_goal_5 : try_order_entail_wit_3_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GreedyRawState in PreH20.
   destruct PreH20 as (_ & _ & _ & _ & Hpos & _).
   repeat rewrite Znth0_cons in Hpos.
@@ -227,7 +211,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_4_split_goal_1 : try_order_entail_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold SearchPrefixState in *.
   destruct PreH27 as (Hstart & Hstartpos & Hposlen & Hacc & Hminimal).
   assert (Hwho : who = 0 \/ who = 1 \/ who = 2) by lia.
@@ -252,7 +236,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_4_split_goal_2 : try_order_entail_wit_4_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH7 who pos ltac:(lia)) as Hvalue.
   assert (Hsum : 0 <= ListLib.sum a < Z.of_nat (length a) * 1000001).
   { apply ListLib.sum_bound_lt.
@@ -269,7 +253,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_4_split_goal_3 : try_order_entail_wit_4_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH7 who pos ltac:(lia)).
   lia.
 Qed.
@@ -284,12 +268,12 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_5_1_split_goal_1 : try_order_entail_wit_5_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_try_order_entail_wit_5_1_split_goal_spatial : try_order_entail_wit_5_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hwho : who = 0 \/ who = 1 \/ who = 2) by lia.
   assert (Hrowlen : Zlength (Znth who (a :: b :: c :: nil) nil) = n_pre).
   { destruct Hwho as [-> | [-> | ->]].
@@ -303,8 +287,6 @@ Proof.
     (Znth who (a :: b :: c :: nil) nil) ltac:(lia)).
   cancel.
   unfold StorePtrAsElement.storeA.
-  rewrite sizeof_ptr.
-  unfold ptr_size_Z.
   cancel.
   unfold Int64Array.full, Int64PtrArray2.ElemArray.full.
   cancel.
@@ -319,7 +301,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_5_2_split_goal_1 : try_order_entail_wit_5_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold SearchPrefixState in PreH27.
   dump_pre_spatial.
   tauto.
@@ -327,12 +309,12 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_5_2_split_goal_2 : try_order_entail_wit_5_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_try_order_entail_wit_5_2_split_goal_spatial : try_order_entail_wit_5_2_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hwho : who = 0 \/ who = 1 \/ who = 2) by lia.
   assert (Hrowlen : Zlength (Znth who (a :: b :: c :: nil) nil) = n_pre).
   { destruct Hwho as [-> | [-> | ->]].
@@ -346,8 +328,6 @@ Proof.
     (Znth who (a :: b :: c :: nil) nil) ltac:(lia)).
   cancel.
   unfold StorePtrAsElement.storeA.
-  rewrite sizeof_ptr.
-  unfold ptr_size_Z.
   cancel.
   unfold Int64Array.full, Int64PtrArray2.ElemArray.full.
   cancel.
@@ -363,7 +343,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_6_split_goal_1 : try_order_entail_wit_6_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold SearchPrefixState in PreH22.
   unfold GreedyRawState in PreH21.
   destruct PreH22 as (Hs0 & Hspos & Hsend & Haccsum & Hsearchmin).
@@ -525,7 +505,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_6_split_goal_2 : try_order_entail_wit_6_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold SearchPrefixState in PreH22.
   destruct PreH22 as (Hs0 & Hspos & Hsend & Haccsum & Hsearchmin).
   assert (Hrowlen :
@@ -551,7 +531,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_7_split_goal_1 : try_order_entail_wit_7_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold GreedyRawState in PreH21 |- *.
   unfold SearchPrefixState in PreH22.
   destruct PreH21 as
@@ -633,7 +613,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_7_split_goal_2 : try_order_entail_wit_7_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold Pre in PreH7.
   destruct PreH7 as
     (Halen & Hblen & Hclen & HFa & HFb & HFc & Hsumab & Hsumac).
@@ -652,7 +632,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_7_split_goal_3 : try_order_entail_wit_7_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold Pre in PreH7.
   destruct PreH7 as
     (Halen & Hblen & Hclen & HFa & HFb & HFc & Hsumab & Hsumac).
@@ -676,7 +656,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_8 : try_order_entail_wit_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hpart2 : part = 2) by lia. subst part.
   assert (Hwho : 0 <= Znth 2 ord 0 < 3).
   { destruct PreH12 as [-> | [-> | [-> | [-> | [-> | ->]]]]];
@@ -701,8 +681,6 @@ Proof.
         (Znth (Znth 2 ord 0) (a :: b :: c :: nil) nil)) with
         (Int64Array.full row_ptr n_pre
           (Znth (Znth 2 ord 0) (a :: b :: c :: nil) nil)).
-      rewrite sizeof_ptr.
-      fold_arch.
       normalize.
       cancel (Int64PtrArray2.missing_i v_pre 3 (Znth 2 ord 0) row_ptr
         (a :: b :: c :: nil)).
@@ -714,7 +692,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_9_split_goal_1 : try_order_entail_wit_9_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply suffix_sum_empty__try_terminal_semantics; [lia |].
   destruct PreH11 as [-> | [-> | [-> | [-> | [-> | ->]]]]].
   all: repeat rewrite Znth_cons in PreH13 by lia.
@@ -736,7 +714,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_10_split_goal_1 : try_order_entail_wit_10_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (selected_row_length__try_terminal_semantics
     a b c ord who PreH12 PreH14 PreH4 PreH5) as Hrowlen.
   apply suffix_sum_extend__try_terminal_semantics; [exact PreH23 |].
@@ -745,7 +723,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_10_split_goal_2 : try_order_entail_wit_10_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (selected_row_length__try_terminal_semantics
     a b c ord who PreH12 PreH14 PreH4 PreH5) as Hrowlen.
   eapply suffix_sum_upper__try_terminal_semantics with
@@ -759,7 +737,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_10_split_goal_3 : try_order_entail_wit_10_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH6 who i ltac:(lia)). lia.
 Qed.
 
@@ -773,7 +751,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_11_split_goal_1 : try_order_entail_wit_11_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace i with n_pre in PreH23 by lia.
   dump_pre_spatial.
   exact PreH23.
@@ -781,19 +759,18 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_11_split_goal_2 : try_order_entail_wit_11_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_try_order_entail_wit_11_split_goal_spatial : try_order_entail_wit_11_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (selected_row_length__try_terminal_semantics
     a b c ord who PreH12 PreH14 PreH4 PreH5) as Hrowlen.
   pose proof (Int64PtrArray2.missing_i_merge_to_full
     v_pre who 3 row_ptr (a :: b :: c :: nil)
     (Znth who (a :: b :: c :: nil) nil)) as Hmerge.
   unfold StorePtrAsElement.storeA in Hmerge.
-  fold_arch.
   change (Int64PtrArray2.ElemArray.full row_ptr
     (Zlength (Znth who (a :: b :: c :: nil) nil))
     (Znth who (a :: b :: c :: nil) nil)) with
@@ -801,14 +778,12 @@ Proof.
       (Zlength (Znth who (a :: b :: c :: nil) nil))
       (Znth who (a :: b :: c :: nil) nil)) in Hmerge.
   rewrite Hrowlen, <- PreH8 in Hmerge.
-  fold_arch.
-  rewrite sizeof_ptr.
   assert (Hreorder :
     Int64PtrArray2.missing_i v_pre 3 who row_ptr (a :: b :: c :: nil) **
-    (((v_pre + who * Arch32.ptr_size_Z) # Ptr |-> row_ptr) **
+    (((v_pre + who * sizeof ( PTR )) # Ptr |-> row_ptr) **
      Int64Array.full row_ptr n_pre (Znth who (a :: b :: c :: nil) nil))
     |--
-    (((v_pre + who * Arch32.ptr_size_Z) # Ptr |-> row_ptr) **
+    (((v_pre + who * sizeof ( PTR )) # Ptr |-> row_ptr) **
      Int64Array.full row_ptr n_pre (Znth who (a :: b :: c :: nil) nil)) **
     Int64PtrArray2.missing_i v_pre 3 who row_ptr (a :: b :: c :: nil)).
   { cancel. }
@@ -822,31 +797,13 @@ Lemma proof_of_try_order_entail_wit_11 : try_order_entail_wit_11.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_try_order_entail_wit_11_split_goal_spatial.
-  - transitivity
-      ((Int64PtrArray2.missing_i v_pre 3 who row_ptr (a :: b :: c :: nil) **
-        ((v_pre + who * sizeof(PTR)) # Ptr |-> row_ptr)) **
-       Int64Array.full row_ptr n_pre (Znth who (a :: b :: c :: nil) nil)).
-    + repeat cancel.
-    + Goal_apply (proof_of_try_order_entail_wit_11_split_goal_1
-        need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc i pos who
-        PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-        PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
-        PreH22 PreH23).
-  - transitivity
-      ((Int64PtrArray2.missing_i v_pre 3 who row_ptr (a :: b :: c :: nil) **
-        ((v_pre + who * sizeof(PTR)) # Ptr |-> row_ptr)) **
-       Int64Array.full row_ptr n_pre (Znth who (a :: b :: c :: nil) nil)).
-    + repeat cancel.
-    + Goal_apply (proof_of_try_order_entail_wit_11_split_goal_2
-        need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc i pos who
-        PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-        PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
-        PreH22 PreH23).
+  - Goal_apply proof_of_try_order_entail_wit_11_split_goal_1.
+  - Goal_apply proof_of_try_order_entail_wit_11_split_goal_2.
 Qed.
 
 Lemma proof_of_try_order_entail_wit_12_split_goal_1 : try_order_entail_wit_12_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hnonneg : forall k, 0 <= k < Zlength a -> 0 <= Znth k a 0).
   { intros k Hk. specialize (PreH6 0 k ltac:(lia)).
     repeat rewrite Znth0_cons in PreH6. lia. }
@@ -868,7 +825,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_13_split_goal_1 : try_order_entail_wit_13_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hnonneg : forall k, 0 <= k < Zlength a -> 0 <= Znth k a 0).
   { intros k Hk. specialize (PreH6 0 k ltac:(lia)).
     repeat rewrite Znth0_cons in PreH6. lia. }
@@ -890,9 +847,10 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_14 : try_order_entail_wit_14.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists lefts_2 rights_2 (@nil Z).
   sep_apply_l_atomic (IntArray.undef_full_to_undef_seg out_pre 6).
+  repeat cancel.
   rewrite IntArray.seg_empty.
   split_pure_spatial.
   - replace (2 * 0) with 0 by lia.
@@ -903,7 +861,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_15 : try_order_entail_wit_15.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists lefts_2 rights_2
     ((raw_prefix_2 ++ (Znth i lefts_2 0) :: nil) ++
       (Znth i rights_2 0) :: nil).
@@ -976,7 +934,7 @@ Qed.
 
 Lemma proof_of_try_order_entail_wit_16_split_goal_1 : try_order_entail_wit_16_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH12.
   lia.
 Qed.
@@ -989,7 +947,7 @@ Qed.
 
 Lemma proof_of_try_order_return_wit_1 : try_order_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists raw_result_2 (OutputBounds lefts rights).
   split_pure_spatial.
   - cancel. cancel.
@@ -998,7 +956,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_23_split_goal_1 : solver_safety_wit_23_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH6 0 i ltac:(lia)).
   repeat rewrite Znth0_cons in PreH6.
   dump_pre_spatial.
@@ -1007,7 +965,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_23_split_goal_2 : solver_safety_wit_23_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH6 0 i ltac:(lia)).
   repeat rewrite Znth0_cons in PreH6.
   dump_pre_spatial.
@@ -1023,7 +981,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1 : solver_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst n_pre.
   sep_apply_l_atomic
     (Int64PtrArray2.full_split_to_missing_i v_pre 0 3 (a :: b :: c :: nil)).
@@ -1037,11 +995,8 @@ Proof.
       change (Int64PtrArray2.ElemArray.full row0 (Zlength a) a)
         with (Int64Array.full row0 (Zlength a) a).
       normalize.
-      fold_arch.
-      rewrite sizeof_ptr.
-      fold ptr_size_Z.
       cancel (Int64PtrArray2.missing_i v_pre 3 0 row0 (a :: b :: c :: nil)).
-      cancel ((v_pre + 0 * ptr_size_Z) # Ptr |-> row0).
+      cancel ((v_pre + 0 * sizeof (PTR)) # Ptr |-> row0).
       cancel (Int64Array.full row0 (Zlength a) a).
       cancel (IntArray.undef_full out_pre 6).
       cancel (IntArray.full &( "orders") 18
@@ -1052,7 +1007,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_2 : solver_entail_wit_2.
@@ -1063,7 +1018,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hnext :
     total + Znth i a 0 = ListLib.sum (sublist 0 (i + 1) a)).
   {
@@ -1095,7 +1050,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_2 : solver_entail_wit_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH6 0 i ltac:(lia)).
   repeat rewrite Znth0_cons in PreH6.
   lia.
@@ -1103,7 +1058,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_3 : solver_entail_wit_3_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite (sublist_split 0 (i + 1) i a) by lia.
   rewrite (sublist_single 0 i a) by lia.
   rewrite ListLib.sum_app.
@@ -1121,7 +1076,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_1 : solver_entail_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (i = n_pre) by lia.
   subst i.
   rewrite PreH8 in PreH11.
@@ -1138,12 +1093,12 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_2 : solver_entail_wit_4_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_spatial : solver_entail_wit_4_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite PreH8.
   sep_apply_r_atomic
     (Int64PtrArray2.missing_i_merge_to_full
@@ -1151,9 +1106,6 @@ Proof.
   cancel.
   unfold StorePtrAsElement.storeA,
     Int64PtrArray2.ElemArray.full, Int64Array.full.
-  cancel.
-  rewrite sizeof_ptr.
-  unfold ptr_size_Z.
   cancel.
 Qed.
 
@@ -1179,7 +1131,7 @@ Proof. Abort.
 
 Lemma proof_of_solver_entail_wit_5 : solver_entail_wit_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof PreH6 as Hpre.
   unfold Pre in Hpre.
   destruct Hpre as
@@ -1212,7 +1164,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6 : solver_entail_wit_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (order_table_decomposition__solver_order_setup table_2 z PreH15
        ltac:(lia)) as
@@ -1251,7 +1203,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9 : solver_entail_wit_9.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hspec : Spec a b c (Some result_2)).
   { unfold Spec. left. exists result_2. split; [reflexivity |].
     unfold TryOrderSpec in PreH2. tauto. }
@@ -1280,7 +1232,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_10 : solver_entail_wit_10.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hfailed : FailedOrders a b c (z + 1)).
   { unfold FailedOrders in *.
     intros k Hk.
@@ -1312,7 +1264,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_11_split_goal_1 : solver_entail_wit_11_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold Pre in PreH5.
   destruct PreH5 as (_ & _ & _ & HFa & HFb & HFc & _ & _).
   rewrite (Forall_Znth__solver_order_iteration
@@ -1336,7 +1288,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_split_goal_1 : solver_entail_wit_12_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (z = 6) by lia.
   subst z.
   apply failed_six_orders_spec_none__solver_final_results.
@@ -1345,7 +1297,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_12_split_goal_2 : solver_entail_wit_12_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (z = 6) by lia.
   subst z.
   assumption.
@@ -1360,7 +1312,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_2 : solver_return_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists raw_result_2 result_2.
   split_pure_spatial.
   - cancel (Int64PtrArray2.full v_pre 3 (a :: b :: c :: nil)).
@@ -1373,7 +1325,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_2_pure_split_goal_1 : solver_partial_solve_wit_2_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_2_pure : solver_partial_solve_wit_2_pure.

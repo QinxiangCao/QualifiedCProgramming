@@ -129,7 +129,7 @@ theorem proof_of_exgcd_return_wit_6 : SimpleC.EE.QCP_demos_LLM.generated.exgcd_g
 theorem proof_of_exgcd_partial_solve_wit_4_pure : SimpleC.EE.QCP_demos_LLM.generated.exgcd_goal.exgcd_partial_solve_wit_4_pure := by
   sorry
 
-theorem proof_of_exgcd_derive_Inter_by_Proof : SimpleC.EE.QCP_demos_LLM.generated.exgcd_goal.exgcd_derive_Inter_by_Proof := by
+theorem proof_of_exgcd_Proof_entail_Inter : SimpleC.EE.QCP_demos_LLM.generated.exgcd_goal.exgcd_Proof_entail_Inter := by
   sorry
 
 

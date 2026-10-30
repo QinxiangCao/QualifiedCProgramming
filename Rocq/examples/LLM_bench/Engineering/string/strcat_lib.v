@@ -102,8 +102,11 @@ Lemma helper_chararray_full_snoc : forall p n l a,
 Proof.
   intros.
   sep_apply CharArray.seg_single.
-  sep_apply CharArray.seg_to_full.
-  sep_apply (CharArray.full_merge_to_full p n) ; try lia.
+  sep_apply (CharArray.seg_to_full p n (n + 1) [a]).
+  replace (n + 1 - n) with 1 by lia.
+  pose proof (CharArray.full_merge_to_full p n (n + 1) l [a]) as Hmerge.
+  replace (n + 1 - n) with 1 in Hmerge by lia.
+  sep_apply Hmerge; try lia.
   cancel.
 Qed.
 

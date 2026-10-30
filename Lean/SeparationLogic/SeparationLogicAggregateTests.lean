@@ -580,7 +580,7 @@ elab_rules : command
   (fun (R : AggregateRules) => R.vector_tail),
   (fun (R : AggregateRules) => R.vector_tail_cons),
   (fun (R : AggregateRules) => R.wand_equiv)
-] => 987229656434153248
+] => 6698976345251300960
 
 #check CRules32
 #check CRules64

@@ -16,13 +16,13 @@ action : left_erase(0);
 id : 1
 priority : core(1)
 right : store_ptb(?p, p, ?q, q, ?pt) at 0
-        store(p, PTR(struct tree), ?r) at 1
+        store(p, PTR, ?r) at 1
 action : right_erase(0);
          right_add(pt == empty_partial_tree());
 
 id : 2
 priority : core(5)
-left : store(field_addr(?p, tree, father), PTR(struct tree), ?fa) at 0
+left : store(field_addr(?p, tree, father), PTR, ?fa) at 0
 right : store_tree(p, fa, ?tr0) at 1
 action : right_erase(1);
          right_add(p != 0);
@@ -32,13 +32,13 @@ action : right_erase(1);
          right_add(k <= 2147483647);
          right_exist_add(v);
          right_add(store(field_addr(p, tree, value), I32, v));
-         right_add(store(field_addr(p, tree, father), PTR(struct tree), fa));
+         right_add(store(field_addr(p, tree, father), PTR, fa));
          right_exist_add(l);
          right_exist_add(tr1);
-         right_add(store(field_addr(p, tree, left), PTR(struct tree), l));
+         right_add(store(field_addr(p, tree, left), PTR, l));
          right_add(store_tree(l, p, tr1));
          right_exist_add(r);
          right_exist_add(tr2);
-         right_add(store(field_addr(p, tree, right), PTR(struct tree), r));
+         right_add(store(field_addr(p, tree, right), PTR, r));
          right_add(store_tree(r, p, tr2));
          right_add(tr0 == make_tree(tr1, k, v, tr2));

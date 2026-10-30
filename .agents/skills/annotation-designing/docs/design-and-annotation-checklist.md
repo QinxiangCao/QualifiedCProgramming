@@ -21,6 +21,8 @@
 - 最值使用 MaxMinLib 的 min_value_of_subset / max_value_of_subset，没有自定义 IsMinimum / IsMaximum；必要的 case predicate 直接复用库语义，空候选分支符合题意。
 - 求和与枚举使用 sum_range / sum / sum_set_R、Zrange，没有重复递归定义；已确认 import、参数类型、Finite 和闭区间/半开区间端点。
 - Relation 的零步或多步闭包使用当前依赖的 clos_refl_trans，没有同义递归 Reachable / 执行链，也未用有限次 composition 替代闭包。
+- case 含持有长度、容量和元素缓冲区指针的结构体或其数组时，使用 Veci、Vecp、VecpArray，没有手写同义向量 predicate 或复制 vec_qcp.h；需要新向量实例、改 include、需要打开规则的 case 表谓词或不从 slot 0 开始的 segment 时已交回 main。
+- case 含文字、子句、CNF、可满足性或 SAT/CDCL 求解状态时，复用 CDCLLib 的 literal、clause、cnf、models、cnf_sat、cnf_unsat、cdcl_view，C 编码只经一个 decode 函数映射到库 literal，没有同义类型或满足关系。该要求适用于新 spec：已有 case 的自有编码只在明确要求时迁移，无法映射到 CDCLLib 的编码交回 main。
 - 与下标无关的逐元素性质使用 Forall，片段性质写在对应 sublist 上；两表对应关系使用 Forall2，真正依赖位置的条件保留有效下标 guard。
 - Znth 可能遇到负下标时已有符合题意的 guard 或有效域；未把负下标误作通用 default，已区分非空列表首元素与空列表 default。
 - 一个 case 的同类性质只使用一套已有 predicate。

@@ -1,34 +1,14 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
+From SimpleC.Verification Require Import VCPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.merging_stones.merging_stones_lib.
 Local Open Scope sac.
-From SimpleC.EE.QCP_demos_LLM Require Import array2_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import array2_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_proof.
+From SimpleC.Verification Require Import array2_strategy_goal.
+From SimpleC.Verification Require Import array2_strategy_proof.
 
 (*----- Function mergingStones -----*)
 
-Definition mergingStones_safety_wit_1 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : ((Zlength (stones_l)) = n_pre)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) ,
+Definition mergingStones_safety_wit_1 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : ((Zlength (stones_l)) = n_pre)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )),
   ((( &( "k" ) )) # Int  |->_)
   **  (IntArray.undef_full ( &( "dp" ) ) 64 )
   **  (IntArray.undef_full ( &( "prefix" ) ) 9 )
@@ -36,12 +16,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (PreH1 : (1 <= n_pre)) (
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full stones_pre n_pre stones_l )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition mergingStones_safety_wit_2 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k: Z) (PreH1 : (0 <= k)) (PreH2 : (k <= (n_pre * n_pre ))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 8)) (PreH5 : ((Zlength (stones_l)) = n_pre)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) ,
+Definition mergingStones_safety_wit_2 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (dp_flat: (@list Z)) (k: Z) (PreH1 : (0 <= k)) (PreH2 : (k <= (n_pre * n_pre ))) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 8)) (PreH5 : ((Zlength (stones_l)) = n_pre)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )),
   ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "k" ) )) # Int  |-> k)
@@ -50,12 +30,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k:
   **  (IntArray.seg ( &( "dp" ) ) 0 k dp_flat )
   **  (IntArray.undef_seg ( &( "dp" ) ) k 64 )
 |--
-  “ ((n_pre * n_pre ) <= INT_MAX) ” 
+  “ ((n_pre * n_pre ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (n_pre * n_pre )) ”
 .
 
-Definition mergingStones_safety_wit_3 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k: Z) (PreH1 : (k < (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )) ,
+Definition mergingStones_safety_wit_3 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (dp_flat: (@list Z)) (k: Z) (PreH1 : (k < (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )),
   ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "k" ) )) # Int  |-> k)
@@ -64,12 +44,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k:
   **  (IntArray.seg ( &( "dp" ) ) 0 k dp_flat )
   **  (IntArray.undef_seg ( &( "dp" ) ) k 64 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition mergingStones_safety_wit_4 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k: Z) (PreH1 : (k < (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )) ,
+Definition mergingStones_safety_wit_4 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (dp_flat: (@list Z)) (k: Z) (PreH1 : (k < (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )),
   (IntArray.seg ( &( "dp" ) ) 0 (k + 1 ) (app (dp_flat) ((cons (0) ((@nil Z))))) )
   **  (IntArray.undef_seg ( &( "dp" ) ) (k + 1 ) 64 )
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
@@ -78,12 +58,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k:
   **  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.undef_full ( &( "prefix" ) ) 9 )
 |--
-  “ ((k + 1 ) <= INT_MAX) ” 
+  “ ((k + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (k + 1 )) ”
 .
 
-Definition mergingStones_safety_wit_5 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k: Z) (PreH1 : (k >= (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )) ,
+Definition mergingStones_safety_wit_5 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (dp_flat: (@list Z)) (k: Z) (PreH1 : (k >= (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )),
   ((( &( "width" ) )) # Int  |-> n_pre)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -92,12 +72,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k:
   **  (IntArray.seg ( &( "dp" ) ) 0 k dp_flat )
   **  (IntArray.undef_seg ( &( "dp" ) ) k 64 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition mergingStones_safety_wit_6 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k: Z) (PreH1 : (k >= (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )) ,
+Definition mergingStones_safety_wit_6 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (dp_flat: (@list Z)) (k: Z) (PreH1 : (k >= (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )),
   ((( &( "width" ) )) # Int  |-> n_pre)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -106,12 +86,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k:
   **  (IntArray.seg ( &( "dp" ) ) 0 k dp_flat )
   **  (IntArray.undef_seg ( &( "dp" ) ) k 64 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition mergingStones_safety_wit_7 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k: Z) (PreH1 : (k >= (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )) ,
+Definition mergingStones_safety_wit_7 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (dp_flat: (@list Z)) (k: Z) (PreH1 : (k >= (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )),
   ((( &( "i" ) )) # Int  |->_)
   **  (((( &( "prefix" ) ) + (0 * sizeof(INT)))) # Int  |-> 0)
   **  (IntArray.undef_seg ( &( "prefix" ) ) 1 9 )
@@ -122,12 +102,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k:
   **  (IntArray.seg ( &( "dp" ) ) 0 k dp_flat )
   **  (IntArray.undef_seg ( &( "dp" ) ) k 64 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition mergingStones_safety_wit_8 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )) ,
+Definition mergingStones_safety_wit_8 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )),
   ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "width" ) )) # Int  |-> n_pre)
@@ -139,12 +119,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((i + 1 ) <= INT_MAX) ” 
+  “ ((i + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (i + 1 )) ”
 .
 
-Definition mergingStones_safety_wit_9 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )) ,
+Definition mergingStones_safety_wit_9 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )),
   ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "width" ) )) # Int  |-> n_pre)
@@ -156,13 +136,13 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition mergingStones_safety_wit_10 := 
+Definition mergingStones_safety_wit_10 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.seg ( &( "prefix" ) ) 0 (i + 1 ) prefix_l )
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
@@ -174,11 +154,11 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (((Znth (i - 0 ) prefix_l 0) + (Znth i stones_l 0) ) <= INT_MAX) ” 
+  “ (((Znth (i - 0 ) prefix_l 0) + (Znth i stones_l 0) ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth (i - 0 ) prefix_l 0) + (Znth i stones_l 0) )) ”
 ) \/
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.seg ( &( "prefix" ) ) 0 (i + 1 ) prefix_l )
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
@@ -190,12 +170,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (((Znth (i - 0 ) prefix_l 0) + (Znth i stones_l 0) ) <= INT_MAX) ” 
+  “ (((Znth (i - 0 ) prefix_l 0) + (Znth i stones_l 0) ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth (i - 0 ) prefix_l 0) + (Znth i stones_l 0) )) ”
 ).
 
-Definition mergingStones_safety_wit_10_split_goal_1 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )) ,
+Definition mergingStones_safety_wit_10_split_goal_1 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.seg ( &( "prefix" ) ) 0 (i + 1 ) prefix_l )
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
@@ -210,8 +190,8 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i
   “ (((Znth (i - 0 ) prefix_l 0) + (Znth i stones_l 0) ) <= INT_MAX) ”
 .
 
-Definition mergingStones_safety_wit_10_split_goal_2 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )) ,
+Definition mergingStones_safety_wit_10_split_goal_2 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.seg ( &( "prefix" ) ) 0 (i + 1 ) prefix_l )
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
@@ -226,8 +206,8 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i
   “ ((INT_MIN) <= ((Znth (i - 0 ) prefix_l 0) + (Znth i stones_l 0) )) ”
 .
 
-Definition mergingStones_safety_wit_11 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )) ,
+Definition mergingStones_safety_wit_11 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )),
   (IntArray.seg ( &( "prefix" ) ) 0 ((i + 1 ) + 1 ) (app (prefix_l) ((cons (((Znth (i - 0 ) prefix_l 0) + (Znth i stones_l 0) )) ((@nil Z))))) )
   **  (IntArray.undef_seg ( &( "prefix" ) ) ((i + 1 ) + 1 ) (n_pre + 1 ) )
   **  (IntArray.full stones_pre n_pre stones_l )
@@ -239,12 +219,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((i + 1 ) <= INT_MAX) ” 
+  “ ((i + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (i + 1 )) ”
 .
 
-Definition mergingStones_safety_wit_12 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )) ,
+Definition mergingStones_safety_wit_12 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )),
   ((( &( "row" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -256,12 +236,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition mergingStones_safety_wit_13 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (row: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (row < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row <= n_pre)) (PreH10 : (StoneZeroRows dp_l row )) ,
+Definition mergingStones_safety_wit_13 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (row: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (row < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row <= n_pre)) (PreH10 : (StoneZeroRows dp_l row )),
   ((( &( "col" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -273,12 +253,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (row: Z) (prefix_l: (@li
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition mergingStones_safety_wit_14 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (col < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l row col )) ,
+Definition mergingStones_safety_wit_14 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (col: Z) (row: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (col < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l row col )),
   ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "width" ) )) # Int  |-> n_pre)
@@ -290,12 +270,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefi
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((row * n_pre ) <= INT_MAX) ” 
+  “ ((row * n_pre ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (row * n_pre )) ”
 .
 
-Definition mergingStones_safety_wit_15 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (col < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l row col )) ,
+Definition mergingStones_safety_wit_15 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (col: Z) (row: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (col < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l row col )),
   ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "width" ) )) # Int  |-> n_pre)
@@ -307,12 +287,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefi
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition mergingStones_safety_wit_16 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (col < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l row col )) ,
+Definition mergingStones_safety_wit_16 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (col: Z) (row: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (col < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l row col )),
   ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "width" ) )) # Int  |-> n_pre)
@@ -324,12 +304,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefi
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition mergingStones_safety_wit_17 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z)))  __default__List_Z (PreH1 : (col < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l row col )) ,
+Definition mergingStones_safety_wit_17 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (col: Z) (row: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) __default__List_Z (PreH1 : (col < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l row col )),
   (((( &( "dp" ) ) + (((row * n_pre ) + col ) * sizeof(INT)))) # Int  |-> 0)
   **  (IntArray.missing_i (( &( "dp" ) ) + ((row * n_pre ) * sizeof(INT))) col 0 n_pre (Znth row dp_l __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) row 0 n_pre n_pre dp_l )
@@ -343,12 +323,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefi
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((col + 1 ) <= INT_MAX) ” 
+  “ ((col + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (col + 1 )) ”
 .
 
-Definition mergingStones_safety_wit_18 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (col >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l row col )) ,
+Definition mergingStones_safety_wit_18 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (col: Z) (row: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (col >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l row col )),
   ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "width" ) )) # Int  |-> n_pre)
@@ -359,12 +339,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefi
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((row + 1 ) <= INT_MAX) ” 
+  “ ((row + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (row + 1 )) ”
 .
 
-Definition mergingStones_safety_wit_19 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (row: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (row >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row <= n_pre)) (PreH10 : (StoneZeroRows dp_l row )) ,
+Definition mergingStones_safety_wit_19 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (row: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (row >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row <= n_pre)) (PreH10 : (StoneZeroRows dp_l row )),
   ((( &( "len" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -375,12 +355,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (row: Z) (prefix_l: (@li
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (2 <= INT_MAX) ” 
+  “ (2 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 2) ”
 .
 
-Definition mergingStones_safety_wit_20 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (len <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l n_pre len )) ,
+Definition mergingStones_safety_wit_20 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (len <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l n_pre len )),
   ((( &( "left" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -392,12 +372,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@li
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition mergingStones_safety_wit_21 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : (left <= ((n_pre - len ) + 1 ))) (PreH11 : (StoneLeftProgress stones_l dp_l n_pre len left )) ,
+Definition mergingStones_safety_wit_21 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : (left <= ((n_pre - len ) + 1 ))) (PreH11 : (StoneLeftProgress stones_l dp_l n_pre len left )),
   ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "width" ) )) # Int  |-> n_pre)
@@ -409,12 +389,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (pref
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((left + len ) <= INT_MAX) ” 
+  “ ((left + len ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (left + len )) ”
 .
 
-Definition mergingStones_safety_wit_22 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )) ,
+Definition mergingStones_safety_wit_22 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )),
   ((( &( "right" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -427,12 +407,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (pref
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (((left + len ) - 1 ) <= INT_MAX) ” 
+  “ (((left + len ) - 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((left + len ) - 1 )) ”
 .
 
-Definition mergingStones_safety_wit_23 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )) ,
+Definition mergingStones_safety_wit_23 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )),
   ((( &( "right" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -445,12 +425,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (pref
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((left + len ) <= INT_MAX) ” 
+  “ ((left + len ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (left + len )) ”
 .
 
-Definition mergingStones_safety_wit_24 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )) ,
+Definition mergingStones_safety_wit_24 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )),
   ((( &( "right" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -463,13 +443,13 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (pref
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition mergingStones_safety_wit_25 := 
+Definition mergingStones_safety_wit_25 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )),
   (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
   **  ((( &( "interval_sum" ) )) # Int  |->_)
   **  ((( &( "right" ) )) # Int  |-> ((left + len ) - 1 ))
@@ -483,11 +463,11 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (pref
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) ) <= INT_MAX) ” 
+  “ (((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) )) ”
 ) \/
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )),
   (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
   **  ((( &( "interval_sum" ) )) # Int  |->_)
   **  ((( &( "right" ) )) # Int  |-> ((left + len ) - 1 ))
@@ -501,12 +481,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (pref
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) ) <= INT_MAX) ” 
+  “ (((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) )) ”
 ).
 
-Definition mergingStones_safety_wit_25_split_goal_1 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )) ,
+Definition mergingStones_safety_wit_25_split_goal_1 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )),
   (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
   **  ((( &( "interval_sum" ) )) # Int  |->_)
   **  ((( &( "right" ) )) # Int  |-> ((left + len ) - 1 ))
@@ -523,8 +503,8 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (pref
   “ (((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) ) <= INT_MAX) ”
 .
 
-Definition mergingStones_safety_wit_25_split_goal_2 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )) ,
+Definition mergingStones_safety_wit_25_split_goal_2 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )),
   (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
   **  ((( &( "interval_sum" ) )) # Int  |->_)
   **  ((( &( "right" ) )) # Int  |-> ((left + len ) - 1 ))
@@ -541,8 +521,8 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (pref
   “ ((INT_MIN) <= ((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) )) ”
 .
 
-Definition mergingStones_safety_wit_26 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )) ,
+Definition mergingStones_safety_wit_26 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )),
   ((( &( "interval_sum" ) )) # Int  |->_)
   **  ((( &( "right" ) )) # Int  |-> ((left + len ) - 1 ))
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
@@ -556,12 +536,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (pref
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((((left + len ) - 1 ) + 1 ) <= INT_MAX) ” 
+  “ ((((left + len ) - 1 ) + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (((left + len ) - 1 ) + 1 )) ”
 .
 
-Definition mergingStones_safety_wit_27 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )) ,
+Definition mergingStones_safety_wit_27 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )),
   ((( &( "interval_sum" ) )) # Int  |->_)
   **  ((( &( "right" ) )) # Int  |-> ((left + len ) - 1 ))
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
@@ -575,12 +555,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (pref
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition mergingStones_safety_wit_28 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )) ,
+Definition mergingStones_safety_wit_28 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )),
   ((( &( "best" ) )) # Int  |->_)
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
   **  ((( &( "interval_sum" ) )) # Int  |-> ((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) ))
@@ -595,12 +575,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (pref
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (1000000 <= INT_MAX) ” 
+  “ (1000000 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1000000) ”
 .
 
-Definition mergingStones_safety_wit_29 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (split < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) ,
+Definition mergingStones_safety_wit_29 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (split < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )),
   ((( &( "left_value" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -617,12 +597,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum:
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((left * n_pre ) <= INT_MAX) ” 
+  “ ((left * n_pre ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (left * n_pre )) ”
 .
 
-Definition mergingStones_safety_wit_30 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (split < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) ,
+Definition mergingStones_safety_wit_30 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (split < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )),
   ((( &( "left_value" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -639,12 +619,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum:
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition mergingStones_safety_wit_31 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))) ,
+Definition mergingStones_safety_wit_31 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))),
   ((( &( "right_value" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -662,12 +642,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (d
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (((split + 1 ) * n_pre ) <= INT_MAX) ” 
+  “ (((split + 1 ) * n_pre ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((split + 1 ) * n_pre )) ”
 .
 
-Definition mergingStones_safety_wit_32 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))) ,
+Definition mergingStones_safety_wit_32 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))),
   ((( &( "right_value" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -685,12 +665,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (d
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((split + 1 ) <= INT_MAX) ” 
+  “ ((split + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (split + 1 )) ”
 .
 
-Definition mergingStones_safety_wit_33 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))) ,
+Definition mergingStones_safety_wit_33 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))),
   ((( &( "right_value" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -708,12 +688,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (d
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition mergingStones_safety_wit_34 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))) ,
+Definition mergingStones_safety_wit_34 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))),
   ((( &( "right_value" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -731,13 +711,13 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (d
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition mergingStones_safety_wit_35 := 
+Definition mergingStones_safety_wit_35 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))),
   ((( &( "candidate" ) )) # Int  |->_)
   **  (((( &( "dp" ) ) + ((((split + 1 ) * n_pre ) + right ) * sizeof(INT)))) # Int  |-> (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + (((split + 1 ) * n_pre ) * sizeof(INT))) right 0 n_pre (Znth (split + 1 ) dp_l __default__List_Z) )
@@ -758,11 +738,11 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (d
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) + interval_sum ) <= INT_MAX) ” 
+  “ (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) + interval_sum ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) + interval_sum )) ”
 ) \/
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))),
   ((( &( "candidate" ) )) # Int  |->_)
   **  (((( &( "dp" ) ) + ((((split + 1 ) * n_pre ) + right ) * sizeof(INT)))) # Int  |-> (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + (((split + 1 ) * n_pre ) * sizeof(INT))) right 0 n_pre (Znth (split + 1 ) dp_l __default__List_Z) )
@@ -783,12 +763,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (d
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) + interval_sum ) <= INT_MAX) ” 
+  “ (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) + interval_sum ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) + interval_sum )) ”
 ).
 
-Definition mergingStones_safety_wit_35_split_goal_1 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))) ,
+Definition mergingStones_safety_wit_35_split_goal_1 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))),
   ((( &( "candidate" ) )) # Int  |->_)
   **  (((( &( "dp" ) ) + ((((split + 1 ) * n_pre ) + right ) * sizeof(INT)))) # Int  |-> (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + (((split + 1 ) * n_pre ) * sizeof(INT))) right 0 n_pre (Znth (split + 1 ) dp_l __default__List_Z) )
@@ -812,8 +792,8 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (d
   “ (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) + interval_sum ) <= INT_MAX) ”
 .
 
-Definition mergingStones_safety_wit_35_split_goal_2 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))) ,
+Definition mergingStones_safety_wit_35_split_goal_2 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))),
   ((( &( "candidate" ) )) # Int  |->_)
   **  (((( &( "dp" ) ) + ((((split + 1 ) * n_pre ) + right ) * sizeof(INT)))) # Int  |-> (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + (((split + 1 ) * n_pre ) * sizeof(INT))) right 0 n_pre (Znth (split + 1 ) dp_l __default__List_Z) )
@@ -837,9 +817,9 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (d
   “ ((INT_MIN) <= ((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) + interval_sum )) ”
 .
 
-Definition mergingStones_safety_wit_36 := 
+Definition mergingStones_safety_wit_36 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))),
   ((( &( "candidate" ) )) # Int  |->_)
   **  (((( &( "dp" ) ) + ((((split + 1 ) * n_pre ) + right ) * sizeof(INT)))) # Int  |-> (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + (((split + 1 ) * n_pre ) * sizeof(INT))) right 0 n_pre (Znth (split + 1 ) dp_l __default__List_Z) )
@@ -860,11 +840,11 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (d
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) <= INT_MAX) ” 
+  “ ((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) )) ”
 ) \/
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))),
   ((( &( "candidate" ) )) # Int  |->_)
   **  (((( &( "dp" ) ) + ((((split + 1 ) * n_pre ) + right ) * sizeof(INT)))) # Int  |-> (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + (((split + 1 ) * n_pre ) * sizeof(INT))) right 0 n_pre (Znth (split + 1 ) dp_l __default__List_Z) )
@@ -885,12 +865,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (d
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) <= INT_MAX) ” 
+  “ ((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) )) ”
 ).
 
-Definition mergingStones_safety_wit_36_split_goal_1 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))) ,
+Definition mergingStones_safety_wit_36_split_goal_1 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))),
   ((( &( "candidate" ) )) # Int  |->_)
   **  (((( &( "dp" ) ) + ((((split + 1 ) * n_pre ) + right ) * sizeof(INT)))) # Int  |-> (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + (((split + 1 ) * n_pre ) * sizeof(INT))) right 0 n_pre (Znth (split + 1 ) dp_l __default__List_Z) )
@@ -914,8 +894,8 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (d
   “ ((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) <= INT_MAX) ”
 .
 
-Definition mergingStones_safety_wit_36_split_goal_2 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))) ,
+Definition mergingStones_safety_wit_36_split_goal_2 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))),
   ((( &( "candidate" ) )) # Int  |->_)
   **  (((( &( "dp" ) ) + ((((split + 1 ) * n_pre ) + right ) * sizeof(INT)))) # Int  |-> (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + (((split + 1 ) * n_pre ) * sizeof(INT))) right 0 n_pre (Znth (split + 1 ) dp_l __default__List_Z) )
@@ -939,8 +919,8 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (d
   “ ((INT_MIN) <= (left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) )) ”
 .
 
-Definition mergingStones_safety_wit_37 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) + interval_sum ) < best)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH21 : (split < right)) (PreH22 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))) ,
+Definition mergingStones_safety_wit_37 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) + interval_sum ) < best)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH21 : (split < right)) (PreH22 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))),
   (((( &( "dp" ) ) + ((((split + 1 ) * n_pre ) + right ) * sizeof(INT)))) # Int  |-> (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + (((split + 1 ) * n_pre ) * sizeof(INT))) right 0 n_pre (Znth (split + 1 ) dp_l __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) (split + 1 ) 0 n_pre n_pre dp_l )
@@ -958,12 +938,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (d
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((split + 1 ) <= INT_MAX) ” 
+  “ ((split + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (split + 1 )) ”
 .
 
-Definition mergingStones_safety_wit_38 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) + interval_sum ) >= best)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH21 : (split < right)) (PreH22 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))) ,
+Definition mergingStones_safety_wit_38 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)) ) + interval_sum ) >= best)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH21 : (split < right)) (PreH22 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))),
   (((( &( "dp" ) ) + ((((split + 1 ) * n_pre ) + right ) * sizeof(INT)))) # Int  |-> (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + (((split + 1 ) * n_pre ) * sizeof(INT))) right 0 n_pre (Znth (split + 1 ) dp_l __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) (split + 1 ) 0 n_pre n_pre dp_l )
@@ -981,12 +961,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (d
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((split + 1 ) <= INT_MAX) ” 
+  “ ((split + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (split + 1 )) ”
 .
 
-Definition mergingStones_safety_wit_39 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (split >= right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) ,
+Definition mergingStones_safety_wit_39 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (split >= right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )),
   ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "width" ) )) # Int  |-> n_pre)
@@ -1001,12 +981,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum:
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((left * n_pre ) <= INT_MAX) ” 
+  “ ((left * n_pre ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (left * n_pre )) ”
 .
 
-Definition mergingStones_safety_wit_40 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (split >= right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) ,
+Definition mergingStones_safety_wit_40 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (split >= right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )),
   ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "width" ) )) # Int  |-> n_pre)
@@ -1021,12 +1001,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum:
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition mergingStones_safety_wit_41 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z)))  __default__List_Z (PreH1 : (split >= right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) ,
+Definition mergingStones_safety_wit_41 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) __default__List_Z (PreH1 : (split >= right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )),
   (((( &( "dp" ) ) + (((left * n_pre ) + right ) * sizeof(INT)))) # Int  |-> best)
   **  (IntArray.missing_i (( &( "dp" ) ) + ((left * n_pre ) * sizeof(INT))) right 0 n_pre (Znth left dp_l __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) left 0 n_pre n_pre dp_l )
@@ -1040,12 +1020,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum:
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((left + 1 ) <= INT_MAX) ” 
+  “ ((left + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (left + 1 )) ”
 .
 
-Definition mergingStones_safety_wit_42 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )) ,
+Definition mergingStones_safety_wit_42 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )),
   ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "width" ) )) # Int  |-> n_pre)
@@ -1056,12 +1036,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (pref
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((len + 1 ) <= INT_MAX) ” 
+  “ ((len + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (len + 1 )) ”
 .
 
-Definition mergingStones_safety_wit_43 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (len > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l n_pre len )) ,
+Definition mergingStones_safety_wit_43 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (len > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l n_pre len )),
   ((( &( "result" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -1072,12 +1052,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@li
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((n_pre - 1 ) <= INT_MAX) ” 
+  “ ((n_pre - 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (n_pre - 1 )) ”
 .
 
-Definition mergingStones_safety_wit_44 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (len > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l n_pre len )) ,
+Definition mergingStones_safety_wit_44 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (len > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l n_pre len )),
   ((( &( "result" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -1088,12 +1068,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@li
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((0 * n_pre ) <= INT_MAX) ” 
+  “ ((0 * n_pre ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (0 * n_pre )) ”
 .
 
-Definition mergingStones_safety_wit_45 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (len > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l n_pre len )) ,
+Definition mergingStones_safety_wit_45 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (len > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l n_pre len )),
   ((( &( "result" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -1104,12 +1084,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@li
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition mergingStones_safety_wit_46 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (len > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l n_pre len )) ,
+Definition mergingStones_safety_wit_46 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (len > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l n_pre len )),
   ((( &( "result" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -1120,12 +1100,12 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@li
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition mergingStones_safety_wit_47 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (len > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l n_pre len )) ,
+Definition mergingStones_safety_wit_47 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : (len > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l n_pre len )),
   ((( &( "result" ) )) # Int  |->_)
   **  ((( &( "stones" ) )) # Ptr  |-> stones_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -1136,23 +1116,23 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@li
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition mergingStones_entail_wit_1 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : ((Zlength (stones_l)) = n_pre)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) ,
+Definition mergingStones_entail_wit_1 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : ((Zlength (stones_l)) = n_pre)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )),
   (IntArray.undef_full ( &( "dp" ) ) 64 )
   **  (IntArray.undef_full ( &( "prefix" ) ) 9 )
   **  (IntArray.full stones_pre n_pre stones_l )
 |--
-  EX (dp_flat: (@list Z)) ,
-  “ (0 <= 0) ” 
-  &&  “ (0 <= (n_pre * n_pre )) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ ((Zlength (stones_l)) = n_pre) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
+  EX (dp_flat: (@list Z)),
+  “ (0 <= 0) ”
+  &&  “ (0 <= (n_pre * n_pre )) ”
+  &&  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ ((Zlength (stones_l)) = n_pre) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
   &&  “ (Forall (Z.ge (1000)) stones_l ) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.undef_full ( &( "prefix" ) ) 9 )
@@ -1160,20 +1140,20 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (PreH1 : (1 <= n_pre)) (
   **  (IntArray.undef_seg ( &( "dp" ) ) 0 64 )
 .
 
-Definition mergingStones_entail_wit_2 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat_2: (@list Z)) (k: Z) (PreH1 : (k < (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )) ,
+Definition mergingStones_entail_wit_2 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (dp_flat_2: (@list Z)) (k: Z) (PreH1 : (k < (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )),
   (IntArray.seg ( &( "dp" ) ) 0 (k + 1 ) (app (dp_flat_2) ((cons (0) ((@nil Z))))) )
   **  (IntArray.undef_seg ( &( "dp" ) ) (k + 1 ) 64 )
   **  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.undef_full ( &( "prefix" ) ) 9 )
 |--
-  EX (dp_flat: (@list Z)) ,
-  “ (0 <= (k + 1 )) ” 
-  &&  “ ((k + 1 ) <= (n_pre * n_pre )) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ ((Zlength (stones_l)) = n_pre) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
+  EX (dp_flat: (@list Z)),
+  “ (0 <= (k + 1 )) ”
+  &&  “ ((k + 1 ) <= (n_pre * n_pre )) ”
+  &&  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ ((Zlength (stones_l)) = n_pre) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
   &&  “ (Forall (Z.ge (1000)) stones_l ) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.undef_full ( &( "prefix" ) ) 9 )
@@ -1181,23 +1161,23 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat_2: (@list Z)) (
   **  (IntArray.undef_seg ( &( "dp" ) ) (k + 1 ) 64 )
 .
 
-Definition mergingStones_entail_wit_3 := 
+Definition mergingStones_entail_wit_3 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k: Z) (PreH1 : (k >= (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (dp_flat: (@list Z)) (k: Z) (PreH1 : (k >= (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )),
   (((( &( "prefix" ) ) + (0 * sizeof(INT)))) # Int  |-> 0)
   **  (IntArray.undef_seg ( &( "prefix" ) ) 1 9 )
   **  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.seg ( &( "dp" ) ) 0 k dp_flat )
   **  (IntArray.undef_seg ( &( "dp" ) ) k 64 )
 |--
-  EX (prefix_l: (@list Z))  (dp_init: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_init)) ) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= n_pre) ” 
+  EX (prefix_l: (@list Z)) (dp_init: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_init)) ) ”
+  &&  “ (0 <= 0) ”
+  &&  “ (0 <= n_pre) ”
   &&  “ (StonePrefixProgress stones_l prefix_l 0 ) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.seg ( &( "prefix" ) ) 0 (0 + 1 ) prefix_l )
@@ -1207,19 +1187,19 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k:
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 ) \/
 (
-forall (n_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k: Z) (PreH1 : (0 <= INT_MAX)) (PreH2 : (0 >= INT_MIN)) (PreH3 : (k >= (n_pre * n_pre ))) (PreH4 : (0 <= k)) (PreH5 : (k <= (n_pre * n_pre ))) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 8)) (PreH8 : ((Zlength (stones_l)) = n_pre)) (PreH9 : (Forall (Z.le (1)) stones_l )) (PreH10 : (Forall (Z.ge (1000)) stones_l )) ,
+forall (stones_l: (@list Z)) (n_pre: Z) (dp_flat: (@list Z)) (k: Z) (PreH1 : (0 <= INT_MAX)) (PreH2 : (0 >= INT_MIN)) (PreH3 : (k >= (n_pre * n_pre ))) (PreH4 : (0 <= k)) (PreH5 : (k <= (n_pre * n_pre ))) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 8)) (PreH8 : ((Zlength (stones_l)) = n_pre)) (PreH9 : (Forall (Z.le (1)) stones_l )) (PreH10 : (Forall (Z.ge (1000)) stones_l )),
   (((( &( "prefix" ) ) + (0 * sizeof(INT)))) # Int  |-> 0)
   **  (IntArray.undef_seg ( &( "prefix" ) ) 1 9 )
   **  (IntArray.seg ( &( "dp" ) ) 0 k dp_flat )
 |--
-  EX (prefix_l: (@list Z))  (dp_init: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_init)) ) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= n_pre) ” 
+  EX (prefix_l: (@list Z)) (dp_init: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_init)) ) ”
+  &&  “ (0 <= 0) ”
+  &&  “ (0 <= n_pre) ”
   &&  “ (StonePrefixProgress stones_l prefix_l 0 ) ”
   &&  (IntArray.seg ( &( "prefix" ) ) 0 (0 + 1 ) prefix_l )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (0 + 1 ) (n_pre + 1 ) )
@@ -1227,9 +1207,9 @@ forall (n_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k: Z) (PreH1 : (0 
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
 ).
 
-Definition mergingStones_entail_wit_4 := 
+Definition mergingStones_entail_wit_4 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) (i: Z) (dp_init_2: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init_2)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l_2 i )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l_2: (@list Z)) (i: Z) (dp_init_2: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init_2)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l_2 i )),
   (IntArray.seg ( &( "prefix" ) ) 0 ((i + 1 ) + 1 ) (app (prefix_l_2) ((cons (((Znth (i - 0 ) prefix_l_2 0) + (Znth i stones_l 0) )) ((@nil Z))))) )
   **  (IntArray.undef_seg ( &( "prefix" ) ) ((i + 1 ) + 1 ) (n_pre + 1 ) )
   **  (IntArray.full stones_pre n_pre stones_l )
@@ -1237,14 +1217,14 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) 
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  EX (prefix_l: (@list Z))  (dp_init: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_init)) ) ” 
-  &&  “ (0 <= (i + 1 )) ” 
-  &&  “ ((i + 1 ) <= n_pre) ” 
+  EX (prefix_l: (@list Z)) (dp_init: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_init)) ) ”
+  &&  “ (0 <= (i + 1 )) ”
+  &&  “ ((i + 1 ) <= n_pre) ”
   &&  “ (StonePrefixProgress stones_l prefix_l (i + 1 ) ) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.seg ( &( "prefix" ) ) 0 ((i + 1 ) + 1 ) prefix_l )
@@ -1254,21 +1234,21 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) 
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 ) \/
 (
-forall (n_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) (i: Z) (dp_init_2: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init_2)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l_2 i )) ,
+forall (stones_l: (@list Z)) (n_pre: Z) (prefix_l_2: (@list Z)) (i: Z) (dp_init_2: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init_2)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l_2 i )),
   TT && emp 
 |--
   “ (StonePrefixProgress stones_l (app (prefix_l_2) ((cons (((Znth (i - 0 ) prefix_l_2 0) + (Znth i stones_l 0) )) ((@nil Z))))) (i + 1 ) ) ”
   &&  emp
 ).
 
-Definition mergingStones_entail_wit_4_split_goal_1 := 
-forall (n_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) (i: Z) (dp_init_2: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init_2)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l_2 i )) ,
+Definition mergingStones_entail_wit_4_split_goal_1 :=
+forall (stones_l: (@list Z)) (n_pre: Z) (prefix_l_2: (@list Z)) (i: Z) (dp_init_2: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init_2)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l_2 i )),
   (StonePrefixProgress stones_l (app (prefix_l_2) ((cons (((Znth (i - 0 ) prefix_l_2 0) + (Znth i stones_l 0) )) ((@nil Z))))) (i + 1 ) )
 .
 
-Definition mergingStones_entail_wit_5 := 
+Definition mergingStones_entail_wit_5 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l_2 i )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l_2: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l_2 i )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.seg ( &( "prefix" ) ) 0 (i + 1 ) prefix_l_2 )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (i + 1 ) (n_pre + 1 ) )
@@ -1276,15 +1256,15 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) 
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  EX (prefix_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= n_pre) ” 
+  EX (prefix_l: (@list Z)) (dp_l: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (0 <= 0) ”
+  &&  “ (0 <= n_pre) ”
   &&  “ (StoneZeroRows dp_l 0 ) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
@@ -1293,44 +1273,44 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) 
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 ) \/
 (
-forall (n_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l_2 i )) ,
+forall (stones_l: (@list Z)) (n_pre: Z) (prefix_l_2: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l_2 i )),
   TT && emp 
 |--
-  “ (StoneZeroRows dp_init 0 ) ” 
+  “ (StoneZeroRows dp_init 0 ) ”
   &&  “ (StonePrefixDone stones_l prefix_l_2 n_pre ) ”
   &&  emp
 ).
 
-Definition mergingStones_entail_wit_5_split_goal_1 := 
-forall (n_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l_2 i )) ,
+Definition mergingStones_entail_wit_5_split_goal_1 :=
+forall (stones_l: (@list Z)) (n_pre: Z) (prefix_l_2: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l_2 i )),
   (StoneZeroRows dp_init 0 )
 .
 
-Definition mergingStones_entail_wit_5_split_goal_2 := 
-forall (n_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l_2 i )) ,
+Definition mergingStones_entail_wit_5_split_goal_2 :=
+forall (stones_l: (@list Z)) (n_pre: Z) (prefix_l_2: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l_2 i )),
   (StonePrefixDone stones_l prefix_l_2 n_pre )
 .
 
-Definition mergingStones_entail_wit_6 := 
+Definition mergingStones_entail_wit_6 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (row < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row <= n_pre)) (PreH10 : (StoneZeroRows dp_l_2 row )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (row < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row <= n_pre)) (PreH10 : (StoneZeroRows dp_l_2 row )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l_2 )
   **  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l_2 )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  EX (prefix_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (0 <= row) ” 
-  &&  “ (row < n_pre) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= n_pre) ” 
+  EX (prefix_l: (@list Z)) (dp_l: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (0 <= row) ”
+  &&  “ (row < n_pre) ”
+  &&  “ (0 <= 0) ”
+  &&  “ (0 <= n_pre) ”
   &&  “ (StoneZeroProgress dp_l row 0 ) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
@@ -1339,21 +1319,21 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (row: Z) (prefix_l_2: (@
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 ) \/
 (
-forall (n_pre: Z) (stones_l: (@list Z)) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (row < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row <= n_pre)) (PreH10 : (StoneZeroRows dp_l_2 row )) ,
+forall (stones_l: (@list Z)) (n_pre: Z) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (row < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row <= n_pre)) (PreH10 : (StoneZeroRows dp_l_2 row )),
   TT && emp 
 |--
   “ (StoneZeroProgress dp_l_2 row 0 ) ”
   &&  emp
 ).
 
-Definition mergingStones_entail_wit_6_split_goal_1 := 
-forall (n_pre: Z) (stones_l: (@list Z)) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (row < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row <= n_pre)) (PreH10 : (StoneZeroRows dp_l_2 row )) ,
+Definition mergingStones_entail_wit_6_split_goal_1 :=
+forall (stones_l: (@list Z)) (n_pre: Z) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (row < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row <= n_pre)) (PreH10 : (StoneZeroRows dp_l_2 row )),
   (StoneZeroProgress dp_l_2 row 0 )
 .
 
-Definition mergingStones_entail_wit_7 := 
+Definition mergingStones_entail_wit_7 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z)))  __default__List_Z (PreH1 : (col < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l_2 row col )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (col: Z) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) __default__List_Z (PreH1 : (col < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l_2 row col )),
   (((( &( "dp" ) ) + (((row * n_pre ) + col ) * sizeof(INT)))) # Int  |-> 0)
   **  (IntArray.missing_i (( &( "dp" ) ) + ((row * n_pre ) * sizeof(INT))) col 0 n_pre (Znth row dp_l_2 __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) row 0 n_pre n_pre dp_l_2 )
@@ -1362,17 +1342,17 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefi
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  EX (prefix_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (0 <= row) ” 
-  &&  “ (row < n_pre) ” 
-  &&  “ (0 <= (col + 1 )) ” 
-  &&  “ ((col + 1 ) <= n_pre) ” 
+  EX (prefix_l: (@list Z)) (dp_l: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (0 <= row) ”
+  &&  “ (row < n_pre) ”
+  &&  “ (0 <= (col + 1 )) ”
+  &&  “ ((col + 1 ) <= n_pre) ”
   &&  “ (StoneZeroProgress dp_l row (col + 1 ) ) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
@@ -1381,44 +1361,44 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefi
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 ) \/
 (
-forall (n_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z)))  __default__List_Z (PreH1 : (0 <= INT_MAX)) (PreH2 : (0 >= INT_MIN)) (PreH3 : (col < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) (PreH8 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH9 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH10 : (0 <= row)) (PreH11 : (row < n_pre)) (PreH12 : (0 <= col)) (PreH13 : (col <= n_pre)) (PreH14 : (StoneZeroProgress dp_l_2 row col )) ,
+forall (stones_l: (@list Z)) (n_pre: Z) (col: Z) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) __default__List_Z (PreH1 : (0 <= INT_MAX)) (PreH2 : (0 >= INT_MIN)) (PreH3 : (col < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) (PreH8 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH9 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH10 : (0 <= row)) (PreH11 : (row < n_pre)) (PreH12 : (0 <= col)) (PreH13 : (col <= n_pre)) (PreH14 : (StoneZeroProgress dp_l_2 row col )),
   (((( &( "dp" ) ) + (((row * n_pre ) + col ) * sizeof(INT)))) # Int  |-> 0)
   **  (IntArray.missing_i (( &( "dp" ) ) + ((row * n_pre ) * sizeof(INT))) col 0 n_pre (Znth row dp_l_2 __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) row 0 n_pre n_pre dp_l_2 )
 |--
-  EX (dp_l: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l_2 n_pre ) ” 
-  &&  “ (0 <= row) ” 
-  &&  “ (row < n_pre) ” 
-  &&  “ (0 <= (col + 1 )) ” 
-  &&  “ ((col + 1 ) <= n_pre) ” 
+  EX (dp_l: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l_2 n_pre ) ”
+  &&  “ (0 <= row) ”
+  &&  “ (row < n_pre) ”
+  &&  “ (0 <= (col + 1 )) ”
+  &&  “ ((col + 1 ) <= n_pre) ”
   &&  “ (StoneZeroProgress dp_l row (col + 1 ) ) ”
   &&  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l )
 ).
 
-Definition mergingStones_entail_wit_8 := 
+Definition mergingStones_entail_wit_8 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (col >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l_2 row col )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (col: Z) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (col >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l_2 row col )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l_2 )
   **  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l_2 )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  EX (prefix_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (0 <= (row + 1 )) ” 
-  &&  “ ((row + 1 ) <= n_pre) ” 
+  EX (prefix_l: (@list Z)) (dp_l: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (0 <= (row + 1 )) ”
+  &&  “ ((row + 1 ) <= n_pre) ”
   &&  “ (StoneZeroRows dp_l (row + 1 ) ) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
@@ -1427,36 +1407,36 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefi
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 ) \/
 (
-forall (n_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (col >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l_2 row col )) ,
+forall (stones_l: (@list Z)) (n_pre: Z) (col: Z) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (col >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l_2 row col )),
   TT && emp 
 |--
   “ (StoneZeroRows dp_l_2 (row + 1 ) ) ”
   &&  emp
 ).
 
-Definition mergingStones_entail_wit_8_split_goal_1 := 
-forall (n_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (col >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l_2 row col )) ,
+Definition mergingStones_entail_wit_8_split_goal_1 :=
+forall (stones_l: (@list Z)) (n_pre: Z) (col: Z) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (col >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l_2 row col )),
   (StoneZeroRows dp_l_2 (row + 1 ) )
 .
 
-Definition mergingStones_entail_wit_9 := 
+Definition mergingStones_entail_wit_9 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (row >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row <= n_pre)) (PreH10 : (StoneZeroRows dp_l_2 row )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (row >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row <= n_pre)) (PreH10 : (StoneZeroRows dp_l_2 row )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l_2 )
   **  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l_2 )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  EX (prefix_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (2 <= 2) ” 
-  &&  “ (2 <= (n_pre + 1 )) ” 
+  EX (prefix_l: (@list Z)) (dp_l: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (2 <= 2) ”
+  &&  “ (2 <= (n_pre + 1 )) ”
   &&  “ (StoneLenDone stones_l dp_l n_pre 2 ) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
@@ -1465,38 +1445,38 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (row: Z) (prefix_l_2: (@
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 ) \/
 (
-forall (n_pre: Z) (stones_l: (@list Z)) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (row >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row <= n_pre)) (PreH10 : (StoneZeroRows dp_l_2 row )) ,
+forall (stones_l: (@list Z)) (n_pre: Z) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (row >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row <= n_pre)) (PreH10 : (StoneZeroRows dp_l_2 row )),
   TT && emp 
 |--
   “ (StoneLenDone stones_l dp_l_2 n_pre 2 ) ”
   &&  emp
 ).
 
-Definition mergingStones_entail_wit_9_split_goal_1 := 
-forall (n_pre: Z) (stones_l: (@list Z)) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (row >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row <= n_pre)) (PreH10 : (StoneZeroRows dp_l_2 row )) ,
+Definition mergingStones_entail_wit_9_split_goal_1 :=
+forall (stones_l: (@list Z)) (n_pre: Z) (row: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (row >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row <= n_pre)) (PreH10 : (StoneZeroRows dp_l_2 row )),
   (StoneLenDone stones_l dp_l_2 n_pre 2 )
 .
 
-Definition mergingStones_entail_wit_10 := 
+Definition mergingStones_entail_wit_10 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (len <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l_2 n_pre len )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (len <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l_2 n_pre len )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l_2 )
   **  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l_2 )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  EX (prefix_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= n_pre) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= ((n_pre - len ) + 1 )) ” 
+  EX (prefix_l: (@list Z)) (dp_l: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (2 <= len) ”
+  &&  “ (len <= n_pre) ”
+  &&  “ (0 <= 0) ”
+  &&  “ (0 <= ((n_pre - len ) + 1 )) ”
   &&  “ (StoneLeftProgress stones_l dp_l n_pre len 0 ) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
@@ -1505,46 +1485,46 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l_2: (@
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 ) \/
 (
-forall (n_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (len <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l_2 n_pre len )) ,
+forall (stones_l: (@list Z)) (n_pre: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (len <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l_2 n_pre len )),
   TT && emp 
 |--
   “ (StoneLeftProgress stones_l dp_l_2 n_pre len 0 ) ”
   &&  emp
 ).
 
-Definition mergingStones_entail_wit_10_split_goal_1 := 
-forall (n_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (len <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l_2 n_pre len )) ,
+Definition mergingStones_entail_wit_10_split_goal_1 :=
+forall (stones_l: (@list Z)) (n_pre: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : (len <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l_2 n_pre len )),
   (StoneLeftProgress stones_l dp_l_2 n_pre len 0 )
 .
 
-Definition mergingStones_entail_wit_11 := 
+Definition mergingStones_entail_wit_11 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )),
   (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
   **  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l_2 )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  EX (prefix_l_2: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l_2 n_pre ) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= n_pre) ” 
-  &&  “ (0 <= left) ” 
-  &&  “ ((left + len ) <= n_pre) ” 
-  &&  “ (((left + len ) - 1 ) = ((left + len ) - 1 )) ” 
-  &&  “ (left <= left) ” 
-  &&  “ (left <= ((left + len ) - 1 )) ” 
-  &&  “ (((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) ) = (sum ((sublist (left) ((((left + len ) - 1 ) + 1 )) (stones_l))))) ” 
-  &&  “ (2 <= ((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) )) ” 
-  &&  “ (((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) ) <= 8000) ” 
-  &&  “ (0 <= 1000000) ” 
-  &&  “ (1000000 <= 1000000) ” 
+  EX (prefix_l_2: (@list Z)) (dp_l: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l_2 n_pre ) ”
+  &&  “ (2 <= len) ”
+  &&  “ (len <= n_pre) ”
+  &&  “ (0 <= left) ”
+  &&  “ ((left + len ) <= n_pre) ”
+  &&  “ (((left + len ) - 1 ) = ((left + len ) - 1 )) ”
+  &&  “ (left <= left) ”
+  &&  “ (left <= ((left + len ) - 1 )) ”
+  &&  “ (((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) ) = (sum ((sublist (left) ((((left + len ) - 1 ) + 1 )) (stones_l))))) ”
+  &&  “ (2 <= ((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) )) ”
+  &&  “ (((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) ) <= 8000) ”
+  &&  “ (0 <= 1000000) ”
+  &&  “ (1000000 <= 1000000) ”
   &&  “ (StoneSplitProgress stones_l dp_l n_pre len left left 1000000 ) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l_2 )
@@ -1553,39 +1533,39 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (pref
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 ) \/
 (
-forall (n_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )) ,
+forall (stones_l: (@list Z)) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )),
   TT && emp 
 |--
-  “ (StoneSplitProgress stones_l dp_l_2 n_pre len left left 1000000 ) ” 
-  &&  “ (((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) ) <= 8000) ” 
-  &&  “ (2 <= ((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) )) ” 
+  “ (StoneSplitProgress stones_l dp_l_2 n_pre len left left 1000000 ) ”
+  &&  “ (((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) ) <= 8000) ”
+  &&  “ (2 <= ((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) )) ”
   &&  “ (((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) ) = (sum ((sublist (left) ((((left + len ) - 1 ) + 1 )) (stones_l))))) ”
   &&  emp
 ).
 
-Definition mergingStones_entail_wit_11_split_goal_1 := 
-forall (n_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )) ,
+Definition mergingStones_entail_wit_11_split_goal_1 :=
+forall (stones_l: (@list Z)) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )),
   (StoneSplitProgress stones_l dp_l_2 n_pre len left left 1000000 )
 .
 
-Definition mergingStones_entail_wit_11_split_goal_2 := 
-forall (n_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )) ,
+Definition mergingStones_entail_wit_11_split_goal_2 :=
+forall (stones_l: (@list Z)) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )),
   (((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) ) <= 8000)
 .
 
-Definition mergingStones_entail_wit_11_split_goal_3 := 
-forall (n_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )) ,
+Definition mergingStones_entail_wit_11_split_goal_3 :=
+forall (stones_l: (@list Z)) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )),
   (2 <= ((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) ))
 .
 
-Definition mergingStones_entail_wit_11_split_goal_4 := 
-forall (n_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )) ,
+Definition mergingStones_entail_wit_11_split_goal_4 :=
+forall (stones_l: (@list Z)) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )),
   (((Znth (((left + len ) - 1 ) + 1 ) prefix_l 0) - (Znth left prefix_l 0) ) = (sum ((sublist (left) ((((left + len ) - 1 ) + 1 )) (stones_l)))))
 .
 
-Definition mergingStones_entail_wit_12 := 
+Definition mergingStones_entail_wit_12 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l: (@list (@list Z)))  __default__List_Z (PreH1 : (split < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l: (@list (@list Z))) __default__List_Z (PreH1 : (split < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )),
   (((( &( "dp" ) ) + (((left * n_pre ) + split ) * sizeof(INT)))) # Int  |-> (Znth (split) ((Znth left dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + ((left * n_pre ) * sizeof(INT))) split 0 n_pre (Znth left dp_l __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) left 0 n_pre n_pre dp_l )
@@ -1594,27 +1574,27 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum:
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  EX (prefix_l: (@list Z))  (dp_l_2: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= n_pre) ” 
-  &&  “ (0 <= left) ” 
-  &&  “ ((left + len ) <= n_pre) ” 
-  &&  “ (right = ((left + len ) - 1 )) ” 
-  &&  “ (left <= split) ” 
-  &&  “ (split <= right) ” 
-  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ” 
-  &&  “ (2 <= interval_sum) ” 
-  &&  “ (interval_sum <= 8000) ” 
-  &&  “ (0 <= best) ” 
-  &&  “ (best <= 1000000) ” 
-  &&  “ (StoneSplitProgress stones_l dp_l_2 n_pre len left split best ) ” 
-  &&  “ (split < right) ” 
+  EX (prefix_l: (@list Z)) (dp_l_2: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (2 <= len) ”
+  &&  “ (len <= n_pre) ”
+  &&  “ (0 <= left) ”
+  &&  “ ((left + len ) <= n_pre) ”
+  &&  “ (right = ((left + len ) - 1 )) ”
+  &&  “ (left <= split) ”
+  &&  “ (split <= right) ”
+  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ”
+  &&  “ (2 <= interval_sum) ”
+  &&  “ (interval_sum <= 8000) ”
+  &&  “ (0 <= best) ”
+  &&  “ (best <= 1000000) ”
+  &&  “ (StoneSplitProgress stones_l dp_l_2 n_pre len left split best ) ”
+  &&  “ (split < right) ”
   &&  “ ((Znth (split) ((Znth left dp_l __default__List_Z)) (0)) = (Znth split (Znth left dp_l_2 __default__List_Z) 0)) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
@@ -1623,39 +1603,39 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum:
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 ) \/
 (
-forall (n_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l: (@list (@list Z)))  __default__List_Z (PreH1 : ((Znth (split) ((Znth left dp_l __default__List_Z)) (0)) <= INT_MAX)) (PreH2 : ((Znth (split) ((Znth left dp_l __default__List_Z)) (0)) >= INT_MIN)) (PreH3 : (split < right)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) (PreH8 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH9 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH10 : (2 <= len)) (PreH11 : (len <= n_pre)) (PreH12 : (0 <= left)) (PreH13 : ((left + len ) <= n_pre)) (PreH14 : (right = ((left + len ) - 1 ))) (PreH15 : (left <= split)) (PreH16 : (split <= right)) (PreH17 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH18 : (2 <= interval_sum)) (PreH19 : (interval_sum <= 8000)) (PreH20 : (0 <= best)) (PreH21 : (best <= 1000000)) (PreH22 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) ,
+forall (stones_l: (@list Z)) (n_pre: Z) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l: (@list (@list Z))) __default__List_Z (PreH1 : ((Znth (split) ((Znth left dp_l __default__List_Z)) (0)) <= INT_MAX)) (PreH2 : ((Znth (split) ((Znth left dp_l __default__List_Z)) (0)) >= INT_MIN)) (PreH3 : (split < right)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) (PreH8 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH9 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH10 : (2 <= len)) (PreH11 : (len <= n_pre)) (PreH12 : (0 <= left)) (PreH13 : ((left + len ) <= n_pre)) (PreH14 : (right = ((left + len ) - 1 ))) (PreH15 : (left <= split)) (PreH16 : (split <= right)) (PreH17 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH18 : (2 <= interval_sum)) (PreH19 : (interval_sum <= 8000)) (PreH20 : (0 <= best)) (PreH21 : (best <= 1000000)) (PreH22 : (StoneSplitProgress stones_l dp_l n_pre len left split best )),
   (((( &( "dp" ) ) + (((left * n_pre ) + split ) * sizeof(INT)))) # Int  |-> (Znth (split) ((Znth left dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + ((left * n_pre ) * sizeof(INT))) split 0 n_pre (Znth left dp_l __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) left 0 n_pre n_pre dp_l )
 |--
-  EX (dp_l_2: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l_2 n_pre ) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= n_pre) ” 
-  &&  “ (0 <= left) ” 
-  &&  “ ((left + len ) <= n_pre) ” 
-  &&  “ (right = ((left + len ) - 1 )) ” 
-  &&  “ (left <= split) ” 
-  &&  “ (split <= right) ” 
-  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ” 
-  &&  “ (2 <= interval_sum) ” 
-  &&  “ (interval_sum <= 8000) ” 
-  &&  “ (0 <= best) ” 
-  &&  “ (best <= 1000000) ” 
-  &&  “ (StoneSplitProgress stones_l dp_l_2 n_pre len left split best ) ” 
-  &&  “ (split < right) ” 
+  EX (dp_l_2: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l_2 n_pre ) ”
+  &&  “ (2 <= len) ”
+  &&  “ (len <= n_pre) ”
+  &&  “ (0 <= left) ”
+  &&  “ ((left + len ) <= n_pre) ”
+  &&  “ (right = ((left + len ) - 1 )) ”
+  &&  “ (left <= split) ”
+  &&  “ (split <= right) ”
+  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ”
+  &&  “ (2 <= interval_sum) ”
+  &&  “ (interval_sum <= 8000) ”
+  &&  “ (0 <= best) ”
+  &&  “ (best <= 1000000) ”
+  &&  “ (StoneSplitProgress stones_l dp_l_2 n_pre len left split best ) ”
+  &&  “ (split < right) ”
   &&  “ ((Znth (split) ((Znth left dp_l __default__List_Z)) (0)) = (Znth split (Znth left dp_l_2 __default__List_Z) 0)) ”
   &&  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l_2 )
 ).
 
-Definition mergingStones_entail_wit_13_1 := 
+Definition mergingStones_entail_wit_13_1 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum ) < best)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l_2 n_pre len left split best )) (PreH21 : (split < right)) (PreH22 : (left_value = (Znth split (Znth left dp_l_2 __default__List_Z) 0))) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum ) < best)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l_2 n_pre len left split best )) (PreH21 : (split < right)) (PreH22 : (left_value = (Znth split (Znth left dp_l_2 __default__List_Z) 0))),
   (((( &( "dp" ) ) + ((((split + 1 ) * n_pre ) + right ) * sizeof(INT)))) # Int  |-> (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + (((split + 1 ) * n_pre ) * sizeof(INT))) right 0 n_pre (Znth (split + 1 ) dp_l_2 __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) (split + 1 ) 0 n_pre n_pre dp_l_2 )
@@ -1664,25 +1644,25 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) 
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  EX (prefix_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= n_pre) ” 
-  &&  “ (0 <= left) ” 
-  &&  “ ((left + len ) <= n_pre) ” 
-  &&  “ (right = ((left + len ) - 1 )) ” 
-  &&  “ (left <= (split + 1 )) ” 
-  &&  “ ((split + 1 ) <= right) ” 
-  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ” 
-  &&  “ (2 <= interval_sum) ” 
-  &&  “ (interval_sum <= 8000) ” 
-  &&  “ (0 <= ((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum )) ” 
-  &&  “ (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum ) <= 1000000) ” 
+  EX (prefix_l: (@list Z)) (dp_l: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (2 <= len) ”
+  &&  “ (len <= n_pre) ”
+  &&  “ (0 <= left) ”
+  &&  “ ((left + len ) <= n_pre) ”
+  &&  “ (right = ((left + len ) - 1 )) ”
+  &&  “ (left <= (split + 1 )) ”
+  &&  “ ((split + 1 ) <= right) ”
+  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ”
+  &&  “ (2 <= interval_sum) ”
+  &&  “ (interval_sum <= 8000) ”
+  &&  “ (0 <= ((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum )) ”
+  &&  “ (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum ) <= 1000000) ”
   &&  “ (StoneSplitProgress stones_l dp_l n_pre len left (split + 1 ) ((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum ) ) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
@@ -1691,37 +1671,37 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) 
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 ) \/
 (
-forall (n_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : ((Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) <= INT_MAX)) (PreH2 : ((Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) >= INT_MIN)) (PreH3 : (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum ) < best)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) (PreH8 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH9 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH10 : (2 <= len)) (PreH11 : (len <= n_pre)) (PreH12 : (0 <= left)) (PreH13 : ((left + len ) <= n_pre)) (PreH14 : (right = ((left + len ) - 1 ))) (PreH15 : (left <= split)) (PreH16 : (split <= right)) (PreH17 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH18 : (2 <= interval_sum)) (PreH19 : (interval_sum <= 8000)) (PreH20 : (0 <= best)) (PreH21 : (best <= 1000000)) (PreH22 : (StoneSplitProgress stones_l dp_l_2 n_pre len left split best )) (PreH23 : (split < right)) (PreH24 : (left_value = (Znth split (Znth left dp_l_2 __default__List_Z) 0))) ,
+forall (stones_l: (@list Z)) (n_pre: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : ((Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) <= INT_MAX)) (PreH2 : ((Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) >= INT_MIN)) (PreH3 : (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum ) < best)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) (PreH8 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH9 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH10 : (2 <= len)) (PreH11 : (len <= n_pre)) (PreH12 : (0 <= left)) (PreH13 : ((left + len ) <= n_pre)) (PreH14 : (right = ((left + len ) - 1 ))) (PreH15 : (left <= split)) (PreH16 : (split <= right)) (PreH17 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH18 : (2 <= interval_sum)) (PreH19 : (interval_sum <= 8000)) (PreH20 : (0 <= best)) (PreH21 : (best <= 1000000)) (PreH22 : (StoneSplitProgress stones_l dp_l_2 n_pre len left split best )) (PreH23 : (split < right)) (PreH24 : (left_value = (Znth split (Znth left dp_l_2 __default__List_Z) 0))),
   (((( &( "dp" ) ) + ((((split + 1 ) * n_pre ) + right ) * sizeof(INT)))) # Int  |-> (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + (((split + 1 ) * n_pre ) * sizeof(INT))) right 0 n_pre (Znth (split + 1 ) dp_l_2 __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) (split + 1 ) 0 n_pre n_pre dp_l_2 )
 |--
-  EX (dp_l: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l_2 n_pre ) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= n_pre) ” 
-  &&  “ (0 <= left) ” 
-  &&  “ ((left + len ) <= n_pre) ” 
-  &&  “ (right = ((left + len ) - 1 )) ” 
-  &&  “ (left <= (split + 1 )) ” 
-  &&  “ ((split + 1 ) <= right) ” 
-  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ” 
-  &&  “ (2 <= interval_sum) ” 
-  &&  “ (interval_sum <= 8000) ” 
-  &&  “ (0 <= ((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum )) ” 
-  &&  “ (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum ) <= 1000000) ” 
+  EX (dp_l: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l_2 n_pre ) ”
+  &&  “ (2 <= len) ”
+  &&  “ (len <= n_pre) ”
+  &&  “ (0 <= left) ”
+  &&  “ ((left + len ) <= n_pre) ”
+  &&  “ (right = ((left + len ) - 1 )) ”
+  &&  “ (left <= (split + 1 )) ”
+  &&  “ ((split + 1 ) <= right) ”
+  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ”
+  &&  “ (2 <= interval_sum) ”
+  &&  “ (interval_sum <= 8000) ”
+  &&  “ (0 <= ((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum )) ”
+  &&  “ (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum ) <= 1000000) ”
   &&  “ (StoneSplitProgress stones_l dp_l n_pre len left (split + 1 ) ((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum ) ) ”
   &&  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l )
 ).
 
-Definition mergingStones_entail_wit_13_2 := 
+Definition mergingStones_entail_wit_13_2 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum ) >= best)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l_2 n_pre len left split best )) (PreH21 : (split < right)) (PreH22 : (left_value = (Znth split (Znth left dp_l_2 __default__List_Z) 0))) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum ) >= best)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l_2 n_pre len left split best )) (PreH21 : (split < right)) (PreH22 : (left_value = (Znth split (Znth left dp_l_2 __default__List_Z) 0))),
   (((( &( "dp" ) ) + ((((split + 1 ) * n_pre ) + right ) * sizeof(INT)))) # Int  |-> (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + (((split + 1 ) * n_pre ) * sizeof(INT))) right 0 n_pre (Znth (split + 1 ) dp_l_2 __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) (split + 1 ) 0 n_pre n_pre dp_l_2 )
@@ -1730,25 +1710,25 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) 
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  EX (prefix_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= n_pre) ” 
-  &&  “ (0 <= left) ” 
-  &&  “ ((left + len ) <= n_pre) ” 
-  &&  “ (right = ((left + len ) - 1 )) ” 
-  &&  “ (left <= (split + 1 )) ” 
-  &&  “ ((split + 1 ) <= right) ” 
-  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ” 
-  &&  “ (2 <= interval_sum) ” 
-  &&  “ (interval_sum <= 8000) ” 
-  &&  “ (0 <= best) ” 
-  &&  “ (best <= 1000000) ” 
+  EX (prefix_l: (@list Z)) (dp_l: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (2 <= len) ”
+  &&  “ (len <= n_pre) ”
+  &&  “ (0 <= left) ”
+  &&  “ ((left + len ) <= n_pre) ”
+  &&  “ (right = ((left + len ) - 1 )) ”
+  &&  “ (left <= (split + 1 )) ”
+  &&  “ ((split + 1 ) <= right) ”
+  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ”
+  &&  “ (2 <= interval_sum) ”
+  &&  “ (interval_sum <= 8000) ”
+  &&  “ (0 <= best) ”
+  &&  “ (best <= 1000000) ”
   &&  “ (StoneSplitProgress stones_l dp_l n_pre len left (split + 1 ) best ) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
@@ -1757,37 +1737,37 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) 
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 ) \/
 (
-forall (n_pre: Z) (stones_l: (@list Z)) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : ((Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) <= INT_MAX)) (PreH2 : ((Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) >= INT_MIN)) (PreH3 : (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum ) >= best)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) (PreH8 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH9 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH10 : (2 <= len)) (PreH11 : (len <= n_pre)) (PreH12 : (0 <= left)) (PreH13 : ((left + len ) <= n_pre)) (PreH14 : (right = ((left + len ) - 1 ))) (PreH15 : (left <= split)) (PreH16 : (split <= right)) (PreH17 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH18 : (2 <= interval_sum)) (PreH19 : (interval_sum <= 8000)) (PreH20 : (0 <= best)) (PreH21 : (best <= 1000000)) (PreH22 : (StoneSplitProgress stones_l dp_l_2 n_pre len left split best )) (PreH23 : (split < right)) (PreH24 : (left_value = (Znth split (Znth left dp_l_2 __default__List_Z) 0))) ,
+forall (stones_l: (@list Z)) (n_pre: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : ((Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) <= INT_MAX)) (PreH2 : ((Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) >= INT_MIN)) (PreH3 : (((left_value + (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)) ) + interval_sum ) >= best)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) (PreH8 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH9 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH10 : (2 <= len)) (PreH11 : (len <= n_pre)) (PreH12 : (0 <= left)) (PreH13 : ((left + len ) <= n_pre)) (PreH14 : (right = ((left + len ) - 1 ))) (PreH15 : (left <= split)) (PreH16 : (split <= right)) (PreH17 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH18 : (2 <= interval_sum)) (PreH19 : (interval_sum <= 8000)) (PreH20 : (0 <= best)) (PreH21 : (best <= 1000000)) (PreH22 : (StoneSplitProgress stones_l dp_l_2 n_pre len left split best )) (PreH23 : (split < right)) (PreH24 : (left_value = (Znth split (Znth left dp_l_2 __default__List_Z) 0))),
   (((( &( "dp" ) ) + ((((split + 1 ) * n_pre ) + right ) * sizeof(INT)))) # Int  |-> (Znth (right) ((Znth (split + 1 ) dp_l_2 __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + (((split + 1 ) * n_pre ) * sizeof(INT))) right 0 n_pre (Znth (split + 1 ) dp_l_2 __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) (split + 1 ) 0 n_pre n_pre dp_l_2 )
 |--
-  EX (dp_l: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l_2 n_pre ) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= n_pre) ” 
-  &&  “ (0 <= left) ” 
-  &&  “ ((left + len ) <= n_pre) ” 
-  &&  “ (right = ((left + len ) - 1 )) ” 
-  &&  “ (left <= (split + 1 )) ” 
-  &&  “ ((split + 1 ) <= right) ” 
-  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ” 
-  &&  “ (2 <= interval_sum) ” 
-  &&  “ (interval_sum <= 8000) ” 
-  &&  “ (0 <= best) ” 
-  &&  “ (best <= 1000000) ” 
+  EX (dp_l: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l_2 n_pre ) ”
+  &&  “ (2 <= len) ”
+  &&  “ (len <= n_pre) ”
+  &&  “ (0 <= left) ”
+  &&  “ ((left + len ) <= n_pre) ”
+  &&  “ (right = ((left + len ) - 1 )) ”
+  &&  “ (left <= (split + 1 )) ”
+  &&  “ ((split + 1 ) <= right) ”
+  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ”
+  &&  “ (2 <= interval_sum) ”
+  &&  “ (interval_sum <= 8000) ”
+  &&  “ (0 <= best) ”
+  &&  “ (best <= 1000000) ”
   &&  “ (StoneSplitProgress stones_l dp_l n_pre len left (split + 1 ) best ) ”
   &&  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l )
 ).
 
-Definition mergingStones_entail_wit_14 := 
+Definition mergingStones_entail_wit_14 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z)))  __default__List_Z (PreH1 : (split >= right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l_2 n_pre len left split best )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) __default__List_Z (PreH1 : (split >= right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l_2 n_pre len left split best )),
   (((( &( "dp" ) ) + (((left * n_pre ) + right ) * sizeof(INT)))) # Int  |-> best)
   **  (IntArray.missing_i (( &( "dp" ) ) + ((left * n_pre ) * sizeof(INT))) right 0 n_pre (Znth left dp_l_2 __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) left 0 n_pre n_pre dp_l_2 )
@@ -1796,17 +1776,17 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum:
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  EX (prefix_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= n_pre) ” 
-  &&  “ (0 <= (left + 1 )) ” 
-  &&  “ ((left + 1 ) <= ((n_pre - len ) + 1 )) ” 
+  EX (prefix_l: (@list Z)) (dp_l: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (2 <= len) ”
+  &&  “ (len <= n_pre) ”
+  &&  “ (0 <= (left + 1 )) ”
+  &&  “ ((left + 1 ) <= ((n_pre - len ) + 1 )) ”
   &&  “ (StoneLeftProgress stones_l dp_l n_pre len (left + 1 ) ) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
@@ -1815,44 +1795,44 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum:
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 ) \/
 (
-forall (n_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z)))  __default__List_Z (PreH1 : (best <= INT_MAX)) (PreH2 : (best >= INT_MIN)) (PreH3 : (split >= right)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) (PreH8 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH9 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH10 : (2 <= len)) (PreH11 : (len <= n_pre)) (PreH12 : (0 <= left)) (PreH13 : ((left + len ) <= n_pre)) (PreH14 : (right = ((left + len ) - 1 ))) (PreH15 : (left <= split)) (PreH16 : (split <= right)) (PreH17 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH18 : (2 <= interval_sum)) (PreH19 : (interval_sum <= 8000)) (PreH20 : (0 <= best)) (PreH21 : (best <= 1000000)) (PreH22 : (StoneSplitProgress stones_l dp_l_2 n_pre len left split best )) ,
+forall (stones_l: (@list Z)) (n_pre: Z) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) __default__List_Z (PreH1 : (best <= INT_MAX)) (PreH2 : (best >= INT_MIN)) (PreH3 : (split >= right)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) (PreH8 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH9 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH10 : (2 <= len)) (PreH11 : (len <= n_pre)) (PreH12 : (0 <= left)) (PreH13 : ((left + len ) <= n_pre)) (PreH14 : (right = ((left + len ) - 1 ))) (PreH15 : (left <= split)) (PreH16 : (split <= right)) (PreH17 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH18 : (2 <= interval_sum)) (PreH19 : (interval_sum <= 8000)) (PreH20 : (0 <= best)) (PreH21 : (best <= 1000000)) (PreH22 : (StoneSplitProgress stones_l dp_l_2 n_pre len left split best )),
   (((( &( "dp" ) ) + (((left * n_pre ) + right ) * sizeof(INT)))) # Int  |-> best)
   **  (IntArray.missing_i (( &( "dp" ) ) + ((left * n_pre ) * sizeof(INT))) right 0 n_pre (Znth left dp_l_2 __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) left 0 n_pre n_pre dp_l_2 )
 |--
-  EX (dp_l: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l_2 n_pre ) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= n_pre) ” 
-  &&  “ (0 <= (left + 1 )) ” 
-  &&  “ ((left + 1 ) <= ((n_pre - len ) + 1 )) ” 
+  EX (dp_l: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l_2 n_pre ) ”
+  &&  “ (2 <= len) ”
+  &&  “ (len <= n_pre) ”
+  &&  “ (0 <= (left + 1 )) ”
+  &&  “ ((left + 1 ) <= ((n_pre - len ) + 1 )) ”
   &&  “ (StoneLeftProgress stones_l dp_l n_pre len (left + 1 ) ) ”
   &&  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l )
 ).
 
-Definition mergingStones_entail_wit_15 := 
+Definition mergingStones_entail_wit_15 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (left: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l_2 )
   **  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l_2 )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  EX (prefix_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (2 <= (len + 1 )) ” 
-  &&  “ ((len + 1 ) <= (n_pre + 1 )) ” 
+  EX (prefix_l: (@list Z)) (dp_l: (@list (@list Z))),
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (2 <= (len + 1 )) ”
+  &&  “ ((len + 1 ) <= (n_pre + 1 )) ”
   &&  “ (StoneLenDone stones_l dp_l n_pre (len + 1 ) ) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
@@ -1861,21 +1841,21 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (pref
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 ) \/
 (
-forall (n_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )) ,
+forall (stones_l: (@list Z)) (n_pre: Z) (left: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )),
   TT && emp 
 |--
   “ (StoneLenDone stones_l dp_l_2 n_pre (len + 1 ) ) ”
   &&  emp
 ).
 
-Definition mergingStones_entail_wit_15_split_goal_1 := 
-forall (n_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )) ,
+Definition mergingStones_entail_wit_15_split_goal_1 :=
+forall (stones_l: (@list Z)) (n_pre: Z) (left: Z) (len: Z) (prefix_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (PreH1 : ((left + len ) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l_2)) )) (PreH7 : (StonePrefixDone stones_l prefix_l_2 n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l_2 n_pre len left )),
   (StoneLenDone stones_l dp_l_2 n_pre (len + 1 ) )
 .
 
-Definition mergingStones_entail_wit_16 := 
+Definition mergingStones_entail_wit_16 :=
 (
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z)))  __default__List_Z (PreH1 : (len > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l n_pre len )) ,
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) __default__List_Z (PreH1 : (len > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l n_pre len )),
   (((( &( "dp" ) ) + (((0 * n_pre ) + (n_pre - 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + ((0 * n_pre ) * sizeof(INT))) (n_pre - 1 ) 0 n_pre (Znth 0 dp_l __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) 0 0 n_pre n_pre dp_l )
@@ -1892,7 +1872,7 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@li
   **  ((( &( "width" ) )) # Int  |->_)
 ) \/
 (
-forall (n_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z)))  __default__List_Z (PreH1 : ((Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)) <= INT_MAX)) (PreH2 : ((Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)) >= INT_MIN)) (PreH3 : (len > n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) (PreH8 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH9 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH10 : (2 <= len)) (PreH11 : (len <= (n_pre + 1 ))) (PreH12 : (StoneLenDone stones_l dp_l n_pre len )) ,
+forall (stones_l: (@list Z)) (n_pre: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) __default__List_Z (PreH1 : ((Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)) <= INT_MAX)) (PreH2 : ((Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)) >= INT_MIN)) (PreH3 : (len > n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) (PreH8 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH9 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH10 : (2 <= len)) (PreH11 : (len <= (n_pre + 1 ))) (PreH12 : (StoneLenDone stones_l dp_l n_pre len )),
   (((( &( "dp" ) ) + (((0 * n_pre ) + (n_pre - 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + ((0 * n_pre ) * sizeof(INT))) (n_pre - 1 ) 0 n_pre (Znth 0 dp_l __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) 0 0 n_pre n_pre dp_l )
@@ -1905,8 +1885,8 @@ forall (n_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@list Z)) (dp_l: (@
   **  (IntArray.undef_full ( &( "dp" ) ) 64 )
 ).
 
-Definition mergingStones_entail_wit_16_split_goal_1 := 
-forall (n_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z)))  __default__List_Z (PreH1 : ((Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)) <= INT_MAX)) (PreH2 : ((Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)) >= INT_MIN)) (PreH3 : (len > n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) (PreH8 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH9 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH10 : (2 <= len)) (PreH11 : (len <= (n_pre + 1 ))) (PreH12 : (StoneLenDone stones_l dp_l n_pre len )) ,
+Definition mergingStones_entail_wit_16_split_goal_1 :=
+forall (stones_l: (@list Z)) (n_pre: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) __default__List_Z (PreH1 : ((Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)) <= INT_MAX)) (PreH2 : ((Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)) >= INT_MIN)) (PreH3 : (len > n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) (PreH8 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH9 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH10 : (2 <= len)) (PreH11 : (len <= (n_pre + 1 ))) (PreH12 : (StoneLenDone stones_l dp_l n_pre len )),
   (((( &( "dp" ) ) + (((0 * n_pre ) + (n_pre - 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + ((0 * n_pre ) * sizeof(INT))) (n_pre - 1 ) 0 n_pre (Znth 0 dp_l __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) 0 0 n_pre n_pre dp_l )
@@ -1917,8 +1897,8 @@ forall (n_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@list Z)) (dp_l: (@
   “ (StoneMinimumCost stones_l (Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)) ) ”
 .
 
-Definition mergingStones_entail_wit_16_split_goal_spatial := 
-forall (n_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z)))  __default__List_Z (PreH1 : ((Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)) <= INT_MAX)) (PreH2 : ((Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)) >= INT_MIN)) (PreH3 : (len > n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) (PreH8 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH9 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH10 : (2 <= len)) (PreH11 : (len <= (n_pre + 1 ))) (PreH12 : (StoneLenDone stones_l dp_l n_pre len )) ,
+Definition mergingStones_entail_wit_16_split_goal_spatial :=
+forall (stones_l: (@list Z)) (n_pre: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) __default__List_Z (PreH1 : ((Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)) <= INT_MAX)) (PreH2 : ((Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)) >= INT_MIN)) (PreH3 : (len > n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : (Forall (Z.le (1)) stones_l )) (PreH7 : (Forall (Z.ge (1000)) stones_l )) (PreH8 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH9 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH10 : (2 <= len)) (PreH11 : (len <= (n_pre + 1 ))) (PreH12 : (StoneLenDone stones_l dp_l n_pre len )),
   (((( &( "dp" ) ) + (((0 * n_pre ) + (n_pre - 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + ((0 * n_pre ) * sizeof(INT))) (n_pre - 1 ) 0 n_pre (Znth 0 dp_l __default__List_Z) )
   **  (IntArray2.missing_i ( &( "dp" ) ) 0 0 n_pre n_pre dp_l )
@@ -1930,28 +1910,28 @@ forall (n_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@list Z)) (dp_l: (@
   **  (IntArray.undef_full ( &( "dp" ) ) 64 )
 .
 
-Definition mergingStones_return_wit_1 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (result: Z) (PreH1 : (StoneMinimumCost stones_l result )) ,
+Definition mergingStones_return_wit_1 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (result: Z) (PreH1 : (StoneMinimumCost stones_l result )),
   (IntArray.full stones_pre n_pre stones_l )
 |--
   “ (StoneMinimumCost stones_l result ) ”
   &&  (IntArray.full stones_pre n_pre stones_l )
 .
 
-Definition mergingStones_partial_solve_wit_1 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k: Z) (PreH1 : (k < (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )) ,
+Definition mergingStones_partial_solve_wit_1 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (dp_flat: (@list Z)) (k: Z) (PreH1 : (k < (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.undef_full ( &( "prefix" ) ) 9 )
   **  (IntArray.seg ( &( "dp" ) ) 0 k dp_flat )
   **  (IntArray.undef_seg ( &( "dp" ) ) k 64 )
 |--
-  “ (k < (n_pre * n_pre )) ” 
-  &&  “ (0 <= k) ” 
-  &&  “ (k <= (n_pre * n_pre )) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ ((Zlength (stones_l)) = n_pre) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
+  “ (k < (n_pre * n_pre )) ”
+  &&  “ (0 <= k) ”
+  &&  “ (k <= (n_pre * n_pre )) ”
+  &&  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ ((Zlength (stones_l)) = n_pre) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
   &&  “ (Forall (Z.ge (1000)) stones_l ) ”
   &&  (((( &( "dp" ) ) + (k * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg ( &( "dp" ) ) (k + 1 ) 64 )
@@ -1960,20 +1940,20 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k:
   **  (IntArray.seg ( &( "dp" ) ) 0 k dp_flat )
 .
 
-Definition mergingStones_partial_solve_wit_2 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k: Z) (PreH1 : (k >= (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )) ,
+Definition mergingStones_partial_solve_wit_2 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (dp_flat: (@list Z)) (k: Z) (PreH1 : (k >= (n_pre * n_pre ))) (PreH2 : (0 <= k)) (PreH3 : (k <= (n_pre * n_pre ))) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 8)) (PreH6 : ((Zlength (stones_l)) = n_pre)) (PreH7 : (Forall (Z.le (1)) stones_l )) (PreH8 : (Forall (Z.ge (1000)) stones_l )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.undef_full ( &( "prefix" ) ) 9 )
   **  (IntArray.seg ( &( "dp" ) ) 0 k dp_flat )
   **  (IntArray.undef_seg ( &( "dp" ) ) k 64 )
 |--
-  “ (k >= (n_pre * n_pre )) ” 
-  &&  “ (0 <= k) ” 
-  &&  “ (k <= (n_pre * n_pre )) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ ((Zlength (stones_l)) = n_pre) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
+  “ (k >= (n_pre * n_pre )) ”
+  &&  “ (0 <= k) ”
+  &&  “ (k <= (n_pre * n_pre )) ”
+  &&  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ ((Zlength (stones_l)) = n_pre) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
   &&  “ (Forall (Z.ge (1000)) stones_l ) ”
   &&  (((( &( "prefix" ) ) + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg ( &( "prefix" ) ) 1 9 )
@@ -1982,8 +1962,8 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (dp_flat: (@list Z)) (k:
   **  (IntArray.undef_seg ( &( "dp" ) ) k 64 )
 .
 
-Definition mergingStones_partial_solve_wit_3 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )) ,
+Definition mergingStones_partial_solve_wit_3 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.seg ( &( "prefix" ) ) 0 (i + 1 ) prefix_l )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (i + 1 ) (n_pre + 1 ) )
@@ -1991,14 +1971,14 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (i < n_pre) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_init)) ) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i <= n_pre) ” 
+  “ (i < n_pre) ”
+  &&  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_init)) ) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i <= n_pre) ”
   &&  “ (StonePrefixProgress stones_l prefix_l i ) ”
   &&  (((( &( "prefix" ) ) + (i * sizeof(INT)))) # Int  |-> (Znth (i - 0 ) prefix_l 0))
   **  (IntArray.missing_i ( &( "prefix" ) ) i 0 (i + 1 ) prefix_l )
@@ -2009,8 +1989,8 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 .
 
-Definition mergingStones_partial_solve_wit_4 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )) ,
+Definition mergingStones_partial_solve_wit_4 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )),
   (IntArray.seg ( &( "prefix" ) ) 0 (i + 1 ) prefix_l )
   **  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (i + 1 ) (n_pre + 1 ) )
@@ -2018,14 +1998,14 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (i < n_pre) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_init)) ) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i <= n_pre) ” 
+  “ (i < n_pre) ”
+  &&  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_init)) ) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i <= n_pre) ”
   &&  “ (StonePrefixProgress stones_l prefix_l i ) ”
   &&  (((stones_pre + (i * sizeof(INT)))) # Int  |-> (Znth i stones_l 0))
   **  (IntArray.missing_i stones_pre i 0 n_pre stones_l )
@@ -2036,8 +2016,8 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 .
 
-Definition mergingStones_partial_solve_wit_5 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )) ,
+Definition mergingStones_partial_solve_wit_5 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (i: Z) (dp_init: (@list (@list Z))) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_init)) )) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (StonePrefixProgress stones_l prefix_l i )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.seg ( &( "prefix" ) ) 0 (i + 1 ) prefix_l )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (i + 1 ) (n_pre + 1 ) )
@@ -2045,14 +2025,14 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (i < n_pre) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_init)) ) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i <= n_pre) ” 
+  “ (i < n_pre) ”
+  &&  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_init)) ) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i <= n_pre) ”
   &&  “ (StonePrefixProgress stones_l prefix_l i ) ”
   &&  (((( &( "prefix" ) ) + ((i + 1 ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg ( &( "prefix" ) ) ((i + 1 ) + 1 ) (n_pre + 1 ) )
@@ -2063,25 +2043,25 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (i
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 .
 
-Definition mergingStones_partial_solve_wit_6 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z)))  __default__List_Z (PreH1 : (col < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l row col )) ,
+Definition mergingStones_partial_solve_wit_6 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (col: Z) (row: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) __default__List_Z (PreH1 : (col < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (0 <= row)) (PreH9 : (row < n_pre)) (PreH10 : (0 <= col)) (PreH11 : (col <= n_pre)) (PreH12 : (StoneZeroProgress dp_l row col )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
   **  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (col < n_pre) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (0 <= row) ” 
-  &&  “ (row < n_pre) ” 
-  &&  “ (0 <= col) ” 
-  &&  “ (col <= n_pre) ” 
+  “ (col < n_pre) ”
+  &&  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (0 <= row) ”
+  &&  “ (row < n_pre) ”
+  &&  “ (0 <= col) ”
+  &&  “ (col <= n_pre) ”
   &&  “ (StoneZeroProgress dp_l row col ) ”
   &&  (((( &( "dp" ) ) + (((row * n_pre ) + col ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i (( &( "dp" ) ) + ((row * n_pre ) * sizeof(INT))) col 0 n_pre (Znth row dp_l __default__List_Z) )
@@ -2092,25 +2072,25 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (col: Z) (row: Z) (prefi
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 .
 
-Definition mergingStones_partial_solve_wit_7 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )) ,
+Definition mergingStones_partial_solve_wit_7 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
   **  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((left + len ) <= n_pre) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= n_pre) ” 
-  &&  “ (0 <= left) ” 
-  &&  “ (left <= ((n_pre - len ) + 1 )) ” 
+  “ ((left + len ) <= n_pre) ”
+  &&  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (2 <= len) ”
+  &&  “ (len <= n_pre) ”
+  &&  “ (0 <= left) ”
+  &&  “ (left <= ((n_pre - len ) + 1 )) ”
   &&  “ (StoneLeftProgress stones_l dp_l n_pre len left ) ”
   &&  (((( &( "prefix" ) ) + ((((left + len ) - 1 ) + 1 ) * sizeof(INT)))) # Int  |-> (Znth (((left + len ) - 1 ) + 1 ) prefix_l 0))
   **  (IntArray.missing_i ( &( "prefix" ) ) (((left + len ) - 1 ) + 1 ) 0 (n_pre + 1 ) prefix_l )
@@ -2120,25 +2100,25 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (pref
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 .
 
-Definition mergingStones_partial_solve_wit_8 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )) ,
+Definition mergingStones_partial_solve_wit_8 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (PreH1 : ((left + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left <= ((n_pre - len ) + 1 ))) (PreH12 : (StoneLeftProgress stones_l dp_l n_pre len left )),
   (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
   **  (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ ((left + len ) <= n_pre) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= n_pre) ” 
-  &&  “ (0 <= left) ” 
-  &&  “ (left <= ((n_pre - len ) + 1 )) ” 
+  “ ((left + len ) <= n_pre) ”
+  &&  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (2 <= len) ”
+  &&  “ (len <= n_pre) ”
+  &&  “ (0 <= left) ”
+  &&  “ (left <= ((n_pre - len ) + 1 )) ”
   &&  “ (StoneLeftProgress stones_l dp_l n_pre len left ) ”
   &&  (((( &( "prefix" ) ) + (left * sizeof(INT)))) # Int  |-> (Znth left prefix_l 0))
   **  (IntArray.missing_i ( &( "prefix" ) ) left 0 (n_pre + 1 ) prefix_l )
@@ -2148,33 +2128,33 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (left: Z) (len: Z) (pref
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 .
 
-Definition mergingStones_partial_solve_wit_9 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z)))  __default__List_Z (PreH1 : (split < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) ,
+Definition mergingStones_partial_solve_wit_9 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) __default__List_Z (PreH1 : (split < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
   **  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (split < right) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= n_pre) ” 
-  &&  “ (0 <= left) ” 
-  &&  “ ((left + len ) <= n_pre) ” 
-  &&  “ (right = ((left + len ) - 1 )) ” 
-  &&  “ (left <= split) ” 
-  &&  “ (split <= right) ” 
-  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ” 
-  &&  “ (2 <= interval_sum) ” 
-  &&  “ (interval_sum <= 8000) ” 
-  &&  “ (0 <= best) ” 
-  &&  “ (best <= 1000000) ” 
+  “ (split < right) ”
+  &&  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (2 <= len) ”
+  &&  “ (len <= n_pre) ”
+  &&  “ (0 <= left) ”
+  &&  “ ((left + len ) <= n_pre) ”
+  &&  “ (right = ((left + len ) - 1 )) ”
+  &&  “ (left <= split) ”
+  &&  “ (split <= right) ”
+  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ”
+  &&  “ (2 <= interval_sum) ”
+  &&  “ (interval_sum <= 8000) ”
+  &&  “ (0 <= best) ”
+  &&  “ (best <= 1000000) ”
   &&  “ (StoneSplitProgress stones_l dp_l n_pre len left split best ) ”
   &&  (((( &( "dp" ) ) + (((left * n_pre ) + split ) * sizeof(INT)))) # Int  |-> (Znth (split) ((Znth left dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + ((left * n_pre ) * sizeof(INT))) split 0 n_pre (Znth left dp_l __default__List_Z) )
@@ -2185,34 +2165,34 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum:
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 .
 
-Definition mergingStones_partial_solve_wit_10 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z)  __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))) ,
+Definition mergingStones_partial_solve_wit_10 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) (len: Z) (left: Z) (right: Z) (split: Z) (interval_sum: Z) (best: Z) (left_value: Z) __default__List_Z (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 8)) (PreH3 : (Forall (Z.le (1)) stones_l )) (PreH4 : (Forall (Z.ge (1000)) stones_l )) (PreH5 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH6 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH7 : (2 <= len)) (PreH8 : (len <= n_pre)) (PreH9 : (0 <= left)) (PreH10 : ((left + len ) <= n_pre)) (PreH11 : (right = ((left + len ) - 1 ))) (PreH12 : (left <= split)) (PreH13 : (split <= right)) (PreH14 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH15 : (2 <= interval_sum)) (PreH16 : (interval_sum <= 8000)) (PreH17 : (0 <= best)) (PreH18 : (best <= 1000000)) (PreH19 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) (PreH20 : (split < right)) (PreH21 : (left_value = (Znth split (Znth left dp_l __default__List_Z) 0))),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
   **  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= n_pre) ” 
-  &&  “ (0 <= left) ” 
-  &&  “ ((left + len ) <= n_pre) ” 
-  &&  “ (right = ((left + len ) - 1 )) ” 
-  &&  “ (left <= split) ” 
-  &&  “ (split <= right) ” 
-  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ” 
-  &&  “ (2 <= interval_sum) ” 
-  &&  “ (interval_sum <= 8000) ” 
-  &&  “ (0 <= best) ” 
-  &&  “ (best <= 1000000) ” 
-  &&  “ (StoneSplitProgress stones_l dp_l n_pre len left split best ) ” 
-  &&  “ (split < right) ” 
+  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (2 <= len) ”
+  &&  “ (len <= n_pre) ”
+  &&  “ (0 <= left) ”
+  &&  “ ((left + len ) <= n_pre) ”
+  &&  “ (right = ((left + len ) - 1 )) ”
+  &&  “ (left <= split) ”
+  &&  “ (split <= right) ”
+  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ”
+  &&  “ (2 <= interval_sum) ”
+  &&  “ (interval_sum <= 8000) ”
+  &&  “ (0 <= best) ”
+  &&  “ (best <= 1000000) ”
+  &&  “ (StoneSplitProgress stones_l dp_l n_pre len left split best ) ”
+  &&  “ (split < right) ”
   &&  “ (left_value = (Znth split (Znth left dp_l __default__List_Z) 0)) ”
   &&  (((( &( "dp" ) ) + ((((split + 1 ) * n_pre ) + right ) * sizeof(INT)))) # Int  |-> (Znth (right) ((Znth (split + 1 ) dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + (((split + 1 ) * n_pre ) * sizeof(INT))) right 0 n_pre (Znth (split + 1 ) dp_l __default__List_Z) )
@@ -2223,33 +2203,33 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (prefix_l: (@list Z)) (d
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 .
 
-Definition mergingStones_partial_solve_wit_11 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z)))  __default__List_Z (PreH1 : (split >= right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )) ,
+Definition mergingStones_partial_solve_wit_11 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (best: Z) (interval_sum: Z) (split: Z) (right: Z) (left: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) __default__List_Z (PreH1 : (split >= right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : ((left + len ) <= n_pre)) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split <= right)) (PreH15 : (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l)))))) (PreH16 : (2 <= interval_sum)) (PreH17 : (interval_sum <= 8000)) (PreH18 : (0 <= best)) (PreH19 : (best <= 1000000)) (PreH20 : (StoneSplitProgress stones_l dp_l n_pre len left split best )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
   **  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (split >= right) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= n_pre) ” 
-  &&  “ (0 <= left) ” 
-  &&  “ ((left + len ) <= n_pre) ” 
-  &&  “ (right = ((left + len ) - 1 )) ” 
-  &&  “ (left <= split) ” 
-  &&  “ (split <= right) ” 
-  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ” 
-  &&  “ (2 <= interval_sum) ” 
-  &&  “ (interval_sum <= 8000) ” 
-  &&  “ (0 <= best) ” 
-  &&  “ (best <= 1000000) ” 
+  “ (split >= right) ”
+  &&  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (2 <= len) ”
+  &&  “ (len <= n_pre) ”
+  &&  “ (0 <= left) ”
+  &&  “ ((left + len ) <= n_pre) ”
+  &&  “ (right = ((left + len ) - 1 )) ”
+  &&  “ (left <= split) ”
+  &&  “ (split <= right) ”
+  &&  “ (interval_sum = (sum ((sublist (left) ((right + 1 )) (stones_l))))) ”
+  &&  “ (2 <= interval_sum) ”
+  &&  “ (interval_sum <= 8000) ”
+  &&  “ (0 <= best) ”
+  &&  “ (best <= 1000000) ”
   &&  “ (StoneSplitProgress stones_l dp_l n_pre len left split best ) ”
   &&  (((( &( "dp" ) ) + (((left * n_pre ) + right ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i (( &( "dp" ) ) + ((left * n_pre ) * sizeof(INT))) right 0 n_pre (Znth left dp_l __default__List_Z) )
@@ -2260,23 +2240,23 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (best: Z) (interval_sum:
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 .
 
-Definition mergingStones_partial_solve_wit_12 := 
-forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z)))  __default__List_Z (PreH1 : (len > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l n_pre len )) ,
+Definition mergingStones_partial_solve_wit_12 :=
+forall (stones_l: (@list Z)) (stones_pre: Z) (n_pre: Z) (len: Z) (prefix_l: (@list Z)) (dp_l: (@list (@list Z))) __default__List_Z (PreH1 : (len > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 8)) (PreH4 : (Forall (Z.le (1)) stones_l )) (PreH5 : (Forall (Z.ge (1000)) stones_l )) (PreH6 : (Forall (eq (n_pre)) (map (Zlength) (dp_l)) )) (PreH7 : (StonePrefixDone stones_l prefix_l n_pre )) (PreH8 : (2 <= len)) (PreH9 : (len <= (n_pre + 1 ))) (PreH10 : (StoneLenDone stones_l dp_l n_pre len )),
   (IntArray.full stones_pre n_pre stones_l )
   **  (IntArray.full ( &( "prefix" ) ) (n_pre + 1 ) prefix_l )
   **  (IntArray2.full ( &( "dp" ) ) n_pre n_pre dp_l )
   **  (IntArray.undef_seg ( &( "prefix" ) ) (n_pre + 1 ) 9 )
   **  (IntArray.undef_seg ( &( "dp" ) ) (n_pre * n_pre ) 64 )
 |--
-  “ (len > n_pre) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 8) ” 
-  &&  “ (Forall (Z.le (1)) stones_l ) ” 
-  &&  “ (Forall (Z.ge (1000)) stones_l ) ” 
-  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ” 
-  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= (n_pre + 1 )) ” 
+  “ (len > n_pre) ”
+  &&  “ (1 <= n_pre) ”
+  &&  “ (n_pre <= 8) ”
+  &&  “ (Forall (Z.le (1)) stones_l ) ”
+  &&  “ (Forall (Z.ge (1000)) stones_l ) ”
+  &&  “ (Forall (eq (n_pre)) (map (Zlength) (dp_l)) ) ”
+  &&  “ (StonePrefixDone stones_l prefix_l n_pre ) ”
+  &&  “ (2 <= len) ”
+  &&  “ (len <= (n_pre + 1 )) ”
   &&  “ (StoneLenDone stones_l dp_l n_pre len ) ”
   &&  (((( &( "dp" ) ) + (((0 * n_pre ) + (n_pre - 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((n_pre - 1 )) ((Znth 0 dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (( &( "dp" ) ) + ((0 * n_pre ) * sizeof(INT))) (n_pre - 1 ) 0 n_pre (Znth 0 dp_l __default__List_Z) )
@@ -2290,8 +2270,6 @@ forall (n_pre: Z) (stones_pre: Z) (stones_l: (@list Z)) (len: Z) (prefix_l: (@li
 Module Type VC_Correct.
 
 Include array2_Strategy_Correct.
-Include int_array_Strategy_Correct.
-Include undef_uint_array_Strategy_Correct.
 
 Axiom proof_of_mergingStones_safety_wit_1 : mergingStones_safety_wit_1.
 Axiom proof_of_mergingStones_safety_wit_2 : mergingStones_safety_wit_2.

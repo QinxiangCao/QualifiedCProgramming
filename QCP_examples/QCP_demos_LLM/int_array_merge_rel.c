@@ -155,14 +155,14 @@ void mergeSort(int *arr, int l, int r, int *ret)
                       IntArray::seg(arr, m + 1, r + 1, l2) *
                       IntArray::seg(ret, l, m + 1, l1)  *
                       IntArray::seg(ret, m + 1, r + 1, l2)     */
-    mergeSort(ret, l, m, arr) /*@ where(low_level_spec_aux) X = X  ; B = (list Z) */;
+    mergeSort(ret, l, m, arr) /*@ where(low_level_spec_aux) {B = (list Z)} X = X */;
 
      /*@ exists l1 l2 l3, safeExec(ATrue, bind(gmergesortrec(l2), mergesortrec_loc2(l1)), X) && 
                       IntArray::seg(arr, l, m + 1, l1)  *
                       IntArray::seg(arr, m + 1, r + 1, l2) *
                       IntArray::seg(ret, l, m + 1, l3)  *
                       IntArray::seg(ret, m + 1, r + 1, l2)   */
-    mergeSort(ret, m + 1, r, arr) /*@ where(low_level_spec_aux) X = X ; B = (list Z) */;
+    mergeSort(ret, m + 1, r, arr) /*@ where(low_level_spec_aux) {B = (list Z)} X = X */;
 
      /*@ exists s1 s2 l0, safeExec(ATrue, merge_rel(s1, s2), X) && 
                       IntArray::seg(arr, l, m + 1, s1) * 

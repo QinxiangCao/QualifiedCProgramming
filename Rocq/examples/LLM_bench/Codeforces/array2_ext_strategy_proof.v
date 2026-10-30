@@ -70,7 +70,7 @@ Proof.
   subst v.
   rewrite (Array2.mixed_def_val _ _ Hdef).
   unfold IntArray.mixedstoreA.
-  replace (p + (i * m + j) * 4) with (p + i * m * sizeof (INT) + j * sizeof (INT))
+  replace (p + (i * m + j) * sizeof (INT)) with (p + i * m * sizeof (INT) + j * sizeof (INT))
     by (rewrite sizeof_int; nia).
   cancel.
 Qed.
@@ -78,28 +78,21 @@ Qed.
 Lemma array2_ext_strategy3_correctness : array2_ext_strategy3.
 Proof.
   pre_process_default.
-  try (replace (p + i * (sizeof (INT) * w)) with (p + i * w * sizeof (INT)) by nia).
-  try replace (p + i * match w with
-                   | 0 => 0
-                   | Z.pos y' => Z.pos (xO (xO y'))
-                   | Z.neg y' => Z.neg (xO (xO y'))
-                   end)
-    with (p + i * w * sizeof (INT))
-    by (rewrite sizeof_int; destruct w; lia).
   subst w.
   prop_apply (IntArray2.mixed_full_Zlength p n m rows). Intros.
   sep_apply (IntArray2.mixed_full_split_to_mixed_missing_i p i n m rows); try lia.
   cancel (IntArray2.mixed_missing_i p i 0 n m rows).
-  rewrite (Znth_indep rows i nil __default_app1_app1_Z) by lia.
+  rewrite (Znth_indep rows i __default_app1_app1_Z nil) by lia.
   change (IntArray2.ElemArray.mixed_full (IntArray2.row_addr p m i) m
-            (Znth i rows __default_app1_app1_Z))
+            (Znth i rows nil))
     with (IntArray.mixed_full (p + i * m * sizeof (INT)) m
-            (Znth i rows __default_app1_app1_Z)).
+            (Znth i rows nil)).
   sep_apply (IntArray.mixed_full_split_to_mixed_missing_i
                (p + i * m * sizeof (INT)) j m
-               (Znth i rows __default_app1_app1_Z) None); try lia.
+               (Znth i rows nil) None); try lia.
+  replace (p + i * (m * sizeof (INT))) with (p + i * m * sizeof (INT)) by lia.
   cancel (IntArray.mixed_missing_i (p + i * m * sizeof (INT)) j 0 m
-            (Znth i rows __default_app1_app1_Z)).
+            (Znth i rows nil)).
   Intros_r v.
   apply derivable1s_wand_sepcon_adjoint.
   Intros_p Hval.
@@ -126,8 +119,6 @@ Proof.
   sep_apply (IntArray.mixed_full_split_to_mixed_missing_i
                (p + i * m * sizeof (INT)) j m
                (Znth i rows __default_app1_app1_Z) None); try lia.
-  replace (p + i * m * 4) with (p + i * m * sizeof (INT))
-    by (rewrite sizeof_int; nia).
   cancel (IntArray.mixed_missing_i (p + i * m * sizeof (INT)) j 0 m
             (Znth i rows __default_app1_app1_Z)).
   apply derivable1s_wand_sepcon_adjoint.
@@ -163,6 +154,8 @@ Proof.
                (Znth j (Znth i rows __default_app1_app1_Z) None)).
   replace (p + (i * m + j) * 4) with (p + i * m * sizeof (INT) + j * sizeof (INT))
     by (rewrite sizeof_int; nia).
+  replace (p + (i * m + j) * sizeof (INT))
+    with (p + i * m * sizeof (INT) + j * sizeof (INT)) by nia.
   cancel.
 Qed.
 
@@ -189,6 +182,8 @@ Proof.
   sep_apply (IntArray.mixed_full_split_to_mixed_missing_i
                (p + i * m * sizeof (INT)) j m
                (Znth i rows __default_app1_app1_Z) None); try lia.
+  replace (p + i * (m * sizeof (INT)))
+    with (p + i * m * sizeof (INT)) by nia.
   cancel (IntArray.mixed_missing_i (p + i * m * sizeof (INT)) j 0 m
             (Znth i rows __default_app1_app1_Z)).
   apply derivable1s_wand_sepcon_adjoint.
@@ -229,6 +224,8 @@ Proof.
   pose proof (IntArray2.mixed_missing_i_merge_to_mixed_full p i n m rows row) as Hm.
   change (IntArray2.ElemArray.mixed_full (IntArray2.row_addr p m i) m row)
     with (IntArray.mixed_full (p + i * m * sizeof (INT)) m row) in Hm.
+  replace (p + i * (m * sizeof (INT)))
+    with (p + i * m * sizeof (INT)) by nia.
   sep_apply Hm; try lia.
   cancel.
 Qed.
@@ -292,6 +289,8 @@ Proof.
   change (IntArray2.ElemArray.undef_full (IntArray2.row_addr p m i) m)
     with (IntArray.undef_full (p + i * m * sizeof (INT)) m) in Hm.
   sep_apply Hm; try lia.
+  replace (p + i * (m * sizeof (INT)))
+    with (p + i * m * sizeof (INT)) by nia.
   cancel.
   apply derivable1s_wand_sepcon_adjoint.
   asrt_simpl.
@@ -350,6 +349,8 @@ Proof.
   pose proof (CharArray2.missing_i_merge_to_full p i n m rows row) as Hm.
   change (CharArray2.ElemArray.full (CharArray2.row_addr p m i) m row)
     with (CharArray.full (p + i * m * sizeof (CHAR)) m row) in Hm.
+  replace (p + i * (m * sizeof (CHAR)))
+    with (p + i * m * sizeof (CHAR)) by nia.
   sep_apply Hm; try lia.
   cancel.
 Qed.
@@ -424,6 +425,8 @@ Proof.
   unfold CharArray.mixedstoreA.
   replace (p + (i * m + j) * 1) with (p + i * m * sizeof (CHAR) + j * sizeof (CHAR))
     by (rewrite sizeof_char; nia).
+  replace (p + (i * m + j) * sizeof (CHAR))
+    with (p + i * m * sizeof (CHAR) + j * sizeof (CHAR)) by nia.
   cancel.
 Qed.
 
@@ -450,6 +453,8 @@ Proof.
   sep_apply (CharArray.mixed_full_split_to_mixed_missing_i
                (p + i * m * sizeof (CHAR)) j m
                (Znth i rows __default_app1_app1_Z) None); try lia.
+  replace (p + i * (m * sizeof (CHAR)))
+    with (p + i * m * sizeof (CHAR)) by nia.
   cancel (CharArray.mixed_missing_i (p + i * m * sizeof (CHAR)) j 0 m
             (Znth i rows __default_app1_app1_Z)).
   Intros_r v.
@@ -515,6 +520,8 @@ Proof.
                (Znth j (Znth i rows __default_app1_app1_Z) None)).
   replace (p + (i * m + j) * 1) with (p + i * m * sizeof (CHAR) + j * sizeof (CHAR))
     by (rewrite sizeof_char; nia).
+  replace (p + (i * m + j) * sizeof (CHAR))
+    with (p + i * m * sizeof (CHAR) + j * sizeof (CHAR)) by nia.
   cancel.
 Qed.
 
@@ -541,6 +548,8 @@ Proof.
   sep_apply (CharArray.mixed_full_split_to_mixed_missing_i
                (p + i * m * sizeof (CHAR)) j m
                (Znth i rows __default_app1_app1_Z) None); try lia.
+  replace (p + i * (m * sizeof (CHAR)))
+    with (p + i * m * sizeof (CHAR)) by nia.
   cancel (CharArray.mixed_missing_i (p + i * m * sizeof (CHAR)) j 0 m
             (Znth i rows __default_app1_app1_Z)).
   apply derivable1s_wand_sepcon_adjoint.
@@ -581,6 +590,8 @@ Proof.
   pose proof (CharArray2.mixed_missing_i_merge_to_mixed_full p i n m rows row) as Hm.
   change (CharArray2.ElemArray.mixed_full (CharArray2.row_addr p m i) m row)
     with (CharArray.mixed_full (p + i * m * sizeof (CHAR)) m row) in Hm.
+  replace (p + i * (m * sizeof (CHAR)))
+    with (p + i * m * sizeof (CHAR)) by nia.
   sep_apply Hm; try lia.
   cancel.
 Qed.
@@ -644,6 +655,8 @@ Proof.
   change (CharArray2.ElemArray.undef_full (CharArray2.row_addr p m i) m)
     with (CharArray.undef_full (p + i * m * sizeof (CHAR)) m) in Hm.
   sep_apply Hm; try lia.
+  replace (p + i * (m * sizeof (CHAR)))
+    with (p + i * m * sizeof (CHAR)) by nia.
   cancel.
   apply derivable1s_wand_sepcon_adjoint.
   asrt_simpl.

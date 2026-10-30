@@ -65,6 +65,9 @@ Parameter Inline tree_pos : Type .
   Axiom logic_equiv_truep_andp : (forall x : expr, logic_equiv (andp truep x) x) .
   Axiom logic_equiv_sepcon_comm : (forall x y : expr, logic_equiv (sepcon x y) (sepcon y x)) .
   Axiom logic_equiv_sepcon_assoc : (forall x y z : expr, logic_equiv (sepcon x (sepcon y z)) (sepcon (sepcon x y) z)) .
+  Axiom logic_equiv_orp_congr : (forall x1 x2 y1 y2 : expr, logic_equiv x1 x2 -> logic_equiv y1 y2 -> logic_equiv (orp x1 y1) (orp x2 y2)) .
+  Axiom logic_equiv_orp_comm : (forall x y : expr, logic_equiv (orp x y) (orp y x)) .
+  Axiom logic_equiv_orp_assoc : (forall x y z : expr, logic_equiv (orp (orp x y) z) (orp x (orp y z))) .
   Axiom logic_equiv_andp_congr : (forall x1 x2 y1 y2 : expr, logic_equiv x1 x2 -> logic_equiv y1 y2 -> logic_equiv (andp x1 y1) (andp x2 y2)) .
   Axiom logic_equiv_andp_comm : (forall x y : expr, logic_equiv (andp x y) (andp y x)) .
   Axiom logic_equiv_andp_assoc : (forall x y z : expr, logic_equiv (andp (andp x y) z) (andp x (andp y z))) .
@@ -85,7 +88,7 @@ Parameter Inline tree_pos : Type .
   Axiom derivable1_orp_intros1 : (forall x y : expr, derivable1 x (orp x y)) .
   Axiom derivable1_orp_intros2 : (forall x y : expr, derivable1 y (orp x y)) .
   Axiom derivable1_orp_elim : (forall x y z : expr, derivable1 x z -> derivable1 y z -> derivable1 (orp x y) z) .
-  Axiom derivable1s_truep_intros : (forall x y z : expr, derivable1 x y -> derivable1 x z -> derivable1 x (andp y z)) .
+  Axiom derivable1s_andp_intros : (forall x y z : expr, derivable1 x y -> derivable1 x z -> derivable1 x (andp y z)) .
   Axiom derivable1_andp_elim1 : (forall x y : expr, derivable1 (andp x y) x) .
   Axiom derivable1_andp_elim2 : (forall x y : expr, derivable1 (andp x y) y) .
   Axiom derivable1s_impp_andp_adjoint : (forall x y z : expr, derivable1 x (impp y z) <-> derivable1 (andp x y) z) .
@@ -131,6 +134,10 @@ Parameter Inline tree_pos : Type .
   Axiom provables_impp_proper_impp : (Proper ((fun x y : expr => provable (impp x y)) --> (fun x y : expr => provable (impp x y)) ==> (fun x y : expr => provable (impp x y))) impp) .
   Axiom provable_andp_comm : (forall x y : expr, provable (iffp (andp x y) (andp y x))) .
   Axiom provable_andp_assoc : (forall x y z : expr, provable (iffp (andp (andp x y) z) (andp x (andp y z)))) .
+  Axiom provable_andp_orp_distr_l : (forall x y z : expr, provable (iffp (andp (orp x y) z) (orp (andp x z) (andp y z)))) .
+  Axiom provable_andp_orp_distr_r : (forall x y z : expr, provable (iffp (andp x (orp y z)) (orp (andp x y) (andp x z)))) .
+  Axiom logic_equiv_andp_orp_distr_l : (forall x y z : expr, logic_equiv (andp (orp x y) z) (orp (andp x z) (andp y z))) .
+  Axiom logic_equiv_andp_orp_distr_r : (forall x y z : expr, logic_equiv (andp x (orp y z)) (orp (andp x y) (andp x z))) .
   Axiom provable_orp_comm : (forall x y : expr, provable (iffp (orp x y) (orp y x))) .
   Axiom provable_orp_dup : (forall x : expr, provable (iffp (orp x x) x)) .
   Axiom provable_impp_curry : (forall x y z : expr, provable (impp (impp x (impp y z)) (impp (andp x y) z))) .
@@ -211,6 +218,19 @@ Parameter Inline tree_pos : Type .
   Axiom logic_equiv_wand : (forall x y x' y' : expr, logic_equiv x x' -> logic_equiv y y' -> logic_equiv (wand x y) (wand x' y')) .
   Axiom derivable1_wand_elim1 : (forall x y : expr, derivable1 (sepcon (wand x y) x) y) .
   Axiom derivable1_wand_elim2 : (forall x y : expr, derivable1 (sepcon x (wand x y)) y) .
+  Axiom logic_equiv_orp_proper : (Proper (logic_equiv ==> logic_equiv ==> logic_equiv) orp) .
+  Axiom logic_equiv_andp_proper : (Proper (logic_equiv ==> logic_equiv ==> logic_equiv) andp) .
+  Axiom provable_iffp_rewrite : (RewriteRelation (fun x y : expr => provable (iffp x y))) .
+  Axiom derivable1s_impp_proper : (Proper (derivable1 --> derivable1 ==> derivable1) impp) .
+  Axiom Derivable_impp_rewrite : (RewriteRelation derivable1) .
+  Axiom derivable1_refl_instance : (Reflexive derivable1) .
+  Axiom derivable1_trans_instance : (Transitive derivable1) .
+  Axiom derivable1_iter_sepcon_app1 : (forall xs ys : list expr, derivable1 (sepcon (iter_sepcon xs) (iter_sepcon ys)) (iter_sepcon (xs ++ ys))) .
+  Axiom derivable1_iter_sepcon_app2 : (forall xs ys : list expr, derivable1 (iter_sepcon (xs ++ ys)) (sepcon (iter_sepcon xs) (iter_sepcon ys))) .
+  Axiom logic_equiv_iter_sepcon_nil : (logic_equiv (iter_sepcon []) emp) .
+  Axiom logic_equiv_iter_sepcon_single : (forall x : expr, logic_equiv (iter_sepcon [x]) x) .
+  Axiom logic_equiv_iter_sepcon_app : (forall xs ys : list expr, logic_equiv (iter_sepcon (xs ++ ys)) (sepcon (iter_sepcon xs) (iter_sepcon ys))) .
+  Axiom logic_equiv_iter_sepcon_cons : (forall (x : expr) (xs : list expr), logic_equiv (iter_sepcon (x :: xs)) (sepcon x (iter_sepcon xs))) .
 (* derived rules as instance *)
   #[export] Existing Instance provable_impp_refl_instance .
   #[export] Existing Instance provable_proper_impp .
@@ -237,6 +257,13 @@ Parameter Inline tree_pos : Type .
   #[export] Existing Instance derivable1s_sepcon_proper .
   #[export] Existing Instance logic_equiv_wand_proper .
   #[export] Existing Instance derivable1s_wand_proper .
+  #[export] Existing Instance logic_equiv_orp_proper .
+  #[export] Existing Instance logic_equiv_andp_proper .
+  #[export] Existing Instance provable_iffp_rewrite .
+  #[export] Existing Instance derivable1s_impp_proper .
+  #[export] Existing Instance Derivable_impp_rewrite .
+  #[export] Existing Instance derivable1_refl_instance .
+  #[export] Existing Instance derivable1_trans_instance .
 End LogicTheoremSig.
 
 Require Import Logic.GeneralLogic.Base.
@@ -264,16 +291,19 @@ Require Import Logic.SeparationLogic.ProofTheory.SeparationLogic.
 Require Import Logic.SeparationLogic.ProofTheory.RewriteClass.
 Require Import Logic.SeparationLogic.ProofTheory.DerivedRules.
 Require Import Logic.SeparationLogic.ProofTheory.TheoryOfCancel.
+Require Import Logic.Extensions.ProofTheory.Stable.
 Require Import Logic.SeparationLogic.ProofTheory.TheoryOfSeparationAxioms.
 Require Import Logic.SeparationLogic.ProofTheory.IterSepcon.
 Require Import Logic.SeparationLogic.ProofTheory.Corable.
 Require Import Logic.SeparationLogic.ProofTheory.Deduction.
 Require Import Logic.GeneralLogic.ProofTheory.BasicLogicEquiv.
+Require Import Logic.Extensions.ProofTheory.Corable.
 Require Import Logic.SeparationLogic.Model.SeparationAlgebra.
 Require Import Logic.GeneralLogic.ShallowEmbedded.ModelLanguage.
 Require Import Logic.MinimumLogic.ShallowEmbedded.ModelLanguageMinimumLogic.
 Require Import Logic.PropositionalLogic.ShallowEmbedded.ModelLanguagePropositionalLogic.
 Require Import Logic.SeparationLogic.ShallowEmbedded.ModelLanguageSeparationLogic.
+Require Import Logic.Extensions.ShallowEmbedded.ModelLanguageCorableStable.
 Require Import Logic.MetaLogicInj.ShallowEmbedded.ModelLanguageMetaLogic.
 Require Import Logic.GeneralLogic.ShallowEmbedded.PredicateAsLang.
 Require Import Logic.SeparationLogic.ShallowEmbedded.PredicateSeparationLogic.
@@ -330,6 +360,7 @@ Import Names DerivedNames Rules.
   #[export] Instance expD : (ShallowExistsDeduction L GammaD1) := Model2ExpDeduction .
   #[export] Instance allpD : (ShallowForallDeduction L GammaD1) := Model2AllDeduction .
   #[export] Instance bD : (BasicDeduction L GammaD1) := Model2BasicDeduction .
+  #[export] Instance iffpD : (IffDeduction L GammaD1) := IffDefinitionAndImp2IffDeduction .
   #[export] Instance exp_andpD : deduction_exp_and := ExpDeduction2ExsitsAnd .
   #[export] Instance iter_sepcon_D1L : (IterSepconDeduction_left L GammaD1) := IterSepconFromDefToD1_L2L .
   #[export] Instance exp_sepconD : deduction_exp_sepcon := ExpDeduction2ExsitsSepcon .
@@ -343,9 +374,9 @@ Import Names DerivedNames Rules.
   #[export] Instance isap : Iter_sepcon_andp_prop := Derived_derivable1_iter_sepcon_coq_prop_andp_l .
   #[export] Instance bE : (BasicLogicEquiv L GammaE) := Deduction2Equiv_bE .
   #[export] Instance orpD : (OrDeduction L GammaD1) := Model2OrDeduction .
-  #[export] Instance iffpD : (IffDeduction L GammaD1) := Model2IffDeduction .
   #[export] Instance sepcon_orp_D : (SepconOrDeduction L GammaD1) := Adj2SepconOrD .
   #[export] Instance andpE : (AndLogicEquiv L GammaE) := Deduction2LogicEquiv_andpE .
+  #[export] Instance orpE : (OrLogicEquiv L GammaE) := Deduction2LogicEquiv_orpE .
   #[export] Instance sepconE : (SepconLogicEquiv_weak_iffp L GammaE) := Deduction2LogicEquiv_sepconE .
   #[export] Instance truepandpE : (TrueAndLogicEquiv L GammaE) := Deduction2LogicEquiv_truepandpE .
   #[export] Instance empE : (EmpLogicEquiv_iffp L GammaE) := Deduction2LogicEquiv_empE .
@@ -373,6 +404,9 @@ Definition tree_pos : Type := tree_pos.
   Definition logic_equiv_truep_andp : (forall x : expr, logic_equiv (andp truep x) x) := logic_equiv_truep_andp .
   Definition logic_equiv_sepcon_comm : (forall x y : expr, logic_equiv (sepcon x y) (sepcon y x)) := logic_equiv_sepcon_comm .
   Definition logic_equiv_sepcon_assoc : (forall x y z : expr, logic_equiv (sepcon x (sepcon y z)) (sepcon (sepcon x y) z)) := logic_equiv_sepcon_assoc .
+  Definition logic_equiv_orp_congr : (forall x1 x2 y1 y2 : expr, logic_equiv x1 x2 -> logic_equiv y1 y2 -> logic_equiv (orp x1 y1) (orp x2 y2)) := logic_equiv_orp_congr .
+  Definition logic_equiv_orp_comm : (forall x y : expr, logic_equiv (orp x y) (orp y x)) := logic_equiv_orp_comm .
+  Definition logic_equiv_orp_assoc : (forall x y z : expr, logic_equiv (orp (orp x y) z) (orp x (orp y z))) := logic_equiv_orp_assoc .
   Definition logic_equiv_andp_congr : (forall x1 x2 y1 y2 : expr, logic_equiv x1 x2 -> logic_equiv y1 y2 -> logic_equiv (andp x1 y1) (andp x2 y2)) := logic_equiv_andp_congr .
   Definition logic_equiv_andp_comm : (forall x y : expr, logic_equiv (andp x y) (andp y x)) := logic_equiv_andp_comm .
   Definition logic_equiv_andp_assoc : (forall x y z : expr, logic_equiv (andp (andp x y) z) (andp x (andp y z))) := logic_equiv_andp_assoc .
@@ -393,7 +427,7 @@ Definition tree_pos : Type := tree_pos.
   Definition derivable1_orp_intros1 : (forall x y : expr, derivable1 x (orp x y)) := derivable1_orp_intros1 .
   Definition derivable1_orp_intros2 : (forall x y : expr, derivable1 y (orp x y)) := derivable1_orp_intros2 .
   Definition derivable1_orp_elim : (forall x y z : expr, derivable1 x z -> derivable1 y z -> derivable1 (orp x y) z) := derivable1_orp_elim .
-  Definition derivable1s_truep_intros : (forall x y z : expr, derivable1 x y -> derivable1 x z -> derivable1 x (andp y z)) := derivable1s_truep_intros .
+  Definition derivable1s_andp_intros : (forall x y z : expr, derivable1 x y -> derivable1 x z -> derivable1 x (andp y z)) := derivable1s_andp_intros .
   Definition derivable1_andp_elim1 : (forall x y : expr, derivable1 (andp x y) x) := derivable1_andp_elim1 .
   Definition derivable1_andp_elim2 : (forall x y : expr, derivable1 (andp x y) y) := derivable1_andp_elim2 .
   Definition derivable1s_impp_andp_adjoint : (forall x y z : expr, derivable1 x (impp y z) <-> derivable1 (andp x y) z) := derivable1s_impp_andp_adjoint .
@@ -439,6 +473,10 @@ Definition tree_pos : Type := tree_pos.
   Definition provables_impp_proper_impp : (Proper ((fun x y : expr => provable (impp x y)) --> (fun x y : expr => provable (impp x y)) ==> (fun x y : expr => provable (impp x y))) impp) := provables_impp_proper_impp .
   Definition provable_andp_comm : (forall x y : expr, provable (iffp (andp x y) (andp y x))) := provable_andp_comm .
   Definition provable_andp_assoc : (forall x y z : expr, provable (iffp (andp (andp x y) z) (andp x (andp y z)))) := provable_andp_assoc .
+  Definition provable_andp_orp_distr_l : (forall x y z : expr, provable (iffp (andp (orp x y) z) (orp (andp x z) (andp y z)))) := provable_andp_orp_distr_l .
+  Definition provable_andp_orp_distr_r : (forall x y z : expr, provable (iffp (andp x (orp y z)) (orp (andp x y) (andp x z)))) := provable_andp_orp_distr_r .
+  Definition logic_equiv_andp_orp_distr_l : (forall x y z : expr, logic_equiv (andp (orp x y) z) (orp (andp x z) (andp y z))) := logic_equiv_andp_orp_distr_l .
+  Definition logic_equiv_andp_orp_distr_r : (forall x y z : expr, logic_equiv (andp x (orp y z)) (orp (andp x y) (andp x z))) := logic_equiv_andp_orp_distr_r .
   Definition provable_orp_comm : (forall x y : expr, provable (iffp (orp x y) (orp y x))) := provable_orp_comm .
   Definition provable_orp_dup : (forall x : expr, provable (iffp (orp x x) x)) := provable_orp_dup .
   Definition provable_impp_curry : (forall x y z : expr, provable (impp (impp x (impp y z)) (impp (andp x y) z))) := provable_impp_curry .
@@ -519,6 +557,19 @@ Definition tree_pos : Type := tree_pos.
   Definition logic_equiv_wand : (forall x y x' y' : expr, logic_equiv x x' -> logic_equiv y y' -> logic_equiv (wand x y) (wand x' y')) := logic_equiv_wand .
   Definition derivable1_wand_elim1 : (forall x y : expr, derivable1 (sepcon (wand x y) x) y) := derivable1_wand_elim1 .
   Definition derivable1_wand_elim2 : (forall x y : expr, derivable1 (sepcon x (wand x y)) y) := derivable1_wand_elim2 .
+  Definition logic_equiv_orp_proper : (Proper (logic_equiv ==> logic_equiv ==> logic_equiv) orp) := logic_equiv_orp_proper .
+  Definition logic_equiv_andp_proper : (Proper (logic_equiv ==> logic_equiv ==> logic_equiv) andp) := logic_equiv_andp_proper .
+  Definition provable_iffp_rewrite : (RewriteRelation (fun x y : expr => provable (iffp x y))) := provable_iffp_rewrite .
+  Definition derivable1s_impp_proper : (Proper (derivable1 --> derivable1 ==> derivable1) impp) := derivable1s_impp_proper .
+  Definition Derivable_impp_rewrite : (RewriteRelation derivable1) := Derivable_impp_rewrite .
+  Definition derivable1_refl_instance : (Reflexive derivable1) := derivable1_refl_instance .
+  Definition derivable1_trans_instance : (Transitive derivable1) := derivable1_trans_instance .
+  Definition derivable1_iter_sepcon_app1 : (forall xs ys : list expr, derivable1 (sepcon (iter_sepcon xs) (iter_sepcon ys)) (iter_sepcon (xs ++ ys))) := derivable1_iter_sepcon_app1 .
+  Definition derivable1_iter_sepcon_app2 : (forall xs ys : list expr, derivable1 (iter_sepcon (xs ++ ys)) (sepcon (iter_sepcon xs) (iter_sepcon ys))) := derivable1_iter_sepcon_app2 .
+  Definition logic_equiv_iter_sepcon_nil : (logic_equiv (iter_sepcon []) emp) := logic_equiv_iter_sepcon_nil .
+  Definition logic_equiv_iter_sepcon_single : (forall x : expr, logic_equiv (iter_sepcon [x]) x) := logic_equiv_iter_sepcon_single .
+  Definition logic_equiv_iter_sepcon_app : (forall xs ys : list expr, logic_equiv (iter_sepcon (xs ++ ys)) (sepcon (iter_sepcon xs) (iter_sepcon ys))) := logic_equiv_iter_sepcon_app .
+  Definition logic_equiv_iter_sepcon_cons : (forall (x : expr) (xs : list expr), logic_equiv (iter_sepcon (x :: xs)) (sepcon x (iter_sepcon xs))) := logic_equiv_iter_sepcon_cons .
 (* derived rules as instance *)
   #[export] Existing Instance provable_impp_refl_instance .
   #[export] Existing Instance provable_proper_impp .
@@ -545,6 +596,13 @@ Definition tree_pos : Type := tree_pos.
   #[export] Existing Instance derivable1s_sepcon_proper .
   #[export] Existing Instance logic_equiv_wand_proper .
   #[export] Existing Instance derivable1s_wand_proper .
+  #[export] Existing Instance logic_equiv_orp_proper .
+  #[export] Existing Instance logic_equiv_andp_proper .
+  #[export] Existing Instance provable_iffp_rewrite .
+  #[export] Existing Instance derivable1s_impp_proper .
+  #[export] Existing Instance Derivable_impp_rewrite .
+  #[export] Existing Instance derivable1_refl_instance .
+  #[export] Existing Instance derivable1_trans_instance .
 End LogicTheoremSig'.
 
 (*Require Logic.PropositionalLogic.DeepEmbedded.Solver.

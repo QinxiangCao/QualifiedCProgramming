@@ -1,29 +1,13 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P068_1416C_xor_inverse_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P068_1416C_xor_inverse_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P068_1416C_xor_inverse_lib.
 Local Open Scope sac.
 
 Lemma proof_of_solve_safety_wit_9_split_goal_1 : solve_safety_wit_9_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold CostBound in PreH20.
   destruct PreH20 as [_ [Hcostlen Hcells]].
   specialize (Hcells bit_pre 1 ltac:(lia) ltac:(lia)).
@@ -81,7 +65,7 @@ Qed.
 
 Lemma proof_of_solve_safety_wit_9_split_goal_2 : solve_safety_wit_9_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold CostBound in PreH20.
   destruct PreH20 as [_ [Hcostlen Hcells]].
   specialize (Hcells bit_pre 1 ltac:(lia) ltac:(lia)).
@@ -102,7 +86,7 @@ Qed.
 
 Lemma proof_of_solve_safety_wit_13_split_goal_1 : solve_safety_wit_13_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold CostBound in PreH20.
   destruct PreH20 as [_ [Hcostlen Hcells]].
   specialize (Hcells bit_pre 0 ltac:(lia) ltac:(lia)).
@@ -160,7 +144,7 @@ Qed.
 
 Lemma proof_of_solve_safety_wit_13_split_goal_2 : solve_safety_wit_13_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold CostBound in PreH20.
   destruct PreH20 as [_ [Hcostlen Hcells]].
   specialize (Hcells bit_pre 0 ltac:(lia) ltac:(lia)).
@@ -181,7 +165,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_1 : solve_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists cost_before.
   split_pure_spatial.
   - cancel (IntArray.full a_p n_total before).
@@ -235,7 +219,7 @@ Proof.
       (( &( "cost" ) ) + (bit_pre + 1) * (8 * 2)) by ring.
     replace (bit_pre + 1 - (bit_pre + 1)) with 0 by lia.
     replace (30 - (bit_pre + 1)) with (30 - bit_pre - 1) by lia.
-    LLM_pre_process ltac:(lia || nia || int_auto).
+    LLM_pre_process ltac:(lia || int_auto).
   - split_pures.
     all: try (dump_pre_spatial; lia).
     all: try (dump_pre_spatial; exact PreH16).
@@ -265,7 +249,7 @@ Proof. Abort.
 
 Lemma proof_of_solve_entail_wit_2_1 : solve_entail_wit_2_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose (updated_costs :=
     replace_Znth bit_pre
       (replace_Znth 1 (CostAt current_costs_2 bit_pre 1 + zeros)
@@ -296,7 +280,7 @@ Proof.
       (sublist 0 bit_pre current_costs_2)).
     cancel ((( &( "a" ) )) # Ptr |-> a_p).
     cancel ((( &( "tmp" ) )) # Ptr |-> tmp_p).
-    LLM_pre_process ltac:(lia || nia || int_auto).
+    LLM_pre_process ltac:(lia || int_auto).
   - split_pures.
     all: unfold updated_costs.
     all: try (dump_pre_spatial; lia).
@@ -321,7 +305,7 @@ Proof. Abort.
 
 Lemma proof_of_solve_entail_wit_2_2 : solve_entail_wit_2_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose (updated_costs :=
     replace_Znth bit_pre
       (replace_Znth 0 (CostAt current_costs_2 bit_pre 0 + ones)
@@ -351,7 +335,7 @@ Proof.
       (sublist 0 bit_pre current_costs_2)).
     cancel ((( &( "a" ) )) # Ptr |-> a_p).
     cancel ((( &( "tmp" ) )) # Ptr |-> tmp_p).
-    LLM_pre_process ltac:(lia || nia || int_auto).
+    LLM_pre_process ltac:(lia || int_auto).
   - split_pures.
     all: unfold updated_costs.
     all: try (dump_pre_spatial; lia).
@@ -367,7 +351,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_3 : solve_entail_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = r_pre) by lia. subst i.
   Exists current_costs scratch.
   pose proof PreH19 as Hsolve_shape.
@@ -389,9 +373,9 @@ Proof.
     destruct row as [|v1 row]; simpl in Hrow_len; [discriminate |].
     destruct row as [|v2 row]; [| simpl in Hrow_len; discriminate].
     rewrite Znth0_cons, Znth_cons by lia. rewrite Znth0_cons.
-    replace (( &( "cost" ) ) + bit_pre * (sizeof (INT64) * 2)) with
+    replace (( &( "cost" ) ) + bit_pre * (2 * sizeof (INT64))) with
       (Int64Array2.row_addr ( &( "cost" ) ) 2 bit_pre) by
-      (unfold Int64Array2.row_addr; rewrite sizeof_int64; lia).
+      (unfold Int64Array2.row_addr; rewrite sizeof_int64; nia).
     sep_apply_l_atomic
       (int64array2_row_cells_merge__solve_counting
         (Int64Array2.row_addr ( &( "cost" ) ) 2 bit_pre)
@@ -446,7 +430,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_4_1_split_goal_1 : solve_entail_wit_4_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StablePartitionPrefix in *.
   destruct PreH19 as [[_ Hinit] | [Hbad _]]; [|lia].
   left. split; [lia|]. unfold InitializedSlice in *.
@@ -461,7 +445,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_4_1_split_goal_2 : solve_entail_wit_4_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Zlength_replace_Znth. exact PreH15.
 Qed.
 
@@ -474,7 +458,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_4_2_split_goal_1 : solve_entail_wit_4_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StablePartitionPrefix in *.
   destruct PreH19 as [[_ Hinit] | [Hbad _]]; [|lia].
   left. split; [lia|]. unfold InitializedSlice in *.
@@ -494,7 +478,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_5_split_goal_1 : solve_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StablePartitionPrefix in *.
   destruct PreH18 as [[_ Hinit] | [Hbad _]]; [|lia].
   right. split; [lia|]. unfold InitializedSlice in *.
@@ -505,7 +489,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_5_split_goal_2 : solve_entail_wit_5_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StablePartitionPrefix in PreH18.
   destruct PreH18 as [[_ Hinit] | [Hbad _]]; [|lia].
   unfold InitializedSlice in Hinit.
@@ -527,7 +511,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_6_split_goal_1 : solve_entail_wit_6_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StablePartitionPrefix in PreH36.
   destruct PreH36 as [[Hbad _] | [_ Hinit]]; [lia|].
   unfold InitializedSlice in Hinit.
@@ -571,7 +555,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_7_1_split_goal_1 : solve_entail_wit_7_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StablePartitionPrefix in *.
   destruct PreH33 as [[Hbad _] | [_ Hinit]]; [lia|].
   right. split; [lia|]. unfold InitializedSlice in *.
@@ -591,7 +575,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_7_1_split_goal_2 : solve_entail_wit_7_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Zlength_replace_Znth. exact PreH29.
 Qed.
 
@@ -604,7 +588,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_7_2_split_goal_1 : solve_entail_wit_7_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StablePartitionPrefix in *.
   destruct PreH20 as [[Hbad _] | [_ Hinit]]; [lia|].
   right. split; [lia|]. unfold InitializedSlice in *.
@@ -623,7 +607,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_8 : solve_entail_wit_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (i = r_pre) by lia. subst i.
   assert (Hp : p = r_pre).
   { eapply stable_partition_complete_write_end__solve_base_exits; eauto;
@@ -681,7 +665,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_9 : solve_entail_wit_9.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists counted_costs_2 partitioned_2 scratch_current_2 current_2.
   split_pure_spatial.
   - sep_apply_l_atomic
@@ -698,7 +682,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_10 : solve_entail_wit_10.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists counted_costs_2 partitioned scratch_current_2 current_2.
   split_pure_spatial.
   - fold (IntArray.mixedstoreA tmp_p i
@@ -716,7 +700,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_11 : solve_entail_wit_11.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists counted_costs_2 partitioned_2 scratch_current_2
     (replace_Znth i value current_2).
   split_pure_spatial.
@@ -747,8 +731,8 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_12 : solve_entail_wit_12.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (i_2 = r_pre) by lia. subst i_2.
+  LLM_pre_process ltac:(lia || int_auto).
+  assert (i = r_pre) by lia. subst i.
   pose proof PreH1 as Heffect.
   unfold SolveEffect in Heffect.
   destruct Heffect as
@@ -789,7 +773,7 @@ Qed.
 
 Lemma proof_of_solve_return_wit_1_split_goal_1 : solve_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (bit_pre = -1) by lia. subst bit_pre. cbn.
   replace (capacity + 0) with capacity by lia.
   exact PreH13.
@@ -797,7 +781,7 @@ Qed.
 
 Lemma proof_of_solve_return_wit_1_split_goal_2 : solve_return_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply solve_effect_negative__solve_base_exits
     with (d := __default__List_Z); eauto; try lia.
   intros b Hb. specialize (PreH14 b Hb). tauto.
@@ -812,7 +796,7 @@ Qed.
 
 Lemma proof_of_solve_return_wit_2_split_goal_1 : solve_return_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply cost_bound_monotone__solve_base_exits; [exact PreH14 |].
   assert (Hprod : 0 <= (bit_pre + 1) * (r_pre - l_pre)).
   { apply Z.mul_nonneg_nonneg; lia. }
@@ -824,7 +808,7 @@ Qed.
 
 Lemma proof_of_solve_return_wit_2_split_goal_2 : solve_return_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply solve_effect_short__solve_base_exits
     with (d := __default__List_Z); eauto; try lia.
   intros b Hb. specialize (PreH15 b Hb). tauto.
@@ -839,7 +823,7 @@ Qed.
 
 Lemma proof_of_solve_return_wit_3 : solve_return_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists scratch_after_2 after_2 cost_after_2.
   rewrite <- PreH20.
   split_pure_spatial.
@@ -865,12 +849,14 @@ Qed.
 
 Lemma proof_of_solve_partial_solve_wit_9_pure_split_goal_1 : solve_partial_solve_wit_9_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
+  dump_pre_spatial.
+  nia.
 Qed.
 
 Lemma proof_of_solve_partial_solve_wit_9_pure_split_goal_2 : solve_partial_solve_wit_9_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (square_partition_budget__solve_recursive
     capacity bit_pre l_pre mid r_pre ltac:(lia) ltac:(lia) ltac:(lia)).
@@ -889,17 +875,17 @@ Qed.
 
 Lemma proof_of_solve_partial_solve_wit_9_pure_split_goal_3 : solve_partial_solve_wit_9_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solve_partial_solve_wit_9_pure_split_goal_4 : solve_partial_solve_wit_9_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solve_partial_solve_wit_9_pure_split_goal_5 : solve_partial_solve_wit_9_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (square_partition_budget__solve_recursive
     capacity bit_pre l_pre mid r_pre ltac:(lia) ltac:(lia) ltac:(lia)).
@@ -928,12 +914,14 @@ Qed.
 
 Lemma proof_of_solve_partial_solve_wit_10_pure_split_goal_1 : solve_partial_solve_wit_10_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
+  dump_pre_spatial.
+  nia.
 Qed.
 
 Lemma proof_of_solve_partial_solve_wit_10_pure_split_goal_2 : solve_partial_solve_wit_10_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite <- PreH20.
   pose proof (square_partition_budget__solve_recursive
@@ -944,7 +932,7 @@ Qed.
 
 Lemma proof_of_solve_partial_solve_wit_10_pure_split_goal_3 : solve_partial_solve_wit_10_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros i Hi.
   apply PreH35.
@@ -954,12 +942,12 @@ Qed.
 
 Lemma proof_of_solve_partial_solve_wit_10_pure_split_goal_4 : solve_partial_solve_wit_10_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solve_partial_solve_wit_10_pure_split_goal_5 : solve_partial_solve_wit_10_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite <- PreH20.
   pose proof (square_partition_budget__solve_recursive
@@ -970,7 +958,9 @@ Qed.
 
 Lemma proof_of_solve_partial_solve_wit_10_pure_split_goal_6 : solve_partial_solve_wit_10_pure_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
+  dump_pre_spatial.
+  nia.
 Qed.
 
 Lemma proof_of_solve_partial_solve_wit_10_pure : solve_partial_solve_wit_10_pure.
@@ -986,7 +976,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_20_split_goal_1 : solver_safety_wit_20_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct PreH15 as [Htable _].
   destruct Htable as [Hlen [_ Hcost]].
@@ -1002,7 +992,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_20_split_goal_2 : solver_safety_wit_20_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct PreH15 as [Htable _].
   destruct Htable as [Hlen [_ Hcost]].
@@ -1025,7 +1015,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_22_split_goal_1 : solver_safety_wit_22_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hshift : 1 * 2 ^ b = Z.shiftl 1 b).
   { rewrite Z.shiftl_mul_pow2 by lia. ring. }
@@ -1041,7 +1031,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_22_split_goal_2 : solver_safety_wit_22_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hshift : 1 * 2 ^ b = Z.shiftl 1 b).
   { rewrite Z.shiftl_mul_pow2 by lia. ring. }
@@ -1056,12 +1046,12 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_22_split_goal_3 : solver_safety_wit_22_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_safety_wit_22_split_goal_4 : solver_safety_wit_22_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_safety_wit_22 : solver_safety_wit_22.
@@ -1075,7 +1065,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_24_split_goal_1 : solver_safety_wit_24_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct PreH15 as [Htable _].
   destruct Htable as [Hlen [_ Hcost]].
@@ -1091,7 +1081,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_24_split_goal_2 : solver_safety_wit_24_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct PreH15 as [Htable _].
   destruct Htable as [Hlen [_ Hcost]].
@@ -1114,12 +1104,12 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH7.
   lia.
 Qed.
@@ -1133,13 +1123,13 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply input_copy_prefix_extend__solver_copy_init; try assumption; lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_2 : solver_entail_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Zlength_replace_Znth.
   exact PreH8.
 Qed.
@@ -1153,7 +1143,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3 : solver_entail_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = n_pre) by lia.
   subst i.
   assert (Hacells : a_cells = map (@Some Z) input_values).
@@ -1185,15 +1175,15 @@ Proof.
     replace (&( "cost" ) + 0 * (sizeof(INT64) * 2)) with (&( "cost" )) by lia.
     replace (30 - 0) with 30 by lia.
     repeat cancel.
-    split_pure_spatial.
-    + cancel.
-    + split_pures; dump_pre_spatial; reflexivity.
+    + rewrite Z.mul_0_l, Z.add_0_r.
+      cancel.
+      entailer!.
   - split_pures; dump_pre_spatial; auto; lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_4 : solver_entail_wit_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   sep_apply_l_atomic (undef_cost_table_unfold__solver_zero_cost
     ((&( "cost" )) + b * (sizeof(INT64) * 2)) (30 - b)).
   - dump_pre_spatial. lia.
@@ -1220,9 +1210,9 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5 : solver_entail_wit_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   sep_apply_l_atomic (int64_zero_row_full__solver_zero_cost
-    ((&( "cost" )) + b * (sizeof(INT64) * 2))).
+    ((&( "cost" )) + b * (2 * sizeof(INT64)))).
   sep_apply_l_atomic (full_cost_rows_snoc__solver_zero_cost
     (&( "cost" )) b zero_rows_2 (0 :: 0 :: nil)).
   - dump_pre_spatial. exact PreH8.
@@ -1242,7 +1232,7 @@ Proof.
       cancel (Int64Array2.full (&( "cost" )) (b + 1) 2
         (zero_rows_2 ++ (0 :: 0 :: nil) :: nil)).
       cancel (Int64Array2.undef_full
-        ((&( "cost" )) + (b + 1) * (sizeof(INT64) * 2))
+        ((&( "cost" )) + (b + 1) * (2 * sizeof(INT64)))
         (30 - (b + 1)) 2).
       cancel (((&( "a" )) # Ptr |-> a_p_2)).
       cancel (((&( "tmp" )) # Ptr |-> tmp_p_2)).
@@ -1253,7 +1243,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6 : solver_entail_wit_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hb30 : b_2 = 30) by lia.
   rewrite Hb30 in *.
   rewrite PreH2 in *.
@@ -1286,7 +1276,7 @@ Proof. Abort.
 
 Lemma proof_of_solver_entail_wit_7 : solver_entail_wit_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof PreH1 as Heffect_shape.
   unfold SolveEffect in Heffect_shape.
   destruct Heffect_shape as [Hafterlen _].
@@ -1316,7 +1306,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_8 : solver_entail_wit_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof PreH15 as HP.
   destruct HP as [Htable _].
   destruct Htable as [Hlen [Hrowlens _]].
@@ -1329,20 +1319,18 @@ Proof.
       (int64_cost_table_expose__solver_choice_loop
         &( "cost") costs_2 b nil Hlen ltac:(lia)
         (Hrowlens b ltac:(lia))).
+    cancel.
     change (sizeof ( INT64 )) with 8.
-    replace (&( "cost") + b * (8 * 2) + 0 * 8)
-      with (&( "cost") + b * 16 + 0) by ring.
-    replace (&( "cost") + b * (8 * 2) + 1 * 8)
-      with (&( "cost") + b * 16 + 8) by ring.
-    replace (&( "cost") + (b + 1) * (8 * 2))
-      with (&( "cost") + (b + 1) * 16) by ring.
+    replace (2 * 8) with 16 by ring.
+    replace (1 * 8) with 8 by ring.
+    replace (0 * 8) with 0 by ring.
     cancel.
   - split_pures; dump_pre_spatial; auto; lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_9_1 : solver_entail_wit_9_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists tmp_p_2 a_p_2 costs_2 tmp_cells_2 current_2.
   pose proof PreH15 as Hprefix.
   unfold XorChoicePrefix in Hprefix.
@@ -1379,12 +1367,9 @@ Proof.
       Hprefix1 ltac:(lia)) as [Hinvnext Hxnext].
   split_pure_spatial.
   - change (sizeof ( INT64 )) with 8.
-    replace (&( "cost") + b * (8 * 2) + 0 * 8)
-      with (&( "cost") + b * 16 + 0) by ring.
-    replace (&( "cost") + b * (8 * 2) + 1 * 8)
-      with (&( "cost") + b * 16 + 8) by ring.
-    replace (&( "cost") + (b + 1) * (8 * 2))
-      with (&( "cost") + (b + 1) * 16) by ring.
+    replace (2 * 8) with 16 by ring.
+    replace (0 * 8) with 0 by ring.
+    replace (1 * 8) with 8 by ring.
     sep_apply_left (int64_cost_table_merge__solver_choice_loop
       &( "cost") costs_2 b __default__List_Z Hcostlen ltac:(lia) Hrowbd).
     cancel.
@@ -1393,7 +1378,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9_2 : solver_entail_wit_9_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists tmp_p_2 a_p_2 costs_2 tmp_cells_2 current_2.
   pose proof PreH15 as Hprefix.
   unfold XorChoicePrefix in Hprefix.
@@ -1430,6 +1415,9 @@ Proof.
       with (&( "cost") + b * 16 + 8) by ring.
     replace (&( "cost") + (b + 1) * (8 * 2))
       with (&( "cost") + (b + 1) * 16) by ring.
+    replace (2 * 8) with 16 by ring.
+    replace (0 * 8) with 0 by ring.
+    replace (1 * 8) with 8 by ring.
     sep_apply_left (int64_cost_table_merge__solver_choice_loop
       &( "cost") costs_2 b __default__List_Z Hcostlen ltac:(lia) Hrowbd).
     cancel.
@@ -1438,7 +1426,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_10 : solver_entail_wit_10.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists costs_2 tmp_p_2 a_p_2.
   split_pure_spatial.
   - sep_apply_l_atomic
@@ -1459,7 +1447,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_5_pure_split_goal_1 : solver_partial_solve_wit_5_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   intros b Hb.
   destruct (PreH8 b Hb) as [[Hlen Hzero] Hone].
@@ -1468,7 +1456,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_5_pure_split_goal_2 : solver_partial_solve_wit_5_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_5_pure : solver_partial_solve_wit_5_pure.

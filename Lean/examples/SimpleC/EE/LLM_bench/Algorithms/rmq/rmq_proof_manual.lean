@@ -17,7 +17,7 @@ private noncomputable abbrev intArray := naive_C_Rules.IntArray
 
 theorem proof_of_build_safety_wit_12 : build_safety_wit_12 := by
   right
-  intro st_pre K_pre n_pre arr_pre l st_l i len half j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro l arr_pre n_pre K_pre st_pre st_l i len half j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   have hp := worker_Power2_nonneg j
   have hb := worker_Power2_bound_lt_30 j K_pre (by omega) (by omega)
   split_pures <;> dump_pre_spatial
@@ -25,7 +25,7 @@ theorem proof_of_build_safety_wit_12 : build_safety_wit_12 := by
 
 theorem proof_of_build_safety_wit_28 : build_safety_wit_28 := by
   right
-  intro st_pre K_pre n_pre arr_pre l st_l i len half j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro l arr_pre n_pre K_pre st_pre st_l i len half j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   have hp := worker_Power2_nonneg j
   have hb := worker_Power2_bound_lt_30 j K_pre (by omega) (by omega)
   split_pures <;> dump_pre_spatial
@@ -33,7 +33,7 @@ theorem proof_of_build_safety_wit_28 : build_safety_wit_28 := by
 
 theorem proof_of_build_entail_wit_3 : build_entail_wit_3 := by
   right
-  intro K_pre n_pre l st_l_2 idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro l n_pre K_pre st_l_2 idx PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -42,7 +42,7 @@ theorem proof_of_build_entail_wit_3 : build_entail_wit_3 := by
 
 theorem proof_of_build_entail_wit_4 : build_entail_wit_4 := by
   right
-  intro K_pre n_pre l st_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro l n_pre K_pre st_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -50,7 +50,7 @@ theorem proof_of_build_entail_wit_4 : build_entail_wit_4 := by
 
 theorem proof_of_build_entail_wit_6 : build_entail_wit_6 := by
   right
-  intro K_pre n_pre l st_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro l n_pre K_pre st_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -58,7 +58,7 @@ theorem proof_of_build_entail_wit_6 : build_entail_wit_6 := by
 
 theorem proof_of_build_entail_wit_7 : build_entail_wit_7 := by
   right
-  intro K_pre n_pre l st_l_2 len half j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro l n_pre K_pre st_l_2 len half j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -67,7 +67,7 @@ theorem proof_of_build_entail_wit_7 : build_entail_wit_7 := by
 
 theorem proof_of_build_entail_wit_8 : build_entail_wit_8 := by
   right
-  intro K_pre n_pre l st_l_2 i len half j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro l n_pre K_pre st_l_2 i len half j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   have hp := Power2_pos j (by omega)
   have hh := Power2_pos (j-1) (by omega)
   have hd := Power2_sub1_double j (by omega)
@@ -78,7 +78,7 @@ theorem proof_of_build_entail_wit_8 : build_entail_wit_8 := by
 
 theorem proof_of_build_entail_wit_10 : build_entail_wit_10 := by
   right
-  intro K_pre n_pre l st_l_2 i len half j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro l n_pre K_pre st_l_2 i len half j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   have hb := STLevelPrefix_exit_to_built_step l st_l_2 K_pre n_pre j i len PreH13 PreH14 PreH10 PreH1
   have hd := Power2_step j (by omega)
   split_pure_spatial
@@ -88,7 +88,7 @@ theorem proof_of_build_entail_wit_10 : build_entail_wit_10 := by
 
 theorem proof_of_build_return_wit_1 : build_return_wit_1 := by
   right
-  intro K_pre n_pre l st_l_2 len half j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro l n_pre K_pre st_l_2 len half j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have he : j = K_pre := by omega
   subst j
   split_pure_spatial
@@ -98,7 +98,7 @@ theorem proof_of_build_return_wit_1 : build_return_wit_1 := by
 
 theorem proof_of_query_entail_wit_1 : query_entail_wit_1 := by
   right
-  intro right_pre left_pre K_pre n_pre st_l l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro st_l l n_pre K_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -106,7 +106,7 @@ theorem proof_of_query_entail_wit_1 : query_entail_wit_1 := by
 
 theorem proof_of_query_entail_wit_2 : query_entail_wit_2 := by
   right
-  intro right_pre left_pre K_pre n_pre st_l l pow k len PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro st_l l n_pre K_pre left_pre right_pre pow k len PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have he : pow*2 = Power2 (k+1) := by rw [PreH13]; exact Power2_step k PreH11
   have hk : k+1 < K_pre := by
     by_contra h
@@ -120,7 +120,7 @@ theorem proof_of_query_entail_wit_2 : query_entail_wit_2 := by
 
 theorem proof_of_query_entail_wit_3 : query_entail_wit_3 := by
   right
-  intro right_pre left_pre K_pre n_pre st_l l pow k len PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro st_l l n_pre K_pre left_pre right_pre pow k len PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -128,7 +128,7 @@ theorem proof_of_query_entail_wit_3 : query_entail_wit_3 := by
 
 theorem proof_of_build_entail_wit_5 : build_entail_wit_5 := by
   left
-  intro st_pre K_pre n_pre arr_pre l st_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro l arr_pre n_pre K_pre st_pre st_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   prop_apply (intArray.full_Zlength arr_pre n_pre l)
   Intros_p hl
   prop_apply (intArray.full_Zlength st_pre (n_pre*K_pre) (replace_Znth (i*K_pre) (Znth i l 0) st_l_2))
@@ -144,7 +144,7 @@ theorem proof_of_build_entail_wit_5 : build_entail_wit_5 := by
 
 theorem proof_of_build_entail_wit_9_1 : build_entail_wit_9_1 := by
   left
-  intro st_pre K_pre n_pre arr_pre l st_l_2 j half len i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro l arr_pre n_pre K_pre st_pre st_l_2 j half len i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   prop_apply (intArray.full_Zlength st_pre (n_pre*K_pre) (replace_Znth (i*K_pre+j) (Znth (i*K_pre+j-1) st_l_2 0) st_l_2))
   Intros_p hs
   simp only [Zlength_replace_Znth] at hs
@@ -172,7 +172,7 @@ theorem proof_of_build_entail_wit_9_1 : build_entail_wit_9_1 := by
 
 theorem proof_of_build_entail_wit_9_2 : build_entail_wit_9_2 := by
   left
-  intro st_pre K_pre n_pre arr_pre l st_l_2 j half len i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro l arr_pre n_pre K_pre st_pre st_l_2 j half len i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   prop_apply (intArray.full_Zlength st_pre (n_pre*K_pre) (replace_Znth (i*K_pre+j) (Znth ((i+half)*K_pre+j-1) st_l_2 0) st_l_2))
   Intros_p hs
   simp only [Zlength_replace_Znth] at hs
@@ -200,7 +200,7 @@ theorem proof_of_build_entail_wit_9_2 : build_entail_wit_9_2 := by
 
 theorem proof_of_query_return_wit_1 : query_return_wit_1 := by
   right
-  intro right_pre left_pre K_pre n_pre st_l l len k pow PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro st_l l n_pre K_pre left_pre right_pre len k pow PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   have hfinal : QueryLogFinalState len k pow := by
     refine ⟨⟨PreH11,PreH13,by omega⟩,?_⟩
     rw [Power2_step_query k PreH11, ← PreH13]
@@ -216,7 +216,7 @@ theorem proof_of_query_return_wit_1 : query_return_wit_1 := by
 
 theorem proof_of_query_return_wit_2 : query_return_wit_2 := by
   right
-  intro right_pre left_pre K_pre n_pre st_l l len k pow PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro st_l l n_pre K_pre left_pre right_pre len k pow PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   have hfinal : QueryLogFinalState len k pow := by
     refine ⟨⟨PreH11,PreH13,by omega⟩,?_⟩
     rw [Power2_step_query k PreH11, ← PreH13]

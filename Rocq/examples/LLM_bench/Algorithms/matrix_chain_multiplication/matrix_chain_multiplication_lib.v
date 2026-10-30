@@ -1,16 +1,10 @@
 From Coq Require Import ZArith List.
-Require Import AUXLib.ListLib.
+Require Import AUXLib.ListLib AUXLib.MonotonicList.
 From MaxMinLib Require Import MaxMin Interface.
 
 Import ListNotations.
 Local Open Scope Z_scope.
 Local Open Scope list_scope.
-
-Definition MatrixChainDimensionsBounded
-    (dimensions : list Z) (matrix_count : Z) : Prop :=
-  Zlength dimensions = matrix_count + 1 /\
-  forall i, 0 <= i <= matrix_count ->
-    1 <= Znth i dimensions 0 <= 100.
 
 Inductive MatrixChainPlan
     (dimensions : list Z) : Z -> Z -> Z -> Prop :=
@@ -40,48 +34,26 @@ Definition MatrixChainIntervalMinimum
     (fun scalar_cost => scalar_cost)
     answer.
 
-Definition MatrixChainMinimumCost
-    (dimensions : list Z) (matrix_count answer : Z) : Prop :=
-  Zlength dimensions = matrix_count + 1 /\
-  MatrixChainIntervalMinimum dimensions 0 (matrix_count - 1) answer.
+Definition MatrixChainOptimalCost (dimensions : list Z) (count answer : Z) : Prop :=
+  MatrixChainIntervalMinimum dimensions 0 (count - 1) answer.
 
-Definition MatrixChainTableResult
-    (dimensions table : list Z) (matrix_count : Z) : Prop :=
-  Zlength table = matrix_count * matrix_count /\
-  forall left right,
-    0 <= left /\ left <= right /\ right < matrix_count ->
+Definition MatrixChainTableComplete (dimensions table : list Z) (count : Z) : Prop :=
+  forall left right, 0 <= left /\ left <= right /\ right < count ->
     MatrixChainIntervalMinimum dimensions left right
-      (Znth (left * matrix_count + right) table 0).
+      (Znth (left * count + right) table 0).
 
-Definition MatrixChainZeroPrefix (table : list Z) (done : Z) : Prop :=
-  Zlength table = done /\
-  forall index, 0 <= index < done -> Znth index table 0 = 0.
-
-Definition MatrixChainTableValuesBounded (table : list Z) : Prop :=
-  forall index, 0 <= index < Zlength table ->
-    0 <= Znth index table 0 <= 7000000.
-
-Definition MatrixChainLengthsDone
-    (dimensions table : list Z) (matrix_count next_length : Z) : Prop :=
-  1 <= next_length /\
-  forall length left right,
-    1 <= length < next_length ->
-    right = left + length - 1 ->
-    0 <= left ->
-    left + length <= matrix_count ->
+Definition MatrixChainLengthsComplete (dimensions table : list Z) (count next : Z) : Prop :=
+  forall len left right, 1 <= len < next -> right = left + len - 1 ->
+    0 <= left -> left + len <= count ->
     MatrixChainIntervalMinimum dimensions left right
-      (Znth (left * matrix_count + right) table 0).
+      (Znth (left * count + right) table 0).
 
-Definition MatrixChainLeftProgress
-    (dimensions table : list Z)
-    (matrix_count length next_left : Z) : Prop :=
-  MatrixChainLengthsDone dimensions table matrix_count length /\
-  forall left right,
-    0 <= left < next_left ->
-    right = left + length - 1 ->
-    left + length <= matrix_count ->
+Definition MatrixChainLeftComplete (dimensions table : list Z) (count len next : Z) : Prop :=
+  MatrixChainLengthsComplete dimensions table count len /\
+  forall left right, 0 <= left < next -> right = left + len - 1 ->
+    left + len <= count ->
     MatrixChainIntervalMinimum dimensions left right
-      (Znth (left * matrix_count + right) table 0).
+      (Znth (left * count + right) table 0).
 
 Definition MatrixChainSplitCandidate
     (dimensions table : list Z)
@@ -93,31 +65,26 @@ Definition MatrixChainSplitCandidate
     Znth (split + 1) dimensions 0 *
     Znth (right + 1) dimensions 0.
 
-Definition MatrixChainSplitProgress
-    (dimensions table : list Z)
-    (matrix_count width length left next_split best : Z) : Prop :=
-  MatrixChainLeftProgress dimensions table matrix_count length left /\
-  let right := left + length - 1 in
+Definition MatrixChainSplitMinimum (dimensions table : list Z)
+  (count width len left next best : Z) : Prop :=
+  MatrixChainLeftComplete dimensions table count len left /\
   min_value_of_subset Z.le
-    (fun candidate =>
-       exists split,
-         left <= split < next_split /\
-         MatrixChainSplitCandidate
-           dimensions table width left right split candidate)
-    (fun candidate => candidate)
-    best.
+    (fun candidate => exists split, left <= split < next /\
+      MatrixChainSplitCandidate dimensions table width left (left + len - 1) split candidate)
+    (fun candidate => candidate) best.
 
 From Coq Require Import Lia.
 Lemma matrix_chain_zero_table_lengths_done__initialization :
   forall dimensions table matrix_count,
     1 <= matrix_count ->
     Zlength dimensions = matrix_count + 1 ->
-    MatrixChainZeroPrefix table (matrix_count * matrix_count) ->
-    MatrixChainLengthsDone dimensions table matrix_count 2.
+    (Zlength table = (matrix_count * matrix_count) /\ Forall (eq 0) table) ->
+    (1 <= 2 /\ MatrixChainLengthsComplete dimensions table matrix_count 2).
 Proof.
   intros dimensions table matrix_count Hcount Hdims Hzero.
   destruct Hzero as [Htable Hentries].
-  unfold MatrixChainLengthsDone.
+  rewrite (Forall_Znth _ 0 table), Htable in Hentries.
+  unfold MatrixChainLengthsComplete.
   split; [lia |].
   intros length left right Hlength Hright Hleft Hfits.
   assert (length = 1) by lia. subst length.
@@ -126,7 +93,7 @@ Proof.
                    matrix_count * matrix_count) by nia.
   unfold MatrixChainIntervalMinimum, min_value_of_subset.
   replace (left + 1 - 1) with left by lia.
-  rewrite (Hentries (left * matrix_count + left) Hindex).
+  rewrite <- (Hentries (left * matrix_count + left) Hindex).
   exists 0.
   split; [| reflexivity].
   unfold min_object_of_subset.
@@ -137,7 +104,7 @@ Proof.
 Qed.
 Lemma matrix_chain_plan_linear_upper_bound__candidate_progress :
   forall dimensions matrix_count left right,
-    MatrixChainDimensionsBounded dimensions matrix_count ->
+    (Zlength dimensions = matrix_count + 1 /\ Forall (fun value : Z => 1 <= value <= 100) dimensions) ->
     0 <= left ->
     left <= right ->
     right < matrix_count ->
@@ -187,6 +154,7 @@ Proof.
                  (eq_sym Hrecursive_span))
       as [right_cost [Hright_plan Hright_cost]].
     destruct Hdimensions as [Hlength Hbounds].
+    rewrite (Forall_Znth _ 0 dimensions), Hlength in Hbounds.
     pose proof (Hbounds left ltac:(lia)) as Hdim_left.
     pose proof (Hbounds (left + 1) ltac:(lia)) as Hdim_middle.
     pose proof (Hbounds (right + 1) ltac:(lia)) as Hdim_right.
@@ -218,7 +186,7 @@ Proof.
 Qed.
 Lemma matrix_chain_interval_minimum_upper_bound__candidate_progress :
   forall dimensions matrix_count left right answer,
-    MatrixChainDimensionsBounded dimensions matrix_count ->
+    (Zlength dimensions = matrix_count + 1 /\ Forall (fun value : Z => 1 <= value <= 100) dimensions) ->
     0 <= left ->
     left <= right ->
     right < matrix_count ->
@@ -242,17 +210,18 @@ Proof.
 Qed.
 Lemma matrix_chain_split_progress_initial__candidate_progress :
   forall dimensions table matrix_count width length left,
-    MatrixChainLeftProgress dimensions table matrix_count length left ->
-    MatrixChainSplitProgress
-      dimensions table matrix_count width length left (left + 1)
-      (Znth (left * width + left) table 0 +
+    (1 <= length /\ MatrixChainLeftComplete dimensions table matrix_count length left) ->
+    (1 <= length /\ MatrixChainSplitMinimum dimensions table matrix_count width length left (left + 1) (Znth
+      (left * width + left) table 0 +
        Znth ((left + 1) * width + (left + length - 1)) table 0 +
        Znth left dimensions 0 *
        Znth (left + 1) dimensions 0 *
-       Znth ((left + length - 1) + 1) dimensions 0).
+       Znth ((left + length - 1) + 1) dimensions 0)).
 Proof.
   intros dimensions table matrix_count width length left Hleft_progress.
-  unfold MatrixChainSplitProgress.
+  unfold MatrixChainSplitMinimum.
+  destruct Hleft_progress as [Hlength Hleft_progress].
+  split; [exact Hlength |].
   split; [exact Hleft_progress |].
   cbn.
   unfold min_value_of_subset, min_object_of_subset.
@@ -278,15 +247,14 @@ Lemma matrix_chain_split_progress_better__min_update :
     candidate < best ->
     MatrixChainSplitCandidate dimensions table width left
       (left + length - 1) split candidate ->
-    MatrixChainSplitProgress dimensions table matrix_count width
-      length left split best ->
-    MatrixChainSplitProgress dimensions table matrix_count width
-      length left (split + 1) candidate.
+    (1 <= length /\ MatrixChainSplitMinimum dimensions table matrix_count width length left split best) ->
+    (1 <= length /\ MatrixChainSplitMinimum dimensions table matrix_count width length left (split + 1) candidate).
 Proof.
   intros dimensions table matrix_count width length left split best candidate
     Hleftsplit Hbetter Hcandidate Hprogress.
-  unfold MatrixChainSplitProgress in *; cbn in *.
-  destruct Hprogress as [Hleft Hminimum].
+  unfold MatrixChainSplitMinimum in *; cbn in *.
+  destruct Hprogress as [Hlength [Hleft Hminimum]].
+  split; [exact Hlength |].
   split; [exact Hleft |].
   rewrite <- (min_l Z.le best candidate) by lia.
   eapply (min_union_1_right Z.le best candidate candidate
@@ -318,15 +286,14 @@ Lemma matrix_chain_split_progress_not_better__min_update :
     best <= candidate ->
     MatrixChainSplitCandidate dimensions table width left
       (left + length - 1) split candidate ->
-    MatrixChainSplitProgress dimensions table matrix_count width
-      length left split best ->
-    MatrixChainSplitProgress dimensions table matrix_count width
-      length left (split + 1) best.
+    (1 <= length /\ MatrixChainSplitMinimum dimensions table matrix_count width length left split best) ->
+    (1 <= length /\ MatrixChainSplitMinimum dimensions table matrix_count width length left (split + 1) best).
 Proof.
   intros dimensions table matrix_count width length left split best candidate
     Hleftsplit Hnotbetter Hcandidate Hprogress.
-  unfold MatrixChainSplitProgress in *; cbn in *.
-  destruct Hprogress as [Hleft Hminimum].
+  unfold MatrixChainSplitMinimum in *; cbn in *.
+  destruct Hprogress as [Hlength [Hleft Hminimum]].
+  split; [exact Hlength |].
   split; [exact Hleft |].
   rewrite <- (min_r Z.le best candidate) by lia.
   eapply (min_union_1_right Z.le best candidate candidate
@@ -359,15 +326,14 @@ Lemma matrix_chain_split_progress_complete__min_update :
     right = left + length - 1 ->
     right < matrix_count ->
     right + 1 < Zlength dimensions ->
-    MatrixChainSplitProgress dimensions table matrix_count matrix_count
-      length left right best ->
+    (1 <= length /\ MatrixChainSplitMinimum dimensions table matrix_count matrix_count length left right best) ->
     MatrixChainIntervalMinimum dimensions left right best.
 Proof.
   intros dimensions table matrix_count length left right best
     Hlength Hleft Hright Hrightbound Hdimensionbound Hprogress.
   subst right.
-  unfold MatrixChainSplitProgress in Hprogress; cbn in Hprogress.
-  destruct Hprogress as [[Hdone Hleftprogress] Hminimum].
+  unfold MatrixChainSplitMinimum in Hprogress; cbn in Hprogress.
+  destruct Hprogress as [Hlen [[Hdone Hleftprogress] Hminimum]].
   unfold MatrixChainIntervalMinimum.
   destruct Hminimum as
     [candidate [[[root [[Hrootleft Hrootright] Hcandidate]] Hcandidateleast]
@@ -376,14 +342,14 @@ Proof.
     MatrixChainIntervalMinimum dimensions left root
       (Znth (left * matrix_count + root) table 0)).
   {
-    eapply Hdone with (length := root - left + 1); lia.
+    eapply Hdone with (len := root - left + 1); lia.
   }
   assert (Hrightminimum :
     MatrixChainIntervalMinimum dimensions (root + 1)
       (left + length - 1)
       (Znth ((root + 1) * matrix_count + (left + length - 1)) table 0)).
   {
-    eapply Hdone with (length := left + length - 1 - root); lia.
+    eapply Hdone with (len := left + length - 1 - root); lia.
   }
   unfold MatrixChainIntervalMinimum in Hleftminimum, Hrightminimum.
   destruct Hleftminimum as
@@ -410,7 +376,7 @@ Proof.
           MatrixChainIntervalMinimum dimensions left join_split
             (Znth (left * matrix_count + join_split) table 0)).
         {
-          eapply Hdone with (length := join_split - left + 1); lia.
+          eapply Hdone with (len := join_split - left + 1); lia.
         }
         assert (Hjoinrightminimum :
           MatrixChainIntervalMinimum dimensions (join_split + 1)
@@ -419,7 +385,7 @@ Proof.
                     (left + length - 1)) table 0)).
         {
           eapply Hdone with
-            (length := left + length - 1 - join_split); lia.
+            (len := left + length - 1 - join_split); lia.
         }
         unfold MatrixChainIntervalMinimum in
           Hjoinleftminimum, Hjoinrightminimum.
@@ -459,30 +425,3 @@ Proof.
         lia.
   - exact Hcandidatebest.
 Qed.
-
-(** Mathematical predicates exposed by the refactored annotation.  Existing
-    helper lemmas retain their original internal premises for proof reuse. *)
-Definition MatrixChainOptimalCost (dimensions : list Z) (count answer : Z) : Prop :=
-  MatrixChainIntervalMinimum dimensions 0 (count - 1) answer.
-Definition MatrixChainTableComplete (dimensions table : list Z) (count : Z) : Prop :=
-  forall left right, 0 <= left /\ left <= right /\ right < count ->
-    MatrixChainIntervalMinimum dimensions left right
-      (Znth (left * count + right) table 0).
-Definition MatrixChainLengthsComplete (dimensions table : list Z) (count next : Z) : Prop :=
-  forall len left right, 1 <= len < next -> right = left + len - 1 ->
-    0 <= left -> left + len <= count ->
-    MatrixChainIntervalMinimum dimensions left right
-      (Znth (left * count + right) table 0).
-Definition MatrixChainLeftComplete (dimensions table : list Z) (count len next : Z) : Prop :=
-  MatrixChainLengthsComplete dimensions table count len /\
-  forall left right, 0 <= left < next -> right = left + len - 1 ->
-    left + len <= count ->
-    MatrixChainIntervalMinimum dimensions left right
-      (Znth (left * count + right) table 0).
-Definition MatrixChainSplitMinimum (dimensions table : list Z)
-  (count width len left next best : Z) : Prop :=
-  MatrixChainLeftComplete dimensions table count len left /\
-  min_value_of_subset Z.le
-    (fun candidate => exists split, left <= split < next /\
-      MatrixChainSplitCandidate dimensions table width left (left + len - 1) split candidate)
-    (fun candidate => candidate) best.

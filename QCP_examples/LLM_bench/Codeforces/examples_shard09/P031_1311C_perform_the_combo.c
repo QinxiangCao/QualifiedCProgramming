@@ -70,12 +70,12 @@ static void solver(const char *s, int n, const int *p, int m, long long *cnt)
           (forall k, (0 <= k && k < m@pre) =>
              (1 <= tries[k] && tries[k] < n@pre)) &&
           n@pre == Zlength(text) && m@pre == Zlength(tries) &&
-          aligned_4(pointer_offset(diff, 0, sizeof(long long), long long)) &&
+          aligned_4(pointer_offset(diff, 0, long long)) &&
           CharArray::full(s@pre, n@pre, text) *
           IntArray::full(p@pre, m@pre, tries) *
           Int64Array::undef_full(cnt@pre, 26) *
           UCharArray::undef_full(
-            pointer_offset(diff, 0, sizeof(long long), long long),
+            pointer_offset(diff, 0, long long),
             sizeof(long long) * (n@pre + 1))
     */
     memset(diff, 0, sizeof(long long) * (n + 1));   /* p_i may be n, so n + 1 */
@@ -87,7 +87,7 @@ static void solver(const char *s, int n, const int *p, int m, long long *cnt)
           (forall k, (0 <= k && k < m@pre) =>
              (1 <= tries[k] && tries[k] < n@pre)) &&
           n@pre == Zlength(text) && m@pre == Zlength(tries) &&
-          aligned_4(pointer_offset(diff, 0, sizeof(long long), long long)) &&
+          aligned_4(pointer_offset(diff, 0, long long)) &&
           CharArray::full(s@pre, n@pre, text) *
           IntArray::full(p@pre, m@pre, tries) *
           Int64Array::undef_full(cnt@pre, 26) *

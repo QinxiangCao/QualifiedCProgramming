@@ -1,0 +1,11 @@
+From SimpleC.EE.Applications_human.CDCL Require Import
+  CDCL_qcp_bcp_proof_manual_part1
+  CDCL_qcp_bcp_proof_manual_part2
+  CDCL_qcp_bcp_proof_manual_part3
+  CDCL_qcp_bcp_proof_manual_part4.
+
+Include CDCL_qcp_bcp_proof_manual_part1.
+Include CDCL_qcp_bcp_proof_manual_part2.
+Include CDCL_qcp_bcp_proof_manual_part3.
+Include CDCL_qcp_bcp_proof_manual_part4.
+

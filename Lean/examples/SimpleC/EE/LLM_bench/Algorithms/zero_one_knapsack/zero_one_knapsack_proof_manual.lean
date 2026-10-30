@@ -72,7 +72,7 @@ private theorem scratch_full_tail_undef (x k cap : Int) (l : List Int)
 theorem proof_of_zeroOneKnapsack_safety_wit_22 : zeroOneKnapsack_safety_wit_22 := by
   unfold zeroOneKnapsack_safety_wit_22
   right
-  intro capacity_pre n_pre values_pre weights_pre values_l weights_l dp_l j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45
+  intro values_l weights_l weights_pre values_pre n_pre capacity_pre dp_l j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45
   have hweights := PreH40
   have hvalues0 := PreH41
   have hvalues1 := PreH42
@@ -88,7 +88,7 @@ theorem proof_of_zeroOneKnapsack_safety_wit_22 : zeroOneKnapsack_safety_wit_22 :
 theorem proof_of_zeroOneKnapsack_entail_wit_1 : zeroOneKnapsack_entail_wit_1 := by
   unfold zeroOneKnapsack_entail_wit_1
   left
-  intro capacity_pre n_pre values_pre weights_pre values_l weights_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro values_l weights_l weights_pre values_pre n_pre capacity_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   have hweights := PreH7
   have hvalues0 := PreH9
   have hvalues1 := PreH10
@@ -123,7 +123,7 @@ theorem proof_of_zeroOneKnapsack_entail_wit_1 : zeroOneKnapsack_entail_wit_1 := 
 theorem proof_of_zeroOneKnapsack_entail_wit_2 : zeroOneKnapsack_entail_wit_2 := by
   unfold zeroOneKnapsack_entail_wit_2
   right
-  intro capacity_pre n_pre values_l weights_l dp_l_2 i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro values_l weights_l n_pre capacity_pre dp_l_2 i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   have hweights := PreH9
   have hvalues0 := PreH10
   have hvalues1 := PreH11
@@ -145,7 +145,7 @@ theorem proof_of_zeroOneKnapsack_entail_wit_2 : zeroOneKnapsack_entail_wit_2 := 
 theorem proof_of_zeroOneKnapsack_entail_wit_3 : zeroOneKnapsack_entail_wit_3 := by
   unfold zeroOneKnapsack_entail_wit_3
   right
-  intro capacity_pre n_pre values_l weights_l dp_l j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro values_l weights_l n_pre capacity_pre dp_l j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   have hweights := PreH23
   have hvalues0 := PreH24
   have hvalues1 := PreH25
@@ -162,7 +162,7 @@ theorem proof_of_zeroOneKnapsack_entail_wit_3 : zeroOneKnapsack_entail_wit_3 := 
 theorem proof_of_zeroOneKnapsack_entail_wit_4 : zeroOneKnapsack_entail_wit_4 := by
   unfold zeroOneKnapsack_entail_wit_4
   right
-  intro capacity_pre n_pre values_l weights_l dp_l j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro values_l weights_l n_pre capacity_pre dp_l j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have hweights := PreH33
   have hvalues0 := PreH34
   have hvalues1 := PreH35
@@ -179,7 +179,7 @@ theorem proof_of_zeroOneKnapsack_entail_wit_4 : zeroOneKnapsack_entail_wit_4 := 
 theorem proof_of_zeroOneKnapsack_entail_wit_5 : zeroOneKnapsack_entail_wit_5 := by
   unfold zeroOneKnapsack_entail_wit_5
   right
-  intro capacity_pre n_pre values_l weights_l dp_l j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43
+  intro values_l weights_l n_pre capacity_pre dp_l j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43
   have hweights := PreH38
   have hvalues0 := PreH39
   have hvalues1 := PreH40
@@ -197,7 +197,7 @@ theorem proof_of_zeroOneKnapsack_entail_wit_5 : zeroOneKnapsack_entail_wit_5 := 
 theorem proof_of_zeroOneKnapsack_entail_wit_7 : zeroOneKnapsack_entail_wit_7 := by
   unfold zeroOneKnapsack_entail_wit_7
   right
-  intro capacity_pre n_pre values_l weights_l dp_l_2 j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro values_l weights_l n_pre capacity_pre dp_l_2 j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have hweights := PreH11
   have hvalues0 := PreH12
   have hvalues1 := PreH13
@@ -222,7 +222,7 @@ theorem proof_of_zeroOneKnapsack_entail_wit_7 : zeroOneKnapsack_entail_wit_7 := 
 theorem proof_of_zeroOneKnapsack_entail_wit_8 : zeroOneKnapsack_entail_wit_8 := by
   unfold zeroOneKnapsack_entail_wit_8
   right
-  intro capacity_pre n_pre values_l weights_l dp_l_2 i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro values_l weights_l n_pre capacity_pre dp_l_2 i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   have hweights := PreH9
   have hvalues0 := PreH10
   have hvalues1 := PreH11
@@ -253,14 +253,14 @@ theorem proof_of_zeroOneKnapsack_entail_wit_8 : zeroOneKnapsack_entail_wit_8 := 
 theorem proof_of_zeroOneKnapsack_entail_wit_9 : zeroOneKnapsack_entail_wit_9 := by
   unfold zeroOneKnapsack_entail_wit_9
   right
-  intro capacity_pre n_pre values_l weights_l dp_l width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro values_l weights_l n_pre capacity_pre dp_l width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   apply scratch_full_tail_undef
   constructor <;> nlinarith
 
 theorem proof_of_zeroOneKnapsack_entail_wit_6_1 : zeroOneKnapsack_entail_wit_6_1 := by
   unfold zeroOneKnapsack_entail_wit_6_1
   left
-  intro capacity_pre n_pre values_pre weights_pre values_l weights_l dp_l_2 j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro values_l weights_l weights_pre values_pre n_pre capacity_pre dp_l_2 j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   have hweights := PreH24
   have hvalues0 := PreH25
   have hvalues1 := PreH26
@@ -306,7 +306,7 @@ theorem proof_of_zeroOneKnapsack_entail_wit_6_1 : zeroOneKnapsack_entail_wit_6_1
 theorem proof_of_zeroOneKnapsack_entail_wit_6_2 : zeroOneKnapsack_entail_wit_6_2 := by
   unfold zeroOneKnapsack_entail_wit_6_2
   left
-  intro capacity_pre n_pre values_pre weights_pre values_l weights_l dp_l_2 j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro values_l weights_l weights_pre values_pre n_pre capacity_pre dp_l_2 j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   have hweights := PreH25
   have hvalues0 := PreH26
   have hvalues1 := PreH27
@@ -354,7 +354,7 @@ theorem proof_of_zeroOneKnapsack_entail_wit_6_2 : zeroOneKnapsack_entail_wit_6_2
 theorem proof_of_zeroOneKnapsack_entail_wit_6_3 : zeroOneKnapsack_entail_wit_6_3 := by
   unfold zeroOneKnapsack_entail_wit_6_3
   left
-  intro capacity_pre n_pre values_pre weights_pre values_l weights_l dp_l_2 j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46
+  intro values_l weights_l weights_pre values_pre n_pre capacity_pre dp_l_2 j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46
   have hweights := PreH41
   have hvalues0 := PreH42
   have hvalues1 := PreH43
@@ -406,7 +406,7 @@ theorem proof_of_zeroOneKnapsack_entail_wit_6_3 : zeroOneKnapsack_entail_wit_6_3
 theorem proof_of_zeroOneKnapsack_entail_wit_6_4 : zeroOneKnapsack_entail_wit_6_4 := by
   unfold zeroOneKnapsack_entail_wit_6_4
   left
-  intro capacity_pre n_pre values_pre weights_pre values_l weights_l dp_l_2 j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46
+  intro values_l weights_l weights_pre values_pre n_pre capacity_pre dp_l_2 j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46
   have hweights := PreH41
   have hvalues0 := PreH42
   have hvalues1 := PreH43
@@ -458,7 +458,7 @@ theorem proof_of_zeroOneKnapsack_entail_wit_6_4 : zeroOneKnapsack_entail_wit_6_4
 theorem proof_of_zeroOneKnapsack_entail_wit_6_5 : zeroOneKnapsack_entail_wit_6_5 := by
   unfold zeroOneKnapsack_entail_wit_6_5
   left
-  intro capacity_pre n_pre values_pre weights_pre values_l weights_l dp_l_2 j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro values_l weights_l weights_pre values_pre n_pre capacity_pre dp_l_2 j i width PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   have hweights := PreH36
   have hvalues0 := PreH37
   have hvalues1 := PreH38

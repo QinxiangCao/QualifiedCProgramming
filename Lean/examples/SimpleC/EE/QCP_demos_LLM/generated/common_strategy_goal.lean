@@ -58,7 +58,7 @@ private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 
 noncomputable def common_strategy0 : Prop :=
-  forall (A : Type) (x : A),
+  forall (__builtin_A : Type) (x : __builtin_A),
     TT &&
     (“ (x = x) ”) &&
     emp
@@ -82,7 +82,7 @@ noncomputable def common_strategy1 : Prop :=
   TT &&
   emp
   ) ** (
-  ALL A : Type, ALL x : A, 
+  ALL __builtin_A : Type, ALL x : __builtin_A, 
 (
     TT &&
     emp) -* (
@@ -92,7 +92,7 @@ noncomputable def common_strategy1 : Prop :=
     )
 
 noncomputable def common_strategy6 : Prop :=
-  forall ty (y : Int) (x : Int) (p : Int),
+  forall (ty : front_end_type) (y : Int) (x : Int) (p : Int),
     TT &&
     emp **
     ((p # ty |-> (x)))
@@ -189,6 +189,120 @@ noncomputable def common_strategy22 : Prop :=
     emp)
     )
 
+noncomputable def common_strategy36 : Prop :=
+  forall (x : Int) (p : Int),
+    TT &&
+    emp **
+    ((p # INT64 |-> (x)))
+    |--
+    (
+    TT &&
+    (“ (x >= (INT64_MIN)) ”) &&
+    emp **
+    ((p # INT64 |-> (x)))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
+noncomputable def common_strategy37 : Prop :=
+  forall (x : Int) (p : Int),
+    TT &&
+    emp **
+    ((p # INT64 |-> (x)))
+    |--
+    (
+    TT &&
+    (“ (x <= (INT64_MAX)) ”) &&
+    emp **
+    ((p # INT64 |-> (x)))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
+noncomputable def common_strategy38 : Prop :=
+  forall (x : Int) (p : Int),
+    TT &&
+    emp **
+    ((p # UINT64 |-> (x)))
+    |--
+    (
+    TT &&
+    (“ (x >= (0 : Int)) ”) &&
+    emp **
+    ((p # UINT64 |-> (x)))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
+noncomputable def common_strategy39 : Prop :=
+  forall (x : Int) (p : Int),
+    TT &&
+    emp **
+    ((p # UINT64 |-> (x)))
+    |--
+    (
+    TT &&
+    (“ (x <= (UINT64_MAX)) ”) &&
+    emp **
+    ((p # UINT64 |-> (x)))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
+noncomputable def common_strategy46 : Prop :=
+  forall (x : Int) (p : Int),
+    TT &&
+    emp **
+    ((p # BOOL |-> (x)))
+    |--
+    (
+    TT &&
+    (“ (x >= (0 : Int)) ”) &&
+    emp **
+    ((p # BOOL |-> (x)))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
+noncomputable def common_strategy47 : Prop :=
+  forall (x : Int) (p : Int),
+    TT &&
+    emp **
+    ((p # BOOL |-> (x)))
+    |--
+    (
+    TT &&
+    (“ (x <= (1 : Int)) ”) &&
+    emp **
+    ((p # BOOL |-> (x)))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
 noncomputable def common_strategy3 : Prop :=
   TT &&
   emp
@@ -197,7 +311,7 @@ noncomputable def common_strategy3 : Prop :=
   TT &&
   emp
   ) ** (
-  ALL A : Type, ALL y : A, ALL x : A, 
+  ALL __builtin_A : Type, ALL y : __builtin_A, ALL x : __builtin_A, 
 (
     TT &&
     (“ (x = y) ” || “ (y = x) ”) &&
@@ -208,7 +322,7 @@ noncomputable def common_strategy3 : Prop :=
     )
 
 noncomputable def common_strategy15 : Prop :=
-  forall ty ty1 (x : Int) (y : Int) (p : Int),
+  forall (ty : front_end_type) (ty1 : front_end_type) (x : Int) (y : Int) (p : Int),
     TT &&
     emp **
     ((p # ty |-> (x))) **
@@ -230,7 +344,7 @@ noncomputable def common_strategy15 : Prop :=
     )
 
 noncomputable def common_strategy16 : Prop :=
-  forall ty ty1 (x : Int) (p : Int),
+  forall (ty : front_end_type) (ty1 : front_end_type) (x : Int) (p : Int),
     TT &&
     emp **
     ((p # ty |-> (x))) **
@@ -252,7 +366,7 @@ noncomputable def common_strategy16 : Prop :=
     )
 
 noncomputable def common_strategy17 : Prop :=
-  forall ty ty1 (p : Int),
+  forall (ty : front_end_type) (ty1 : front_end_type) (p : Int),
     TT &&
     emp **
     ((p # ty |->_)) **
@@ -274,7 +388,7 @@ noncomputable def common_strategy17 : Prop :=
     )
 
 noncomputable def common_strategy12 : Prop :=
-  forall (A : Type) (b : A) (a : A),
+  forall (__builtin_A : Type) (b : __builtin_A) (a : __builtin_A),
     TT &&
     (“ (should_be_equal a b) ”) &&
     emp
@@ -298,7 +412,7 @@ noncomputable def common_strategy13 : Prop :=
   TT &&
   emp
   ) ** (
-  ALL A : Type, ALL b : A, ALL a : A, 
+  ALL __builtin_A : Type, ALL b : __builtin_A, ALL a : __builtin_A, 
 (
     TT &&
     emp) -* (
@@ -324,7 +438,7 @@ noncomputable def common_strategy18 : Prop :=
   )
 
 noncomputable def common_strategy7 : Prop :=
-  forall ty (x : Int) (p : Int),
+  forall (ty : front_end_type) (x : Int) (p : Int),
     TT &&
     emp **
     ((p # ty |-> (x)))
@@ -342,7 +456,7 @@ noncomputable def common_strategy7 : Prop :=
     )
 
 noncomputable def common_strategy8 : Prop :=
-  forall ty (x : Int) (p : Int),
+  forall (ty : front_end_type) (x : Int) (p : Int),
     TT &&
     emp **
     ((p # ty |-> (x)))
@@ -363,7 +477,7 @@ noncomputable def common_strategy8 : Prop :=
       )
 
 noncomputable def common_strategy9 : Prop :=
-  forall ty (x : Int) (p : Int),
+  forall (ty : front_end_type) (x : Int) (p : Int),
     TT &&
     emp **
     ((p # ty |-> (x)))
@@ -381,7 +495,7 @@ noncomputable def common_strategy9 : Prop :=
     )
 
 noncomputable def common_strategy10 : Prop :=
-  forall ty (p : Int),
+  forall (ty : front_end_type) (p : Int),
     TT &&
     emp **
     ((p # ty |->_))
@@ -399,7 +513,7 @@ noncomputable def common_strategy10 : Prop :=
     )
 
 noncomputable def common_strategy11 : Prop :=
-  forall ty (q : Int) (p : Int) (x : Int),
+  forall (ty : front_end_type) (q : Int) (p : Int) (x : Int),
     TT &&
     (“ (p = q) ” || “ (q = p) ”) &&
     emp **
@@ -447,7 +561,7 @@ noncomputable def common_strategy14 : Prop :=
   TT &&
   emp
   ) ** (
-  ALL ty, ALL x : Int, ALL p : Int, 
+  ALL ty : front_end_type, ALL x : Int, ALL p : Int, 
 (
     TT &&
     emp **
@@ -465,6 +579,12 @@ structure common_Strategy_Correct : Type where
   common_strategy20_correctness : common_strategy20
   common_strategy21_correctness : common_strategy21
   common_strategy22_correctness : common_strategy22
+  common_strategy36_correctness : common_strategy36
+  common_strategy37_correctness : common_strategy37
+  common_strategy38_correctness : common_strategy38
+  common_strategy39_correctness : common_strategy39
+  common_strategy46_correctness : common_strategy46
+  common_strategy47_correctness : common_strategy47
   common_strategy3_correctness : common_strategy3
   common_strategy15_correctness : common_strategy15
   common_strategy16_correctness : common_strategy16

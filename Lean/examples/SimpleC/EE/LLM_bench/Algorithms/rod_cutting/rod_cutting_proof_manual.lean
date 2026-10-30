@@ -435,7 +435,7 @@ private theorem forall_read (P : Int → Prop) (l : List Int) (i : Int)
 theorem proof_of_rod_cutting_safety_wit_6 : rod_cutting_safety_wit_6 := by
   unfold rod_cutting_safety_wit_6
   left
-  intro n_pre price_pre price_l revenue_l best i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro price_l price_pre n_pre revenue_l best i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   prop_apply (intArray.full_Zlength price_pre (n_pre+1) price_l)
   Intros_p hprice_len
   have hplo := forall_read _ price_l i PreH3 (by omega)
@@ -447,7 +447,7 @@ theorem proof_of_rod_cutting_safety_wit_6 : rod_cutting_safety_wit_6 := by
 theorem proof_of_rod_cutting_entail_wit_1 : rod_cutting_entail_wit_1 := by
   unfold rod_cutting_entail_wit_1
   right
-  intro n_pre price_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro price_l n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   refine Automation.exp_right_rule (CRules := naive_C_Rules) ([0] : List Int) ?_
   split_pure_spatial
   · simpa only [Int.zero_mul, Int.add_zero] using intArray.seg_single (&( "revenue" )) 0 (0 : Int)
@@ -465,7 +465,7 @@ theorem proof_of_rod_cutting_entail_wit_1 : rod_cutting_entail_wit_1 := by
 theorem proof_of_rod_cutting_entail_wit_2 : rod_cutting_entail_wit_2 := by
   unfold rod_cutting_entail_wit_2
   right
-  intro n_pre price_l revenue_l_2 j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro price_l n_pre revenue_l_2 j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   have hs : RodCutScanBest price_l revenue_l_2 j 1 0 := Or.inr ⟨fun piece hp => False.elim (by omega), rfl⟩
   split_pure_spatial
   · cancel
@@ -475,7 +475,7 @@ theorem proof_of_rod_cutting_entail_wit_2 : rod_cutting_entail_wit_2 := by
 theorem proof_of_rod_cutting_entail_wit_3_1 : rod_cutting_entail_wit_3_1 := by
   unfold rod_cutting_entail_wit_3_1
   left
-  intro n_pre price_pre price_l revenue_l_2 best i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro price_l price_pre n_pre revenue_l_2 best i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   prop_apply (intArray.full_Zlength price_pre (n_pre+1) price_l)
   Intros_p hprice_len
   simp only [Int.sub_zero] at *
@@ -494,7 +494,7 @@ theorem proof_of_rod_cutting_entail_wit_3_1 : rod_cutting_entail_wit_3_1 := by
 theorem proof_of_rod_cutting_entail_wit_3_2 : rod_cutting_entail_wit_3_2 := by
   unfold rod_cutting_entail_wit_3_2
   right
-  intro n_pre price_l revenue_l_2 best i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro price_l n_pre revenue_l_2 best i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   have hscan : RodCutScanBest price_l revenue_l_2 j (i+1) best := by
     simp only [Int.sub_zero] at PreH1 ⊢
     apply rod_cut_scan_best_step__scan_transitions _ i best _ PreH8 PreH13
@@ -507,7 +507,7 @@ theorem proof_of_rod_cutting_entail_wit_3_2 : rod_cutting_entail_wit_3_2 := by
 theorem proof_of_rod_cutting_entail_wit_4 : rod_cutting_entail_wit_4 := by
   unfold rod_cutting_entail_wit_4
   left
-  intro n_pre price_pre price_l revenue_l_2 best i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro price_l price_pre n_pre revenue_l_2 best i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   prop_apply (intArray.seg_Zlength (&( "revenue" )) 0 (j+1) (revenue_l_2 ++ [best]))
   Intros_p happ_len
   prop_apply (intArray.full_Zlength price_pre (n_pre+1) price_l)
@@ -539,7 +539,7 @@ theorem proof_of_rod_cutting_entail_wit_4 : rod_cutting_entail_wit_4 := by
 theorem proof_of_rod_cutting_entail_wit_5 : rod_cutting_entail_wit_5 := by
   unfold rod_cutting_entail_wit_5
   right
-  intro n_pre price_l revenue_l j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro price_l n_pre revenue_l j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   have hopt := PreH7 n_pre (by omega)
   split_pure_spatial
   · sep_apply_l_atomic (intArray.seg_to_undef_seg (&( "revenue" )) 0 j revenue_l)

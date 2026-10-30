@@ -1,14 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.fme.fme_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
 
 Definition fme_strategy5 :=
   TT &&
@@ -130,8 +123,8 @@ Definition fme_strategy13 :=
 Definition fme_strategy15 :=
   forall (p : Z) (n : Z) (i : Z) (l : Constraint),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     (“ (p <> 0) ”) &&
     emp **
     ((coef_array p n l))
@@ -143,22 +136,22 @@ Definition fme_strategy15 :=
     ) ** (
     ALL (v : Z),
       TT &&
-      (“ (v = ( coef_Znth i l 0)) ”) &&
+      (“ (v = (coef_Znth i l 0)) ”) &&
       emp -*
       TT &&
       emp **
-      ((poly_store FET_int (Z.add p (Z.mul i (@sizeof_front_end_type FET_int))) v))
+      ((poly_store FET_int (p + (i * sizeof(INT))) v))
       ).
 
 Definition fme_strategy16 :=
   forall (p : Z) (n : Z) (i : Z) (l : Constraint),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     (“ (p <> 0) ”) &&
     emp **
     ((coef_array_missing_i_rec p i 0 n l)) **
-    ((poly_store FET_int (Z.add p (Z.mul i (@sizeof_front_end_type FET_int))) ( coef_Znth i l 0)))
+    ((poly_store FET_int (p + (i * sizeof(INT))) (coef_Znth i l 0)))
     |--
     (
     TT &&
@@ -262,17 +255,17 @@ Definition fme_strategy12 :=
 Definition fme_strategy17 :=
   forall (p : Z) (n : Z) (i : Z) (l : Constraint) (v : Z),
     TT &&
-    (“ (Z.le 1 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (1 <= i) ”) &&
+    (“ (i < n) ”) &&
     (“ (p <> 0) ”) &&
     emp **
     ((coef_array_missing_i_rec p i 0 n l)) **
-    ((poly_store FET_int (Z.add p (Z.mul i (@sizeof_front_end_type FET_int))) v))
+    ((poly_store FET_int (p + (i * sizeof(INT))) v))
     |--
     (
     TT &&
     emp **
-    ((coef_array p n ( coef_replace_Znth i v l)))
+    ((coef_array p n (coef_replace_Znth i v l)))
     ) ** (
     TT &&
     emp -*

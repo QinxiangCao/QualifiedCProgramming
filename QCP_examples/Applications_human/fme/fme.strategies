@@ -43,7 +43,7 @@ id : 9
 priority : core(4)
 left : InequList(?p, ?n, ?l) at 0
        (p != NULL || NULL != p) at 1
-right : (store(field_addr(p, InequList, coef), PTR(I32), ?q) || store(field_addr(p, InequList, next), PTR(struct InequList), ?q)) at 2
+right : (store(field_addr(p, InequList, coef), PTR, ?q) || store(field_addr(p, InequList, next), PTR, ?q)) at 2
 action : left_erase(0);
          left_exist_add(x: <Constraint>);
          left_exist_add(l0: list{<Constraint>});
@@ -68,9 +68,9 @@ action : left_erase(0);
          left_exist_add(y: Z);
          left_exist_add(h: Z);
          left_add(h != 0);
-         left_add(store(field_addr(p, InequList, coef), PTR(I32), h));
+         left_add(store(field_addr(p, InequList, coef), PTR, h));
          left_add(coef_array(h, n, x));
-         left_add(store(field_addr(p, InequList, next), PTR(struct InequList), y));
+         left_add(store(field_addr(p, InequList, next), PTR, y));
          left_add(InequList(y, n, l));
  
 id : 12
@@ -81,9 +81,9 @@ action : right_erase(0);
          right_exist_add(y: Z);
          right_exist_add(h: Z);
          right_add(h != 0);
-         right_add(store(field_addr(p, InequList, coef), PTR(I32), h));
+         right_add(store(field_addr(p, InequList, coef), PTR, h));
          right_add(coef_array(h, n, x));
-         right_add(store(field_addr(p, InequList, next), PTR(struct InequList), y));
+         right_add(store(field_addr(p, InequList, next), PTR, y));
          right_add(InequList(y, n, l));
 
 id : 13

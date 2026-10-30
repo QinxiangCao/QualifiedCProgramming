@@ -748,7 +748,7 @@ Proof.
   {
     intros xs ys.
     induction xs as [|x xs IH]; simpl; [reflexivity |].
-    rewrite app_length, length_map, IH. lia.
+    rewrite length_app, length_map, IH. lia.
   }
   change (Z.of_nat (List.length
       (list_prod (@enum A P FP) (@enum B Q FQ))) =

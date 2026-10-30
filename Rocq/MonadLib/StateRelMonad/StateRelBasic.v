@@ -265,6 +265,8 @@ Arguments program Σ%_type_scope A%_type_scope: clear implicits.
 (*  the state is named once, right after the keyword.)  The loop index [i] of FOR is a [Z] bound in the body.*)
 (*                                                                                                          *)
 
+Module StateRelProgNotations.
+
 Declare Scope prog_scope.
 Delimit Scope prog_scope with prog.
 
@@ -334,6 +336,8 @@ Notation "'REPEAT' ' p 'FROM' a0 'DO' c 'END'" :=
 Notation "'BREAK' e" := (break e) (at level 50) : prog_scope.
 Notation "'NEXT' a" := (continue a) (at level 50) : prog_scope.
 Notation "'CONTINUE'" := (continue tt) (at level 0) : prog_scope.
+
+End StateRelProgNotations.
 
 Section monad_equiv_lemmas.
   Context {Σ: Type}.

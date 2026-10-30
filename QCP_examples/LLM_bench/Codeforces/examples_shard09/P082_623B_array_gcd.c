@@ -30,6 +30,8 @@
       (AddFactorsResidual : Z -> Z -> list Z -> Prop)
       (CandidateCoverage : Z -> Z -> Z -> list Z -> Prop)
       (BestPrefixCost : list Z -> Z -> Z -> list Z -> Z -> Z -> Prop)
+      (Z::min : Z -> Z -> Z)
+      (Z::max : Z -> Z -> Z)
 */
 
 #define INF (1LL << 62)
@@ -169,7 +171,7 @@ static long long cost_for_prime(const int *arr, int n, long long a,
             cost = b;
         else
             cost = INF;
-        /*@ Assert
+        /*@ Branch join all with Assert
           arr == arr@pre && n == n@pre && a == a@pre && b == b@pre && p == p@pre &&
           0 <= a@pre && a@pre <= 1000000000 &&
           0 <= b@pre && b@pre <= 1000000000 &&
@@ -190,15 +192,40 @@ static long long cost_for_prime(const int *arr, int n, long long a,
           IntArray::full(arr@pre, n@pre, values)
          */
 
-        long long nkeep = keep == INF || cost == INF ? INF : keep + cost;
-        long long ncutFresh = cutFresh == INF ? INF : cutFresh + a;
+        long long nkeep;
+        if (keep == INF || cost == INF)
+            nkeep = INF;
+        else
+            nkeep = keep + cost;
+        /*@ Branch join all with nkeep == Z::min(INF, keep + cost) */
+        long long ncutFresh;
+        if (cutFresh == INF)
+            ncutFresh = INF;
+        else
+            ncutFresh = cutFresh + a;
+        /*@ Branch join all with
+              ncutFresh == Z::min(INF, cutFresh + a)
+         */
         long long from = keep;             /* start a cut after kept elements */
         long long ncutAfterKeep = INF;
         if (i > 0 && from != INF)
             ncutAfterKeep = from + a;
         if (cutAfterKeep != INF && cutAfterKeep + a < ncutAfterKeep)
             ncutAfterKeep = cutAfterKeep + a;
-        long long best_prev_cut = cutFresh < cutAfterKeep ? cutFresh : cutAfterKeep;
+        /*@ Branch join all with
+              ncutAfterKeep ==
+                Z::min(INF,
+                  Z::min(cutAfterKeep + a,
+                    Z::max(keep + a, INF - i * INF)))
+         */
+        long long best_prev_cut;
+        if (cutFresh < cutAfterKeep)
+            best_prev_cut = cutFresh;
+        else
+            best_prev_cut = cutAfterKeep;
+        /*@ Branch join all with
+              best_prev_cut == Z::min(cutFresh, cutAfterKeep)
+         */
         long long nafter = INF;
         if (cost != INF) {
             if (best_prev_cut != INF)
@@ -206,6 +233,11 @@ static long long cost_for_prime(const int *arr, int n, long long a,
             if (after != INF && after + cost < nafter)
                 nafter = after + cost;
         }
+        /*@ Branch join all with
+              nafter ==
+                Z::min(INF,
+                  Z::min(best_prev_cut + cost, after + cost))
+         */
         keep = nkeep;
         cutFresh = ncutFresh;
         cutAfterKeep = ncutAfterKeep;

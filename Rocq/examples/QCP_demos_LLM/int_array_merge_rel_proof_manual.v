@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.QCP_demos_LLM Require Import int_array_merge_rel_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 Import naive_C_Rules.
 
 From SimpleC.EE.QCP_demos_LLM Require Import sll_merge_rel_lib.
@@ -598,8 +583,10 @@ Proof.
   easy.
 Qed.
 
-Lemma proof_of_mergeSort_derive_low_level_spec_aux_by_low_level_spec : mergeSort_derive_low_level_spec_aux_by_low_level_spec.
+Lemma proof_of_mergeSort_low_level_spec_entail_low_level_spec_aux : mergeSort_low_level_spec_entail_low_level_spec_aux.
 Proof.
+  unfold mergeSort_low_level_spec_entail_low_level_spec_aux.
+  intros B arr_pre l_pre r_pre ret_pre l0_low_level_spec_aux c_low_level_spec_aux X_low_level_spec_aux.
   LLM_pre_process ltac:(int_auto).
   apply safeExec_bind in H as (X_low_level_spec & Hsafe_first & Hsafe_cont).
   Exists l0_low_level_spec_aux. Exists X_low_level_spec.

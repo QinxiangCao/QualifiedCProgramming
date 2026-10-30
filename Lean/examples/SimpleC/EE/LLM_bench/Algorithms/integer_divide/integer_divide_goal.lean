@@ -58,7 +58,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def divide_safety_wit_1 : Prop :=
-  forall (p_pre : Int) (n_pre : Int) (original : Int) (PreH1 : (n_pre = original)) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) ,
+  forall (original : Int) (n_pre : Int) (p_pre : Int) (PreH1 : (n_pre = original)) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) ,
   ((( &( "cnt" ) )) # Int |->_)
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "p" ) )) # Ptr |-> (p_pre))
@@ -68,7 +68,7 @@ noncomputable def divide_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def divide_safety_wit_2 : Prop :=
-  forall (p_pre : Int) (n_pre : Int) (original : Int) (PreH1 : (n_pre = original)) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) ,
+  forall (original : Int) (n_pre : Int) (p_pre : Int) (PreH1 : (n_pre = original)) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "cnt" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -79,7 +79,7 @@ noncomputable def divide_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def divide_safety_wit_3 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (1 <= original)) (PreH2 : (original <= INT_MAX)) (PreH3 : (1 <= n)) (PreH4 : (n <= original)) (PreH5 : (2 <= i)) (PreH6 : (i <= original)) (PreH7 : (i <= n)) (PreH8 : ((0 : Int) <= cnt)) (PreH9 : (cnt < original)) (PreH10 : ((Zlength (factors)) = cnt)) (PreH11 : (FactorizationProgress original factors n i)) ,
+  forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (1 <= original)) (PreH2 : (original <= INT_MAX)) (PreH3 : (1 <= n)) (PreH4 : (n <= original)) (PreH5 : (2 <= i)) (PreH6 : (i <= original)) (PreH7 : (i <= n)) (PreH8 : ((0 : Int) <= cnt)) (PreH9 : (cnt < original)) (PreH10 : ((Zlength (factors)) = cnt)) (PreH11 : (FactorizationProgress original factors n i)) ,
   ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** ((( &( "n" ) )) # Int |-> (n))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -92,7 +92,7 @@ noncomputable def divide_safety_wit_3 : Prop :=
   “ (i ≠ (0 : Int)) ”
 
 noncomputable def divide_safety_wit_4 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (1 <= original)) (PreH2 : (original <= INT_MAX)) (PreH3 : (1 <= n)) (PreH4 : (n <= original)) (PreH5 : (2 <= i)) (PreH6 : (i <= original)) (PreH7 : (n = 1)) (PreH8 : ((0 : Int) <= cnt)) (PreH9 : (cnt < original)) (PreH10 : ((Zlength (factors)) = cnt)) (PreH11 : (FactorizationProgress original factors n i)) ,
+  forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (1 <= original)) (PreH2 : (original <= INT_MAX)) (PreH3 : (1 <= n)) (PreH4 : (n <= original)) (PreH5 : (2 <= i)) (PreH6 : (i <= original)) (PreH7 : (n = 1)) (PreH8 : ((0 : Int) <= cnt)) (PreH9 : (cnt < original)) (PreH10 : ((Zlength (factors)) = cnt)) (PreH11 : (FactorizationProgress original factors n i)) ,
   ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** ((( &( "n" ) )) # Int |-> (n))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -105,7 +105,7 @@ noncomputable def divide_safety_wit_4 : Prop :=
   “ (i ≠ (0 : Int)) ”
 
 noncomputable def divide_safety_wit_5 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (1 <= original)) (PreH2 : (original <= INT_MAX)) (PreH3 : (1 <= n)) (PreH4 : (n <= original)) (PreH5 : (2 <= i)) (PreH6 : (i <= original)) (PreH7 : (n = 1)) (PreH8 : ((0 : Int) <= cnt)) (PreH9 : (cnt < original)) (PreH10 : ((Zlength (factors)) = cnt)) (PreH11 : (FactorizationProgress original factors n i)) ,
+  forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (1 <= original)) (PreH2 : (original <= INT_MAX)) (PreH3 : (1 <= n)) (PreH4 : (n <= original)) (PreH5 : (2 <= i)) (PreH6 : (i <= original)) (PreH7 : (n = 1)) (PreH8 : ((0 : Int) <= cnt)) (PreH9 : (cnt < original)) (PreH10 : ((Zlength (factors)) = cnt)) (PreH11 : (FactorizationProgress original factors n i)) ,
   ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** ((( &( "n" ) )) # Int |-> (n))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -118,7 +118,7 @@ noncomputable def divide_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def divide_safety_wit_6 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (1 <= original)) (PreH2 : (original <= INT_MAX)) (PreH3 : (1 <= n)) (PreH4 : (n <= original)) (PreH5 : (2 <= i)) (PreH6 : (i <= original)) (PreH7 : (i <= n)) (PreH8 : ((0 : Int) <= cnt)) (PreH9 : (cnt < original)) (PreH10 : ((Zlength (factors)) = cnt)) (PreH11 : (FactorizationProgress original factors n i)) ,
+  forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (1 <= original)) (PreH2 : (original <= INT_MAX)) (PreH3 : (1 <= n)) (PreH4 : (n <= original)) (PreH5 : (2 <= i)) (PreH6 : (i <= original)) (PreH7 : (i <= n)) (PreH8 : ((0 : Int) <= cnt)) (PreH9 : (cnt < original)) (PreH10 : ((Zlength (factors)) = cnt)) (PreH11 : (FactorizationProgress original factors n i)) ,
   ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** ((( &( "n" ) )) # Int |-> (n))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -131,7 +131,7 @@ noncomputable def divide_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def divide_safety_wit_7 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((cnt + 1) < original)) (PreH2 : (i <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (i >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : ((Z.rem n i) = (0 : Int))) (PreH7 : (1 <= original)) (PreH8 : (original <= INT_MAX)) (PreH9 : (1 <= n)) (PreH10 : (n <= original)) (PreH11 : (2 <= i)) (PreH12 : (i <= original)) (PreH13 : (n = 1)) (PreH14 : ((0 : Int) <= cnt)) (PreH15 : (cnt < original)) (PreH16 : ((Zlength (factors)) = cnt)) (PreH17 : (FactorizationProgress original factors n i)) ,
+  forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((cnt + 1) < original)) (PreH2 : (i <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (i >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : ((Z.rem n i) = (0 : Int))) (PreH7 : (1 <= original)) (PreH8 : (original <= INT_MAX)) (PreH9 : (1 <= n)) (PreH10 : (n <= original)) (PreH11 : (2 <= i)) (PreH12 : (i <= original)) (PreH13 : (n = 1)) (PreH14 : ((0 : Int) <= cnt)) (PreH15 : (cnt < original)) (PreH16 : ((Zlength (factors)) = cnt)) (PreH17 : (FactorizationProgress original factors n i)) ,
   ((( &( "cnt" ) )) # Int |-> (cnt))
   ** ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** ((( &( "n" ) )) # Int |-> (n))
@@ -144,7 +144,7 @@ noncomputable def divide_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= (cnt + 1)) ”
 
 noncomputable def divide_safety_wit_8 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((cnt + 1) < original)) (PreH2 : (i <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (i >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : ((Z.rem n i) = (0 : Int))) (PreH7 : (1 <= original)) (PreH8 : (original <= INT_MAX)) (PreH9 : (1 <= n)) (PreH10 : (n <= original)) (PreH11 : (2 <= i)) (PreH12 : (i <= original)) (PreH13 : (i <= n)) (PreH14 : ((0 : Int) <= cnt)) (PreH15 : (cnt < original)) (PreH16 : ((Zlength (factors)) = cnt)) (PreH17 : (FactorizationProgress original factors n i)) ,
+  forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((cnt + 1) < original)) (PreH2 : (i <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (i >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : ((Z.rem n i) = (0 : Int))) (PreH7 : (1 <= original)) (PreH8 : (original <= INT_MAX)) (PreH9 : (1 <= n)) (PreH10 : (n <= original)) (PreH11 : (2 <= i)) (PreH12 : (i <= original)) (PreH13 : (i <= n)) (PreH14 : ((0 : Int) <= cnt)) (PreH15 : (cnt < original)) (PreH16 : ((Zlength (factors)) = cnt)) (PreH17 : (FactorizationProgress original factors n i)) ,
   ((( &( "cnt" ) )) # Int |-> (cnt))
   ** ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** ((( &( "n" ) )) # Int |-> (n))
@@ -157,7 +157,7 @@ noncomputable def divide_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (cnt + 1)) ”
 
 noncomputable def divide_safety_wit_9 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((cnt + 1) < original)) (PreH2 : (i <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (i >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : ((Z.rem n i) = (0 : Int))) (PreH7 : (1 <= original)) (PreH8 : (original <= INT_MAX)) (PreH9 : (1 <= n)) (PreH10 : (n <= original)) (PreH11 : (2 <= i)) (PreH12 : (i <= original)) (PreH13 : (n = 1)) (PreH14 : ((0 : Int) <= cnt)) (PreH15 : (cnt < original)) (PreH16 : ((Zlength (factors)) = cnt)) (PreH17 : (FactorizationProgress original factors n i)) ,
+  forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((cnt + 1) < original)) (PreH2 : (i <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (i >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : ((Z.rem n i) = (0 : Int))) (PreH7 : (1 <= original)) (PreH8 : (original <= INT_MAX)) (PreH9 : (1 <= n)) (PreH10 : (n <= original)) (PreH11 : (2 <= i)) (PreH12 : (i <= original)) (PreH13 : (n = 1)) (PreH14 : ((0 : Int) <= cnt)) (PreH15 : (cnt < original)) (PreH16 : ((Zlength (factors)) = cnt)) (PreH17 : (FactorizationProgress original factors n i)) ,
   (intArray.seg p_pre 1 ((1 + cnt) + 1) (factors ++ (i :: (@List.nil Int))))
   ** (intArray.undef_seg p_pre ((1 + cnt) + 1) original)
   ** ((( &( "cnt" ) )) # Int |-> ((cnt + 1)))
@@ -170,7 +170,7 @@ noncomputable def divide_safety_wit_9 : Prop :=
   “ (i ≠ (0 : Int)) ”
 
 noncomputable def divide_safety_wit_10 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((cnt + 1) < original)) (PreH2 : (i <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (i >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : ((Z.rem n i) = (0 : Int))) (PreH7 : (1 <= original)) (PreH8 : (original <= INT_MAX)) (PreH9 : (1 <= n)) (PreH10 : (n <= original)) (PreH11 : (2 <= i)) (PreH12 : (i <= original)) (PreH13 : (i <= n)) (PreH14 : ((0 : Int) <= cnt)) (PreH15 : (cnt < original)) (PreH16 : ((Zlength (factors)) = cnt)) (PreH17 : (FactorizationProgress original factors n i)) ,
+  forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((cnt + 1) < original)) (PreH2 : (i <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (i >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : ((Z.rem n i) = (0 : Int))) (PreH7 : (1 <= original)) (PreH8 : (original <= INT_MAX)) (PreH9 : (1 <= n)) (PreH10 : (n <= original)) (PreH11 : (2 <= i)) (PreH12 : (i <= original)) (PreH13 : (i <= n)) (PreH14 : ((0 : Int) <= cnt)) (PreH15 : (cnt < original)) (PreH16 : ((Zlength (factors)) = cnt)) (PreH17 : (FactorizationProgress original factors n i)) ,
   (intArray.seg p_pre 1 ((1 + cnt) + 1) (factors ++ (i :: (@List.nil Int))))
   ** (intArray.undef_seg p_pre ((1 + cnt) + 1) original)
   ** ((( &( "cnt" ) )) # Int |-> ((cnt + 1)))
@@ -183,7 +183,7 @@ noncomputable def divide_safety_wit_10 : Prop :=
   “ (i ≠ (0 : Int)) ”
 
 noncomputable def divide_safety_wit_11 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((Z.rem n i) ≠ (0 : Int))) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) (PreH4 : (1 <= n)) (PreH5 : (n <= original)) (PreH6 : (2 <= i)) (PreH7 : (i <= original)) (PreH8 : (n = 1)) (PreH9 : ((0 : Int) <= cnt)) (PreH10 : (cnt < original)) (PreH11 : ((Zlength (factors)) = cnt)) (PreH12 : (FactorizationProgress original factors n i)) ,
+  forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((Z.rem n i) ≠ (0 : Int))) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) (PreH4 : (1 <= n)) (PreH5 : (n <= original)) (PreH6 : (2 <= i)) (PreH7 : (i <= original)) (PreH8 : (n = 1)) (PreH9 : ((0 : Int) <= cnt)) (PreH10 : (cnt < original)) (PreH11 : ((Zlength (factors)) = cnt)) (PreH12 : (FactorizationProgress original factors n i)) ,
   ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** ((( &( "n" ) )) # Int |-> (n))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -196,7 +196,7 @@ noncomputable def divide_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def divide_safety_wit_12 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((Z.rem n i) ≠ (0 : Int))) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) (PreH4 : (1 <= n)) (PreH5 : (n <= original)) (PreH6 : (2 <= i)) (PreH7 : (i <= original)) (PreH8 : (i <= n)) (PreH9 : ((0 : Int) <= cnt)) (PreH10 : (cnt < original)) (PreH11 : ((Zlength (factors)) = cnt)) (PreH12 : (FactorizationProgress original factors n i)) ,
+  forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((Z.rem n i) ≠ (0 : Int))) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) (PreH4 : (1 <= n)) (PreH5 : (n <= original)) (PreH6 : (2 <= i)) (PreH7 : (i <= original)) (PreH8 : (i <= n)) (PreH9 : ((0 : Int) <= cnt)) (PreH10 : (cnt < original)) (PreH11 : ((Zlength (factors)) = cnt)) (PreH12 : (FactorizationProgress original factors n i)) ,
   ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** ((( &( "n" ) )) # Int |-> (n))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -209,7 +209,7 @@ noncomputable def divide_safety_wit_12 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def divide_safety_wit_13 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (n ≠ 1)) (PreH2 : ((Z.rem n i) ≠ (0 : Int))) (PreH3 : (1 <= original)) (PreH4 : (original <= INT_MAX)) (PreH5 : (1 <= n)) (PreH6 : (n <= original)) (PreH7 : (2 <= i)) (PreH8 : (i <= original)) (PreH9 : (n = 1)) (PreH10 : ((0 : Int) <= cnt)) (PreH11 : (cnt < original)) (PreH12 : ((Zlength (factors)) = cnt)) (PreH13 : (FactorizationProgress original factors n i)) ,
+  forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (n ≠ 1)) (PreH2 : ((Z.rem n i) ≠ (0 : Int))) (PreH3 : (1 <= original)) (PreH4 : (original <= INT_MAX)) (PreH5 : (1 <= n)) (PreH6 : (n <= original)) (PreH7 : (2 <= i)) (PreH8 : (i <= original)) (PreH9 : (n = 1)) (PreH10 : ((0 : Int) <= cnt)) (PreH11 : (cnt < original)) (PreH12 : ((Zlength (factors)) = cnt)) (PreH13 : (FactorizationProgress original factors n i)) ,
   ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** ((( &( "n" ) )) # Int |-> (n))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -221,7 +221,7 @@ noncomputable def divide_safety_wit_13 : Prop :=
   “ False ”
 
 noncomputable def divide_safety_wit_14 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (n = 1)) (PreH2 : ((Z.rem n i) ≠ (0 : Int))) (PreH3 : (1 <= original)) (PreH4 : (original <= INT_MAX)) (PreH5 : (1 <= n)) (PreH6 : (n <= original)) (PreH7 : (2 <= i)) (PreH8 : (i <= original)) (PreH9 : (i <= n)) (PreH10 : ((0 : Int) <= cnt)) (PreH11 : (cnt < original)) (PreH12 : ((Zlength (factors)) = cnt)) (PreH13 : (FactorizationProgress original factors n i)) ,
+  forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (n = 1)) (PreH2 : ((Z.rem n i) ≠ (0 : Int))) (PreH3 : (1 <= original)) (PreH4 : (original <= INT_MAX)) (PreH5 : (1 <= n)) (PreH6 : (n <= original)) (PreH7 : (2 <= i)) (PreH8 : (i <= original)) (PreH9 : (i <= n)) (PreH10 : ((0 : Int) <= cnt)) (PreH11 : (cnt < original)) (PreH12 : ((Zlength (factors)) = cnt)) (PreH13 : (FactorizationProgress original factors n i)) ,
   ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** ((( &( "n" ) )) # Int |-> (n))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -233,7 +233,7 @@ noncomputable def divide_safety_wit_14 : Prop :=
   “ False ”
 
 noncomputable def divide_safety_wit_15 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (i < INT_MAX)) (PreH2 : (cnt <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (cnt >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : (n ≠ 1)) (PreH7 : ((Z.rem n i) ≠ (0 : Int))) (PreH8 : (1 <= original)) (PreH9 : (original <= INT_MAX)) (PreH10 : (1 <= n)) (PreH11 : (n <= original)) (PreH12 : (2 <= i)) (PreH13 : (i <= original)) (PreH14 : (i <= n)) (PreH15 : ((0 : Int) <= cnt)) (PreH16 : (cnt < original)) (PreH17 : ((Zlength (factors)) = cnt)) (PreH18 : (FactorizationProgress original factors n i)) ,
+  forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (i < INT_MAX)) (PreH2 : (cnt <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (cnt >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : (n ≠ 1)) (PreH7 : ((Z.rem n i) ≠ (0 : Int))) (PreH8 : (1 <= original)) (PreH9 : (original <= INT_MAX)) (PreH10 : (1 <= n)) (PreH11 : (n <= original)) (PreH12 : (2 <= i)) (PreH13 : (i <= original)) (PreH14 : (i <= n)) (PreH15 : ((0 : Int) <= cnt)) (PreH16 : (cnt < original)) (PreH17 : ((Zlength (factors)) = cnt)) (PreH18 : (FactorizationProgress original factors n i)) ,
   ((( &( "i" ) )) # Int |-> (i))
   ** ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** ((( &( "n" ) )) # Int |-> (n))
@@ -247,7 +247,7 @@ noncomputable def divide_safety_wit_15 : Prop :=
 
 noncomputable def divide_entail_wit_1 : Prop :=
   (
-forall (p_pre : Int) (n_pre : Int) (original : Int) (PreH1 : (n_pre = original)) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) ,
+forall (original : Int) (n_pre : Int) (p_pre : Int) (PreH1 : (n_pre = original)) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) ,
   (intArray.undef_full p_pre original)
 |--
   EX factors : (List Int),
@@ -267,7 +267,7 @@ forall (p_pre : Int) (n_pre : Int) (original : Int) (PreH1 : (n_pre = original))
   ** (intArray.undef_seg p_pre (1 + (0 : Int)) original)
 ) \/
 (
-forall (p_pre : Int) (n_pre : Int) (original : Int) (PreH1 : (n_pre = original)) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) ,
+forall (original : Int) (n_pre : Int) (p_pre : Int) (PreH1 : (n_pre = original)) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) ,
   (intArray.undef_full p_pre original)
 |--
   EX factors : (List Int),
@@ -288,7 +288,7 @@ forall (p_pre : Int) (n_pre : Int) (original : Int) (PreH1 : (n_pre = original))
 )
 
 noncomputable def divide_entail_wit_2 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors_2 : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (i <= n)) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) (PreH4 : (1 <= n)) (PreH5 : (n <= original)) (PreH6 : (2 <= i)) (PreH7 : (i <= INT_MAX)) (PreH8 : (i <= (original + 1))) (PreH9 : ((0 : Int) <= cnt)) (PreH10 : (cnt < original)) (PreH11 : ((Zlength (factors_2)) = cnt)) (PreH12 : (FactorizationProgress original factors_2 n i)) ,
+  forall (original : Int) (p_pre : Int) (factors_2 : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (i <= n)) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) (PreH4 : (1 <= n)) (PreH5 : (n <= original)) (PreH6 : (2 <= i)) (PreH7 : (i <= INT_MAX)) (PreH8 : (i <= (original + 1))) (PreH9 : ((0 : Int) <= cnt)) (PreH10 : (cnt < original)) (PreH11 : ((Zlength (factors_2)) = cnt)) (PreH12 : (FactorizationProgress original factors_2 n i)) ,
   (intArray.undef_seg p_pre (0 : Int) 1)
   ** (intArray.seg p_pre 1 (1 + cnt) factors_2)
   ** (intArray.undef_seg p_pre (1 + cnt) original)
@@ -310,7 +310,7 @@ noncomputable def divide_entail_wit_2 : Prop :=
   ** (intArray.undef_seg p_pre (1 + cnt) original)
 
 noncomputable def divide_entail_wit_3_1 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((Z.rem n i) = (0 : Int))) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) (PreH4 : (1 <= n)) (PreH5 : (n <= original)) (PreH6 : (2 <= i)) (PreH7 : (i <= original)) (PreH8 : (n = 1)) (PreH9 : ((0 : Int) <= cnt)) (PreH10 : (cnt < original)) (PreH11 : ((Zlength (factors)) = cnt)) (PreH12 : (FactorizationProgress original factors n i)) ,
+  forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((Z.rem n i) = (0 : Int))) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) (PreH4 : (1 <= n)) (PreH5 : (n <= original)) (PreH6 : (2 <= i)) (PreH7 : (i <= original)) (PreH8 : (n = 1)) (PreH9 : ((0 : Int) <= cnt)) (PreH10 : (cnt < original)) (PreH11 : ((Zlength (factors)) = cnt)) (PreH12 : (FactorizationProgress original factors n i)) ,
   ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** ((( &( "n" ) )) # Int |-> (n))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -371,7 +371,7 @@ noncomputable def divide_entail_wit_3_1 : Prop :=
   ** (intArray.undef_seg p_pre (1 + cnt_2) original))
 
 noncomputable def divide_entail_wit_3_2 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors_2 : (List Int)) (cnt_2 : Int) (i_2 : Int) (n_2 : Int) (PreH1 : ((Z.rem n_2 i_2) = (0 : Int))) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) (PreH4 : (1 <= n_2)) (PreH5 : (n_2 <= original)) (PreH6 : (2 <= i_2)) (PreH7 : (i_2 <= original)) (PreH8 : (i_2 <= n_2)) (PreH9 : ((0 : Int) <= cnt_2)) (PreH10 : (cnt_2 < original)) (PreH11 : ((Zlength (factors_2)) = cnt_2)) (PreH12 : (FactorizationProgress original factors_2 n_2 i_2)) ,
+  forall (original : Int) (p_pre : Int) (factors_2 : (List Int)) (cnt_2 : Int) (i_2 : Int) (n_2 : Int) (PreH1 : ((Z.rem n_2 i_2) = (0 : Int))) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) (PreH4 : (1 <= n_2)) (PreH5 : (n_2 <= original)) (PreH6 : (2 <= i_2)) (PreH7 : (i_2 <= original)) (PreH8 : (i_2 <= n_2)) (PreH9 : ((0 : Int) <= cnt_2)) (PreH10 : (cnt_2 < original)) (PreH11 : ((Zlength (factors_2)) = cnt_2)) (PreH12 : (FactorizationProgress original factors_2 n_2 i_2)) ,
   ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** ((( &( "n" ) )) # Int |-> (n_2))
   ** ((( &( "i" ) )) # Int |-> (i_2))
@@ -432,7 +432,7 @@ noncomputable def divide_entail_wit_3_2 : Prop :=
   ** (intArray.undef_seg p_pre (1 + cnt_2) original))
 
 noncomputable def divide_entail_wit_4_1 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors_2 : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((cnt + 1) < original)) (PreH2 : (i <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (i >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : ((Z.rem n i) = (0 : Int))) (PreH7 : (1 <= original)) (PreH8 : (original <= INT_MAX)) (PreH9 : (1 <= n)) (PreH10 : (n <= original)) (PreH11 : (2 <= i)) (PreH12 : (i <= original)) (PreH13 : (n = 1)) (PreH14 : ((0 : Int) <= cnt)) (PreH15 : (cnt < original)) (PreH16 : ((Zlength (factors_2)) = cnt)) (PreH17 : (FactorizationProgress original factors_2 n i)) ,
+  forall (original : Int) (p_pre : Int) (factors_2 : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((cnt + 1) < original)) (PreH2 : (i <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (i >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : ((Z.rem n i) = (0 : Int))) (PreH7 : (1 <= original)) (PreH8 : (original <= INT_MAX)) (PreH9 : (1 <= n)) (PreH10 : (n <= original)) (PreH11 : (2 <= i)) (PreH12 : (i <= original)) (PreH13 : (n = 1)) (PreH14 : ((0 : Int) <= cnt)) (PreH15 : (cnt < original)) (PreH16 : ((Zlength (factors_2)) = cnt)) (PreH17 : (FactorizationProgress original factors_2 n i)) ,
   (intArray.seg p_pre 1 ((1 + cnt) + 1) (factors_2 ++ (i :: (@List.nil Int))))
   ** (intArray.undef_seg p_pre ((1 + cnt) + 1) original)
   ** (intArray.undef_seg p_pre (0 : Int) 1)
@@ -470,7 +470,7 @@ noncomputable def divide_entail_wit_4_1 : Prop :=
   ** (intArray.undef_seg p_pre (1 + (cnt + 1)) original))
 
 noncomputable def divide_entail_wit_4_2 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors_2 : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((cnt + 1) < original)) (PreH2 : (i <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (i >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : ((Z.rem n i) = (0 : Int))) (PreH7 : (1 <= original)) (PreH8 : (original <= INT_MAX)) (PreH9 : (1 <= n)) (PreH10 : (n <= original)) (PreH11 : (2 <= i)) (PreH12 : (i <= original)) (PreH13 : (i <= n)) (PreH14 : ((0 : Int) <= cnt)) (PreH15 : (cnt < original)) (PreH16 : ((Zlength (factors_2)) = cnt)) (PreH17 : (FactorizationProgress original factors_2 n i)) ,
+  forall (original : Int) (p_pre : Int) (factors_2 : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((cnt + 1) < original)) (PreH2 : (i <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (i >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : ((Z.rem n i) = (0 : Int))) (PreH7 : (1 <= original)) (PreH8 : (original <= INT_MAX)) (PreH9 : (1 <= n)) (PreH10 : (n <= original)) (PreH11 : (2 <= i)) (PreH12 : (i <= original)) (PreH13 : (i <= n)) (PreH14 : ((0 : Int) <= cnt)) (PreH15 : (cnt < original)) (PreH16 : ((Zlength (factors_2)) = cnt)) (PreH17 : (FactorizationProgress original factors_2 n i)) ,
   (intArray.seg p_pre 1 ((1 + cnt) + 1) (factors_2 ++ (i :: (@List.nil Int))))
   ** (intArray.undef_seg p_pre ((1 + cnt) + 1) original)
   ** (intArray.undef_seg p_pre (0 : Int) 1)
@@ -509,7 +509,7 @@ noncomputable def divide_entail_wit_4_2 : Prop :=
 
 noncomputable def divide_entail_wit_5 : Prop :=
   (
-forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (n ≠ 1)) (PreH2 : ((Z.rem n i) ≠ (0 : Int))) (PreH3 : (1 <= original)) (PreH4 : (original <= INT_MAX)) (PreH5 : (1 <= n)) (PreH6 : (n <= original)) (PreH7 : (2 <= i)) (PreH8 : (i <= original)) (PreH9 : (i <= n)) (PreH10 : ((0 : Int) <= cnt)) (PreH11 : (cnt < original)) (PreH12 : ((Zlength (factors)) = cnt)) (PreH13 : (FactorizationProgress original factors n i)) ,
+forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (n ≠ 1)) (PreH2 : ((Z.rem n i) ≠ (0 : Int))) (PreH3 : (1 <= original)) (PreH4 : (original <= INT_MAX)) (PreH5 : (1 <= n)) (PreH6 : (n <= original)) (PreH7 : (2 <= i)) (PreH8 : (i <= original)) (PreH9 : (i <= n)) (PreH10 : ((0 : Int) <= cnt)) (PreH11 : (cnt < original)) (PreH12 : ((Zlength (factors)) = cnt)) (PreH13 : (FactorizationProgress original factors n i)) ,
   ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** ((( &( "n" ) )) # Int |-> (n))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -558,7 +558,7 @@ noncomputable def divide_entail_wit_5_split_goal_1 : Prop :=
 
 noncomputable def divide_entail_wit_6 : Prop :=
   (
-forall (p_pre : Int) (original : Int) (factors_2 : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (i < INT_MAX)) (PreH2 : (cnt <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (cnt >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : (n ≠ 1)) (PreH7 : ((Z.rem n i) ≠ (0 : Int))) (PreH8 : (1 <= original)) (PreH9 : (original <= INT_MAX)) (PreH10 : (1 <= n)) (PreH11 : (n <= original)) (PreH12 : (2 <= i)) (PreH13 : (i <= original)) (PreH14 : (i <= n)) (PreH15 : ((0 : Int) <= cnt)) (PreH16 : (cnt < original)) (PreH17 : ((Zlength (factors_2)) = cnt)) (PreH18 : (FactorizationProgress original factors_2 n i)) ,
+forall (original : Int) (p_pre : Int) (factors_2 : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (i < INT_MAX)) (PreH2 : (cnt <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (cnt >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : (n ≠ 1)) (PreH7 : ((Z.rem n i) ≠ (0 : Int))) (PreH8 : (1 <= original)) (PreH9 : (original <= INT_MAX)) (PreH10 : (1 <= n)) (PreH11 : (n <= original)) (PreH12 : (2 <= i)) (PreH13 : (i <= original)) (PreH14 : (i <= n)) (PreH15 : ((0 : Int) <= cnt)) (PreH16 : (cnt < original)) (PreH17 : ((Zlength (factors_2)) = cnt)) (PreH18 : (FactorizationProgress original factors_2 n i)) ,
   (intArray.undef_seg p_pre (0 : Int) 1)
   ** (intArray.seg p_pre 1 (1 + cnt) factors_2)
   ** (intArray.undef_seg p_pre (1 + cnt) original)
@@ -593,7 +593,7 @@ noncomputable def divide_entail_wit_6_split_goal_1 : Prop :=
 
 noncomputable def divide_return_wit_1 : Prop :=
   (
-forall (p_pre : Int) (original : Int) (factors_2 : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (i > n)) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) (PreH4 : (1 <= n)) (PreH5 : (n <= original)) (PreH6 : (2 <= i)) (PreH7 : (i <= INT_MAX)) (PreH8 : (i <= (original + 1))) (PreH9 : ((0 : Int) <= cnt)) (PreH10 : (cnt < original)) (PreH11 : ((Zlength (factors_2)) = cnt)) (PreH12 : (FactorizationProgress original factors_2 n i)) ,
+forall (original : Int) (p_pre : Int) (factors_2 : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (i > n)) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) (PreH4 : (1 <= n)) (PreH5 : (n <= original)) (PreH6 : (2 <= i)) (PreH7 : (i <= INT_MAX)) (PreH8 : (i <= (original + 1))) (PreH9 : ((0 : Int) <= cnt)) (PreH10 : (cnt < original)) (PreH11 : ((Zlength (factors_2)) = cnt)) (PreH12 : (FactorizationProgress original factors_2 n i)) ,
   (intArray.undef_seg p_pre (0 : Int) 1)
   ** (intArray.seg p_pre 1 (1 + cnt) factors_2)
   ** (intArray.undef_seg p_pre (1 + cnt) original)
@@ -605,7 +605,7 @@ forall (p_pre : Int) (original : Int) (factors_2 : (List Int)) (cnt : Int) (i : 
   ** (intArray.undef_seg p_pre (1 + (Zlength (factors))) original)
 ) \/
 (
-forall (p_pre : Int) (original : Int) (factors_2 : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (i > n)) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) (PreH4 : (1 <= n)) (PreH5 : (n <= original)) (PreH6 : (2 <= i)) (PreH7 : (i <= INT_MAX)) (PreH8 : (i <= (original + 1))) (PreH9 : ((0 : Int) <= cnt)) (PreH10 : (cnt < original)) (PreH11 : ((Zlength (factors_2)) = cnt)) (PreH12 : (FactorizationProgress original factors_2 n i)) ,
+forall (original : Int) (p_pre : Int) (factors_2 : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (i > n)) (PreH2 : (1 <= original)) (PreH3 : (original <= INT_MAX)) (PreH4 : (1 <= n)) (PreH5 : (n <= original)) (PreH6 : (2 <= i)) (PreH7 : (i <= INT_MAX)) (PreH8 : (i <= (original + 1))) (PreH9 : ((0 : Int) <= cnt)) (PreH10 : (cnt < original)) (PreH11 : ((Zlength (factors_2)) = cnt)) (PreH12 : (FactorizationProgress original factors_2 n i)) ,
   (intArray.seg p_pre 1 (1 + cnt) factors_2)
   ** (intArray.undef_seg p_pre (1 + cnt) original)
 |--
@@ -617,7 +617,7 @@ forall (p_pre : Int) (original : Int) (factors_2 : (List Int)) (cnt : Int) (i : 
 
 noncomputable def divide_return_wit_2 : Prop :=
   (
-forall (p_pre : Int) (original : Int) (factors_2 : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (n = 1)) (PreH2 : ((Z.rem n i) ≠ (0 : Int))) (PreH3 : (1 <= original)) (PreH4 : (original <= INT_MAX)) (PreH5 : (1 <= n)) (PreH6 : (n <= original)) (PreH7 : (2 <= i)) (PreH8 : (i <= original)) (PreH9 : (n = 1)) (PreH10 : ((0 : Int) <= cnt)) (PreH11 : (cnt < original)) (PreH12 : ((Zlength (factors_2)) = cnt)) (PreH13 : (FactorizationProgress original factors_2 n i)) ,
+forall (original : Int) (p_pre : Int) (factors_2 : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (n = 1)) (PreH2 : ((Z.rem n i) ≠ (0 : Int))) (PreH3 : (1 <= original)) (PreH4 : (original <= INT_MAX)) (PreH5 : (1 <= n)) (PreH6 : (n <= original)) (PreH7 : (2 <= i)) (PreH8 : (i <= original)) (PreH9 : (n = 1)) (PreH10 : ((0 : Int) <= cnt)) (PreH11 : (cnt < original)) (PreH12 : ((Zlength (factors_2)) = cnt)) (PreH13 : (FactorizationProgress original factors_2 n i)) ,
   (intArray.undef_seg p_pre (0 : Int) 1)
   ** (intArray.seg p_pre 1 (1 + cnt) factors_2)
   ** (intArray.undef_seg p_pre (1 + cnt) original)
@@ -629,7 +629,7 @@ forall (p_pre : Int) (original : Int) (factors_2 : (List Int)) (cnt : Int) (i : 
   ** (intArray.undef_seg p_pre (1 + (Zlength (factors))) original)
 ) \/
 (
-forall (p_pre : Int) (original : Int) (factors_2 : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (n = 1)) (PreH2 : ((Z.rem n i) ≠ (0 : Int))) (PreH3 : (1 <= original)) (PreH4 : (original <= INT_MAX)) (PreH5 : (1 <= n)) (PreH6 : (n <= original)) (PreH7 : (2 <= i)) (PreH8 : (i <= original)) (PreH9 : (n = 1)) (PreH10 : ((0 : Int) <= cnt)) (PreH11 : (cnt < original)) (PreH12 : ((Zlength (factors_2)) = cnt)) (PreH13 : (FactorizationProgress original factors_2 n i)) ,
+forall (original : Int) (p_pre : Int) (factors_2 : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : (n = 1)) (PreH2 : ((Z.rem n i) ≠ (0 : Int))) (PreH3 : (1 <= original)) (PreH4 : (original <= INT_MAX)) (PreH5 : (1 <= n)) (PreH6 : (n <= original)) (PreH7 : (2 <= i)) (PreH8 : (i <= original)) (PreH9 : (n = 1)) (PreH10 : ((0 : Int) <= cnt)) (PreH11 : (cnt < original)) (PreH12 : ((Zlength (factors_2)) = cnt)) (PreH13 : (FactorizationProgress original factors_2 n i)) ,
   (intArray.seg p_pre 1 (1 + cnt) factors_2)
   ** (intArray.undef_seg p_pre (1 + cnt) original)
 |--
@@ -640,7 +640,7 @@ forall (p_pre : Int) (original : Int) (factors_2 : (List Int)) (cnt : Int) (i : 
 )
 
 noncomputable def divide_partial_solve_wit_1 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((cnt + 1) < original)) (PreH2 : (i <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (i >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : ((Z.rem n i) = (0 : Int))) (PreH7 : (1 <= original)) (PreH8 : (original <= INT_MAX)) (PreH9 : (1 <= n)) (PreH10 : (n <= original)) (PreH11 : (2 <= i)) (PreH12 : (i <= original)) (PreH13 : (n = 1)) (PreH14 : ((0 : Int) <= cnt)) (PreH15 : (cnt < original)) (PreH16 : ((Zlength (factors)) = cnt)) (PreH17 : (FactorizationProgress original factors n i)) ,
+  forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((cnt + 1) < original)) (PreH2 : (i <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (i >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : ((Z.rem n i) = (0 : Int))) (PreH7 : (1 <= original)) (PreH8 : (original <= INT_MAX)) (PreH9 : (1 <= n)) (PreH10 : (n <= original)) (PreH11 : (2 <= i)) (PreH12 : (i <= original)) (PreH13 : (n = 1)) (PreH14 : ((0 : Int) <= cnt)) (PreH15 : (cnt < original)) (PreH16 : ((Zlength (factors)) = cnt)) (PreH17 : (FactorizationProgress original factors n i)) ,
   (intArray.undef_seg p_pre (0 : Int) 1)
   ** (intArray.seg p_pre 1 (1 + cnt) factors)
   ** (intArray.undef_seg p_pre (1 + cnt) original)
@@ -668,7 +668,7 @@ noncomputable def divide_partial_solve_wit_1 : Prop :=
   ** (intArray.seg p_pre 1 (1 + cnt) factors)
 
 noncomputable def divide_partial_solve_wit_2 : Prop :=
-  forall (p_pre : Int) (original : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((cnt + 1) < original)) (PreH2 : (i <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (i >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : ((Z.rem n i) = (0 : Int))) (PreH7 : (1 <= original)) (PreH8 : (original <= INT_MAX)) (PreH9 : (1 <= n)) (PreH10 : (n <= original)) (PreH11 : (2 <= i)) (PreH12 : (i <= original)) (PreH13 : (i <= n)) (PreH14 : ((0 : Int) <= cnt)) (PreH15 : (cnt < original)) (PreH16 : ((Zlength (factors)) = cnt)) (PreH17 : (FactorizationProgress original factors n i)) ,
+  forall (original : Int) (p_pre : Int) (factors : (List Int)) (cnt : Int) (i : Int) (n : Int) (PreH1 : ((cnt + 1) < original)) (PreH2 : (i <= INT_MAX)) (PreH3 : (n <= INT_MAX)) (PreH4 : (i >= INT_MIN)) (PreH5 : (n >= INT_MIN)) (PreH6 : ((Z.rem n i) = (0 : Int))) (PreH7 : (1 <= original)) (PreH8 : (original <= INT_MAX)) (PreH9 : (1 <= n)) (PreH10 : (n <= original)) (PreH11 : (2 <= i)) (PreH12 : (i <= original)) (PreH13 : (i <= n)) (PreH14 : ((0 : Int) <= cnt)) (PreH15 : (cnt < original)) (PreH16 : ((Zlength (factors)) = cnt)) (PreH17 : (FactorizationProgress original factors n i)) ,
   (intArray.undef_seg p_pre (0 : Int) 1)
   ** (intArray.seg p_pre 1 (1 + cnt) factors)
   ** (intArray.undef_seg p_pre (1 + cnt) original)

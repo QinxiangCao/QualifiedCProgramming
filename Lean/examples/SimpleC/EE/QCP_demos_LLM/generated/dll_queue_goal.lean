@@ -58,7 +58,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def enqueue_safety_wit_1 : Prop :=
-  forall (x_pre : Int) (q_pre : Int) (l : (List Int)) (qhead : Int) (qtail : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) ,
+  forall (l : (List Int)) (q_pre : Int) (x_pre : Int) (qhead : Int) (qtail : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) ,
   ((&((retval # "list")  ->ₛ "next")) # Ptr |-> ((0 : Int)))
   ** ((&((retval # "list")  ->ₛ "prev")) # Ptr |-> ((0 : Int)))
   ** ((&((retval # "list")  ->ₛ "data")) # Int |-> (x_pre))
@@ -73,7 +73,7 @@ noncomputable def enqueue_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def enqueue_safety_wit_2 : Prop :=
-  forall (x_pre : Int) (q_pre : Int) (l : (List Int)) (qhead : Int) (qtail : Int) (retval : Int) (PreH1 : (qhead = (0 : Int))) (PreH2 : (retval ≠ (0 : Int))) ,
+  forall (l : (List Int)) (q_pre : Int) (x_pre : Int) (qhead : Int) (qtail : Int) (retval : Int) (PreH1 : (qhead = (0 : Int))) (PreH2 : (retval ≠ (0 : Int))) ,
   ((&((retval # "list")  ->ₛ "next")) # Ptr |-> ((0 : Int)))
   ** ((&((retval # "list")  ->ₛ "prev")) # Ptr |-> ((0 : Int)))
   ** ((&((retval # "list")  ->ₛ "data")) # Int |-> (x_pre))
@@ -88,7 +88,7 @@ noncomputable def enqueue_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def enqueue_safety_wit_3 : Prop :=
-  forall (x_pre : Int) (q_pre : Int) (l : (List Int)) (qhead : Int) (qtail : Int) (retval : Int) (PreH1 : (qhead = (0 : Int))) (PreH2 : (retval ≠ (0 : Int))) ,
+  forall (l : (List Int)) (q_pre : Int) (x_pre : Int) (qhead : Int) (qtail : Int) (retval : Int) (PreH1 : (qhead = (0 : Int))) (PreH2 : (retval ≠ (0 : Int))) ,
   ((&((retval # "list")  ->ₛ "next")) # Ptr |-> ((0 : Int)))
   ** ((&((retval # "list")  ->ₛ "prev")) # Ptr |-> ((0 : Int)))
   ** ((&((retval # "list")  ->ₛ "data")) # Int |-> (x_pre))
@@ -103,7 +103,7 @@ noncomputable def enqueue_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def enqueue_safety_wit_4 : Prop :=
-  forall (x_pre : Int) (q_pre : Int) (l : (List Int)) (l0 : (List Int)) (qtailv : Int) (qtail : Int) (qhead : Int) (qtailnext : Int) (qtailprev : Int) (p : Int) (PreH1 : (p ≠ (0 : Int))) (PreH2 : (qtail ≠ (0 : Int))) (PreH3 : (qhead ≠ (0 : Int))) (PreH4 : (l = (l0 ++ (qtailv :: (@List.nil Int))))) (PreH5 : (qtailnext = (0 : Int))) ,
+  forall (l : (List Int)) (q_pre : Int) (x_pre : Int) (l0 : (List Int)) (qtailv : Int) (qtail : Int) (qhead : Int) (qtailnext : Int) (qtailprev : Int) (p : Int) (PreH1 : (p ≠ (0 : Int))) (PreH2 : (qtail ≠ (0 : Int))) (PreH3 : (qhead ≠ (0 : Int))) (PreH4 : (l = (l0 ++ (qtailv :: (@List.nil Int))))) (PreH5 : (qtailnext = (0 : Int))) ,
   ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "q" ) )) # Ptr |-> (q_pre))
   ** ((( &( "p" ) )) # Ptr |-> (p))
@@ -122,7 +122,7 @@ noncomputable def enqueue_safety_wit_4 : Prop :=
 
 noncomputable def enqueue_entail_wit_1 : Prop :=
   (
-forall (q_pre : Int) (l : (List Int)) ,
+forall (l : (List Int)) (q_pre : Int) ,
   (store_queue q_pre l)
 |--
   EX qhead : Int, EX qtail : Int,
@@ -131,7 +131,7 @@ forall (q_pre : Int) (l : (List Int)) ,
   ** ((&((q_pre # "queue")  ->ₛ "tail")) # Ptr |-> (qtail))
 ) \/
 (
-forall (q_pre : Int) (l : (List Int)) ,
+forall (l : (List Int)) (q_pre : Int) ,
   (store_queue q_pre l)
 |--
   EX qhead : Int, EX qtail : Int,
@@ -142,7 +142,7 @@ forall (q_pre : Int) (l : (List Int)) ,
 
 noncomputable def enqueue_entail_wit_2 : Prop :=
   (
-forall (x_pre : Int) (q_pre : Int) (l : (List Int)) (qhead_2 : Int) (qtail_2 : Int) (retval : Int) (PreH1 : (qhead_2 ≠ (0 : Int))) (PreH2 : (retval ≠ (0 : Int))) ,
+forall (l : (List Int)) (q_pre : Int) (x_pre : Int) (qhead_2 : Int) (qtail_2 : Int) (retval : Int) (PreH1 : (qhead_2 ≠ (0 : Int))) (PreH2 : (retval ≠ (0 : Int))) ,
   ((&((retval # "list")  ->ₛ "next")) # Ptr |-> ((0 : Int)))
   ** ((&((retval # "list")  ->ₛ "prev")) # Ptr |-> ((0 : Int)))
   ** ((&((retval # "list")  ->ₛ "data")) # Int |-> (x_pre))
@@ -183,7 +183,7 @@ forall (l : (List Int)) (qhead_2 : Int) (qtail_2 : Int) (retval : Int) (PreH1 : 
 
 noncomputable def enqueue_return_wit_1 : Prop :=
   (
-forall (x_pre : Int) (q_pre : Int) (l : (List Int)) (qhead : Int) (qtail : Int) (retval : Int) (PreH1 : (qhead = (0 : Int))) (PreH2 : (retval ≠ (0 : Int))) ,
+forall (l : (List Int)) (q_pre : Int) (x_pre : Int) (qhead : Int) (qtail : Int) (retval : Int) (PreH1 : (qhead = (0 : Int))) (PreH2 : (retval ≠ (0 : Int))) ,
   ((&((retval # "list")  ->ₛ "next")) # Ptr |-> ((0 : Int)))
   ** ((&((retval # "list")  ->ₛ "prev")) # Ptr |-> ((0 : Int)))
   ** ((&((retval # "list")  ->ₛ "data")) # Int |-> (x_pre))
@@ -194,7 +194,7 @@ forall (x_pre : Int) (q_pre : Int) (l : (List Int)) (qhead : Int) (qtail : Int) 
   (store_queue q_pre (l ++ (x_pre :: (@List.nil Int))))
 ) \/
 (
-forall (x_pre : Int) (q_pre : Int) (l : (List Int)) (qhead : Int) (qtail : Int) (retval : Int) (PreH1 : (x_pre <= INT_MAX)) (PreH2 : (x_pre >= INT_MIN)) (PreH3 : (qhead = (0 : Int))) (PreH4 : (retval ≠ (0 : Int))) ,
+forall (l : (List Int)) (q_pre : Int) (x_pre : Int) (qhead : Int) (qtail : Int) (retval : Int) (PreH1 : (x_pre <= INT_MAX)) (PreH2 : (x_pre >= INT_MIN)) (PreH3 : (qhead = (0 : Int))) (PreH4 : (retval ≠ (0 : Int))) ,
   ((&((retval # "list")  ->ₛ "next")) # Ptr |-> ((0 : Int)))
   ** ((&((retval # "list")  ->ₛ "prev")) # Ptr |-> ((0 : Int)))
   ** ((&((retval # "list")  ->ₛ "data")) # Int |-> (x_pre))
@@ -206,7 +206,7 @@ forall (x_pre : Int) (q_pre : Int) (l : (List Int)) (qhead : Int) (qtail : Int) 
 )
 
 noncomputable def enqueue_return_wit_1_split_goal_spatial : Prop :=
-  forall (x_pre : Int) (q_pre : Int) (l : (List Int)) (qhead : Int) (qtail : Int) (retval : Int) (PreH1 : (x_pre <= INT_MAX)) (PreH2 : (x_pre >= INT_MIN)) (PreH3 : (qhead = (0 : Int))) (PreH4 : (retval ≠ (0 : Int))) ,
+  forall (l : (List Int)) (q_pre : Int) (x_pre : Int) (qhead : Int) (qtail : Int) (retval : Int) (PreH1 : (x_pre <= INT_MAX)) (PreH2 : (x_pre >= INT_MIN)) (PreH3 : (qhead = (0 : Int))) (PreH4 : (retval ≠ (0 : Int))) ,
   ((&((retval # "list")  ->ₛ "next")) # Ptr |-> ((0 : Int)))
   ** ((&((retval # "list")  ->ₛ "prev")) # Ptr |-> ((0 : Int)))
   ** ((&((retval # "list")  ->ₛ "data")) # Int |-> (x_pre))
@@ -218,7 +218,7 @@ noncomputable def enqueue_return_wit_1_split_goal_spatial : Prop :=
 
 noncomputable def enqueue_return_wit_2 : Prop :=
   (
-forall (x_pre : Int) (q_pre : Int) (l : (List Int)) (l0 : (List Int)) (qtailv : Int) (qtail : Int) (qhead : Int) (qtailnext : Int) (qtailprev : Int) (p : Int) (PreH1 : (p ≠ (0 : Int))) (PreH2 : (qtail ≠ (0 : Int))) (PreH3 : (qhead ≠ (0 : Int))) (PreH4 : (l = (l0 ++ (qtailv :: (@List.nil Int))))) (PreH5 : (qtailnext = (0 : Int))) ,
+forall (l : (List Int)) (q_pre : Int) (x_pre : Int) (l0 : (List Int)) (qtailv : Int) (qtail : Int) (qhead : Int) (qtailnext : Int) (qtailprev : Int) (p : Int) (PreH1 : (p ≠ (0 : Int))) (PreH2 : (qtail ≠ (0 : Int))) (PreH3 : (qhead ≠ (0 : Int))) (PreH4 : (l = (l0 ++ (qtailv :: (@List.nil Int))))) (PreH5 : (qtailnext = (0 : Int))) ,
   (dllseg qhead qtail (0 : Int) qtailprev l0)
   ** ((&((q_pre # "queue")  ->ₛ "tail")) # Ptr |-> (p))
   ** ((&((q_pre # "queue")  ->ₛ "head")) # Ptr |-> (qhead))
@@ -232,7 +232,7 @@ forall (x_pre : Int) (q_pre : Int) (l : (List Int)) (l0 : (List Int)) (qtailv : 
   (store_queue q_pre (l ++ (x_pre :: (@List.nil Int))))
 ) \/
 (
-forall (x_pre : Int) (q_pre : Int) (l : (List Int)) (l0 : (List Int)) (qtailv : Int) (qtail : Int) (qhead : Int) (qtailnext : Int) (qtailprev : Int) (p : Int) (PreH1 : (x_pre <= INT_MAX)) (PreH2 : (qtailv <= INT_MAX)) (PreH3 : (x_pre >= INT_MIN)) (PreH4 : (qtailv >= INT_MIN)) (PreH5 : (p ≠ (0 : Int))) (PreH6 : (qtail ≠ (0 : Int))) (PreH7 : (qhead ≠ (0 : Int))) (PreH8 : (l = (l0 ++ (qtailv :: (@List.nil Int))))) (PreH9 : (qtailnext = (0 : Int))) ,
+forall (l : (List Int)) (q_pre : Int) (x_pre : Int) (l0 : (List Int)) (qtailv : Int) (qtail : Int) (qhead : Int) (qtailnext : Int) (qtailprev : Int) (p : Int) (PreH1 : (x_pre <= INT_MAX)) (PreH2 : (qtailv <= INT_MAX)) (PreH3 : (x_pre >= INT_MIN)) (PreH4 : (qtailv >= INT_MIN)) (PreH5 : (p ≠ (0 : Int))) (PreH6 : (qtail ≠ (0 : Int))) (PreH7 : (qhead ≠ (0 : Int))) (PreH8 : (l = (l0 ++ (qtailv :: (@List.nil Int))))) (PreH9 : (qtailnext = (0 : Int))) ,
   (dllseg qhead qtail (0 : Int) qtailprev l0)
   ** ((&((q_pre # "queue")  ->ₛ "tail")) # Ptr |-> (p))
   ** ((&((q_pre # "queue")  ->ₛ "head")) # Ptr |-> (qhead))
@@ -247,7 +247,7 @@ forall (x_pre : Int) (q_pre : Int) (l : (List Int)) (l0 : (List Int)) (qtailv : 
 )
 
 noncomputable def enqueue_return_wit_2_split_goal_spatial : Prop :=
-  forall (x_pre : Int) (q_pre : Int) (l : (List Int)) (l0 : (List Int)) (qtailv : Int) (qtail : Int) (qhead : Int) (qtailnext : Int) (qtailprev : Int) (p : Int) (PreH1 : (x_pre <= INT_MAX)) (PreH2 : (qtailv <= INT_MAX)) (PreH3 : (x_pre >= INT_MIN)) (PreH4 : (qtailv >= INT_MIN)) (PreH5 : (p ≠ (0 : Int))) (PreH6 : (qtail ≠ (0 : Int))) (PreH7 : (qhead ≠ (0 : Int))) (PreH8 : (l = (l0 ++ (qtailv :: (@List.nil Int))))) (PreH9 : (qtailnext = (0 : Int))) ,
+  forall (l : (List Int)) (q_pre : Int) (x_pre : Int) (l0 : (List Int)) (qtailv : Int) (qtail : Int) (qhead : Int) (qtailnext : Int) (qtailprev : Int) (p : Int) (PreH1 : (x_pre <= INT_MAX)) (PreH2 : (qtailv <= INT_MAX)) (PreH3 : (x_pre >= INT_MIN)) (PreH4 : (qtailv >= INT_MIN)) (PreH5 : (p ≠ (0 : Int))) (PreH6 : (qtail ≠ (0 : Int))) (PreH7 : (qhead ≠ (0 : Int))) (PreH8 : (l = (l0 ++ (qtailv :: (@List.nil Int))))) (PreH9 : (qtailnext = (0 : Int))) ,
   (dllseg qhead qtail (0 : Int) qtailprev l0)
   ** ((&((q_pre # "queue")  ->ₛ "tail")) # Ptr |-> (p))
   ** ((&((q_pre # "queue")  ->ₛ "head")) # Ptr |-> (qhead))
@@ -261,7 +261,7 @@ noncomputable def enqueue_return_wit_2_split_goal_spatial : Prop :=
   (store_queue q_pre (l ++ (x_pre :: (@List.nil Int))))
 
 noncomputable def enqueue_partial_solve_wit_1 : Prop :=
-  forall (q_pre : Int) (l : (List Int)) (qhead : Int) (qtail : Int) ,
+  forall (l : (List Int)) (q_pre : Int) (qhead : Int) (qtail : Int) ,
   (dllseg qhead (0 : Int) (0 : Int) qtail l)
   ** ((&((q_pre # "queue")  ->ₛ "head")) # Ptr |-> (qhead))
   ** ((&((q_pre # "queue")  ->ₛ "tail")) # Ptr |-> (qtail))
@@ -271,7 +271,7 @@ noncomputable def enqueue_partial_solve_wit_1 : Prop :=
   ** ((&((q_pre # "queue")  ->ₛ "tail")) # Ptr |-> (qtail))
 
 noncomputable def dequeue_safety_wit_1 : Prop :=
-  forall (q_pre : Int) (l : (List Int)) (x : Int) (qhead : Int) (qtail : Int) (qheadnext : Int) (PreH1 : (qhead ≠ (0 : Int))) ,
+  forall (l : (List Int)) (x : Int) (q_pre : Int) (qhead : Int) (qtail : Int) (qheadnext : Int) (PreH1 : (qhead ≠ (0 : Int))) ,
   ((( &( "x0" ) )) # Int |-> (x))
   ** ((( &( "p" ) )) # Ptr |-> (qhead))
   ** ((( &( "q" ) )) # Ptr |-> (q_pre))
@@ -283,7 +283,7 @@ noncomputable def dequeue_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def dequeue_safety_wit_2 : Prop :=
-  forall (q_pre : Int) (l : (List Int)) (x : Int) (qhead : Int) (qtail : Int) (qheadnext : Int) (PreH1 : (qheadnext = (0 : Int))) (PreH2 : (qhead ≠ (0 : Int))) ,
+  forall (l : (List Int)) (x : Int) (q_pre : Int) (qhead : Int) (qtail : Int) (qheadnext : Int) (PreH1 : (qheadnext = (0 : Int))) (PreH2 : (qhead ≠ (0 : Int))) ,
   ((( &( "x0" ) )) # Int |-> (x))
   ** ((( &( "p" ) )) # Ptr |-> (qhead))
   ** ((( &( "q" ) )) # Ptr |-> (q_pre))
@@ -295,7 +295,7 @@ noncomputable def dequeue_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def dequeue_safety_wit_3 : Prop :=
-  forall (q_pre : Int) (l : (List Int)) (x : Int) (qhead : Int) (qtail : Int) (headv : Int) (qheadnext : Int) (l0 : (List Int)) (p : Int) (PreH1 : (qhead ≠ (0 : Int))) (PreH2 : (l = (headv :: l0))) ,
+  forall (l : (List Int)) (x : Int) (q_pre : Int) (qhead : Int) (qtail : Int) (headv : Int) (qheadnext : Int) (l0 : (List Int)) (p : Int) (PreH1 : (qhead ≠ (0 : Int))) (PreH2 : (l = (headv :: l0))) ,
   ((( &( "q" ) )) # Ptr |-> (q_pre))
   ** ((( &( "x0" ) )) # Int |-> (x))
   ** ((( &( "p" ) )) # Ptr |-> (p))
@@ -311,7 +311,7 @@ noncomputable def dequeue_safety_wit_3 : Prop :=
 
 noncomputable def dequeue_entail_wit_1 : Prop :=
   (
-forall (q_pre : Int) (l : (List Int)) (x : Int) ,
+forall (l : (List Int)) (x : Int) (q_pre : Int) ,
   (store_queue q_pre (x :: l))
 |--
   EX qtail : Int, EX qheadnext : Int, EX qhead : Int,
@@ -324,7 +324,7 @@ forall (q_pre : Int) (l : (List Int)) (x : Int) ,
   ** ((&((q_pre # "queue")  ->ₛ "tail")) # Ptr |-> (qtail))
 ) \/
 (
-forall (q_pre : Int) (l : (List Int)) (x : Int) ,
+forall (l : (List Int)) (x : Int) (q_pre : Int) ,
   (store_queue q_pre (x :: l))
 |--
   EX qtail : Int, EX qheadnext : Int, EX qhead : Int,
@@ -339,7 +339,7 @@ forall (q_pre : Int) (l : (List Int)) (x : Int) ,
 
 noncomputable def dequeue_entail_wit_2 : Prop :=
   (
-forall (q_pre : Int) (l : (List Int)) (qhead : Int) (qtail_2 : Int) (qheadnext_2 : Int) (PreH1 : (qheadnext_2 ≠ (0 : Int))) (PreH2 : (qhead ≠ (0 : Int))) ,
+forall (l : (List Int)) (q_pre : Int) (qhead : Int) (qtail_2 : Int) (qheadnext_2 : Int) (PreH1 : (qheadnext_2 ≠ (0 : Int))) (PreH2 : (qhead ≠ (0 : Int))) ,
   (dllseg qheadnext_2 (0 : Int) qhead qtail_2 l)
   ** ((&((q_pre # "queue")  ->ₛ "head")) # Ptr |-> (qheadnext_2))
   ** ((&((q_pre # "queue")  ->ₛ "tail")) # Ptr |-> (qtail_2))
@@ -369,7 +369,7 @@ forall (l : (List Int)) (qhead : Int) (qtail_2 : Int) (qheadnext_2 : Int) (PreH1
 
 noncomputable def dequeue_return_wit_1 : Prop :=
   (
-forall (q_pre : Int) (l : (List Int)) (x : Int) (qhead : Int) (qtail : Int) (qheadnext : Int) (PreH1 : (qheadnext = (0 : Int))) (PreH2 : (qhead ≠ (0 : Int))) ,
+forall (l : (List Int)) (x : Int) (q_pre : Int) (qhead : Int) (qtail : Int) (qheadnext : Int) (PreH1 : (qheadnext = (0 : Int))) (PreH2 : (qhead ≠ (0 : Int))) ,
   (dllseg qheadnext (0 : Int) qhead qtail l)
   ** ((&((q_pre # "queue")  ->ₛ "head")) # Ptr |-> (qheadnext))
   ** ((&((q_pre # "queue")  ->ₛ "tail")) # Ptr |-> ((0 : Int)))
@@ -378,7 +378,7 @@ forall (q_pre : Int) (l : (List Int)) (x : Int) (qhead : Int) (qtail : Int) (qhe
   &&  (store_queue q_pre l)
 ) \/
 (
-forall (q_pre : Int) (l : (List Int)) (qhead : Int) (qtail : Int) (qheadnext : Int) (PreH1 : (qheadnext = (0 : Int))) (PreH2 : (qhead ≠ (0 : Int))) ,
+forall (l : (List Int)) (q_pre : Int) (qhead : Int) (qtail : Int) (qheadnext : Int) (PreH1 : (qheadnext = (0 : Int))) (PreH2 : (qhead ≠ (0 : Int))) ,
   (dllseg qheadnext (0 : Int) qhead qtail l)
   ** ((&((q_pre # "queue")  ->ₛ "head")) # Ptr |-> (qheadnext))
   ** ((&((q_pre # "queue")  ->ₛ "tail")) # Ptr |-> ((0 : Int)))
@@ -387,7 +387,7 @@ forall (q_pre : Int) (l : (List Int)) (qhead : Int) (qtail : Int) (qheadnext : I
 )
 
 noncomputable def dequeue_return_wit_1_split_goal_spatial : Prop :=
-  forall (q_pre : Int) (l : (List Int)) (qhead : Int) (qtail : Int) (qheadnext : Int) (PreH1 : (qheadnext = (0 : Int))) (PreH2 : (qhead ≠ (0 : Int))) ,
+  forall (l : (List Int)) (q_pre : Int) (qhead : Int) (qtail : Int) (qheadnext : Int) (PreH1 : (qheadnext = (0 : Int))) (PreH2 : (qhead ≠ (0 : Int))) ,
   (dllseg qheadnext (0 : Int) qhead qtail l)
   ** ((&((q_pre # "queue")  ->ₛ "head")) # Ptr |-> (qheadnext))
   ** ((&((q_pre # "queue")  ->ₛ "tail")) # Ptr |-> ((0 : Int)))
@@ -396,7 +396,7 @@ noncomputable def dequeue_return_wit_1_split_goal_spatial : Prop :=
 
 noncomputable def dequeue_return_wit_2 : Prop :=
   (
-forall (q_pre : Int) (l : (List Int)) (x : Int) (qhead : Int) (qtail : Int) (headv : Int) (qheadnext : Int) (l0 : (List Int)) (PreH1 : (qhead ≠ (0 : Int))) (PreH2 : (l = (headv :: l0))) ,
+forall (l : (List Int)) (x : Int) (q_pre : Int) (qhead : Int) (qtail : Int) (headv : Int) (qheadnext : Int) (l0 : (List Int)) (PreH1 : (qhead ≠ (0 : Int))) (PreH2 : (l = (headv :: l0))) ,
   ((&((qhead # "list")  ->ₛ "prev")) # Ptr |-> ((0 : Int)))
   ** ((&((qhead # "list")  ->ₛ "data")) # Int |-> (headv))
   ** ((&((qhead # "list")  ->ₛ "next")) # Ptr |-> (qheadnext))
@@ -408,7 +408,7 @@ forall (q_pre : Int) (l : (List Int)) (x : Int) (qhead : Int) (qtail : Int) (hea
   &&  (store_queue q_pre l)
 ) \/
 (
-forall (q_pre : Int) (l : (List Int)) (qhead : Int) (qtail : Int) (headv : Int) (qheadnext : Int) (l0 : (List Int)) (PreH1 : (headv <= INT_MAX)) (PreH2 : (headv >= INT_MIN)) (PreH3 : (qhead ≠ (0 : Int))) (PreH4 : (l = (headv :: l0))) ,
+forall (l : (List Int)) (q_pre : Int) (qhead : Int) (qtail : Int) (headv : Int) (qheadnext : Int) (l0 : (List Int)) (PreH1 : (headv <= INT_MAX)) (PreH2 : (headv >= INT_MIN)) (PreH3 : (qhead ≠ (0 : Int))) (PreH4 : (l = (headv :: l0))) ,
   ((&((qhead # "list")  ->ₛ "prev")) # Ptr |-> ((0 : Int)))
   ** ((&((qhead # "list")  ->ₛ "data")) # Int |-> (headv))
   ** ((&((qhead # "list")  ->ₛ "next")) # Ptr |-> (qheadnext))
@@ -420,7 +420,7 @@ forall (q_pre : Int) (l : (List Int)) (qhead : Int) (qtail : Int) (headv : Int) 
 )
 
 noncomputable def dequeue_return_wit_2_split_goal_spatial : Prop :=
-  forall (q_pre : Int) (l : (List Int)) (qhead : Int) (qtail : Int) (headv : Int) (qheadnext : Int) (l0 : (List Int)) (PreH1 : (headv <= INT_MAX)) (PreH2 : (headv >= INT_MIN)) (PreH3 : (qhead ≠ (0 : Int))) (PreH4 : (l = (headv :: l0))) ,
+  forall (l : (List Int)) (q_pre : Int) (qhead : Int) (qtail : Int) (headv : Int) (qheadnext : Int) (l0 : (List Int)) (PreH1 : (headv <= INT_MAX)) (PreH2 : (headv >= INT_MIN)) (PreH3 : (qhead ≠ (0 : Int))) (PreH4 : (l = (headv :: l0))) ,
   ((&((qhead # "list")  ->ₛ "prev")) # Ptr |-> ((0 : Int)))
   ** ((&((qhead # "list")  ->ₛ "data")) # Int |-> (headv))
   ** ((&((qhead # "list")  ->ₛ "next")) # Ptr |-> (qheadnext))
@@ -431,7 +431,7 @@ noncomputable def dequeue_return_wit_2_split_goal_spatial : Prop :=
   (store_queue q_pre l)
 
 noncomputable def dequeue_partial_solve_wit_1 : Prop :=
-  forall (q_pre : Int) (l : (List Int)) (x : Int) (qhead : Int) (qtail : Int) (qheadnext : Int) (PreH1 : (qhead ≠ (0 : Int))) ,
+  forall (l : (List Int)) (x : Int) (q_pre : Int) (qhead : Int) (qtail : Int) (qheadnext : Int) (PreH1 : (qhead ≠ (0 : Int))) ,
   ((&((qhead # "list")  ->ₛ "prev")) # Ptr |-> ((0 : Int)))
   ** ((&((qhead # "list")  ->ₛ "data")) # Int |-> (x))
   ** ((&((qhead # "list")  ->ₛ "next")) # Ptr |-> (qheadnext))

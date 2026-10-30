@@ -14,38 +14,38 @@ local instance : SacContext := ⟨naive_C_Rules⟩
 private noncomputable abbrev intArray := naive_C_Rules.IntArray
 
 theorem proof_of_solver_entail_wit_5_split_goal_1 : solver_entail_wit_5_split_goal_1 := by
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   intro v hv
   omega
 
 theorem proof_of_solver_entail_wit_5_split_goal_2 : solver_entail_wit_5_split_goal_2 := by
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have he : i = m_pre := by omega
   rwa [he] at PreH15
 
 theorem proof_of_solver_entail_wit_5_split_goal_3 : solver_entail_wit_5_split_goal_3 := by
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have he : i = m_pre := by omega
   rwa [he] at PreH14
 
 theorem proof_of_solver_entail_wit_5_split_goal_4 : solver_entail_wit_5_split_goal_4 := by
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   exact PreH10
 
 theorem proof_of_solver_entail_wit_5 : solver_entail_wit_5 := by
   unfold solver_entail_wit_5
   right
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial <;> first
-    | exact proof_of_solver_entail_wit_5_split_goal_1 m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    | exact proof_of_solver_entail_wit_5_split_goal_2 m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    | exact proof_of_solver_entail_wit_5_split_goal_3 m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    | exact proof_of_solver_entail_wit_5_split_goal_4 m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_solver_entail_wit_5_split_goal_1 comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_solver_entail_wit_5_split_goal_2 comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_solver_entail_wit_5_split_goal_3 comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_solver_entail_wit_5_split_goal_4 comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 i __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
 
 theorem proof_of_solver_entail_wit_6_split_goal_1 : solver_entail_wit_6_split_goal_1 := by
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   intro x hx
   by_cases he : v = x
   · subst x
@@ -54,33 +54,33 @@ theorem proof_of_solver_entail_wit_6_split_goal_1 : solver_entail_wit_6_split_go
     exact PreH17 x ⟨by omega,by omega⟩
 
 theorem proof_of_solver_entail_wit_6_split_goal_2 : solver_entail_wit_6_split_goal_2 := by
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   simpa only [Zlength_replace_Znth] using PreH15
 
 theorem proof_of_solver_entail_wit_6 : solver_entail_wit_6 := by
   unfold solver_entail_wit_6
   right
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial <;> first
-    | exact proof_of_solver_entail_wit_6_split_goal_1 m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    | exact proof_of_solver_entail_wit_6_split_goal_2 m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_solver_entail_wit_6_split_goal_1 comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_solver_entail_wit_6_split_goal_2 comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
 
 theorem proof_of_solver_entail_wit_7_split_goal_1 : solver_entail_wit_7_split_goal_1 := by
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   intro v hv
   omega
 
 theorem proof_of_solver_entail_wit_7_split_goal_2 : solver_entail_wit_7_split_goal_2 := by
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   apply max_imposters_on_empty__outer_loop_entry n_pre comments cs_2 (by omega) PreH15
   · intro v hv
     exact PreH17 v ⟨hv.1,by omega⟩
   · exact comment_bounds_from_forward_star__scan_and_component_closure _ _ _ _ _ _ _ PreH6 PreH13 PreH14
 
 theorem proof_of_solver_entail_wit_7_split_goal_3 : solver_entail_wit_7_split_goal_3 := by
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   intro i hi
   rcases hq : comment_at comments i with ⟨⟨u,v⟩,w⟩
   dsimp
@@ -91,7 +91,7 @@ theorem proof_of_solver_entail_wit_7_split_goal_3 : solver_entail_wit_7_split_go
   rw [hu,hv]
 
 theorem proof_of_solver_entail_wit_7_split_goal_4 : solver_entail_wit_7_split_goal_4 := by
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   intro i hi
   rcases hq : comment_at comments i with ⟨⟨u,v⟩,w⟩
   dsimp
@@ -103,27 +103,27 @@ theorem proof_of_solver_entail_wit_7_split_goal_4 : solver_entail_wit_7_split_go
   exact False.elim (hc hu)
 
 theorem proof_of_solver_entail_wit_7_split_goal_5 : solver_entail_wit_7_split_goal_5 := by
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   refine ⟨PreH15,?_⟩
   intro v hv
   exact Or.inl (PreH17 v ⟨hv.1,by omega⟩)
 
 theorem proof_of_solver_entail_wit_7_split_goal_6 : solver_entail_wit_7_split_goal_6 := by
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   exact PreH10
 
 theorem proof_of_solver_entail_wit_7 : solver_entail_wit_7 := by
   unfold solver_entail_wit_7
   right
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial <;> first
-    | exact proof_of_solver_entail_wit_7_split_goal_1 m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    | exact proof_of_solver_entail_wit_7_split_goal_2 m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    | exact proof_of_solver_entail_wit_7_split_goal_3 m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    | exact proof_of_solver_entail_wit_7_split_goal_4 m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    | exact proof_of_solver_entail_wit_7_split_goal_5 m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    | exact proof_of_solver_entail_wit_7_split_goal_6 m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_solver_entail_wit_7_split_goal_1 comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_solver_entail_wit_7_split_goal_2 comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_solver_entail_wit_7_split_goal_3 comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_solver_entail_wit_7_split_goal_4 comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_solver_entail_wit_7_split_goal_5 comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_solver_entail_wit_7_split_goal_6 comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 v_2 __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
 
 end SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P053_1594D_the_number_of_imposters_proof_manual

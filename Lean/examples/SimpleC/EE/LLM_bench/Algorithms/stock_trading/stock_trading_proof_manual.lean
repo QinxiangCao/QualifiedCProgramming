@@ -42,7 +42,7 @@ theorem proof_of_stock_init_storage_entail_wit_2 : stock_init_storage_entail_wit
 
 theorem proof_of_maximum_profit_entail_wit_4 : maximum_profit_entail_wit_4 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l dp_init queue_l_2 width q_init neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre dp_init queue_l_2 width q_init neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   split_pure_spatial
   · cancel
   · split_pures; dump_pre_spatial
@@ -50,7 +50,7 @@ theorem proof_of_maximum_profit_entail_wit_4 : maximum_profit_entail_wit_4 := by
 
 theorem proof_of_maximum_profit_entail_wit_1 : maximum_profit_entail_wit_1 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   sep_apply (intArray.undef_full_split_to_undef_seg (&("queue_index")) (max_stock_pre+1) 991 (by omega))
   sep_apply (intArray.undef_full_split_to_undef_seg (&("dp")) ((days_pre+1)*(max_stock_pre+1)) 982081 (by constructor <;> nlinarith))
   sep_apply (intArray.undef_seg_to_undef_full (&("queue_index")) 0 (max_stock_pre+1))
@@ -72,7 +72,7 @@ private theorem annotation_row_length (rows : List (List Int)) (n m i : Int) (d 
 
 theorem proof_of_maximum_profit_entail_wit_5 : maximum_profit_entail_wit_5 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l dp_init queue_l_2 width q_init neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre dp_init queue_l_2 width q_init neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hs : StockFillRows dp_init days_pre max_stock_pre 0 := by
     refine ⟨⟨by omega,by omega⟩,⟨PreH26,?_⟩,?_⟩
     · intro row hr
@@ -84,7 +84,7 @@ theorem proof_of_maximum_profit_entail_wit_5 : maximum_profit_entail_wit_5 := by
 
 theorem proof_of_maximum_profit_entail_wit_6 : maximum_profit_entail_wit_6 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   have hl := annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) i __default__List_Z PreH25 PreH26 (by omega)
   have hs : StockFillCells (Znth i dp_l_2 __default__List_Z) max_stock_pre i 0 := by
     refine ⟨⟨by omega,by omega⟩,hl,?_⟩
@@ -115,7 +115,7 @@ private theorem shape_annotation (rows : List (List Int)) (days stocks : Int) (h
 
 theorem proof_of_maximum_profit_entail_wit_7_1 : maximum_profit_entail_wit_7_1 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hv : (0 : Int) = StockInitialCell i j := by
     simp [StockInitialCell, show i = 0 by omega, show j = 0 by omega]
   obtain ⟨hr,hc⟩ := stock_fill_update_step__init_copy dp_l_2 days_pre max_stock_pre i j (0 : Int) __default__List_Z PreH29 PreH30 (by omega) (by omega) hv
@@ -131,7 +131,7 @@ theorem proof_of_maximum_profit_entail_wit_7_1 : maximum_profit_entail_wit_7_1 :
 
 theorem proof_of_maximum_profit_entail_wit_7_2 : maximum_profit_entail_wit_7_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
   have hv : neg_inf = StockInitialCell i j := by
     simp [StockInitialCell, show i ≠ 0 by omega, STOCK_NEG_INF]; omega
   obtain ⟨hr,hc⟩ := stock_fill_update_step__init_copy dp_l_2 days_pre max_stock_pre i j neg_inf __default__List_Z PreH28 PreH29 (by omega) (by omega) hv
@@ -147,7 +147,7 @@ theorem proof_of_maximum_profit_entail_wit_7_2 : maximum_profit_entail_wit_7_2 :
 
 theorem proof_of_maximum_profit_entail_wit_7_3 : maximum_profit_entail_wit_7_3 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hv : neg_inf = StockInitialCell i j := by
     simp [StockInitialCell, show i = 0 by omega, show j ≠ 0 by omega, STOCK_NEG_INF]; omega
   obtain ⟨hr,hc⟩ := stock_fill_update_step__init_copy dp_l_2 days_pre max_stock_pre i j neg_inf __default__List_Z PreH29 PreH30 (by omega) (by omega) hv
@@ -163,7 +163,7 @@ theorem proof_of_maximum_profit_entail_wit_7_3 : maximum_profit_entail_wit_7_3 :
 
 theorem proof_of_maximum_profit_entail_wit_8 : maximum_profit_entail_wit_8 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
   have hs : StockFillRows dp_l_2 days_pre max_stock_pre (i+1) := by
     refine ⟨⟨by omega,by omega⟩,PreH25.2.1,?_⟩
     intro row stock hr hstock
@@ -179,7 +179,7 @@ theorem proof_of_maximum_profit_entail_wit_8 : maximum_profit_entail_wit_8 := by
 
 theorem proof_of_maximum_profit_entail_wit_10 : maximum_profit_entail_wit_10 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   have hs : StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i 0 := by
     refine ⟨PreH23,by omega,by omega,?_⟩
     intro stock hstock; omega
@@ -189,7 +189,7 @@ theorem proof_of_maximum_profit_entail_wit_10 : maximum_profit_entail_wit_10 := 
 
 theorem proof_of_maximum_profit_entail_wit_11 : maximum_profit_entail_wit_11 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
   sep_apply (StockProofInternal.restore_cell (&("dp")) (days_pre+1) width (i-1) j dp_l __default__List_Z (by omega) (by omega))
   refine Automation.exp_right_rule (CRules := naive_C_Rules) dp_l ?_
   split_pure_spatial
@@ -270,7 +270,7 @@ private theorem flat_to_rows (x n m : Int) (l : List Int) (hn : 0 ≤ n) (hm : 0
 
 theorem proof_of_maximum_profit_entail_wit_2 : maximum_profit_entail_wit_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l cells cells_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre cells cells_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   simp only [Int.zero_mul,Int.add_zero]
   sep_apply (flat_to_rows (&("dp")) (days_pre+1) (max_stock_pre+1) cells_2 (by omega) (by omega))
   Intros rows
@@ -326,7 +326,7 @@ private theorem table_bound_annotations (rows : List (List Int)) (days stocks : 
 
 theorem proof_of_maximum_profit_entail_wit_9 : maximum_profit_entail_wit_9 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH12 PreH13 PreH14 PreH15 (by omega) (by omega) PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have he : i=days_pre+1 := by omega
   rw [he] at PreH23
@@ -339,7 +339,7 @@ theorem proof_of_maximum_profit_entail_wit_9 : maximum_profit_entail_wit_9 := by
 
 theorem proof_of_maximum_profit_entail_wit_12 : maximum_profit_entail_wit_12 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 neg_inf width i j previous_value __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 neg_inf width i j previous_value __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
   have hshapeA := PreH28.1.1
   have hprev : 0 ≤ i-1 ∧ i-1 < Zlength dp_l_2 := by omega
   have hcur : 0 ≤ i ∧ i < Zlength dp_l_2 := by omega
@@ -361,7 +361,7 @@ theorem proof_of_maximum_profit_entail_wit_12 : maximum_profit_entail_wit_12 := 
 
 theorem proof_of_maximum_profit_entail_wit_13 : maximum_profit_entail_wit_13 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 j i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 j i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH15 PreH16 PreH17 PreH18 (by omega) (by omega) PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   have hdaily := hi.2.2.2.2.2.2 i (by omega)
   have hs : StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i 1 := by
@@ -377,7 +377,7 @@ theorem proof_of_maximum_profit_entail_wit_13 : maximum_profit_entail_wit_13 := 
 
 theorem proof_of_maximum_profit_entail_wit_14_1 : maximum_profit_entail_wit_14_1 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 j ask_price buy_cap i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 j ask_price buy_cap i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH24 PreH25 PreH26 PreH27 (by omega) (by omega) PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
   have hlen := PreH40
   have hcur : 0 ≤ i ∧ i < Zlength dp_l_2 := by omega
@@ -403,7 +403,7 @@ theorem proof_of_maximum_profit_entail_wit_14_1 : maximum_profit_entail_wit_14_1
 
 theorem proof_of_maximum_profit_entail_wit_14_2 : maximum_profit_entail_wit_14_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 j ask_price buy_cap i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 j ask_price buy_cap i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH24 PreH25 PreH26 PreH27 (by omega) (by omega) PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
   have hlen := PreH40
   have hcur : 0 ≤ i ∧ i < Zlength dp_l_2 := by omega
@@ -429,7 +429,7 @@ theorem proof_of_maximum_profit_entail_wit_14_2 : maximum_profit_entail_wit_14_2
 
 theorem proof_of_maximum_profit_entail_wit_15 : maximum_profit_entail_wit_15 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 j i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 j i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH15 PreH16 PreH17 PreH18 (by omega) (by omega) PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH30,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH30 PreH31 hr⟩
   split_pure_spatial
@@ -447,7 +447,7 @@ theorem proof_of_maximum_profit_entail_wit_15 : maximum_profit_entail_wit_15 := 
 
 theorem proof_of_maximum_profit_entail_wit_16 : maximum_profit_entail_wit_16 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 tail head j sell_cap bid_price source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 tail head j sell_cap bid_price source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH27 PreH28 PreH29 PreH30 (by omega) (by omega) PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH46,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH46 PreH47 hr⟩
   split_pure_spatial
@@ -460,7 +460,7 @@ theorem proof_of_maximum_profit_entail_wit_16 : maximum_profit_entail_wit_16 := 
 
 theorem proof_of_maximum_profit_entail_wit_17 : maximum_profit_entail_wit_17 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 bid_price tail head sell_cap j source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 bid_price tail head sell_cap j source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH28 PreH29 PreH30 PreH31 (by omega) (by omega) PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH47,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH47 PreH48 hr⟩
   split_pure_spatial
@@ -473,7 +473,7 @@ theorem proof_of_maximum_profit_entail_wit_17 : maximum_profit_entail_wit_17 := 
 
 theorem proof_of_maximum_profit_entail_wit_18_1 : maximum_profit_entail_wit_18_1 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 bid_price tail head sell_cap j source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 bid_price tail head sell_cap j source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH27 PreH28 PreH29 PreH30 (by omega) (by omega) PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH46,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH46 PreH47 hr⟩
   split_pure_spatial
@@ -486,7 +486,7 @@ theorem proof_of_maximum_profit_entail_wit_18_1 : maximum_profit_entail_wit_18_1
 
 theorem proof_of_maximum_profit_entail_wit_18_2 : maximum_profit_entail_wit_18_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 bid_price tail head sell_cap j source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 bid_price tail head sell_cap j source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH28 PreH29 PreH30 PreH31 (by omega) (by omega) PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH47,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH47 PreH48 hr⟩
   split_pure_spatial
@@ -516,7 +516,7 @@ private theorem sublist_bound_annotations (q : List Int) (head tail bound : Int)
 
 theorem proof_of_maximum_profit_entail_wit_19_1 : maximum_profit_entail_wit_19_1 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l neg_inf width i source_day bid_price sell_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l dp_l neg_inf width i source_day bid_price sell_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
   have hs : StockTableShape dp_l days_pre max_stock_pre := ⟨PreH50,fun row hr => annotation_row_length dp_l (days_pre+1) (max_stock_pre+1) row [] PreH50 PreH51 hr⟩
   have hlen := hs.1
   have hrow := hs.2 source_day (by omega)
@@ -543,7 +543,7 @@ theorem proof_of_maximum_profit_entail_wit_19_1 : maximum_profit_entail_wit_19_1
 
 theorem proof_of_maximum_profit_entail_wit_19_2 : maximum_profit_entail_wit_19_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l neg_inf width i source_day bid_price sell_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l neg_inf width i source_day bid_price sell_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
   have hs : StockTableShape dp_l days_pre max_stock_pre := ⟨PreH50,fun row hr => annotation_row_length dp_l (days_pre+1) (max_stock_pre+1) row [] PreH50 PreH51 hr⟩
   have hlen := hs.1
   have hrow := hs.2 source_day (by omega)
@@ -582,7 +582,7 @@ private theorem sublist_bound_lookup (q : List Int) (head tail bound : Int)
 
 theorem proof_of_maximum_profit_entail_wit_20_1 : maximum_profit_entail_wit_20_1 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 incoming_score last_index tail head sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 incoming_score last_index tail head sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
   have oldbounds := sublist_bound_lookup queue_l_2 head tail max_stock_pre (by omega) (by omega) PreH44 PreH45
   have oldshape : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH54,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH54 PreH55 hr⟩
   have hlen := oldshape.1
@@ -604,7 +604,7 @@ theorem proof_of_maximum_profit_entail_wit_20_1 : maximum_profit_entail_wit_20_1
 
 theorem proof_of_maximum_profit_entail_wit_20_2 : maximum_profit_entail_wit_20_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 incoming_score last_index tail head sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 incoming_score last_index tail head sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
   have oldbounds := sublist_bound_lookup queue_l_2 head tail max_stock_pre (by omega) (by omega) PreH44 PreH45
   have oldshape : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH54,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH54 PreH55 hr⟩
   have hlen := oldshape.1
@@ -626,7 +626,7 @@ theorem proof_of_maximum_profit_entail_wit_20_2 : maximum_profit_entail_wit_20_2
 
 theorem proof_of_maximum_profit_entail_wit_21_1 : maximum_profit_entail_wit_21_1 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 incoming_score last_index tail head sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 incoming_score last_index tail head sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
   have hqlen : Zlength queue_l_2=width := by omega
   have hp : StockSellQueuePending dp_l_2 queue_l_2 source_day bid_price (j+1) (j+sell_cap) head tail := by
     refine ⟨PreH39, by omega, ?_⟩
@@ -646,7 +646,7 @@ theorem proof_of_maximum_profit_entail_wit_21_1 : maximum_profit_entail_wit_21_1
 
 theorem proof_of_maximum_profit_entail_wit_21_2 : maximum_profit_entail_wit_21_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 incoming_score last_index tail head sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 incoming_score last_index tail head sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
   have oldshape : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH53,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH53 PreH54 hr⟩
   have hqlen : Zlength queue_l_2=width := by omega
   have hp : StockSellQueuePending dp_l_2 queue_l_2 source_day bid_price (j+1) (j+sell_cap) head tail := by
@@ -672,7 +672,7 @@ theorem proof_of_maximum_profit_entail_wit_21_2 : maximum_profit_entail_wit_21_2
 
 theorem proof_of_maximum_profit_entail_wit_22_2 : maximum_profit_entail_wit_22_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 neg_inf width i source_day bid_price sell_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 neg_inf width i source_day bid_price sell_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
   have oldshape : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH49,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH49 PreH50 hr⟩
   have hlen := oldshape.1
   have he := Znth_indep dp_l_2 source_day __default__List_Z [] (by omega)
@@ -690,7 +690,7 @@ theorem proof_of_maximum_profit_entail_wit_22_2 : maximum_profit_entail_wit_22_2
 
 theorem proof_of_maximum_profit_entail_wit_24 : maximum_profit_entail_wit_24 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l neg_inf width i source_day bid_price sell_cap j best_index head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l neg_inf width i source_day bid_price sell_cap j best_index head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
   sep_apply (StockProofInternal.restore_cell (&("dp")) (days_pre+1) width source_day best_index dp_l __default__List_Z (by omega) (by omega))
   Exists dp_l
   split_pure_spatial
@@ -700,7 +700,7 @@ theorem proof_of_maximum_profit_entail_wit_24 : maximum_profit_entail_wit_24 := 
 
 theorem proof_of_maximum_profit_entail_wit_23 : maximum_profit_entail_wit_23 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l_2 neg_inf width i source_day j bid_price sell_cap head tail PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l dp_l_2 neg_inf width i source_day j bid_price sell_cap head tail PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH22 PreH23 PreH24 PreH25 (by omega) (by omega) PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH43,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH43 PreH44 hr⟩
   split_pure_spatial
@@ -716,7 +716,7 @@ theorem proof_of_maximum_profit_entail_wit_23 : maximum_profit_entail_wit_23 := 
 
 theorem proof_of_maximum_profit_entail_wit_25_3 : maximum_profit_entail_wit_25_3 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 neg_inf width i source_day j bid_price sell_cap head tail PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 neg_inf width i source_day j bid_price sell_cap head tail PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH22 PreH23 PreH24 PreH25 (by omega) (by omega) PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH43,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH43 PreH44 hr⟩
   rw [← PreH39]
@@ -737,7 +737,7 @@ theorem proof_of_maximum_profit_entail_wit_25_3 : maximum_profit_entail_wit_25_3
 
 theorem proof_of_maximum_profit_entail_wit_26 : maximum_profit_entail_wit_26 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 tail head j sell_cap bid_price source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 tail head j sell_cap bid_price source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH27 PreH28 PreH29 PreH30 (by omega) (by omega) PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH46,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH46 PreH47 hr⟩
   split_pure_spatial
@@ -755,7 +755,7 @@ theorem proof_of_maximum_profit_entail_wit_26 : maximum_profit_entail_wit_26 := 
 
 theorem proof_of_maximum_profit_entail_wit_27 : maximum_profit_entail_wit_27 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 tail head j buy_cap ask_price sell_cap bid_price source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 tail head j buy_cap ask_price sell_cap bid_price source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH25 PreH26 PreH27 PreH28 (by omega) (by omega) PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH47,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH47 PreH48 hr⟩
   split_pure_spatial
@@ -770,7 +770,7 @@ theorem proof_of_maximum_profit_entail_wit_27 : maximum_profit_entail_wit_27 := 
 
 theorem proof_of_maximum_profit_entail_wit_28 : maximum_profit_entail_wit_28 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 tail head buy_cap ask_price sell_cap bid_price j source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 tail head buy_cap ask_price sell_cap bid_price j source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH30 PreH31 PreH32 PreH33 (by omega) (by omega) PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH49,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH49 PreH50 hr⟩
   split_pure_spatial
@@ -783,7 +783,7 @@ theorem proof_of_maximum_profit_entail_wit_28 : maximum_profit_entail_wit_28 := 
 
 theorem proof_of_maximum_profit_entail_wit_29_1 : maximum_profit_entail_wit_29_1 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 tail head buy_cap ask_price sell_cap bid_price j source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 tail head buy_cap ask_price sell_cap bid_price j source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH29 PreH30 PreH31 PreH32 (by omega) (by omega) PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH48,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH48 PreH49 hr⟩
   split_pure_spatial
@@ -796,7 +796,7 @@ theorem proof_of_maximum_profit_entail_wit_29_1 : maximum_profit_entail_wit_29_1
 
 theorem proof_of_maximum_profit_entail_wit_29_2 : maximum_profit_entail_wit_29_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 tail head buy_cap ask_price sell_cap bid_price j source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 tail head buy_cap ask_price sell_cap bid_price j source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH30 PreH31 PreH32 PreH33 (by omega) (by omega) PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH49,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH49 PreH50 hr⟩
   split_pure_spatial
@@ -809,7 +809,7 @@ theorem proof_of_maximum_profit_entail_wit_29_2 : maximum_profit_entail_wit_29_2
 
 theorem proof_of_maximum_profit_entail_wit_30_1 : maximum_profit_entail_wit_30_1 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l neg_inf width i source_day bid_price sell_cap ask_price buy_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l dp_l neg_inf width i source_day bid_price sell_cap ask_price buy_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
   have oldshape : StockTableShape dp_l days_pre max_stock_pre := ⟨PreH51,fun row hr => annotation_row_length dp_l (days_pre+1) (max_stock_pre+1) row [] PreH51 PreH52 hr⟩
   have hlen := oldshape.1
   have hrow := oldshape.2 source_day (by omega)
@@ -832,7 +832,7 @@ theorem proof_of_maximum_profit_entail_wit_30_1 : maximum_profit_entail_wit_30_1
 
 theorem proof_of_maximum_profit_entail_wit_30_2 : maximum_profit_entail_wit_30_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l neg_inf width i source_day bid_price sell_cap ask_price buy_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l neg_inf width i source_day bid_price sell_cap ask_price buy_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
   have oldshape : StockTableShape dp_l days_pre max_stock_pre := ⟨PreH51,fun row hr => annotation_row_length dp_l (days_pre+1) (max_stock_pre+1) row [] PreH51 PreH52 hr⟩
   have hlen := oldshape.1
   have hrow := oldshape.2 source_day (by omega)
@@ -853,7 +853,7 @@ theorem proof_of_maximum_profit_entail_wit_30_2 : maximum_profit_entail_wit_30_2
 
 theorem proof_of_maximum_profit_entail_wit_31_1 : maximum_profit_entail_wit_31_1 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 incoming_score last_index tail head buy_cap ask_price sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 incoming_score last_index tail head buy_cap ask_price sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
   have oldshape : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH54,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH54 PreH55 hr⟩
   have hlen := oldshape.1
   have hrow := oldshape.2 source_day (by omega)
@@ -874,7 +874,7 @@ theorem proof_of_maximum_profit_entail_wit_31_1 : maximum_profit_entail_wit_31_1
 
 theorem proof_of_maximum_profit_entail_wit_31_2 : maximum_profit_entail_wit_31_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 incoming_score last_index tail head buy_cap ask_price sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 incoming_score last_index tail head buy_cap ask_price sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
   have oldshape : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH54,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH54 PreH55 hr⟩
   have hlen := oldshape.1
   have hrow := oldshape.2 source_day (by omega)
@@ -893,7 +893,7 @@ theorem proof_of_maximum_profit_entail_wit_31_2 : maximum_profit_entail_wit_31_2
 
 theorem proof_of_maximum_profit_entail_wit_32_1 : maximum_profit_entail_wit_32_1 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 incoming_score last_index tail head buy_cap ask_price sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 incoming_score last_index tail head buy_cap ask_price sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
   have hqlen : Zlength queue_l_2=width := by omega
   have hp : StockBuyQueuePending dp_l_2 queue_l_2 source_day ask_price (j-buy_cap) (j-1) head tail := by
     refine ⟨PreH41, by omega, ?_⟩
@@ -913,7 +913,7 @@ theorem proof_of_maximum_profit_entail_wit_32_1 : maximum_profit_entail_wit_32_1
 
 theorem proof_of_maximum_profit_entail_wit_32_2 : maximum_profit_entail_wit_32_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 incoming_score last_index tail head buy_cap ask_price sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 incoming_score last_index tail head buy_cap ask_price sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
   have oldshape : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH53,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH53 PreH54 hr⟩
   have hqlen : Zlength queue_l_2=width := by omega
   have hp : StockBuyQueuePending dp_l_2 queue_l_2 source_day ask_price (j-buy_cap) (j-1) head tail := by
@@ -939,7 +939,7 @@ theorem proof_of_maximum_profit_entail_wit_32_2 : maximum_profit_entail_wit_32_2
 
 theorem proof_of_maximum_profit_entail_wit_33_2 : maximum_profit_entail_wit_33_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 neg_inf width i source_day bid_price sell_cap ask_price buy_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 neg_inf width i source_day bid_price sell_cap ask_price buy_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
   have oldshape : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH50,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH50 PreH51 hr⟩
   have hlen := oldshape.1
   have hrow := oldshape.2 source_day (by omega)
@@ -963,7 +963,7 @@ private theorem product_bounds (x p : Int) (hx : 0 ≤ x ∧ x ≤ 990)
 
 theorem proof_of_maximum_profit_safety_wit_70 : maximum_profit_safety_wit_70 := by
   right
-  intro sell_limit_pre buy_limit_pre bp_pre ap_pre wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l bid_price tail head sell_cap j source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre ap_pre bp_pre buy_limit_pre sell_limit_pre queue_l dp_l bid_price tail head sell_cap j source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47
   split_pures
   all_goals
     rcases PreH39 with hqueue | hqueue
@@ -976,7 +976,7 @@ theorem proof_of_maximum_profit_safety_wit_70 : maximum_profit_safety_wit_70 := 
 
 theorem proof_of_maximum_profit_safety_wit_80 : maximum_profit_safety_wit_80 := by
   right
-  intro sell_limit_pre buy_limit_pre bp_pre ap_pre wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l neg_inf width i source_day bid_price sell_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre ap_pre bp_pre buy_limit_pre sell_limit_pre queue_l dp_l neg_inf width i source_day bid_price sell_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
   have old_PreH28 := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH28 PreH29 PreH30 PreH31 (by omega) (by omega) PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have old_PreH31 : StockTableShape dp_l days_pre max_stock_pre := ⟨PreH48,fun row hr => annotation_row_length dp_l (days_pre+1) (max_stock_pre+1) row [] PreH48 PreH49 hr⟩
   split_pures
@@ -992,7 +992,7 @@ theorem proof_of_maximum_profit_safety_wit_80 : maximum_profit_safety_wit_80 := 
 
 theorem proof_of_maximum_profit_safety_wit_88 : maximum_profit_safety_wit_88 := by
   right
-  intro sell_limit_pre buy_limit_pre bp_pre ap_pre wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l neg_inf width i source_day bid_price sell_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre ap_pre bp_pre buy_limit_pre sell_limit_pre queue_l dp_l neg_inf width i source_day bid_price sell_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
   have old_PreH28 := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH28 PreH29 PreH30 PreH31 (by omega) (by omega) PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have old_PreH31 : StockTableShape dp_l days_pre max_stock_pre := ⟨PreH48,fun row hr => annotation_row_length dp_l (days_pre+1) (max_stock_pre+1) row [] PreH48 PreH49 hr⟩
   split_pures
@@ -1008,7 +1008,7 @@ theorem proof_of_maximum_profit_safety_wit_88 : maximum_profit_safety_wit_88 := 
 
 theorem proof_of_maximum_profit_safety_wit_96 : maximum_profit_safety_wit_96 := by
   right
-  intro sell_limit_pre buy_limit_pre bp_pre ap_pre wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l incoming_score last_index tail head sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre ap_pre bp_pre buy_limit_pre sell_limit_pre queue_l dp_l incoming_score last_index tail head sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
   have old_PreH27 := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH27 PreH28 PreH29 PreH30 (by omega) (by omega) PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37
   have old_PreH31 : StockTableShape dp_l days_pre max_stock_pre := ⟨PreH50,fun row hr => annotation_row_length dp_l (days_pre+1) (max_stock_pre+1) row [] PreH50 PreH51 hr⟩
   split_pures
@@ -1024,7 +1024,7 @@ theorem proof_of_maximum_profit_safety_wit_96 : maximum_profit_safety_wit_96 := 
 
 theorem proof_of_maximum_profit_safety_wit_109 : maximum_profit_safety_wit_109 := by
   right
-  intro sell_limit_pre buy_limit_pre bp_pre ap_pre wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l neg_inf width i source_day bid_price sell_cap j best_index head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre ap_pre bp_pre buy_limit_pre sell_limit_pre queue_l dp_l neg_inf width i source_day bid_price sell_cap j best_index head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
   have old_PreH26 := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH26 PreH27 PreH28 PreH29 (by omega) (by omega) PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have old_PreH29 : StockTableShape dp_l days_pre max_stock_pre := ⟨PreH48,fun row hr => annotation_row_length dp_l (days_pre+1) (max_stock_pre+1) row [] PreH48 PreH49 hr⟩
   split_pures
@@ -1040,7 +1040,7 @@ theorem proof_of_maximum_profit_safety_wit_109 : maximum_profit_safety_wit_109 :
 
 theorem proof_of_maximum_profit_safety_wit_111 : maximum_profit_safety_wit_111 := by
   right
-  intro sell_limit_pre buy_limit_pre bp_pre ap_pre wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l neg_inf width i source_day bid_price sell_cap j best_index head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre ap_pre bp_pre buy_limit_pre sell_limit_pre queue_l dp_l neg_inf width i source_day bid_price sell_cap j best_index head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
   have old_PreH26 := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH26 PreH27 PreH28 PreH29 (by omega) (by omega) PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have old_PreH29 : StockTableShape dp_l days_pre max_stock_pre := ⟨PreH48,fun row hr => annotation_row_length dp_l (days_pre+1) (max_stock_pre+1) row [] PreH48 PreH49 hr⟩
   split_pures
@@ -1056,7 +1056,7 @@ theorem proof_of_maximum_profit_safety_wit_111 : maximum_profit_safety_wit_111 :
 
 theorem proof_of_maximum_profit_safety_wit_129 : maximum_profit_safety_wit_129 := by
   right
-  intro sell_limit_pre buy_limit_pre bp_pre ap_pre wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l tail head buy_cap ask_price sell_cap bid_price j source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre ap_pre bp_pre buy_limit_pre sell_limit_pre queue_l dp_l tail head buy_cap ask_price sell_cap bid_price j source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
   split_pures
   all_goals
     rcases PreH41 with hqueue | hqueue
@@ -1069,7 +1069,7 @@ theorem proof_of_maximum_profit_safety_wit_129 : maximum_profit_safety_wit_129 :
 
 theorem proof_of_maximum_profit_safety_wit_139 : maximum_profit_safety_wit_139 := by
   right
-  intro sell_limit_pre buy_limit_pre bp_pre ap_pre wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l neg_inf width i source_day bid_price sell_cap ask_price buy_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre ap_pre bp_pre buy_limit_pre sell_limit_pre queue_l dp_l neg_inf width i source_day bid_price sell_cap ask_price buy_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
   have old_PreH28 := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH28 PreH29 PreH30 PreH31 (by omega) (by omega) PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have old_PreH31 : StockTableShape dp_l days_pre max_stock_pre := ⟨PreH49,fun row hr => annotation_row_length dp_l (days_pre+1) (max_stock_pre+1) row [] PreH49 PreH50 hr⟩
   split_pures
@@ -1085,7 +1085,7 @@ theorem proof_of_maximum_profit_safety_wit_139 : maximum_profit_safety_wit_139 :
 
 theorem proof_of_maximum_profit_safety_wit_147 : maximum_profit_safety_wit_147 := by
   right
-  intro sell_limit_pre buy_limit_pre bp_pre ap_pre wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l neg_inf width i source_day bid_price sell_cap ask_price buy_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre ap_pre bp_pre buy_limit_pre sell_limit_pre queue_l dp_l neg_inf width i source_day bid_price sell_cap ask_price buy_cap j head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
   have old_PreH28 := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH28 PreH29 PreH30 PreH31 (by omega) (by omega) PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have old_PreH31 : StockTableShape dp_l days_pre max_stock_pre := ⟨PreH49,fun row hr => annotation_row_length dp_l (days_pre+1) (max_stock_pre+1) row [] PreH49 PreH50 hr⟩
   split_pures
@@ -1101,7 +1101,7 @@ theorem proof_of_maximum_profit_safety_wit_147 : maximum_profit_safety_wit_147 :
 
 theorem proof_of_maximum_profit_safety_wit_155 : maximum_profit_safety_wit_155 := by
   right
-  intro sell_limit_pre buy_limit_pre bp_pre ap_pre wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l incoming_score last_index tail head buy_cap ask_price sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre ap_pre bp_pre buy_limit_pre sell_limit_pre queue_l dp_l incoming_score last_index tail head buy_cap ask_price sell_cap bid_price source_day j i width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
   have old_PreH29 := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH29 PreH30 PreH31 PreH32 (by omega) (by omega) PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   have old_PreH32 : StockTableShape dp_l days_pre max_stock_pre := ⟨PreH50,fun row hr => annotation_row_length dp_l (days_pre+1) (max_stock_pre+1) row [] PreH50 PreH51 hr⟩
   split_pures
@@ -1117,7 +1117,7 @@ theorem proof_of_maximum_profit_safety_wit_155 : maximum_profit_safety_wit_155 :
 
 theorem proof_of_maximum_profit_safety_wit_168 : maximum_profit_safety_wit_168 := by
   right
-  intro sell_limit_pre buy_limit_pre bp_pre ap_pre wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l neg_inf width i source_day bid_price sell_cap ask_price buy_cap j best_index head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre ap_pre bp_pre buy_limit_pre sell_limit_pre queue_l dp_l neg_inf width i source_day bid_price sell_cap ask_price buy_cap j best_index head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
   have old_PreH27 := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH27 PreH28 PreH29 PreH30 (by omega) (by omega) PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37
   have old_PreH30 : StockTableShape dp_l days_pre max_stock_pre := ⟨PreH49,fun row hr => annotation_row_length dp_l (days_pre+1) (max_stock_pre+1) row [] PreH49 PreH50 hr⟩
   split_pures
@@ -1133,7 +1133,7 @@ theorem proof_of_maximum_profit_safety_wit_168 : maximum_profit_safety_wit_168 :
 
 theorem proof_of_maximum_profit_safety_wit_170 : maximum_profit_safety_wit_170 := by
   right
-  intro sell_limit_pre buy_limit_pre bp_pre ap_pre wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l neg_inf width i source_day bid_price sell_cap ask_price buy_cap j best_index head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre ap_pre bp_pre buy_limit_pre sell_limit_pre queue_l dp_l neg_inf width i source_day bid_price sell_cap ask_price buy_cap j best_index head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
   have old_PreH27 := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH27 PreH28 PreH29 PreH30 (by omega) (by omega) PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37
   have old_PreH30 : StockTableShape dp_l days_pre max_stock_pre := ⟨PreH49,fun row hr => annotation_row_length dp_l (days_pre+1) (max_stock_pre+1) row [] PreH49 PreH50 hr⟩
   split_pures
@@ -1149,7 +1149,7 @@ theorem proof_of_maximum_profit_safety_wit_170 : maximum_profit_safety_wit_170 :
 
 theorem proof_of_maximum_profit_entail_wit_34 : maximum_profit_entail_wit_34 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l_2 neg_inf width i source_day j bid_price sell_cap ask_price buy_cap head tail PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l dp_l_2 neg_inf width i source_day j bid_price sell_cap ask_price buy_cap head tail PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH23 PreH24 PreH25 PreH26 (by omega) (by omega) PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH44,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH44 PreH45 hr⟩
   split_pure_spatial
@@ -1165,7 +1165,7 @@ theorem proof_of_maximum_profit_entail_wit_34 : maximum_profit_entail_wit_34 := 
 
 theorem proof_of_maximum_profit_entail_wit_36_3 : maximum_profit_entail_wit_36_3 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 neg_inf width i source_day j bid_price sell_cap ask_price buy_cap head tail PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 neg_inf width i source_day j bid_price sell_cap ask_price buy_cap head tail PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH23 PreH24 PreH25 PreH26 (by omega) (by omega) PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH44,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH44 PreH45 hr⟩
   rw [← PreH40]
@@ -1187,7 +1187,7 @@ theorem proof_of_maximum_profit_entail_wit_36_3 : maximum_profit_entail_wit_36_3
 
 theorem proof_of_maximum_profit_entail_wit_37_1 : maximum_profit_entail_wit_37_1 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 tail head j buy_cap ask_price sell_cap bid_price source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 tail head j buy_cap ask_price sell_cap bid_price source_day i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH25 PreH26 PreH27 PreH28 (by omega) (by omega) PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH47,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH47 PreH48 hr⟩
   split_pure_spatial
@@ -1197,7 +1197,7 @@ theorem proof_of_maximum_profit_entail_wit_37_1 : maximum_profit_entail_wit_37_1
 
 theorem proof_of_maximum_profit_entail_wit_37_2 : maximum_profit_entail_wit_37_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 j ask_price buy_cap i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 j ask_price buy_cap i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH21 PreH22 PreH23 PreH24 (by omega) (by omega) PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH37,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH37 PreH38 hr⟩
   split_pure_spatial
@@ -1207,7 +1207,7 @@ theorem proof_of_maximum_profit_entail_wit_37_2 : maximum_profit_entail_wit_37_2
 
 theorem proof_of_maximum_profit_entail_wit_38 : maximum_profit_entail_wit_38 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 i width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   have hi := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH12 PreH13 PreH14 PreH15 (by omega) (by omega) PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hs : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH28,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH28 PreH29 hr⟩
   split_pure_spatial
@@ -1220,7 +1220,7 @@ theorem proof_of_maximum_profit_entail_wit_38 : maximum_profit_entail_wit_38 := 
 
 theorem proof_of_maximum_profit_entail_wit_25_1 : maximum_profit_entail_wit_25_1 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 neg_inf width i j source_day best_index head tail bid_price sell_cap sell_candidate __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 neg_inf width i j source_day best_index head tail bid_price sell_cap sell_candidate __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
   have old_PreH25 := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH27 PreH28 PreH29 PreH30 (by omega) (by omega) PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37
   have old_PreH29 : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH50,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH50 PreH51 hr⟩
   have hlen := old_PreH29.1
@@ -1261,7 +1261,7 @@ theorem proof_of_maximum_profit_entail_wit_25_1 : maximum_profit_entail_wit_25_1
 
 theorem proof_of_maximum_profit_entail_wit_25_2 : maximum_profit_entail_wit_25_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 neg_inf width i j source_day best_index head tail bid_price sell_cap sell_candidate __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 neg_inf width i j source_day best_index head tail bid_price sell_cap sell_candidate __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51
   have old_PreH25 := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH27 PreH28 PreH29 PreH30 (by omega) (by omega) PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37
   have old_PreH29 : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH50,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH50 PreH51 hr⟩
   have hlen := old_PreH29.1
@@ -1301,7 +1301,7 @@ theorem proof_of_maximum_profit_entail_wit_25_2 : maximum_profit_entail_wit_25_2
 
 theorem proof_of_maximum_profit_entail_wit_35 : maximum_profit_entail_wit_35 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l neg_inf width i source_day bid_price sell_cap ask_price buy_cap j best_index head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l neg_inf width i source_day bid_price sell_cap ask_price buy_cap j best_index head tail __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
   sep_apply (StockProofInternal.restore_cell (&("dp")) (days_pre+1) width source_day best_index dp_l __default__List_Z (by omega) (by omega))
   Exists dp_l
   split_pure_spatial
@@ -1311,7 +1311,7 @@ theorem proof_of_maximum_profit_entail_wit_35 : maximum_profit_entail_wit_35 := 
 
 theorem proof_of_maximum_profit_entail_wit_36_1 : maximum_profit_entail_wit_36_1 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 neg_inf width i j source_day best_index head bid_price sell_cap ask_price buy_cap tail buy_candidate __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 neg_inf width i j source_day best_index head bid_price sell_cap ask_price buy_cap tail buy_candidate __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
   have old_PreH26 := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH28 PreH29 PreH30 PreH31 (by omega) (by omega) PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have old_PreH30 : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH51,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH51 PreH52 hr⟩
   have hlen := old_PreH30.1
@@ -1351,7 +1351,7 @@ theorem proof_of_maximum_profit_entail_wit_36_1 : maximum_profit_entail_wit_36_1
 
 theorem proof_of_maximum_profit_entail_wit_36_2 : maximum_profit_entail_wit_36_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 neg_inf width i j source_day best_index head bid_price sell_cap ask_price buy_cap tail buy_candidate __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 neg_inf width i j source_day best_index head bid_price sell_cap ask_price buy_cap tail buy_candidate __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
   have old_PreH26 := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH28 PreH29 PreH30 PreH31 (by omega) (by omega) PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have old_PreH30 : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH51,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH51 PreH52 hr⟩
   have hlen := old_PreH30.1
@@ -1383,7 +1383,7 @@ theorem proof_of_maximum_profit_entail_wit_36_2 : maximum_profit_entail_wit_36_2
 
 theorem proof_of_maximum_profit_entail_wit_39_1 : maximum_profit_entail_wit_39_1 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 answer j width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 answer j width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
   have old_PreH15 := annotation_inputs ap_l bp_l buy_l sell_l days_pre max_stock_pre PreH17 PreH18 PreH19 PreH20 (by omega) (by omega) PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have old_PreH17 : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH33,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH33 PreH34 hr⟩
   have hlen := old_PreH17.1
@@ -1403,7 +1403,7 @@ theorem proof_of_maximum_profit_entail_wit_39_1 : maximum_profit_entail_wit_39_1
 
 theorem proof_of_maximum_profit_entail_wit_39_2 : maximum_profit_entail_wit_39_2 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l_2 dp_l_2 answer j width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l_2 dp_l_2 answer j width neg_inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
   have old_PreH17 : StockTableShape dp_l_2 days_pre max_stock_pre := ⟨PreH33,fun row hr => annotation_row_length dp_l_2 (days_pre+1) (max_stock_pre+1) row [] PreH33 PreH34 hr⟩
   have hlen := old_PreH17.1
   have hday : 0 ≤ days_pre ∧ days_pre < Zlength dp_l_2 := by omega
@@ -1465,7 +1465,7 @@ attribute [local irreducible]
 
 theorem proof_of_maximum_profit_entail_wit_40 : maximum_profit_entail_wit_40 := by
   right
-  intro wait_days_pre max_stock_pre days_pre sell_l buy_l bp_l ap_l queue_l dp_l answer j width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  intro sell_l buy_l bp_l ap_l days_pre max_stock_pre wait_days_pre queue_l dp_l answer j width neg_inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
   have hp := stock_answer_finish__outer_answer ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre j answer (by omega) PreH1 PreH11 PreH25
   subst width
   sep_apply (rows_forget (&("dp")) (days_pre+1) (max_stock_pre+1) dp_l (by omega) PreH30)

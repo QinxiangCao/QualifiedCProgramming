@@ -1,14 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.QCP_demos_tutorial.pos_int_pair_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
 
 Definition pos_int_pair_strategy0 :=
   forall (p : Z) (y : Z) (x : Z),
@@ -130,8 +123,8 @@ Definition pos_int_pair_strategy8 :=
     |--
     (
     TT &&
-    (“ (Z.ge x 0) ”) &&
-    (“ (Z.ge y 0) ”) &&
+    (“ (x >= 0) ”) &&
+    (“ (y >= 0) ”) &&
     emp **
     ((poly_store FET_int &( ((p)) # "int_pair" ->ₛ "a") x)) **
     ((poly_store FET_int &( ((p)) # "int_pair" ->ₛ "b") y))
@@ -145,8 +138,8 @@ Definition pos_int_pair_strategy8 :=
 Definition pos_int_pair_strategy9 :=
   forall (y : Z) (x : Z) (p : Z),
     TT &&
-    (“ (Z.ge x 0) ”) &&
-    (“ (Z.ge y 0) ”) &&
+    (“ (x >= 0) ”) &&
+    (“ (y >= 0) ”) &&
     emp **
     ((poly_store FET_int &( ((p)) # "int_pair" ->ₛ "a") x)) **
     ((poly_store FET_int &( ((p)) # "int_pair" ->ₛ "b") y))
@@ -170,7 +163,7 @@ Definition pos_int_pair_strategy10 :=
     |--
     (
     TT &&
-    (“ (Z.ge x 0) ”) &&
+    (“ (x >= 0) ”) &&
     emp **
     ((store_pos_int_pair p x y))
     ) ** (
@@ -188,7 +181,7 @@ Definition pos_int_pair_strategy11 :=
     |--
     (
     TT &&
-    (“ (Z.ge y 0) ”) &&
+    (“ (y >= 0) ”) &&
     emp **
     ((store_pos_int_pair p x y))
     ) ** (
@@ -206,7 +199,7 @@ Definition pos_int_pair_strategy12 :=
     |--
     (
     TT &&
-    (“ (Z.le x ( INT_MAX)) ”) &&
+    (“ (x <= (INT_MAX)) ”) &&
     emp **
     ((store_pos_int_pair p x y))
     ) ** (
@@ -224,7 +217,7 @@ Definition pos_int_pair_strategy13 :=
     |--
     (
     TT &&
-    (“ (Z.le y ( INT_MAX)) ”) &&
+    (“ (y <= (INT_MAX)) ”) &&
     emp **
     ((store_pos_int_pair p x y))
     ) ** (
@@ -237,7 +230,7 @@ Definition pos_int_pair_strategy13 :=
 Definition pos_int_pair_strategy5 :=
   forall (x : Z) (p : Z) (y : Z) (x0 : Z),
     TT &&
-    (“ (Z.ge x 0) ”) &&
+    (“ (x >= 0) ”) &&
     emp **
     ((poly_store FET_int &( ((p)) # "int_pair" ->ₛ "a") x)) **
     ((store_pos_int_pair_y_only p x0 y))
@@ -256,7 +249,7 @@ Definition pos_int_pair_strategy5 :=
 Definition pos_int_pair_strategy7 :=
   forall (y : Z) (p : Z) (y0 : Z) (x : Z),
     TT &&
-    (“ (Z.ge y 0) ”) &&
+    (“ (y >= 0) ”) &&
     emp **
     ((poly_store FET_int &( ((p)) # "int_pair" ->ₛ "b") y)) **
     ((store_pos_int_pair_x_only p x y0))

@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.max_sum_increasing_sequence Require Import max_sum_increasing_sequence_goal.
 From SimpleC.EE.LLM_bench.Algorithms.max_sum_increasing_sequence Require Import max_sum_increasing_sequence_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.max_sum_increasing_sequence.max_sum_increasing_sequence_lib.
 Local Open Scope sac.
@@ -37,7 +21,7 @@ Qed.
 
 Lemma proof_of_maxSumIncreasingSequence_safety_wit_6_split_goal_1 : maxSumIncreasingSequence_safety_wit_6_split_goal_1.
 Proof.
-  unfold maxSumIncreasingSequence_safety_wit_6_split_goal_1; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof (PreH14 j ltac:(lia)) as Hj.
   pose proof (msis_input_bounds l i PreH16 PreH17 ltac:(lia)) as Hi.
   replace (j - 0) with j by lia. entailer!.
@@ -45,7 +29,7 @@ Qed.
 
 Lemma proof_of_maxSumIncreasingSequence_safety_wit_6_split_goal_2 : maxSumIncreasingSequence_safety_wit_6_split_goal_2.
 Proof.
-  unfold maxSumIncreasingSequence_safety_wit_6_split_goal_2; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof (PreH14 j ltac:(lia)) as Hj.
   pose proof (msis_input_bounds l i PreH16 PreH17 ltac:(lia)) as Hi.
   replace (j - 0) with j by lia. entailer!.
@@ -77,7 +61,7 @@ Qed.
 
 Lemma proof_of_maxSumIncreasingSequence_entail_wit_2_split_goal_1 : maxSumIncreasingSequence_entail_wit_2_split_goal_1.
 Proof.
-  unfold maxSumIncreasingSequence_entail_wit_2_split_goal_1; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hp : MSISDPTablePrefixFacts l d_2 i).
   { apply msis_table_facts; try lia; assumption. }
   pose proof (msis_inner_progress_zero__initialization l d_2 i Hp ltac:(lia) (msis_input_bounds l i PreH13 PreH14 ltac:(lia))) as Hnext.
@@ -86,7 +70,7 @@ Qed.
 
 Lemma proof_of_maxSumIncreasingSequence_entail_wit_2_split_goal_2 : maxSumIncreasingSequence_entail_wit_2_split_goal_2.
 Proof.
-  unfold maxSumIncreasingSequence_entail_wit_2_split_goal_2; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hp : MSISDPTablePrefixFacts l d_2 i).
   { apply msis_table_facts; try lia; assumption. }
   pose proof (msis_inner_progress_zero__initialization l d_2 i Hp ltac:(lia) (msis_input_bounds l i PreH13 PreH14 ltac:(lia))) as Hnext.
@@ -95,7 +79,7 @@ Qed.
 
 Lemma proof_of_maxSumIncreasingSequence_entail_wit_2_split_goal_3 : maxSumIncreasingSequence_entail_wit_2_split_goal_3.
 Proof.
-  unfold maxSumIncreasingSequence_entail_wit_2_split_goal_3; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hp : MSISDPTablePrefixFacts l d_2 i).
   { apply msis_table_facts; try lia; assumption. }
   pose proof (msis_inner_progress_zero__initialization l d_2 i Hp ltac:(lia) (msis_input_bounds l i PreH13 PreH14 ltac:(lia))) as Hnext.
@@ -130,7 +114,7 @@ Qed.
 
 Lemma proof_of_maxSumIncreasingSequence_entail_wit_3_2_split_goal_1 : maxSumIncreasingSequence_entail_wit_3_2_split_goal_1.
 Proof.
-  unfold maxSumIncreasingSequence_entail_wit_3_2_split_goal_1; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   replace (j - 0) with j in * by lia.
   replace (i - 0) with i in * by lia.
   apply msis_inner_pure.
@@ -141,12 +125,12 @@ Qed.
 Lemma proof_of_maxSumIncreasingSequence_entail_wit_3_2 : maxSumIncreasingSequence_entail_wit_3_2.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maxSumIncreasingSequence_entail_wit_3_2_split_goal_1.
+  - Goal_apply proof_of_maxSumIncreasingSequence_entail_wit_3_2_split_goal_1.
 Qed.
 
 Lemma proof_of_maxSumIncreasingSequence_entail_wit_3_3_split_goal_1 : maxSumIncreasingSequence_entail_wit_3_3_split_goal_1.
 Proof.
-  unfold maxSumIncreasingSequence_entail_wit_3_3_split_goal_1; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   replace (j - 0) with j in * by lia.
   replace (i - 0) with i in * by lia.
   apply msis_inner_pure.
@@ -157,12 +141,12 @@ Qed.
 Lemma proof_of_maxSumIncreasingSequence_entail_wit_3_3 : maxSumIncreasingSequence_entail_wit_3_3.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maxSumIncreasingSequence_entail_wit_3_3_split_goal_1.
+  - Goal_apply proof_of_maxSumIncreasingSequence_entail_wit_3_3_split_goal_1.
 Qed.
 
 Lemma proof_of_maxSumIncreasingSequence_entail_wit_4_split_goal_1 : maxSumIncreasingSequence_entail_wit_4_split_goal_1.
 Proof.
-  unfold maxSumIncreasingSequence_entail_wit_4_split_goal_1; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   apply msis_table_pure.
   apply msis_inner_complete_dp_prefix__outer_transitions.
   assert (j = i) by lia; subst j.
@@ -171,7 +155,7 @@ Qed.
 
 Lemma proof_of_maxSumIncreasingSequence_entail_wit_4_split_goal_2 : maxSumIncreasingSequence_entail_wit_4_split_goal_2.
 Proof.
-  unfold maxSumIncreasingSequence_entail_wit_4_split_goal_2; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   apply PreH13; lia.
 Qed.
 
@@ -184,7 +168,7 @@ Qed.
 
 Lemma proof_of_maxSumIncreasingSequence_entail_wit_5_1_split_goal_1 : maxSumIncreasingSequence_entail_wit_5_1_split_goal_1.
 Proof.
-  unfold maxSumIncreasingSequence_entail_wit_5_1_split_goal_1; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   replace (i - 0) with i in * by lia.
   assert (Hb : MSISBestSoFarFacts l i ans) by (split; [lia | exact PreH9]).
   pose proof (PreH12 i ltac:(lia)) as Hending.
@@ -196,7 +180,7 @@ Qed.
 
 Lemma proof_of_maxSumIncreasingSequence_entail_wit_5_1_split_goal_2 : maxSumIncreasingSequence_entail_wit_5_1_split_goal_2.
 Proof.
-  unfold maxSumIncreasingSequence_entail_wit_5_1_split_goal_2; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   apply PreH11; lia.
 Qed.
 
@@ -209,7 +193,7 @@ Qed.
 
 Lemma proof_of_maxSumIncreasingSequence_entail_wit_5_2_split_goal_1 : maxSumIncreasingSequence_entail_wit_5_2_split_goal_1.
 Proof.
-  unfold maxSumIncreasingSequence_entail_wit_5_2_split_goal_1; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   replace (i - 0) with i in * by lia.
   assert (Hb : MSISBestSoFarFacts l i ans) by (split; [lia | exact PreH9]).
   pose proof (PreH12 i ltac:(lia)) as Hending.
@@ -221,7 +205,7 @@ Qed.
 
 Lemma proof_of_maxSumIncreasingSequence_entail_wit_5_2_split_goal_2 : maxSumIncreasingSequence_entail_wit_5_2_split_goal_2.
 Proof.
-  unfold maxSumIncreasingSequence_entail_wit_5_2_split_goal_2; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   apply PreH11; lia.
 Qed.
 

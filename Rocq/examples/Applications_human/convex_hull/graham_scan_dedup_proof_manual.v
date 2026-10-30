@@ -1,27 +1,11 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.Applications_human.convex_hull Require Import graham_scan_dedup_goal.
 From SimpleC.EE.Applications_human.convex_hull Require Import graham_scan_dedup_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.convex_hull.convex_hull_lib.
 Require Import SimpleC.EE.QCP_demos_LLM.sll_merge_rel_lib.
 Local Open Scope monad.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
+From AUXLib Require Import relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Local Open Scope sac.
 
@@ -3853,9 +3837,9 @@ Proof.
     unique_n pts_out __default_Point).
   1:{ dump_pre_spatial; lia. }
   change (StorePointAsElement.storeA pts_pre 0 (Znth 0 pts_out __default_Point))
-    with (store_point (pts_pre + 0 * sizeof_Point)
+    with (store_point (pts_pre + 0 * sizeof("Point"))
       (Znth 0 pts_out __default_Point)).
-  replace (pts_pre + 0 * sizeof_Point) with pts_pre by lia.
+  replace (pts_pre + 0 * sizeof("Point")) with pts_pre by lia.
   replace (Znth 0 pts_out __default_Point) with (point_mk gx gy).
   2:{
     apply point_eq_by_xy; simpl; symmetry; assumption.
@@ -3865,7 +3849,7 @@ Proof.
     unique_n (point_mk gx gy) (sublist 1 unique_n pts_out)).
   sep_apply_l_atomic (PointArray.seg_to_full pts_pre 1 unique_n
     (sublist 1 unique_n pts_out)).
-  replace (pts_pre + 1 * sizeof_Point)
+  replace (pts_pre + 1 * sizeof("Point"))
     with (pts_pre + 1 * sizeof("Point")) by lia.
   sep_apply_l_atomic (PointArray.undef_full_split_to_undef_seg
     hull_pre unique_n n_pre).
@@ -4136,8 +4120,10 @@ Proof.
     try lia.
 Qed.
 
-Lemma proof_of_build_hull_from_sorted_tail_dedup_derive_high_level_spec_by_low_level_spec : build_hull_from_sorted_tail_dedup_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_build_hull_from_sorted_tail_dedup_low_level_spec_entail_high_level_spec : build_hull_from_sorted_tail_dedup_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold build_hull_from_sorted_tail_dedup_low_level_spec_entail_high_level_spec.
+  intros pivot_pre sorted_tail_pre tail_n_pre hull_pre pivot0_high_level_spec l_high_level_spec n_full_high_level_spec.
   LLM_pre_process ltac:(int_auto).
   (** kmp_rel_proof_manual L569 *)
   (** Hoare_safeexec_compose *)
@@ -4150,14 +4136,15 @@ Proof.
     cancel (PointArray.undef_seg hull_pre 0 (tail_n_pre + 1)).
     cancel (PointArray.undef_seg hull_pre (tail_n_pre + 1)
       n_full_high_level_spec).
+    Intros_r retval.
     apply derivable1_wand_sepcon_adjoint.
-    Intros stk. Intros retval_2.
-    Exists (rev stk) retval_2.
+    Intros stk. Intros.
+    Exists (rev stk).
     repeat (split_pure_spatial || split_pures).
     + cancel (store_point pivot_pre pivot0_high_level_spec).
       cancel (PointArray.full sorted_tail_pre tail_n_pre l_high_level_spec).
-      cancel (PointArray.seg hull_pre 0 retval_2 (rev stk)).
-      cancel (PointArray.undef_seg hull_pre retval_2 (tail_n_pre + 1)).
+      cancel (PointArray.seg hull_pre 0 retval (rev stk)).
+      cancel (PointArray.undef_seg hull_pre retval (tail_n_pre + 1)).
       cancel (PointArray.undef_seg hull_pre (tail_n_pre + 1)
         n_full_high_level_spec).
     + dump_pre_spatial. exact H7.

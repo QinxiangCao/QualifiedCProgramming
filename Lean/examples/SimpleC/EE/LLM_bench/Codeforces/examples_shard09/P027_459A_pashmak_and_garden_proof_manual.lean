@@ -56,14 +56,14 @@ theorem proof_of_iabs_return_wit_2 : iabs_return_wit_2 := by
     exact proof_of_iabs_return_wit_2_split_goal_1 x h1 h2 h3
 
 theorem proof_of_solver_safety_wit_3_split_goal_1 : solver_safety_wit_3_split_goal_1 := by
-  intro out y2 x2 y1 x1 retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11
+  intro x1 y1 x2 y2 out retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11
   rw [abs_diff] at h1
   dump_pre_spatial
   change x1+retval≤2147483647
   split at h1 <;> omega
 
 theorem proof_of_solver_safety_wit_3_split_goal_2 : solver_safety_wit_3_split_goal_2 := by
-  intro out y2 x2 y1 x1 retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11
+  intro x1 y1 x2 y2 out retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11
   rw [abs_diff] at h1
   dump_pre_spatial
   change -2147483648≤x1+retval
@@ -72,20 +72,20 @@ theorem proof_of_solver_safety_wit_3_split_goal_2 : solver_safety_wit_3_split_go
 theorem proof_of_solver_safety_wit_3 : solver_safety_wit_3 := by
   unfold solver_safety_wit_3
   right
-  intro out y2 x2 y1 x1 retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11
+  intro x1 y1 x2 y2 out retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11
   split_pures
-  · exact proof_of_solver_safety_wit_3_split_goal_1 out y2 x2 y1 x1 retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11
-  · exact proof_of_solver_safety_wit_3_split_goal_2 out y2 x2 y1 x1 retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11
+  · exact proof_of_solver_safety_wit_3_split_goal_1 x1 y1 x2 y2 out retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11
+  · exact proof_of_solver_safety_wit_3_split_goal_2 x1 y1 x2 y2 out retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11
 
 theorem proof_of_solver_safety_wit_12_split_goal_1 : solver_safety_wit_12_split_goal_1 := by
-  intro out y2 x2 y1 x1 retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
+  intro x1 y1 x2 y2 out retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
   rw [abs_diff] at h1
   dump_pre_spatial
   change y1+retval≤2147483647
   split at h1 <;> omega
 
 theorem proof_of_solver_safety_wit_12_split_goal_2 : solver_safety_wit_12_split_goal_2 := by
-  intro out y2 x2 y1 x1 retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
+  intro x1 y1 x2 y2 out retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
   rw [abs_diff] at h1
   dump_pre_spatial
   change -2147483648≤y1+retval
@@ -94,29 +94,29 @@ theorem proof_of_solver_safety_wit_12_split_goal_2 : solver_safety_wit_12_split_
 theorem proof_of_solver_safety_wit_12 : solver_safety_wit_12 := by
   unfold solver_safety_wit_12
   right
-  intro out y2 x2 y1 x1 retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
+  intro x1 y1 x2 y2 out retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
   split_pures
-  · exact proof_of_solver_safety_wit_12_split_goal_1 out y2 x2 y1 x1 retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
-  · exact proof_of_solver_safety_wit_12_split_goal_2 out y2 x2 y1 x1 retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
+  · exact proof_of_solver_safety_wit_12_split_goal_1 x1 y1 x2 y2 out retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
+  · exact proof_of_solver_safety_wit_12_split_goal_2 x1 y1 x2 y2 out retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
 
 theorem proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1 := by
-  intro y2 x2 y1 x1 retval retval2 h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14
+  intro x1 y1 x2 y2 retval retval2 h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14
   apply no_completion_of_nonaxis_unequal_abs_diffs__final_results x1 y1 x2 y2 h5 h4
   omega
 
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   unfold solver_return_wit_1
   right
-  intro y2 x2 y1 x1 retval retval2 h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14
+  intro x1 y1 x2 y2 retval retval2 h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    exact proof_of_solver_return_wit_1_split_goal_1 y2 x2 y1 x1 retval retval2 h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14
+    exact proof_of_solver_return_wit_1_split_goal_1 x1 y1 x2 y2 retval retval2 h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14
 
 theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
   unfold solver_return_wit_2
   right
-  intro out y2 x2 y1 x1 retval retval2 h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15 h16 h17 h18 h19 h20 h21 h22
+  intro x1 y1 x2 y2 out retval retval2 h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15 h16 h17 h18 h19 h20 h21 h22
   Exists x1 y2 x2 y1
   sep_apply (four_cells out x1 y2 x2 y1)
   split_pure_spatial
@@ -127,7 +127,7 @@ theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
 theorem proof_of_solver_return_wit_3 : solver_return_wit_3 := by
   unfold solver_return_wit_3
   right
-  intro out y2 x2 y1 x1 retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15 h16 h17 h18 h19 h20
+  intro x1 y1 x2 y2 out retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15 h16 h17 h18 h19 h20
   Exists x1 (y1+retval) x2 (y2+retval)
   sep_apply (four_cells out x1 (y1+retval) x2 (y2+retval))
   split_pure_spatial
@@ -138,7 +138,7 @@ theorem proof_of_solver_return_wit_3 : solver_return_wit_3 := by
 theorem proof_of_solver_return_wit_4 : solver_return_wit_4 := by
   unfold solver_return_wit_4
   right
-  intro out y2 x2 y1 x1 retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15 h16 h17 h18 h19
+  intro x1 y1 x2 y2 out retval h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15 h16 h17 h18 h19
   Exists (x1+retval) y1 (x2+retval) y2
   sep_apply (four_cells out (x1+retval) y1 (x2+retval) y2)
   split_pure_spatial

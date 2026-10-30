@@ -1,0 +1,96 @@
+From SimpleC.Verification Require Import VCPrelude.
+From SimpleC.EE.Applications_human.gmp.minigmp Require Import mpz_abs_add_goal.
+Import naive_C_Rules.
+Require Import SimpleC.EE.Applications_human.gmp.minigmp.gmp_lib.
+Local Open Scope sac.
+
+Lemma proof_of_mpz_abs_add_safety_wit_2_non_alias : mpz_abs_add_safety_wit_2_non_alias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_safety_wit_4_r_eq_a : mpz_abs_add_safety_wit_4_r_eq_a.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_safety_wit_6_r_eq_a : mpz_abs_add_safety_wit_6_r_eq_a.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_entail_wit_6_non_alias : mpz_abs_add_entail_wit_6_non_alias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_entail_wit_7_rp_eq_bp : mpz_abs_add_entail_wit_7_rp_eq_bp.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_entail_wit_8_rp_eq_ap : mpz_abs_add_entail_wit_8_rp_eq_ap.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_1_non_alias : mpz_abs_add_partial_solve_wit_1_non_alias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_2_non_alias : mpz_abs_add_partial_solve_wit_2_non_alias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_3_r_eq_a_pure : mpz_abs_add_partial_solve_wit_3_r_eq_a_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_3_r_eq_a : mpz_abs_add_partial_solve_wit_3_r_eq_a.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_4_non_alias : mpz_abs_add_partial_solve_wit_4_non_alias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_5_non_alias : mpz_abs_add_partial_solve_wit_5_non_alias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_6_r_eq_a_pure : mpz_abs_add_partial_solve_wit_6_r_eq_a_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_6_r_eq_a : mpz_abs_add_partial_solve_wit_6_r_eq_a.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_7_non_alias : mpz_abs_add_partial_solve_wit_7_non_alias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_8_r_eq_a : mpz_abs_add_partial_solve_wit_8_r_eq_a.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_9_non_alias : mpz_abs_add_partial_solve_wit_9_non_alias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_10_r_eq_a : mpz_abs_add_partial_solve_wit_10_r_eq_a.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_11_non_alias : mpz_abs_add_partial_solve_wit_11_non_alias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_12_r_eq_a : mpz_abs_add_partial_solve_wit_12_r_eq_a.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_13_r_eq_a : mpz_abs_add_partial_solve_wit_13_r_eq_a.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_14_non_alias : mpz_abs_add_partial_solve_wit_14_non_alias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_15_rp_eq_bp : mpz_abs_add_partial_solve_wit_15_rp_eq_bp.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_16_rp_eq_ap : mpz_abs_add_partial_solve_wit_16_rp_eq_ap.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_17_rp_eq_ap : mpz_abs_add_partial_solve_wit_17_rp_eq_ap.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_18_non_alias : mpz_abs_add_partial_solve_wit_18_non_alias.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_19_rp_eq_bp : mpz_abs_add_partial_solve_wit_19_rp_eq_bp.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_20_rp_eq_bp : mpz_abs_add_partial_solve_wit_20_rp_eq_bp.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_21_rp_eq_ap : mpz_abs_add_partial_solve_wit_21_rp_eq_ap.
+Proof. Admitted.
+
+Lemma proof_of_mpz_abs_add_partial_solve_wit_22_rp_eq_ap : mpz_abs_add_partial_solve_wit_22_rp_eq_ap.
+Proof. Admitted.
+

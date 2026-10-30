@@ -1,85 +1,69 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
+From SimpleC.Verification Require Import VCPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.bucket_sort.bucket_sort_lib.
 Local Open Scope sac.
 
 (*----- Function sort -----*)
 
-Definition sort_safety_wit_1 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall (Z.le (0)) input )) (PreH4 : (Forall (Z.ge (999999999)) input )) ,
+Definition sort_safety_wit_1 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall (Z.le (0)) input )) (PreH4 : (Forall (Z.ge (999999999)) input )),
   ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full a_pre n_pre input )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition sort_safety_wit_2 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (PreH1 : (n_pre > 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )) ,
+Definition sort_safety_wit_2 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (PreH1 : (n_pre > 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )),
   ((( &( "max_value" ) )) # Int  |->_)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full a_pre n_pre input )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition sort_safety_wit_3 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (PreH1 : (n_pre > 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )) ,
+Definition sort_safety_wit_3 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (PreH1 : (n_pre > 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )),
   ((( &( "i" ) )) # Int  |->_)
   **  (IntArray.full a_pre n_pre input )
   **  ((( &( "max_value" ) )) # Int  |-> (Znth 0 input 0))
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition sort_safety_wit_4 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) > max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )) ,
+Definition sort_safety_wit_4 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) > max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )),
   (IntArray.full a_pre n_pre input )
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "max_value" ) )) # Int  |-> (Znth i input 0))
 |--
-  “ ((i + 1 ) <= INT_MAX) ” 
+  “ ((i + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (i + 1 )) ”
 .
 
-Definition sort_safety_wit_5 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) <= max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )) ,
+Definition sort_safety_wit_5 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) <= max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )),
   (IntArray.full a_pre n_pre input )
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "max_value" ) )) # Int  |-> max_value)
 |--
-  “ ((i + 1 ) <= INT_MAX) ” 
+  “ ((i + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (i + 1 )) ”
 .
 
-Definition sort_safety_wit_6 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= max_value)) (PreH7 : (max_value <= 999999999)) (PreH8 : (Forall (Z.le (0)) input )) (PreH9 : (Forall (Z.ge (999999999)) input )) (PreH10 : (PrefixMaximum input i max_value )) ,
+Definition sort_safety_wit_6 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= max_value)) (PreH7 : (max_value <= 999999999)) (PreH8 : (Forall (Z.le (0)) input )) (PreH9 : (Forall (Z.ge (999999999)) input )) (PreH10 : (PrefixMaximum input i max_value )),
   ((( &( "exponent" ) )) # Int  |->_)
   **  (IntArray.undef_full ( &( "count" ) ) 10 )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
@@ -88,12 +72,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : (
   **  ((( &( "max_value" ) )) # Int  |-> max_value)
   **  (IntArray.full a_pre n_pre input )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition sort_safety_wit_7 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 1000000000)) (PreH7 : (Forall (Z.le (0)) current )) (PreH8 : (Forall (Z.ge (999999999)) current )) (PreH9 : (PrefixMaximum input n_pre max_value )) (PreH10 : (DecimalExponent exponent )) (PreH11 : (RadixPassState input current exponent )) ,
+Definition sort_safety_wit_7 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 1000000000)) (PreH7 : (Forall (Z.le (0)) current )) (PreH8 : (Forall (Z.ge (999999999)) current )) (PreH9 : (PrefixMaximum input n_pre max_value )) (PreH10 : (DecimalExponent exponent )) (PreH11 : (RadixPassState input current exponent )),
   ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "max_value" ) )) # Int  |-> max_value)
@@ -102,12 +86,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (exponent: 
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
   **  (IntArray.undef_full ( &( "count" ) ) 10 )
 |--
-  “ ((max_value <> (INT_MIN)) \/ (exponent <> (-1))) ” 
+  “ ((max_value <> (INT_MIN)) \/ (exponent <> (-1))) ”
   &&  “ (exponent <> 0) ”
 .
 
-Definition sort_safety_wit_8 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 1000000000)) (PreH7 : (Forall (Z.le (0)) current )) (PreH8 : (Forall (Z.ge (999999999)) current )) (PreH9 : (PrefixMaximum input n_pre max_value )) (PreH10 : (DecimalExponent exponent )) (PreH11 : (RadixPassState input current exponent )) ,
+Definition sort_safety_wit_8 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 1000000000)) (PreH7 : (Forall (Z.le (0)) current )) (PreH8 : (Forall (Z.ge (999999999)) current )) (PreH9 : (PrefixMaximum input n_pre max_value )) (PreH10 : (DecimalExponent exponent )) (PreH11 : (RadixPassState input current exponent )),
   ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "max_value" ) )) # Int  |-> max_value)
@@ -116,12 +100,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (exponent: 
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
   **  (IntArray.undef_full ( &( "count" ) ) 10 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition sort_safety_wit_9 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) > 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current )) (PreH9 : (Forall (Z.ge (999999999)) current )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current exponent )) ,
+Definition sort_safety_wit_9 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) > 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current )) (PreH9 : (Forall (Z.ge (999999999)) current )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current exponent )),
   ((( &( "digit" ) )) # Int  |->_)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -131,12 +115,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (exponent: 
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
   **  (IntArray.undef_full ( &( "count" ) ) 10 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition sort_safety_wit_10 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (zero_prefix: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= digit)) (PreH9 : (digit <= 10)) (PreH10 : (Forall (Z.le (0)) current )) (PreH11 : (Forall (Z.ge (999999999)) current )) (PreH12 : (Forall (eq (0)) zero_prefix )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current exponent )) ,
+Definition sort_safety_wit_10 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (zero_prefix: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= digit)) (PreH9 : (digit <= 10)) (PreH10 : (Forall (Z.le (0)) current )) (PreH11 : (Forall (Z.ge (999999999)) current )) (PreH12 : (Forall (eq (0)) zero_prefix )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current exponent )),
   ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "max_value" ) )) # Int  |-> max_value)
@@ -147,12 +131,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (zero_prefix: (@list Z)) (curren
   **  (IntArray.undef_seg ( &( "count" ) ) digit 10 )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (10 <= INT_MAX) ” 
+  “ (10 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 10) ”
 .
 
-Definition sort_safety_wit_11 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (zero_prefix: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (eq (0)) zero_prefix )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) ,
+Definition sort_safety_wit_11 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (zero_prefix: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (eq (0)) zero_prefix )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )),
   ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "max_value" ) )) # Int  |-> max_value)
@@ -163,12 +147,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (zero_prefix: (@list Z)) (curren
   **  (IntArray.undef_seg ( &( "count" ) ) digit 10 )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition sort_safety_wit_12 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (zero_prefix: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (eq (0)) zero_prefix )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) ,
+Definition sort_safety_wit_12 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (zero_prefix: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (eq (0)) zero_prefix )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )),
   (IntArray.seg ( &( "count" ) ) 0 (digit + 1 ) (app (zero_prefix) ((cons (0) ((@nil Z))))) )
   **  (IntArray.undef_seg ( &( "count" ) ) (digit + 1 ) 10 )
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
@@ -179,12 +163,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (zero_prefix: (@list Z)) (curren
   **  (IntArray.full a_pre n_pre current )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ ((digit + 1 ) <= INT_MAX) ” 
+  “ ((digit + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (digit + 1 )) ”
 .
 
-Definition sort_safety_wit_13 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (zero_prefix: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (eq (0)) zero_prefix )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) ,
+Definition sort_safety_wit_13 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (zero_prefix: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (eq (0)) zero_prefix )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )),
   ((( &( "i" ) )) # Int  |->_)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -195,12 +179,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (zero_prefix: (@list Z)) (curren
   **  (IntArray.undef_seg ( &( "count" ) ) digit 10 )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition sort_safety_wit_14 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (counts: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts )) (PreH14 : (Forall (Z.ge (i)) counts )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts )) ,
+Definition sort_safety_wit_14 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (counts: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts )) (PreH14 : (Forall (Z.ge (i)) counts )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts )),
   (IntArray.full a_pre n_pre current )
   **  ((( &( "digit" ) )) # Int  |->_)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
@@ -211,12 +195,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (counts: (@list Z)) (current: (@
   **  (IntArray.full ( &( "count" ) ) 10 counts )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ ((((Znth i current 0) ÷ exponent ) <> (INT_MIN)) \/ (10 <> (-1))) ” 
+  “ ((((Znth i current 0) ÷ exponent ) <> (INT_MIN)) \/ (10 <> (-1))) ”
   &&  “ (10 <> 0) ”
 .
 
-Definition sort_safety_wit_15 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (counts: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts )) (PreH14 : (Forall (Z.ge (i)) counts )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts )) ,
+Definition sort_safety_wit_15 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (counts: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts )) (PreH14 : (Forall (Z.ge (i)) counts )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts )),
   (IntArray.full a_pre n_pre current )
   **  ((( &( "digit" ) )) # Int  |->_)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
@@ -227,12 +211,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (counts: (@list Z)) (current: (@
   **  (IntArray.full ( &( "count" ) ) 10 counts )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (((Znth i current 0) <> (INT_MIN)) \/ (exponent <> (-1))) ” 
+  “ (((Znth i current 0) <> (INT_MIN)) \/ (exponent <> (-1))) ”
   &&  “ (exponent <> 0) ”
 .
 
-Definition sort_safety_wit_16 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (counts: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts )) (PreH14 : (Forall (Z.ge (i)) counts )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts )) ,
+Definition sort_safety_wit_16 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (counts: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts )) (PreH14 : (Forall (Z.ge (i)) counts )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts )),
   (IntArray.full a_pre n_pre current )
   **  ((( &( "digit" ) )) # Int  |->_)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
@@ -243,13 +227,13 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (counts: (@list Z)) (current: (@
   **  (IntArray.full ( &( "count" ) ) 10 counts )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (10 <= INT_MAX) ” 
+  “ (10 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 10) ”
 .
 
-Definition sort_safety_wit_17 := 
+Definition sort_safety_wit_17 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (counts: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current )) (PreH11 : (Forall (Z.ge (999999999)) current )) (PreH12 : (Forall (Z.le (0)) counts )) (PreH13 : (Forall (Z.ge (i)) counts )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) (PreH17 : (DigitHistogramPrefix current exponent i counts )) (PreH18 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current: (@list Z)) (counts: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current )) (PreH11 : (Forall (Z.ge (999999999)) current )) (PreH12 : (Forall (Z.le (0)) counts )) (PreH13 : (Forall (Z.ge (i)) counts )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) (PreH17 : (DigitHistogramPrefix current exponent i counts )) (PreH18 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)),
   (IntArray.full ( &( "count" ) ) 10 counts )
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -260,11 +244,11 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (counts: (@
   **  (IntArray.full a_pre n_pre current )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (((Znth digit counts 0) + 1 ) <= INT_MAX) ” 
+  “ (((Znth digit counts 0) + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth digit counts 0) + 1 )) ”
 ) \/
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (counts: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current )) (PreH11 : (Forall (Z.ge (999999999)) current )) (PreH12 : (Forall (Z.le (0)) counts )) (PreH13 : (Forall (Z.ge (i)) counts )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) (PreH17 : (DigitHistogramPrefix current exponent i counts )) (PreH18 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current: (@list Z)) (counts: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current )) (PreH11 : (Forall (Z.ge (999999999)) current )) (PreH12 : (Forall (Z.le (0)) counts )) (PreH13 : (Forall (Z.ge (i)) counts )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) (PreH17 : (DigitHistogramPrefix current exponent i counts )) (PreH18 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)),
   (IntArray.full ( &( "count" ) ) 10 counts )
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -275,12 +259,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (counts: (@
   **  (IntArray.full a_pre n_pre current )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (((Znth digit counts 0) + 1 ) <= INT_MAX) ” 
+  “ (((Znth digit counts 0) + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth digit counts 0) + 1 )) ”
 ).
 
-Definition sort_safety_wit_17_split_goal_1 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (counts: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current )) (PreH11 : (Forall (Z.ge (999999999)) current )) (PreH12 : (Forall (Z.le (0)) counts )) (PreH13 : (Forall (Z.ge (i)) counts )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) (PreH17 : (DigitHistogramPrefix current exponent i counts )) (PreH18 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)) ,
+Definition sort_safety_wit_17_split_goal_1 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current: (@list Z)) (counts: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current )) (PreH11 : (Forall (Z.ge (999999999)) current )) (PreH12 : (Forall (Z.le (0)) counts )) (PreH13 : (Forall (Z.ge (i)) counts )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) (PreH17 : (DigitHistogramPrefix current exponent i counts )) (PreH18 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)),
   (IntArray.full ( &( "count" ) ) 10 counts )
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -294,8 +278,8 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (counts: (@
   “ (((Znth digit counts 0) + 1 ) <= INT_MAX) ”
 .
 
-Definition sort_safety_wit_17_split_goal_2 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (counts: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current )) (PreH11 : (Forall (Z.ge (999999999)) current )) (PreH12 : (Forall (Z.le (0)) counts )) (PreH13 : (Forall (Z.ge (i)) counts )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) (PreH17 : (DigitHistogramPrefix current exponent i counts )) (PreH18 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)) ,
+Definition sort_safety_wit_17_split_goal_2 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current: (@list Z)) (counts: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current )) (PreH11 : (Forall (Z.ge (999999999)) current )) (PreH12 : (Forall (Z.le (0)) counts )) (PreH13 : (Forall (Z.ge (i)) counts )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) (PreH17 : (DigitHistogramPrefix current exponent i counts )) (PreH18 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)),
   (IntArray.full ( &( "count" ) ) 10 counts )
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -309,8 +293,8 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (counts: (@
   “ ((INT_MIN) <= ((Znth digit counts 0) + 1 )) ”
 .
 
-Definition sort_safety_wit_18 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (counts: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current )) (PreH11 : (Forall (Z.ge (999999999)) current )) (PreH12 : (Forall (Z.le (0)) counts )) (PreH13 : (Forall (Z.ge (i)) counts )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) (PreH17 : (DigitHistogramPrefix current exponent i counts )) (PreH18 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)) ,
+Definition sort_safety_wit_18 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current: (@list Z)) (counts: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current )) (PreH11 : (Forall (Z.ge (999999999)) current )) (PreH12 : (Forall (Z.le (0)) counts )) (PreH13 : (Forall (Z.ge (i)) counts )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) (PreH17 : (DigitHistogramPrefix current exponent i counts )) (PreH18 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)),
   (IntArray.full ( &( "count" ) ) 10 (replace_Znth (digit) (((Znth digit counts 0) + 1 )) (counts)) )
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -320,12 +304,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (counts: (@
   **  (IntArray.full a_pre n_pre current )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ ((i + 1 ) <= INT_MAX) ” 
+  “ ((i + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (i + 1 )) ”
 .
 
-Definition sort_safety_wit_19 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (counts: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts )) (PreH14 : (Forall (Z.ge (i)) counts )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts )) ,
+Definition sort_safety_wit_19 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (counts: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts )) (PreH14 : (Forall (Z.ge (i)) counts )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts )),
   ((( &( "digit" ) )) # Int  |->_)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -335,12 +319,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (counts: (@list Z)) (current: (@
   **  (IntArray.full ( &( "count" ) ) 10 counts )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition sort_safety_wit_20 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (histogram)) = 10)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (1 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) histogram )) (PreH14 : (Forall (Z.ge (n_pre)) histogram )) (PreH15 : (Forall (Z.le (0)) totals )) (PreH16 : (Forall (Z.ge (n_pre)) totals )) (PreH17 : (PrefixMaximum input n_pre max_value )) (PreH18 : (DecimalExponent exponent )) (PreH19 : (RadixPassState input current exponent )) (PreH20 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH21 : (DigitPrefixTotals histogram totals digit )) ,
+Definition sort_safety_wit_20 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (histogram)) = 10)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (1 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) histogram )) (PreH14 : (Forall (Z.ge (n_pre)) histogram )) (PreH15 : (Forall (Z.le (0)) totals )) (PreH16 : (Forall (Z.ge (n_pre)) totals )) (PreH17 : (PrefixMaximum input n_pre max_value )) (PreH18 : (DecimalExponent exponent )) (PreH19 : (RadixPassState input current exponent )) (PreH20 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH21 : (DigitPrefixTotals histogram totals digit )),
   ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "max_value" ) )) # Int  |-> max_value)
@@ -350,13 +334,13 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@
   **  (IntArray.full ( &( "count" ) ) 10 totals )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (10 <= INT_MAX) ” 
+  “ (10 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 10) ”
 .
 
-Definition sort_safety_wit_21 := 
+Definition sort_safety_wit_21 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )),
   (IntArray.full ( &( "count" ) ) 10 totals )
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -366,11 +350,11 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@
   **  (IntArray.full a_pre n_pre current )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (((Znth digit totals 0) + (Znth (digit - 1 ) totals 0) ) <= INT_MAX) ” 
+  “ (((Znth digit totals 0) + (Znth (digit - 1 ) totals 0) ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth digit totals 0) + (Znth (digit - 1 ) totals 0) )) ”
 ) \/
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )),
   (IntArray.full ( &( "count" ) ) 10 totals )
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -380,12 +364,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@
   **  (IntArray.full a_pre n_pre current )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (((Znth digit totals 0) + (Znth (digit - 1 ) totals 0) ) <= INT_MAX) ” 
+  “ (((Znth digit totals 0) + (Znth (digit - 1 ) totals 0) ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth digit totals 0) + (Znth (digit - 1 ) totals 0) )) ”
 ).
 
-Definition sort_safety_wit_21_split_goal_1 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )) ,
+Definition sort_safety_wit_21_split_goal_1 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )),
   (IntArray.full ( &( "count" ) ) 10 totals )
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -398,8 +382,8 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@
   “ (((Znth digit totals 0) + (Znth (digit - 1 ) totals 0) ) <= INT_MAX) ”
 .
 
-Definition sort_safety_wit_21_split_goal_2 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )) ,
+Definition sort_safety_wit_21_split_goal_2 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )),
   (IntArray.full ( &( "count" ) ) 10 totals )
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -412,8 +396,8 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@
   “ ((INT_MIN) <= ((Znth digit totals 0) + (Znth (digit - 1 ) totals 0) )) ”
 .
 
-Definition sort_safety_wit_22 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )) ,
+Definition sort_safety_wit_22 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )),
   (IntArray.full ( &( "count" ) ) 10 totals )
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -423,12 +407,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@
   **  (IntArray.full a_pre n_pre current )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ ((digit - 1 ) <= INT_MAX) ” 
+  “ ((digit - 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (digit - 1 )) ”
 .
 
-Definition sort_safety_wit_23 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )) ,
+Definition sort_safety_wit_23 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )),
   (IntArray.full ( &( "count" ) ) 10 totals )
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -438,12 +422,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@
   **  (IntArray.full a_pre n_pre current )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition sort_safety_wit_24 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )) ,
+Definition sort_safety_wit_24 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )),
   (IntArray.full ( &( "count" ) ) 10 (replace_Znth (digit) (((Znth digit totals 0) + (Znth (digit - 1 ) totals 0) )) (totals)) )
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -453,12 +437,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@
   **  (IntArray.full a_pre n_pre current )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ ((digit + 1 ) <= INT_MAX) ” 
+  “ ((digit + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (digit + 1 )) ”
 .
 
-Definition sort_safety_wit_25 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )) ,
+Definition sort_safety_wit_25 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )),
   ((( &( "i" ) )) # Int  |->_)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -468,12 +452,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@
   **  (IntArray.full ( &( "count" ) ) 10 totals )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ ((n_pre - 1 ) <= INT_MAX) ” 
+  “ ((n_pre - 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (n_pre - 1 )) ”
 .
 
-Definition sort_safety_wit_26 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )) ,
+Definition sort_safety_wit_26 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )),
   ((( &( "i" ) )) # Int  |->_)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -483,12 +467,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@
   **  (IntArray.full ( &( "count" ) ) 10 totals )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (1 <= INT_MAX) ” 
+  “ (1 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition sort_safety_wit_27 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (histogram)) = 10)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : ((-1) <= i)) (PreH10 : (i < n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) histogram )) (PreH14 : (Forall (Z.ge (n_pre)) histogram )) (PreH15 : (Forall (Z.le (0)) counters )) (PreH16 : (Forall (Z.ge (n_pre)) counters )) (PreH17 : (PrefixMaximum input n_pre max_value )) (PreH18 : (DecimalExponent exponent )) (PreH19 : (RadixPassState input current exponent )) (PreH20 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH21 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )) ,
+Definition sort_safety_wit_27 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (histogram)) = 10)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : ((-1) <= i)) (PreH10 : (i < n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) histogram )) (PreH14 : (Forall (Z.ge (n_pre)) histogram )) (PreH15 : (Forall (Z.le (0)) counters )) (PreH16 : (Forall (Z.ge (n_pre)) counters )) (PreH17 : (PrefixMaximum input n_pre max_value )) (PreH18 : (DecimalExponent exponent )) (PreH19 : (RadixPassState input current exponent )) (PreH20 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH21 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )),
   ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "max_value" ) )) # Int  |-> max_value)
@@ -498,12 +482,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (mixed_output: (@list (@option Z
   **  (IntArray.full ( &( "count" ) ) 10 counters )
   **  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition sort_safety_wit_28 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (i >= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) counters )) (PreH17 : (Forall (Z.ge (n_pre)) counters )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )) ,
+Definition sort_safety_wit_28 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (i >= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) counters )) (PreH17 : (Forall (Z.ge (n_pre)) counters )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )),
   (IntArray.full a_pre n_pre current )
   **  ((( &( "digit" ) )) # Int  |->_)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
@@ -514,12 +498,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (mixed_output: (@list (@option Z
   **  (IntArray.full ( &( "count" ) ) 10 counters )
   **  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 |--
-  “ ((((Znth i current 0) ÷ exponent ) <> (INT_MIN)) \/ (10 <> (-1))) ” 
+  “ ((((Znth i current 0) ÷ exponent ) <> (INT_MIN)) \/ (10 <> (-1))) ”
   &&  “ (10 <> 0) ”
 .
 
-Definition sort_safety_wit_29 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (i >= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) counters )) (PreH17 : (Forall (Z.ge (n_pre)) counters )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )) ,
+Definition sort_safety_wit_29 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (i >= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) counters )) (PreH17 : (Forall (Z.ge (n_pre)) counters )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )),
   (IntArray.full a_pre n_pre current )
   **  ((( &( "digit" ) )) # Int  |->_)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
@@ -530,12 +514,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (mixed_output: (@list (@option Z
   **  (IntArray.full ( &( "count" ) ) 10 counters )
   **  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 |--
-  “ (((Znth i current 0) <> (INT_MIN)) \/ (exponent <> (-1))) ” 
+  “ (((Znth i current 0) <> (INT_MIN)) \/ (exponent <> (-1))) ”
   &&  “ (exponent <> 0) ”
 .
 
-Definition sort_safety_wit_30 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (i >= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) counters )) (PreH17 : (Forall (Z.ge (n_pre)) counters )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )) ,
+Definition sort_safety_wit_30 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (i >= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) counters )) (PreH17 : (Forall (Z.ge (n_pre)) counters )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )),
   (IntArray.full a_pre n_pre current )
   **  ((( &( "digit" ) )) # Int  |->_)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
@@ -546,12 +530,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (mixed_output: (@list (@option Z
   **  (IntArray.full ( &( "count" ) ) 10 counters )
   **  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 |--
-  “ (10 <= INT_MAX) ” 
+  “ (10 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 10) ”
 .
 
-Definition sort_safety_wit_31 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (histogram: (@list Z)) (counters: (@list Z)) (mixed_output: (@list (@option Z))) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (histogram)) = 10)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i < n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) histogram )) (PreH14 : (Forall (Z.ge (n_pre)) histogram )) (PreH15 : (Forall (Z.le (0)) counters )) (PreH16 : (Forall (Z.ge (n_pre)) counters )) (PreH17 : (PrefixMaximum input n_pre max_value )) (PreH18 : (DecimalExponent exponent )) (PreH19 : (RadixPassState input current exponent )) (PreH20 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH21 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )) (PreH22 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH23 : (0 <= digit)) (PreH24 : (digit < 10)) (PreH25 : (1 <= (Znth (digit) (counters) (0)))) (PreH26 : ((Znth (digit) (counters) (0)) <= n_pre)) ,
+Definition sort_safety_wit_31 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current: (@list Z)) (histogram: (@list Z)) (counters: (@list Z)) (mixed_output: (@list (@option Z))) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (histogram)) = 10)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i < n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) histogram )) (PreH14 : (Forall (Z.ge (n_pre)) histogram )) (PreH15 : (Forall (Z.le (0)) counters )) (PreH16 : (Forall (Z.ge (n_pre)) counters )) (PreH17 : (PrefixMaximum input n_pre max_value )) (PreH18 : (DecimalExponent exponent )) (PreH19 : (RadixPassState input current exponent )) (PreH20 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH21 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )) (PreH22 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH23 : (0 <= digit)) (PreH24 : (digit < 10)) (PreH25 : (1 <= (Znth (digit) (counters) (0)))) (PreH26 : ((Znth (digit) (counters) (0)) <= n_pre)),
   ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "max_value" ) )) # Int  |-> max_value)
@@ -563,12 +547,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (histogram:
   **  (IntArray.missing_i ( &( "count" ) ) digit 0 10 counters )
   **  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 |--
-  “ (((Znth (digit) (counters) (0)) - 1 ) <= INT_MAX) ” 
+  “ (((Znth (digit) (counters) (0)) - 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= ((Znth (digit) (counters) (0)) - 1 )) ”
 .
 
-Definition sort_safety_wit_32 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (histogram: (@list Z)) (counters: (@list Z)) (mixed_output: (@list (@option Z))) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (histogram)) = 10)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i < n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) histogram )) (PreH14 : (Forall (Z.ge (n_pre)) histogram )) (PreH15 : (Forall (Z.le (0)) counters )) (PreH16 : (Forall (Z.ge (n_pre)) counters )) (PreH17 : (PrefixMaximum input n_pre max_value )) (PreH18 : (DecimalExponent exponent )) (PreH19 : (RadixPassState input current exponent )) (PreH20 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH21 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )) (PreH22 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH23 : (0 <= digit)) (PreH24 : (digit < 10)) (PreH25 : (1 <= (Znth (digit) (counters) (0)))) (PreH26 : ((Znth (digit) (counters) (0)) <= n_pre)) ,
+Definition sort_safety_wit_32 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current: (@list Z)) (histogram: (@list Z)) (counters: (@list Z)) (mixed_output: (@list (@option Z))) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (histogram)) = 10)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i < n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) histogram )) (PreH14 : (Forall (Z.ge (n_pre)) histogram )) (PreH15 : (Forall (Z.le (0)) counters )) (PreH16 : (Forall (Z.ge (n_pre)) counters )) (PreH17 : (PrefixMaximum input n_pre max_value )) (PreH18 : (DecimalExponent exponent )) (PreH19 : (RadixPassState input current exponent )) (PreH20 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH21 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )) (PreH22 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH23 : (0 <= digit)) (PreH24 : (digit < 10)) (PreH25 : (1 <= (Znth (digit) (counters) (0)))) (PreH26 : ((Znth (digit) (counters) (0)) <= n_pre)),
   (IntArray.mixed_full ( &( "output" ) ) 1000 (replace_Znth (((Znth (digit) (counters) (0)) - 1 )) ((Some ((Znth i current 0)))) (mixed_output)) )
   **  (IntArray.full ( &( "count" ) ) 10 (replace_Znth (digit) (((Znth (digit) (counters) (0)) - 1 )) (counters)) )
   **  (IntArray.full a_pre n_pre current )
@@ -578,12 +562,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (histogram:
   **  ((( &( "exponent" ) )) # Int  |-> exponent)
   **  ((( &( "i" ) )) # Int  |-> i)
 |--
-  “ ((i - 1 ) <= INT_MAX) ” 
+  “ ((i - 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (i - 1 )) ”
 .
 
-Definition sort_safety_wit_33 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (i < 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) counters )) (PreH17 : (Forall (Z.ge (n_pre)) counters )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )) ,
+Definition sort_safety_wit_33 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (i < 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) counters )) (PreH17 : (Forall (Z.ge (n_pre)) counters )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )),
   ((( &( "i" ) )) # Int  |->_)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -593,12 +577,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (mixed_output: (@list (@option Z
   **  (IntArray.full ( &( "count" ) ) 10 counters )
   **  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 |--
-  “ (0 <= INT_MAX) ” 
+  “ (0 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition sort_safety_wit_34 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current: (@list Z)) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current exponent )) (PreH16 : (StableDigitPass current pass_output exponent )) (PreH17 : (RadixCopyPrefix current pass_output working i )) ,
+Definition sort_safety_wit_34 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current: (@list Z)) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current exponent )) (PreH16 : (StableDigitPass current pass_output exponent )) (PreH17 : (RadixCopyPrefix current pass_output working i )),
   (IntArray.full a_pre n_pre (replace_Znth (i) ((Znth (i - 0 ) pass_output 0)) (working)) )
   **  (IntArray.seg ( &( "output" ) ) 0 n_pre pass_output )
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
@@ -609,12 +593,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (work
   **  (IntArray.full ( &( "count" ) ) 10 bucket_starts )
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
 |--
-  “ ((i + 1 ) <= INT_MAX) ” 
+  “ ((i + 1 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (i + 1 )) ”
 .
 
-Definition sort_safety_wit_35 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current exponent )) (PreH16 : (StableDigitPass current pass_output exponent )) (PreH17 : (RadixCopyPrefix current pass_output working i )) ,
+Definition sort_safety_wit_35 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current exponent )) (PreH16 : (StableDigitPass current pass_output exponent )) (PreH17 : (RadixCopyPrefix current pass_output working i )),
   ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "max_value" ) )) # Int  |-> max_value)
@@ -624,12 +608,12 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (work
   **  (IntArray.seg ( &( "output" ) ) 0 n_pre pass_output )
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
 |--
-  “ ((exponent * 10 ) <= INT_MAX) ” 
+  “ ((exponent * 10 ) <= INT_MAX) ”
   &&  “ ((INT_MIN) <= (exponent * 10 )) ”
 .
 
-Definition sort_safety_wit_36 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current exponent )) (PreH16 : (StableDigitPass current pass_output exponent )) (PreH17 : (RadixCopyPrefix current pass_output working i )) ,
+Definition sort_safety_wit_36 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current exponent )) (PreH16 : (StableDigitPass current pass_output exponent )) (PreH17 : (RadixCopyPrefix current pass_output working i )),
   ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "max_value" ) )) # Int  |-> max_value)
@@ -639,185 +623,185 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (work
   **  (IntArray.seg ( &( "output" ) ) 0 n_pre pass_output )
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
 |--
-  “ (10 <= INT_MAX) ” 
+  “ (10 <= INT_MAX) ”
   &&  “ ((INT_MIN) <= 10) ”
 .
 
-Definition sort_entail_wit_1 := 
+Definition sort_entail_wit_1 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (PreH1 : (n_pre > 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (PreH1 : (n_pre > 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )),
   (IntArray.full a_pre n_pre input )
 |--
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (1 <= 1) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (0 <= (Znth 0 input 0)) ” 
-  &&  “ ((Znth 0 input 0) <= 999999999) ” 
-  &&  “ (Forall (Z.le (0)) input ) ” 
-  &&  “ (Forall (Z.ge (999999999)) input ) ” 
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (1 <= 1) ”
+  &&  “ (1 <= n_pre) ”
+  &&  “ (0 <= (Znth 0 input 0)) ”
+  &&  “ ((Znth 0 input 0) <= 999999999) ”
+  &&  “ (Forall (Z.le (0)) input ) ”
+  &&  “ (Forall (Z.ge (999999999)) input ) ”
   &&  “ (PrefixMaximum input 1 (Znth 0 input 0) ) ”
   &&  (IntArray.full a_pre n_pre input )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (PreH1 : (n_pre > 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )) ,
+forall (input: (@list Z)) (n_pre: Z) (PreH1 : (n_pre > 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )),
   TT && emp 
 |--
-  “ (PrefixMaximum input 1 (Znth 0 input 0) ) ” 
-  &&  “ ((Znth 0 input 0) <= 999999999) ” 
+  “ (PrefixMaximum input 1 (Znth 0 input 0) ) ”
+  &&  “ ((Znth 0 input 0) <= 999999999) ”
   &&  “ (0 <= (Znth 0 input 0)) ”
   &&  emp
 ).
 
-Definition sort_entail_wit_1_split_goal_1 := 
-forall (n_pre: Z) (input: (@list Z)) (PreH1 : (n_pre > 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )) ,
+Definition sort_entail_wit_1_split_goal_1 :=
+forall (input: (@list Z)) (n_pre: Z) (PreH1 : (n_pre > 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )),
   (PrefixMaximum input 1 (Znth 0 input 0) )
 .
 
-Definition sort_entail_wit_1_split_goal_2 := 
-forall (n_pre: Z) (input: (@list Z)) (PreH1 : (n_pre > 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )) ,
+Definition sort_entail_wit_1_split_goal_2 :=
+forall (input: (@list Z)) (n_pre: Z) (PreH1 : (n_pre > 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )),
   ((Znth 0 input 0) <= 999999999)
 .
 
-Definition sort_entail_wit_1_split_goal_3 := 
-forall (n_pre: Z) (input: (@list Z)) (PreH1 : (n_pre > 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )) ,
+Definition sort_entail_wit_1_split_goal_3 :=
+forall (input: (@list Z)) (n_pre: Z) (PreH1 : (n_pre > 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )),
   (0 <= (Znth 0 input 0))
 .
 
-Definition sort_entail_wit_2_1 := 
+Definition sort_entail_wit_2_1 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) > max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) > max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )),
   (IntArray.full a_pre n_pre input )
 |--
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (1 <= (i + 1 )) ” 
-  &&  “ ((i + 1 ) <= n_pre) ” 
-  &&  “ (0 <= (Znth i input 0)) ” 
-  &&  “ ((Znth i input 0) <= 999999999) ” 
-  &&  “ (Forall (Z.le (0)) input ) ” 
-  &&  “ (Forall (Z.ge (999999999)) input ) ” 
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (1 <= (i + 1 )) ”
+  &&  “ ((i + 1 ) <= n_pre) ”
+  &&  “ (0 <= (Znth i input 0)) ”
+  &&  “ ((Znth i input 0) <= 999999999) ”
+  &&  “ (Forall (Z.le (0)) input ) ”
+  &&  “ (Forall (Z.ge (999999999)) input ) ”
   &&  “ (PrefixMaximum input (i + 1 ) (Znth i input 0) ) ”
   &&  (IntArray.full a_pre n_pre input )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) > max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )) ,
+forall (input: (@list Z)) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) > max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )),
   TT && emp 
 |--
-  “ (PrefixMaximum input (i + 1 ) (Znth i input 0) ) ” 
+  “ (PrefixMaximum input (i + 1 ) (Znth i input 0) ) ”
   &&  “ ((Znth i input 0) <= 999999999) ”
   &&  emp
 ).
 
-Definition sort_entail_wit_2_1_split_goal_1 := 
-forall (n_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) > max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )) ,
+Definition sort_entail_wit_2_1_split_goal_1 :=
+forall (input: (@list Z)) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) > max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )),
   (PrefixMaximum input (i + 1 ) (Znth i input 0) )
 .
 
-Definition sort_entail_wit_2_1_split_goal_2 := 
-forall (n_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) > max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )) ,
+Definition sort_entail_wit_2_1_split_goal_2 :=
+forall (input: (@list Z)) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) > max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )),
   ((Znth i input 0) <= 999999999)
 .
 
-Definition sort_entail_wit_2_2 := 
+Definition sort_entail_wit_2_2 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) <= max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) <= max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )),
   (IntArray.full a_pre n_pre input )
 |--
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (1 <= (i + 1 )) ” 
-  &&  “ ((i + 1 ) <= n_pre) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (Forall (Z.le (0)) input ) ” 
-  &&  “ (Forall (Z.ge (999999999)) input ) ” 
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (1 <= (i + 1 )) ”
+  &&  “ ((i + 1 ) <= n_pre) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (Forall (Z.le (0)) input ) ”
+  &&  “ (Forall (Z.ge (999999999)) input ) ”
   &&  “ (PrefixMaximum input (i + 1 ) max_value ) ”
   &&  (IntArray.full a_pre n_pre input )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) <= max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )) ,
+forall (input: (@list Z)) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) <= max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )),
   TT && emp 
 |--
   “ (PrefixMaximum input (i + 1 ) max_value ) ”
   &&  emp
 ).
 
-Definition sort_entail_wit_2_2_split_goal_1 := 
-forall (n_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) <= max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )) ,
+Definition sort_entail_wit_2_2_split_goal_1 :=
+forall (input: (@list Z)) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) <= max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )),
   (PrefixMaximum input (i + 1 ) max_value )
 .
 
-Definition sort_entail_wit_3 := 
+Definition sort_entail_wit_3 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= max_value)) (PreH7 : (max_value <= 999999999)) (PreH8 : (Forall (Z.le (0)) input )) (PreH9 : (Forall (Z.ge (999999999)) input )) (PreH10 : (PrefixMaximum input i max_value )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= max_value)) (PreH7 : (max_value <= 999999999)) (PreH8 : (Forall (Z.le (0)) input )) (PreH9 : (Forall (Z.ge (999999999)) input )) (PreH10 : (PrefixMaximum input i max_value )),
   (IntArray.undef_full ( &( "count" ) ) 10 )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
   **  (IntArray.full a_pre n_pre input )
 |--
-  EX (current: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= 1) ” 
-  &&  “ (1 <= 1000000000) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent 1 ) ” 
+  EX (current: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= 1) ”
+  &&  “ (1 <= 1000000000) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent 1 ) ”
   &&  “ (RadixPassState input current 1 ) ”
   &&  (IntArray.full a_pre n_pre current )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
   **  (IntArray.undef_full ( &( "count" ) ) 10 )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= max_value)) (PreH7 : (max_value <= 999999999)) (PreH8 : (Forall (Z.le (0)) input )) (PreH9 : (Forall (Z.ge (999999999)) input )) (PreH10 : (PrefixMaximum input i max_value )) ,
+forall (input: (@list Z)) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= max_value)) (PreH7 : (max_value <= 999999999)) (PreH8 : (Forall (Z.le (0)) input )) (PreH9 : (Forall (Z.ge (999999999)) input )) (PreH10 : (PrefixMaximum input i max_value )),
   TT && emp 
 |--
-  “ (RadixPassState input input 1 ) ” 
-  &&  “ (DecimalExponent 1 ) ” 
+  “ (RadixPassState input input 1 ) ”
+  &&  “ (DecimalExponent 1 ) ”
   &&  “ (PrefixMaximum input n_pre max_value ) ”
   &&  emp
 ).
 
-Definition sort_entail_wit_3_split_goal_1 := 
-forall (n_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= max_value)) (PreH7 : (max_value <= 999999999)) (PreH8 : (Forall (Z.le (0)) input )) (PreH9 : (Forall (Z.ge (999999999)) input )) (PreH10 : (PrefixMaximum input i max_value )) ,
+Definition sort_entail_wit_3_split_goal_1 :=
+forall (input: (@list Z)) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= max_value)) (PreH7 : (max_value <= 999999999)) (PreH8 : (Forall (Z.le (0)) input )) (PreH9 : (Forall (Z.ge (999999999)) input )) (PreH10 : (PrefixMaximum input i max_value )),
   (RadixPassState input input 1 )
 .
 
-Definition sort_entail_wit_3_split_goal_2 := 
-forall (n_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= max_value)) (PreH7 : (max_value <= 999999999)) (PreH8 : (Forall (Z.le (0)) input )) (PreH9 : (Forall (Z.ge (999999999)) input )) (PreH10 : (PrefixMaximum input i max_value )) ,
+Definition sort_entail_wit_3_split_goal_2 :=
+forall (input: (@list Z)) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= max_value)) (PreH7 : (max_value <= 999999999)) (PreH8 : (Forall (Z.le (0)) input )) (PreH9 : (Forall (Z.ge (999999999)) input )) (PreH10 : (PrefixMaximum input i max_value )),
   (DecimalExponent 1 )
 .
 
-Definition sort_entail_wit_3_split_goal_3 := 
-forall (n_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= max_value)) (PreH7 : (max_value <= 999999999)) (PreH8 : (Forall (Z.le (0)) input )) (PreH9 : (Forall (Z.ge (999999999)) input )) (PreH10 : (PrefixMaximum input i max_value )) ,
+Definition sort_entail_wit_3_split_goal_3 :=
+forall (input: (@list Z)) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= max_value)) (PreH7 : (max_value <= 999999999)) (PreH8 : (Forall (Z.le (0)) input )) (PreH9 : (Forall (Z.ge (999999999)) input )) (PreH10 : (PrefixMaximum input i max_value )),
   (PrefixMaximum input n_pre max_value )
 .
 
-Definition sort_entail_wit_4 := 
+Definition sort_entail_wit_4 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current_2: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) > 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current_2 )) (PreH9 : (Forall (Z.ge (999999999)) current_2 )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current_2 exponent )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current_2: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) > 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current_2 )) (PreH9 : (Forall (Z.ge (999999999)) current_2 )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current_2 exponent )),
   (IntArray.full a_pre n_pre current_2 )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
   **  (IntArray.undef_full ( &( "count" ) ) 10 )
 |--
-  EX (zero_prefix: (@list Z))  (current: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= 10) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (eq (0)) zero_prefix ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
+  EX (zero_prefix: (@list Z)) (current: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (0 <= 0) ”
+  &&  “ (0 <= 10) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (eq (0)) zero_prefix ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
   &&  “ (RadixPassState input current exponent ) ”
   &&  (IntArray.full a_pre n_pre current )
   **  (IntArray.seg ( &( "count" ) ) 0 0 zero_prefix )
@@ -825,47 +809,47 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current_2: (@list Z)) (exponent
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (current_2: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) > 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current_2 )) (PreH9 : (Forall (Z.ge (999999999)) current_2 )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current_2 exponent )) ,
+forall (input: (@list Z)) (n_pre: Z) (current_2: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) > 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current_2 )) (PreH9 : (Forall (Z.ge (999999999)) current_2 )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current_2 exponent )),
   TT && emp 
 |--
-  “ (Forall (eq (0)) (@nil Z) ) ” 
+  “ (Forall (eq (0)) (@nil Z) ) ”
   &&  “ (exponent <= 100000000) ”
   &&  emp
 ).
 
-Definition sort_entail_wit_4_split_goal_1 := 
-forall (n_pre: Z) (input: (@list Z)) (current_2: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) > 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current_2 )) (PreH9 : (Forall (Z.ge (999999999)) current_2 )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current_2 exponent )) ,
+Definition sort_entail_wit_4_split_goal_1 :=
+forall (input: (@list Z)) (n_pre: Z) (current_2: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) > 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current_2 )) (PreH9 : (Forall (Z.ge (999999999)) current_2 )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current_2 exponent )),
   (Forall (eq (0)) (@nil Z) )
 .
 
-Definition sort_entail_wit_4_split_goal_2 := 
-forall (n_pre: Z) (input: (@list Z)) (current_2: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) > 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current_2 )) (PreH9 : (Forall (Z.ge (999999999)) current_2 )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current_2 exponent )) ,
+Definition sort_entail_wit_4_split_goal_2 :=
+forall (input: (@list Z)) (n_pre: Z) (current_2: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) > 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current_2 )) (PreH9 : (Forall (Z.ge (999999999)) current_2 )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current_2 exponent )),
   (exponent <= 100000000)
 .
 
-Definition sort_entail_wit_5 := 
+Definition sort_entail_wit_5 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (zero_prefix_2: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (eq (0)) zero_prefix_2 )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (zero_prefix_2: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (eq (0)) zero_prefix_2 )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )),
   (IntArray.seg ( &( "count" ) ) 0 (digit + 1 ) (app (zero_prefix_2) ((cons (0) ((@nil Z))))) )
   **  (IntArray.undef_seg ( &( "count" ) ) (digit + 1 ) 10 )
   **  (IntArray.full a_pre n_pre current_2 )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  EX (zero_prefix: (@list Z))  (current: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (0 <= (digit + 1 )) ” 
-  &&  “ ((digit + 1 ) <= 10) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (eq (0)) zero_prefix ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
+  EX (zero_prefix: (@list Z)) (current: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (0 <= (digit + 1 )) ”
+  &&  “ ((digit + 1 ) <= 10) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (eq (0)) zero_prefix ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
   &&  “ (RadixPassState input current exponent ) ”
   &&  (IntArray.full a_pre n_pre current )
   **  (IntArray.seg ( &( "count" ) ) 0 (digit + 1 ) zero_prefix )
@@ -873,372 +857,372 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (zero_prefix_2: (@list Z)) (curr
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (zero_prefix_2: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (eq (0)) zero_prefix_2 )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )) ,
+forall (input: (@list Z)) (n_pre: Z) (zero_prefix_2: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (eq (0)) zero_prefix_2 )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )),
   TT && emp 
 |--
   “ (Forall (eq (0)) (app (zero_prefix_2) ((cons (0) ((@nil Z))))) ) ”
   &&  emp
 ).
 
-Definition sort_entail_wit_5_split_goal_1 := 
-forall (n_pre: Z) (input: (@list Z)) (zero_prefix_2: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (eq (0)) zero_prefix_2 )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )) ,
+Definition sort_entail_wit_5_split_goal_1 :=
+forall (input: (@list Z)) (n_pre: Z) (zero_prefix_2: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (eq (0)) zero_prefix_2 )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )),
   (Forall (eq (0)) (app (zero_prefix_2) ((cons (0) ((@nil Z))))) )
 .
 
-Definition sort_entail_wit_6 := 
+Definition sort_entail_wit_6 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (zero_prefix: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (eq (0)) zero_prefix )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (zero_prefix: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (eq (0)) zero_prefix )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )),
   (IntArray.full a_pre n_pre current_2 )
   **  (IntArray.seg ( &( "count" ) ) 0 digit zero_prefix )
   **  (IntArray.undef_seg ( &( "count" ) ) digit 10 )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  EX (counts: (@list Z))  (current: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= n_pre) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (Z.le (0)) counts ) ” 
-  &&  “ (Forall (Z.ge (0)) counts ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
+  EX (counts: (@list Z)) (current: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (0 <= 0) ”
+  &&  “ (0 <= n_pre) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (Z.le (0)) counts ) ”
+  &&  “ (Forall (Z.ge (0)) counts ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
   &&  “ (DigitHistogramPrefix current exponent 0 counts ) ”
   &&  (IntArray.full a_pre n_pre current )
   **  (IntArray.full ( &( "count" ) ) 10 counts )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (zero_prefix: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (eq (0)) zero_prefix )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )) ,
-  (IntArray.seg ( &( "count" ) ) 0 digit zero_prefix )
+forall (input: (@list Z)) (n_pre: Z) (zero_prefix: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (eq (0)) zero_prefix )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )),
+  TT && emp 
 |--
-  EX (counts: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= n_pre) ” 
-  &&  “ (Forall (Z.le (0)) current_2 ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current_2 ) ” 
-  &&  “ (Forall (Z.le (0)) counts ) ” 
-  &&  “ (Forall (Z.ge (0)) counts ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current_2 exponent ) ” 
-  &&  “ (DigitHistogramPrefix current_2 exponent 0 counts ) ”
-  &&  (IntArray.full ( &( "count" ) ) 10 counts )
+  “ (DigitHistogramPrefix current_2 exponent 0 zero_prefix ) ”
+  &&  “ (Forall (Z.ge (0)) zero_prefix ) ”
+  &&  “ (Forall (Z.le (0)) zero_prefix ) ”
+  &&  emp
 ).
 
-Definition sort_entail_wit_7 := 
+Definition sort_entail_wit_6_split_goal_1 :=
+forall (input: (@list Z)) (n_pre: Z) (zero_prefix: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (eq (0)) zero_prefix )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )),
+  (DigitHistogramPrefix current_2 exponent 0 zero_prefix )
+.
+
+Definition sort_entail_wit_6_split_goal_2 :=
+forall (input: (@list Z)) (n_pre: Z) (zero_prefix: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (eq (0)) zero_prefix )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )),
+  (Forall (Z.ge (0)) zero_prefix )
+.
+
+Definition sort_entail_wit_6_split_goal_3 :=
+forall (input: (@list Z)) (n_pre: Z) (zero_prefix: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (eq (0)) zero_prefix )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )),
+  (Forall (Z.le (0)) zero_prefix )
+.
+
+Definition sort_entail_wit_7 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (counts_2: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts_2 )) (PreH14 : (Forall (Z.ge (i)) counts_2 )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts_2 )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (counts_2: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts_2 )) (PreH14 : (Forall (Z.ge (i)) counts_2 )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts_2 )),
   (IntArray.full a_pre n_pre current )
   **  (IntArray.full ( &( "count" ) ) 10 counts_2 )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  EX (counts: (@list Z))  (current_2: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < n_pre) ” 
-  &&  “ (Forall (Z.le (0)) current_2 ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current_2 ) ” 
-  &&  “ (Forall (Z.le (0)) counts ) ” 
-  &&  “ (Forall (Z.ge (i)) counts ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current_2 exponent ) ” 
-  &&  “ (DigitHistogramPrefix current_2 exponent i counts ) ” 
-  &&  “ ((((Znth i current 0) ÷ exponent ) % ( 10 ) ) = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) )) ” 
-  &&  “ (0 <= (((Znth i current 0) ÷ exponent ) % ( 10 ) )) ” 
+  EX (counts: (@list Z)) (current_2: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < n_pre) ”
+  &&  “ (Forall (Z.le (0)) current_2 ) ”
+  &&  “ (Forall (Z.ge (999999999)) current_2 ) ”
+  &&  “ (Forall (Z.le (0)) counts ) ”
+  &&  “ (Forall (Z.ge (i)) counts ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current_2 exponent ) ”
+  &&  “ (DigitHistogramPrefix current_2 exponent i counts ) ”
+  &&  “ ((((Znth i current 0) ÷ exponent ) % ( 10 ) ) = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) )) ”
+  &&  “ (0 <= (((Znth i current 0) ÷ exponent ) % ( 10 ) )) ”
   &&  “ ((((Znth i current 0) ÷ exponent ) % ( 10 ) ) < 10) ”
   &&  (IntArray.full a_pre n_pre current_2 )
   **  (IntArray.full ( &( "count" ) ) 10 counts )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (counts_2: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts_2 )) (PreH14 : (Forall (Z.ge (i)) counts_2 )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts_2 )) ,
+forall (input: (@list Z)) (n_pre: Z) (counts_2: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts_2 )) (PreH14 : (Forall (Z.ge (i)) counts_2 )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts_2 )),
   TT && emp 
 |--
-  “ ((((Znth i current 0) ÷ exponent ) % ( 10 ) ) < 10) ” 
+  “ ((((Znth i current 0) ÷ exponent ) % ( 10 ) ) < 10) ”
   &&  “ (0 <= (((Znth i current 0) ÷ exponent ) % ( 10 ) )) ”
   &&  emp
 ).
 
-Definition sort_entail_wit_7_split_goal_1 := 
-forall (n_pre: Z) (input: (@list Z)) (counts_2: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts_2 )) (PreH14 : (Forall (Z.ge (i)) counts_2 )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts_2 )) ,
+Definition sort_entail_wit_7_split_goal_1 :=
+forall (input: (@list Z)) (n_pre: Z) (counts_2: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts_2 )) (PreH14 : (Forall (Z.ge (i)) counts_2 )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts_2 )),
   ((((Znth i current 0) ÷ exponent ) % ( 10 ) ) < 10)
 .
 
-Definition sort_entail_wit_7_split_goal_2 := 
-forall (n_pre: Z) (input: (@list Z)) (counts_2: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts_2 )) (PreH14 : (Forall (Z.ge (i)) counts_2 )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts_2 )) ,
+Definition sort_entail_wit_7_split_goal_2 :=
+forall (input: (@list Z)) (n_pre: Z) (counts_2: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts_2 )) (PreH14 : (Forall (Z.ge (i)) counts_2 )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts_2 )),
   (0 <= (((Znth i current 0) ÷ exponent ) % ( 10 ) ))
 .
 
-Definition sort_entail_wit_8 := 
+Definition sort_entail_wit_8 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current_2: (@list Z)) (counts_2: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current_2 )) (PreH11 : (Forall (Z.ge (999999999)) current_2 )) (PreH12 : (Forall (Z.le (0)) counts_2 )) (PreH13 : (Forall (Z.ge (i)) counts_2 )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )) (PreH17 : (DigitHistogramPrefix current_2 exponent i counts_2 )) (PreH18 : (digit = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current_2: (@list Z)) (counts_2: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current_2 )) (PreH11 : (Forall (Z.ge (999999999)) current_2 )) (PreH12 : (Forall (Z.le (0)) counts_2 )) (PreH13 : (Forall (Z.ge (i)) counts_2 )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )) (PreH17 : (DigitHistogramPrefix current_2 exponent i counts_2 )) (PreH18 : (digit = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)),
   (IntArray.full ( &( "count" ) ) 10 (replace_Znth (digit) (((Znth digit counts_2 0) + 1 )) (counts_2)) )
   **  (IntArray.full a_pre n_pre current_2 )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  EX (counts: (@list Z))  (current: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (0 <= (i + 1 )) ” 
-  &&  “ ((i + 1 ) <= n_pre) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (Z.le (0)) counts ) ” 
-  &&  “ (Forall (Z.ge ((i + 1 ))) counts ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
+  EX (counts: (@list Z)) (current: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (0 <= (i + 1 )) ”
+  &&  “ ((i + 1 ) <= n_pre) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (Z.le (0)) counts ) ”
+  &&  “ (Forall (Z.ge ((i + 1 ))) counts ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
   &&  “ (DigitHistogramPrefix current exponent (i + 1 ) counts ) ”
   &&  (IntArray.full a_pre n_pre current )
   **  (IntArray.full ( &( "count" ) ) 10 counts )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (current_2: (@list Z)) (counts_2: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current_2 )) (PreH11 : (Forall (Z.ge (999999999)) current_2 )) (PreH12 : (Forall (Z.le (0)) counts_2 )) (PreH13 : (Forall (Z.ge (i)) counts_2 )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )) (PreH17 : (DigitHistogramPrefix current_2 exponent i counts_2 )) (PreH18 : (digit = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)) ,
+forall (input: (@list Z)) (n_pre: Z) (current_2: (@list Z)) (counts_2: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current_2 )) (PreH11 : (Forall (Z.ge (999999999)) current_2 )) (PreH12 : (Forall (Z.le (0)) counts_2 )) (PreH13 : (Forall (Z.ge (i)) counts_2 )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )) (PreH17 : (DigitHistogramPrefix current_2 exponent i counts_2 )) (PreH18 : (digit = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)),
   TT && emp 
 |--
-  “ (DigitHistogramPrefix current_2 exponent (i + 1 ) (replace_Znth (digit) (((Znth digit counts_2 0) + 1 )) (counts_2)) ) ” 
-  &&  “ (Forall (Z.ge ((i + 1 ))) (replace_Znth (digit) (((Znth digit counts_2 0) + 1 )) (counts_2)) ) ” 
+  “ (DigitHistogramPrefix current_2 exponent (i + 1 ) (replace_Znth (digit) (((Znth digit counts_2 0) + 1 )) (counts_2)) ) ”
+  &&  “ (Forall (Z.ge ((i + 1 ))) (replace_Znth (digit) (((Znth digit counts_2 0) + 1 )) (counts_2)) ) ”
   &&  “ (Forall (Z.le (0)) (replace_Znth (digit) (((Znth digit counts_2 0) + 1 )) (counts_2)) ) ”
   &&  emp
 ).
 
-Definition sort_entail_wit_8_split_goal_1 := 
-forall (n_pre: Z) (input: (@list Z)) (current_2: (@list Z)) (counts_2: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current_2 )) (PreH11 : (Forall (Z.ge (999999999)) current_2 )) (PreH12 : (Forall (Z.le (0)) counts_2 )) (PreH13 : (Forall (Z.ge (i)) counts_2 )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )) (PreH17 : (DigitHistogramPrefix current_2 exponent i counts_2 )) (PreH18 : (digit = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)) ,
+Definition sort_entail_wit_8_split_goal_1 :=
+forall (input: (@list Z)) (n_pre: Z) (current_2: (@list Z)) (counts_2: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current_2 )) (PreH11 : (Forall (Z.ge (999999999)) current_2 )) (PreH12 : (Forall (Z.le (0)) counts_2 )) (PreH13 : (Forall (Z.ge (i)) counts_2 )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )) (PreH17 : (DigitHistogramPrefix current_2 exponent i counts_2 )) (PreH18 : (digit = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)),
   (DigitHistogramPrefix current_2 exponent (i + 1 ) (replace_Znth (digit) (((Znth digit counts_2 0) + 1 )) (counts_2)) )
 .
 
-Definition sort_entail_wit_8_split_goal_2 := 
-forall (n_pre: Z) (input: (@list Z)) (current_2: (@list Z)) (counts_2: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current_2 )) (PreH11 : (Forall (Z.ge (999999999)) current_2 )) (PreH12 : (Forall (Z.le (0)) counts_2 )) (PreH13 : (Forall (Z.ge (i)) counts_2 )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )) (PreH17 : (DigitHistogramPrefix current_2 exponent i counts_2 )) (PreH18 : (digit = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)) ,
+Definition sort_entail_wit_8_split_goal_2 :=
+forall (input: (@list Z)) (n_pre: Z) (current_2: (@list Z)) (counts_2: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current_2 )) (PreH11 : (Forall (Z.ge (999999999)) current_2 )) (PreH12 : (Forall (Z.le (0)) counts_2 )) (PreH13 : (Forall (Z.ge (i)) counts_2 )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )) (PreH17 : (DigitHistogramPrefix current_2 exponent i counts_2 )) (PreH18 : (digit = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)),
   (Forall (Z.ge ((i + 1 ))) (replace_Znth (digit) (((Znth digit counts_2 0) + 1 )) (counts_2)) )
 .
 
-Definition sort_entail_wit_8_split_goal_3 := 
-forall (n_pre: Z) (input: (@list Z)) (current_2: (@list Z)) (counts_2: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current_2 )) (PreH11 : (Forall (Z.ge (999999999)) current_2 )) (PreH12 : (Forall (Z.le (0)) counts_2 )) (PreH13 : (Forall (Z.ge (i)) counts_2 )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )) (PreH17 : (DigitHistogramPrefix current_2 exponent i counts_2 )) (PreH18 : (digit = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)) ,
+Definition sort_entail_wit_8_split_goal_3 :=
+forall (input: (@list Z)) (n_pre: Z) (current_2: (@list Z)) (counts_2: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current_2 )) (PreH11 : (Forall (Z.ge (999999999)) current_2 )) (PreH12 : (Forall (Z.le (0)) counts_2 )) (PreH13 : (Forall (Z.ge (i)) counts_2 )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current_2 exponent )) (PreH17 : (DigitHistogramPrefix current_2 exponent i counts_2 )) (PreH18 : (digit = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)),
   (Forall (Z.le (0)) (replace_Znth (digit) (((Znth digit counts_2 0) + 1 )) (counts_2)) )
 .
 
-Definition sort_entail_wit_9 := 
+Definition sort_entail_wit_9 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (counts: (@list Z)) (current_2: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (Z.le (0)) counts )) (PreH14 : (Forall (Z.ge (i)) counts )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current_2 exponent )) (PreH18 : (DigitHistogramPrefix current_2 exponent i counts )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (counts: (@list Z)) (current_2: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (Z.le (0)) counts )) (PreH14 : (Forall (Z.ge (i)) counts )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current_2 exponent )) (PreH18 : (DigitHistogramPrefix current_2 exponent i counts )),
   (IntArray.full a_pre n_pre current_2 )
   **  (IntArray.full ( &( "count" ) ) 10 counts )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  EX (totals: (@list Z))  (current: (@list Z))  (histogram: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (histogram)) = 10) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (1 <= 1) ” 
-  &&  “ (1 <= 10) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (Z.le (0)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) histogram ) ” 
-  &&  “ (Forall (Z.le (0)) totals ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) totals ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ” 
+  EX (totals: (@list Z)) (current: (@list Z)) (histogram: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (histogram)) = 10) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (1 <= 1) ”
+  &&  “ (1 <= 10) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (Z.le (0)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) histogram ) ”
+  &&  “ (Forall (Z.le (0)) totals ) ”
+  &&  “ (Forall (Z.ge (n_pre)) totals ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ”
   &&  “ (DigitPrefixTotals histogram totals 1 ) ”
   &&  (IntArray.full a_pre n_pre current )
   **  (IntArray.full ( &( "count" ) ) 10 totals )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (counts: (@list Z)) (current_2: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (Z.le (0)) counts )) (PreH14 : (Forall (Z.ge (i)) counts )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current_2 exponent )) (PreH18 : (DigitHistogramPrefix current_2 exponent i counts )) ,
+forall (input: (@list Z)) (n_pre: Z) (counts: (@list Z)) (current_2: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (Z.le (0)) counts )) (PreH14 : (Forall (Z.ge (i)) counts )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current_2 exponent )) (PreH18 : (DigitHistogramPrefix current_2 exponent i counts )),
   TT && emp 
 |--
-  EX (histogram: (@list Z)) ,
-  “ ((Zlength (histogram)) = 10) ” 
-  &&  “ (1 <= 1) ” 
-  &&  “ (1 <= 10) ” 
-  &&  “ (Forall (Z.le (0)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) counts ) ” 
-  &&  “ (DigitHistogramPrefix current_2 exponent n_pre histogram ) ” 
+  EX (histogram: (@list Z)),
+  “ ((Zlength (histogram)) = 10) ”
+  &&  “ (1 <= 1) ”
+  &&  “ (1 <= 10) ”
+  &&  “ (Forall (Z.le (0)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) counts ) ”
+  &&  “ (DigitHistogramPrefix current_2 exponent n_pre histogram ) ”
   &&  “ (DigitPrefixTotals histogram counts 1 ) ”
   &&  emp
 ).
 
-Definition sort_entail_wit_10 := 
+Definition sort_entail_wit_10 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals_2: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram_2: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram_2)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current_2 )) (PreH13 : (Forall (Z.ge (999999999)) current_2 )) (PreH14 : (Forall (Z.le (0)) histogram_2 )) (PreH15 : (Forall (Z.ge (n_pre)) histogram_2 )) (PreH16 : (Forall (Z.le (0)) totals_2 )) (PreH17 : (Forall (Z.ge (n_pre)) totals_2 )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current_2 exponent )) (PreH21 : (DigitHistogramPrefix current_2 exponent n_pre histogram_2 )) (PreH22 : (DigitPrefixTotals histogram_2 totals_2 digit )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (totals_2: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram_2: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram_2)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current_2 )) (PreH13 : (Forall (Z.ge (999999999)) current_2 )) (PreH14 : (Forall (Z.le (0)) histogram_2 )) (PreH15 : (Forall (Z.ge (n_pre)) histogram_2 )) (PreH16 : (Forall (Z.le (0)) totals_2 )) (PreH17 : (Forall (Z.ge (n_pre)) totals_2 )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current_2 exponent )) (PreH21 : (DigitHistogramPrefix current_2 exponent n_pre histogram_2 )) (PreH22 : (DigitPrefixTotals histogram_2 totals_2 digit )),
   (IntArray.full ( &( "count" ) ) 10 (replace_Znth (digit) (((Znth digit totals_2 0) + (Znth (digit - 1 ) totals_2 0) )) (totals_2)) )
   **  (IntArray.full a_pre n_pre current_2 )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  EX (totals: (@list Z))  (current: (@list Z))  (histogram: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (histogram)) = 10) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (1 <= (digit + 1 )) ” 
-  &&  “ ((digit + 1 ) <= 10) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (Z.le (0)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) histogram ) ” 
-  &&  “ (Forall (Z.le (0)) totals ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) totals ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ” 
+  EX (totals: (@list Z)) (current: (@list Z)) (histogram: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (histogram)) = 10) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (1 <= (digit + 1 )) ”
+  &&  “ ((digit + 1 ) <= 10) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (Z.le (0)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) histogram ) ”
+  &&  “ (Forall (Z.le (0)) totals ) ”
+  &&  “ (Forall (Z.ge (n_pre)) totals ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ”
   &&  “ (DigitPrefixTotals histogram totals (digit + 1 ) ) ”
   &&  (IntArray.full a_pre n_pre current )
   **  (IntArray.full ( &( "count" ) ) 10 totals )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (totals_2: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram_2: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram_2)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current_2 )) (PreH13 : (Forall (Z.ge (999999999)) current_2 )) (PreH14 : (Forall (Z.le (0)) histogram_2 )) (PreH15 : (Forall (Z.ge (n_pre)) histogram_2 )) (PreH16 : (Forall (Z.le (0)) totals_2 )) (PreH17 : (Forall (Z.ge (n_pre)) totals_2 )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current_2 exponent )) (PreH21 : (DigitHistogramPrefix current_2 exponent n_pre histogram_2 )) (PreH22 : (DigitPrefixTotals histogram_2 totals_2 digit )) ,
+forall (input: (@list Z)) (n_pre: Z) (totals_2: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram_2: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram_2)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current_2 )) (PreH13 : (Forall (Z.ge (999999999)) current_2 )) (PreH14 : (Forall (Z.le (0)) histogram_2 )) (PreH15 : (Forall (Z.ge (n_pre)) histogram_2 )) (PreH16 : (Forall (Z.le (0)) totals_2 )) (PreH17 : (Forall (Z.ge (n_pre)) totals_2 )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current_2 exponent )) (PreH21 : (DigitHistogramPrefix current_2 exponent n_pre histogram_2 )) (PreH22 : (DigitPrefixTotals histogram_2 totals_2 digit )),
   TT && emp 
 |--
-  EX (histogram: (@list Z)) ,
-  “ ((Zlength (histogram)) = 10) ” 
-  &&  “ (1 <= (digit + 1 )) ” 
-  &&  “ ((digit + 1 ) <= 10) ” 
-  &&  “ (Forall (Z.le (0)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) histogram ) ” 
-  &&  “ (Forall (Z.le (0)) (replace_Znth (digit) (((Znth digit totals_2 0) + (Znth (digit - 1 ) totals_2 0) )) (totals_2)) ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) (replace_Znth (digit) (((Znth digit totals_2 0) + (Znth (digit - 1 ) totals_2 0) )) (totals_2)) ) ” 
-  &&  “ (DigitHistogramPrefix current_2 exponent n_pre histogram ) ” 
+  EX (histogram: (@list Z)),
+  “ ((Zlength (histogram)) = 10) ”
+  &&  “ (1 <= (digit + 1 )) ”
+  &&  “ ((digit + 1 ) <= 10) ”
+  &&  “ (Forall (Z.le (0)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) histogram ) ”
+  &&  “ (Forall (Z.le (0)) (replace_Znth (digit) (((Znth digit totals_2 0) + (Znth (digit - 1 ) totals_2 0) )) (totals_2)) ) ”
+  &&  “ (Forall (Z.ge (n_pre)) (replace_Znth (digit) (((Znth digit totals_2 0) + (Znth (digit - 1 ) totals_2 0) )) (totals_2)) ) ”
+  &&  “ (DigitHistogramPrefix current_2 exponent n_pre histogram ) ”
   &&  “ (DigitPrefixTotals histogram (replace_Znth (digit) (((Znth digit totals_2 0) + (Znth (digit - 1 ) totals_2 0) )) (totals_2)) (digit + 1 ) ) ”
   &&  emp
 ).
 
-Definition sort_entail_wit_11 := 
+Definition sort_entail_wit_11 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram_2: (@list Z)) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram_2)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current_2 )) (PreH13 : (Forall (Z.ge (999999999)) current_2 )) (PreH14 : (Forall (Z.le (0)) histogram_2 )) (PreH15 : (Forall (Z.ge (n_pre)) histogram_2 )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current_2 exponent )) (PreH21 : (DigitHistogramPrefix current_2 exponent n_pre histogram_2 )) (PreH22 : (DigitPrefixTotals histogram_2 totals digit )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (totals: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram_2: (@list Z)) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram_2)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current_2 )) (PreH13 : (Forall (Z.ge (999999999)) current_2 )) (PreH14 : (Forall (Z.le (0)) histogram_2 )) (PreH15 : (Forall (Z.ge (n_pre)) histogram_2 )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current_2 exponent )) (PreH21 : (DigitHistogramPrefix current_2 exponent n_pre histogram_2 )) (PreH22 : (DigitPrefixTotals histogram_2 totals digit )),
   (IntArray.full a_pre n_pre current_2 )
   **  (IntArray.full ( &( "count" ) ) 10 totals )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  EX (mixed_output: (@list (@option Z)))  (counters: (@list Z))  (current: (@list Z))  (histogram: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (histogram)) = 10) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ ((-1) <= (n_pre - 1 )) ” 
-  &&  “ ((n_pre - 1 ) < n_pre) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (Z.le (0)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) histogram ) ” 
-  &&  “ (Forall (Z.le (0)) counters ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) counters ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ” 
+  EX (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current: (@list Z)) (histogram: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (histogram)) = 10) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ ((-1) <= (n_pre - 1 )) ”
+  &&  “ ((n_pre - 1 ) < n_pre) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (Z.le (0)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) histogram ) ”
+  &&  “ (Forall (Z.le (0)) counters ) ”
+  &&  “ (Forall (Z.ge (n_pre)) counters ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ”
   &&  “ (BucketPlacementProgress current exponent ((n_pre - 1 ) + 1 ) histogram counters mixed_output ) ”
   &&  (IntArray.full a_pre n_pre current )
   **  (IntArray.full ( &( "count" ) ) 10 counters )
   **  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram_2: (@list Z)) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram_2)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current_2 )) (PreH13 : (Forall (Z.ge (999999999)) current_2 )) (PreH14 : (Forall (Z.le (0)) histogram_2 )) (PreH15 : (Forall (Z.ge (n_pre)) histogram_2 )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current_2 exponent )) (PreH21 : (DigitHistogramPrefix current_2 exponent n_pre histogram_2 )) (PreH22 : (DigitPrefixTotals histogram_2 totals digit )) ,
+forall (input: (@list Z)) (n_pre: Z) (totals: (@list Z)) (current_2: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram_2: (@list Z)) (PreH1 : (digit >= 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram_2)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current_2 )) (PreH13 : (Forall (Z.ge (999999999)) current_2 )) (PreH14 : (Forall (Z.le (0)) histogram_2 )) (PreH15 : (Forall (Z.ge (n_pre)) histogram_2 )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current_2 exponent )) (PreH21 : (DigitHistogramPrefix current_2 exponent n_pre histogram_2 )) (PreH22 : (DigitPrefixTotals histogram_2 totals digit )),
   (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  EX (mixed_output: (@list (@option Z)))  (histogram: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (histogram)) = 10) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ ((-1) <= (n_pre - 1 )) ” 
-  &&  “ ((n_pre - 1 ) < n_pre) ” 
-  &&  “ (Forall (Z.le (0)) current_2 ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current_2 ) ” 
-  &&  “ (Forall (Z.le (0)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) histogram ) ” 
-  &&  “ (Forall (Z.le (0)) totals ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) totals ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current_2 exponent ) ” 
-  &&  “ (DigitHistogramPrefix current_2 exponent n_pre histogram ) ” 
+  EX (mixed_output: (@list (@option Z))) (histogram: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (histogram)) = 10) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ ((-1) <= (n_pre - 1 )) ”
+  &&  “ ((n_pre - 1 ) < n_pre) ”
+  &&  “ (Forall (Z.le (0)) current_2 ) ”
+  &&  “ (Forall (Z.ge (999999999)) current_2 ) ”
+  &&  “ (Forall (Z.le (0)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) histogram ) ”
+  &&  “ (Forall (Z.le (0)) totals ) ”
+  &&  “ (Forall (Z.ge (n_pre)) totals ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current_2 exponent ) ”
+  &&  “ (DigitHistogramPrefix current_2 exponent n_pre histogram ) ”
   &&  “ (BucketPlacementProgress current_2 exponent ((n_pre - 1 ) + 1 ) histogram totals mixed_output ) ”
   &&  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 ).
 
-Definition sort_entail_wit_12 := 
+Definition sort_entail_wit_12 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (mixed_output_2: (@list (@option Z))) (counters_2: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram_2: (@list Z)) (PreH1 : (i >= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram_2)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram_2 )) (PreH15 : (Forall (Z.ge (n_pre)) histogram_2 )) (PreH16 : (Forall (Z.le (0)) counters_2 )) (PreH17 : (Forall (Z.ge (n_pre)) counters_2 )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram_2 )) (PreH22 : (BucketPlacementProgress current exponent (i + 1 ) histogram_2 counters_2 mixed_output_2 )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (mixed_output_2: (@list (@option Z))) (counters_2: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram_2: (@list Z)) (PreH1 : (i >= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram_2)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram_2 )) (PreH15 : (Forall (Z.ge (n_pre)) histogram_2 )) (PreH16 : (Forall (Z.le (0)) counters_2 )) (PreH17 : (Forall (Z.ge (n_pre)) counters_2 )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram_2 )) (PreH22 : (BucketPlacementProgress current exponent (i + 1 ) histogram_2 counters_2 mixed_output_2 )),
   (IntArray.full a_pre n_pre current )
   **  (IntArray.full ( &( "count" ) ) 10 counters_2 )
   **  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output_2 )
 |--
-  EX (mixed_output: (@list (@option Z)))  (counters: (@list Z))  (current_2: (@list Z))  (histogram: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (histogram)) = 10) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < n_pre) ” 
-  &&  “ (Forall (Z.le (0)) current_2 ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current_2 ) ” 
-  &&  “ (Forall (Z.le (0)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) histogram ) ” 
-  &&  “ (Forall (Z.le (0)) counters ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) counters ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current_2 exponent ) ” 
-  &&  “ (DigitHistogramPrefix current_2 exponent n_pre histogram ) ” 
-  &&  “ (BucketPlacementProgress current_2 exponent (i + 1 ) histogram counters mixed_output ) ” 
-  &&  “ ((((Znth i current 0) ÷ exponent ) % ( 10 ) ) = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) )) ” 
-  &&  “ (0 <= (((Znth i current 0) ÷ exponent ) % ( 10 ) )) ” 
-  &&  “ ((((Znth i current 0) ÷ exponent ) % ( 10 ) ) < 10) ” 
-  &&  “ (1 <= (Znth ((((Znth i current 0) ÷ exponent ) % ( 10 ) )) (counters) (0))) ” 
+  EX (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current_2: (@list Z)) (histogram: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (histogram)) = 10) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < n_pre) ”
+  &&  “ (Forall (Z.le (0)) current_2 ) ”
+  &&  “ (Forall (Z.ge (999999999)) current_2 ) ”
+  &&  “ (Forall (Z.le (0)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) histogram ) ”
+  &&  “ (Forall (Z.le (0)) counters ) ”
+  &&  “ (Forall (Z.ge (n_pre)) counters ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current_2 exponent ) ”
+  &&  “ (DigitHistogramPrefix current_2 exponent n_pre histogram ) ”
+  &&  “ (BucketPlacementProgress current_2 exponent (i + 1 ) histogram counters mixed_output ) ”
+  &&  “ ((((Znth i current 0) ÷ exponent ) % ( 10 ) ) = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) )) ”
+  &&  “ (0 <= (((Znth i current 0) ÷ exponent ) % ( 10 ) )) ”
+  &&  “ ((((Znth i current 0) ÷ exponent ) % ( 10 ) ) < 10) ”
+  &&  “ (1 <= (Znth ((((Znth i current 0) ÷ exponent ) % ( 10 ) )) (counters) (0))) ”
   &&  “ ((Znth ((((Znth i current 0) ÷ exponent ) % ( 10 ) )) (counters) (0)) <= n_pre) ”
   &&  (IntArray.full a_pre n_pre current_2 )
   **  (((( &( "count" ) ) + ((((Znth i current 0) ÷ exponent ) % ( 10 ) ) * sizeof(INT)))) # Int  |-> (Znth ((((Znth i current 0) ÷ exponent ) % ( 10 ) )) (counters) (0)))
@@ -1246,113 +1230,113 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (mixed_output_2: (@list (@option
   **  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (mixed_output_2: (@list (@option Z))) (counters_2: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram_2: (@list Z)) (PreH1 : (i >= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram_2)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram_2 )) (PreH15 : (Forall (Z.ge (n_pre)) histogram_2 )) (PreH16 : (Forall (Z.le (0)) counters_2 )) (PreH17 : (Forall (Z.ge (n_pre)) counters_2 )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram_2 )) (PreH22 : (BucketPlacementProgress current exponent (i + 1 ) histogram_2 counters_2 mixed_output_2 )) ,
+forall (input: (@list Z)) (n_pre: Z) (mixed_output_2: (@list (@option Z))) (counters_2: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram_2: (@list Z)) (PreH1 : (i >= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram_2)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram_2 )) (PreH15 : (Forall (Z.ge (n_pre)) histogram_2 )) (PreH16 : (Forall (Z.le (0)) counters_2 )) (PreH17 : (Forall (Z.ge (n_pre)) counters_2 )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram_2 )) (PreH22 : (BucketPlacementProgress current exponent (i + 1 ) histogram_2 counters_2 mixed_output_2 )),
   (IntArray.full ( &( "count" ) ) 10 counters_2 )
 |--
-  EX (counters: (@list Z))  (histogram: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (histogram)) = 10) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < n_pre) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (Z.le (0)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) histogram ) ” 
-  &&  “ (Forall (Z.le (0)) counters ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) counters ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ” 
-  &&  “ (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output_2 ) ” 
-  &&  “ ((((Znth i current 0) ÷ exponent ) % ( 10 ) ) = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) )) ” 
-  &&  “ (0 <= (((Znth i current 0) ÷ exponent ) % ( 10 ) )) ” 
-  &&  “ ((((Znth i current 0) ÷ exponent ) % ( 10 ) ) < 10) ” 
-  &&  “ (1 <= (Znth ((((Znth i current 0) ÷ exponent ) % ( 10 ) )) (counters) (0))) ” 
+  EX (counters: (@list Z)) (histogram: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (histogram)) = 10) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < n_pre) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (Z.le (0)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) histogram ) ”
+  &&  “ (Forall (Z.le (0)) counters ) ”
+  &&  “ (Forall (Z.ge (n_pre)) counters ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ”
+  &&  “ (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output_2 ) ”
+  &&  “ ((((Znth i current 0) ÷ exponent ) % ( 10 ) ) = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) )) ”
+  &&  “ (0 <= (((Znth i current 0) ÷ exponent ) % ( 10 ) )) ”
+  &&  “ ((((Znth i current 0) ÷ exponent ) % ( 10 ) ) < 10) ”
+  &&  “ (1 <= (Znth ((((Znth i current 0) ÷ exponent ) % ( 10 ) )) (counters) (0))) ”
   &&  “ ((Znth ((((Znth i current 0) ÷ exponent ) % ( 10 ) )) (counters) (0)) <= n_pre) ”
   &&  (((( &( "count" ) ) + ((((Znth i current 0) ÷ exponent ) % ( 10 ) ) * sizeof(INT)))) # Int  |-> (Znth ((((Znth i current 0) ÷ exponent ) % ( 10 ) )) (counters) (0)))
   **  (IntArray.missing_i ( &( "count" ) ) (((Znth i current 0) ÷ exponent ) % ( 10 ) ) 0 10 counters )
 ).
 
-Definition sort_entail_wit_13 := 
+Definition sort_entail_wit_13 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current_2: (@list Z)) (histogram_2: (@list Z)) (counters_2: (@list Z)) (mixed_output_2: (@list (@option Z))) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (histogram_2)) = 10)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i < n_pre)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (Z.le (0)) histogram_2 )) (PreH14 : (Forall (Z.ge (n_pre)) histogram_2 )) (PreH15 : (Forall (Z.le (0)) counters_2 )) (PreH16 : (Forall (Z.ge (n_pre)) counters_2 )) (PreH17 : (PrefixMaximum input n_pre max_value )) (PreH18 : (DecimalExponent exponent )) (PreH19 : (RadixPassState input current_2 exponent )) (PreH20 : (DigitHistogramPrefix current_2 exponent n_pre histogram_2 )) (PreH21 : (BucketPlacementProgress current_2 exponent (i + 1 ) histogram_2 counters_2 mixed_output_2 )) (PreH22 : (digit = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) ))) (PreH23 : (0 <= digit)) (PreH24 : (digit < 10)) (PreH25 : (1 <= (Znth (digit) (counters_2) (0)))) (PreH26 : ((Znth (digit) (counters_2) (0)) <= n_pre)) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current_2: (@list Z)) (histogram_2: (@list Z)) (counters_2: (@list Z)) (mixed_output_2: (@list (@option Z))) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (histogram_2)) = 10)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i < n_pre)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (Z.le (0)) histogram_2 )) (PreH14 : (Forall (Z.ge (n_pre)) histogram_2 )) (PreH15 : (Forall (Z.le (0)) counters_2 )) (PreH16 : (Forall (Z.ge (n_pre)) counters_2 )) (PreH17 : (PrefixMaximum input n_pre max_value )) (PreH18 : (DecimalExponent exponent )) (PreH19 : (RadixPassState input current_2 exponent )) (PreH20 : (DigitHistogramPrefix current_2 exponent n_pre histogram_2 )) (PreH21 : (BucketPlacementProgress current_2 exponent (i + 1 ) histogram_2 counters_2 mixed_output_2 )) (PreH22 : (digit = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) ))) (PreH23 : (0 <= digit)) (PreH24 : (digit < 10)) (PreH25 : (1 <= (Znth (digit) (counters_2) (0)))) (PreH26 : ((Znth (digit) (counters_2) (0)) <= n_pre)),
   (IntArray.mixed_full ( &( "output" ) ) 1000 (replace_Znth (((Znth (digit) (counters_2) (0)) - 1 )) ((Some ((Znth i current_2 0)))) (mixed_output_2)) )
   **  (IntArray.full ( &( "count" ) ) 10 (replace_Znth (digit) (((Znth (digit) (counters_2) (0)) - 1 )) (counters_2)) )
   **  (IntArray.full a_pre n_pre current_2 )
 |--
-  EX (mixed_output: (@list (@option Z)))  (counters: (@list Z))  (current: (@list Z))  (histogram: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (histogram)) = 10) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ ((-1) <= (i - 1 )) ” 
-  &&  “ ((i - 1 ) < n_pre) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (Z.le (0)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) histogram ) ” 
-  &&  “ (Forall (Z.le (0)) counters ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) counters ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ” 
+  EX (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current: (@list Z)) (histogram: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (histogram)) = 10) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ ((-1) <= (i - 1 )) ”
+  &&  “ ((i - 1 ) < n_pre) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (Z.le (0)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) histogram ) ”
+  &&  “ (Forall (Z.le (0)) counters ) ”
+  &&  “ (Forall (Z.ge (n_pre)) counters ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ”
   &&  “ (BucketPlacementProgress current exponent ((i - 1 ) + 1 ) histogram counters mixed_output ) ”
   &&  (IntArray.full a_pre n_pre current )
   **  (IntArray.full ( &( "count" ) ) 10 counters )
   **  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (current_2: (@list Z)) (histogram_2: (@list Z)) (counters_2: (@list Z)) (mixed_output_2: (@list (@option Z))) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (histogram_2)) = 10)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i < n_pre)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (Z.le (0)) histogram_2 )) (PreH14 : (Forall (Z.ge (n_pre)) histogram_2 )) (PreH15 : (Forall (Z.le (0)) counters_2 )) (PreH16 : (Forall (Z.ge (n_pre)) counters_2 )) (PreH17 : (PrefixMaximum input n_pre max_value )) (PreH18 : (DecimalExponent exponent )) (PreH19 : (RadixPassState input current_2 exponent )) (PreH20 : (DigitHistogramPrefix current_2 exponent n_pre histogram_2 )) (PreH21 : (BucketPlacementProgress current_2 exponent (i + 1 ) histogram_2 counters_2 mixed_output_2 )) (PreH22 : (digit = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) ))) (PreH23 : (0 <= digit)) (PreH24 : (digit < 10)) (PreH25 : (1 <= (Znth (digit) (counters_2) (0)))) (PreH26 : ((Znth (digit) (counters_2) (0)) <= n_pre)) ,
+forall (input: (@list Z)) (n_pre: Z) (current_2: (@list Z)) (histogram_2: (@list Z)) (counters_2: (@list Z)) (mixed_output_2: (@list (@option Z))) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (histogram_2)) = 10)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i < n_pre)) (PreH11 : (Forall (Z.le (0)) current_2 )) (PreH12 : (Forall (Z.ge (999999999)) current_2 )) (PreH13 : (Forall (Z.le (0)) histogram_2 )) (PreH14 : (Forall (Z.ge (n_pre)) histogram_2 )) (PreH15 : (Forall (Z.le (0)) counters_2 )) (PreH16 : (Forall (Z.ge (n_pre)) counters_2 )) (PreH17 : (PrefixMaximum input n_pre max_value )) (PreH18 : (DecimalExponent exponent )) (PreH19 : (RadixPassState input current_2 exponent )) (PreH20 : (DigitHistogramPrefix current_2 exponent n_pre histogram_2 )) (PreH21 : (BucketPlacementProgress current_2 exponent (i + 1 ) histogram_2 counters_2 mixed_output_2 )) (PreH22 : (digit = (((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) ))) (PreH23 : (0 <= digit)) (PreH24 : (digit < 10)) (PreH25 : (1 <= (Znth (digit) (counters_2) (0)))) (PreH26 : ((Znth (digit) (counters_2) (0)) <= n_pre)),
   TT && emp 
 |--
-  EX (histogram: (@list Z)) ,
-  “ ((Zlength (histogram)) = 10) ” 
-  &&  “ ((-1) <= (i - 1 )) ” 
-  &&  “ ((i - 1 ) < n_pre) ” 
-  &&  “ (Forall (Z.le (0)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) histogram ) ” 
-  &&  “ (Forall (Z.le (0)) (replace_Znth ((((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) )) (((Znth ((((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) )) (counters_2) (0)) - 1 )) (counters_2)) ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) (replace_Znth ((((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) )) (((Znth ((((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) )) (counters_2) (0)) - 1 )) (counters_2)) ) ” 
-  &&  “ (DigitHistogramPrefix current_2 exponent n_pre histogram ) ” 
+  EX (histogram: (@list Z)),
+  “ ((Zlength (histogram)) = 10) ”
+  &&  “ ((-1) <= (i - 1 )) ”
+  &&  “ ((i - 1 ) < n_pre) ”
+  &&  “ (Forall (Z.le (0)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) histogram ) ”
+  &&  “ (Forall (Z.le (0)) (replace_Znth ((((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) )) (((Znth ((((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) )) (counters_2) (0)) - 1 )) (counters_2)) ) ”
+  &&  “ (Forall (Z.ge (n_pre)) (replace_Znth ((((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) )) (((Znth ((((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) )) (counters_2) (0)) - 1 )) (counters_2)) ) ”
+  &&  “ (DigitHistogramPrefix current_2 exponent n_pre histogram ) ”
   &&  “ (BucketPlacementProgress current_2 exponent ((i - 1 ) + 1 ) histogram (replace_Znth ((((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) )) (((Znth ((((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) )) (counters_2) (0)) - 1 )) (counters_2)) (replace_Znth (((Znth ((((Znth (i) (current_2) (0)) ÷ exponent ) % ( 10 ) )) (counters_2) (0)) - 1 )) ((Some ((Znth i current_2 0)))) (mixed_output_2)) ) ”
   &&  emp
 ).
 
-Definition sort_entail_wit_14 := 
+Definition sort_entail_wit_14 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current_2: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (i < 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current_2 )) (PreH13 : (Forall (Z.ge (999999999)) current_2 )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) counters )) (PreH17 : (Forall (Z.ge (n_pre)) counters )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current_2 exponent )) (PreH21 : (DigitHistogramPrefix current_2 exponent n_pre histogram )) (PreH22 : (BucketPlacementProgress current_2 exponent (i + 1 ) histogram counters mixed_output )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current_2: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (i < 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current_2 )) (PreH13 : (Forall (Z.ge (999999999)) current_2 )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) counters )) (PreH17 : (Forall (Z.ge (n_pre)) counters )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current_2 exponent )) (PreH21 : (DigitHistogramPrefix current_2 exponent n_pre histogram )) (PreH22 : (BucketPlacementProgress current_2 exponent (i + 1 ) histogram counters mixed_output )),
   (IntArray.full a_pre n_pre current_2 )
   **  (IntArray.full ( &( "count" ) ) 10 counters )
   **  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 |--
-  EX (bucket_starts: (@list Z))  (working: (@list Z))  (pass_output: (@list Z))  (current: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (current)) = n_pre) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= n_pre) ” 
-  &&  “ (Forall (Z.le (0)) pass_output ) ” 
-  &&  “ (Forall (Z.ge (999999999)) pass_output ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (StableDigitPass current pass_output exponent ) ” 
+  EX (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (current: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (current)) = n_pre) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 <= 0) ”
+  &&  “ (0 <= n_pre) ”
+  &&  “ (Forall (Z.le (0)) pass_output ) ”
+  &&  “ (Forall (Z.ge (999999999)) pass_output ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (StableDigitPass current pass_output exponent ) ”
   &&  “ (RadixCopyPrefix current pass_output working 0 ) ”
   &&  (IntArray.full a_pre n_pre working )
   **  (IntArray.full ( &( "count" ) ) 10 bucket_starts )
@@ -1360,54 +1344,54 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (mixed_output: (@list (@option Z
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current_2: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (i < 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current_2 )) (PreH13 : (Forall (Z.ge (999999999)) current_2 )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) counters )) (PreH17 : (Forall (Z.ge (n_pre)) counters )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current_2 exponent )) (PreH21 : (DigitHistogramPrefix current_2 exponent n_pre histogram )) (PreH22 : (BucketPlacementProgress current_2 exponent (i + 1 ) histogram counters mixed_output )) ,
+forall (input: (@list Z)) (n_pre: Z) (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current_2: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (i < 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current_2 )) (PreH13 : (Forall (Z.ge (999999999)) current_2 )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) counters )) (PreH17 : (Forall (Z.ge (n_pre)) counters )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current_2 exponent )) (PreH21 : (DigitHistogramPrefix current_2 exponent n_pre histogram )) (PreH22 : (BucketPlacementProgress current_2 exponent (i + 1 ) histogram counters mixed_output )),
   (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 |--
-  EX (pass_output: (@list Z))  (current: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (current)) = n_pre) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= n_pre) ” 
-  &&  “ (Forall (Z.le (0)) pass_output ) ” 
-  &&  “ (Forall (Z.ge (999999999)) pass_output ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (StableDigitPass current pass_output exponent ) ” 
+  EX (pass_output: (@list Z)) (current: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (current)) = n_pre) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 <= 0) ”
+  &&  “ (0 <= n_pre) ”
+  &&  “ (Forall (Z.le (0)) pass_output ) ”
+  &&  “ (Forall (Z.ge (999999999)) pass_output ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (StableDigitPass current pass_output exponent ) ”
   &&  “ (RadixCopyPrefix current pass_output current_2 0 ) ”
   &&  (IntArray.seg ( &( "output" ) ) 0 n_pre pass_output )
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
 ).
 
-Definition sort_entail_wit_15 := 
+Definition sort_entail_wit_15 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (bucket_starts_2: (@list Z)) (working_2: (@list Z)) (pass_output_2: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output_2 )) (PreH12 : (Forall (Z.ge (999999999)) pass_output_2 )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output_2 exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output_2 working_2 i )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (bucket_starts_2: (@list Z)) (working_2: (@list Z)) (pass_output_2: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output_2 )) (PreH12 : (Forall (Z.ge (999999999)) pass_output_2 )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output_2 exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output_2 working_2 i )),
   (IntArray.full a_pre n_pre (replace_Znth (i) ((Znth (i - 0 ) pass_output_2 0)) (working_2)) )
   **  (IntArray.seg ( &( "output" ) ) 0 n_pre pass_output_2 )
   **  (IntArray.full ( &( "count" ) ) 10 bucket_starts_2 )
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
 |--
-  EX (bucket_starts: (@list Z))  (working: (@list Z))  (pass_output: (@list Z))  (current: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (current)) = n_pre) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 <= (i + 1 )) ” 
-  &&  “ ((i + 1 ) <= n_pre) ” 
-  &&  “ (Forall (Z.le (0)) pass_output ) ” 
-  &&  “ (Forall (Z.ge (999999999)) pass_output ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (StableDigitPass current pass_output exponent ) ” 
+  EX (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (current: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (current)) = n_pre) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 <= (i + 1 )) ”
+  &&  “ ((i + 1 ) <= n_pre) ”
+  &&  “ (Forall (Z.le (0)) pass_output ) ”
+  &&  “ (Forall (Z.ge (999999999)) pass_output ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (StableDigitPass current pass_output exponent ) ”
   &&  “ (RadixCopyPrefix current pass_output working (i + 1 ) ) ”
   &&  (IntArray.full a_pre n_pre working )
   **  (IntArray.full ( &( "count" ) ) 10 bucket_starts )
@@ -1415,59 +1399,59 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (bucket_starts_2: (@list Z)) (wo
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (working_2: (@list Z)) (pass_output_2: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output_2 )) (PreH12 : (Forall (Z.ge (999999999)) pass_output_2 )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output_2 exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output_2 working_2 i )) ,
+forall (input: (@list Z)) (n_pre: Z) (working_2: (@list Z)) (pass_output_2: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output_2 )) (PreH12 : (Forall (Z.ge (999999999)) pass_output_2 )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output_2 exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output_2 working_2 i )),
   TT && emp 
 |--
-  EX (current: (@list Z)) ,
-  “ ((Zlength (current)) = (Zlength (current_2))) ” 
-  &&  “ (0 <= (i + 1 )) ” 
-  &&  “ ((i + 1 ) <= (Zlength (current_2))) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (StableDigitPass current pass_output_2 exponent ) ” 
+  EX (current: (@list Z)),
+  “ ((Zlength (current)) = (Zlength (current_2))) ”
+  &&  “ (0 <= (i + 1 )) ”
+  &&  “ ((i + 1 ) <= (Zlength (current_2))) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (StableDigitPass current pass_output_2 exponent ) ”
   &&  “ (RadixCopyPrefix current pass_output_2 (replace_Znth (i) ((Znth (i - 0 ) pass_output_2 0)) (working_2)) (i + 1 ) ) ”
   &&  emp
 ).
 
-Definition sort_entail_wit_16 := 
+Definition sort_entail_wit_16 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output working i )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output working i )),
   (IntArray.full a_pre n_pre working )
   **  (IntArray.full ( &( "count" ) ) 10 bucket_starts )
   **  (IntArray.seg ( &( "output" ) ) 0 n_pre pass_output )
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
 |--
-  EX (current: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= (exponent * 10 )) ” 
-  &&  “ ((exponent * 10 ) <= 1000000000) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent (exponent * 10 ) ) ” 
+  EX (current: (@list Z)),
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= (exponent * 10 )) ”
+  &&  “ ((exponent * 10 ) <= 1000000000) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent (exponent * 10 ) ) ”
   &&  “ (RadixPassState input current (exponent * 10 ) ) ”
   &&  (IntArray.full a_pre n_pre current )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
   **  (IntArray.undef_full ( &( "count" ) ) 10 )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output working i )) ,
+forall (input: (@list Z)) (n_pre: Z) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output working i )),
   (IntArray.full ( &( "count" ) ) 10 bucket_starts )
   **  (IntArray.seg ( &( "output" ) ) 0 n_pre pass_output )
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
 |--
-  “ (RadixPassState input working (exponent * 10 ) ) ” 
-  &&  “ (DecimalExponent (exponent * 10 ) ) ” 
-  &&  “ (Forall (Z.ge (999999999)) working ) ” 
+  “ (RadixPassState input working (exponent * 10 ) ) ”
+  &&  “ (DecimalExponent (exponent * 10 ) ) ”
+  &&  “ (Forall (Z.ge (999999999)) working ) ”
   &&  “ (Forall (Z.le (0)) working ) ”
   &&  (IntArray.undef_full ( &( "output" ) ) 1000 )
   **  (IntArray.undef_full ( &( "count" ) ) 10 )
 ).
 
-Definition sort_entail_wit_16_split_goal_1 := 
-forall (n_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output working i )) ,
+Definition sort_entail_wit_16_split_goal_1 :=
+forall (input: (@list Z)) (n_pre: Z) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output working i )),
   (IntArray.full ( &( "count" ) ) 10 bucket_starts )
   **  (IntArray.seg ( &( "output" ) ) 0 n_pre pass_output )
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
@@ -1475,8 +1459,8 @@ forall (n_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list
   “ (RadixPassState input working (exponent * 10 ) ) ”
 .
 
-Definition sort_entail_wit_16_split_goal_2 := 
-forall (n_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output working i )) ,
+Definition sort_entail_wit_16_split_goal_2 :=
+forall (input: (@list Z)) (n_pre: Z) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output working i )),
   (IntArray.full ( &( "count" ) ) 10 bucket_starts )
   **  (IntArray.seg ( &( "output" ) ) 0 n_pre pass_output )
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
@@ -1484,8 +1468,8 @@ forall (n_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list
   “ (DecimalExponent (exponent * 10 ) ) ”
 .
 
-Definition sort_entail_wit_16_split_goal_3 := 
-forall (n_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output working i )) ,
+Definition sort_entail_wit_16_split_goal_3 :=
+forall (input: (@list Z)) (n_pre: Z) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output working i )),
   (IntArray.full ( &( "count" ) ) 10 bucket_starts )
   **  (IntArray.seg ( &( "output" ) ) 0 n_pre pass_output )
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
@@ -1493,8 +1477,8 @@ forall (n_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list
   “ (Forall (Z.ge (999999999)) working ) ”
 .
 
-Definition sort_entail_wit_16_split_goal_4 := 
-forall (n_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output working i )) ,
+Definition sort_entail_wit_16_split_goal_4 :=
+forall (input: (@list Z)) (n_pre: Z) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output working i )),
   (IntArray.full ( &( "count" ) ) 10 bucket_starts )
   **  (IntArray.seg ( &( "output" ) ) 0 n_pre pass_output )
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
@@ -1502,8 +1486,8 @@ forall (n_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list
   “ (Forall (Z.le (0)) working ) ”
 .
 
-Definition sort_entail_wit_16_split_goal_spatial := 
-forall (n_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output working i )) ,
+Definition sort_entail_wit_16_split_goal_spatial :=
+forall (input: (@list Z)) (n_pre: Z) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current_2)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current_2 exponent )) (PreH16 : (StableDigitPass current_2 pass_output exponent )) (PreH17 : (RadixCopyPrefix current_2 pass_output working i )),
   (IntArray.full ( &( "count" ) ) 10 bucket_starts )
   **  (IntArray.seg ( &( "output" ) ) 0 n_pre pass_output )
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
@@ -1512,136 +1496,136 @@ forall (n_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list
   **  (IntArray.undef_full ( &( "count" ) ) 10 )
 .
 
-Definition sort_return_wit_1 := 
+Definition sort_return_wit_1 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (PreH1 : (n_pre <= 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (PreH1 : (n_pre <= 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )),
   (IntArray.full a_pre n_pre input )
 |--
-  EX (output: (@list Z)) ,
-  “ (Permutation input output ) ” 
+  EX (output: (@list Z)),
+  “ (Permutation input output ) ”
   &&  “ (increasing output ) ”
   &&  (IntArray.full a_pre n_pre output )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (PreH1 : (n_pre <= 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )) ,
+forall (input: (@list Z)) (n_pre: Z) (PreH1 : (n_pre <= 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )),
   TT && emp 
 |--
-  “ (increasing input ) ” 
+  “ (increasing input ) ”
   &&  “ (Permutation input input ) ”
   &&  emp
 ).
 
-Definition sort_return_wit_1_split_goal_1 := 
-forall (n_pre: Z) (input: (@list Z)) (PreH1 : (n_pre <= 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )) ,
+Definition sort_return_wit_1_split_goal_1 :=
+forall (input: (@list Z)) (n_pre: Z) (PreH1 : (n_pre <= 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )),
   (increasing input )
 .
 
-Definition sort_return_wit_1_split_goal_2 := 
-forall (n_pre: Z) (input: (@list Z)) (PreH1 : (n_pre <= 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )) ,
+Definition sort_return_wit_1_split_goal_2 :=
+forall (input: (@list Z)) (n_pre: Z) (PreH1 : (n_pre <= 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )),
   (Permutation input input )
 .
 
-Definition sort_return_wit_2 := 
+Definition sort_return_wit_2 :=
 (
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) <= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current )) (PreH9 : (Forall (Z.ge (999999999)) current )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current exponent )) ,
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) <= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current )) (PreH9 : (Forall (Z.ge (999999999)) current )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current exponent )),
   (IntArray.full a_pre n_pre current )
 |--
-  EX (output: (@list Z)) ,
-  “ (Permutation input output ) ” 
+  EX (output: (@list Z)),
+  “ (Permutation input output ) ”
   &&  “ (increasing output ) ”
   &&  (IntArray.full a_pre n_pre output )
 ) \/
 (
-forall (n_pre: Z) (input: (@list Z)) (current: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) <= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current )) (PreH9 : (Forall (Z.ge (999999999)) current )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current exponent )) ,
+forall (input: (@list Z)) (n_pre: Z) (current: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) <= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current )) (PreH9 : (Forall (Z.ge (999999999)) current )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current exponent )),
   TT && emp 
 |--
-  “ (increasing current ) ” 
+  “ (increasing current ) ”
   &&  “ (Permutation input current ) ”
   &&  emp
 ).
 
-Definition sort_return_wit_2_split_goal_1 := 
-forall (n_pre: Z) (input: (@list Z)) (current: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) <= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current )) (PreH9 : (Forall (Z.ge (999999999)) current )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current exponent )) ,
+Definition sort_return_wit_2_split_goal_1 :=
+forall (input: (@list Z)) (n_pre: Z) (current: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) <= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current )) (PreH9 : (Forall (Z.ge (999999999)) current )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current exponent )),
   (increasing current )
 .
 
-Definition sort_return_wit_2_split_goal_2 := 
-forall (n_pre: Z) (input: (@list Z)) (current: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) <= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current )) (PreH9 : (Forall (Z.ge (999999999)) current )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current exponent )) ,
+Definition sort_return_wit_2_split_goal_2 :=
+forall (input: (@list Z)) (n_pre: Z) (current: (@list Z)) (exponent: Z) (max_value: Z) (PreH1 : ((max_value ÷ exponent ) <= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 1000000000)) (PreH8 : (Forall (Z.le (0)) current )) (PreH9 : (Forall (Z.ge (999999999)) current )) (PreH10 : (PrefixMaximum input n_pre max_value )) (PreH11 : (DecimalExponent exponent )) (PreH12 : (RadixPassState input current exponent )),
   (Permutation input current )
 .
 
-Definition sort_partial_solve_wit_1 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (PreH1 : (n_pre > 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )) ,
+Definition sort_partial_solve_wit_1 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (PreH1 : (n_pre > 1)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall (Z.le (0)) input )) (PreH5 : (Forall (Z.ge (999999999)) input )),
   (IntArray.full a_pre n_pre input )
 |--
-  “ (n_pre > 1) ” 
-  &&  “ (0 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (Forall (Z.le (0)) input ) ” 
+  “ (n_pre > 1) ”
+  &&  “ (0 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (Forall (Z.le (0)) input ) ”
   &&  “ (Forall (Z.ge (999999999)) input ) ”
   &&  (((a_pre + (0 * sizeof(INT)))) # Int  |-> (Znth 0 input 0))
   **  (IntArray.missing_i a_pre 0 0 n_pre input )
 .
 
-Definition sort_partial_solve_wit_2 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= max_value)) (PreH7 : (max_value <= 999999999)) (PreH8 : (Forall (Z.le (0)) input )) (PreH9 : (Forall (Z.ge (999999999)) input )) (PreH10 : (PrefixMaximum input i max_value )) ,
+Definition sort_partial_solve_wit_2 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= max_value)) (PreH7 : (max_value <= 999999999)) (PreH8 : (Forall (Z.le (0)) input )) (PreH9 : (Forall (Z.ge (999999999)) input )) (PreH10 : (PrefixMaximum input i max_value )),
   (IntArray.full a_pre n_pre input )
 |--
-  “ (i < n_pre) ” 
-  &&  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (1 <= i) ” 
-  &&  “ (i <= n_pre) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (Forall (Z.le (0)) input ) ” 
-  &&  “ (Forall (Z.ge (999999999)) input ) ” 
+  “ (i < n_pre) ”
+  &&  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (1 <= i) ”
+  &&  “ (i <= n_pre) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (Forall (Z.le (0)) input ) ”
+  &&  “ (Forall (Z.ge (999999999)) input ) ”
   &&  “ (PrefixMaximum input i max_value ) ”
   &&  (((a_pre + (i * sizeof(INT)))) # Int  |-> (Znth i input 0))
   **  (IntArray.missing_i a_pre i 0 n_pre input )
 .
 
-Definition sort_partial_solve_wit_3 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) > max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )) ,
+Definition sort_partial_solve_wit_3 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (max_value: Z) (i: Z) (PreH1 : ((Znth i input 0) > max_value)) (PreH2 : (i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (0 <= max_value)) (PreH8 : (max_value <= 999999999)) (PreH9 : (Forall (Z.le (0)) input )) (PreH10 : (Forall (Z.ge (999999999)) input )) (PreH11 : (PrefixMaximum input i max_value )),
   (IntArray.full a_pre n_pre input )
 |--
-  “ ((Znth i input 0) > max_value) ” 
-  &&  “ (i < n_pre) ” 
-  &&  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (1 <= i) ” 
-  &&  “ (i <= n_pre) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (Forall (Z.le (0)) input ) ” 
-  &&  “ (Forall (Z.ge (999999999)) input ) ” 
+  “ ((Znth i input 0) > max_value) ”
+  &&  “ (i < n_pre) ”
+  &&  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (1 <= i) ”
+  &&  “ (i <= n_pre) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (Forall (Z.le (0)) input ) ”
+  &&  “ (Forall (Z.ge (999999999)) input ) ”
   &&  “ (PrefixMaximum input i max_value ) ”
   &&  (((a_pre + (i * sizeof(INT)))) # Int  |-> (Znth i input 0))
   **  (IntArray.missing_i a_pre i 0 n_pre input )
 .
 
-Definition sort_partial_solve_wit_4 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (zero_prefix: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (eq (0)) zero_prefix )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) ,
+Definition sort_partial_solve_wit_4 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (zero_prefix: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= digit)) (PreH10 : (digit <= 10)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (eq (0)) zero_prefix )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )),
   (IntArray.full a_pre n_pre current )
   **  (IntArray.seg ( &( "count" ) ) 0 digit zero_prefix )
   **  (IntArray.undef_seg ( &( "count" ) ) digit 10 )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (digit < 10) ” 
-  &&  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (0 <= digit) ” 
-  &&  “ (digit <= 10) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (eq (0)) zero_prefix ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
+  “ (digit < 10) ”
+  &&  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (0 <= digit) ”
+  &&  “ (digit <= 10) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (eq (0)) zero_prefix ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
   &&  “ (RadixPassState input current exponent ) ”
   &&  (((( &( "count" ) ) + (digit * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg ( &( "count" ) ) (digit + 1 ) 10 )
@@ -1650,29 +1634,29 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (zero_prefix: (@list Z)) (curren
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 .
 
-Definition sort_partial_solve_wit_5 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (counts: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts )) (PreH14 : (Forall (Z.ge (i)) counts )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts )) ,
+Definition sort_partial_solve_wit_5 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (counts: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) counts )) (PreH14 : (Forall (Z.ge (i)) counts )) (PreH15 : (PrefixMaximum input n_pre max_value )) (PreH16 : (DecimalExponent exponent )) (PreH17 : (RadixPassState input current exponent )) (PreH18 : (DigitHistogramPrefix current exponent i counts )),
   (IntArray.full a_pre n_pre current )
   **  (IntArray.full ( &( "count" ) ) 10 counts )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (i < n_pre) ” 
-  &&  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i <= n_pre) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (Z.le (0)) counts ) ” 
-  &&  “ (Forall (Z.ge (i)) counts ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
+  “ (i < n_pre) ”
+  &&  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i <= n_pre) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (Z.le (0)) counts ) ”
+  &&  “ (Forall (Z.ge (i)) counts ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
   &&  “ (DigitHistogramPrefix current exponent i counts ) ”
   &&  (((a_pre + (i * sizeof(INT)))) # Int  |-> (Znth i current 0))
   **  (IntArray.missing_i a_pre i 0 n_pre current )
@@ -1680,31 +1664,31 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (counts: (@list Z)) (current: (@
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 .
 
-Definition sort_partial_solve_wit_6 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (counts: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current )) (PreH11 : (Forall (Z.ge (999999999)) current )) (PreH12 : (Forall (Z.le (0)) counts )) (PreH13 : (Forall (Z.ge (i)) counts )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) (PreH17 : (DigitHistogramPrefix current exponent i counts )) (PreH18 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)) ,
+Definition sort_partial_solve_wit_6 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current: (@list Z)) (counts: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current )) (PreH11 : (Forall (Z.ge (999999999)) current )) (PreH12 : (Forall (Z.le (0)) counts )) (PreH13 : (Forall (Z.ge (i)) counts )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) (PreH17 : (DigitHistogramPrefix current exponent i counts )) (PreH18 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)),
   (IntArray.full a_pre n_pre current )
   **  (IntArray.full ( &( "count" ) ) 10 counts )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < n_pre) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (Z.le (0)) counts ) ” 
-  &&  “ (Forall (Z.ge (i)) counts ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (DigitHistogramPrefix current exponent i counts ) ” 
-  &&  “ (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) )) ” 
-  &&  “ (0 <= digit) ” 
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < n_pre) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (Z.le (0)) counts ) ”
+  &&  “ (Forall (Z.ge (i)) counts ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (DigitHistogramPrefix current exponent i counts ) ”
+  &&  “ (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) )) ”
+  &&  “ (0 <= digit) ”
   &&  “ (digit < 10) ”
   &&  (((( &( "count" ) ) + (digit * sizeof(INT)))) # Int  |-> (Znth digit counts 0))
   **  (IntArray.missing_i ( &( "count" ) ) digit 0 10 counts )
@@ -1712,31 +1696,31 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (counts: (@
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 .
 
-Definition sort_partial_solve_wit_7 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (counts: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current )) (PreH11 : (Forall (Z.ge (999999999)) current )) (PreH12 : (Forall (Z.le (0)) counts )) (PreH13 : (Forall (Z.ge (i)) counts )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) (PreH17 : (DigitHistogramPrefix current exponent i counts )) (PreH18 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)) ,
+Definition sort_partial_solve_wit_7 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current: (@list Z)) (counts: (@list Z)) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= max_value)) (PreH4 : (max_value <= 999999999)) (PreH5 : (1 <= exponent)) (PreH6 : (exponent <= 100000000)) (PreH7 : (0 < (max_value ÷ exponent ))) (PreH8 : (0 <= i)) (PreH9 : (i < n_pre)) (PreH10 : (Forall (Z.le (0)) current )) (PreH11 : (Forall (Z.ge (999999999)) current )) (PreH12 : (Forall (Z.le (0)) counts )) (PreH13 : (Forall (Z.ge (i)) counts )) (PreH14 : (PrefixMaximum input n_pre max_value )) (PreH15 : (DecimalExponent exponent )) (PreH16 : (RadixPassState input current exponent )) (PreH17 : (DigitHistogramPrefix current exponent i counts )) (PreH18 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH19 : (0 <= digit)) (PreH20 : (digit < 10)),
   (IntArray.full ( &( "count" ) ) 10 counts )
   **  (IntArray.full a_pre n_pre current )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < n_pre) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (Z.le (0)) counts ) ” 
-  &&  “ (Forall (Z.ge (i)) counts ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (DigitHistogramPrefix current exponent i counts ) ” 
-  &&  “ (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) )) ” 
-  &&  “ (0 <= digit) ” 
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < n_pre) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (Z.le (0)) counts ) ”
+  &&  “ (Forall (Z.ge (i)) counts ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (DigitHistogramPrefix current exponent i counts ) ”
+  &&  “ (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) )) ”
+  &&  “ (0 <= digit) ”
   &&  “ (digit < 10) ”
   &&  (((( &( "count" ) ) + (digit * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i ( &( "count" ) ) digit 0 10 counts )
@@ -1744,33 +1728,33 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (counts: (@
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 .
 
-Definition sort_partial_solve_wit_8 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )) ,
+Definition sort_partial_solve_wit_8 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )),
   (IntArray.full a_pre n_pre current )
   **  (IntArray.full ( &( "count" ) ) 10 totals )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (digit < 10) ” 
-  &&  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (histogram)) = 10) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (1 <= digit) ” 
-  &&  “ (digit <= 10) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (Z.le (0)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) histogram ) ” 
-  &&  “ (Forall (Z.le (0)) totals ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) totals ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ” 
+  “ (digit < 10) ”
+  &&  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (histogram)) = 10) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (1 <= digit) ”
+  &&  “ (digit <= 10) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (Z.le (0)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) histogram ) ”
+  &&  “ (Forall (Z.le (0)) totals ) ”
+  &&  “ (Forall (Z.ge (n_pre)) totals ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ”
   &&  “ (DigitPrefixTotals histogram totals digit ) ”
   &&  (((( &( "count" ) ) + (digit * sizeof(INT)))) # Int  |-> (Znth digit totals 0))
   **  (IntArray.missing_i ( &( "count" ) ) digit 0 10 totals )
@@ -1778,33 +1762,33 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 .
 
-Definition sort_partial_solve_wit_9 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )) ,
+Definition sort_partial_solve_wit_9 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )),
   (IntArray.full ( &( "count" ) ) 10 totals )
   **  (IntArray.full a_pre n_pre current )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (digit < 10) ” 
-  &&  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (histogram)) = 10) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (1 <= digit) ” 
-  &&  “ (digit <= 10) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (Z.le (0)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) histogram ) ” 
-  &&  “ (Forall (Z.le (0)) totals ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) totals ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ” 
+  “ (digit < 10) ”
+  &&  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (histogram)) = 10) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (1 <= digit) ”
+  &&  “ (digit <= 10) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (Z.le (0)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) histogram ) ”
+  &&  “ (Forall (Z.le (0)) totals ) ”
+  &&  “ (Forall (Z.ge (n_pre)) totals ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ”
   &&  “ (DigitPrefixTotals histogram totals digit ) ”
   &&  (((( &( "count" ) ) + ((digit - 1 ) * sizeof(INT)))) # Int  |-> (Znth (digit - 1 ) totals 0))
   **  (IntArray.missing_i ( &( "count" ) ) (digit - 1 ) 0 10 totals )
@@ -1812,33 +1796,33 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 .
 
-Definition sort_partial_solve_wit_10 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )) ,
+Definition sort_partial_solve_wit_10 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (totals: (@list Z)) (current: (@list Z)) (digit: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (digit < 10)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : (1 <= digit)) (PreH11 : (digit <= 10)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) totals )) (PreH17 : (Forall (Z.ge (n_pre)) totals )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (DigitPrefixTotals histogram totals digit )),
   (IntArray.full ( &( "count" ) ) 10 totals )
   **  (IntArray.full a_pre n_pre current )
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 |--
-  “ (digit < 10) ” 
-  &&  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (histogram)) = 10) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (1 <= digit) ” 
-  &&  “ (digit <= 10) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (Z.le (0)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) histogram ) ” 
-  &&  “ (Forall (Z.le (0)) totals ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) totals ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ” 
+  “ (digit < 10) ”
+  &&  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (histogram)) = 10) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (1 <= digit) ”
+  &&  “ (digit <= 10) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (Z.le (0)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) histogram ) ”
+  &&  “ (Forall (Z.le (0)) totals ) ”
+  &&  “ (Forall (Z.ge (n_pre)) totals ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ”
   &&  “ (DigitPrefixTotals histogram totals digit ) ”
   &&  (((( &( "count" ) ) + (digit * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i ( &( "count" ) ) digit 0 10 totals )
@@ -1846,33 +1830,33 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (totals: (@list Z)) (current: (@
   **  (IntArray.undef_full ( &( "output" ) ) 1000 )
 .
 
-Definition sort_partial_solve_wit_11 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (i >= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) counters )) (PreH17 : (Forall (Z.ge (n_pre)) counters )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )) ,
+Definition sort_partial_solve_wit_11 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (mixed_output: (@list (@option Z))) (counters: (@list Z)) (current: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (histogram: (@list Z)) (PreH1 : (i >= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (histogram)) = 10)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 < (max_value ÷ exponent ))) (PreH10 : ((-1) <= i)) (PreH11 : (i < n_pre)) (PreH12 : (Forall (Z.le (0)) current )) (PreH13 : (Forall (Z.ge (999999999)) current )) (PreH14 : (Forall (Z.le (0)) histogram )) (PreH15 : (Forall (Z.ge (n_pre)) histogram )) (PreH16 : (Forall (Z.le (0)) counters )) (PreH17 : (Forall (Z.ge (n_pre)) counters )) (PreH18 : (PrefixMaximum input n_pre max_value )) (PreH19 : (DecimalExponent exponent )) (PreH20 : (RadixPassState input current exponent )) (PreH21 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH22 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )),
   (IntArray.full a_pre n_pre current )
   **  (IntArray.full ( &( "count" ) ) 10 counters )
   **  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 |--
-  “ (i >= 0) ” 
-  &&  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (histogram)) = 10) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ ((-1) <= i) ” 
-  &&  “ (i < n_pre) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (Z.le (0)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) histogram ) ” 
-  &&  “ (Forall (Z.le (0)) counters ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) counters ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ” 
+  “ (i >= 0) ”
+  &&  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (histogram)) = 10) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ ((-1) <= i) ”
+  &&  “ (i < n_pre) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (Z.le (0)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) histogram ) ”
+  &&  “ (Forall (Z.le (0)) counters ) ”
+  &&  “ (Forall (Z.ge (n_pre)) counters ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ”
   &&  “ (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output ) ”
   &&  (((a_pre + (i * sizeof(INT)))) # Int  |-> (Znth i current 0))
   **  (IntArray.missing_i a_pre i 0 n_pre current )
@@ -1880,38 +1864,38 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (mixed_output: (@list (@option Z
   **  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 .
 
-Definition sort_partial_solve_wit_12 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (histogram: (@list Z)) (counters: (@list Z)) (mixed_output: (@list (@option Z))) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (histogram)) = 10)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i < n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) histogram )) (PreH14 : (Forall (Z.ge (n_pre)) histogram )) (PreH15 : (Forall (Z.le (0)) counters )) (PreH16 : (Forall (Z.ge (n_pre)) counters )) (PreH17 : (PrefixMaximum input n_pre max_value )) (PreH18 : (DecimalExponent exponent )) (PreH19 : (RadixPassState input current exponent )) (PreH20 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH21 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )) (PreH22 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH23 : (0 <= digit)) (PreH24 : (digit < 10)) (PreH25 : (1 <= (Znth (digit) (counters) (0)))) (PreH26 : ((Znth (digit) (counters) (0)) <= n_pre)) ,
+Definition sort_partial_solve_wit_12 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current: (@list Z)) (histogram: (@list Z)) (counters: (@list Z)) (mixed_output: (@list (@option Z))) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (histogram)) = 10)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i < n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) histogram )) (PreH14 : (Forall (Z.ge (n_pre)) histogram )) (PreH15 : (Forall (Z.le (0)) counters )) (PreH16 : (Forall (Z.ge (n_pre)) counters )) (PreH17 : (PrefixMaximum input n_pre max_value )) (PreH18 : (DecimalExponent exponent )) (PreH19 : (RadixPassState input current exponent )) (PreH20 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH21 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )) (PreH22 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH23 : (0 <= digit)) (PreH24 : (digit < 10)) (PreH25 : (1 <= (Znth (digit) (counters) (0)))) (PreH26 : ((Znth (digit) (counters) (0)) <= n_pre)),
   (IntArray.full a_pre n_pre current )
   **  (((( &( "count" ) ) + (digit * sizeof(INT)))) # Int  |-> ((Znth (digit) (counters) (0)) - 1 ))
   **  (IntArray.missing_i ( &( "count" ) ) digit 0 10 counters )
   **  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 |--
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (histogram)) = 10) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < n_pre) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (Z.le (0)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) histogram ) ” 
-  &&  “ (Forall (Z.le (0)) counters ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) counters ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ” 
-  &&  “ (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output ) ” 
-  &&  “ (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) )) ” 
-  &&  “ (0 <= digit) ” 
-  &&  “ (digit < 10) ” 
-  &&  “ (1 <= (Znth (digit) (counters) (0))) ” 
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (histogram)) = 10) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < n_pre) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (Z.le (0)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) histogram ) ”
+  &&  “ (Forall (Z.le (0)) counters ) ”
+  &&  “ (Forall (Z.ge (n_pre)) counters ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ”
+  &&  “ (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output ) ”
+  &&  “ (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) )) ”
+  &&  “ (0 <= digit) ”
+  &&  “ (digit < 10) ”
+  &&  “ (1 <= (Znth (digit) (counters) (0))) ”
   &&  “ ((Znth (digit) (counters) (0)) <= n_pre) ”
   &&  (((a_pre + (i * sizeof(INT)))) # Int  |-> (Znth i current 0))
   **  (IntArray.missing_i a_pre i 0 n_pre current )
@@ -1920,37 +1904,37 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (histogram:
   **  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 .
 
-Definition sort_partial_solve_wit_13 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (histogram: (@list Z)) (counters: (@list Z)) (mixed_output: (@list (@option Z))) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (histogram)) = 10)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i < n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) histogram )) (PreH14 : (Forall (Z.ge (n_pre)) histogram )) (PreH15 : (Forall (Z.le (0)) counters )) (PreH16 : (Forall (Z.ge (n_pre)) counters )) (PreH17 : (PrefixMaximum input n_pre max_value )) (PreH18 : (DecimalExponent exponent )) (PreH19 : (RadixPassState input current exponent )) (PreH20 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH21 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )) (PreH22 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH23 : (0 <= digit)) (PreH24 : (digit < 10)) (PreH25 : (1 <= (Znth (digit) (counters) (0)))) (PreH26 : ((Znth (digit) (counters) (0)) <= n_pre)) ,
+Definition sort_partial_solve_wit_13 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (current: (@list Z)) (histogram: (@list Z)) (counters: (@list Z)) (mixed_output: (@list (@option Z))) (max_value: Z) (exponent: Z) (i: Z) (digit: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (histogram)) = 10)) (PreH4 : (0 <= max_value)) (PreH5 : (max_value <= 999999999)) (PreH6 : (1 <= exponent)) (PreH7 : (exponent <= 100000000)) (PreH8 : (0 < (max_value ÷ exponent ))) (PreH9 : (0 <= i)) (PreH10 : (i < n_pre)) (PreH11 : (Forall (Z.le (0)) current )) (PreH12 : (Forall (Z.ge (999999999)) current )) (PreH13 : (Forall (Z.le (0)) histogram )) (PreH14 : (Forall (Z.ge (n_pre)) histogram )) (PreH15 : (Forall (Z.le (0)) counters )) (PreH16 : (Forall (Z.ge (n_pre)) counters )) (PreH17 : (PrefixMaximum input n_pre max_value )) (PreH18 : (DecimalExponent exponent )) (PreH19 : (RadixPassState input current exponent )) (PreH20 : (DigitHistogramPrefix current exponent n_pre histogram )) (PreH21 : (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output )) (PreH22 : (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) ))) (PreH23 : (0 <= digit)) (PreH24 : (digit < 10)) (PreH25 : (1 <= (Znth (digit) (counters) (0)))) (PreH26 : ((Znth (digit) (counters) (0)) <= n_pre)),
   (IntArray.full ( &( "count" ) ) 10 (replace_Znth (digit) (((Znth (digit) (counters) (0)) - 1 )) (counters)) )
   **  (IntArray.full a_pre n_pre current )
   **  (IntArray.mixed_full ( &( "output" ) ) 1000 mixed_output )
 |--
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (histogram)) = 10) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 < (max_value ÷ exponent )) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < n_pre) ” 
-  &&  “ (Forall (Z.le (0)) current ) ” 
-  &&  “ (Forall (Z.ge (999999999)) current ) ” 
-  &&  “ (Forall (Z.le (0)) histogram ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) histogram ) ” 
-  &&  “ (Forall (Z.le (0)) counters ) ” 
-  &&  “ (Forall (Z.ge (n_pre)) counters ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ” 
-  &&  “ (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output ) ” 
-  &&  “ (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) )) ” 
-  &&  “ (0 <= digit) ” 
-  &&  “ (digit < 10) ” 
-  &&  “ (1 <= (Znth (digit) (counters) (0))) ” 
+  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (histogram)) = 10) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 < (max_value ÷ exponent )) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i < n_pre) ”
+  &&  “ (Forall (Z.le (0)) current ) ”
+  &&  “ (Forall (Z.ge (999999999)) current ) ”
+  &&  “ (Forall (Z.le (0)) histogram ) ”
+  &&  “ (Forall (Z.ge (n_pre)) histogram ) ”
+  &&  “ (Forall (Z.le (0)) counters ) ”
+  &&  “ (Forall (Z.ge (n_pre)) counters ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (DigitHistogramPrefix current exponent n_pre histogram ) ”
+  &&  “ (BucketPlacementProgress current exponent (i + 1 ) histogram counters mixed_output ) ”
+  &&  “ (digit = (((Znth (i) (current) (0)) ÷ exponent ) % ( 10 ) )) ”
+  &&  “ (0 <= digit) ”
+  &&  “ (digit < 10) ”
+  &&  “ (1 <= (Znth (digit) (counters) (0))) ”
   &&  “ ((Znth (digit) (counters) (0)) <= n_pre) ”
   &&  (((( &( "output" ) ) + (((Znth (digit) (counters) (0)) - 1 ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.mixed_missing_i ( &( "output" ) ) ((Znth (digit) (counters) (0)) - 1 ) 0 1000 mixed_output )
@@ -1958,29 +1942,29 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (current: (@list Z)) (histogram:
   **  (IntArray.full a_pre n_pre current )
 .
 
-Definition sort_partial_solve_wit_14 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current: (@list Z)) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current exponent )) (PreH16 : (StableDigitPass current pass_output exponent )) (PreH17 : (RadixCopyPrefix current pass_output working i )) ,
+Definition sort_partial_solve_wit_14 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current: (@list Z)) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current exponent )) (PreH16 : (StableDigitPass current pass_output exponent )) (PreH17 : (RadixCopyPrefix current pass_output working i )),
   (IntArray.full a_pre n_pre working )
   **  (IntArray.full ( &( "count" ) ) 10 bucket_starts )
   **  (IntArray.seg ( &( "output" ) ) 0 n_pre pass_output )
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
 |--
-  “ (i < n_pre) ” 
-  &&  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (current)) = n_pre) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i <= n_pre) ” 
-  &&  “ (Forall (Z.le (0)) pass_output ) ” 
-  &&  “ (Forall (Z.ge (999999999)) pass_output ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (StableDigitPass current pass_output exponent ) ” 
+  “ (i < n_pre) ”
+  &&  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (current)) = n_pre) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i <= n_pre) ”
+  &&  “ (Forall (Z.le (0)) pass_output ) ”
+  &&  “ (Forall (Z.ge (999999999)) pass_output ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (StableDigitPass current pass_output exponent ) ”
   &&  “ (RadixCopyPrefix current pass_output working i ) ”
   &&  (((( &( "output" ) ) + (i * sizeof(INT)))) # Int  |-> (Znth (i - 0 ) pass_output 0))
   **  (IntArray.missing_i ( &( "output" ) ) i 0 n_pre pass_output )
@@ -1989,29 +1973,29 @@ forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (work
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
 .
 
-Definition sort_partial_solve_wit_15 := 
-forall (n_pre: Z) (a_pre: Z) (input: (@list Z)) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current: (@list Z)) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current exponent )) (PreH16 : (StableDigitPass current pass_output exponent )) (PreH17 : (RadixCopyPrefix current pass_output working i )) ,
+Definition sort_partial_solve_wit_15 :=
+forall (input: (@list Z)) (a_pre: Z) (n_pre: Z) (bucket_starts: (@list Z)) (working: (@list Z)) (pass_output: (@list Z)) (i: Z) (exponent: Z) (max_value: Z) (current: (@list Z)) (PreH1 : (i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : ((Zlength (current)) = n_pre)) (PreH5 : (0 <= max_value)) (PreH6 : (max_value <= 999999999)) (PreH7 : (1 <= exponent)) (PreH8 : (exponent <= 100000000)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : (Forall (Z.le (0)) pass_output )) (PreH12 : (Forall (Z.ge (999999999)) pass_output )) (PreH13 : (PrefixMaximum input n_pre max_value )) (PreH14 : (DecimalExponent exponent )) (PreH15 : (RadixPassState input current exponent )) (PreH16 : (StableDigitPass current pass_output exponent )) (PreH17 : (RadixCopyPrefix current pass_output working i )),
   (IntArray.seg ( &( "output" ) ) 0 n_pre pass_output )
   **  (IntArray.full a_pre n_pre working )
   **  (IntArray.full ( &( "count" ) ) 10 bucket_starts )
   **  (IntArray.undef_seg ( &( "output" ) ) n_pre 1000 )
 |--
-  “ (i < n_pre) ” 
-  &&  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ ((Zlength (current)) = n_pre) ” 
-  &&  “ (0 <= max_value) ” 
-  &&  “ (max_value <= 999999999) ” 
-  &&  “ (1 <= exponent) ” 
-  &&  “ (exponent <= 100000000) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i <= n_pre) ” 
-  &&  “ (Forall (Z.le (0)) pass_output ) ” 
-  &&  “ (Forall (Z.ge (999999999)) pass_output ) ” 
-  &&  “ (PrefixMaximum input n_pre max_value ) ” 
-  &&  “ (DecimalExponent exponent ) ” 
-  &&  “ (RadixPassState input current exponent ) ” 
-  &&  “ (StableDigitPass current pass_output exponent ) ” 
+  “ (i < n_pre) ”
+  &&  “ (2 <= n_pre) ”
+  &&  “ (n_pre <= 1000) ”
+  &&  “ ((Zlength (current)) = n_pre) ”
+  &&  “ (0 <= max_value) ”
+  &&  “ (max_value <= 999999999) ”
+  &&  “ (1 <= exponent) ”
+  &&  “ (exponent <= 100000000) ”
+  &&  “ (0 <= i) ”
+  &&  “ (i <= n_pre) ”
+  &&  “ (Forall (Z.le (0)) pass_output ) ”
+  &&  “ (Forall (Z.ge (999999999)) pass_output ) ”
+  &&  “ (PrefixMaximum input n_pre max_value ) ”
+  &&  “ (DecimalExponent exponent ) ”
+  &&  “ (RadixPassState input current exponent ) ”
+  &&  “ (StableDigitPass current pass_output exponent ) ”
   &&  “ (RadixCopyPrefix current pass_output working i ) ”
   &&  (((a_pre + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i a_pre i 0 n_pre working )

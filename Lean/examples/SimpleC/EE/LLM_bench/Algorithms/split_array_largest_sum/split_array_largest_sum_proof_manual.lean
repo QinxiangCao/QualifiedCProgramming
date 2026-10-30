@@ -33,7 +33,7 @@ private theorem prefix_nonnegative (l : List Int) (i : Int)
 theorem proof_of_check_entail_wit_1 : check_entail_wit_1 := by
   unfold check_entail_wit_1
   right
-  intro cap_pre m_pre n_pre l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro l n_pre m_pre cap_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -42,7 +42,7 @@ theorem proof_of_check_entail_wit_1 : check_entail_wit_1 := by
 theorem proof_of_check_entail_wit_2_1 : check_entail_wit_2_1 := by
   unfold check_entail_wit_2_1
   right
-  intro cap_pre m_pre n_pre l cur cnt i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro l n_pre m_pre cap_pre cur cnt i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hn : 0 ≤ Znth i l 0 := forall_nonnegative_index l PreH11 i ⟨PreH13, by omega⟩
   have hv : Forall (fun x => 0 ≤ x) (sublist 0 i l) := prefix_nonnegative l i PreH11 ⟨PreH13, by omega⟩
   have hs : sublist 0 (i+1) l = sublist 0 i l ++ [Znth i l 0] := sublist_snoc_Znth 0 l i ⟨PreH13, by omega⟩
@@ -55,7 +55,7 @@ theorem proof_of_check_entail_wit_2_1 : check_entail_wit_2_1 := by
 theorem proof_of_check_entail_wit_2_2 : check_entail_wit_2_2 := by
   unfold check_entail_wit_2_2
   right
-  intro cap_pre m_pre n_pre l cur cnt i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro l n_pre m_pre cap_pre cur cnt i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hn : 0 ≤ Znth i l 0 := forall_nonnegative_index l PreH11 i ⟨PreH13, by omega⟩
   have hv : Forall (fun x => 0 ≤ x) (sublist 0 i l) := prefix_nonnegative l i PreH11 ⟨PreH13, by omega⟩
   have hs : sublist 0 (i+1) l = sublist 0 i l ++ [Znth i l 0] := sublist_snoc_Znth 0 l i ⟨PreH13, by omega⟩
@@ -68,7 +68,7 @@ theorem proof_of_check_entail_wit_2_2 : check_entail_wit_2_2 := by
 theorem proof_of_check_return_wit_1 : check_return_wit_1 := by
   unfold check_return_wit_1
   right
-  intro cap_pre m_pre n_pre l cur cnt i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro l n_pre m_pre cap_pre cur cnt i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have hp : SplitProgress l cap_pre cnt cur := by
     have hi : i = Zlength l := by omega
     rw [hi, sublist_self l _ rfl] at PreH18
@@ -82,7 +82,7 @@ theorem proof_of_check_return_wit_1 : check_return_wit_1 := by
 theorem proof_of_check_return_wit_2 : check_return_wit_2 := by
   unfold check_return_wit_2
   right
-  intro cap_pre m_pre n_pre l cur cnt i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro l n_pre m_pre cap_pre cur cnt i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have hp : SplitProgress l cap_pre cnt cur := by
     have hi : i = Zlength l := by omega
     rw [hi, sublist_self l _ rfl] at PreH18
@@ -96,7 +96,7 @@ theorem proof_of_check_return_wit_2 : check_return_wit_2 := by
 theorem proof_of_check_return_wit_3 : check_return_wit_3 := by
   unfold check_return_wit_3
   right
-  intro cap_pre m_pre n_pre l cur cnt i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro l n_pre m_pre cap_pre cur cnt i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -109,14 +109,14 @@ theorem proof_of_check_return_wit_3 : check_return_wit_3 := by
 theorem proof_of_splitArrayLargestSum_safety_wit_3 : splitArrayLargestSum_safety_wit_3 := by
   unfold splitArrayLargestSum_safety_wit_3
   right
-  intro m_pre n_pre arr_pre l res right left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro l arr_pre n_pre m_pre res right left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   have hm := mid_quot_bounds left right PreH9 PreH1 PreH10
   split_pures <;> dump_pre_spatial <;> simp only [INT_MAX, INT_MIN] <;> omega
 
 theorem proof_of_splitArrayLargestSum_safety_wit_7 : splitArrayLargestSum_safety_wit_7 := by
   unfold splitArrayLargestSum_safety_wit_7
   right
-  intro m_pre n_pre arr_pre l res right left retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro l arr_pre n_pre m_pre res right left retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hm := mid_quot_bounds left right PreH13 PreH5 PreH14
   have hq := quot_half_lt (right-left) (by omega)
   split_pures <;> dump_pre_spatial <;> simp only [INT_MAX, INT_MIN] <;> omega
@@ -124,7 +124,7 @@ theorem proof_of_splitArrayLargestSum_safety_wit_7 : splitArrayLargestSum_safety
 theorem proof_of_splitArrayLargestSum_entail_wit_1 : splitArrayLargestSum_entail_wit_1 := by
   unfold splitArrayLargestSum_entail_wit_1
   right
-  intro m_pre n_pre l ans PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro l ans n_pre m_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   refine Automation.exp_right_rule (CRules := naive_C_Rules) ans ?_
   split_pure_spatial
   · cancel
@@ -134,7 +134,7 @@ theorem proof_of_splitArrayLargestSum_entail_wit_1 : splitArrayLargestSum_entail
 theorem proof_of_splitArrayLargestSum_entail_wit_2_1 : splitArrayLargestSum_entail_wit_2_1 := by
   unfold splitArrayLargestSum_entail_wit_2_1
   right
-  intro m_pre n_pre l res_2 right left retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro l n_pre m_pre res_2 right left retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hm := mid_quot_bounds left right PreH13 PreH5 PreH14
   rcases PreH3 (by omega) with ⟨v, hp, hv⟩
   have hb := minimized_lower_bound l m_pre res_2 v PreH18 hp
@@ -147,7 +147,7 @@ theorem proof_of_splitArrayLargestSum_entail_wit_2_1 : splitArrayLargestSum_enta
 theorem proof_of_splitArrayLargestSum_entail_wit_2_2 : splitArrayLargestSum_entail_wit_2_2 := by
   unfold splitArrayLargestSum_entail_wit_2_2
   right
-  intro m_pre n_pre l res_2 right left retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro l n_pre m_pre res_2 right left retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hm := mid_quot_bounds left right PreH13 PreH5 PreH14
   have hq := quot_half_lt (right-left) (by omega)
   have hb : left+Z.quot (right-left) 2 < res_2 := by
@@ -162,14 +162,14 @@ theorem proof_of_splitArrayLargestSum_entail_wit_2_2 : splitArrayLargestSum_enta
 theorem proof_of_splitArrayLargestSum_partial_solve_wit_1_pure : splitArrayLargestSum_partial_solve_wit_1_pure := by
   unfold splitArrayLargestSum_partial_solve_wit_1_pure
   right
-  intro m_pre n_pre arr_pre l res right left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro l arr_pre n_pre m_pre res right left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   have hm := mid_quot_bounds left right PreH19 PreH11 PreH20
   split_pures <;> dump_pre_spatial <;> omega
 
 theorem proof_of_splitArrayLargestSum_return_wit_1 : splitArrayLargestSum_return_wit_1 := by
   unfold splitArrayLargestSum_return_wit_1
   right
-  intro m_pre n_pre l res right left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro l n_pre m_pre res right left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial

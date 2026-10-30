@@ -19,9 +19,9 @@ Local Open Scope string.
 Import ListNotations.
 Local Open Scope list.
 
-Module Type ArrayLibSig (Arch : CArchSig) (Endian : CEndianSig) (CRules: SeparationLogicSig) (DePredSig : DerivedPredSig Arch Endian CRules) (SLibSig : StoreLibSig Arch Endian CRules DePredSig).
+Module Type ArrayLibSig (ArchImpl : CArchSig) (Endian : CEndianSig) (CRules: SeparationLogicSig) (DePredSig : DerivedPredSig ArchImpl Endian CRules) (SLibSig : StoreLibSig ArchImpl Endian CRules DePredSig).
 
-Include ArrayLibCoreSig Arch Endian CRules DePredSig SLibSig.
+Include ArrayLibCoreSig ArchImpl Endian CRules DePredSig SLibSig.
 
 Import CRules.
 Import DePredSig.
@@ -79,14 +79,6 @@ Module StoreBoolAsElement <: ELEMENT_STORE.
     apply undef_store_bool_align.
   Qed.
 
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_bool.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
-  Qed.
-
 End StoreBoolAsElement.
 
 Module BoolArray := ArrayLib (StoreBoolAsElement).
@@ -138,14 +130,6 @@ Module StoreCharAsElement <: ELEMENT_STORE.
     unfold undefstoreA, sizeA.
     rewrite sizeof_char.
     apply undef_store_char_align.
-  Qed.
-
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_char.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
   Qed.
 
 End StoreCharAsElement.
@@ -201,14 +185,6 @@ Module StoreUCharAsElement <: ELEMENT_STORE.
     apply undef_store_uchar_align.
   Qed.
 
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_uchar.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
-  Qed.
-
 End StoreUCharAsElement.
 
 Module UCharArray := ArrayLib (StoreUCharAsElement).
@@ -262,14 +238,6 @@ Module StoreShortAsElement <: ELEMENT_STORE.
     apply undef_store_short_align.
   Qed.
 
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_short.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
-  Qed.
-
 End StoreShortAsElement.
 
 Module ShortArray := ArrayLib (StoreShortAsElement).
@@ -321,14 +289,6 @@ Module StoreUShortAsElement <: ELEMENT_STORE.
     unfold undefstoreA, sizeA.
     rewrite sizeof_ushort.
     apply undef_store_ushort_align.
-  Qed.
-
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_ushort.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
   Qed.
 
 End StoreUShortAsElement.
@@ -390,14 +350,6 @@ Module StoreIntAsElement <: ELEMENT_STORE.
       apply store_align4_to_store_align.
   Qed.
 
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_int.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
-  Qed.
-
 End StoreIntAsElement.
 
 Module IntArray := ArrayLib (StoreIntAsElement).
@@ -455,14 +407,6 @@ Module StoreUIntAsElement <: ELEMENT_STORE.
     - apply undef_store_uint_align4.
     - replace 4 with (4 * 1) by lia.
       apply store_align4_to_store_align.
-  Qed.
-
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_uint.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
   Qed.
 
 End StoreUIntAsElement.
@@ -524,14 +468,6 @@ Module StoreInt64AsElement <: ELEMENT_STORE.
       apply store_align4_to_store_align.
   Qed.
 
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_int64.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
-  Qed.
-
 End StoreInt64AsElement.
 
 Module Int64Array := ArrayLib (StoreInt64AsElement).
@@ -591,14 +527,6 @@ Module StoreUInt64AsElement <: ELEMENT_STORE.
       apply store_align4_to_store_align.
   Qed.
 
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_uint64.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
-  Qed.
-
 End StoreUInt64AsElement.
 
 Module UInt64Array := ArrayLib (StoreUInt64AsElement).
@@ -654,14 +582,6 @@ Module StoreInt128AsElement <: ELEMENT_STORE.
     unfold undefstoreA, sizeA.
     rewrite sizeof_int128.
     apply undef_store_int128_align.
-  Qed.
-
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_int128.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
   Qed.
 
 End StoreInt128AsElement.
@@ -721,14 +641,6 @@ Module StoreUInt128AsElement <: ELEMENT_STORE.
     apply undef_store_uint128_align.
   Qed.
 
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_uint128.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
-  Qed.
-
 End StoreUInt128AsElement.
 
 Module UInt128Array := ArrayLib (StoreUInt128AsElement).
@@ -736,10 +648,10 @@ Module UInt128Array := ArrayLib (StoreUInt128AsElement).
 Module StorePtrAsElement <: ELEMENT_STORE.
   Definition A := Z.
   Definition storeA (x: addr) (lo: Z) (a: Z): Assertion :=
-    (x + lo * ptr_size_Z) # Ptr |-> a.
+    (x + lo * sizeof(PTR)) # Ptr |-> a.
   Definition undefstoreA (x: addr) (lo: Z): Assertion :=
-    (x + lo * ptr_size_Z) # Ptr |->_ .
-  Definition sizeA := ptr_size_Z.
+    (x + lo * sizeof(PTR)) # Ptr |->_ .
+  Definition sizeA := sizeof(PTR).
 
   Lemma store_to_undefstore : forall x lo a,
     storeA x lo a |-- undefstoreA x lo.
@@ -753,7 +665,7 @@ Module StorePtrAsElement <: ELEMENT_STORE.
   Proof.
     intros.
     unfold storeA, sizeA.
-    replace (x + n * ptr_size_Z + lo * ptr_size_Z) with (x + (lo + n) * ptr_size_Z) by ring.
+    replace (x + n * sizeof(PTR) + lo * sizeof(PTR)) with (x + (lo + n) * sizeof(PTR)) by ring.
     entailer!.
   Qed.
 
@@ -762,7 +674,7 @@ Module StorePtrAsElement <: ELEMENT_STORE.
   Proof.
     intros.
     unfold undefstoreA, sizeA.
-    replace (x + n * ptr_size_Z + lo * ptr_size_Z) with (x + (lo + n) * ptr_size_Z) by ring.
+    replace (x + n * sizeof(PTR) + lo * sizeof(PTR)) with (x + (lo + n) * sizeof(PTR)) by ring.
     entailer!.
   Qed.
 
@@ -778,14 +690,6 @@ Module StorePtrAsElement <: ELEMENT_STORE.
     intros.
     unfold undefstoreA, sizeA.
     apply undef_store_ptr_align.
-  Qed.
-
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA, ptr_size_Z, ptr_size, Arch.ptr_size_Z.
-    destruct Arch.ptr_size_32_or_64 as [Hsize | Hsize].
-    - rewrite Hsize. simpl. change Int.max_unsigned with 4294967295. lia.
-    - rewrite Hsize. simpl. change Int.max_unsigned with 4294967295. lia.
   Qed.
 
 End StorePtrAsElement.
@@ -848,14 +752,6 @@ Module StoreFloatAsElement <: ELEMENT_STORE.
       apply store_align4_to_store_align.
   Qed.
 
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_float.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
-  Qed.
-
 End StoreFloatAsElement.
 
 Module FloatArray := ArrayLib (StoreFloatAsElement).
@@ -916,14 +812,6 @@ Module StoreDoubleAsElement <: ELEMENT_STORE.
       apply store_align4_to_store_align.
   Qed.
 
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_double.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
-  Qed.
-
 End StoreDoubleAsElement.
 
 Module DoubleArray := ArrayLib (StoreDoubleAsElement).
@@ -979,14 +867,6 @@ Module StoreLongDoubleAsElement <: ELEMENT_STORE.
     unfold undefstoreA, sizeA.
     rewrite sizeof_long_double.
     apply undef_store_long_double_align.
-  Qed.
-
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_long_double.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
   Qed.
 
 End StoreLongDoubleAsElement.
@@ -1049,14 +929,6 @@ Module StoreFiniteFloatAsElement <: ELEMENT_STORE.
       apply store_align4_to_store_align.
   Qed.
 
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_float.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
-  Qed.
-
 End StoreFiniteFloatAsElement.
 
 Module FiniteFloatArray := ArrayLib (StoreFiniteFloatAsElement).
@@ -1117,14 +989,6 @@ Module StoreFiniteDoubleAsElement <: ELEMENT_STORE.
       apply store_align4_to_store_align.
   Qed.
 
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_double.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
-  Qed.
-
 End StoreFiniteDoubleAsElement.
 
 Module FiniteDoubleArray := ArrayLib (StoreFiniteDoubleAsElement).
@@ -1180,14 +1044,6 @@ Module StoreFiniteLongDoubleAsElement <: ELEMENT_STORE.
     unfold undefstoreA, sizeA, undef_store_finite_long_double.
     rewrite sizeof_long_double.
     apply undef_store_long_double_align.
-  Qed.
-
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite sizeof_long_double.
-    replace Int.max_unsigned with 4294967295 by reflexivity.
-    lia.
   Qed.
 
 End StoreFiniteLongDoubleAsElement.

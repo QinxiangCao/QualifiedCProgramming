@@ -265,7 +265,5 @@ void sort(struct Point *pts, int n)
  */
 {
   int *coords = (int *)pts;
-  int gx = gp.x;
-  int gy = gp.y;
-  quicksort_points_range(coords, n, 0, n - 1, gx, gy);
+  quicksort_points_range(coords, n, 0, n - 1, gp.x, gp.y);
 }

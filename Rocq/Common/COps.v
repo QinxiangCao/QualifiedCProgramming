@@ -40,10 +40,24 @@ Inductive CAssignType :=
   | CO_SHR_ASSIGN    (**r >>= *)
 .
 
+Definition assign_binop (op : CAssignType) : option CBinop :=
+  match op with
+  | CO_ASSIGN => None
+  | CO_PLUS_ASSIGN => Some CO_PLUS
+  | CO_MINUS_ASSIGN => Some CO_MINUS
+  | CO_MUL_ASSIGN => Some CO_MUL
+  | CO_DIV_ASSIGN => Some CO_DIV
+  | CO_MOD_ASSIGN => Some CO_MOD
+  | CO_AND_ASSIGN => Some CO_AND
+  | CO_OR_ASSIGN => Some CO_OR
+  | CO_XOR_ASSIGN => Some CO_XOR
+  | CO_SHL_ASSIGN => Some CO_SHL
+  | CO_SHR_ASSIGN => Some CO_SHR
+  end.
+
 Inductive CIncDecType :=
   | CO_INCPRE      (**r ++x *)
   | CO_INCPOST     (**r x++ *)
   | CO_DECPRE      (**r --x *)
   | CO_DECPOST     (**r x-- *)
 .
-

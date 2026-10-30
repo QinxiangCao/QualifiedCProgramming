@@ -1,28 +1,12 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Engineering.glibc_slist.glibc_slist_rel Require Import glibc_slist_rev_rel_goal.
 From SimpleC.EE.LLM_bench.Engineering.glibc_slist.glibc_slist_rel Require Import glibc_slist_rev_rel_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 From MonadLib Require Export MonadLib.
 From MonadLib.MonadErr Require Export StateRelMonadErr.
 Export MonadNotation.
 Local Open Scope monad.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
+From AUXLib Require Import relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 From SimpleC.EE.QCP_demos_LLM Require Import sll_lib.
 Require Import glibc_slist_lib.
@@ -126,7 +110,7 @@ Proof.
     exact PreH2.
 Qed.
 
-Lemma proof_of_glibc_slist_clean_rev_derive_high_level_spec_by_low_level_spec : glibc_slist_clean_rev_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_glibc_slist_clean_rev_low_level_spec_entail_high_level_spec : glibc_slist_clean_rev_low_level_spec_entail_high_level_spec.
 Proof.
   LLM_pre_process ltac:(int_auto).
   Exists (MonadErr.nrm (glibc_slist_clean_rev_M l1_high_level_spec) tt).
@@ -139,11 +123,11 @@ Proof.
       destruct (glibc_slist_clean_rev_M_Hoare l1_high_level_spec) as [_ Herr].
       intro Herr0.
       eapply Herr; [exact I | exact Herr0].
-  - apply derivable1_wand_sepcon_adjoint.
+  - Intros_r retval.
+    apply derivable1_wand_sepcon_adjoint.
     cancel.
     Intros l2.
-    Intros retval_2.
-    Exists retval_2.
+    Intros.
     destruct (@Hoare_safeexec_compose unit (list Z)
                 ATrue
                 (glibc_slist_clean_rev_M l1_high_level_spec)

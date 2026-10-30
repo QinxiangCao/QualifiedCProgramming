@@ -451,7 +451,7 @@ static int solver(int nn, int kk, const int *eu, const int *ev)/* QCP_INSERT_BEG
               IntArray::full(head_p, nv, head_data) *
               IntArray::full(to_p, 2 * nv - 2, to_data) *
               IntArray::full(next_p, 2 * nv - 2, next_data) *
-              store(pointer_offset(parent_p, v, sizeof(int), int),
+              store(pointer_offset(parent_p, v, int),
                     int, parent_v) *
               IntArray::mixed_missing_i(parent_p, v, 0, nv, parent_cells) *
               IntArray::seg(order_p, 0, top, order_data) *

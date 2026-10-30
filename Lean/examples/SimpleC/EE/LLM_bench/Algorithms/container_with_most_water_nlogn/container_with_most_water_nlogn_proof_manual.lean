@@ -358,44 +358,9 @@ theorem container_aux_sortHeightIndexRangeNLogN_partial_solve_wit_2_pure_split_g
   omega
 
 
-theorem container_aux_mergeHeightIndexRunsNLogN_entail_wit_1 : ((
-forall (right_pre : Int) (middle_pre : Int) (left_pre : Int) (count_pre : Int) (destinationIndex_pre : Int) (destinationHeight_pre : Int) (sourceIndex_pre : Int) (sourceHeight_pre : Int) (dest0_i : (List Int)) (dest0_h : (List Int)) (source_i : (List Int)) (source_h : (List Int)) (PreH1 : ((Zlength (source_h)) = count_pre)) (PreH2 : ((Zlength (source_i)) = count_pre)) (PreH3 : ((Zlength (dest0_h)) = count_pre)) (PreH4 : ((Zlength (dest0_i)) = count_pre)) (PreH5 : ((0 : Int) <= left_pre)) (PreH6 : (left_pre <= middle_pre)) (PreH7 : (middle_pre <= right_pre)) (PreH8 : (right_pre <= count_pre)) (PreH9 : (HeightIndexRangeDescendingNLogN source_h left_pre middle_pre)) (PreH10 : (HeightIndexRangeDescendingNLogN source_h middle_pre right_pre)) ,
-  (intArray.full sourceHeight_pre count_pre source_h)
-  ** (intArray.full sourceIndex_pre count_pre source_i)
-  ** (intArray.full destinationHeight_pre count_pre dest0_h)
-  ** (intArray.full destinationIndex_pre count_pre dest0_i)
-|--
-  EX dest_i : (List Int), EX dest_h : (List Int),
-  “ ((Zlength (source_h)) = count_pre) ” &&
-  “ ((Zlength (source_i)) = (Zlength (source_h))) ” &&
-  “ ((Zlength (dest0_h)) = count_pre) ” &&
-  “ ((Zlength (dest0_i)) = count_pre) ” &&
-  “ ((Zlength (dest_h)) = (Zlength (dest0_h))) ” &&
-  “ ((Zlength (dest_i)) = (Zlength (dest0_i))) ” &&
-  “ ((0 : Int) <= left_pre) ” &&
-  “ (left_pre <= left_pre) ” &&
-  “ (left_pre <= middle_pre) ” &&
-  “ (middle_pre <= middle_pre) ” &&
-  “ (middle_pre <= right_pre) ” &&
-  “ (right_pre <= count_pre) ” &&
-  “ (left_pre = ((left_pre + (left_pre - left_pre)) + (middle_pre - middle_pre))) ” &&
-  “ (left_pre <= left_pre) ” &&
-  “ (left_pre <= right_pre) ” &&
-  “ (MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest_h dest_i left_pre middle_pre right_pre left_pre middle_pre left_pre) ”
-  &&  (intArray.full sourceHeight_pre count_pre source_h)
-  ** (intArray.full sourceIndex_pre count_pre source_i)
-  ** (intArray.full destinationHeight_pre count_pre dest_h)
-  ** (intArray.full destinationIndex_pre count_pre dest_i)
-) \/
-(
-forall (right_pre : Int) (middle_pre : Int) (left_pre : Int) (count_pre : Int) (dest0_i : (List Int)) (dest0_h : (List Int)) (source_i : (List Int)) (source_h : (List Int)) (PreH1 : ((Zlength (source_h)) = count_pre)) (PreH2 : ((Zlength (source_i)) = count_pre)) (PreH3 : ((Zlength (dest0_h)) = count_pre)) (PreH4 : ((Zlength (dest0_i)) = count_pre)) (PreH5 : ((0 : Int) <= left_pre)) (PreH6 : (left_pre <= middle_pre)) (PreH7 : (middle_pre <= right_pre)) (PreH8 : (right_pre <= count_pre)) (PreH9 : (HeightIndexRangeDescendingNLogN source_h left_pre middle_pre)) (PreH10 : (HeightIndexRangeDescendingNLogN source_h middle_pre right_pre)) ,
-  TT && emp
-|--
-  “ (MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest0_h dest0_i left_pre middle_pre right_pre left_pre middle_pre left_pre) ”
-  &&  emp
-)) := by
+theorem container_aux_mergeHeightIndexRunsNLogN_entail_wit_1 : mergeHeightIndexRunsNLogN_entail_wit_1 := by
   right
-  intro right_pre middle_pre left_pre count_pre dest0_i dest0_h source_i source_h PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro dest0_i dest0_h source_i source_h count_pre left_pre middle_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -403,46 +368,9 @@ forall (right_pre : Int) (middle_pre : Int) (left_pre : Int) (count_pre : Int) (
       | exact (container_aux_mergeHeightIndexRunsNLogN_entail_wit_1_split_goal_1 right_pre middle_pre left_pre count_pre dest0_i dest0_h source_i source_h PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10)
 
 
-theorem container_aux_mergeHeightIndexRunsNLogN_entail_wit_2_1 : ((
-forall (right_pre : Int) (middle_pre : Int) (left_pre : Int) (count_pre : Int) (destinationIndex_pre : Int) (destinationHeight_pre : Int) (sourceIndex_pre : Int) (sourceHeight_pre : Int) (dest0_i : (List Int)) (dest0_h : (List Int)) (source_i : (List Int)) (source_h : (List Int)) (output : Int) (j : Int) (i : Int) (dest_i_2 : (List Int)) (dest_h_2 : (List Int)) (PreH1 : ((Znth i source_h (0 : Int)) >= (Znth j source_h (0 : Int)))) (PreH2 : (j < right_pre)) (PreH3 : (i < middle_pre)) (PreH4 : ((Zlength (source_h)) = count_pre)) (PreH5 : ((Zlength (source_i)) = (Zlength (source_h)))) (PreH6 : ((Zlength (dest0_h)) = count_pre)) (PreH7 : ((Zlength (dest0_i)) = count_pre)) (PreH8 : ((Zlength (dest_h_2)) = (Zlength (dest0_h)))) (PreH9 : ((Zlength (dest_i_2)) = (Zlength (dest0_i)))) (PreH10 : ((0 : Int) <= left_pre)) (PreH11 : (left_pre <= i)) (PreH12 : (i <= middle_pre)) (PreH13 : (middle_pre <= j)) (PreH14 : (j <= right_pre)) (PreH15 : (right_pre <= count_pre)) (PreH16 : (output = ((left_pre + (i - left_pre)) + (j - middle_pre)))) (PreH17 : (left_pre <= output)) (PreH18 : (output <= right_pre)) (PreH19 : (MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest_h_2 dest_i_2 left_pre middle_pre right_pre i j output)) ,
-  (intArray.full destinationIndex_pre count_pre (replace_Znth (output) ((Znth i source_i (0 : Int))) (dest_i_2)))
-  ** (intArray.full sourceIndex_pre count_pre source_i)
-  ** (intArray.full destinationHeight_pre count_pre (replace_Znth (output) ((Znth i source_h (0 : Int))) (dest_h_2)))
-  ** (intArray.full sourceHeight_pre count_pre source_h)
-|--
-  EX dest_i : (List Int), EX dest_h : (List Int),
-  “ ((Zlength (source_h)) = count_pre) ” &&
-  “ ((Zlength (source_i)) = (Zlength (source_h))) ” &&
-  “ ((Zlength (dest0_h)) = count_pre) ” &&
-  “ ((Zlength (dest0_i)) = count_pre) ” &&
-  “ ((Zlength (dest_h)) = (Zlength (dest0_h))) ” &&
-  “ ((Zlength (dest_i)) = (Zlength (dest0_i))) ” &&
-  “ ((0 : Int) <= left_pre) ” &&
-  “ (left_pre <= (i + 1)) ” &&
-  “ ((i + 1) <= middle_pre) ” &&
-  “ (middle_pre <= j) ” &&
-  “ (j <= right_pre) ” &&
-  “ (right_pre <= count_pre) ” &&
-  “ ((output + 1) = ((left_pre + ((i + 1) - left_pre)) + (j - middle_pre))) ” &&
-  “ (left_pre <= (output + 1)) ” &&
-  “ ((output + 1) <= right_pre) ” &&
-  “ (MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest_h dest_i left_pre middle_pre right_pre (i + 1) j (output + 1)) ”
-  &&  (intArray.full sourceHeight_pre count_pre source_h)
-  ** (intArray.full sourceIndex_pre count_pre source_i)
-  ** (intArray.full destinationHeight_pre count_pre dest_h)
-  ** (intArray.full destinationIndex_pre count_pre dest_i)
-) \/
-(
-forall (right_pre : Int) (middle_pre : Int) (left_pre : Int) (count_pre : Int) (dest0_i : (List Int)) (dest0_h : (List Int)) (source_i : (List Int)) (source_h : (List Int)) (output : Int) (j : Int) (i : Int) (dest_i_2 : (List Int)) (dest_h_2 : (List Int)) (PreH1 : ((Znth i source_h (0 : Int)) >= (Znth j source_h (0 : Int)))) (PreH2 : (j < right_pre)) (PreH3 : (i < middle_pre)) (PreH4 : ((Zlength (source_h)) = count_pre)) (PreH5 : ((Zlength (source_i)) = (Zlength (source_h)))) (PreH6 : ((Zlength (dest0_h)) = count_pre)) (PreH7 : ((Zlength (dest0_i)) = count_pre)) (PreH8 : ((Zlength (dest_h_2)) = (Zlength (dest0_h)))) (PreH9 : ((Zlength (dest_i_2)) = (Zlength (dest0_i)))) (PreH10 : ((0 : Int) <= left_pre)) (PreH11 : (left_pre <= i)) (PreH12 : (i <= middle_pre)) (PreH13 : (middle_pre <= j)) (PreH14 : (j <= right_pre)) (PreH15 : (right_pre <= count_pre)) (PreH16 : (output = ((left_pre + (i - left_pre)) + (j - middle_pre)))) (PreH17 : (left_pre <= output)) (PreH18 : (output <= right_pre)) (PreH19 : (MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest_h_2 dest_i_2 left_pre middle_pre right_pre i j output)) ,
-  TT && emp
-|--
-  “ (MergePrefixStateNLogN source_h source_i dest0_h dest0_i (replace_Znth (((left_pre + (i - left_pre)) + (j - middle_pre))) ((Znth i source_h (0 : Int))) (dest_h_2)) (replace_Znth (((left_pre + (i - left_pre)) + (j - middle_pre))) ((Znth i source_i (0 : Int))) (dest_i_2)) left_pre middle_pre right_pre (i + 1) j (((left_pre + (i - left_pre)) + (j - middle_pre)) + 1)) ” &&
-  “ ((Zlength ((replace_Znth (((left_pre + (i - left_pre)) + (j - middle_pre))) ((Znth i source_i (0 : Int))) (dest_i_2)))) = count_pre) ” &&
-  “ ((Zlength ((replace_Znth (((left_pre + (i - left_pre)) + (j - middle_pre))) ((Znth i source_h (0 : Int))) (dest_h_2)))) = count_pre) ”
-  &&  emp
-)) := by
+theorem container_aux_mergeHeightIndexRunsNLogN_entail_wit_2_1 : mergeHeightIndexRunsNLogN_entail_wit_2_1 := by
   right
-  intro right_pre middle_pre left_pre count_pre dest0_i dest0_h source_i source_h output j i dest_i_2 dest_h_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro dest0_i dest0_h source_i source_h count_pre left_pre middle_pre right_pre output j i dest_i_2 dest_h_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -452,46 +380,9 @@ forall (right_pre : Int) (middle_pre : Int) (left_pre : Int) (count_pre : Int) (
       | exact (container_aux_mergeHeightIndexRunsNLogN_entail_wit_2_1_split_goal_3 right_pre middle_pre left_pre count_pre dest0_i dest0_h source_i source_h output j i dest_i_2 dest_h_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
 
 
-theorem container_aux_mergeHeightIndexRunsNLogN_entail_wit_2_2 : ((
-forall (right_pre : Int) (middle_pre : Int) (left_pre : Int) (count_pre : Int) (destinationIndex_pre : Int) (destinationHeight_pre : Int) (sourceIndex_pre : Int) (sourceHeight_pre : Int) (dest0_i : (List Int)) (dest0_h : (List Int)) (source_i : (List Int)) (source_h : (List Int)) (output : Int) (j : Int) (i : Int) (dest_i_2 : (List Int)) (dest_h_2 : (List Int)) (PreH1 : ((Znth i source_h (0 : Int)) < (Znth j source_h (0 : Int)))) (PreH2 : (j < right_pre)) (PreH3 : (i < middle_pre)) (PreH4 : ((Zlength (source_h)) = count_pre)) (PreH5 : ((Zlength (source_i)) = (Zlength (source_h)))) (PreH6 : ((Zlength (dest0_h)) = count_pre)) (PreH7 : ((Zlength (dest0_i)) = count_pre)) (PreH8 : ((Zlength (dest_h_2)) = (Zlength (dest0_h)))) (PreH9 : ((Zlength (dest_i_2)) = (Zlength (dest0_i)))) (PreH10 : ((0 : Int) <= left_pre)) (PreH11 : (left_pre <= i)) (PreH12 : (i <= middle_pre)) (PreH13 : (middle_pre <= j)) (PreH14 : (j <= right_pre)) (PreH15 : (right_pre <= count_pre)) (PreH16 : (output = ((left_pre + (i - left_pre)) + (j - middle_pre)))) (PreH17 : (left_pre <= output)) (PreH18 : (output <= right_pre)) (PreH19 : (MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest_h_2 dest_i_2 left_pre middle_pre right_pre i j output)) ,
-  (intArray.full destinationIndex_pre count_pre (replace_Znth (output) ((Znth j source_i (0 : Int))) (dest_i_2)))
-  ** (intArray.full sourceIndex_pre count_pre source_i)
-  ** (intArray.full destinationHeight_pre count_pre (replace_Znth (output) ((Znth j source_h (0 : Int))) (dest_h_2)))
-  ** (intArray.full sourceHeight_pre count_pre source_h)
-|--
-  EX dest_i : (List Int), EX dest_h : (List Int),
-  “ ((Zlength (source_h)) = count_pre) ” &&
-  “ ((Zlength (source_i)) = (Zlength (source_h))) ” &&
-  “ ((Zlength (dest0_h)) = count_pre) ” &&
-  “ ((Zlength (dest0_i)) = count_pre) ” &&
-  “ ((Zlength (dest_h)) = (Zlength (dest0_h))) ” &&
-  “ ((Zlength (dest_i)) = (Zlength (dest0_i))) ” &&
-  “ ((0 : Int) <= left_pre) ” &&
-  “ (left_pre <= i) ” &&
-  “ (i <= middle_pre) ” &&
-  “ (middle_pre <= (j + 1)) ” &&
-  “ ((j + 1) <= right_pre) ” &&
-  “ (right_pre <= count_pre) ” &&
-  “ ((output + 1) = ((left_pre + (i - left_pre)) + ((j + 1) - middle_pre))) ” &&
-  “ (left_pre <= (output + 1)) ” &&
-  “ ((output + 1) <= right_pre) ” &&
-  “ (MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest_h dest_i left_pre middle_pre right_pre i (j + 1) (output + 1)) ”
-  &&  (intArray.full sourceHeight_pre count_pre source_h)
-  ** (intArray.full sourceIndex_pre count_pre source_i)
-  ** (intArray.full destinationHeight_pre count_pre dest_h)
-  ** (intArray.full destinationIndex_pre count_pre dest_i)
-) \/
-(
-forall (right_pre : Int) (middle_pre : Int) (left_pre : Int) (count_pre : Int) (dest0_i : (List Int)) (dest0_h : (List Int)) (source_i : (List Int)) (source_h : (List Int)) (output : Int) (j : Int) (i : Int) (dest_i_2 : (List Int)) (dest_h_2 : (List Int)) (PreH1 : ((Znth i source_h (0 : Int)) < (Znth j source_h (0 : Int)))) (PreH2 : (j < right_pre)) (PreH3 : (i < middle_pre)) (PreH4 : ((Zlength (source_h)) = count_pre)) (PreH5 : ((Zlength (source_i)) = (Zlength (source_h)))) (PreH6 : ((Zlength (dest0_h)) = count_pre)) (PreH7 : ((Zlength (dest0_i)) = count_pre)) (PreH8 : ((Zlength (dest_h_2)) = (Zlength (dest0_h)))) (PreH9 : ((Zlength (dest_i_2)) = (Zlength (dest0_i)))) (PreH10 : ((0 : Int) <= left_pre)) (PreH11 : (left_pre <= i)) (PreH12 : (i <= middle_pre)) (PreH13 : (middle_pre <= j)) (PreH14 : (j <= right_pre)) (PreH15 : (right_pre <= count_pre)) (PreH16 : (output = ((left_pre + (i - left_pre)) + (j - middle_pre)))) (PreH17 : (left_pre <= output)) (PreH18 : (output <= right_pre)) (PreH19 : (MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest_h_2 dest_i_2 left_pre middle_pre right_pre i j output)) ,
-  TT && emp
-|--
-  “ (MergePrefixStateNLogN source_h source_i dest0_h dest0_i (replace_Znth (((left_pre + (i - left_pre)) + (j - middle_pre))) ((Znth j source_h (0 : Int))) (dest_h_2)) (replace_Znth (((left_pre + (i - left_pre)) + (j - middle_pre))) ((Znth j source_i (0 : Int))) (dest_i_2)) left_pre middle_pre right_pre i (j + 1) (((left_pre + (i - left_pre)) + (j - middle_pre)) + 1)) ” &&
-  “ ((Zlength ((replace_Znth (((left_pre + (i - left_pre)) + (j - middle_pre))) ((Znth j source_i (0 : Int))) (dest_i_2)))) = count_pre) ” &&
-  “ ((Zlength ((replace_Znth (((left_pre + (i - left_pre)) + (j - middle_pre))) ((Znth j source_h (0 : Int))) (dest_h_2)))) = count_pre) ”
-  &&  emp
-)) := by
+theorem container_aux_mergeHeightIndexRunsNLogN_entail_wit_2_2 : mergeHeightIndexRunsNLogN_entail_wit_2_2 := by
   right
-  intro right_pre middle_pre left_pre count_pre dest0_i dest0_h source_i source_h output j i dest_i_2 dest_h_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro dest0_i dest0_h source_i source_h count_pre left_pre middle_pre right_pre output j i dest_i_2 dest_h_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -501,58 +392,8 @@ forall (right_pre : Int) (middle_pre : Int) (left_pre : Int) (count_pre : Int) (
       | exact (container_aux_mergeHeightIndexRunsNLogN_entail_wit_2_2_split_goal_3 right_pre middle_pre left_pre count_pre dest0_i dest0_h source_i source_h output j i dest_i_2 dest_h_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
 
 
-theorem container_aux_mergeHeightIndexRunsNLogN_entail_wit_4 : (forall (right_pre : Int) (middle_pre : Int) (left_pre : Int) (count_pre : Int) (destinationIndex_pre : Int) (destinationHeight_pre : Int) (sourceIndex_pre : Int) (sourceHeight_pre : Int) (dest0_i : (List Int)) (dest0_h : (List Int)) (source_i : (List Int)) (source_h : (List Int)) (output : Int) (i : Int) (j : Int) (dest_i_2 : (List Int)) (dest_h_2 : (List Int)) (PreH1 : (i < middle_pre)) (PreH2 : ((Zlength (source_h)) = count_pre)) (PreH3 : ((Zlength (source_i)) = (Zlength (source_h)))) (PreH4 : ((Zlength (dest0_h)) = count_pre)) (PreH5 : ((Zlength (dest0_i)) = count_pre)) (PreH6 : ((Zlength (dest_h_2)) = (Zlength (dest0_h)))) (PreH7 : ((Zlength (dest_i_2)) = (Zlength (dest0_i)))) (PreH8 : (j = right_pre)) (PreH9 : ((0 : Int) <= left_pre)) (PreH10 : (left_pre <= i)) (PreH11 : (i <= middle_pre)) (PreH12 : (middle_pre <= j)) (PreH13 : (j <= right_pre)) (PreH14 : (right_pre <= count_pre)) (PreH15 : (output = ((left_pre + (i - left_pre)) + (j - middle_pre)))) (PreH16 : (left_pre <= output)) (PreH17 : (output <= right_pre)) (PreH18 : (MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest_h_2 dest_i_2 left_pre middle_pre right_pre i j output)) ,
-  (intArray.full destinationIndex_pre count_pre (replace_Znth (output) ((Znth i source_i (0 : Int))) (dest_i_2)))
-  ** (intArray.full sourceIndex_pre count_pre source_i)
-  ** (intArray.full destinationHeight_pre count_pre (replace_Znth (output) ((Znth i source_h (0 : Int))) (dest_h_2)))
-  ** (intArray.full sourceHeight_pre count_pre source_h)
-|--
-  (EX dest_i : (List Int), EX dest_h : (List Int),
-  “ ((Zlength (source_h)) = count_pre) ” &&
-  “ ((Zlength (source_i)) = (Zlength (source_h))) ” &&
-  “ ((Zlength (dest0_h)) = count_pre) ” &&
-  “ ((Zlength (dest0_i)) = count_pre) ” &&
-  “ ((Zlength (dest_h)) = (Zlength (dest0_h))) ” &&
-  “ ((Zlength (dest_i)) = (Zlength (dest0_i))) ” &&
-  “ ((i + 1) = middle_pre) ” &&
-  “ ((0 : Int) <= left_pre) ” &&
-  “ (left_pre <= (i + 1)) ” &&
-  “ ((i + 1) <= middle_pre) ” &&
-  “ (middle_pre <= j) ” &&
-  “ (j <= right_pre) ” &&
-  “ (right_pre <= count_pre) ” &&
-  “ ((output + 1) = ((left_pre + ((i + 1) - left_pre)) + (j - middle_pre))) ” &&
-  “ (left_pre <= (output + 1)) ” &&
-  “ ((output + 1) <= right_pre) ” &&
-  “ (MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest_h dest_i left_pre middle_pre right_pre (i + 1) j (output + 1)) ”
-  &&  (intArray.full sourceHeight_pre count_pre source_h)
-  ** (intArray.full sourceIndex_pre count_pre source_i)
-  ** (intArray.full destinationHeight_pre count_pre dest_h)
-  ** (intArray.full destinationIndex_pre count_pre dest_i))
-  ||
-  (EX dest_i : (List Int), EX dest_h : (List Int),
-  “ ((Zlength (source_h)) = count_pre) ” &&
-  “ ((Zlength (source_i)) = (Zlength (source_h))) ” &&
-  “ ((Zlength (dest0_h)) = count_pre) ” &&
-  “ ((Zlength (dest0_i)) = count_pre) ” &&
-  “ ((Zlength (dest_h)) = (Zlength (dest0_h))) ” &&
-  “ ((Zlength (dest_i)) = (Zlength (dest0_i))) ” &&
-  “ (j = right_pre) ” &&
-  “ ((0 : Int) <= left_pre) ” &&
-  “ (left_pre <= (i + 1)) ” &&
-  “ ((i + 1) <= middle_pre) ” &&
-  “ (middle_pre <= j) ” &&
-  “ (j <= right_pre) ” &&
-  “ (right_pre <= count_pre) ” &&
-  “ ((output + 1) = ((left_pre + ((i + 1) - left_pre)) + (j - middle_pre))) ” &&
-  “ (left_pre <= (output + 1)) ” &&
-  “ ((output + 1) <= right_pre) ” &&
-  “ (MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest_h dest_i left_pre middle_pre right_pre (i + 1) j (output + 1)) ”
-  &&  (intArray.full sourceHeight_pre count_pre source_h)
-  ** (intArray.full sourceIndex_pre count_pre source_i)
-  ** (intArray.full destinationHeight_pre count_pre dest_h)
-  ** (intArray.full destinationIndex_pre count_pre dest_i))) := by
-  intro right_pre middle_pre left_pre count_pre destinationIndex_pre destinationHeight_pre sourceIndex_pre sourceHeight_pre dest0_i dest0_h source_i source_h output i j dest_i_2 dest_h_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+theorem container_aux_mergeHeightIndexRunsNLogN_entail_wit_4 : mergeHeightIndexRunsNLogN_entail_wit_4 := by
+  intro dest0_i dest0_h source_i source_h sourceHeight_pre sourceIndex_pre destinationHeight_pre destinationIndex_pre count_pre left_pre middle_pre right_pre output i j dest_i_2 dest_h_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have hnext : MergePrefixStateNLogN source_h source_i dest0_h dest0_i (replace_Znth output (Znth i source_h 0) dest_h_2) (replace_Znth output (Znth i source_i 0) dest_i_2) left_pre middle_pre right_pre (i+1) j (output+1) := by
     apply merge_prefix_take_left__merge_core source_h source_i dest0_h dest0_i dest_h_2 dest_i_2 left_pre middle_pre right_pre i j output
     all_goals first | assumption | omega | (left; exact PreH8)
@@ -566,47 +407,9 @@ theorem container_aux_mergeHeightIndexRunsNLogN_entail_wit_4 : (forall (right_pr
     all_goals first | assumption | rfl | omega | nlinarith
 
 
-theorem container_aux_mergeHeightIndexRunsNLogN_entail_wit_6 : ((
-forall (right_pre : Int) (middle_pre : Int) (left_pre : Int) (count_pre : Int) (destinationIndex_pre : Int) (destinationHeight_pre : Int) (sourceIndex_pre : Int) (sourceHeight_pre : Int) (dest0_i : (List Int)) (dest0_h : (List Int)) (source_i : (List Int)) (source_h : (List Int)) (output : Int) (j : Int) (i : Int) (dest_i_2 : (List Int)) (dest_h_2 : (List Int)) (PreH1 : (j < right_pre)) (PreH2 : ((Zlength (source_h)) = count_pre)) (PreH3 : ((Zlength (source_i)) = (Zlength (source_h)))) (PreH4 : ((Zlength (dest0_h)) = count_pre)) (PreH5 : ((Zlength (dest0_i)) = count_pre)) (PreH6 : ((Zlength (dest_h_2)) = (Zlength (dest0_h)))) (PreH7 : ((Zlength (dest_i_2)) = (Zlength (dest0_i)))) (PreH8 : (i = middle_pre)) (PreH9 : ((0 : Int) <= left_pre)) (PreH10 : (left_pre <= i)) (PreH11 : (i <= middle_pre)) (PreH12 : (middle_pre <= j)) (PreH13 : (j <= right_pre)) (PreH14 : (right_pre <= count_pre)) (PreH15 : (output = ((left_pre + (i - left_pre)) + (j - middle_pre)))) (PreH16 : (left_pre <= output)) (PreH17 : (output <= right_pre)) (PreH18 : (MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest_h_2 dest_i_2 left_pre middle_pre right_pre i j output)) ,
-  (intArray.full destinationIndex_pre count_pre (replace_Znth (output) ((Znth j source_i (0 : Int))) (dest_i_2)))
-  ** (intArray.full sourceIndex_pre count_pre source_i)
-  ** (intArray.full destinationHeight_pre count_pre (replace_Znth (output) ((Znth j source_h (0 : Int))) (dest_h_2)))
-  ** (intArray.full sourceHeight_pre count_pre source_h)
-|--
-  EX dest_i : (List Int), EX dest_h : (List Int),
-  “ ((Zlength (source_h)) = count_pre) ” &&
-  “ ((Zlength (source_i)) = (Zlength (source_h))) ” &&
-  “ ((Zlength (dest0_h)) = count_pre) ” &&
-  “ ((Zlength (dest0_i)) = count_pre) ” &&
-  “ ((Zlength (dest_h)) = (Zlength (dest0_h))) ” &&
-  “ ((Zlength (dest_i)) = (Zlength (dest0_i))) ” &&
-  “ (i = middle_pre) ” &&
-  “ ((0 : Int) <= left_pre) ” &&
-  “ (left_pre <= i) ” &&
-  “ (i <= middle_pre) ” &&
-  “ (middle_pre <= (j + 1)) ” &&
-  “ ((j + 1) <= right_pre) ” &&
-  “ (right_pre <= count_pre) ” &&
-  “ ((output + 1) = ((left_pre + (i - left_pre)) + ((j + 1) - middle_pre))) ” &&
-  “ (left_pre <= (output + 1)) ” &&
-  “ ((output + 1) <= right_pre) ” &&
-  “ (MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest_h dest_i left_pre middle_pre right_pre i (j + 1) (output + 1)) ”
-  &&  (intArray.full sourceHeight_pre count_pre source_h)
-  ** (intArray.full sourceIndex_pre count_pre source_i)
-  ** (intArray.full destinationHeight_pre count_pre dest_h)
-  ** (intArray.full destinationIndex_pre count_pre dest_i)
-) \/
-(
-forall (right_pre : Int) (middle_pre : Int) (left_pre : Int) (count_pre : Int) (dest0_i : (List Int)) (dest0_h : (List Int)) (source_i : (List Int)) (source_h : (List Int)) (output : Int) (j : Int) (i : Int) (dest_i_2 : (List Int)) (dest_h_2 : (List Int)) (PreH1 : (j < right_pre)) (PreH2 : ((Zlength (source_h)) = count_pre)) (PreH3 : ((Zlength (source_i)) = (Zlength (source_h)))) (PreH4 : ((Zlength (dest0_h)) = count_pre)) (PreH5 : ((Zlength (dest0_i)) = count_pre)) (PreH6 : ((Zlength (dest_h_2)) = (Zlength (dest0_h)))) (PreH7 : ((Zlength (dest_i_2)) = (Zlength (dest0_i)))) (PreH8 : (i = middle_pre)) (PreH9 : ((0 : Int) <= left_pre)) (PreH10 : (left_pre <= i)) (PreH11 : (i <= middle_pre)) (PreH12 : (middle_pre <= j)) (PreH13 : (j <= right_pre)) (PreH14 : (right_pre <= count_pre)) (PreH15 : (output = ((left_pre + (i - left_pre)) + (j - middle_pre)))) (PreH16 : (left_pre <= output)) (PreH17 : (output <= right_pre)) (PreH18 : (MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest_h_2 dest_i_2 left_pre middle_pre right_pre i j output)) ,
-  TT && emp
-|--
-  “ (MergePrefixStateNLogN source_h source_i dest0_h dest0_i (replace_Znth (((left_pre + (i - left_pre)) + (j - middle_pre))) ((Znth j source_h (0 : Int))) (dest_h_2)) (replace_Znth (((left_pre + (i - left_pre)) + (j - middle_pre))) ((Znth j source_i (0 : Int))) (dest_i_2)) left_pre middle_pre right_pre middle_pre (j + 1) (((left_pre + (i - left_pre)) + (j - middle_pre)) + 1)) ” &&
-  “ ((Zlength ((replace_Znth (((left_pre + (i - left_pre)) + (j - middle_pre))) ((Znth j source_i (0 : Int))) (dest_i_2)))) = count_pre) ” &&
-  “ ((Zlength ((replace_Znth (((left_pre + (i - left_pre)) + (j - middle_pre))) ((Znth j source_h (0 : Int))) (dest_h_2)))) = count_pre) ”
-  &&  emp
-)) := by
+theorem container_aux_mergeHeightIndexRunsNLogN_entail_wit_6 : mergeHeightIndexRunsNLogN_entail_wit_6 := by
   right
-  intro right_pre middle_pre left_pre count_pre dest0_i dest0_h source_i source_h output j i dest_i_2 dest_h_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro dest0_i dest0_h source_i source_h count_pre left_pre middle_pre right_pre output j i dest_i_2 dest_h_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -616,29 +419,9 @@ forall (right_pre : Int) (middle_pre : Int) (left_pre : Int) (count_pre : Int) (
       | exact (container_aux_mergeHeightIndexRunsNLogN_entail_wit_6_split_goal_3 right_pre middle_pre left_pre count_pre dest0_i dest0_h source_i source_h output j i dest_i_2 dest_h_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18)
 
 
-theorem container_aux_mergeHeightIndexRunsNLogN_return_wit_1 : ((
-forall (right_pre : Int) (middle_pre : Int) (left_pre : Int) (count_pre : Int) (destinationIndex_pre : Int) (destinationHeight_pre : Int) (sourceIndex_pre : Int) (sourceHeight_pre : Int) (dest0_i : (List Int)) (dest0_h : (List Int)) (source_i : (List Int)) (source_h : (List Int)) (output : Int) (j : Int) (i : Int) (dest_i_2 : (List Int)) (dest_h_2 : (List Int)) (PreH1 : (j >= right_pre)) (PreH2 : ((Zlength (source_h)) = count_pre)) (PreH3 : ((Zlength (source_i)) = (Zlength (source_h)))) (PreH4 : ((Zlength (dest0_h)) = count_pre)) (PreH5 : ((Zlength (dest0_i)) = count_pre)) (PreH6 : ((Zlength (dest_h_2)) = (Zlength (dest0_h)))) (PreH7 : ((Zlength (dest_i_2)) = (Zlength (dest0_i)))) (PreH8 : (i = middle_pre)) (PreH9 : ((0 : Int) <= left_pre)) (PreH10 : (left_pre <= i)) (PreH11 : (i <= middle_pre)) (PreH12 : (middle_pre <= j)) (PreH13 : (j <= right_pre)) (PreH14 : (right_pre <= count_pre)) (PreH15 : (output = ((left_pre + (i - left_pre)) + (j - middle_pre)))) (PreH16 : (left_pre <= output)) (PreH17 : (output <= right_pre)) (PreH18 : (MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest_h_2 dest_i_2 left_pre middle_pre right_pre i j output)) ,
-  (intArray.full sourceHeight_pre count_pre source_h)
-  ** (intArray.full sourceIndex_pre count_pre source_i)
-  ** (intArray.full destinationHeight_pre count_pre dest_h_2)
-  ** (intArray.full destinationIndex_pre count_pre dest_i_2)
-|--
-  EX dest_h : (List Int), EX dest_i : (List Int),
-  “ (HeightIndexRangeMergeResultNLogN source_h source_i dest0_h dest0_i dest_h dest_i left_pre middle_pre right_pre) ”
-  &&  (intArray.full sourceHeight_pre count_pre source_h)
-  ** (intArray.full sourceIndex_pre count_pre source_i)
-  ** (intArray.full destinationHeight_pre count_pre dest_h)
-  ** (intArray.full destinationIndex_pre count_pre dest_i)
-) \/
-(
-forall (right_pre : Int) (middle_pre : Int) (left_pre : Int) (count_pre : Int) (dest0_i : (List Int)) (dest0_h : (List Int)) (source_i : (List Int)) (source_h : (List Int)) (output : Int) (j : Int) (i : Int) (dest_i_2 : (List Int)) (dest_h_2 : (List Int)) (PreH1 : (j >= right_pre)) (PreH2 : ((Zlength (source_h)) = count_pre)) (PreH3 : ((Zlength (source_i)) = (Zlength (source_h)))) (PreH4 : ((Zlength (dest0_h)) = count_pre)) (PreH5 : ((Zlength (dest0_i)) = count_pre)) (PreH6 : ((Zlength (dest_h_2)) = (Zlength (dest0_h)))) (PreH7 : ((Zlength (dest_i_2)) = (Zlength (dest0_i)))) (PreH8 : (i = middle_pre)) (PreH9 : ((0 : Int) <= left_pre)) (PreH10 : (left_pre <= i)) (PreH11 : (i <= middle_pre)) (PreH12 : (middle_pre <= j)) (PreH13 : (j <= right_pre)) (PreH14 : (right_pre <= count_pre)) (PreH15 : (output = ((left_pre + (i - left_pre)) + (j - middle_pre)))) (PreH16 : (left_pre <= output)) (PreH17 : (output <= right_pre)) (PreH18 : (MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest_h_2 dest_i_2 left_pre middle_pre right_pre i j output)) ,
-  TT && emp
-|--
-  “ (HeightIndexRangeMergeResultNLogN source_h source_i dest0_h dest0_i dest_h_2 dest_i_2 left_pre middle_pre right_pre) ”
-  &&  emp
-)) := by
+theorem container_aux_mergeHeightIndexRunsNLogN_return_wit_1 : mergeHeightIndexRunsNLogN_return_wit_1 := by
   right
-  intro right_pre middle_pre left_pre count_pre dest0_i dest0_h source_i source_h output j i dest_i_2 dest_h_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro dest0_i dest0_h source_i source_h count_pre left_pre middle_pre right_pre output j i dest_i_2 dest_h_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -646,73 +429,18 @@ forall (right_pre : Int) (middle_pre : Int) (left_pre : Int) (count_pre : Int) (
       | exact (container_aux_mergeHeightIndexRunsNLogN_return_wit_1_split_goal_1 right_pre middle_pre left_pre count_pre dest0_i dest0_h source_i source_h output j i dest_i_2 dest_h_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18)
 
 
-theorem container_aux_sortHeightIndexRangeNLogN_safety_wit_3 : ((
-forall (right_pre : Int) (left_pre : Int) (count_pre : Int) (bufferIndex_pre : Int) (bufferHeight_pre : Int) (workIndex_pre : Int) (workHeight_pre : Int) (buffer0_i : (List Int)) (buffer0_h : (List Int)) (work0_i : (List Int)) (work0_h : (List Int)) (PreH1 : ((right_pre - left_pre) > 1)) (PreH2 : ((Zlength (work0_h)) = count_pre)) (PreH3 : ((Zlength (work0_i)) = count_pre)) (PreH4 : ((Zlength (buffer0_h)) = count_pre)) (PreH5 : ((Zlength (buffer0_i)) = count_pre)) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre <= count_pre)) (PreH9 : (count_pre <= 100000)) ,
-  ((( &( "middle" ) )) # Int |->_)
-  ** ((( &( "workHeight" ) )) # Ptr |-> (workHeight_pre))
-  ** ((( &( "workIndex" ) )) # Ptr |-> (workIndex_pre))
-  ** ((( &( "bufferHeight" ) )) # Ptr |-> (bufferHeight_pre))
-  ** ((( &( "bufferIndex" ) )) # Ptr |-> (bufferIndex_pre))
-  ** ((( &( "count" ) )) # Int |-> (count_pre))
-  ** ((( &( "left" ) )) # Int |-> (left_pre))
-  ** ((( &( "right" ) )) # Int |-> (right_pre))
-  ** (intArray.full workHeight_pre count_pre work0_h)
-  ** (intArray.full workIndex_pre count_pre work0_i)
-  ** (intArray.full bufferHeight_pre count_pre buffer0_h)
-  ** (intArray.full bufferIndex_pre count_pre buffer0_i)
-|--
-  “ ((left_pre + (Z.quot (right_pre - left_pre) 2)) <= INT_MAX) ” &&
-  “ ((INT_MIN) <= (left_pre + (Z.quot (right_pre - left_pre) 2))) ”
-) \/
-(
-forall (right_pre : Int) (left_pre : Int) (count_pre : Int) (bufferIndex_pre : Int) (bufferHeight_pre : Int) (workIndex_pre : Int) (workHeight_pre : Int) (buffer0_i : (List Int)) (buffer0_h : (List Int)) (work0_i : (List Int)) (work0_h : (List Int)) (PreH1 : ((right_pre - left_pre) > 1)) (PreH2 : ((Zlength (work0_h)) = count_pre)) (PreH3 : ((Zlength (work0_i)) = count_pre)) (PreH4 : ((Zlength (buffer0_h)) = count_pre)) (PreH5 : ((Zlength (buffer0_i)) = count_pre)) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre <= count_pre)) (PreH9 : (count_pre <= 100000)) ,
-  ((( &( "middle" ) )) # Int |->_)
-  ** ((( &( "workHeight" ) )) # Ptr |-> (workHeight_pre))
-  ** ((( &( "workIndex" ) )) # Ptr |-> (workIndex_pre))
-  ** ((( &( "bufferHeight" ) )) # Ptr |-> (bufferHeight_pre))
-  ** ((( &( "bufferIndex" ) )) # Ptr |-> (bufferIndex_pre))
-  ** ((( &( "count" ) )) # Int |-> (count_pre))
-  ** ((( &( "left" ) )) # Int |-> (left_pre))
-  ** ((( &( "right" ) )) # Int |-> (right_pre))
-  ** (intArray.full workHeight_pre count_pre work0_h)
-  ** (intArray.full workIndex_pre count_pre work0_i)
-  ** (intArray.full bufferHeight_pre count_pre buffer0_h)
-  ** (intArray.full bufferIndex_pre count_pre buffer0_i)
-|--
-  “ ((left_pre + (Z.quot (right_pre - left_pre) 2)) <= INT_MAX) ” &&
-  “ ((INT_MIN) <= (left_pre + (Z.quot (right_pre - left_pre) 2))) ”
-)) := by
+theorem container_aux_sortHeightIndexRangeNLogN_safety_wit_3 : sortHeightIndexRangeNLogN_safety_wit_3 := by
   right
-  intro right_pre left_pre count_pre bufferIndex_pre bufferHeight_pre workIndex_pre workHeight_pre buffer0_i buffer0_h work0_i work0_h PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro buffer0_i buffer0_h work0_i work0_h workHeight_pre workIndex_pre bufferHeight_pre bufferIndex_pre count_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   split_pures
   all_goals first
     | exact (container_aux_sortHeightIndexRangeNLogN_safety_wit_3_split_goal_1 right_pre left_pre count_pre bufferIndex_pre bufferHeight_pre workIndex_pre workHeight_pre buffer0_i buffer0_h work0_i work0_h PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9)
     | exact (container_aux_sortHeightIndexRangeNLogN_safety_wit_3_split_goal_2 right_pre left_pre count_pre bufferIndex_pre bufferHeight_pre workIndex_pre workHeight_pre buffer0_i buffer0_h work0_i work0_h PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9)
 
 
-theorem container_aux_sortHeightIndexRangeNLogN_return_wit_1 : ((
-forall (right_pre : Int) (left_pre : Int) (count_pre : Int) (bufferIndex_pre : Int) (bufferHeight_pre : Int) (workIndex_pre : Int) (workHeight_pre : Int) (buffer0_i : (List Int)) (buffer0_h : (List Int)) (work0_i : (List Int)) (work0_h : (List Int)) (PreH1 : ((right_pre - left_pre) <= 1)) (PreH2 : ((Zlength (work0_h)) = count_pre)) (PreH3 : ((Zlength (work0_i)) = count_pre)) (PreH4 : ((Zlength (buffer0_h)) = count_pre)) (PreH5 : ((Zlength (buffer0_i)) = count_pre)) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre <= count_pre)) (PreH9 : (count_pre <= 100000)) ,
-  (intArray.full workHeight_pre count_pre work0_h)
-  ** (intArray.full workIndex_pre count_pre work0_i)
-  ** (intArray.full bufferHeight_pre count_pre buffer0_h)
-  ** (intArray.full bufferIndex_pre count_pre buffer0_i)
-|--
-  EX buffer_i : (List Int), EX buffer_h : (List Int), EX work_h : (List Int), EX work_i : (List Int),
-  “ (HeightIndexRangeSortResultNLogN work0_h work0_i work_h work_i left_pre right_pre) ”
-  &&  (intArray.full workHeight_pre count_pre work_h)
-  ** (intArray.full workIndex_pre count_pre work_i)
-  ** (intArray.full bufferHeight_pre count_pre buffer_h)
-  ** (intArray.full bufferIndex_pre count_pre buffer_i)
-) \/
-(
-forall (right_pre : Int) (left_pre : Int) (count_pre : Int) (buffer0_i : (List Int)) (buffer0_h : (List Int)) (work0_i : (List Int)) (work0_h : (List Int)) (PreH1 : ((right_pre - left_pre) <= 1)) (PreH2 : ((Zlength (work0_h)) = count_pre)) (PreH3 : ((Zlength (work0_i)) = count_pre)) (PreH4 : ((Zlength (buffer0_h)) = count_pre)) (PreH5 : ((Zlength (buffer0_i)) = count_pre)) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre <= count_pre)) (PreH9 : (count_pre <= 100000)) ,
-  TT && emp
-|--
-  “ (HeightIndexRangeSortResultNLogN work0_h work0_i work0_h work0_i left_pre right_pre) ”
-  &&  emp
-)) := by
+theorem container_aux_sortHeightIndexRangeNLogN_return_wit_1 : sortHeightIndexRangeNLogN_return_wit_1 := by
   right
-  intro right_pre left_pre count_pre buffer0_i buffer0_h work0_i work0_h PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro buffer0_i buffer0_h work0_i work0_h count_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -720,29 +448,9 @@ forall (right_pre : Int) (left_pre : Int) (count_pre : Int) (buffer0_i : (List I
       | exact (container_aux_sortHeightIndexRangeNLogN_return_wit_1_split_goal_1 right_pre left_pre count_pre buffer0_i buffer0_h work0_i work0_h PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9)
 
 
-theorem container_aux_sortHeightIndexRangeNLogN_return_wit_2 : ((
-forall (right_pre : Int) (left_pre : Int) (count_pre : Int) (bufferIndex_pre : Int) (bufferHeight_pre : Int) (workIndex_pre : Int) (workHeight_pre : Int) (work0_i : (List Int)) (work0_h : (List Int)) (buffer0_h : (List Int)) (buffer0_i : (List Int)) (k : Int) (buffer_i_2 : (List Int)) (buffer_h_2 : (List Int)) (work_i1 : (List Int)) (work_h1 : (List Int)) (work_i_2 : (List Int)) (work_h_2 : (List Int)) (work_mid_i : (List Int)) (work_mid_h : (List Int)) (middle : Int) (PreH1 : (k >= right_pre)) (PreH2 : (count_pre <= 100000)) (PreH3 : (left_pre < middle)) (PreH4 : (middle < right_pre)) (PreH5 : ((Zlength (work_mid_h)) = count_pre)) (PreH6 : ((Zlength (work_mid_i)) = count_pre)) (PreH7 : ((Zlength (work_h_2)) = count_pre)) (PreH8 : ((Zlength (work_i_2)) = count_pre)) (PreH9 : ((Zlength (work_h1)) = count_pre)) (PreH10 : ((Zlength (work_i1)) = count_pre)) (PreH11 : ((Zlength (buffer_h_2)) = count_pre)) (PreH12 : ((Zlength (buffer_i_2)) = count_pre)) (PreH13 : ((0 : Int) <= left_pre)) (PreH14 : (left_pre <= k)) (PreH15 : (k <= right_pre)) (PreH16 : (right_pre <= count_pre)) (PreH17 : (HeightIndexRangeSortResultNLogN work0_h work0_i work_mid_h work_mid_i left_pre middle)) (PreH18 : (HeightIndexRangeSortResultNLogN work_mid_h work_mid_i work_h_2 work_i_2 middle right_pre)) (PreH19 : (HeightIndexRangeMergeResultNLogN work_h_2 work_i_2 buffer0_h buffer0_i buffer_h_2 buffer_i_2 left_pre middle right_pre)) (PreH20 : (CopyHeightIndexPrefixNLogN buffer_h_2 buffer_i_2 work_h_2 work_i_2 work_h1 work_i1 left_pre right_pre k)) ,
-  (intArray.full workHeight_pre count_pre work_h1)
-  ** (intArray.full workIndex_pre count_pre work_i1)
-  ** (intArray.full bufferHeight_pre count_pre buffer_h_2)
-  ** (intArray.full bufferIndex_pre count_pre buffer_i_2)
-|--
-  EX buffer_i : (List Int), EX buffer_h : (List Int), EX work_h : (List Int), EX work_i : (List Int),
-  “ (HeightIndexRangeSortResultNLogN work0_h work0_i work_h work_i left_pre right_pre) ”
-  &&  (intArray.full workHeight_pre count_pre work_h)
-  ** (intArray.full workIndex_pre count_pre work_i)
-  ** (intArray.full bufferHeight_pre count_pre buffer_h)
-  ** (intArray.full bufferIndex_pre count_pre buffer_i)
-) \/
-(
-forall (right_pre : Int) (left_pre : Int) (count_pre : Int) (work0_i : (List Int)) (work0_h : (List Int)) (buffer0_h : (List Int)) (buffer0_i : (List Int)) (k : Int) (buffer_i_2 : (List Int)) (buffer_h_2 : (List Int)) (work_i1 : (List Int)) (work_h1 : (List Int)) (work_i_2 : (List Int)) (work_h_2 : (List Int)) (work_mid_i : (List Int)) (work_mid_h : (List Int)) (middle : Int) (PreH1 : (k >= right_pre)) (PreH2 : (count_pre <= 100000)) (PreH3 : (left_pre < middle)) (PreH4 : (middle < right_pre)) (PreH5 : ((Zlength (work_mid_h)) = count_pre)) (PreH6 : ((Zlength (work_mid_i)) = count_pre)) (PreH7 : ((Zlength (work_h_2)) = count_pre)) (PreH8 : ((Zlength (work_i_2)) = count_pre)) (PreH9 : ((Zlength (work_h1)) = count_pre)) (PreH10 : ((Zlength (work_i1)) = count_pre)) (PreH11 : ((Zlength (buffer_h_2)) = count_pre)) (PreH12 : ((Zlength (buffer_i_2)) = count_pre)) (PreH13 : ((0 : Int) <= left_pre)) (PreH14 : (left_pre <= k)) (PreH15 : (k <= right_pre)) (PreH16 : (right_pre <= count_pre)) (PreH17 : (HeightIndexRangeSortResultNLogN work0_h work0_i work_mid_h work_mid_i left_pre middle)) (PreH18 : (HeightIndexRangeSortResultNLogN work_mid_h work_mid_i work_h_2 work_i_2 middle right_pre)) (PreH19 : (HeightIndexRangeMergeResultNLogN work_h_2 work_i_2 buffer0_h buffer0_i buffer_h_2 buffer_i_2 left_pre middle right_pre)) (PreH20 : (CopyHeightIndexPrefixNLogN buffer_h_2 buffer_i_2 work_h_2 work_i_2 work_h1 work_i1 left_pre right_pre k)) ,
-  TT && emp
-|--
-  “ (HeightIndexRangeSortResultNLogN work0_h work0_i work_h1 work_i1 left_pre right_pre) ”
-  &&  emp
-)) := by
+theorem container_aux_sortHeightIndexRangeNLogN_return_wit_2 : sortHeightIndexRangeNLogN_return_wit_2 := by
   right
-  intro right_pre left_pre count_pre work0_i work0_h buffer0_h buffer0_i k buffer_i_2 buffer_h_2 work_i1 work_h1 work_i_2 work_h_2 work_mid_i work_mid_h middle PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro work0_i work0_h count_pre left_pre right_pre buffer0_h buffer0_i k buffer_i_2 buffer_h_2 work_i1 work_h1 work_i_2 work_h_2 work_mid_i work_mid_h middle PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -750,104 +458,18 @@ forall (right_pre : Int) (left_pre : Int) (count_pre : Int) (work0_i : (List Int
       | exact (container_aux_sortHeightIndexRangeNLogN_return_wit_2_split_goal_1 right_pre left_pre count_pre work0_i work0_h buffer0_h buffer0_i k buffer_i_2 buffer_h_2 work_i1 work_h1 work_i_2 work_h_2 work_mid_i work_mid_h middle PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
 
 
-theorem container_aux_sortHeightIndexRangeNLogN_partial_solve_wit_1_pure : ((
-forall (right_pre : Int) (left_pre : Int) (count_pre : Int) (bufferIndex_pre : Int) (bufferHeight_pre : Int) (workIndex_pre : Int) (workHeight_pre : Int) (buffer0_i : (List Int)) (buffer0_h : (List Int)) (work0_i : (List Int)) (work0_h : (List Int)) (PreH1 : ((right_pre - left_pre) > 1)) (PreH2 : ((Zlength (work0_h)) = count_pre)) (PreH3 : ((Zlength (work0_i)) = count_pre)) (PreH4 : ((Zlength (buffer0_h)) = count_pre)) (PreH5 : ((Zlength (buffer0_i)) = count_pre)) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre <= count_pre)) (PreH9 : (count_pre <= 100000)) ,
-  ((( &( "middle" ) )) # Int |-> ((left_pre + (Z.quot (right_pre - left_pre) 2))))
-  ** ((( &( "workHeight" ) )) # Ptr |-> (workHeight_pre))
-  ** ((( &( "workIndex" ) )) # Ptr |-> (workIndex_pre))
-  ** ((( &( "bufferHeight" ) )) # Ptr |-> (bufferHeight_pre))
-  ** ((( &( "bufferIndex" ) )) # Ptr |-> (bufferIndex_pre))
-  ** ((( &( "count" ) )) # Int |-> (count_pre))
-  ** ((( &( "left" ) )) # Int |-> (left_pre))
-  ** ((( &( "right" ) )) # Int |-> (right_pre))
-  ** (intArray.full workHeight_pre count_pre work0_h)
-  ** (intArray.full workIndex_pre count_pre work0_i)
-  ** (intArray.full bufferHeight_pre count_pre buffer0_h)
-  ** (intArray.full bufferIndex_pre count_pre buffer0_i)
-|--
-  “ ((Zlength (work0_h)) = count_pre) ” &&
-  “ ((Zlength (work0_i)) = count_pre) ” &&
-  “ ((Zlength (buffer0_h)) = count_pre) ” &&
-  “ ((Zlength (buffer0_i)) = count_pre) ” &&
-  “ ((0 : Int) <= left_pre) ” &&
-  “ (count_pre <= 100000) ” &&
-  “ ((left_pre + (Z.quot (right_pre - left_pre) 2)) <= count_pre) ” &&
-  “ (left_pre <= (left_pre + (Z.quot (right_pre - left_pre) 2))) ”
-) \/
-(
-forall (right_pre : Int) (left_pre : Int) (count_pre : Int) (bufferIndex_pre : Int) (bufferHeight_pre : Int) (workIndex_pre : Int) (workHeight_pre : Int) (buffer0_i : (List Int)) (buffer0_h : (List Int)) (work0_i : (List Int)) (work0_h : (List Int)) (PreH1 : (right_pre <= INT_MAX)) (PreH2 : (left_pre <= INT_MAX)) (PreH3 : (count_pre <= INT_MAX)) (PreH4 : ((left_pre + (Z.quot (right_pre - left_pre) 2)) <= INT_MAX)) (PreH5 : (right_pre >= INT_MIN)) (PreH6 : (left_pre >= INT_MIN)) (PreH7 : (count_pre >= INT_MIN)) (PreH8 : ((left_pre + (Z.quot (right_pre - left_pre) 2)) >= INT_MIN)) (PreH9 : ((right_pre - left_pre) > 1)) (PreH10 : ((Zlength (work0_h)) = count_pre)) (PreH11 : ((Zlength (work0_i)) = count_pre)) (PreH12 : ((Zlength (buffer0_h)) = count_pre)) (PreH13 : ((Zlength (buffer0_i)) = count_pre)) (PreH14 : ((0 : Int) <= left_pre)) (PreH15 : (left_pre <= right_pre)) (PreH16 : (right_pre <= count_pre)) (PreH17 : (count_pre <= 100000)) ,
-  ((( &( "middle" ) )) # Int |-> ((left_pre + (Z.quot (right_pre - left_pre) 2))))
-  ** ((( &( "workHeight" ) )) # Ptr |-> (workHeight_pre))
-  ** ((( &( "workIndex" ) )) # Ptr |-> (workIndex_pre))
-  ** ((( &( "bufferHeight" ) )) # Ptr |-> (bufferHeight_pre))
-  ** ((( &( "bufferIndex" ) )) # Ptr |-> (bufferIndex_pre))
-  ** ((( &( "count" ) )) # Int |-> (count_pre))
-  ** ((( &( "left" ) )) # Int |-> (left_pre))
-  ** ((( &( "right" ) )) # Int |-> (right_pre))
-  ** (intArray.full workHeight_pre count_pre work0_h)
-  ** (intArray.full workIndex_pre count_pre work0_i)
-  ** (intArray.full bufferHeight_pre count_pre buffer0_h)
-  ** (intArray.full bufferIndex_pre count_pre buffer0_i)
-|--
-  “ (left_pre <= (left_pre + (Z.quot (right_pre - left_pre) 2))) ” &&
-  “ ((left_pre + (Z.quot (right_pre - left_pre) 2)) <= count_pre) ”
-)) := by
+theorem container_aux_sortHeightIndexRangeNLogN_partial_solve_wit_1_pure : sortHeightIndexRangeNLogN_partial_solve_wit_1_pure := by
   right
-  intro right_pre left_pre count_pre bufferIndex_pre bufferHeight_pre workIndex_pre workHeight_pre buffer0_i buffer0_h work0_i work0_h PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro buffer0_i buffer0_h work0_i work0_h workHeight_pre workIndex_pre bufferHeight_pre bufferIndex_pre count_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   split_pures
   all_goals first
     | exact (container_aux_sortHeightIndexRangeNLogN_partial_solve_wit_1_pure_split_goal_1 right_pre left_pre count_pre bufferIndex_pre bufferHeight_pre workIndex_pre workHeight_pre buffer0_i buffer0_h work0_i work0_h PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17)
     | exact (container_aux_sortHeightIndexRangeNLogN_partial_solve_wit_1_pure_split_goal_2 right_pre left_pre count_pre bufferIndex_pre bufferHeight_pre workIndex_pre workHeight_pre buffer0_i buffer0_h work0_i work0_h PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17)
 
 
-theorem container_aux_sortHeightIndexRangeNLogN_partial_solve_wit_2_pure : ((
-forall (right_pre : Int) (left_pre : Int) (count_pre : Int) (bufferIndex_pre : Int) (bufferHeight_pre : Int) (workIndex_pre : Int) (workHeight_pre : Int) (buffer0_i : (List Int)) (buffer0_h : (List Int)) (work0_i : (List Int)) (work0_h : (List Int)) (buffer_i : (List Int)) (buffer_h : (List Int)) (work_h : (List Int)) (work_i : (List Int)) (PreH1 : (HeightIndexRangeSortResultNLogN work0_h work0_i work_h work_i left_pre (left_pre + (Z.quot (right_pre - left_pre) 2)))) (PreH2 : ((right_pre - left_pre) > 1)) (PreH3 : ((Zlength (work0_h)) = count_pre)) (PreH4 : ((Zlength (work0_i)) = count_pre)) (PreH5 : ((Zlength (buffer0_h)) = count_pre)) (PreH6 : ((Zlength (buffer0_i)) = count_pre)) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre <= count_pre)) (PreH10 : (count_pre <= 100000)) ,
-  (intArray.full workHeight_pre count_pre work_h)
-  ** (intArray.full workIndex_pre count_pre work_i)
-  ** (intArray.full bufferHeight_pre count_pre buffer_h)
-  ** (intArray.full bufferIndex_pre count_pre buffer_i)
-  ** ((( &( "middle" ) )) # Int |-> ((left_pre + (Z.quot (right_pre - left_pre) 2))))
-  ** ((( &( "workHeight" ) )) # Ptr |-> (workHeight_pre))
-  ** ((( &( "workIndex" ) )) # Ptr |-> (workIndex_pre))
-  ** ((( &( "bufferHeight" ) )) # Ptr |-> (bufferHeight_pre))
-  ** ((( &( "bufferIndex" ) )) # Ptr |-> (bufferIndex_pre))
-  ** ((( &( "count" ) )) # Int |-> (count_pre))
-  ** ((( &( "left" ) )) # Int |-> (left_pre))
-  ** ((( &( "right" ) )) # Int |-> (right_pre))
-|--
-  “ (right_pre <= count_pre) ” &&
-  “ (count_pre <= 100000) ” &&
-  “ ((left_pre + (Z.quot (right_pre - left_pre) 2)) <= right_pre) ” &&
-  “ ((0 : Int) <= (left_pre + (Z.quot (right_pre - left_pre) 2))) ” &&
-  “ ((Zlength (buffer_i)) = count_pre) ” &&
-  “ ((Zlength (buffer_h)) = count_pre) ” &&
-  “ ((Zlength (work_i)) = count_pre) ” &&
-  “ ((Zlength (work_h)) = count_pre) ”
-) \/
-(
-forall (right_pre : Int) (left_pre : Int) (count_pre : Int) (bufferIndex_pre : Int) (bufferHeight_pre : Int) (workIndex_pre : Int) (workHeight_pre : Int) (buffer0_i : (List Int)) (buffer0_h : (List Int)) (work0_i : (List Int)) (work0_h : (List Int)) (buffer_i : (List Int)) (buffer_h : (List Int)) (work_h : (List Int)) (work_i : (List Int)) (PreH1 : (right_pre <= INT_MAX)) (PreH2 : (left_pre <= INT_MAX)) (PreH3 : (count_pre <= INT_MAX)) (PreH4 : ((left_pre + (Z.quot (right_pre - left_pre) 2)) <= INT_MAX)) (PreH5 : (right_pre >= INT_MIN)) (PreH6 : (left_pre >= INT_MIN)) (PreH7 : (count_pre >= INT_MIN)) (PreH8 : ((left_pre + (Z.quot (right_pre - left_pre) 2)) >= INT_MIN)) (PreH9 : (HeightIndexRangeSortResultNLogN work0_h work0_i work_h work_i left_pre (left_pre + (Z.quot (right_pre - left_pre) 2)))) (PreH10 : ((right_pre - left_pre) > 1)) (PreH11 : ((Zlength (work0_h)) = count_pre)) (PreH12 : ((Zlength (work0_i)) = count_pre)) (PreH13 : ((Zlength (buffer0_h)) = count_pre)) (PreH14 : ((Zlength (buffer0_i)) = count_pre)) (PreH15 : ((0 : Int) <= left_pre)) (PreH16 : (left_pre <= right_pre)) (PreH17 : (right_pre <= count_pre)) (PreH18 : (count_pre <= 100000)) ,
-  (intArray.full workHeight_pre count_pre work_h)
-  ** (intArray.full workIndex_pre count_pre work_i)
-  ** (intArray.full bufferHeight_pre count_pre buffer_h)
-  ** (intArray.full bufferIndex_pre count_pre buffer_i)
-  ** ((( &( "middle" ) )) # Int |-> ((left_pre + (Z.quot (right_pre - left_pre) 2))))
-  ** ((( &( "workHeight" ) )) # Ptr |-> (workHeight_pre))
-  ** ((( &( "workIndex" ) )) # Ptr |-> (workIndex_pre))
-  ** ((( &( "bufferHeight" ) )) # Ptr |-> (bufferHeight_pre))
-  ** ((( &( "bufferIndex" ) )) # Ptr |-> (bufferIndex_pre))
-  ** ((( &( "count" ) )) # Int |-> (count_pre))
-  ** ((( &( "left" ) )) # Int |-> (left_pre))
-  ** ((( &( "right" ) )) # Int |-> (right_pre))
-|--
-  “ ((Zlength (work_h)) = count_pre) ” &&
-  “ ((Zlength (work_i)) = count_pre) ” &&
-  “ ((Zlength (buffer_h)) = count_pre) ” &&
-  “ ((Zlength (buffer_i)) = count_pre) ” &&
-  “ ((0 : Int) <= (left_pre + (Z.quot (right_pre - left_pre) 2))) ” &&
-  “ ((left_pre + (Z.quot (right_pre - left_pre) 2)) <= right_pre) ”
-)) := by
+theorem container_aux_sortHeightIndexRangeNLogN_partial_solve_wit_2_pure : sortHeightIndexRangeNLogN_partial_solve_wit_2_pure := by
   right
-  intro right_pre left_pre count_pre bufferIndex_pre bufferHeight_pre workIndex_pre workHeight_pre buffer0_i buffer0_h work0_i work0_h buffer_i buffer_h work_h work_i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro buffer0_i buffer0_h work0_i work0_h workHeight_pre workIndex_pre bufferHeight_pre bufferIndex_pre count_pre left_pre right_pre buffer_i buffer_h work_h work_i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   split_pures
   all_goals first
     | exact (container_aux_sortHeightIndexRangeNLogN_partial_solve_wit_2_pure_split_goal_1 right_pre left_pre count_pre bufferIndex_pre bufferHeight_pre workIndex_pre workHeight_pre buffer0_i buffer0_h work0_i work0_h buffer_i buffer_h work_h work_i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18)
@@ -860,7 +482,7 @@ forall (right_pre : Int) (left_pre : Int) (count_pre : Int) (bufferIndex_pre : I
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_1 : maxAreaNLogN_entail_wit_9_1 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
   have hs := PreH48
   have he := PreH49
   have ho := PreH50
@@ -891,7 +513,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_1 : maxAreaNLogN_entail_wit_9_1 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_2 : maxAreaNLogN_entail_wit_9_2 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
   have hs := PreH48
   have he := PreH49
   have ho := PreH50
@@ -922,7 +544,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_2 : maxAreaNLogN_entail_wit_9_2 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_3 : maxAreaNLogN_entail_wit_9_3 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
   have hs := PreH50
   have he := PreH51
   have ho := PreH52
@@ -950,7 +572,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_3 : maxAreaNLogN_entail_wit_9_3 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_4 : maxAreaNLogN_entail_wit_9_4 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
   have hs := PreH50
   have he := PreH51
   have ho := PreH52
@@ -978,7 +600,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_4 : maxAreaNLogN_entail_wit_9_4 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_5 : maxAreaNLogN_entail_wit_9_5 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
   have hs := PreH48
   have he := PreH49
   have ho := PreH50
@@ -1009,7 +631,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_5 : maxAreaNLogN_entail_wit_9_5 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_6 : maxAreaNLogN_entail_wit_9_6 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52
   have hs := PreH48
   have he := PreH49
   have ho := PreH50
@@ -1040,7 +662,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_6 : maxAreaNLogN_entail_wit_9_6 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_7 : maxAreaNLogN_entail_wit_9_7 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
   have hs := PreH50
   have he := PreH51
   have ho := PreH52
@@ -1068,7 +690,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_7 : maxAreaNLogN_entail_wit_9_7 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_8 : maxAreaNLogN_entail_wit_9_8 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
   have hs := PreH50
   have he := PreH51
   have ho := PreH52
@@ -1096,7 +718,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_8 : maxAreaNLogN_entail_wit_9_8 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_9 : maxAreaNLogN_entail_wit_9_9 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hs := PreH32
   have he := PreH33
   have ho := PreH34
@@ -1127,7 +749,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_9 : maxAreaNLogN_entail_wit_9_9 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_10 : maxAreaNLogN_entail_wit_9_10 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hs := PreH32
   have he := PreH33
   have ho := PreH34
@@ -1158,7 +780,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_10 : maxAreaNLogN_entail_wit_9_10 := 
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_11 : maxAreaNLogN_entail_wit_9_11 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hs := PreH32
   have he := PreH33
   have ho := PreH34
@@ -1189,7 +811,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_11 : maxAreaNLogN_entail_wit_9_11 := 
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_12 : maxAreaNLogN_entail_wit_9_12 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hs := PreH32
   have he := PreH33
   have ho := PreH34
@@ -1220,7 +842,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_12 : maxAreaNLogN_entail_wit_9_12 := 
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_13 : maxAreaNLogN_entail_wit_9_13 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hs := PreH32
   have he := PreH33
   have ho := PreH34
@@ -1251,7 +873,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_13 : maxAreaNLogN_entail_wit_9_13 := 
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_14 : maxAreaNLogN_entail_wit_9_14 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hs := PreH32
   have he := PreH33
   have ho := PreH34
@@ -1282,7 +904,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_14 : maxAreaNLogN_entail_wit_9_14 := 
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_15 : maxAreaNLogN_entail_wit_9_15 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hs := PreH32
   have he := PreH33
   have ho := PreH34
@@ -1313,7 +935,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_15 : maxAreaNLogN_entail_wit_9_15 := 
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_16 : maxAreaNLogN_entail_wit_9_16 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hs := PreH32
   have he := PreH33
   have ho := PreH34
@@ -1344,7 +966,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_16 : maxAreaNLogN_entail_wit_9_16 := 
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_17 : maxAreaNLogN_entail_wit_9_17 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hs := PreH32
   have he := PreH33
   have ho := PreH34
@@ -1372,7 +994,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_17 : maxAreaNLogN_entail_wit_9_17 := 
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_18 : maxAreaNLogN_entail_wit_9_18 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hs := PreH32
   have he := PreH33
   have ho := PreH34
@@ -1400,7 +1022,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_18 : maxAreaNLogN_entail_wit_9_18 := 
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_19 : maxAreaNLogN_entail_wit_9_19 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hs := PreH32
   have he := PreH33
   have ho := PreH34
@@ -1428,7 +1050,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_19 : maxAreaNLogN_entail_wit_9_19 := 
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_20 : maxAreaNLogN_entail_wit_9_20 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hs := PreH32
   have he := PreH33
   have ho := PreH34
@@ -1456,7 +1078,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_20 : maxAreaNLogN_entail_wit_9_20 := 
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_21 : maxAreaNLogN_entail_wit_9_21 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hs := PreH32
   have he := PreH33
   have ho := PreH34
@@ -1484,7 +1106,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_21 : maxAreaNLogN_entail_wit_9_21 := 
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_22 : maxAreaNLogN_entail_wit_9_22 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hs := PreH32
   have he := PreH33
   have ho := PreH34
@@ -1512,7 +1134,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_22 : maxAreaNLogN_entail_wit_9_22 := 
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_23 : maxAreaNLogN_entail_wit_9_23 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hs := PreH32
   have he := PreH33
   have ho := PreH34
@@ -1540,7 +1162,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_9_23 : maxAreaNLogN_entail_wit_9_23 := 
 
 theorem proof_of_maxAreaNLogN_entail_wit_9_24 : maxAreaNLogN_entail_wit_9_24 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
+  intro l heightSize_pre sorted_h_2 sorted_i_2 k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   have hs := PreH32
   have he := PreH33
   have ho := PreH34
@@ -1590,7 +1212,7 @@ theorem proof_of_mergeHeightIndexRunsNLogN_entail_wit_1 : mergeHeightIndexRunsNL
 
 theorem proof_of_sortHeightIndexRangeNLogN_entail_wit_2 : sortHeightIndexRangeNLogN_entail_wit_2 := by
   right
-  intro right_pre left_pre count_pre work0_i work0_h buffer0_h_2 buffer0_i_2 k buffer_i_2 buffer_h_2 work_i1_2 work_h1_2 work_i_2 work_h_2 work_mid_i_2 work_mid_h_2 middle PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro work0_i work0_h count_pre left_pre right_pre buffer0_h_2 buffer0_i_2 k buffer_i_2 buffer_h_2 work_i1_2 work_h1_2 work_i_2 work_h_2 work_mid_i_2 work_mid_h_2 middle PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   have hkh : 0 ≤ k ∧ k < Zlength work_h1_2 := ⟨by omega,by omega⟩
   have hki : 0 ≤ k ∧ k < Zlength work_i1_2 := ⟨by omega,by omega⟩
   have hc : CopyHeightIndexPrefixNLogN buffer_h_2 buffer_i_2 work_h_2 work_i_2 (replace_Znth k (Znth k buffer_h_2 0) work_h1_2) (replace_Znth k (Znth k buffer_i_2 0) work_i1_2) left_pre right_pre (k+1) := by
@@ -1622,7 +1244,7 @@ theorem proof_of_sortHeightIndexRangeNLogN_entail_wit_2 : sortHeightIndexRangeNL
 
 theorem proof_of_sortHeightIndexRangeNLogN_entail_wit_1 : sortHeightIndexRangeNLogN_entail_wit_1 := by
   left
-  intro right_pre left_pre count_pre bufferIndex_pre bufferHeight_pre workIndex_pre workHeight_pre buffer0_i_2 buffer0_h_2 work0_i work0_h work_h_2 work_i_2 buffer_i_2 buffer_h_2 work_h_3 work_i_3 dest_h dest_i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro buffer0_i_2 buffer0_h_2 work0_i work0_h workHeight_pre workIndex_pre bufferHeight_pre bufferIndex_pre count_pre left_pre right_pre work_h_2 work_i_2 buffer_i_2 buffer_h_2 work_h_3 work_i_3 dest_h dest_i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   prop_apply (intArray.full_Zlength bufferHeight_pre count_pre dest_h)
   Intros_p len_dest_h
   change Zlength dest_h = count_pre at len_dest_h
@@ -1654,7 +1276,7 @@ theorem proof_of_sortHeightIndexRangeNLogN_entail_wit_1 : sortHeightIndexRangeNL
 
 theorem proof_of_sortHeightIndexRangeNLogN_partial_solve_wit_3_pure : sortHeightIndexRangeNLogN_partial_solve_wit_3_pure := by
   right
-  intro right_pre left_pre count_pre bufferIndex_pre bufferHeight_pre workIndex_pre workHeight_pre buffer0_i buffer0_h work0_i work0_h work_h_2 work_i_2 buffer_i buffer_h work_h work_i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro buffer0_i buffer0_h work0_i work0_h workHeight_pre workIndex_pre bufferHeight_pre bufferIndex_pre count_pre left_pre right_pre work_h_2 work_i_2 buffer_i buffer_h work_h work_i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   prop_apply (intArray.full_Zlength workHeight_pre count_pre work_h)
   Intros_p len_work_h
   change Zlength work_h = count_pre at len_work_h
@@ -1682,21 +1304,21 @@ private theorem nth_property (l : List Int) (P : Int → Prop) (h : Forall P l) 
 
 theorem proof_of_maxAreaNLogN_safety_wit_12 : maxAreaNLogN_safety_wit_12 := by
   right
-  intro heightSize_pre height_pre l buffer_i buffer_h sorted_h sorted_i maximumArea maximumIndex minimumIndex k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro l height_pre heightSize_pre buffer_i buffer_h sorted_h sorted_i maximumArea maximumIndex minimumIndex k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have hl := sorted_workspace_lookup__max_loop_setup l sorted_h sorted_i k PreH12 ⟨by omega,by omega⟩
   split_pures <;> dump_pre_spatial
   all_goals simp only [INT_MAX,INT_MIN]; omega
 
 theorem proof_of_maxAreaNLogN_safety_wit_13 : maxAreaNLogN_safety_wit_13 := by
   right
-  intro heightSize_pre height_pre l buffer_i buffer_h sorted_h sorted_i maximumArea maximumIndex minimumIndex k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro l height_pre heightSize_pre buffer_i buffer_h sorted_h sorted_i maximumArea maximumIndex minimumIndex k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have hl := sorted_workspace_lookup__max_loop_setup l sorted_h sorted_i k PreH12 ⟨by omega,by omega⟩
   split_pures <;> dump_pre_spatial
   all_goals simp only [INT_MAX,INT_MIN]; omega
 
 theorem proof_of_maxAreaNLogN_entail_wit_6_1 : maxAreaNLogN_entail_wit_6_1 := by
   right
-  intro heightSize_pre l sorted_h sorted_i maximumArea maximumIndex minimumIndex k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro l heightSize_pre sorted_h sorted_i maximumArea maximumIndex minimumIndex k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hl := sorted_workspace_lookup__max_loop_setup l sorted_h sorted_i k PreH15 ⟨by omega,by omega⟩
   have hn := nth_property l (fun x => 0 ≤ x) PreH18 (Znth k sorted_i 0) hl.1
   have hu := nth_property l (fun x => x ≤ 10000) PreH19 (Znth k sorted_i 0) hl.1
@@ -1709,7 +1331,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_6_1 : maxAreaNLogN_entail_wit_6_1 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_6_2 : maxAreaNLogN_entail_wit_6_2 := by
   unfold maxAreaNLogN_entail_wit_6_2
-  intro heightSize_pre height_pre l buffer_i_2 buffer_h_2 sorted_h sorted_i maximumArea maximumIndex minimumIndex k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro l height_pre heightSize_pre buffer_i_2 buffer_h_2 sorted_h sorted_i maximumArea maximumIndex minimumIndex k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hl := sorted_workspace_lookup__max_loop_setup l sorted_h sorted_i k PreH15 ⟨by omega,by omega⟩
   have hn := nth_property l (fun x => 0 ≤ x) PreH18 (Znth k sorted_i 0) hl.1
   have hu := nth_property l (fun x => x ≤ 10000) PreH19 (Znth k sorted_i 0) hl.1
@@ -1739,7 +1361,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_6_2 : maxAreaNLogN_entail_wit_6_2 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_6_3 : maxAreaNLogN_entail_wit_6_3 := by
   unfold maxAreaNLogN_entail_wit_6_3
-  intro heightSize_pre height_pre l buffer_i_2 buffer_h_2 sorted_h sorted_i maximumArea maximumIndex minimumIndex k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro l height_pre heightSize_pre buffer_i_2 buffer_h_2 sorted_h sorted_i maximumArea maximumIndex minimumIndex k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hl := sorted_workspace_lookup__max_loop_setup l sorted_h sorted_i k PreH15 ⟨by omega,by omega⟩
   have hn := nth_property l (fun x => 0 ≤ x) PreH18 (Znth k sorted_i 0) hl.1
   have hu := nth_property l (fun x => x ≤ 10000) PreH19 (Znth k sorted_i 0) hl.1
@@ -1769,7 +1391,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_6_3 : maxAreaNLogN_entail_wit_6_3 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_6_4 : maxAreaNLogN_entail_wit_6_4 := by
   unfold maxAreaNLogN_entail_wit_6_4
-  intro heightSize_pre height_pre l buffer_i_2 buffer_h_2 sorted_h sorted_i maximumArea maximumIndex minimumIndex k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro l height_pre heightSize_pre buffer_i_2 buffer_h_2 sorted_h sorted_i maximumArea maximumIndex minimumIndex k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hl := sorted_workspace_lookup__max_loop_setup l sorted_h sorted_i k PreH15 ⟨by omega,by omega⟩
   have hn := nth_property l (fun x => 0 ≤ x) PreH18 (Znth k sorted_i 0) hl.1
   have hu := nth_property l (fun x => x ≤ 10000) PreH19 (Znth k sorted_i 0) hl.1
@@ -1799,7 +1421,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_6_4 : maxAreaNLogN_entail_wit_6_4 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_6_5 : maxAreaNLogN_entail_wit_6_5 := by
   unfold maxAreaNLogN_entail_wit_6_5
-  intro heightSize_pre height_pre l buffer_i_2 buffer_h_2 sorted_h sorted_i maximumArea maximumIndex minimumIndex k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro l height_pre heightSize_pre buffer_i_2 buffer_h_2 sorted_h sorted_i maximumArea maximumIndex minimumIndex k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hl := sorted_workspace_lookup__max_loop_setup l sorted_h sorted_i k PreH15 ⟨by omega,by omega⟩
   have hn := nth_property l (fun x => 0 ≤ x) PreH18 (Znth k sorted_i 0) hl.1
   have hu := nth_property l (fun x => x ≤ 10000) PreH19 (Znth k sorted_i 0) hl.1
@@ -1916,7 +1538,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_6_5 : maxAreaNLogN_entail_wit_6_5 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_7_1 : maxAreaNLogN_entail_wit_7_1 := by
   unfold maxAreaNLogN_entail_wit_7_1
-  intro heightSize_pre height_pre l sorted_h sorted_i buffer_h buffer_i k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35
+  intro l height_pre heightSize_pre sorted_h sorted_i buffer_h buffer_i k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35
   have hprod0 : 0 ≤ width*currentHeight := mul_nonneg (by omega) (by omega)
   have hprod1 : width*currentHeight ≤ 999990000 := by nlinarith
 
@@ -1931,7 +1553,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_7_1 : maxAreaNLogN_entail_wit_7_1 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_7_2 : maxAreaNLogN_entail_wit_7_2 := by
   unfold maxAreaNLogN_entail_wit_7_2
-  intro heightSize_pre height_pre l sorted_h sorted_i buffer_h buffer_i k_2 index_2 currentHeight_2 minimumIndex_2 maximumIndex_2 distanceToMinimum_2 distanceToMaximum_2 width_2 maximumArea_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35
+  intro l height_pre heightSize_pre sorted_h sorted_i buffer_h buffer_i k_2 index_2 currentHeight_2 minimumIndex_2 maximumIndex_2 distanceToMinimum_2 distanceToMaximum_2 width_2 maximumArea_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35
   have hprod0 : 0 ≤ width_2*currentHeight_2 := mul_nonneg (by omega) (by omega)
   have hprod1 : width_2*currentHeight_2 ≤ 999990000 := by nlinarith
 
@@ -1947,7 +1569,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_7_2 : maxAreaNLogN_entail_wit_7_2 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_7_3 : maxAreaNLogN_entail_wit_7_3 := by
   unfold maxAreaNLogN_entail_wit_7_3
-  intro heightSize_pre height_pre l sorted_h sorted_i buffer_h buffer_i k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35
+  intro l height_pre heightSize_pre sorted_h sorted_i buffer_h buffer_i k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35
   have hprod0 : 0 ≤ width*currentHeight := mul_nonneg (by omega) (by omega)
   have hprod1 : width*currentHeight ≤ 999990000 := by nlinarith
 
@@ -1963,7 +1585,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_7_3 : maxAreaNLogN_entail_wit_7_3 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_7_4 : maxAreaNLogN_entail_wit_7_4 := by
   unfold maxAreaNLogN_entail_wit_7_4
-  intro heightSize_pre height_pre l sorted_h sorted_i buffer_h buffer_i k_2 index_2 currentHeight_2 minimumIndex_2 maximumIndex_2 distanceToMinimum_2 distanceToMaximum_2 width_2 maximumArea_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35
+  intro l height_pre heightSize_pre sorted_h sorted_i buffer_h buffer_i k_2 index_2 currentHeight_2 minimumIndex_2 maximumIndex_2 distanceToMinimum_2 distanceToMaximum_2 width_2 maximumArea_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35
   have hprod0 : 0 ≤ width_2*currentHeight_2 := mul_nonneg (by omega) (by omega)
   have hprod1 : width_2*currentHeight_2 ≤ 999990000 := by nlinarith
 
@@ -1979,7 +1601,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_7_4 : maxAreaNLogN_entail_wit_7_4 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_8_1 : maxAreaNLogN_entail_wit_8_1 := by
   unfold maxAreaNLogN_entail_wit_8_1
-  intro heightSize_pre height_pre l sorted_h sorted_i buffer_h buffer_i k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36
+  intro l height_pre heightSize_pre sorted_h sorted_i buffer_h buffer_i k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36
   have hprod0 : 0 ≤ width*currentHeight := mul_nonneg (by omega) (by omega)
   have hprod1 : width*currentHeight ≤ 999990000 := by nlinarith
 
@@ -1994,7 +1616,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_8_1 : maxAreaNLogN_entail_wit_8_1 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_8_2 : maxAreaNLogN_entail_wit_8_2 := by
   unfold maxAreaNLogN_entail_wit_8_2
-  intro heightSize_pre height_pre l sorted_h sorted_i buffer_h buffer_i k_2 index_2 currentHeight_2 minimumIndex_2 maximumIndex_2 distanceToMinimum_2 distanceToMaximum_2 width_2 maximumArea_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36
+  intro l height_pre heightSize_pre sorted_h sorted_i buffer_h buffer_i k_2 index_2 currentHeight_2 minimumIndex_2 maximumIndex_2 distanceToMinimum_2 distanceToMaximum_2 width_2 maximumArea_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36
   have hprod0 : 0 ≤ width_2*currentHeight_2 := mul_nonneg (by omega) (by omega)
   have hprod1 : width_2*currentHeight_2 ≤ 999990000 := by nlinarith
 
@@ -2010,7 +1632,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_8_2 : maxAreaNLogN_entail_wit_8_2 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_8_3 : maxAreaNLogN_entail_wit_8_3 := by
   unfold maxAreaNLogN_entail_wit_8_3
-  intro heightSize_pre height_pre l sorted_h sorted_i buffer_h buffer_i k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36
+  intro l height_pre heightSize_pre sorted_h sorted_i buffer_h buffer_i k index currentHeight minimumIndex maximumIndex distanceToMinimum distanceToMaximum width maximumArea NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36
   have hprod0 : 0 ≤ width*currentHeight := mul_nonneg (by omega) (by omega)
   have hprod1 : width*currentHeight ≤ 999990000 := by nlinarith
 
@@ -2026,7 +1648,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_8_3 : maxAreaNLogN_entail_wit_8_3 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_8_4 : maxAreaNLogN_entail_wit_8_4 := by
   unfold maxAreaNLogN_entail_wit_8_4
-  intro heightSize_pre height_pre l sorted_h sorted_i buffer_h buffer_i k_2 index_2 currentHeight_2 minimumIndex_2 maximumIndex_2 distanceToMinimum_2 distanceToMaximum_2 width_2 maximumArea_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36
+  intro l height_pre heightSize_pre sorted_h sorted_i buffer_h buffer_i k_2 index_2 currentHeight_2 minimumIndex_2 maximumIndex_2 distanceToMinimum_2 distanceToMaximum_2 width_2 maximumArea_2 NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36
   have hprod0 : 0 ≤ width_2*currentHeight_2 := mul_nonneg (by omega) (by omega)
   have hprod1 : width_2*currentHeight_2 ≤ 999990000 := by nlinarith
 
@@ -2054,7 +1676,7 @@ private theorem scratch_cleanup (a len total : Int) (l : List Int) (hc : 0 ≤ l
 
 theorem proof_of_maxAreaNLogN_entail_wit_1 : maxAreaNLogN_entail_wit_1 := by
   right
-  intro heightSize_pre l PreH1 PreH2 PreH3 PreH4 PreH5
+  intro l heightSize_pre PreH1 PreH2 PreH3 PreH4 PreH5
   have hp : WorkspacePrefixNLogN l [] [] 0 := by constructor <;> intro p hp <;> omega
   split_pure_spatial
   · sep_apply (intArray.undef_full_split_to_undef_seg (&("workHeight")) heightSize_pre 100000 (by omega))
@@ -2067,7 +1689,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_1 : maxAreaNLogN_entail_wit_1 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_2 : maxAreaNLogN_entail_wit_2 := by
   right
-  intro heightSize_pre l buffer_i_2 buffer_h_2 work_i_2 work_h_2 k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro l heightSize_pre buffer_i_2 buffer_h_2 work_i_2 work_h_2 k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   have hw := workspace_prefix_snoc__max_init l work_h_2 work_i_2 k PreH7 PreH8 PreH11 (by omega)
   have hb := workspace_prefix_snoc__max_init l buffer_h_2 buffer_i_2 k PreH9 PreH10 PreH12 (by omega)
   split_pure_spatial
@@ -2077,7 +1699,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_2 : maxAreaNLogN_entail_wit_2 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_3 : maxAreaNLogN_entail_wit_3 := by
   right
-  intro heightSize_pre l buffer_i buffer_h work_i work_h k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro l heightSize_pre buffer_i buffer_h work_i work_h k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   have hk : k=heightSize_pre := by omega
   rw [hk] at PreH11 PreH12 ⊢
   refine Automation.exp_right_rule (CRules := naive_C_Rules) buffer_i ?_
@@ -2092,7 +1714,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_3 : maxAreaNLogN_entail_wit_3 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_4 : maxAreaNLogN_entail_wit_4 := by
   right
-  intro heightSize_pre l work0_h work0_i buffer0_h buffer0_i buffer_i_2 buffer_h_2 work_h work_i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro l heightSize_pre work0_h work0_i buffer0_h buffer0_i buffer_i_2 buffer_h_2 work_h work_i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have hs := full_sort_workspace__max_loop_setup l work0_h work0_i work_h work_i heightSize_pre PreH4 PreH5 PreH6 PreH9 PreH1
   refine Automation.exp_right_rule (CRules := naive_C_Rules) buffer_i_2 ?_
   refine Automation.exp_right_rule (CRules := naive_C_Rules) buffer_h_2 ?_
@@ -2106,7 +1728,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_4 : maxAreaNLogN_entail_wit_4 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_5 : maxAreaNLogN_entail_wit_5 := by
   right
-  intro heightSize_pre l sorted_h_2 sorted_i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
+  intro l heightSize_pre sorted_h_2 sorted_i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
   have hb := sorted_index_bounds__max_init l sorted_h_2 sorted_i 0 PreH4 ⟨by omega,by omega⟩
   have hl := PreH4.1.2.1
   have hm := processed_maximum_initial__max_loop_setup l sorted_i (by omega)
@@ -2122,7 +1744,7 @@ theorem proof_of_maxAreaNLogN_entail_wit_5 : maxAreaNLogN_entail_wit_5 := by
 
 theorem proof_of_maxAreaNLogN_entail_wit_10 : maxAreaNLogN_entail_wit_10 := by
   right
-  intro heightSize_pre l buffer_i buffer_h sorted_h sorted_i maximumArea maximumIndex minimumIndex k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro l heightSize_pre buffer_i buffer_h sorted_h sorted_i maximumArea maximumIndex minimumIndex k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have hk : k=Zlength l := by omega
   rw [hk] at PreH14
   have hm := processed_full_prefix_maximum__max_final_result l sorted_h sorted_i maximumArea (by omega) PreH12.1 PreH14 (fun i hi => nth_property l (fun x => 0 ≤ x) PreH15 i hi)

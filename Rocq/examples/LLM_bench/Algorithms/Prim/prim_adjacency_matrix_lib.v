@@ -160,10 +160,7 @@ Lemma int_array_missing_store_merge_to_full :
     |-- IntArray.full p n (replace_Znth i a l).
 Proof.
   intros p i n a l Hi.
-  sep_apply (derivable1_sepcon_comm
-    (IntArray.missing_i p i 0 n l)
-    ((p + i * sizeof (INT)) # Int |-> a)).
-  sep_apply (IntArray.missing_i_merge_to_full p i n a l); auto.
+  sep_apply (IntArray.missing_i_merge_to_full p i n a l Hi).
   cancel.
 Qed.
 
@@ -176,23 +173,8 @@ Lemma int_ptr_array2_missing_store_row_merge_to_full :
     |-- IntPtrArray2.full x n (replace_Znth i row rows).
 Proof.
   intros x i n row_ptr rows row Hi.
-  pose proof (IntPtrArray2.missing_i_merge_to_full
-    x i n row_ptr rows row Hi) as Hmerge.
-  unfold StorePtrAsElement.storeA in Hmerge.
-  change (sizeof (PTR)) with ptr_size_Z in Hmerge.
-  change (IntPtrArray2.ElemArray.full row_ptr (Zlength row) row)
-    with (IntArray.full row_ptr (Zlength row) row) in Hmerge.
-  change (sizeof (PTR)) with ptr_size_Z.
-  sep_apply (derivable1_sepcon_comm
-    (IntPtrArray2.missing_i x n i row_ptr rows **
-     ((x + i * ptr_size_Z) # Ptr |-> row_ptr))
-    (IntArray.full row_ptr (Zlength row) row)).
-  sep_apply (derivable1_sepcon_comm
-    (IntArray.full row_ptr (Zlength row) row **
-     IntPtrArray2.missing_i x n i row_ptr rows)
-    ((x + i * ptr_size_Z) # Ptr |-> row_ptr)).
-  sep_apply Hmerge.
-  cancel.
+  sep_apply_r_atomic (IntPtrArray2.missing_i_merge_to_full x i n row_ptr rows row Hi).
+  entailer!.
 Qed.
 
 Lemma Zlength_replace_Znth_local :

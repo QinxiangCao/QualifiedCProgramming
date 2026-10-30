@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.concatenating_numbers Require Import concatenating_numbers_goal.
 From SimpleC.EE.LLM_bench.Algorithms.concatenating_numbers Require Import concatenating_numbers_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.concatenating_numbers.concatenating_numbers_lib.
 Local Open Scope sac.
@@ -97,8 +81,8 @@ Qed.
 Lemma proof_of_quicksort_numbers_safety_wit_6 : quicksort_numbers_safety_wit_6.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_quicksort_numbers_safety_wit_6_split_goal_1.
-  Goal_apply proof_of_quicksort_numbers_safety_wit_6_split_goal_2.
+  - Goal_apply proof_of_quicksort_numbers_safety_wit_6_split_goal_1.
+  - Goal_apply proof_of_quicksort_numbers_safety_wit_6_split_goal_2.
 Qed.
 
 Lemma proof_of_quicksort_numbers_safety_wit_19_split_goal_1 : quicksort_numbers_safety_wit_19_split_goal_1.
@@ -140,8 +124,8 @@ Qed.
 Lemma proof_of_quicksort_numbers_safety_wit_19 : quicksort_numbers_safety_wit_19.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_quicksort_numbers_safety_wit_19_split_goal_1.
-  Goal_apply proof_of_quicksort_numbers_safety_wit_19_split_goal_2.
+  - Goal_apply proof_of_quicksort_numbers_safety_wit_19_split_goal_1.
+  - Goal_apply proof_of_quicksort_numbers_safety_wit_19_split_goal_2.
 Qed.
 
 Lemma proof_of_quicksort_numbers_entail_wit_1 : quicksort_numbers_entail_wit_1.
@@ -998,17 +982,17 @@ Qed.
 Lemma proof_of_quicksort_numbers_partial_solve_wit_23_pure : quicksort_numbers_partial_solve_wit_23_pure.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_1.
-  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_2.
-  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_3.
-  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_4.
-  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_5.
-  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_6.
-  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_7.
-  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_8.
-  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_9.
-  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_10.
-  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_11.
+  - Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_1.
+  - Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_2.
+  - Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_3.
+  - Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_4.
+  - Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_5.
+  - Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_6.
+  - Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_7.
+  - Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_8.
+  - Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_9.
+  - Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_10.
+  - Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_11.
 Qed.
 Lemma proof_of_concatenating_numbers_entail_wit_2_1 : concatenating_numbers_entail_wit_2_1.
 Proof.

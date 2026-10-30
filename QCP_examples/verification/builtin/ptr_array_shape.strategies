@@ -1,0 +1,85 @@
+// qcp-builtin: builtin/ptr_array_shape.strategies
+// Generated from the tool; do not edit.
+
+id : 1
+priority : core(1)
+left : PtrArray::full_shape(?p, ?n) at 0
+right : data_at(pointer_offset(p, ?i, PTR), PTR, ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(0);
+         left_exist_add(x);
+         left_add(PtrArray::missing_i_shape(p, i, 0, n));
+         left_add(data_at(pointer_offset(p, i, PTR), PTR, x));
+
+id : 2
+priority : post(1)
+left : PtrArray::missing_i_shape(?p, ?i, 0, ?n) at 0
+       data_at(pointer_offset(p, i, PTR), PTR, ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(PtrArray::full_shape(p, n));
+
+id : 3
+priority : core(1)
+left : PtrArray::seg_shape(?p, ?x, ?y) at 0
+right : data_at(pointer_offset(p, x, PTR), PTR, ?v) at 1
+check : infer(x < y);
+action : left_erase(0);
+         left_exist_add(v0);
+         left_add(data_at(pointer_offset(p, x, PTR), PTR, v0));
+         left_add(PtrArray::seg_shape(p, x + 1, y));
+
+id : 4
+priority : post(1)
+left : PtrArray::seg_shape(?p, ?x, ?y) at 0
+       data_at(pointer_offset(p, ?i, PTR), PTR, ?v) at 1
+check : infer(x == i + 1);
+action : left_erase(1);
+         left_erase(0);
+         left_add(PtrArray::seg_shape(p, i, y));
+
+id : 5
+priority : post(1)
+left : PtrArray::seg_shape(?p, ?y, ?z) at 0
+       data_at(pointer_offset(p, z, PTR), PTR, ?v) at 1
+action : left_erase(1);
+         left_erase(0);
+         left_add(PtrArray::seg_shape(p, y, z + 1));
+
+id : 6
+priority : core(1)
+left : PtrArray::seg_shape(?p, ?x, ?y) at 0
+check : infer(x == y);
+action : left_erase(0);
+
+id : 7
+priority : core(1)
+right : PtrArray::seg_shape(?p, ?x, ?y) at 0
+check : infer(x == y);
+action : right_erase(0);
+
+id : 8
+priority : core(1)
+right : PtrArray::full_shape(?p, ?n) at 0
+check : infer(n == 0);
+action : right_erase(0);
+
+id : 9
+priority : core(1)
+left : PtrArray::seg_shape(?p, 0, ?i) at 0
+right : PtrArray::full_shape(p, ?n) at 1
+check : infer(i == n);
+action : left_erase(0);
+         right_erase(1);
+
+id : 10
+priority : core(1)
+left : PtrArray::seg_shape(?p, ?x, ?y) at 0
+right : PtrArray::seg_shape(p, ?x1, ?y1) at 1
+check : infer(y1 == y);
+        infer(x1 == x);
+action : right_erase(1);
+         left_erase(0);

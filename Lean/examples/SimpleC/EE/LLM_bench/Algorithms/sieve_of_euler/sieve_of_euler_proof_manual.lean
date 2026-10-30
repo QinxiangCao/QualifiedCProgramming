@@ -22,7 +22,7 @@ attribute [local irreducible]
 theorem proof_of_get_prime_entail_wit_1 : get_prime_entail_wit_1 := by
   unfold get_prime_entail_wit_1
   right
-  intro n_pre prime0 PreH1 PreH2 PreH3
+  intro prime0 n_pre PreH1 PreH2 PreH3
   sep_apply (intArray.undef_full_split_to_undef_seg (&("flag")) (n_pre+1) 46341 ⟨by omega, by omega⟩)
   sep_apply (intArray.undef_seg_split_to_undef_seg (&("flag")) 0 2 (n_pre+1) ⟨by omega, by omega⟩)
   split_pure_spatial
@@ -32,7 +32,7 @@ theorem proof_of_get_prime_entail_wit_1 : get_prime_entail_wit_1 := by
 theorem proof_of_get_prime_entail_wit_2 : get_prime_entail_wit_2 := by
   unfold get_prime_entail_wit_2
   right
-  intro n_pre prime0 flag_init_2 z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro prime0 n_pre flag_init_2 z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   split_pure_spatial
   · cancel
   · dump_pre_spatial
@@ -42,7 +42,7 @@ theorem proof_of_get_prime_entail_wit_2 : get_prime_entail_wit_2 := by
 theorem proof_of_get_prime_entail_wit_3 : get_prime_entail_wit_3 := by
   unfold get_prime_entail_wit_3
   right
-  intro n_pre prime0 flag_init z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro prime0 n_pre flag_init z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   have hi : z = n_pre+1 := by omega
   subst z
   have hs : EulerInitPrefix n_pre 2 flag_init := by intro k hk; omega
@@ -58,7 +58,7 @@ theorem proof_of_get_prime_entail_wit_3 : get_prime_entail_wit_3 := by
 theorem proof_of_get_prime_entail_wit_4 : get_prime_entail_wit_4 := by
   unfold get_prime_entail_wit_4
   right
-  intro n_pre prime0 flag_l_2 i tot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro prime0 n_pre flag_l_2 i tot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   have old : Legacy.EulerInitPrefix n_pre i flag_l_2 := ⟨PreH8, PreH7⟩
   have hs := init_prefix_math _ _ _ (Legacy.EulerInitPrefix_step__core_invariants n_pre i flag_l_2 PreH1 PreH5 old)
   split_pure_spatial
@@ -72,7 +72,7 @@ theorem proof_of_get_prime_entail_wit_4 : get_prime_entail_wit_4 := by
 theorem proof_of_get_prime_entail_wit_5 : get_prime_entail_wit_5 := by
   unfold get_prime_entail_wit_5
   right
-  intro n_pre prime0 flag_l_2 i tot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro prime0 n_pre flag_l_2 i tot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   have old : Legacy.EulerInitPrefix n_pre i flag_l_2 := ⟨PreH8, PreH7⟩
   have hs := outer_state_math _ _ _ _ _
     (Legacy.EulerInitPrefix_finish_outer__core_invariants n_pre i flag_l_2 prime0 PreH1 PreH3 PreH9 old)

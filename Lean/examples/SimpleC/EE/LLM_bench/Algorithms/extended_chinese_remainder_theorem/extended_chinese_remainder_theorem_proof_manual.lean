@@ -83,7 +83,7 @@ private theorem int_safe_from_annotation (ms : List Int) (n : Int)
 theorem proof_of_extended_chinese_remainder_theorem_entail_wit_1 : extended_chinese_remainder_theorem_entail_wit_1 := by
   unfold extended_chinese_remainder_theorem_entail_wit_1
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -100,7 +100,7 @@ theorem proof_of_extended_chinese_remainder_theorem_entail_wit_1 : extended_chin
 theorem proof_of_extended_chinese_remainder_theorem_entail_wit_2_1 : extended_chinese_remainder_theorem_entail_wit_2_1 := by
   unfold extended_chinese_remainder_theorem_entail_wit_2_1
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -126,7 +126,7 @@ theorem proof_of_extended_chinese_remainder_theorem_entail_wit_2_1 : extended_ch
   obtain ⟨hbound, q, hq⟩ := PreH2
   rw [hdiff] at hq
   have heq : CRTReducedMergeEquation answer lcm (Znth i residue_values 0) (Znth i modulus_values 0) (retval_2 + Z.quot (Znth i modulus_values 0) retval) := by
-    apply reduced_merge_equation_from_bezout__merge_transition answer lcm (Znth i residue_values 0) (Znth i modulus_values 0) retval x_callee_v y_callee_v (retval_2 + Z.quot (Znth i modulus_values 0) retval) (q-1) hg hgp hd (by assumption)
+    apply reduced_merge_equation_from_bezout__merge_transition answer lcm (Znth i residue_values 0) (Znth i modulus_values 0) retval x_v y_v (retval_2 + Z.quot (Znth i modulus_values 0) retval) (q-1) hg hgp hd (by assumption)
     rw [← hmod]
     nlinarith [hq]
   split_pure_spatial
@@ -137,7 +137,7 @@ theorem proof_of_extended_chinese_remainder_theorem_entail_wit_2_1 : extended_ch
 theorem proof_of_extended_chinese_remainder_theorem_entail_wit_2_2 : extended_chinese_remainder_theorem_entail_wit_2_2 := by
   unfold extended_chinese_remainder_theorem_entail_wit_2_2
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v_2 retval retval_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v_2 retval retval_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -163,7 +163,7 @@ theorem proof_of_extended_chinese_remainder_theorem_entail_wit_2_2 : extended_ch
   obtain ⟨hbound, q, hq⟩ := PreH2
   rw [hdiff] at hq
   have heq : CRTReducedMergeEquation answer lcm (Znth i residue_values 0) (Znth i modulus_values 0) (retval_3 + Z.quot (Znth i modulus_values 0) retval) := by
-    apply reduced_merge_equation_from_bezout__merge_transition answer lcm (Znth i residue_values 0) (Znth i modulus_values 0) retval x_callee_v_2 y_callee_v (retval_3 + Z.quot (Znth i modulus_values 0) retval) (q-1) hg hgp hd (by assumption)
+    apply reduced_merge_equation_from_bezout__merge_transition answer lcm (Znth i residue_values 0) (Znth i modulus_values 0) retval x_v_2 y_v (retval_3 + Z.quot (Znth i modulus_values 0) retval) (q-1) hg hgp hd (by assumption)
     rw [← hmod]
     nlinarith [hq]
   split_pure_spatial
@@ -174,7 +174,7 @@ theorem proof_of_extended_chinese_remainder_theorem_entail_wit_2_2 : extended_ch
 theorem proof_of_extended_chinese_remainder_theorem_entail_wit_2_3 : extended_chinese_remainder_theorem_entail_wit_2_3 := by
   unfold extended_chinese_remainder_theorem_entail_wit_2_3
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -200,7 +200,7 @@ theorem proof_of_extended_chinese_remainder_theorem_entail_wit_2_3 : extended_ch
   obtain ⟨hbound, q, hq⟩ := PreH2
   rw [hdiff] at hq
   have heq : CRTReducedMergeEquation answer lcm (Znth i residue_values 0) (Znth i modulus_values 0) retval_2 := by
-    apply reduced_merge_equation_from_bezout__merge_transition answer lcm (Znth i residue_values 0) (Znth i modulus_values 0) retval x_callee_v y_callee_v retval_2 q hg hgp hd (by assumption)
+    apply reduced_merge_equation_from_bezout__merge_transition answer lcm (Znth i residue_values 0) (Znth i modulus_values 0) retval x_v y_v retval_2 q hg hgp hd (by assumption)
     rw [← hmod]
     nlinarith [hq]
   split_pure_spatial
@@ -211,7 +211,7 @@ theorem proof_of_extended_chinese_remainder_theorem_entail_wit_2_3 : extended_ch
 theorem proof_of_extended_chinese_remainder_theorem_entail_wit_2_4 : extended_chinese_remainder_theorem_entail_wit_2_4 := by
   unfold extended_chinese_remainder_theorem_entail_wit_2_4
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v_2 retval retval_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v_2 retval retval_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -237,7 +237,7 @@ theorem proof_of_extended_chinese_remainder_theorem_entail_wit_2_4 : extended_ch
   obtain ⟨hbound, q, hq⟩ := PreH2
   rw [hdiff] at hq
   have heq : CRTReducedMergeEquation answer lcm (Znth i residue_values 0) (Znth i modulus_values 0) retval_3 := by
-    apply reduced_merge_equation_from_bezout__merge_transition answer lcm (Znth i residue_values 0) (Znth i modulus_values 0) retval x_callee_v_2 y_callee_v retval_3 q hg hgp hd (by assumption)
+    apply reduced_merge_equation_from_bezout__merge_transition answer lcm (Znth i residue_values 0) (Znth i modulus_values 0) retval x_v_2 y_v retval_3 q hg hgp hd (by assumption)
     rw [← hmod]
     nlinarith [hq]
   split_pure_spatial
@@ -248,7 +248,7 @@ theorem proof_of_extended_chinese_remainder_theorem_entail_wit_2_4 : extended_ch
 theorem proof_of_extended_chinese_remainder_theorem_entail_wit_3_1 : extended_chinese_remainder_theorem_entail_wit_3_1 := by
   unfold extended_chinese_remainder_theorem_entail_wit_3_1
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -280,7 +280,7 @@ theorem proof_of_extended_chinese_remainder_theorem_entail_wit_3_1 : extended_ch
 theorem proof_of_extended_chinese_remainder_theorem_entail_wit_3_2 : extended_chinese_remainder_theorem_entail_wit_3_2 := by
   unfold extended_chinese_remainder_theorem_entail_wit_3_2
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -312,7 +312,7 @@ theorem proof_of_extended_chinese_remainder_theorem_entail_wit_3_2 : extended_ch
 theorem proof_of_extended_chinese_remainder_theorem_entail_wit_3_3 : extended_chinese_remainder_theorem_entail_wit_3_3 := by
   unfold extended_chinese_remainder_theorem_entail_wit_3_3
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -344,7 +344,7 @@ theorem proof_of_extended_chinese_remainder_theorem_entail_wit_3_3 : extended_ch
 theorem proof_of_extended_chinese_remainder_theorem_entail_wit_3_4 : extended_chinese_remainder_theorem_entail_wit_3_4 := by
   unfold extended_chinese_remainder_theorem_entail_wit_3_4
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -376,7 +376,7 @@ theorem proof_of_extended_chinese_remainder_theorem_entail_wit_3_4 : extended_ch
 theorem proof_of_extended_chinese_remainder_theorem_return_wit_1 : extended_chinese_remainder_theorem_return_wit_1 := by
   unfold extended_chinese_remainder_theorem_return_wit_1
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -396,7 +396,7 @@ theorem proof_of_extended_chinese_remainder_theorem_return_wit_1 : extended_chin
 theorem proof_of_extended_chinese_remainder_theorem_safety_wit_7 : extended_chinese_remainder_theorem_safety_wit_7 := by
   unfold extended_chinese_remainder_theorem_safety_wit_7
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -411,7 +411,7 @@ theorem proof_of_extended_chinese_remainder_theorem_safety_wit_7 : extended_chin
 theorem proof_of_extended_chinese_remainder_theorem_safety_wit_9 : extended_chinese_remainder_theorem_safety_wit_9 := by
   unfold extended_chinese_remainder_theorem_safety_wit_9
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -426,7 +426,7 @@ theorem proof_of_extended_chinese_remainder_theorem_safety_wit_9 : extended_chin
 theorem proof_of_extended_chinese_remainder_theorem_safety_wit_12 : extended_chinese_remainder_theorem_safety_wit_12 := by
   unfold extended_chinese_remainder_theorem_safety_wit_12
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -445,7 +445,7 @@ theorem proof_of_extended_chinese_remainder_theorem_safety_wit_12 : extended_chi
 theorem proof_of_extended_chinese_remainder_theorem_safety_wit_13 : extended_chinese_remainder_theorem_safety_wit_13 := by
   unfold extended_chinese_remainder_theorem_safety_wit_13
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -464,7 +464,7 @@ theorem proof_of_extended_chinese_remainder_theorem_safety_wit_13 : extended_chi
 theorem proof_of_extended_chinese_remainder_theorem_safety_wit_14 : extended_chinese_remainder_theorem_safety_wit_14 := by
   unfold extended_chinese_remainder_theorem_safety_wit_14
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -484,7 +484,7 @@ theorem proof_of_extended_chinese_remainder_theorem_safety_wit_14 : extended_chi
 theorem proof_of_extended_chinese_remainder_theorem_safety_wit_15 : extended_chinese_remainder_theorem_safety_wit_15 := by
   unfold extended_chinese_remainder_theorem_safety_wit_15
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -504,7 +504,7 @@ theorem proof_of_extended_chinese_remainder_theorem_safety_wit_15 : extended_chi
 theorem proof_of_extended_chinese_remainder_theorem_safety_wit_16 : extended_chinese_remainder_theorem_safety_wit_16 := by
   unfold extended_chinese_remainder_theorem_safety_wit_16
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -524,7 +524,7 @@ theorem proof_of_extended_chinese_remainder_theorem_safety_wit_16 : extended_chi
 theorem proof_of_extended_chinese_remainder_theorem_safety_wit_17 : extended_chinese_remainder_theorem_safety_wit_17 := by
   unfold extended_chinese_remainder_theorem_safety_wit_17
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval retval_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -544,7 +544,7 @@ theorem proof_of_extended_chinese_remainder_theorem_safety_wit_17 : extended_chi
 theorem proof_of_extended_chinese_remainder_theorem_safety_wit_18 : extended_chinese_remainder_theorem_safety_wit_18 := by
   unfold extended_chinese_remainder_theorem_safety_wit_18
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval_2 retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval_2 retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -564,7 +564,7 @@ theorem proof_of_extended_chinese_remainder_theorem_safety_wit_18 : extended_chi
 theorem proof_of_extended_chinese_remainder_theorem_safety_wit_19 : extended_chinese_remainder_theorem_safety_wit_19 := by
   unfold extended_chinese_remainder_theorem_safety_wit_19
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval_2 retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval_2 retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -584,7 +584,7 @@ theorem proof_of_extended_chinese_remainder_theorem_safety_wit_19 : extended_chi
 theorem proof_of_extended_chinese_remainder_theorem_safety_wit_20 : extended_chinese_remainder_theorem_safety_wit_20 := by
   unfold extended_chinese_remainder_theorem_safety_wit_20
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval_2 retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval_2 retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -604,7 +604,7 @@ theorem proof_of_extended_chinese_remainder_theorem_safety_wit_20 : extended_chi
 theorem proof_of_extended_chinese_remainder_theorem_safety_wit_21 : extended_chinese_remainder_theorem_safety_wit_21 := by
   unfold extended_chinese_remainder_theorem_safety_wit_21
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval_2 retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval_2 retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -624,7 +624,7 @@ theorem proof_of_extended_chinese_remainder_theorem_safety_wit_21 : extended_chi
 theorem proof_of_extended_chinese_remainder_theorem_partial_solve_wit_4_pure : extended_chinese_remainder_theorem_partial_solve_wit_4_pure := by
   unfold extended_chinese_remainder_theorem_partial_solve_wit_4_pure
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -639,7 +639,7 @@ theorem proof_of_extended_chinese_remainder_theorem_partial_solve_wit_4_pure : e
 theorem proof_of_extended_chinese_remainder_theorem_partial_solve_wit_8_pure : extended_chinese_remainder_theorem_partial_solve_wit_8_pure := by
   unfold extended_chinese_remainder_theorem_partial_solve_wit_8_pure
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)
@@ -655,7 +655,7 @@ theorem proof_of_extended_chinese_remainder_theorem_partial_solve_wit_8_pure : e
   rw [← hp.1, ← hg] at hdouble
   simp only [INT_MAX] at *
   have hdiff := signed_difference_division_bounds__machine_bounds (Znth i residue_values 0) answer retval ⟨by omega, by omega⟩ ⟨by omega, by omega⟩ hgp
-  have hstrict := bezout_coefficient_strict__gcd_branch_setup lcm (Znth i modulus_values 0) retval x_callee_v y_callee_v hb.1.1 hg hgp (by assumption) (by assumption) (by assumption)
+  have hstrict := bezout_coefficient_strict__gcd_branch_setup lcm (Znth i modulus_values 0) retval x_v y_v hb.1.1 hg hgp (by assumption) (by assumption) (by assumption)
   split_pures <;> dump_pre_spatial
   all_goals simp only [INT_MAX, INT_MIN] at *
   all_goals omega
@@ -663,7 +663,7 @@ theorem proof_of_extended_chinese_remainder_theorem_partial_solve_wit_8_pure : e
 theorem proof_of_extended_chinese_remainder_theorem_partial_solve_wit_10_pure : extended_chinese_remainder_theorem_partial_solve_wit_10_pure := by
   unfold extended_chinese_remainder_theorem_partial_solve_wit_10_pure
   left
-  intro combined_modulus_pre moduli_pre residues_pre n_pre modulus_values residue_values lcm answer i y_callee_v x_callee_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro modulus_values residue_values n_pre residues_pre moduli_pre combined_modulus_pre lcm answer i y_v x_v retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   prop_apply (intArray.full_Zlength residues_pre n_pre residue_values)
   Intros_p hreslength
   prop_apply (intArray.full_Zlength moduli_pre n_pre modulus_values)

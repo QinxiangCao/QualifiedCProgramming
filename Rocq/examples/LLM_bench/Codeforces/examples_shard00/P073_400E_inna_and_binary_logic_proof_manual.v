@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P073_400E_inna_and_binary_logic_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P073_400E_inna_and_binary_logic_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P073_400E_inna_and_binary_logic_lib.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P073_400E_inna_and_binary_logic_lib.
@@ -234,7 +218,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_32_split_goal_1 : pull_safety_wit_32_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   repeat rewrite Znth_replace_other__pull_total_safety by lia.
   pose proof (total_bounds__pull_total_safety N pr1 su1 ct1 ln
@@ -244,7 +228,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_32_split_goal_2 : pull_safety_wit_32_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   repeat rewrite Znth_replace_other__pull_total_safety by lia.
   pose proof (total_bounds__pull_total_safety N pr1 su1 ct1 ln
@@ -261,7 +245,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_33_split_goal_1 : pull_safety_wit_33_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   repeat rewrite Znth_replace_distinct__pull_product_safety by lia.
   destruct PreH32 as [Hbuffers Hlengths].
@@ -272,7 +256,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_33_split_goal_2 : pull_safety_wit_33_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   repeat rewrite Znth_replace_distinct__pull_product_safety by lia.
   destruct PreH32 as [Hbuffers Hlengths].
@@ -290,7 +274,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_34_split_goal_1 : pull_safety_wit_34_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (P073_count_pair_bound__pull_count_safety N pr1 su1 ct1 ln
     (b*4*N+v_pre*2) (b*4*N+(v_pre*2+1))
@@ -300,7 +284,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_34_split_goal_2 : pull_safety_wit_34_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (P073_count_pair_bound__pull_count_safety N pr1 su1 ct1 ln
     (b*4*N+v_pre*2) (b*4*N+(v_pre*2+1))
@@ -317,7 +301,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_39_split_goal_1 : pull_safety_wit_39_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   repeat rewrite Znth_replace_other__pull_total_safety by lia.
   pose proof (total_bounds__pull_total_safety N pr1 su1 ct1 ln
@@ -327,7 +311,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_39_split_goal_2 : pull_safety_wit_39_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   repeat rewrite Znth_replace_other__pull_total_safety by lia.
   pose proof (total_bounds__pull_total_safety N pr1 su1 ct1 ln
@@ -344,7 +328,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_40_split_goal_1 : pull_safety_wit_40_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   repeat rewrite Znth_replace_distinct__pull_product_safety by lia.
   destruct PreH32 as [Hbuffers Hlengths].
@@ -355,7 +339,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_40_split_goal_2 : pull_safety_wit_40_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   repeat rewrite Znth_replace_distinct__pull_product_safety by lia.
   destruct PreH32 as [Hbuffers Hlengths].
@@ -373,7 +357,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_41_split_goal_1 : pull_safety_wit_41_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (P073_count_pair_bound__pull_count_safety N pr1 su1 ct1 ln
     (b*4*N+v_pre*2) (b*4*N+(v_pre*2+1))
@@ -383,7 +367,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_41_split_goal_2 : pull_safety_wit_41_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (P073_count_pair_bound__pull_count_safety N pr1 su1 ct1 ln
     (b*4*N+v_pre*2) (b*4*N+(v_pre*2+1))
@@ -400,7 +384,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_46_split_goal_1 : pull_safety_wit_46_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   repeat rewrite Znth_replace_other__pull_total_safety by lia.
   pose proof (total_bounds__pull_total_safety N pr1 su1 ct1 ln
@@ -410,7 +394,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_46_split_goal_2 : pull_safety_wit_46_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   repeat rewrite Znth_replace_other__pull_total_safety by lia.
   pose proof (total_bounds__pull_total_safety N pr1 su1 ct1 ln
@@ -427,7 +411,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_47_split_goal_1 : pull_safety_wit_47_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   repeat rewrite Znth_replace_distinct__pull_product_safety by lia.
   destruct PreH32 as [Hbuffers Hlengths].
@@ -438,7 +422,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_47_split_goal_2 : pull_safety_wit_47_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   repeat rewrite Znth_replace_distinct__pull_product_safety by lia.
   destruct PreH32 as [Hbuffers Hlengths].
@@ -456,7 +440,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_48_split_goal_1 : pull_safety_wit_48_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (P073_count_pair_bound__pull_count_safety N pr1 su1 ct1 ln
     (b*4*N+v_pre*2) (b*4*N+(v_pre*2+1))
@@ -466,7 +450,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_48_split_goal_2 : pull_safety_wit_48_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (P073_count_pair_bound__pull_count_safety N pr1 su1 ct1 ln
     (b*4*N+v_pre*2) (b*4*N+(v_pre*2+1))
@@ -483,7 +467,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_53_split_goal_1 : pull_safety_wit_53_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   repeat rewrite Znth_replace_other__pull_total_safety by lia.
   pose proof (total_bounds__pull_total_safety N pr1 su1 ct1 ln
@@ -493,7 +477,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_53_split_goal_2 : pull_safety_wit_53_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   repeat rewrite Znth_replace_other__pull_total_safety by lia.
   pose proof (total_bounds__pull_total_safety N pr1 su1 ct1 ln
@@ -510,7 +494,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_54_split_goal_1 : pull_safety_wit_54_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   repeat rewrite Znth_replace_distinct__pull_product_safety by lia.
   destruct PreH32 as [Hbuffers Hlengths].
@@ -521,7 +505,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_54_split_goal_2 : pull_safety_wit_54_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   repeat rewrite Znth_replace_distinct__pull_product_safety by lia.
   destruct PreH32 as [Hbuffers Hlengths].
@@ -539,7 +523,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_55_split_goal_1 : pull_safety_wit_55_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (P073_count_pair_bound__pull_count_safety N pr1 su1 ct1 ln
     (b*4*N+v_pre*2) (b*4*N+(v_pre*2+1))
@@ -549,7 +533,7 @@ Qed.
 
 Lemma proof_of_pull_safety_wit_55_split_goal_2 : pull_safety_wit_55_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (P073_count_pair_bound__pull_count_safety N pr1 su1 ct1 ln
     (b*4*N+v_pre*2) (b*4*N+(v_pre*2+1))
@@ -566,13 +550,13 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_1_split_goal_1 : pull_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodeFrame. intros. repeat split; reflexivity.
 Qed.
 
 Lemma proof_of_pull_entail_wit_1_split_goal_2 : pull_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodePrefix. intros. lia.
 Qed.
 
@@ -585,17 +569,20 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_2_split_goal_1 : pull_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
+  nia.
 Qed.
 
 Lemma proof_of_pull_entail_wit_2_split_goal_2 : pull_entail_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
+  nia.
 Qed.
 
 Lemma proof_of_pull_entail_wit_2_split_goal_3 : pull_entail_wit_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
+  nia.
 Qed.
 
 Lemma proof_of_pull_entail_wit_2 : pull_entail_wit_2.
@@ -608,7 +595,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_1_split_goal_1 : pull_entail_wit_3_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (v_pre*2) with (2*v_pre) in * by lia.
   repeat rewrite P073Packed_replace__pull_merge by nia.
   eapply P073Buffer_replace__pull_merge with (b:=b) (xs:=xs++ys); try lia.
@@ -623,7 +610,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_1_split_goal_2 : pull_entail_wit_3_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodeFrame in *.
   intros d w Hd Hw Hframe.
   assert (Hne : b*4*N+v_pre <> d*4*N+w).
@@ -634,7 +621,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_1_split_goal_3 : pull_entail_wit_3_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (v_pre*2) with (2*v_pre) in * by lia.
   repeat rewrite P073Packed_replace__pull_merge by nia.
   eapply P073Node_extend__pull_merge; try lia; try eassumption.
@@ -647,7 +634,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_1_split_goal_4 : pull_entail_wit_3_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodePrefix in *.
   intros d Hd.
   assert (Hne : b*4*N+v_pre <> d*4*N+(2*v_pre+1)).
@@ -658,7 +645,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_1_split_goal_5 : pull_entail_wit_3_1_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodePrefix in *.
   intros d Hd.
   assert (Hne : b*4*N+v_pre <> d*4*N+(2*v_pre)).
@@ -679,7 +666,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_2_split_goal_1 : pull_entail_wit_3_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (v_pre*2) with (2*v_pre) in * by lia.
   repeat rewrite P073Packed_replace__pull_merge by nia.
   eapply P073Buffer_replace__pull_merge with (b:=b) (xs:=xs++ys); try lia.
@@ -694,7 +681,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_2_split_goal_2 : pull_entail_wit_3_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodeFrame in *.
   intros d w Hd Hw Hframe.
   assert (Hne : b*4*N+v_pre <> d*4*N+w).
@@ -705,7 +692,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_2_split_goal_3 : pull_entail_wit_3_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (v_pre*2) with (2*v_pre) in * by lia.
   repeat rewrite P073Packed_replace__pull_merge by nia.
   eapply P073Node_extend__pull_merge; try lia; try eassumption.
@@ -718,7 +705,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_2_split_goal_4 : pull_entail_wit_3_2_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodePrefix in *.
   intros d Hd.
   assert (Hne : b*4*N+v_pre <> d*4*N+(2*v_pre+1)).
@@ -729,7 +716,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_2_split_goal_5 : pull_entail_wit_3_2_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodePrefix in *.
   intros d Hd.
   assert (Hne : b*4*N+v_pre <> d*4*N+(2*v_pre)).
@@ -750,7 +737,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_3_split_goal_1 : pull_entail_wit_3_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (v_pre*2) with (2*v_pre) in * by lia.
   repeat rewrite P073Packed_replace__pull_merge by nia.
   eapply P073Buffer_replace__pull_merge with (b:=b) (xs:=xs++ys); try lia.
@@ -765,7 +752,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_3_split_goal_2 : pull_entail_wit_3_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodeFrame in *.
   intros d w Hd Hw Hframe.
   assert (Hne : b*4*N+v_pre <> d*4*N+w).
@@ -776,7 +763,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_3_split_goal_3 : pull_entail_wit_3_3_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (v_pre*2) with (2*v_pre) in * by lia.
   repeat rewrite P073Packed_replace__pull_merge by nia.
   eapply P073Node_extend__pull_merge; try lia; try eassumption.
@@ -789,7 +776,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_3_split_goal_4 : pull_entail_wit_3_3_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodePrefix in *.
   intros d Hd.
   assert (Hne : b*4*N+v_pre <> d*4*N+(2*v_pre+1)).
@@ -800,7 +787,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_3_split_goal_5 : pull_entail_wit_3_3_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodePrefix in *.
   intros d Hd.
   assert (Hne : b*4*N+v_pre <> d*4*N+(2*v_pre)).
@@ -821,7 +808,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_4_split_goal_1 : pull_entail_wit_3_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (v_pre*2) with (2*v_pre) in * by lia.
   repeat rewrite P073Packed_replace__pull_merge by nia.
   eapply P073Buffer_replace__pull_merge with (b:=b) (xs:=xs++ys); try lia.
@@ -836,7 +823,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_4_split_goal_2 : pull_entail_wit_3_4_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodeFrame in *.
   intros d w Hd Hw Hframe.
   assert (Hne : b*4*N+v_pre <> d*4*N+w).
@@ -847,7 +834,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_4_split_goal_3 : pull_entail_wit_3_4_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (v_pre*2) with (2*v_pre) in * by lia.
   repeat rewrite P073Packed_replace__pull_merge by nia.
   eapply P073Node_extend__pull_merge; try lia; try eassumption.
@@ -860,7 +847,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_4_split_goal_4 : pull_entail_wit_3_4_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodePrefix in *.
   intros d Hd.
   assert (Hne : b*4*N+v_pre <> d*4*N+(2*v_pre+1)).
@@ -871,7 +858,7 @@ Qed.
 
 Lemma proof_of_pull_entail_wit_3_4_split_goal_5 : pull_entail_wit_3_4_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodePrefix in *.
   intros d Hd.
   assert (Hne : b*4*N+v_pre <> d*4*N+(2*v_pre)).
@@ -892,13 +879,13 @@ Qed.
 
 Lemma proof_of_pull_return_wit_1_split_goal_1 : pull_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (b = 17) by lia. subst b. assumption.
 Qed.
 
 Lemma proof_of_pull_return_wit_1_split_goal_2 : pull_return_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (b = 17) by lia. subst b. assumption.
 Qed.
 
@@ -911,7 +898,7 @@ Qed.
 
 Lemma proof_of_build_entail_wit_1_split_goal_1 : build_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073BufferBounds in *.
   destruct PreH14 as [Hbits Hln]. split; [exact Hbits|].
   intros k Hk. destruct (Z.eq_dec k v_pre) as [->|Hne].
@@ -921,19 +908,19 @@ Qed.
 
 Lemma proof_of_build_entail_wit_1_split_goal_2 : build_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodeFrame. intros; repeat split; reflexivity.
 Qed.
 
 Lemma proof_of_build_entail_wit_1_split_goal_3 : build_entail_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodePrefix. intros; lia.
 Qed.
 
 Lemma proof_of_build_entail_wit_1_split_goal_4 : build_entail_wit_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH11; assumption.
 Qed.
 
@@ -960,7 +947,7 @@ Proof. Abort.
 
 Lemma proof_of_build_entail_wit_2_1 : build_entail_wit_2_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply_p (IntArray.full_Zlength PP (68*N) (replace_Znth (b*4*N+v_pre) 1 pr1_2)).
   Intros_p Hpr.
   prop_apply_p (IntArray.full_Zlength SP (68*N) (replace_Znth (b*4*N+v_pre) 1 su1_2)).
@@ -994,7 +981,7 @@ Qed.
 
 Lemma proof_of_build_entail_wit_2_2_split_goal_1 : build_entail_wit_2_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodeFrame in *.
   intros j w Hj Hw Hunchanged. apply PreH18; try assumption.
   destruct Hunchanged; [left|right]; lia.
@@ -1002,7 +989,7 @@ Qed.
 
 Lemma proof_of_build_entail_wit_2_2_split_goal_2 : build_entail_wit_2_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst r_pre.
   unfold P073NodePrefix in *. intros j Hj.
   destruct (Z.eq_dec j b) as [->|Hne].
@@ -1019,7 +1006,8 @@ Qed.
 
 Lemma proof_of_build_entail_wit_2_2_split_goal_3 : build_entail_wit_2_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
+  nia.
 Qed.
 
 Lemma proof_of_build_entail_wit_2_2 : build_entail_wit_2_2.
@@ -1032,7 +1020,7 @@ Qed.
 
 Lemma proof_of_build_return_wit_1_split_goal_1 : build_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073OutsideTree. split.
   - intros w Hw Houtside.
     assert (w <> v_pre) as Hne.
@@ -1046,7 +1034,7 @@ Qed.
 
 Lemma proof_of_build_return_wit_1_split_goal_2 : build_return_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073Tree. intros w lo hi Hd.
   inversion Hd; subst; try lia.
   split.
@@ -1063,7 +1051,7 @@ Qed.
 
 Lemma proof_of_build_return_wit_2_split_goal_1 : build_return_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.quot_div_nonneg in * by lia.
   replace (v_pre*2) with (2*v_pre) in * by ring.
   eapply P073Outside_parent__build_recursive; eauto; lia.
@@ -1071,7 +1059,7 @@ Qed.
 
 Lemma proof_of_build_return_wit_2_split_goal_2 : build_return_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.quot_div_nonneg in * by lia.
   replace (v_pre*2) with (2*v_pre) in * by ring.
   eapply P073Tree_frames__build_recursive; try eassumption; try lia.
@@ -1088,7 +1076,7 @@ Qed.
 
 Lemma proof_of_build_partial_solve_wit_6_pure_split_goal_1 : build_partial_solve_wit_6_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (PreH22 (2*v_pre) l_pre ((l_pre+r_pre)/2)
     (P073Desc_left v_pre l_pre r_pre (2*v_pre) l_pre ((l_pre+r_pre)/2)
@@ -1097,7 +1085,7 @@ Qed.
 
 Lemma proof_of_build_partial_solve_wit_6_pure_split_goal_2 : build_partial_solve_wit_6_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct (P073Mid_sublist__build_recursive l_pre r_pre ltac:(lia) ltac:(lia)) as [Hmid Hquot].
   rewrite Hquot; lia.
@@ -1105,7 +1093,7 @@ Qed.
 
 Lemma proof_of_build_partial_solve_wit_6_pure_split_goal_3 : build_partial_solve_wit_6_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct (P073Mid_sublist__build_recursive l_pre r_pre ltac:(lia) ltac:(lia)) as [Hmid Hquot].
   rewrite Hquot; lia.
@@ -1113,31 +1101,36 @@ Qed.
 
 Lemma proof_of_build_partial_solve_wit_6_pure_split_goal_4 : build_partial_solve_wit_6_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial. rewrite Zlength_replace_Znth. assumption.
 Qed.
 
 Lemma proof_of_build_partial_solve_wit_6_pure_split_goal_5 : build_partial_solve_wit_6_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
+Qed.
+
+Lemma proof_of_build_partial_solve_wit_6_pure_split_goal_6 : build_partial_solve_wit_6_pure_split_goal_6.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite Z.quot_div_nonneg by lia.
   replace (v_pre*2) with (2*v_pre) by ring.
   apply (proj1 (P073Children_layout__build_recursive N v_pre l_pre r_pre ltac:(lia) PreH22)).
 Qed.
 
-Lemma proof_of_build_partial_solve_wit_6_pure_split_goal_6 : build_partial_solve_wit_6_pure_split_goal_6.
+Lemma proof_of_build_partial_solve_wit_6_pure_split_goal_7 : build_partial_solve_wit_6_pure_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite Z.quot_div_nonneg by lia.
-  replace (v_pre*2) with (2*v_pre) by ring.
+  replace (v_pre * 2) with (2 * v_pre) by ring.
   apply (proj1 (P073Children_zero__build_recursive N v_pre l_pre r_pre pr su ct ln ltac:(lia) ltac:(lia) PreH20 PreH22 PreH23)).
 Qed.
 
-Lemma proof_of_build_partial_solve_wit_6_pure_split_goal_7 : build_partial_solve_wit_6_pure_split_goal_7.
+Lemma proof_of_build_partial_solve_wit_6_pure_split_goal_8 : build_partial_solve_wit_6_pure_split_goal_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct PreH24 as [HA HL]. split; [exact HA|].
   intros k Hk; destruct (Z.eq_dec v_pre k) as [E|E].
@@ -1155,11 +1148,12 @@ Proof.
   - Goal_apply proof_of_build_partial_solve_wit_6_pure_split_goal_5.
   - Goal_apply proof_of_build_partial_solve_wit_6_pure_split_goal_6.
   - Goal_apply proof_of_build_partial_solve_wit_6_pure_split_goal_7.
+  - Goal_apply proof_of_build_partial_solve_wit_6_pure_split_goal_8.
 Qed.
 
 Lemma proof_of_build_partial_solve_wit_7_pure_split_goal_1 : build_partial_solve_wit_7_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (PreH25 (2*v_pre+1) ((l_pre+r_pre)/2) r_pre
     (P073Desc_right v_pre l_pre r_pre (2*v_pre+1) ((l_pre+r_pre)/2) r_pre
@@ -1168,7 +1162,7 @@ Qed.
 
 Lemma proof_of_build_partial_solve_wit_7_pure_split_goal_2 : build_partial_solve_wit_7_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct (P073Mid_sublist__build_recursive l_pre r_pre ltac:(lia) ltac:(lia)) as [Hmid Hquot].
   rewrite Hquot; lia.
@@ -1176,7 +1170,7 @@ Qed.
 
 Lemma proof_of_build_partial_solve_wit_7_pure_split_goal_3 : build_partial_solve_wit_7_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct (P073Mid_sublist__build_recursive l_pre r_pre ltac:(lia) ltac:(lia)) as [Hmid Hquot].
   rewrite Hquot; lia.
@@ -1184,26 +1178,31 @@ Qed.
 
 Lemma proof_of_build_partial_solve_wit_7_pure_split_goal_4 : build_partial_solve_wit_7_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply_p (IntArray.full_Zlength LP (4*N) ln1).
   Intros_p Hlen. dump_pre_spatial. exact Hlen.
 Qed.
 
 Lemma proof_of_build_partial_solve_wit_7_pure_split_goal_5 : build_partial_solve_wit_7_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  dump_pre_spatial.
-  rewrite Z.quot_div_nonneg by lia.
-  replace (v_pre*2) with (2*v_pre) by ring.
-  apply (proj2 (P073Children_layout__build_recursive N v_pre l_pre r_pre ltac:(lia) PreH25)).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_build_partial_solve_wit_7_pure_split_goal_6 : build_partial_solve_wit_7_pure_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
+  dump_pre_spatial.
+  rewrite Z.quot_div_nonneg by lia.
+  replace (v_pre * 2) with (2 * v_pre) by ring.
+  apply (proj2 (P073Children_layout__build_recursive N v_pre l_pre r_pre ltac:(lia) PreH25)).
+Qed.
+
+Lemma proof_of_build_partial_solve_wit_7_pure_split_goal_7 : build_partial_solve_wit_7_pure_split_goal_7.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite Z.quot_div_nonneg in * by lia.
-  replace (v_pre*2) with (2*v_pre) in * by ring.
+  replace (v_pre * 2) with (2 * v_pre) in * by ring.
   eapply P073Right_zero__build_recursive; [lia|lia|exact PreH25| |exact PreH12].
   apply (proj2 (P073Children_zero__build_recursive N v_pre l_pre r_pre pr su ct ln ltac:(lia) ltac:(lia) PreH23 PreH25 PreH26)).
 Qed.
@@ -1217,11 +1216,12 @@ Proof.
   - Goal_apply proof_of_build_partial_solve_wit_7_pure_split_goal_4.
   - Goal_apply proof_of_build_partial_solve_wit_7_pure_split_goal_5.
   - Goal_apply proof_of_build_partial_solve_wit_7_pure_split_goal_6.
+  - Goal_apply proof_of_build_partial_solve_wit_7_pure_split_goal_7.
 Qed.
 
 Lemma proof_of_build_partial_solve_wit_8_pure_split_goal_1 : build_partial_solve_wit_8_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (PreH28 (2*v_pre+1) ((l_pre+r_pre)/2) r_pre
     (P073Desc_right v_pre l_pre r_pre (2*v_pre+1) ((l_pre+r_pre)/2) r_pre
@@ -1230,7 +1230,7 @@ Qed.
 
 Lemma proof_of_build_partial_solve_wit_8_pure_split_goal_2 : build_partial_solve_wit_8_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct (P073Mid_sublist__build_recursive l_pre r_pre ltac:(lia) ltac:(lia)) as [HM HQ].
   rewrite HQ, Zlength_sublist by lia; lia.
@@ -1238,7 +1238,7 @@ Qed.
 
 Lemma proof_of_build_partial_solve_wit_8_pure_split_goal_3 : build_partial_solve_wit_8_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct (P073Mid_sublist__build_recursive l_pre r_pre ltac:(lia) ltac:(lia)) as [HM HQ].
   rewrite HQ, Zlength_sublist by lia; lia.
@@ -1246,7 +1246,7 @@ Qed.
 
 Lemma proof_of_build_partial_solve_wit_8_pure_split_goal_4 : build_partial_solve_wit_8_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct (P073Mid_sublist__build_recursive l_pre r_pre ltac:(lia) ltac:(lia)) as [HM HQ].
   rewrite HQ; repeat rewrite Zlength_sublist by lia; lia.
@@ -1254,7 +1254,7 @@ Qed.
 
 Lemma proof_of_build_partial_solve_wit_8_pure_split_goal_5 : build_partial_solve_wit_8_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct (P073Mid_sublist__build_recursive l_pre r_pre ltac:(lia) ltac:(lia)) as [HM HQ].
   rewrite HQ in *; replace (v_pre*2) with (2*v_pre) in * by ring.
@@ -1265,7 +1265,7 @@ Qed.
 
 Lemma proof_of_build_partial_solve_wit_8_pure_split_goal_6 : build_partial_solve_wit_8_pure_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct (P073Mid_sublist__build_recursive l_pre r_pre ltac:(lia) ltac:(lia)) as [HM HQ].
   rewrite HQ in *; replace (v_pre*2) with (2*v_pre) in * by ring.
@@ -1276,7 +1276,7 @@ Qed.
 
 Lemma proof_of_build_partial_solve_wit_8_pure_split_goal_7 : build_partial_solve_wit_8_pure_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct (P073Mid_sublist__build_recursive l_pre r_pre ltac:(lia) ltac:(lia)) as [HM HQ].
   rewrite HQ in *; replace (v_pre*2) with (2*v_pre) in * by ring.
@@ -1286,7 +1286,7 @@ Qed.
 
 Lemma proof_of_build_partial_solve_wit_8_pure_split_goal_8 : build_partial_solve_wit_8_pure_split_goal_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite Z.quot_div_nonneg in * by lia.
   replace (v_pre*2) with (2*v_pre) in * by ring.
@@ -1296,7 +1296,7 @@ Qed.
 
 Lemma proof_of_build_partial_solve_wit_8_pure_split_goal_9 : build_partial_solve_wit_8_pure_split_goal_9.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace (v_pre*2) with (2*v_pre) in * by ring.
   exact (proj2 (PreH11 _ _ _ (P073Desc_here _ _ _))).
@@ -1318,19 +1318,19 @@ Qed.
 
 Lemma proof_of_update_entail_wit_1_split_goal_1 : update_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodeFrame. intros. repeat split; reflexivity.
 Qed.
 
 Lemma proof_of_update_entail_wit_1_split_goal_2 : update_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073NodePrefix. intros. lia.
 Qed.
 
 Lemma proof_of_update_entail_wit_1_split_goal_3 : update_entail_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   auto.
 Qed.
 
@@ -1356,7 +1356,7 @@ Proof. Abort.
 
 Lemma proof_of_update_entail_wit_2 : update_entail_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply_p (IntArray.full_Zlength PP (68*N)
     (replace_Znth (b*4*N+v_pre) (Z.land (Z.shiftr x_pre b) 1) pr1_2)).
   Intros_p Hpr.
@@ -1385,16 +1385,17 @@ Qed.
 
 Lemma proof_of_update_return_wit_1_split_goal_1 : update_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073OutsideTree. split; intros.
   - reflexivity.
   - apply PreH20; auto. left. intro E. subst w.
-    apply (H1 p_pre (l_pre + 1)). constructor.
+    apply (H1 p_pre (l_pre + 1)).
+    rewrite PreH7. apply P073Desc_here.
 Qed.
 
 Lemma proof_of_update_return_wit_1_split_goal_2 : update_return_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold P073Tree. intros w lo hi Hd.
   pose proof (proj1 (PreH18 _ _ _ (P073Desc_here _ _ _))) as Hlen.
   inversion Hd; subst; try lia.
@@ -1412,7 +1413,7 @@ Qed.
 
 Lemma proof_of_update_return_wit_2_split_goal_1 : update_return_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.quot_div_nonneg in * by lia.
   replace (v_pre * 2) with (2*v_pre) in * by ring.
   eapply P073Outside_parent__update_merge; [|exact PreH5|exact PreH2].
@@ -1421,7 +1422,7 @@ Qed.
 
 Lemma proof_of_update_return_wit_2_split_goal_2 : update_return_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.quot_div_nonneg in * by lia.
   replace (v_pre * 2) with (2*v_pre) in * by ring.
   assert (Hmid : l_pre < (l_pre+r_pre)/2 < r_pre).
@@ -1448,7 +1449,7 @@ Qed.
 
 Lemma proof_of_update_return_wit_3_split_goal_1 : update_return_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.quot_div_nonneg in * by lia.
   replace (v_pre * 2) with (2*v_pre) in * by ring.
   eapply P073Outside_parent__update_merge; [|exact PreH5|exact PreH2].
@@ -1457,7 +1458,7 @@ Qed.
 
 Lemma proof_of_update_return_wit_3_split_goal_2 : update_return_wit_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.quot_div_nonneg in * by lia.
   replace (v_pre * 2) with (2*v_pre) in * by ring.
   assert (Hmid : l_pre < (l_pre+r_pre)/2 < r_pre).
@@ -1484,7 +1485,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_4_pure_split_goal_1 : update_partial_solve_wit_4_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH29 (2*v_pre) l_pre ((l_pre+r_pre)/2)
     (P073Desc_left v_pre l_pre r_pre (2*v_pre) l_pre ((l_pre+r_pre)/2)
       ltac:(lia) (P073Desc_here _ _ _))) as Hchild.
@@ -1494,7 +1495,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_4_pure_split_goal_2 : update_partial_solve_wit_4_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (P073Mid_bounds__update_routing l_pre r_pre ltac:(lia) ltac:(lia)).
   dump_pre_spatial.
   lia.
@@ -1502,19 +1503,23 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_4_pure_split_goal_3 : update_partial_solve_wit_4_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  destruct (P073Mid_bounds__update_routing l_pre r_pre ltac:(lia) ltac:(lia)) as [Heq Hb].
-  rewrite Heq. replace (v_pre*2) with (2*v_pre) by lia.
-  dump_pre_spatial.
-  intros w lo hi Hd. apply PreH29.
-  apply P073Desc_left; [lia | exact Hd].
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_update_partial_solve_wit_4_pure_split_goal_4 : update_partial_solve_wit_4_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
+  dump_pre_spatial.
+  rewrite Z.quot_div_nonneg by lia.
+  replace (v_pre * 2) with (2 * v_pre) by ring.
+  apply (proj1 (P073Children_layout__build_recursive N v_pre l_pre r_pre ltac:(lia) PreH29)).
+Qed.
+
+Lemma proof_of_update_partial_solve_wit_4_pure_split_goal_5 : update_partial_solve_wit_4_pure_split_goal_5.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (P073Mid_bounds__update_routing l_pre r_pre ltac:(lia) ltac:(lia)) as [Heq Hb].
-  rewrite Heq. replace (v_pre*2) with (2*v_pre) by lia.
+  rewrite Heq. replace (v_pre * 2) with (2 * v_pre) by lia.
   dump_pre_spatial.
   intros w lo hi Hd. apply PreH30.
   apply P073Desc_left; [lia | exact Hd].
@@ -1527,11 +1532,12 @@ Proof.
   - Goal_apply proof_of_update_partial_solve_wit_4_pure_split_goal_2.
   - Goal_apply proof_of_update_partial_solve_wit_4_pure_split_goal_3.
   - Goal_apply proof_of_update_partial_solve_wit_4_pure_split_goal_4.
+  - Goal_apply proof_of_update_partial_solve_wit_4_pure_split_goal_5.
 Qed.
 
 Lemma proof_of_update_partial_solve_wit_5_pure_split_goal_1 : update_partial_solve_wit_5_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH29 (2*v_pre+1) ((l_pre+r_pre)/2) r_pre
     (P073Desc_right v_pre l_pre r_pre (2*v_pre+1) ((l_pre+r_pre)/2) r_pre
       ltac:(lia) (P073Desc_here _ _ _))) as Hchild.
@@ -1541,7 +1547,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_5_pure_split_goal_2 : update_partial_solve_wit_5_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (P073Mid_bounds__update_routing l_pre r_pre ltac:(lia) ltac:(lia)).
   dump_pre_spatial.
   lia.
@@ -1549,19 +1555,23 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_5_pure_split_goal_3 : update_partial_solve_wit_5_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  destruct (P073Mid_bounds__update_routing l_pre r_pre ltac:(lia) ltac:(lia)) as [Heq Hb].
-  rewrite Heq. replace (v_pre*2) with (2*v_pre) by lia.
-  dump_pre_spatial.
-  intros w lo hi Hd. apply PreH29.
-  apply P073Desc_right; [lia | exact Hd].
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_update_partial_solve_wit_5_pure_split_goal_4 : update_partial_solve_wit_5_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
+  dump_pre_spatial.
+  rewrite Z.quot_div_nonneg by lia.
+  replace (v_pre * 2) with (2 * v_pre) by ring.
+  apply (proj2 (P073Children_layout__build_recursive N v_pre l_pre r_pre ltac:(lia) PreH29)).
+Qed.
+
+Lemma proof_of_update_partial_solve_wit_5_pure_split_goal_5 : update_partial_solve_wit_5_pure_split_goal_5.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (P073Mid_bounds__update_routing l_pre r_pre ltac:(lia) ltac:(lia)) as [Heq Hb].
-  rewrite Heq. replace (v_pre*2) with (2*v_pre) by lia.
+  rewrite Heq. replace (v_pre * 2) with (2 * v_pre) by lia.
   dump_pre_spatial.
   intros w lo hi Hd. apply PreH30.
   apply P073Desc_right; [lia | exact Hd].
@@ -1574,11 +1584,12 @@ Proof.
   - Goal_apply proof_of_update_partial_solve_wit_5_pure_split_goal_2.
   - Goal_apply proof_of_update_partial_solve_wit_5_pure_split_goal_3.
   - Goal_apply proof_of_update_partial_solve_wit_5_pure_split_goal_4.
+  - Goal_apply proof_of_update_partial_solve_wit_5_pure_split_goal_5.
 Qed.
 
 Lemma proof_of_update_partial_solve_wit_6_pure_split_goal_1 : update_partial_solve_wit_6_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (PreH32 (2*v_pre+1) ((l_pre+r_pre)/2) r_pre
     (P073Desc_right v_pre l_pre r_pre _ _ _ ltac:(lia) (P073Desc_here _ _ _))) as H.
@@ -1587,7 +1598,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_6_pure_split_goal_2 : update_partial_solve_wit_6_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv in * by lia.
   pose proof (P073Midpoint__update_pull_input l_pre r_pre ltac:(lia) ltac:(lia)).
@@ -1596,7 +1607,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_6_pure_split_goal_3 : update_partial_solve_wit_6_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv in * by lia.
   pose proof (P073Midpoint__update_pull_input l_pre r_pre ltac:(lia) ltac:(lia)).
@@ -1605,7 +1616,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_6_pure_split_goal_4 : update_partial_solve_wit_6_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv in * by lia.
   pose proof (P073Midpoint__update_pull_input l_pre r_pre ltac:(lia) ltac:(lia)).
@@ -1614,7 +1625,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_6_pure_split_goal_5 : update_partial_solve_wit_6_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv in * by lia.
   pose proof (P073Midpoint__update_pull_input l_pre r_pre ltac:(lia) ltac:(lia)).
@@ -1624,7 +1635,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_6_pure_split_goal_6 : update_partial_solve_wit_6_pure_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv in * by lia.
   pose proof (P073Midpoint__update_pull_input l_pre r_pre ltac:(lia) ltac:(lia)).
@@ -1634,7 +1645,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_6_pure_split_goal_7 : update_partial_solve_wit_6_pure_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv in * by lia.
   pose proof (P073Midpoint__update_pull_input l_pre r_pre ltac:(lia) ltac:(lia)).
@@ -1644,7 +1655,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_6_pure_split_goal_8 : update_partial_solve_wit_6_pure_split_goal_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace (2*v_pre) with (v_pre*2) by lia.
   exact (proj2 (PreH15 _ _ _ (P073Desc_here _ _ _))).
@@ -1652,7 +1663,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_6_pure_split_goal_9 : update_partial_solve_wit_6_pure_split_goal_9.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv in * by lia.
   replace (v_pre*2) with (2*v_pre) in PreH16 by lia.
@@ -1684,7 +1695,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_7_pure_split_goal_1 : update_partial_solve_wit_7_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (PreH32 (2*v_pre+1) ((l_pre+r_pre)/2) r_pre
     (P073Desc_right v_pre l_pre r_pre _ _ _ ltac:(lia) (P073Desc_here _ _ _))) as H.
@@ -1693,7 +1704,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_7_pure_split_goal_2 : update_partial_solve_wit_7_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv in * by lia.
   pose proof (P073Midpoint__update_pull_input l_pre r_pre ltac:(lia) ltac:(lia)).
@@ -1702,7 +1713,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_7_pure_split_goal_3 : update_partial_solve_wit_7_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv in * by lia.
   pose proof (P073Midpoint__update_pull_input l_pre r_pre ltac:(lia) ltac:(lia)).
@@ -1711,7 +1722,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_7_pure_split_goal_4 : update_partial_solve_wit_7_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv in * by lia.
   pose proof (P073Midpoint__update_pull_input l_pre r_pre ltac:(lia) ltac:(lia)).
@@ -1720,7 +1731,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_7_pure_split_goal_5 : update_partial_solve_wit_7_pure_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv in * by lia.
   pose proof (P073Midpoint__update_pull_input l_pre r_pre ltac:(lia) ltac:(lia)).
@@ -1730,7 +1741,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_7_pure_split_goal_6 : update_partial_solve_wit_7_pure_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv in * by lia.
   pose proof (P073Midpoint__update_pull_input l_pre r_pre ltac:(lia) ltac:(lia)).
@@ -1740,7 +1751,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_7_pure_split_goal_7 : update_partial_solve_wit_7_pure_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv in * by lia.
   pose proof (P073Midpoint__update_pull_input l_pre r_pre ltac:(lia) ltac:(lia)).
@@ -1750,7 +1761,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_7_pure_split_goal_8 : update_partial_solve_wit_7_pure_split_goal_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   rewrite zdiv_equiv in * by lia.
   replace (v_pre*2) with (2*v_pre) in PreH16 by lia.
@@ -1768,7 +1779,7 @@ Qed.
 
 Lemma proof_of_update_partial_solve_wit_7_pure_split_goal_9 : update_partial_solve_wit_7_pure_split_goal_9.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   replace (2*v_pre) with (v_pre*2) by lia.
   exact (proj2 (PreH15 _ _ _ (P073Desc_here _ _ _))).
@@ -1790,7 +1801,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_15_split_goal_1 : solver_safety_wit_15_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct (P073Shift17__solver_safety b ltac:(lia)) as [Hs Hp]. rewrite Hs.
   rewrite signed_last_nbits_eq; [|lia|change (-2147483648 <= 2^b < 2147483648); lia].
@@ -1803,7 +1814,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_15_split_goal_2 : solver_safety_wit_15_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct (P073Shift17__solver_safety b ltac:(lia)) as [Hs Hp]. rewrite Hs.
   rewrite signed_last_nbits_eq; [|lia|change (-2147483648 <= 2^b < 2147483648); lia].
@@ -1821,7 +1832,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_16_split_goal_1 : solver_safety_wit_16_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct (P073Shift17__solver_safety b ltac:(lia)) as [Hs Hp]. rewrite Hs.
   rewrite signed_last_nbits_eq; [|lia|change (-2147483648 <= 2^b < 2147483648); lia].
@@ -1834,7 +1845,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_16_split_goal_2 : solver_safety_wit_16_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   destruct (P073Shift17__solver_safety b ltac:(lia)) as [Hs Hp]. rewrite Hs.
   rewrite signed_last_nbits_eq; [|lia|change (-2147483648 <= 2^b < 2147483648); lia].
@@ -1852,7 +1863,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_17_split_goal_1 : solver_safety_wit_17_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (P073Pow17__solver_safety b ltac:(lia)) as Hp.
   rewrite Z.mul_1_l, signed_last_nbits_eq; [lia|lia|].
@@ -1861,7 +1872,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_17_split_goal_2 : solver_safety_wit_17_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   pose proof (P073Pow17__solver_safety b ltac:(lia)) as Hp.
   rewrite Z.mul_1_l, signed_last_nbits_eq; [lia|lia|].
@@ -1869,10 +1880,10 @@ Proof.
 Qed.
 
 Lemma proof_of_solver_safety_wit_17_split_goal_3 : solver_safety_wit_17_split_goal_3.
-Proof. LLM_pre_process ltac:(lia || nia || int_auto). Qed.
+Proof. LLM_pre_process ltac:(lia || int_auto). Qed.
 
 Lemma proof_of_solver_safety_wit_17_split_goal_4 : solver_safety_wit_17_split_goal_4.
-Proof. LLM_pre_process ltac:(lia || nia || int_auto). Qed.
+Proof. LLM_pre_process ltac:(lia || int_auto). Qed.
 
 Lemma proof_of_solver_safety_wit_17 : solver_safety_wit_17.
 Proof.
@@ -1948,66 +1959,66 @@ Qed.
 Lemma proof_of_solver_entail_wit_4_split_goal_1 : solver_entail_wit_4_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia).
+  exact (PreH14 k_2 H).
 Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_2 : solver_entail_wit_4_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia).
+  exact (PreH13 k H).
 Qed.
 
-Lemma proof_of_solver_entail_wit_4_split_goal_spatial : solver_entail_wit_4_split_goal_spatial.
+Lemma proof_of_solver_entail_wit_4_split_goal_3 : solver_entail_wit_4_split_goal_3.
 Proof.
   LLM_pre_process ltac:(lia).
   assert (i = size_pre) by lia.
-  subst i.
-  rewrite sublist_self by lia.
-  sep_apply_l_atomic (IntArray.seg_to_full a 0 size_pre original).
-  rewrite Z.mul_0_l, Z.add_0_r, Z.sub_0_r.
-  cancel (IntArray.full a size_pre original).
+  subst i original.
+  apply sublist_self.
+  exact (eq_sym PreH9).
 Qed.
 
 Lemma proof_of_solver_entail_wit_4 : solver_entail_wit_4.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_solver_entail_wit_4_split_goal_spatial.
   - Goal_apply proof_of_solver_entail_wit_4_split_goal_1.
   - Goal_apply proof_of_solver_entail_wit_4_split_goal_2.
+  - Goal_apply proof_of_solver_entail_wit_4_split_goal_3.
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_1 : solver_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   apply (proj1 (P073Zero_buffers__solver_layout size_pre ltac:(lia))).
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_2 : solver_entail_wit_5_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   apply (proj2 (P073Zero_buffers__solver_layout size_pre ltac:(lia))).
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_3 : solver_entail_wit_5_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   apply P073Root_layout__solver_layout. lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_4 : solver_entail_wit_5_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_5 : solver_entail_wit_5_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_spatial : solver_entail_wit_5_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (17 * 4) with 68 by reflexivity.
   cancel.
 Qed.
@@ -2126,7 +2137,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9_split_goal_1 : solver_entail_wit_9_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hupd : Znth i updates (0,0) = (p,v)).
   { rewrite (Znth_indep updates i (0,0) __default__Prod_Z_Z) by lia.
     specialize (PreH24 i ltac:(lia)).
@@ -2146,13 +2157,13 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9_split_goal_2 : solver_entail_wit_9_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   auto.
 Qed.
 
 Lemma proof_of_solver_entail_wit_9_split_goal_3 : solver_entail_wit_9_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply P073Replace_bounds__solver_history; try lia.
   - intros j Hj; apply PreH23; lia.
   - rewrite Zlength_replace_Znth; lia.
@@ -2160,7 +2171,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9_split_goal_4 : solver_entail_wit_9_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Zlength_replace_Znth; exact PreH19.
 Qed.
 
@@ -2175,7 +2186,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1 : solver_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = m_pre) by lia.
   subst i original.
   Exists result_2.
@@ -2193,14 +2204,14 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_8_pure_split_goal_1 : solver_partial_solve_wit_8_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply_p (IntArray.full_Zlength LP (4*size_pre) (repeat_Z 0 (4*size_pre))).
   Intros_p Hlen. dump_pre_spatial. exact Hlen.
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_8_pure_split_goal_2 : solver_partial_solve_wit_8_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_8_pure : solver_partial_solve_wit_8_pure.

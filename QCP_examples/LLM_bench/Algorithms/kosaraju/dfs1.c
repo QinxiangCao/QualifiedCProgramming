@@ -127,12 +127,12 @@ void dfs1(int const u, int const n,
 
     if (vis1[v] == 0) {
       dfs1(v, n, radj_col, radj_row, vis1, fin, timer_p)
-          /*@ where(bind_spec)
+          /*@ where(bind_spec) {B = unit}
                 g = g,
                 radj_col_l = radj_col_l, radj_row_l = radj_row_l,
                 vis1_l = vis1_m, fin_l = fin_m, timer_v = timer_m,
                 X = X,
-                f = dfs_finish_fromK(g, radj_col_l, radj_row_l, u, i + 1); B = unit */;
+                f = dfs_finish_fromK(g, radj_col_l, radj_row_l, u, i + 1) */;
     }
     i = i + 1;
   }

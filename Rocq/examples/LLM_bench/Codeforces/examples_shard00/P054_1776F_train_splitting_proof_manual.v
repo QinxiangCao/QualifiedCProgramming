@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P054_1776F_train_splitting_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P054_1776F_train_splitting_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P054_1776F_train_splitting_lib.
 Local Open Scope sac.
@@ -103,7 +87,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH10 i ltac:(lia)).
   destruct PreH10 as [[_ Hu] Hv].
   assert (Hz : Znth i e __default__Prod_Z_Z = Znth i e (0, 0)).
@@ -121,7 +105,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct PreH14 as [_ Hdegree].
   specialize (Hdegree x H).
   replace i with m_pre in Hdegree by lia.
@@ -135,7 +119,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_2 : solver_entail_wit_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PivotPrefix.
   intros.
   lia.
@@ -143,14 +127,14 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_3 : solver_entail_wit_3_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace m_pre with i by lia.
   exact PreH14.
 Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_4 : solver_entail_wit_3_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH10.
   exact H.
 Qed.
@@ -166,7 +150,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_1 : solver_entail_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PivotPrefix in *.
   intros x Hx.
   destruct (Z_lt_ge_dec x i) as [Hlt | Hge].
@@ -183,7 +167,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_1_split_goal_1 : solver_entail_wit_5_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PivotChoice, PivotPrefix in *.
   right.
   split.
@@ -195,7 +179,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_1_split_goal_2 : solver_entail_wit_5_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH11.
   lia.
 Qed.
@@ -209,7 +193,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_2_split_goal_1 : solver_entail_wit_5_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PivotChoice.
   left.
   split.
@@ -221,7 +205,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_2_split_goal_2 : solver_entail_wit_5_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH12.
   lia.
 Qed.
@@ -235,7 +219,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_split_goal_1 : solver_entail_wit_6_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PivotColorPrefix.
   split.
   - reflexivity.
@@ -245,14 +229,14 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_split_goal_2 : solver_entail_wit_6_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH10.
   lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_6_split_goal_3 : solver_entail_wit_6_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PivotChoice in PreH13.
   destruct PreH13 as [[Hbounds Hrest] | [Heq Hprefix]].
   - lia.
@@ -269,7 +253,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_1_split_goal_1 : solver_entail_wit_7_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply pivot_color_prefix_incident_step__pivot_color; auto.
   destruct (PreH15 i ltac:(lia)) as [[[_ _] Hu_edge] Hv_edge].
   rewrite (Znth_indep e i __default__Prod_Z_Z (0, 0)) in Hu_edge, Hv_edge
@@ -287,7 +271,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_2_split_goal_1 : solver_entail_wit_7_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply pivot_color_prefix_incident_step__pivot_color; auto.
   destruct (PreH14 i ltac:(lia)) as [[[_ _] Hu_edge] Hv_edge].
   rewrite (Znth_indep e i __default__Prod_Z_Z (0, 0)) in Hu_edge, Hv_edge
@@ -305,7 +289,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_3_split_goal_1 : solver_entail_wit_7_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply pivot_color_prefix_nonincident_step__pivot_color; auto.
   - destruct (PreH15 i ltac:(lia)) as [[[_ _] Hu_edge] Hv_edge].
     rewrite (Znth_indep e i __default__Prod_Z_Z (0, 0)) in Hu_edge, Hv_edge
@@ -331,7 +315,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_1 : solver_entail_wit_8_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold CompleteColorPrefix.
   split; [reflexivity |].
   left. split; [reflexivity |].
@@ -340,13 +324,13 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_2 : solver_entail_wit_8_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH10. assumption.
 Qed.
 
 Lemma proof_of_solver_entail_wit_8_split_goal_3 : solver_entail_wit_8_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PivotChoice in PreH13.
   destruct PreH13 as [[Hpivot _] | [Hpivot _]]; lia.
 Qed.
@@ -361,7 +345,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9_1_split_goal_1 : solver_entail_wit_9_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply complete_color_prefix_later_incident_step__complete_color_incident.
   - lia.
   - subst first. exact PreH21.
@@ -379,7 +363,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9_2_split_goal_1 : solver_entail_wit_9_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply complete_color_prefix_first_incident_step__complete_color_incident.
   - lia.
   - subst first. exact PreH21.
@@ -397,7 +381,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9_3_split_goal_1 : solver_entail_wit_9_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply complete_color_prefix_first_incident_step__complete_color_incident.
   - lia.
   - subst first. exact PreH22.
@@ -415,7 +399,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9_4_split_goal_1 : solver_entail_wit_9_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply complete_color_prefix_later_incident_step__complete_color_incident.
   - lia.
   - subst first. exact PreH22.
@@ -433,7 +417,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9_5_split_goal_1 : solver_entail_wit_9_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply complete_color_prefix_nonincident_step__complete_color_nonincident.
   - lia.
   - lia.
@@ -463,7 +447,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_9_6_split_goal_1 : solver_entail_wit_9_6_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply complete_color_prefix_nonincident_step__complete_color_nonincident.
   - lia.
   - lia.
@@ -493,7 +477,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_10_1 : solver_entail_wit_10_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (i = m_pre) by lia. subst i.
   pose proof PreH19 as Hcolor_copy.
   destruct Hcolor_copy as [Hlabelslen _].
@@ -524,7 +508,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_10_2 : solver_entail_wit_10_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (i = m_pre) by lia. subst i.
   subst kinds. subst pivot. subst first.
   assert (Hlabels_len : Zlength labels = m_pre).
@@ -550,7 +534,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_10_3 : solver_entail_wit_10_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (i = m_pre) by lia. subst i.
   subst kinds. subst pivot. subst first.
   assert (Hlabels_len : Zlength labels = m_pre).

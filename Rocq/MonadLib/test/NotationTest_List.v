@@ -12,7 +12,7 @@ Require Import Coq.Lists.List. Import ListNotations.
 Require Import Coq.ZArith.ZArith.
 From MonadLib Require Import Monad.
 From MonadLib.ListMonad Require Import ListBasic.
-Import MonadNotation.
+Import MonadNotation ListProgNotations.
 Local Open Scope Z_scope.
 Local Open Scope monad_scope.
 Local Open Scope listprog_scope.

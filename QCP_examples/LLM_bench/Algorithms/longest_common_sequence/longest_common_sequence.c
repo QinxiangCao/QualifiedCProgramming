@@ -183,7 +183,7 @@ int longest_common_sequence(int *x, int *y, int n)
               sublist(0,
                 (n@pre + 1) * (i - 1) + (j - 1), mixed_table)) *
             store(
-              pointer_offset(table, ((n@pre + 1) * (i - 1) + (j - 1)), sizeof(int), int),
+              pointer_offset(table, ((n@pre + 1) * (i - 1) + (j - 1)), int),
               int,
               Znth(
                 (n@pre + 1) * (i - 1) + (j - 1), table_l, 0)) *
@@ -242,7 +242,7 @@ int longest_common_sequence(int *x, int *y, int n)
               sublist(0,
                 (n@pre + 1) * (i - 1) + j, mixed_table)) *
             store(
-              pointer_offset(table, ((n@pre + 1) * (i - 1) + j), sizeof(int), int),
+              pointer_offset(table, ((n@pre + 1) * (i - 1) + j), int),
               int, Znth(
                 (n@pre + 1) * (i - 1) + j, table_l, 0)) *
             IntArray::mixed_seg(
@@ -253,7 +253,7 @@ int longest_common_sequence(int *x, int *y, int n)
                 (n@pre + 1) * (i - 1) + j + 1,
                 (n@pre + 1) * i + (j - 1), mixed_table)) *
             store(
-              pointer_offset(table, ((n@pre + 1) * i + (j - 1)), sizeof(int), int),
+              pointer_offset(table, ((n@pre + 1) * i + (j - 1)), int),
               int, Znth(
                 (n@pre + 1) * i + (j - 1), table_l, 0)) *
             IntArray::undef_seg(

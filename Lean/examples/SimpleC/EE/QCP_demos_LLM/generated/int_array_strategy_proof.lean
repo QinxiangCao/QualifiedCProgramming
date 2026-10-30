@@ -84,19 +84,33 @@ theorem int_array_strategy10_correctness : SimpleC.EE.QCP_demos_LLM.generated.in
 theorem int_array_strategy13_correctness : SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy13 := by
   unfold SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy13
   pre_process_default
-  all_goals (pureIntros; subst_vars; try cancel; try entailer!; try exact fun _ h => h)
+  all_goals (pureIntros; subst_vars; try cancel; try entailer!)
+  exact fun h hs => (naive_C_Rules.IntArray.full_empty _ 0).2 h ⟨rfl, hs⟩
 
 theorem int_array_strategy14_correctness : SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy14 := by
   unfold SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy14
   pre_process_default
-  all_goals (pureIntros; subst_vars; try cancel; try entailer!)
-  exact fun h hs => (naive_C_Rules.IntArray.full_empty _ 0).2 h ⟨rfl, hs⟩
+  pureIntros
+  subst_vars
+  prop_apply (naive_C_Rules.IntArray.full_Zlength p n l)
+  pureIntros
+  have := Zlength_nonneg l
+  sep_apply (naive_C_Rules.IntArray.full_to_seg p n l)
+  sep_apply (naive_C_Rules.IntArray.seg_single p n v)
+  sep_apply (naive_C_Rules.IntArray.seg_merge_to_full p 0 n (n + 1) l [v] (by omega))
+  simp only [Int.zero_mul, Int.add_zero, Int.sub_zero]
+  exact fun _ h => h
 
 theorem int_array_strategy15_correctness : SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy15 := by
   unfold SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy15
   pre_process_default
-  all_goals (pureIntros; subst_vars; try cancel; try entailer!)
-  exact fun h hs => (naive_C_Rules.IntArray.seg_nil p y l h hs).2
+  pureIntros
+  subst_vars
+  prop_apply (naive_C_Rules.IntArray.seg_valid p x y l)
+  pureIntros
+  sep_apply (naive_C_Rules.IntArray.seg_single p y v)
+  sep_apply (naive_C_Rules.IntArray.seg_merge_to_seg p x y (y + 1) l [v] (by omega))
+  exact fun _ h => h
 
 theorem int_array_strategy2_correctness : SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy2 := by
   unfold SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy2
@@ -117,11 +131,22 @@ theorem int_array_strategy11_correctness : SimpleC.EE.QCP_demos_LLM.generated.in
 theorem int_array_strategy16_correctness : SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy16 := by
   unfold SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy16
   pre_process_default
-  all_goals (pureIntros; subst_vars; try cancel; try entailer!)
-  sep_apply (naive_C_Rules.IntArray.seg_single p z v)
-  prop_apply (naive_C_Rules.IntArray.seg_valid p y z l)
   pureIntros
-  sep_apply (naive_C_Rules.IntArray.seg_merge_to_seg p y z (z+1) l [v] (by omega))
+  subst_vars
+  prop_apply (naive_C_Rules.IntArray.full_Zlength (p + i * sizeof(INT)) n l)
+  pureIntros
+  have := Zlength_nonneg l
+  sep_apply (naive_C_Rules.IntArray.seg_single p (i - 1) v)
+  sep_apply (naive_C_Rules.IntArray.seg_to_full p (i - 1) (i - 1 + 1) [v])
+  simp only [show i - 1 + 1 - (i - 1) = 1 by omega]
+  have hmerge := naive_C_Rules.IntArray.full_merge_to_full
+    (p + (i - 1) * sizeof(INT)) 1 (n + 1) [v] l (by omega)
+  have haddr : (p + (i - 1) * sizeof(INT)) + naive_C_Rules.IntArray.elementStore.sizeA =
+      p + i * sizeof(INT) := by
+    change (p + (i - 1) * sizeof(INT)) + sizeof(INT) = p + i * sizeof(INT)
+    ring
+  simp only [Int.one_mul, Int.add_sub_cancel, haddr] at hmerge
+  sep_apply hmerge
   exact fun _ h => h
 
 theorem int_array_strategy17_correctness : SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy17 := by
@@ -152,5 +177,20 @@ theorem int_array_strategy12_correctness : SimpleC.EE.QCP_demos_LLM.generated.in
   subst_vars
   sep_apply (naive_C_Rules.IntArray.missing_i_merge_to_seg p x i y v l (by omega))
   exact fun _ h => h
+
+theorem int_array_strategy101_correctness : SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy101 := by
+  unfold SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy101
+  pre_process_default
+  all_goals (prop_apply (naive_C_Rules.IntArray.full_Zlength p n l); entailer!)
+
+theorem int_array_strategy102_correctness : SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy102 := by
+  unfold SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy102
+  pre_process_default
+  all_goals (prop_apply (naive_C_Rules.IntArray.seg_Zlength p x y l); entailer!)
+
+theorem int_array_strategy103_correctness : SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy103 := by
+  unfold SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal.int_array_strategy103
+  pre_process_default
+  all_goals (prop_apply (naive_C_Rules.IntArray.missing_i_Zlength p i x y l); entailer!)
 
 end SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_proof

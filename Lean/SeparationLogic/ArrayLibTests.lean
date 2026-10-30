@@ -256,7 +256,7 @@ elab_rules : command
   ArrayFacade.mixed_full_unfold,
   ArrayFacade.undef_full_unfold,
   ArrayFacade.full_shape_unfold
-] => 17966682614900592657
+] => 7937595155630496487
 
 #check ArrayLibSig
 #check ArrayLibSig.canonical

@@ -58,7 +58,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def length_safety_wit_1 : Prop :=
-  forall (p_pre : Int) (l : (List Int)) (PreH1 : ((Zlength (l)) <= INT_MAX)) ,
+  forall (l : (List Int)) (p_pre : Int) (PreH1 : ((Zlength (l)) <= INT_MAX)) ,
   ((( &( "n" ) )) # Int |->_)
   ** ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** (sll p_pre l)
@@ -68,7 +68,7 @@ noncomputable def length_safety_wit_1 : Prop :=
 
 noncomputable def length_safety_wit_2 : Prop :=
   (
-forall (p_pre : Int) (l : (List Int)) (l1 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (pnext : Int) (pdata : Int) (n : Int) (p : Int) (PreH1 : (l = (l1 ++ l2))) (PreH2 : (n = (Zlength (l1)))) (PreH3 : (p ≠ (0 : Int))) (PreH4 : (l2 = (pdata :: l3))) (PreH5 : ((Zlength (l)) <= INT_MAX)) ,
+forall (l : (List Int)) (p_pre : Int) (l1 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (pnext : Int) (pdata : Int) (n : Int) (p : Int) (PreH1 : (l = (l1 ++ l2))) (PreH2 : (n = (Zlength (l1)))) (PreH3 : (p ≠ (0 : Int))) (PreH4 : (l2 = (pdata :: l3))) (PreH5 : ((Zlength (l)) <= INT_MAX)) ,
   ((( &( "n" ) )) # Int |-> (n))
   ** ((( &( "p" ) )) # Ptr |-> (p))
   ** ((&((p # "list")  ->ₛ "data")) # Int |-> (pdata))
@@ -80,7 +80,7 @@ forall (p_pre : Int) (l : (List Int)) (l1 : (List Int)) (l2 : (List Int)) (l3 : 
   “ ((INT_MIN) <= (n + 1)) ”
 ) \/
 (
-forall (p_pre : Int) (l : (List Int)) (l1 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (pnext : Int) (pdata : Int) (n : Int) (p : Int) (PreH1 : (l = (l1 ++ l2))) (PreH2 : (n = (Zlength (l1)))) (PreH3 : (p ≠ (0 : Int))) (PreH4 : (l2 = (pdata :: l3))) (PreH5 : ((Zlength (l)) <= INT_MAX)) ,
+forall (l : (List Int)) (p_pre : Int) (l1 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (pnext : Int) (pdata : Int) (n : Int) (p : Int) (PreH1 : (l = (l1 ++ l2))) (PreH2 : (n = (Zlength (l1)))) (PreH3 : (p ≠ (0 : Int))) (PreH4 : (l2 = (pdata :: l3))) (PreH5 : ((Zlength (l)) <= INT_MAX)) ,
   ((( &( "n" ) )) # Int |-> (n))
   ** ((( &( "p" ) )) # Ptr |-> (p))
   ** ((&((p # "list")  ->ₛ "data")) # Int |-> (pdata))
@@ -93,7 +93,7 @@ forall (p_pre : Int) (l : (List Int)) (l1 : (List Int)) (l2 : (List Int)) (l3 : 
 )
 
 noncomputable def length_safety_wit_2_split_goal_1 : Prop :=
-  forall (p_pre : Int) (l : (List Int)) (l1 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (pnext : Int) (pdata : Int) (n : Int) (p : Int) (PreH1 : (l = (l1 ++ l2))) (PreH2 : (n = (Zlength (l1)))) (PreH3 : (p ≠ (0 : Int))) (PreH4 : (l2 = (pdata :: l3))) (PreH5 : ((Zlength (l)) <= INT_MAX)) ,
+  forall (l : (List Int)) (p_pre : Int) (l1 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (pnext : Int) (pdata : Int) (n : Int) (p : Int) (PreH1 : (l = (l1 ++ l2))) (PreH2 : (n = (Zlength (l1)))) (PreH3 : (p ≠ (0 : Int))) (PreH4 : (l2 = (pdata :: l3))) (PreH5 : ((Zlength (l)) <= INT_MAX)) ,
   ((( &( "n" ) )) # Int |-> (n))
   ** ((( &( "p" ) )) # Ptr |-> (p))
   ** ((&((p # "list")  ->ₛ "data")) # Int |-> (pdata))
@@ -104,7 +104,7 @@ noncomputable def length_safety_wit_2_split_goal_1 : Prop :=
   “ ((n + 1) <= INT_MAX) ”
 
 noncomputable def length_safety_wit_2_split_goal_2 : Prop :=
-  forall (p_pre : Int) (l : (List Int)) (l1 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (pnext : Int) (pdata : Int) (n : Int) (p : Int) (PreH1 : (l = (l1 ++ l2))) (PreH2 : (n = (Zlength (l1)))) (PreH3 : (p ≠ (0 : Int))) (PreH4 : (l2 = (pdata :: l3))) (PreH5 : ((Zlength (l)) <= INT_MAX)) ,
+  forall (l : (List Int)) (p_pre : Int) (l1 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (pnext : Int) (pdata : Int) (n : Int) (p : Int) (PreH1 : (l = (l1 ++ l2))) (PreH2 : (n = (Zlength (l1)))) (PreH3 : (p ≠ (0 : Int))) (PreH4 : (l2 = (pdata :: l3))) (PreH5 : ((Zlength (l)) <= INT_MAX)) ,
   ((( &( "n" ) )) # Int |-> (n))
   ** ((( &( "p" ) )) # Ptr |-> (p))
   ** ((&((p # "list")  ->ₛ "data")) # Int |-> (pdata))
@@ -116,7 +116,7 @@ noncomputable def length_safety_wit_2_split_goal_2 : Prop :=
 
 noncomputable def length_entail_wit_1 : Prop :=
   (
-forall (p_pre : Int) (l : (List Int)) (PreH1 : ((Zlength (l)) <= INT_MAX)) ,
+forall (l : (List Int)) (p_pre : Int) (PreH1 : ((Zlength (l)) <= INT_MAX)) ,
   (sll p_pre l)
 |--
   EX l1 : (List Int), EX l2 : (List Int),
@@ -144,7 +144,7 @@ noncomputable def length_entail_wit_1_split_goal_2 : Prop :=
   (l = ((@List.nil Int) ++ l))
 
 noncomputable def length_entail_wit_2 : Prop :=
-  forall (p_pre : Int) (l : (List Int)) (p : Int) (n : Int) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : (l = (l1_2 ++ l2_2))) (PreH2 : ((Zlength (l)) <= INT_MAX)) (PreH3 : (n = (Zlength (l1_2)))) (PreH4 : (p ≠ (0 : Int))) ,
+  forall (l : (List Int)) (p_pre : Int) (p : Int) (n : Int) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : (l = (l1_2 ++ l2_2))) (PreH2 : ((Zlength (l)) <= INT_MAX)) (PreH3 : (n = (Zlength (l1_2)))) (PreH4 : (p ≠ (0 : Int))) ,
   (sllseg p_pre p l1_2)
   ** (sll p l2_2)
 |--
@@ -161,7 +161,7 @@ noncomputable def length_entail_wit_2 : Prop :=
 
 noncomputable def length_entail_wit_3 : Prop :=
   (
-forall (p_pre : Int) (l : (List Int)) (l1_2 : (List Int)) (l2_2 : (List Int)) (l3 : (List Int)) (pnext : Int) (pdata : Int) (n : Int) (p : Int) (PreH1 : (l = (l1_2 ++ l2_2))) (PreH2 : (n = (Zlength (l1_2)))) (PreH3 : (p ≠ (0 : Int))) (PreH4 : (l2_2 = (pdata :: l3))) (PreH5 : ((Zlength (l)) <= INT_MAX)) ,
+forall (l : (List Int)) (p_pre : Int) (l1_2 : (List Int)) (l2_2 : (List Int)) (l3 : (List Int)) (pnext : Int) (pdata : Int) (n : Int) (p : Int) (PreH1 : (l = (l1_2 ++ l2_2))) (PreH2 : (n = (Zlength (l1_2)))) (PreH3 : (p ≠ (0 : Int))) (PreH4 : (l2_2 = (pdata :: l3))) (PreH5 : ((Zlength (l)) <= INT_MAX)) ,
   ((&((p # "list")  ->ₛ "data")) # Int |-> (pdata))
   ** ((&((p # "list")  ->ₛ "next")) # Ptr |-> (pnext))
   ** (sllseg p_pre p l1_2)
@@ -175,7 +175,7 @@ forall (p_pre : Int) (l : (List Int)) (l1_2 : (List Int)) (l2_2 : (List Int)) (l
   ** (sll pnext l2)
 ) \/
 (
-forall (p_pre : Int) (l : (List Int)) (l1_2 : (List Int)) (l2_2 : (List Int)) (l3 : (List Int)) (pnext : Int) (pdata : Int) (n : Int) (p : Int) (PreH1 : (pdata <= INT_MAX)) (PreH2 : (pdata >= INT_MIN)) (PreH3 : (l = (l1_2 ++ l2_2))) (PreH4 : (n = (Zlength (l1_2)))) (PreH5 : (p ≠ (0 : Int))) (PreH6 : (l2_2 = (pdata :: l3))) (PreH7 : ((Zlength (l)) <= INT_MAX)) ,
+forall (l : (List Int)) (p_pre : Int) (l1_2 : (List Int)) (l2_2 : (List Int)) (l3 : (List Int)) (pnext : Int) (pdata : Int) (n : Int) (p : Int) (PreH1 : (pdata <= INT_MAX)) (PreH2 : (pdata >= INT_MIN)) (PreH3 : (l = (l1_2 ++ l2_2))) (PreH4 : (n = (Zlength (l1_2)))) (PreH5 : (p ≠ (0 : Int))) (PreH6 : (l2_2 = (pdata :: l3))) (PreH7 : ((Zlength (l)) <= INT_MAX)) ,
   ((&((p # "list")  ->ₛ "data")) # Int |-> (pdata))
   ** ((&((p # "list")  ->ₛ "next")) # Ptr |-> (pnext))
   ** (sllseg p_pre p l1_2)
@@ -189,7 +189,7 @@ forall (p_pre : Int) (l : (List Int)) (l1_2 : (List Int)) (l2_2 : (List Int)) (l
 
 noncomputable def length_return_wit_1 : Prop :=
   (
-forall (p_pre : Int) (l : (List Int)) (p : Int) (n : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (l = (l1 ++ l2))) (PreH2 : ((Zlength (l)) <= INT_MAX)) (PreH3 : (n = (Zlength (l1)))) (PreH4 : (p = (0 : Int))) ,
+forall (l : (List Int)) (p_pre : Int) (p : Int) (n : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (l = (l1 ++ l2))) (PreH2 : ((Zlength (l)) <= INT_MAX)) (PreH3 : (n = (Zlength (l1)))) (PreH4 : (p = (0 : Int))) ,
   (sllseg p_pre p l1)
   ** (sll p l2)
 |--
@@ -197,7 +197,7 @@ forall (p_pre : Int) (l : (List Int)) (p : Int) (n : Int) (l1 : (List Int)) (l2 
   &&  (sll p_pre l)
 ) \/
 (
-forall (p_pre : Int) (l : (List Int)) (p : Int) (n : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (l = (l1 ++ l2))) (PreH2 : ((Zlength (l)) <= INT_MAX)) (PreH3 : (n = (Zlength (l1)))) (PreH4 : (p = (0 : Int))) ,
+forall (l : (List Int)) (p_pre : Int) (p : Int) (n : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (l = (l1 ++ l2))) (PreH2 : ((Zlength (l)) <= INT_MAX)) (PreH3 : (n = (Zlength (l1)))) (PreH4 : (p = (0 : Int))) ,
   (sllseg p_pre p l1)
   ** (sll p l2)
 |--
@@ -206,21 +206,21 @@ forall (p_pre : Int) (l : (List Int)) (p : Int) (n : Int) (l1 : (List Int)) (l2 
 )
 
 noncomputable def length_return_wit_1_split_goal_1 : Prop :=
-  forall (p_pre : Int) (l : (List Int)) (p : Int) (n : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (l = (l1 ++ l2))) (PreH2 : ((Zlength (l)) <= INT_MAX)) (PreH3 : (n = (Zlength (l1)))) (PreH4 : (p = (0 : Int))) ,
+  forall (l : (List Int)) (p_pre : Int) (p : Int) (n : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (l = (l1 ++ l2))) (PreH2 : ((Zlength (l)) <= INT_MAX)) (PreH3 : (n = (Zlength (l1)))) (PreH4 : (p = (0 : Int))) ,
   (sllseg p_pre p l1)
   ** (sll p l2)
 |--
   “ (n = (Zlength (l))) ”
 
 noncomputable def length_return_wit_1_split_goal_spatial : Prop :=
-  forall (p_pre : Int) (l : (List Int)) (p : Int) (n : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (l = (l1 ++ l2))) (PreH2 : ((Zlength (l)) <= INT_MAX)) (PreH3 : (n = (Zlength (l1)))) (PreH4 : (p = (0 : Int))) ,
+  forall (l : (List Int)) (p_pre : Int) (p : Int) (n : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (l = (l1 ++ l2))) (PreH2 : ((Zlength (l)) <= INT_MAX)) (PreH3 : (n = (Zlength (l1)))) (PreH4 : (p = (0 : Int))) ,
   (sllseg p_pre p l1)
   ** (sll p l2)
 |--
   (sll p_pre l)
 
 noncomputable def reverse_safety_wit_1 : Prop :=
-  forall (p_pre : Int) (l : (List Int)) ,
+  forall (l : (List Int)) (p_pre : Int) ,
   ((( &( "w" ) )) # Ptr |->_)
   ** ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** (sll p_pre l)
@@ -230,7 +230,7 @@ noncomputable def reverse_safety_wit_1 : Prop :=
 
 noncomputable def reverse_entail_wit_1 : Prop :=
   (
-forall (p_pre : Int) (l : (List Int)) ,
+forall (l : (List Int)) (p_pre : Int) ,
   (sll p_pre l)
 |--
   EX l1 : (List Int), EX l2 : (List Int),
@@ -318,7 +318,7 @@ noncomputable def reverse_return_wit_1_split_goal_spatial : Prop :=
   TT && emp 
 
 noncomputable def reverse_alter_style1_safety_wit_1 : Prop :=
-  forall (p_pre : Int) (l : (List Int)) ,
+  forall (l : (List Int)) (p_pre : Int) ,
   ((( &( "w" ) )) # Ptr |->_)
   ** ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** (sll p_pre l)
@@ -328,7 +328,7 @@ noncomputable def reverse_alter_style1_safety_wit_1 : Prop :=
 
 noncomputable def reverse_alter_style1_entail_wit_1 : Prop :=
   (
-forall (p_pre : Int) (l : (List Int)) ,
+forall (l : (List Int)) (p_pre : Int) ,
   (sll p_pre l)
 |--
   EX l1 : (List Int), EX l2 : (List Int),
@@ -416,7 +416,7 @@ noncomputable def reverse_alter_style1_return_wit_1_split_goal_spatial : Prop :=
   TT && emp 
 
 noncomputable def reverse_alter_style2_safety_wit_1 : Prop :=
-  forall (p_pre : Int) (l : (List Int)) ,
+  forall (l : (List Int)) (p_pre : Int) ,
   ((( &( "w" ) )) # Ptr |->_)
   ** ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** (sll p_pre l)
@@ -426,7 +426,7 @@ noncomputable def reverse_alter_style2_safety_wit_1 : Prop :=
 
 noncomputable def reverse_alter_style2_entail_wit_1 : Prop :=
   (
-forall (p_pre : Int) (l : (List Int)) ,
+forall (l : (List Int)) (p_pre : Int) ,
   (sll p_pre l)
 |--
   EX l1 : (List Int), EX l2 : (List Int),
@@ -514,7 +514,7 @@ noncomputable def reverse_alter_style2_return_wit_1_split_goal_spatial : Prop :=
   TT && emp 
 
 noncomputable def reverse_alter_style3_safety_wit_1 : Prop :=
-  forall (p_pre : Int) (l : (List Int)) ,
+  forall (l : (List Int)) (p_pre : Int) ,
   ((( &( "v" ) )) # Ptr |->_)
   ** ((( &( "w" ) )) # Ptr |->_)
   ** ((( &( "p" ) )) # Ptr |-> (p_pre))
@@ -524,7 +524,7 @@ noncomputable def reverse_alter_style3_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def reverse_alter_style3_entail_wit_1 : Prop :=
-  forall (p_pre : Int) (l : (List Int)) ,
+  forall (l : (List Int)) (p_pre : Int) ,
   (sll p_pre l)
 |--
   “ ((0 : Int) = (0 : Int)) ” &&
@@ -534,7 +534,7 @@ noncomputable def reverse_alter_style3_entail_wit_1 : Prop :=
 
 noncomputable def reverse_alter_style3_entail_wit_2 : Prop :=
   (
-forall (p_pre : Int) (l : (List Int)) (w : Int) (v : Int) (PreH1 : (w = (0 : Int))) (PreH2 : (v = p_pre)) ,
+forall (l : (List Int)) (p_pre : Int) (w : Int) (v : Int) (PreH1 : (w = (0 : Int))) (PreH2 : (v = p_pre)) ,
   (sll w (@List.nil Int))
   ** (sll v l)
 |--
@@ -544,7 +544,7 @@ forall (p_pre : Int) (l : (List Int)) (w : Int) (v : Int) (PreH1 : (w = (0 : Int
   ** (sll v l2)
 ) \/
 (
-forall (p_pre : Int) (l : (List Int)) (w : Int) (v : Int) (PreH1 : (w = (0 : Int))) (PreH2 : (w = (0 : Int))) (PreH3 : (v = p_pre)) ,
+forall (l : (List Int)) (p_pre : Int) (w : Int) (v : Int) (PreH1 : (w = (0 : Int))) (PreH2 : (w = (0 : Int))) (PreH3 : (v = p_pre)) ,
   TT && emp 
 |--
   “ (l = (((@List.nil Int)).reverse ++ l)) ”
@@ -552,7 +552,7 @@ forall (p_pre : Int) (l : (List Int)) (w : Int) (v : Int) (PreH1 : (w = (0 : Int
 )
 
 noncomputable def reverse_alter_style3_entail_wit_2_split_goal_1 : Prop :=
-  forall (p_pre : Int) (l : (List Int)) (w : Int) (v : Int) (PreH1 : (w = (0 : Int))) (PreH2 : (w = (0 : Int))) (PreH3 : (v = p_pre)) ,
+  forall (l : (List Int)) (p_pre : Int) (w : Int) (v : Int) (PreH1 : (w = (0 : Int))) (PreH2 : (w = (0 : Int))) (PreH3 : (v = p_pre)) ,
   (l = (((@List.nil Int)).reverse ++ l))
 
 noncomputable def reverse_alter_style3_entail_wit_3 : Prop :=
@@ -623,7 +623,7 @@ noncomputable def reverse_alter_style3_return_wit_1_split_goal_spatial : Prop :=
   TT && emp 
 
 noncomputable def append_safety_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) ,
+  forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) ,
   ((( &( "u" ) )) # Ptr |->_)
   ** ((( &( "t" ) )) # Ptr |->_)
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -635,7 +635,7 @@ noncomputable def append_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def append_safety_wit_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (u : Int) (t_next : Int) (l1a : (List Int)) (t_data : Int) (t : Int) (l1b : (List Int)) (PreH1 : ((l1a ++ (t_data :: l1b)) = l1)) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (t ≠ (0 : Int))) (PreH4 : (t_next = u)) ,
+  forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (u : Int) (t_next : Int) (l1a : (List Int)) (t_data : Int) (t : Int) (l1b : (List Int)) (PreH1 : ((l1a ++ (t_data :: l1b)) = l1)) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (t ≠ (0 : Int))) (PreH4 : (t_next = u)) ,
   ((( &( "t" ) )) # Ptr |-> (t))
   ** ((&((t # "list")  ->ₛ "data")) # Int |-> (t_data))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -650,7 +650,7 @@ noncomputable def append_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def append_entail_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (PreH1 : (x_pre ≠ (0 : Int))) ,
+  forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
   (sll x_pre l1)
   ** (sll y_pre l2)
 |--
@@ -664,7 +664,7 @@ noncomputable def append_entail_wit_1 : Prop :=
 
 noncomputable def append_entail_wit_2 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (a : Int) (l1n : (List Int)) (xn : Int) (PreH1 : (x_pre ≠ (0 : Int))) (PreH2 : (l1 = (a :: l1n))) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (a : Int) (l1n : (List Int)) (xn : Int) (PreH1 : (x_pre ≠ (0 : Int))) (PreH2 : (l1 = (a :: l1n))) ,
   ((&((x_pre # "list")  ->ₛ "data")) # Int |-> (a))
   ** ((&((x_pre # "list")  ->ₛ "next")) # Ptr |-> (xn))
   ** (sll xn l1n)
@@ -682,7 +682,7 @@ forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (a : Int)
   ** (sll y_pre l2)
 ) \/
 (
-forall (x_pre : Int) (l1 : (List Int)) (a : Int) (l1n : (List Int)) (PreH1 : (x_pre ≠ (0 : Int))) (PreH2 : (l1 = (a :: l1n))) ,
+forall (l1 : (List Int)) (x_pre : Int) (a : Int) (l1n : (List Int)) (PreH1 : (x_pre ≠ (0 : Int))) (PreH2 : (l1 = (a :: l1n))) ,
   TT && emp 
 |--
   “ (((@List.nil Int) ++ l1) = l1) ”
@@ -690,11 +690,11 @@ forall (x_pre : Int) (l1 : (List Int)) (a : Int) (l1n : (List Int)) (PreH1 : (x_
 )
 
 noncomputable def append_entail_wit_2_split_goal_1 : Prop :=
-  forall (x_pre : Int) (l1 : (List Int)) (a : Int) (l1n : (List Int)) (PreH1 : (x_pre ≠ (0 : Int))) (PreH2 : (l1 = (a :: l1n))) ,
+  forall (l1 : (List Int)) (x_pre : Int) (a : Int) (l1n : (List Int)) (PreH1 : (x_pre ≠ (0 : Int))) (PreH2 : (l1 = (a :: l1n))) ,
   (((@List.nil Int) ++ l1) = l1)
 
 noncomputable def append_entail_wit_3 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (u : Int) (t_next_2 : Int) (l1a_2 : (List Int)) (t_data_2 : Int) (t : Int) (l1b_2 : (List Int)) (PreH1 : (u ≠ (0 : Int))) (PreH2 : ((l1a_2 ++ (t_data_2 :: l1b_2)) = l1)) (PreH3 : (x_pre ≠ (0 : Int))) (PreH4 : (t ≠ (0 : Int))) (PreH5 : (t_next_2 = u)) ,
+  forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (u : Int) (t_next_2 : Int) (l1a_2 : (List Int)) (t_data_2 : Int) (t : Int) (l1b_2 : (List Int)) (PreH1 : (u ≠ (0 : Int))) (PreH2 : ((l1a_2 ++ (t_data_2 :: l1b_2)) = l1)) (PreH3 : (x_pre ≠ (0 : Int))) (PreH4 : (t ≠ (0 : Int))) (PreH5 : (t_next_2 = u)) ,
   ((&((t # "list")  ->ₛ "data")) # Int |-> (t_data_2))
   ** ((&((t # "list")  ->ₛ "next")) # Ptr |-> (t_next_2))
   ** (sllseg x_pre t l1a_2)
@@ -718,7 +718,7 @@ noncomputable def append_entail_wit_3 : Prop :=
 
 noncomputable def append_entail_wit_4 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (l1a_2 : (List Int)) (l1b_2 : (List Int)) (l1b_new : (List Int)) (udata : Int) (unext : Int) (t : Int) (t_data_2 : Int) (t_next_2 : Int) (u : Int) (PreH1 : ((l1a_2 ++ (t_data_2 :: l1b_2)) = l1)) (PreH2 : (t ≠ (0 : Int))) (PreH3 : (t_next_2 = u)) (PreH4 : (u ≠ (0 : Int))) (PreH5 : (x_pre ≠ (0 : Int))) (PreH6 : (l1b_2 = (udata :: l1b_new))) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (l1a_2 : (List Int)) (l1b_2 : (List Int)) (l1b_new : (List Int)) (udata : Int) (unext : Int) (t : Int) (t_data_2 : Int) (t_next_2 : Int) (u : Int) (PreH1 : ((l1a_2 ++ (t_data_2 :: l1b_2)) = l1)) (PreH2 : (t ≠ (0 : Int))) (PreH3 : (t_next_2 = u)) (PreH4 : (u ≠ (0 : Int))) (PreH5 : (x_pre ≠ (0 : Int))) (PreH6 : (l1b_2 = (udata :: l1b_new))) ,
   ((&((t # "list")  ->ₛ "data")) # Int |-> (t_data_2))
   ** ((&((t # "list")  ->ₛ "next")) # Ptr |-> (t_next_2))
   ** (sllseg x_pre t l1a_2)
@@ -739,7 +739,7 @@ forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (l1a_2 : 
   ** (sll y_pre l2)
 ) \/
 (
-forall (x_pre : Int) (l1 : (List Int)) (l1a_2 : (List Int)) (l1b_2 : (List Int)) (l1b_new : (List Int)) (udata : Int) (t : Int) (t_data_2 : Int) (t_next_2 : Int) (u : Int) (PreH1 : (t_data_2 <= INT_MAX)) (PreH2 : (t_data_2 >= INT_MIN)) (PreH3 : ((l1a_2 ++ (t_data_2 :: l1b_2)) = l1)) (PreH4 : (t ≠ (0 : Int))) (PreH5 : (t_next_2 = u)) (PreH6 : (u ≠ (0 : Int))) (PreH7 : (x_pre ≠ (0 : Int))) (PreH8 : (l1b_2 = (udata :: l1b_new))) ,
+forall (l1 : (List Int)) (x_pre : Int) (l1a_2 : (List Int)) (l1b_2 : (List Int)) (l1b_new : (List Int)) (udata : Int) (t : Int) (t_data_2 : Int) (t_next_2 : Int) (u : Int) (PreH1 : (t_data_2 <= INT_MAX)) (PreH2 : (t_data_2 >= INT_MIN)) (PreH3 : ((l1a_2 ++ (t_data_2 :: l1b_2)) = l1)) (PreH4 : (t ≠ (0 : Int))) (PreH5 : (t_next_2 = u)) (PreH6 : (u ≠ (0 : Int))) (PreH7 : (x_pre ≠ (0 : Int))) (PreH8 : (l1b_2 = (udata :: l1b_new))) ,
   ((&((t # "list")  ->ₛ "data")) # Int |-> (t_data_2))
   ** ((&((t # "list")  ->ₛ "next")) # Ptr |-> (t_next_2))
   ** (sllseg x_pre t l1a_2)
@@ -753,7 +753,7 @@ forall (x_pre : Int) (l1 : (List Int)) (l1a_2 : (List Int)) (l1b_2 : (List Int))
 
 noncomputable def append_return_wit_1 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (u : Int) (t_next : Int) (l1a : (List Int)) (t_data : Int) (t : Int) (l1b : (List Int)) (PreH1 : (u = (0 : Int))) (PreH2 : ((l1a ++ (t_data :: l1b)) = l1)) (PreH3 : (x_pre ≠ (0 : Int))) (PreH4 : (t ≠ (0 : Int))) (PreH5 : (t_next = u)) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (u : Int) (t_next : Int) (l1a : (List Int)) (t_data : Int) (t : Int) (l1b : (List Int)) (PreH1 : (u = (0 : Int))) (PreH2 : ((l1a ++ (t_data :: l1b)) = l1)) (PreH3 : (x_pre ≠ (0 : Int))) (PreH4 : (t ≠ (0 : Int))) (PreH5 : (t_next = u)) ,
   ((&((t # "list")  ->ₛ "data")) # Int |-> (t_data))
   ** ((&((t # "list")  ->ₛ "next")) # Ptr |-> (y_pre))
   ** (sllseg x_pre t l1a)
@@ -763,7 +763,7 @@ forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (u : Int)
   (sll x_pre (l1 ++ l2))
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (u : Int) (t_next : Int) (l1a : (List Int)) (t_data : Int) (t : Int) (l1b : (List Int)) (PreH1 : (t_data <= INT_MAX)) (PreH2 : (t_data >= INT_MIN)) (PreH3 : (u = (0 : Int))) (PreH4 : ((l1a ++ (t_data :: l1b)) = l1)) (PreH5 : (x_pre ≠ (0 : Int))) (PreH6 : (t ≠ (0 : Int))) (PreH7 : (t_next = u)) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (u : Int) (t_next : Int) (l1a : (List Int)) (t_data : Int) (t : Int) (l1b : (List Int)) (PreH1 : (t_data <= INT_MAX)) (PreH2 : (t_data >= INT_MIN)) (PreH3 : (u = (0 : Int))) (PreH4 : ((l1a ++ (t_data :: l1b)) = l1)) (PreH5 : (x_pre ≠ (0 : Int))) (PreH6 : (t ≠ (0 : Int))) (PreH7 : (t_next = u)) ,
   ((&((t # "list")  ->ₛ "data")) # Int |-> (t_data))
   ** ((&((t # "list")  ->ₛ "next")) # Ptr |-> (y_pre))
   ** (sllseg x_pre t l1a)
@@ -780,14 +780,14 @@ forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (u : Int)
 
 noncomputable def append_return_wit_2 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (PreH1 : (x_pre = (0 : Int))) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
   (sll x_pre l1)
   ** (sll y_pre l2)
 |--
   (sll y_pre (l1 ++ l2))
 ) \/
 (
-forall (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (PreH1 : (x_pre = (0 : Int))) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
   (sll x_pre l1)
 |--
   “ (l2 = (l1 ++ l2)) ”
@@ -795,19 +795,19 @@ forall (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (PreH1 : (x_pre = (0 : 
 )
 
 noncomputable def append_return_wit_2_split_goal_1 : Prop :=
-  forall (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (PreH1 : (x_pre = (0 : Int))) ,
+  forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
   (sll x_pre l1)
 |--
   “ (l2 = (l1 ++ l2)) ”
 
 noncomputable def append_return_wit_2_split_goal_spatial : Prop :=
-  forall (x_pre : Int) (l1 : (List Int)) (PreH1 : (x_pre = (0 : Int))) ,
+  forall (l1 : (List Int)) (x_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
   (sll x_pre l1)
 |--
   TT && emp 
 
 noncomputable def append_long_safety_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) ,
+  forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) ,
   ((( &( "u" ) )) # Ptr |->_)
   ** ((( &( "t" ) )) # Ptr |->_)
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -819,7 +819,7 @@ noncomputable def append_long_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def append_long_safety_wit_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (x_pre ≠ (0 : Int))) (PreH2 : (l1 = (a :: l1b))) ,
+  forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (x_pre ≠ (0 : Int))) (PreH2 : (l1 = (a :: l1b))) ,
   ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
   ** ((( &( "t" ) )) # Ptr |->_)
@@ -833,7 +833,7 @@ noncomputable def append_long_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def append_long_safety_wit_3 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (u : Int) (t_next : Int) (t : Int) (l1a : (List Int)) (b : Int) (l1c : (List Int)) (PreH1 : ((l1a ++ (b :: l1c)) = l1)) (PreH2 : (t_next = u)) (PreH3 : (t ≠ (0 : Int))) (PreH4 : (x_pre ≠ (0 : Int))) ,
+  forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (u : Int) (t_next : Int) (t : Int) (l1a : (List Int)) (b : Int) (l1c : (List Int)) (PreH1 : ((l1a ++ (b :: l1c)) = l1)) (PreH2 : (t_next = u)) (PreH3 : (t ≠ (0 : Int))) (PreH4 : (x_pre ≠ (0 : Int))) ,
   ((( &( "t" ) )) # Ptr |-> (t))
   ** ((&((t # "list")  ->ₛ "data")) # Int |-> (b))
   ** ((&((t # "list")  ->ₛ "next")) # Ptr |-> (t_next))
@@ -848,7 +848,7 @@ noncomputable def append_long_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def append_long_entail_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (PreH1 : (x_pre ≠ (0 : Int))) ,
+  forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre ≠ (0 : Int))) ,
   (sll x_pre l1)
   ** (sll y_pre l2)
 |--
@@ -862,7 +862,7 @@ noncomputable def append_long_entail_wit_1 : Prop :=
 
 noncomputable def append_long_entail_wit_2 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (xn ≠ (0 : Int))) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (l1 = (a :: l1b))) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (xn ≠ (0 : Int))) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (l1 = (a :: l1b))) ,
   ((&((x_pre # "list")  ->ₛ "data")) # Int |-> (a))
   ** ((&((x_pre # "list")  ->ₛ "next")) # Ptr |-> (xn))
   ** (sll xn l1b)
@@ -880,7 +880,7 @@ forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (a : Int)
   ** (sll y_pre l2)
 ) \/
 (
-forall (x_pre : Int) (l1 : (List Int)) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (xn ≠ (0 : Int))) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (l1 = (a :: l1b))) ,
+forall (l1 : (List Int)) (x_pre : Int) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (xn ≠ (0 : Int))) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (l1 = (a :: l1b))) ,
   TT && emp 
 |--
   “ (((@List.nil Int) ++ l1) = l1) ”
@@ -888,11 +888,11 @@ forall (x_pre : Int) (l1 : (List Int)) (a : Int) (l1b : (List Int)) (xn : Int) (
 )
 
 noncomputable def append_long_entail_wit_2_split_goal_1 : Prop :=
-  forall (x_pre : Int) (l1 : (List Int)) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (xn ≠ (0 : Int))) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (l1 = (a :: l1b))) ,
+  forall (l1 : (List Int)) (x_pre : Int) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (xn ≠ (0 : Int))) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (l1 = (a :: l1b))) ,
   (((@List.nil Int) ++ l1) = l1)
 
 noncomputable def append_long_entail_wit_3 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (u : Int) (t_next_2 : Int) (t : Int) (l1a_2 : (List Int)) (b_2 : Int) (l1c_2 : (List Int)) (PreH1 : (u ≠ (0 : Int))) (PreH2 : ((l1a_2 ++ (b_2 :: l1c_2)) = l1)) (PreH3 : (t_next_2 = u)) (PreH4 : (t ≠ (0 : Int))) (PreH5 : (x_pre ≠ (0 : Int))) ,
+  forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (u : Int) (t_next_2 : Int) (t : Int) (l1a_2 : (List Int)) (b_2 : Int) (l1c_2 : (List Int)) (PreH1 : (u ≠ (0 : Int))) (PreH2 : ((l1a_2 ++ (b_2 :: l1c_2)) = l1)) (PreH3 : (t_next_2 = u)) (PreH4 : (t ≠ (0 : Int))) (PreH5 : (x_pre ≠ (0 : Int))) ,
   ((&((t # "list")  ->ₛ "data")) # Int |-> (b_2))
   ** ((&((t # "list")  ->ₛ "next")) # Ptr |-> (t_next_2))
   ** (sllseg x_pre t l1a_2)
@@ -916,7 +916,7 @@ noncomputable def append_long_entail_wit_3 : Prop :=
 
 noncomputable def append_long_entail_wit_4 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (l1a_2 : (List Int)) (b_2 : Int) (l1c_2 : (List Int)) (l1d : (List Int)) (c : Int) (un : Int) (t : Int) (t_next_2 : Int) (u : Int) (PreH1 : ((l1a_2 ++ (b_2 :: l1c_2)) = l1)) (PreH2 : (t_next_2 = u)) (PreH3 : (t ≠ (0 : Int))) (PreH4 : (x_pre ≠ (0 : Int))) (PreH5 : (u ≠ (0 : Int))) (PreH6 : (l1c_2 = (c :: l1d))) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (l1a_2 : (List Int)) (b_2 : Int) (l1c_2 : (List Int)) (l1d : (List Int)) (c : Int) (un : Int) (t : Int) (t_next_2 : Int) (u : Int) (PreH1 : ((l1a_2 ++ (b_2 :: l1c_2)) = l1)) (PreH2 : (t_next_2 = u)) (PreH3 : (t ≠ (0 : Int))) (PreH4 : (x_pre ≠ (0 : Int))) (PreH5 : (u ≠ (0 : Int))) (PreH6 : (l1c_2 = (c :: l1d))) ,
   ((&((t # "list")  ->ₛ "data")) # Int |-> (b_2))
   ** ((&((t # "list")  ->ₛ "next")) # Ptr |-> (t_next_2))
   ** ((&((u # "list")  ->ₛ "data")) # Int |-> (c))
@@ -937,7 +937,7 @@ forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (l1a_2 : 
   ** (sll y_pre l2)
 ) \/
 (
-forall (x_pre : Int) (l1 : (List Int)) (l1a_2 : (List Int)) (b_2 : Int) (l1c_2 : (List Int)) (l1d : (List Int)) (c : Int) (t : Int) (t_next_2 : Int) (u : Int) (PreH1 : (b_2 <= INT_MAX)) (PreH2 : (b_2 >= INT_MIN)) (PreH3 : ((l1a_2 ++ (b_2 :: l1c_2)) = l1)) (PreH4 : (t_next_2 = u)) (PreH5 : (t ≠ (0 : Int))) (PreH6 : (x_pre ≠ (0 : Int))) (PreH7 : (u ≠ (0 : Int))) (PreH8 : (l1c_2 = (c :: l1d))) ,
+forall (l1 : (List Int)) (x_pre : Int) (l1a_2 : (List Int)) (b_2 : Int) (l1c_2 : (List Int)) (l1d : (List Int)) (c : Int) (t : Int) (t_next_2 : Int) (u : Int) (PreH1 : (b_2 <= INT_MAX)) (PreH2 : (b_2 >= INT_MIN)) (PreH3 : ((l1a_2 ++ (b_2 :: l1c_2)) = l1)) (PreH4 : (t_next_2 = u)) (PreH5 : (t ≠ (0 : Int))) (PreH6 : (x_pre ≠ (0 : Int))) (PreH7 : (u ≠ (0 : Int))) (PreH8 : (l1c_2 = (c :: l1d))) ,
   ((&((t # "list")  ->ₛ "data")) # Int |-> (b_2))
   ** ((&((t # "list")  ->ₛ "next")) # Ptr |-> (t_next_2))
   ** (sllseg x_pre t l1a_2)
@@ -951,7 +951,7 @@ forall (x_pre : Int) (l1 : (List Int)) (l1a_2 : (List Int)) (b_2 : Int) (l1c_2 :
 
 noncomputable def append_long_return_wit_1 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (u : Int) (t_next : Int) (t : Int) (l1a : (List Int)) (b : Int) (l1c : (List Int)) (PreH1 : (u = (0 : Int))) (PreH2 : ((l1a ++ (b :: l1c)) = l1)) (PreH3 : (t_next = u)) (PreH4 : (t ≠ (0 : Int))) (PreH5 : (x_pre ≠ (0 : Int))) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (u : Int) (t_next : Int) (t : Int) (l1a : (List Int)) (b : Int) (l1c : (List Int)) (PreH1 : (u = (0 : Int))) (PreH2 : ((l1a ++ (b :: l1c)) = l1)) (PreH3 : (t_next = u)) (PreH4 : (t ≠ (0 : Int))) (PreH5 : (x_pre ≠ (0 : Int))) ,
   ((&((t # "list")  ->ₛ "data")) # Int |-> (b))
   ** ((&((t # "list")  ->ₛ "next")) # Ptr |-> (y_pre))
   ** (sllseg x_pre t l1a)
@@ -961,7 +961,7 @@ forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (u : Int)
   (sll x_pre (l1 ++ l2))
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (u : Int) (t_next : Int) (t : Int) (l1a : (List Int)) (b : Int) (l1c : (List Int)) (PreH1 : (b <= INT_MAX)) (PreH2 : (b >= INT_MIN)) (PreH3 : (u = (0 : Int))) (PreH4 : ((l1a ++ (b :: l1c)) = l1)) (PreH5 : (t_next = u)) (PreH6 : (t ≠ (0 : Int))) (PreH7 : (x_pre ≠ (0 : Int))) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (u : Int) (t_next : Int) (t : Int) (l1a : (List Int)) (b : Int) (l1c : (List Int)) (PreH1 : (b <= INT_MAX)) (PreH2 : (b >= INT_MIN)) (PreH3 : (u = (0 : Int))) (PreH4 : ((l1a ++ (b :: l1c)) = l1)) (PreH5 : (t_next = u)) (PreH6 : (t ≠ (0 : Int))) (PreH7 : (x_pre ≠ (0 : Int))) ,
   ((&((t # "list")  ->ₛ "data")) # Int |-> (b))
   ** ((&((t # "list")  ->ₛ "next")) # Ptr |-> (y_pre))
   ** (sllseg x_pre t l1a)
@@ -978,7 +978,7 @@ forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (u : Int)
 
 noncomputable def append_long_return_wit_2 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (xn = (0 : Int))) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (l1 = (a :: l1b))) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (xn = (0 : Int))) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (l1 = (a :: l1b))) ,
   ((&((x_pre # "list")  ->ₛ "data")) # Int |-> (a))
   ** ((&((x_pre # "list")  ->ₛ "next")) # Ptr |-> (y_pre))
   ** (sll xn l1b)
@@ -987,7 +987,7 @@ forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (a : Int)
   (sll x_pre (l1 ++ l2))
 ) \/
 (
-forall (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (xn = (0 : Int))) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (l1 = (a :: l1b))) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (xn = (0 : Int))) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (l1 = (a :: l1b))) ,
   (sll xn l1b)
 |--
   “ ((l1 ++ l2) = (a :: l2)) ”
@@ -995,27 +995,27 @@ forall (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (a : Int) (l1b : (List 
 )
 
 noncomputable def append_long_return_wit_2_split_goal_1 : Prop :=
-  forall (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (xn = (0 : Int))) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (l1 = (a :: l1b))) ,
+  forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (xn = (0 : Int))) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (l1 = (a :: l1b))) ,
   (sll xn l1b)
 |--
   “ ((l1 ++ l2) = (a :: l2)) ”
 
 noncomputable def append_long_return_wit_2_split_goal_spatial : Prop :=
-  forall (x_pre : Int) (l1 : (List Int)) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (xn = (0 : Int))) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (l1 = (a :: l1b))) ,
+  forall (l1 : (List Int)) (x_pre : Int) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (xn = (0 : Int))) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (l1 = (a :: l1b))) ,
   (sll xn l1b)
 |--
   TT && emp 
 
 noncomputable def append_long_return_wit_3 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (PreH1 : (x_pre = (0 : Int))) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
   (sll x_pre l1)
   ** (sll y_pre l2)
 |--
   (sll y_pre (l1 ++ l2))
 ) \/
 (
-forall (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (PreH1 : (x_pre = (0 : Int))) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
   (sll x_pre l1)
 |--
   “ (l2 = (l1 ++ l2)) ”
@@ -1023,20 +1023,20 @@ forall (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (PreH1 : (x_pre = (0 : 
 )
 
 noncomputable def append_long_return_wit_3_split_goal_1 : Prop :=
-  forall (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (PreH1 : (x_pre = (0 : Int))) ,
+  forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
   (sll x_pre l1)
 |--
   “ (l2 = (l1 ++ l2)) ”
 
 noncomputable def append_long_return_wit_3_split_goal_spatial : Prop :=
-  forall (x_pre : Int) (l1 : (List Int)) (PreH1 : (x_pre = (0 : Int))) ,
+  forall (l1 : (List Int)) (x_pre : Int) (PreH1 : (x_pre = (0 : Int))) ,
   (sll x_pre l1)
 |--
   TT && emp 
 
 noncomputable def append_2p_entail_wit_1 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (x_pre : Int) (y_pre : Int) ,
   (sll x_pre l1)
   ** (sll y_pre l2)
 |--
@@ -1057,7 +1057,7 @@ forall (l1 : (List Int)) ,
 
 noncomputable def append_2p_entail_wit_2 : Prop :=
   (
-forall (y_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (ptvv_2 : Int) (ptv : Int) (l1a_2 : (List Int)) (l1b_2 : (List Int)) (PreH1 : ((l1a_2 ++ l1b_2) = l1)) (PreH2 : (ptvv_2 ≠ (0 : Int))) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (y_pre : Int) (ptvv_2 : Int) (ptv : Int) (l1a_2 : (List Int)) (l1b_2 : (List Int)) (PreH1 : ((l1a_2 ++ l1b_2) = l1)) (PreH2 : (ptvv_2 ≠ (0 : Int))) ,
   ((ptv) # Ptr |-> (ptvv_2))
   ** (sllbseg ( &( "x" ) ) ptv l1a_2)
   ** (sll ptvv_2 l1b_2)
@@ -1083,7 +1083,7 @@ forall (l1 : (List Int)) (ptvv_2 : Int) (ptv : Int) (l1a_2 : (List Int)) (l1b_2 
 
 noncomputable def append_2p_entail_wit_3 : Prop :=
   (
-forall (y_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (ptvv : Int) (ptv : Int) (l1a : (List Int)) (l1b : (List Int)) (PreH1 : ((l1a ++ l1b) = l1)) (PreH2 : (ptvv = (0 : Int))) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (y_pre : Int) (ptvv : Int) (ptv : Int) (l1a : (List Int)) (l1b : (List Int)) (PreH1 : ((l1a ++ l1b) = l1)) (PreH2 : (ptvv = (0 : Int))) ,
   ((ptv) # Ptr |-> (y_pre))
   ** (sllbseg ( &( "x" ) ) ptv l1a)
   ** (sll ptvv l1b)
@@ -1095,7 +1095,7 @@ forall (y_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (ptvv : Int) (ptv : Int
   ** (sll y_pre l2)
 ) \/
 (
-forall (y_pre : Int) (l1 : (List Int)) (ptvv : Int) (ptv : Int) (l1a : (List Int)) (l1b : (List Int)) (PreH1 : ((l1a ++ l1b) = l1)) (PreH2 : (ptvv = (0 : Int))) ,
+forall (l1 : (List Int)) (y_pre : Int) (ptvv : Int) (ptv : Int) (l1a : (List Int)) (l1b : (List Int)) (PreH1 : ((l1a ++ l1b) = l1)) (PreH2 : (ptvv = (0 : Int))) ,
   ((ptv) # Ptr |-> (y_pre))
   ** (sllbseg ( &( "x" ) ) ptv l1a)
   ** (sll ptvv l1b)
@@ -1107,14 +1107,14 @@ forall (y_pre : Int) (l1 : (List Int)) (ptvv : Int) (ptv : Int) (l1a : (List Int
 
 noncomputable def append_2p_return_wit_1 : Prop :=
   (
-forall (y_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (presv : Int) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (y_pre : Int) (presv : Int) ,
   (sllseg presv y_pre l1)
   ** (sll y_pre l2)
 |--
   (sll presv (l1 ++ l2))
 ) \/
 (
-forall (y_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (presv : Int) ,
+forall (l2 : (List Int)) (l1 : (List Int)) (y_pre : Int) (presv : Int) ,
   (sllseg presv y_pre l1)
   ** (sll y_pre l2)
 |--
@@ -1122,7 +1122,7 @@ forall (y_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (presv : Int) ,
 )
 
 noncomputable def append_2p_return_wit_1_split_goal_spatial : Prop :=
-  forall (y_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (presv : Int) ,
+  forall (l2 : (List Int)) (l1 : (List Int)) (y_pre : Int) (presv : Int) ,
   (sllseg presv y_pre l1)
   ** (sll y_pre l2)
 |--

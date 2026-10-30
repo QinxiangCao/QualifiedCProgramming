@@ -1,0 +1,70 @@
+// qcp-builtin: builtin/string_literal.strategies
+// Generated from the tool; do not edit.
+
+id : 1
+priority : core(1)
+left : GlobalStrings(?LitMap) at 0
+right : store_stringLit(?addr, ?s) at 1
+check : infer(addr == LitMap(s));
+action : right_erase(1);
+         left_erase(0);
+         left_add(GlobalStrings_missing(LitMap, cons{<String>}(s, nil{<String>})));
+
+id : 2
+priority : core(2)
+left : GlobalStrings_missing(?LitMap, cons{<String>}(?s, nil{<String>})) at 0
+       store_stringLit(LitMap(s), s) at 1
+action : left_erase(1);
+         left_erase(0);
+         left_add(GlobalStrings(LitMap));
+
+id : 3
+priority : core(1)
+left : GlobalStrings_missing(?LitMap, ?l) at 0
+right : store_stringLit(?addr, ?s) at 1
+check : infer(addr == LitMap(s));
+action : right_erase(1);
+         left_erase(0);
+         left_add(GlobalStrings_missing(LitMap, cons{<String>}(s, l)));
+
+id : 4
+priority : core(3)
+left : GlobalStrings_missing(?LitMap, cons{<String>}(?s, ?l)) at 0
+       store_stringLit(LitMap(s), s) at 1
+action : left_erase(1);
+         left_erase(0);
+         left_add(GlobalStrings_missing(LitMap, l));
+
+id : 5
+priority : core(1)
+left : store_stringLit(?addr, ?s) at 0
+right : data_at(pointer_offset(addr, ?i, I8), I8, ?v) at 1
+check : infer(0 <= i);
+        infer(i < StringLength(s) + 1);
+action : right_erase(1);
+         right_add(v == (StringToList(s, i + 1))[i]);
+
+id : 6
+priority : core(1)
+left : store_stringLit(?addr, ?s1) at 0
+right : store_stringLit(addr, ?s2) at 1
+action : right_erase(1);
+         left_erase(0);
+         right_add(s1 == s2);
+
+id : 7
+priority : core(1)
+left : GlobalStrings(?LitMap) at 0
+       store_stringLit(?addr, ?s) at 1
+check : infer(addr == LitMap(s));
+action : left_erase(0);
+         left_add(GlobalStrings_missing(LitMap, cons{<String>}(s, nil{<String>})));
+
+id : 8
+priority : core(1)
+left : store_string(?addr, ?zs) at 0
+right : data_at(pointer_offset(addr, ?i, I8), I8, ?v) at 1
+check : infer(0 <= i);
+        infer(i < string_length(zs) + 1);
+action : right_erase(1);
+         right_add(v == (c_string(zs))[i]);

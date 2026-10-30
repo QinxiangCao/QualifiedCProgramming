@@ -565,7 +565,7 @@ Proof.
   assert (Hn : 1 <= n).
   { unfold Pre in Hpre. intuition lia. }
   assert (Hready : CutScanReady n k edges parent_data order_data).
-  { unfold Pre in Hpre. intuition. }
+  { unfold Pre in Hpre. intuition (auto with *). }
   unfold CutScanReady in Hready.
   specialize (Hready minimum sizes Hminimum Hlength Hones).
   destruct Hready as
@@ -1296,7 +1296,7 @@ Proof.
     lia. }
   assert (Hvertices_length : (length vertices <= length order_data)%nat).
   { unfold vertices.
-    rewrite map_length, seq_length.
+    rewrite length_map, length_seq.
     rewrite Zlength_correct in Hlength.
     lia. }
   pose proof (NoDup_length_incl Hnodup Hvertices_length Hincl) as Hreverse.
@@ -1671,7 +1671,7 @@ Proof.
     apply in_map_iff. exists (Z.to_nat x). split; [lia |].
     apply in_seq. lia. }
   pose proof (NoDup_incl_length Hnodup Hincl) as Hlength.
-  rewrite map_length, seq_length in Hlength.
+  rewrite length_map, length_seq in Hlength.
   rewrite Zlength_correct. lia.
 Qed.
 Lemma traversal_missing_length_lt__solver_traversal_steps :
@@ -1894,7 +1894,7 @@ Proof.
     apply in_map_iff. exists (Z.to_nat x). split; [lia |].
     apply in_seq. lia. }
   pose proof (NoDup_incl_length Hnodup Hincl) as Hlength.
-  rewrite map_length, seq_length in Hlength.
+  rewrite length_map, length_seq in Hlength.
   rewrite Zlength_correct. lia.
 Qed.
 Lemma Zlength_replace_Znth__solver_traversal_steps :
@@ -2589,7 +2589,7 @@ Proof.
         apply Hseen. exact Hin. }
   assert (Horderlen : Zlength order_data = n).
   { apply Permutation_length in Hperm.
-    rewrite map_length, seq_length in Hperm.
+    rewrite length_map, length_seq in Hperm.
     rewrite Zlength_correct.
     lia. }
   assert (Hallcells : forall idx, 0 <= idx < Zlength parent_cells ->

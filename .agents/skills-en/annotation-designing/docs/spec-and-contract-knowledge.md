@@ -74,6 +74,8 @@ The current repository interfaces are listed below. Confirm their imports, argum
 | Closed-interval sum and real-valued finite-set sum | `SimpleC.EE.LLM_bench.Codeforces.SpecHelpers`: `sum_range a b f` sums over `[a, b]`; `sum_set_R P f` requires `Finite P` and `f : A -> R` |
 | Range enumeration | `SumLib.ZRange`: `Zrange lo hi` enumerates `[lo, hi)`; use `Zrange a (b + 1)` for the closed interval `[a, b]` |
 | Reflexive-transitive closure | `SetsClass.RelsDomain`: `SetsClass.RelsDomain.clos_refl_trans step`; confirm relation instances and distinguish it from the standard library's namesake |
+| Growable vectors and arrays of them | `vec_qcp_lib` (C side `#include "vec_qcp.h"`): `Veci::rep(v, l)`, `Veci::rep_ptr(v, p, l)`, `Veci::shell(v)`, likewise `Vecp::`, and `VecpArray::full` / `missing_i` / `missing2` / `undef_seg` for arrays of `vecp_t`; the capacity stays hidden. Another vector struct needs a new `DynVec` instance from main |
+| Literals, clauses, CNF, and SAT verdicts | `CDCLLib.sat_shared_lib` (`CDCLLib.cdcl_shared_lib` adds the solver state `cdcl_view`): `models rho F`, `cnf_sat n F`, `cnf_unsat n F`, `cnf_wf n F`, `clause_satisfied rho c`, `entails_clause F c`, `cnf_with_units F A`; variables are 0-based |
 
 `sum_range` includes the right endpoint; `Zrange` excludes it. For an indexed sum over `[lo, hi)`, use `sum_range lo (hi - 1) f` or `SumLib.Sum.sum (fun i : Z => lo <= i < hi) f`. Do not mix the signatures of list `sum l` and finite-set `sum P f`.
 

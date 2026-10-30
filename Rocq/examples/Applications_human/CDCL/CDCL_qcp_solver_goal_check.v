@@ -1,0 +1,8 @@
+From SimpleC.EE.Applications_human.CDCL Require Import CDCL_qcp_solver_goal CDCL_qcp_solver_proof_auto CDCL_qcp_solver_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include int_ptr_array2_strategy_proof.
+  Include CDCL_qcp_strategy_proof.
+  Include CDCL_qcp_solver_proof_auto.
+  Include CDCL_qcp_solver_proof_manual.
+End VC_Correctness.

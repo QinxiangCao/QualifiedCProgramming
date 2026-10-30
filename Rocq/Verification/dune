@@ -1,0 +1,5 @@
+(coq.theory
+ (name SimpleC.Verification)
+ (theories AUXLib FP Logic MonadLib SetsClass SimpleC.SL))
+
+(include_subdirs qualified)

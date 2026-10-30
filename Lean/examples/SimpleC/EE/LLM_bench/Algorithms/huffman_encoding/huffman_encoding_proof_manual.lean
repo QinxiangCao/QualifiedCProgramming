@@ -58,7 +58,7 @@ private theorem prefix_bounds (l : List Int) (n : Int) (hn : 0 ≤ n ∧ n ≤ Z
 theorem proof_of_huffman_cost_entail_wit_1 : huffman_cost_entail_wit_1 := by
   unfold huffman_cost_entail_wit_1
   right
-  intro n_pre weights_l PreH1 PreH2 PreH3 low high
+  intro weights_l n_pre PreH1 PreH2 PreH3 low high
   refine Automation.exp_right_rule (CRules := naive_C_Rules) weights_l ?_
   split_pure_spatial
   · sep_apply (intArray.undef_full_split_to_undef_seg &("work") n_pre 8 ⟨by omega,by omega⟩)
@@ -69,7 +69,7 @@ theorem proof_of_huffman_cost_entail_wit_1 : huffman_cost_entail_wit_1 := by
 theorem proof_of_huffman_cost_entail_wit_2 : huffman_cost_entail_wit_2 := by
   unfold huffman_cost_entail_wit_2
   right
-  intro n_pre weights_l i copied_2 remaining_2 PreH1 PreH2 PreH3 PreH4 low high PreH6 PreH7 PreH8 PreH9
+  intro weights_l n_pre i copied_2 remaining_2 PreH1 PreH2 PreH3 PreH4 low high PreH6 PreH7 PreH8 PreH9
   cases remaining_2 with
   | nil =>
     simp only [List.append_nil] at PreH6
@@ -94,7 +94,7 @@ theorem proof_of_huffman_cost_entail_wit_2 : huffman_cost_entail_wit_2 := by
 theorem proof_of_huffman_cost_entail_wit_3 : huffman_cost_entail_wit_3 := by
   unfold huffman_cost_entail_wit_3
   right
-  intro n_pre weights_l i copied remaining PreH1 PreH2 PreH3 PreH4 low high PreH6 PreH7 PreH8 PreH9
+  intro weights_l n_pre i copied remaining PreH1 PreH2 PreH3 PreH4 low high PreH6 PreH7 PreH8 PreH9
   let work_pre : Int := &("work")
   have PreH5 := input_bounds weights_l low high
   have hei : i = n_pre := by omega
@@ -106,15 +106,12 @@ theorem proof_of_huffman_cost_entail_wit_3 : huffman_cost_entail_wit_3 := by
     | nil => rfl
     | cons a l => rw [Zlength_cons] at hz; have := Zlength_nonneg l; omega
   rw [hr, List.append_nil] at PreH6
-  rw [← PreH6, hei]
+  rw [← PreH6]
   have hb := huffman_input_live_bounds__copy_initialization weights_l n_pre PreH4 PreH5
   have hp : HuffmanProgress weights_l weights_l n_pre 0 := by
     rw [← PreH4]; exact huffman_initial_progress__copy_initialization weights_l (by omega) PreH5
-  refine Automation.exp_right_rule (CRules := naive_C_Rules) weights_l ?_
   split_pure_spatial
-  · sep_apply (intArray.seg_to_full work_pre 0 n_pre weights_l)
-    simp only [Int.zero_mul, Int.add_zero, Int.sub_zero]
-    cancel
+  · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first | assumption | omega | (rw [sublist_self weights_l n_pre (by omega)]; apply Forall.iff_forall_mem.mpr; intro x hx; first | (have h := low.mem hx; omega) | (have h := high.mem hx; omega))
 

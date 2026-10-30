@@ -59,7 +59,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def solver_safety_wit_1 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (PreH1 : (1 <= l_pre)) (PreH2 : (l_pre <= r_pre)) (PreH3 : (r_pre <= 1000000000000000000)) ,
+  forall (l_pre : Int) (r_pre : Int) (PreH1 : (1 <= l_pre)) (PreH2 : (l_pre <= r_pre)) (PreH3 : (r_pre <= 1000000000000000000)) ,
   ((( &( "x" ) )) # UInt64 |-> ((Z.lxor l_pre r_pre)))
   ** ((( &( "l" ) )) # UInt64 |-> (l_pre))
   ** ((( &( "r" ) )) # UInt64 |-> (r_pre))
@@ -68,7 +68,7 @@ noncomputable def solver_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_2 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
+  forall (l_pre : Int) (r_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
   ((( &( "x" ) )) # UInt64 |-> ((Z.lxor l_pre r_pre)))
   ** ((( &( "l" ) )) # UInt64 |-> (l_pre))
   ** ((( &( "r" ) )) # UInt64 |-> (r_pre))
@@ -77,7 +77,7 @@ noncomputable def solver_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_3 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) ≠ (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
+  forall (l_pre : Int) (r_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) ≠ (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
   ((( &( "b" ) )) # Int |->_)
   ** ((( &( "x" ) )) # UInt64 |-> ((Z.lxor l_pre r_pre)))
   ** ((( &( "l" ) )) # UInt64 |-> (l_pre))
@@ -87,7 +87,7 @@ noncomputable def solver_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 63) ”
 
 noncomputable def solver_safety_wit_4 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : (1 <= l_pre)) (PreH2 : (l_pre <= r_pre)) (PreH3 : (r_pre <= 1000000000000000000)) (PreH4 : ((0 : Int) < x)) (PreH5 : (x <= 18446744073709551615)) (PreH6 : ((0 : Int) <= b)) (PreH7 : (b <= 63)) (PreH8 : (HighestBitScan l_pre r_pre x b)) ,
+  forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : (1 <= l_pre)) (PreH2 : (l_pre <= r_pre)) (PreH3 : (r_pre <= 1000000000000000000)) (PreH4 : ((0 : Int) < x)) (PreH5 : (x <= 18446744073709551615)) (PreH6 : ((0 : Int) <= b)) (PreH7 : (b <= 63)) (PreH8 : (HighestBitScan l_pre r_pre x b)) ,
   ((( &( "l" ) )) # UInt64 |-> (l_pre))
   ** ((( &( "r" ) )) # UInt64 |-> (r_pre))
   ** ((( &( "x" ) )) # UInt64 |-> (x))
@@ -97,7 +97,7 @@ noncomputable def solver_safety_wit_4 : Prop :=
   “ ((0 : Int) <= b) ”
 
 noncomputable def solver_safety_wit_5 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : ((Z.land (Z.shiftr x b) 1) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) (PreH5 : ((0 : Int) < x)) (PreH6 : (x <= 18446744073709551615)) (PreH7 : ((0 : Int) <= b)) (PreH8 : (b <= 63)) (PreH9 : (HighestBitScan l_pre r_pre x b)) ,
+  forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : ((Z.land (Z.shiftr x b) 1) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) (PreH5 : ((0 : Int) < x)) (PreH6 : (x <= 18446744073709551615)) (PreH7 : ((0 : Int) <= b)) (PreH8 : (b <= 63)) (PreH9 : (HighestBitScan l_pre r_pre x b)) ,
   ((( &( "l" ) )) # UInt64 |-> (l_pre))
   ** ((( &( "r" ) )) # UInt64 |-> (r_pre))
   ** ((( &( "x" ) )) # UInt64 |-> (x))
@@ -107,7 +107,7 @@ noncomputable def solver_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (b - 1)) ”
 
 noncomputable def solver_safety_wit_6 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) (PreH5 : ((0 : Int) < x)) (PreH6 : (x <= 18446744073709551615)) (PreH7 : ((0 : Int) <= b)) (PreH8 : (b <= 63)) (PreH9 : (HighestBitScan l_pre r_pre x b)) ,
+  forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) (PreH5 : ((0 : Int) < x)) (PreH6 : (x <= 18446744073709551615)) (PreH7 : ((0 : Int) <= b)) (PreH8 : (b <= 63)) (PreH9 : (HighestBitScan l_pre r_pre x b)) ,
   ((( &( "l" ) )) # UInt64 |-> (l_pre))
   ** ((( &( "r" ) )) # UInt64 |-> (r_pre))
   ** ((( &( "x" ) )) # UInt64 |-> (x))
@@ -117,7 +117,7 @@ noncomputable def solver_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= 63) ”
 
 noncomputable def solver_safety_wit_7 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : (b ≠ 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
+  forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : (b ≠ 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
   ((( &( "l" ) )) # UInt64 |-> (l_pre))
   ** ((( &( "r" ) )) # UInt64 |-> (r_pre))
   ** ((( &( "x" ) )) # UInt64 |-> (x))
@@ -127,7 +127,7 @@ noncomputable def solver_safety_wit_7 : Prop :=
   “ ((0 : Int) <= (b + 1)) ”
 
 noncomputable def solver_safety_wit_8 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : (b ≠ 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
+  forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : (b ≠ 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
   ((( &( "l" ) )) # UInt64 |-> (l_pre))
   ** ((( &( "r" ) )) # UInt64 |-> (r_pre))
   ** ((( &( "x" ) )) # UInt64 |-> (x))
@@ -137,7 +137,7 @@ noncomputable def solver_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (b + 1)) ”
 
 noncomputable def solver_safety_wit_9 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : (b ≠ 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
+  forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : (b ≠ 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
   ((( &( "l" ) )) # UInt64 |-> (l_pre))
   ** ((( &( "r" ) )) # UInt64 |-> (r_pre))
   ** ((( &( "x" ) )) # UInt64 |-> (x))
@@ -147,7 +147,7 @@ noncomputable def solver_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_10 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : (b ≠ 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
+  forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : (b ≠ 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
   ((( &( "l" ) )) # UInt64 |-> (l_pre))
   ** ((( &( "r" ) )) # UInt64 |-> (r_pre))
   ** ((( &( "x" ) )) # UInt64 |-> (x))
@@ -158,7 +158,7 @@ noncomputable def solver_safety_wit_10 : Prop :=
 
 noncomputable def solver_entail_wit_1 : Prop :=
   (
-forall (r_pre : Int) (l_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) ≠ (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
+forall (l_pre : Int) (r_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) ≠ (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
   TT && emp 
 |--
   “ (1 <= l_pre) ” &&
@@ -172,7 +172,7 @@ forall (r_pre : Int) (l_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) ≠ (0 : Int))
   &&  emp
 ) \/
 (
-forall (r_pre : Int) (l_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) ≠ (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
+forall (l_pre : Int) (r_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) ≠ (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
   TT && emp 
 |--
   “ (HighestBitScan l_pre r_pre (Z.lxor l_pre r_pre) 63) ” &&
@@ -182,20 +182,20 @@ forall (r_pre : Int) (l_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) ≠ (0 : Int))
 )
 
 noncomputable def solver_entail_wit_1_split_goal_1 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) ≠ (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
+  forall (l_pre : Int) (r_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) ≠ (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
   (HighestBitScan l_pre r_pre (Z.lxor l_pre r_pre) 63)
 
 noncomputable def solver_entail_wit_1_split_goal_2 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) ≠ (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
+  forall (l_pre : Int) (r_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) ≠ (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
   ((Z.lxor l_pre r_pre) <= 18446744073709551615)
 
 noncomputable def solver_entail_wit_1_split_goal_3 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) ≠ (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
+  forall (l_pre : Int) (r_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) ≠ (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
   ((0 : Int) < (Z.lxor l_pre r_pre))
 
 noncomputable def solver_entail_wit_2 : Prop :=
   (
-forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : ((Z.land (Z.shiftr x b) 1) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) (PreH5 : ((0 : Int) < x)) (PreH6 : (x <= 18446744073709551615)) (PreH7 : ((0 : Int) <= b)) (PreH8 : (b <= 63)) (PreH9 : (HighestBitScan l_pre r_pre x b)) ,
+forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : ((Z.land (Z.shiftr x b) 1) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) (PreH5 : ((0 : Int) < x)) (PreH6 : (x <= 18446744073709551615)) (PreH7 : ((0 : Int) <= b)) (PreH8 : (b <= 63)) (PreH9 : (HighestBitScan l_pre r_pre x b)) ,
   TT && emp 
 |--
   “ (1 <= l_pre) ” &&
@@ -209,7 +209,7 @@ forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : ((Z.land (Z.shif
   &&  emp
 ) \/
 (
-forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : ((Z.land (Z.shiftr x b) 1) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) (PreH5 : ((0 : Int) < x)) (PreH6 : (x <= 18446744073709551615)) (PreH7 : ((0 : Int) <= b)) (PreH8 : (b <= 63)) (PreH9 : (HighestBitScan l_pre r_pre x b)) ,
+forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : ((Z.land (Z.shiftr x b) 1) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) (PreH5 : ((0 : Int) < x)) (PreH6 : (x <= 18446744073709551615)) (PreH7 : ((0 : Int) <= b)) (PreH8 : (b <= 63)) (PreH9 : (HighestBitScan l_pre r_pre x b)) ,
   TT && emp 
 |--
   “ (HighestBitScan l_pre r_pre x (b - 1)) ” &&
@@ -218,23 +218,23 @@ forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : ((Z.land (Z.shif
 )
 
 noncomputable def solver_entail_wit_2_split_goal_1 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : ((Z.land (Z.shiftr x b) 1) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) (PreH5 : ((0 : Int) < x)) (PreH6 : (x <= 18446744073709551615)) (PreH7 : ((0 : Int) <= b)) (PreH8 : (b <= 63)) (PreH9 : (HighestBitScan l_pre r_pre x b)) ,
+  forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : ((Z.land (Z.shiftr x b) 1) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) (PreH5 : ((0 : Int) < x)) (PreH6 : (x <= 18446744073709551615)) (PreH7 : ((0 : Int) <= b)) (PreH8 : (b <= 63)) (PreH9 : (HighestBitScan l_pre r_pre x b)) ,
   (HighestBitScan l_pre r_pre x (b - 1))
 
 noncomputable def solver_entail_wit_2_split_goal_2 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : ((Z.land (Z.shiftr x b) 1) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) (PreH5 : ((0 : Int) < x)) (PreH6 : (x <= 18446744073709551615)) (PreH7 : ((0 : Int) <= b)) (PreH8 : (b <= 63)) (PreH9 : (HighestBitScan l_pre r_pre x b)) ,
+  forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : ((Z.land (Z.shiftr x b) 1) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) (PreH5 : ((0 : Int) < x)) (PreH6 : (x <= 18446744073709551615)) (PreH7 : ((0 : Int) <= b)) (PreH8 : (b <= 63)) (PreH9 : (HighestBitScan l_pre r_pre x b)) ,
   ((0 : Int) <= (b - 1))
 
 noncomputable def solver_return_wit_1 : Prop :=
   (
-forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : (b = 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
+forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : (b = 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
   TT && emp 
 |--
   “ (Spec l_pre r_pre (unsigned_last_nbits ((Z.lnot (0 : Int))) (64))) ”
   &&  emp
 ) \/
 (
-forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : (b = 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
+forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : (b = 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
   TT && emp 
 |--
   “ (Spec l_pre r_pre (unsigned_last_nbits ((Z.lnot (0 : Int))) (64))) ”
@@ -242,19 +242,19 @@ forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : (b = 63)) (PreH2
 )
 
 noncomputable def solver_return_wit_1_split_goal_1 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : (b = 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
+  forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : (b = 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
   (Spec l_pre r_pre (unsigned_last_nbits ((Z.lnot (0 : Int))) (64)))
 
 noncomputable def solver_return_wit_2 : Prop :=
   (
-forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : (b ≠ 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
+forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : (b ≠ 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
   TT && emp 
 |--
   “ (Spec l_pre r_pre (unsigned_last_nbits (((unsigned_last_nbits ((Z.shiftl 1 (b + 1))) (64)) - 1)) (64))) ”
   &&  emp
 ) \/
 (
-forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : (b ≠ 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
+forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : (b ≠ 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
   TT && emp 
 |--
   “ (Spec l_pre r_pre (unsigned_last_nbits (((unsigned_last_nbits ((Z.shiftl 1 (b + 1))) (64)) - 1)) (64))) ”
@@ -262,19 +262,19 @@ forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : (b ≠ 63)) (Pre
 )
 
 noncomputable def solver_return_wit_2_split_goal_1 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (b : Int) (x : Int) (PreH1 : (b ≠ 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
+  forall (l_pre : Int) (r_pre : Int) (b : Int) (x : Int) (PreH1 : (b ≠ 63)) (PreH2 : ((Z.land (Z.shiftr x b) 1) ≠ (0 : Int))) (PreH3 : (1 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : (r_pre <= 1000000000000000000)) (PreH6 : ((0 : Int) < x)) (PreH7 : (x <= 18446744073709551615)) (PreH8 : ((0 : Int) <= b)) (PreH9 : (b <= 63)) (PreH10 : (HighestBitScan l_pre r_pre x b)) ,
   (Spec l_pre r_pre (unsigned_last_nbits (((unsigned_last_nbits ((Z.shiftl 1 (b + 1))) (64)) - 1)) (64)))
 
 noncomputable def solver_return_wit_3 : Prop :=
   (
-forall (r_pre : Int) (l_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
+forall (l_pre : Int) (r_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
   TT && emp 
 |--
   “ (Spec l_pre r_pre (0 : Int)) ”
   &&  emp
 ) \/
 (
-forall (r_pre : Int) (l_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
+forall (l_pre : Int) (r_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
   TT && emp 
 |--
   “ (Spec l_pre r_pre (0 : Int)) ”
@@ -282,7 +282,7 @@ forall (r_pre : Int) (l_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) = (0 : Int))) 
 )
 
 noncomputable def solver_return_wit_3_split_goal_1 : Prop :=
-  forall (r_pre : Int) (l_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
+  forall (l_pre : Int) (r_pre : Int) (PreH1 : ((Z.lxor l_pre r_pre) = (0 : Int))) (PreH2 : (1 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : (r_pre <= 1000000000000000000)) ,
   (Spec l_pre r_pre (0 : Int))
 
 

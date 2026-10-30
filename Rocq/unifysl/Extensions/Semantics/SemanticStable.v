@@ -29,7 +29,7 @@ Definition stable {worlds: Type} {R: Relation worlds} (X: Ensemble worlds): Prop
 
 End Semantics.
 
-Class SeparationAlgebraBisStable (worlds: Type) {J: Join worlds} {R: Relation worlds}: Type := {
+Class SeparationAlgebraBisStable (worlds: Type) {J: Join worlds} {R: Relation worlds} := {
   split_bis_stable:
     forall m n, R m n ->
       (forall m1 m2, join m1 m2 m -> exists n1 n2, join n1 n2 n /\ R m1 n1 /\ R m2 n2) /\
@@ -40,13 +40,13 @@ Class SeparationAlgebraBisStable (worlds: Type) {J: Join worlds} {R: Relation wo
        (forall n1 n2, join n n1 n2 -> exists m1 m2, join m m1 m2 /\ R m1 n1 /\ R m2 n2)
 }.
 
-Class SeparationAlgebraAbsorbStable (worlds: Type) {R1: KI.Relation worlds} {J: Join worlds} {R2: Relation worlds}: Type := {
+Class SeparationAlgebraAbsorbStable (worlds: Type) {R1: KI.Relation worlds} {J: Join worlds} {R2: Relation worlds} := {
   SA_absorb_stable:
     forall m m1 m2, join m1 m2 m ->
       exists n1 n2, join n1 n2 m /\ R2 n1 m /\ R2 n2 m /\ m1 <= n1 /\ m2 <= n2
 }.
 
-Class StrongSeparationAlgebraAbsorbStable (worlds: Type) {J: Join worlds} {R: Relation worlds}: Type := {
+Class StrongSeparationAlgebraAbsorbStable (worlds: Type) {J: Join worlds} {R: Relation worlds} := {
   strong_SA_absorb_stable:
     forall m m1 m2, join m1 m2 m -> R m1 m /\ R m2 m
 }.

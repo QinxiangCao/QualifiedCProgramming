@@ -1,17 +1,10 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.typeinfer.typeinfer_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
 
 Definition typeinfer_strategy0 :=
-  forall t (x : Z) (y : Z) (p : Z),
+  forall (t : front_end_type) (x : (front_end_type_value t)) (y : (front_end_type_value t)) (p : Z),
     TT &&
     (“ (x = y) ”) &&
     emp **
@@ -50,36 +43,36 @@ Definition typeinfer_strategy1 :=
 Definition typeinfer_strategy2 :=
   forall (x : Z) (y : Z),
     TT &&
-    (“ (Z.lt x y) ”) &&
+    (“ (x < y) ”) &&
     emp
     |--
     (
     TT &&
-    (“ (Z.lt x y) ”) &&
+    (“ (x < y) ”) &&
     emp
     ) ** (
     TT &&
     emp -*
     TT &&
-    (“ (Z.lt x y) ”) &&
+    (“ (x < y) ”) &&
     emp
     ).
 
 Definition typeinfer_strategy3 :=
   forall (x : Z) (y : Z),
     TT &&
-    (“ (Z.le x y) ”) &&
+    (“ (x <= y) ”) &&
     emp
     |--
     (
     TT &&
-    (“ (Z.le x y) ”) &&
+    (“ (x <= y) ”) &&
     emp
     ) ** (
     TT &&
     emp -*
     TT &&
-    (“ (Z.le x y) ”) &&
+    (“ (x <= y) ”) &&
     emp
     ).
 
@@ -120,7 +113,7 @@ Definition typeinfer_strategy5 :=
     ).
 
 Definition typeinfer_strategy6 :=
-  forall t (y : Z) (x : Z) (p : Z),
+  forall (t : front_end_type) (y : (front_end_type_value t)) (x : (front_end_type_value t)) (p : Z),
     TT &&
     (“ (y = x) ”) &&
     emp **

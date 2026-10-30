@@ -1,29 +1,13 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P046_1082C_multi_subject_competition_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P046_1082C_multi_subject_competition_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P046_1082C_multi_subject_competition_lib.
 Local Open Scope sac.
 
 Lemma proof_of_solver_safety_wit_8_split_goal_1 : solver_safety_wit_8_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH15 j ltac:(lia)) as Hraw_skill.
   pose proof (PreH16 j ltac:(lia)) as Hsorted_skill.
   destruct Hraw_skill as [_ Hraw_skill].
@@ -35,7 +19,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_8_split_goal_2 : solver_safety_wit_8_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH15 j ltac:(lia)) as Hraw_skill.
   pose proof (PreH16 j ltac:(lia)) as Hsorted_skill.
   destruct Hraw_skill as [_ Hraw_skill].
@@ -54,7 +38,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_16_split_goal_1 : solver_safety_wit_16_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH16 j ltac:(lia)) as Hraw_skill.
   pose proof (PreH17 j ltac:(lia)) as Hsorted_skill.
   pose proof (PreH25 (j + 1 - i) ltac:(lia)) as Htotal_bound.
@@ -68,7 +52,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_16_split_goal_2 : solver_safety_wit_16_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH25 (j + 1 - i) ltac:(lia)) as Htotal_bound.
   destruct Htotal_bound as [Htotal_nonnegative _].
   dump_pre_spatial.
@@ -84,7 +68,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1 : solver_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (repeat_Z 0 (n_pre + 1)) raw_sorted_2 sorted_2.
   split_pure_spatial.
   - cancel (IntArray.full a_pre (2 * n_pre) raw_sorted_2).
@@ -124,7 +108,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2 : solver_entail_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists totals_2 raw_sorted_2 sorted_2.
   split_pure_spatial.
   - cancel (IntArray.full a_pre (2 * n_pre) raw_sorted_2).
@@ -143,7 +127,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_1 : solver_entail_wit_3_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH16 j ltac:(lia)) as Hjraw.
   pose proof (PreH16 i ltac:(lia)) as Hiraw.
   assert (Hsubject :
@@ -205,7 +189,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_2 : solver_entail_wit_3_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH16 j ltac:(lia)) as Hjraw.
   pose proof (PreH16 i ltac:(lia)) as Hiraw.
   assert (Hsubject :
@@ -243,7 +227,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_1 : solver_entail_wit_4_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hj : j = n_pre) by lia.
   assert (Hboundary : SubjectBoundary sorted_2 j).
   {
@@ -269,7 +253,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_2 : solver_entail_wit_4_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH15 i ltac:(lia)) as Hiraw.
   pose proof (PreH15 j ltac:(lia)) as Hjraw.
   assert (Hchange :
@@ -323,7 +307,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5 : solver_entail_wit_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = n_pre) by lia.
   subst i.
   pose proof PreH18 as Houter_parts.
@@ -341,7 +325,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_1 : solver_entail_wit_6_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH23 k ltac:(lia)) as Htotal_bounds.
   pose proof
     (competition_answer_prefix_step_take__answer_scan
@@ -358,7 +342,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_2 : solver_entail_wit_6_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (competition_answer_prefix_step_keep__answer_scan
        totals_2 n_pre k answer PreH22 ltac:(lia) ltac:(lia)) as Hanswer.
@@ -373,7 +357,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1 : solver_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists raw_sorted sorted.
   split_pure_spatial.
   - cancel (IntArray.full a_pre (2 * n_pre) raw_sorted).
@@ -394,7 +378,7 @@ Qed.
 
 Lemma proof_of_solver_partial_solve_wit_2_pure_split_goal_1 : solver_partial_solve_wit_2_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_partial_solve_wit_2_pure : solver_partial_solve_wit_2_pure.

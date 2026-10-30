@@ -188,7 +188,7 @@ void dijkstra_linked_forward_star_index_queue(int vertex_count, int source, int 
 	        IntArray::full(weight, edge_count, weight_values) *
 	        IntArray::full(next, edge_count, next_values) *
 	        IntArray::full(dist, MAX_VERTEX_COUNT, dist_init) *
-	        store_heap(pointer_offset(queue_key, 0, sizeof(int), int), pointer_offset(queue_data, 0, sizeof(int), int), queue_set_empty, 0)
+	        store_heap(pointer_offset(queue_key, 0, int), pointer_offset(queue_data, 0, int), queue_set_empty, 0)
    */
   /*@ Given queue_set_empty */
   push(queue_key, queue_data, queue_size, source, 0)
@@ -218,7 +218,7 @@ void dijkstra_linked_forward_star_index_queue(int vertex_count, int source, int 
 	        IntArray::full(weight, edge_count, weight_values) *
 	        IntArray::full(next, edge_count, next_values) *
 	        IntArray::full(dist, MAX_VERTEX_COUNT, dist_cur) *
-	        store_heap(pointer_offset(queue_key, 0, sizeof(int), int), pointer_offset(queue_data, 0, sizeof(int), int), queue_set, queue_size)
+	        store_heap(pointer_offset(queue_key, 0, int), pointer_offset(queue_data, 0, int), queue_set, queue_size)
    */
   while (queue_size != 0) {
     int cur_vertex;
@@ -260,7 +260,7 @@ void dijkstra_linked_forward_star_index_queue(int vertex_count, int source, int 
 	          IntArray::full(weight, edge_count, weight_values) *
 	          IntArray::full(next, edge_count, next_values) *
 	          IntArray::full(dist, MAX_VERTEX_COUNT, dist_cur) *
-	          store_heap(pointer_offset(queue_key, 0, sizeof(int), int), pointer_offset(queue_data, 0, sizeof(int), int), queue_set, queue_size)
+	          store_heap(pointer_offset(queue_key, 0, int), pointer_offset(queue_data, 0, int), queue_set, queue_size)
      */
 
     if (cur_distance == dist[cur_vertex]) {
@@ -294,7 +294,7 @@ void dijkstra_linked_forward_star_index_queue(int vertex_count, int source, int 
 	            IntArray::full(weight, edge_count, weight_values) *
 	            IntArray::full(next, edge_count, next_values) *
 	            IntArray::full(dist, MAX_VERTEX_COUNT, dist_edge) *
-	            store_heap(pointer_offset(queue_key, 0, sizeof(int), int), pointer_offset(queue_data, 0, sizeof(int), int), queue_set, queue_size)
+	            store_heap(pointer_offset(queue_key, 0, int), pointer_offset(queue_data, 0, int), queue_set, queue_size)
        */
       for (int edge = head[cur_vertex]; edge != -1; edge = next[edge]) {
         int neighbor = to[edge];
@@ -335,7 +335,7 @@ void dijkstra_linked_forward_star_index_queue(int vertex_count, int source, int 
 	              IntArray::full(weight, edge_count, weight_values) *
 	              IntArray::full(next, edge_count, next_values) *
 	              IntArray::full(dist, MAX_VERTEX_COUNT, dist_edge) *
-	              store_heap(pointer_offset(queue_key, 0, sizeof(int), int), pointer_offset(queue_data, 0, sizeof(int), int), queue_set, queue_size)
+	              store_heap(pointer_offset(queue_key, 0, int), pointer_offset(queue_data, 0, int), queue_set, queue_size)
          */
 
         if (edge_weight >= 0 && cur_distance <= INF - edge_weight) {
@@ -386,7 +386,7 @@ void dijkstra_linked_forward_star_index_queue(int vertex_count, int source, int 
 		                  IntArray::full(weight, edge_count, weight_values) *
 		                  IntArray::full(next, edge_count, next_values) *
 		                  IntArray::full(dist, MAX_VERTEX_COUNT, dist_after) *
-		                  store_heap(pointer_offset(queue_key, 0, sizeof(int), int), pointer_offset(queue_data, 0, sizeof(int), int), queue_set_before, queue_size)
+		                  store_heap(pointer_offset(queue_key, 0, int), pointer_offset(queue_data, 0, int), queue_set_before, queue_size)
             */
             /*@ Given queue_set_before */
 	            push(queue_key, queue_data, queue_size, neighbor, candidate)

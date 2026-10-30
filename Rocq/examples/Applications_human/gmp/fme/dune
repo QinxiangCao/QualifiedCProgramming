@@ -1,0 +1,25 @@
+(coq.theory
+ (name SimpleC.EE.Applications_human.gmp.fme)
+ (theories
+  SimpleC.EE.Applications_human.gmp.minigmp
+  AUXLib
+  Algorithms
+  CDCLLib
+  FP
+  Flocq
+  GraphLib
+  ListLib
+  Logic
+  MaxMinLib
+  MonadLib
+  SetsClass
+  SimpleC.Common
+  SimpleC.EE.QCP_demos_LLM
+  SimpleC.EE.QCP_demos_human
+  SimpleC.SL
+  SimpleC.StrategyLib
+  SimpleC.StdLib
+  SumLib
+  compcert.lib))
+
+(include_subdirs qualified)

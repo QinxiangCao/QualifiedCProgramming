@@ -65,9 +65,9 @@ left : sll{?A}(?storeA, ?p, cons{A}(?x, ?l)) at 0
 action : left_erase(0);
          left_exist_add(y);
          left_exist_add(h);
-         left_add(store(field_addr(p, list, data), PTR(struct list), h));
+         left_add(store(field_addr(p, list, data), PTR, h));
          left_add(storeA(h, x));
-         left_add(store(field_addr(p, list, next), PTR(struct list), y));
+         left_add(store(field_addr(p, list, next), PTR, y));
          left_add(sll{A}(storeA, y, l));
  
 id : 11
@@ -77,9 +77,9 @@ action : right_erase(0);
          right_exist_add(y);
          right_exist_add(h);
          right_add(p != NULL);
-         right_add(store(field_addr(p, list, data), PTR(struct list), h));
+         right_add(store(field_addr(p, list, data), PTR, h));
          right_add(storeA(h, x));
-         right_add(store(field_addr(p, list, next), PTR(struct list), y));
+         right_add(store(field_addr(p, list, next), PTR, y));
          right_add(sll{A}(storeA, y, l));
  
 id : 12

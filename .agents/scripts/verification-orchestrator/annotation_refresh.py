@@ -11,6 +11,7 @@ import json
 import os
 import shutil
 import tempfile
+import time
 from pathlib import Path
 from typing import Any
 
@@ -163,6 +164,20 @@ def publish_generated_output(
                                  transaction=transaction_root_for_attempt(report_directory), expected=expected)
 
 
+def _install_backup(preparation: Path, transaction: Path) -> None:
+    """Retry only transient Windows rename denials, before any target write."""
+    for attempt in range(5):
+        if os.path.lexists(transaction):
+            raise FileExistsError(f"publication backup appeared during preparation: {transaction}")
+        try:
+            os.replace(preparation, transaction)
+            return
+        except OSError as exc:
+            if getattr(exc, "winerror", None) not in {5, 32, 33} or attempt == 4:
+                raise
+            time.sleep(0.05 * (attempt + 1))
+
+
 def publish_file_contents(
     *, main_root: Path, target_files: dict[str, str], payloads: dict[str, bytes | None],
     transaction: Path, expected: dict[str, bytes | None] | None = None, keep_backup: bool = False,
@@ -175,6 +190,7 @@ def publish_file_contents(
     if set(target_files) != set(payloads):
         raise ValueError("publication payload roles differ from the fixed targets")
     manifest: dict[str, Any] | None = None
+    installed = False
     try:
         originals = _bundle(main_root, target_files)
         if expected is None:
@@ -201,7 +217,8 @@ def publish_file_contents(
                 if payload is not None:
                     atomic_write_bytes(preparation / f"{role}.candidate", payload)
             write_json(preparation / TRANSACTION_MANIFEST_NAME, manifest)
-            os.replace(preparation, transaction)
+            _install_backup(preparation, transaction)
+            installed = True
         for role, payload in payloads.items():
             destination = fixed_path_under(main_root / target_files[role], main_root, label="generated publication target")
             current = _lexical_regular_file_snapshot(root=main_root, relative=target_files[role], label="generated publication target")
@@ -220,7 +237,7 @@ def publish_file_contents(
         manifest["status"] = "committed"
         write_json(transaction / TRANSACTION_MANIFEST_NAME, manifest)
     except (OSError, ValueError, SystemExit, AnnotationRefreshError) as exc:
-        if manifest is not None and os.path.lexists(transaction):
+        if installed and os.path.lexists(transaction):
             try:
                 _restore_transaction(main_root, target_files, transaction, _load_transaction(transaction, target_files))
                 shutil.rmtree(transaction)

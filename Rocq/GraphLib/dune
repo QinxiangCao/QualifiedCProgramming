@@ -1,6 +1,5 @@
 ; Converted from:
 ; - _CoqProject: -R Rocq/GraphLib GraphLib
-; - Rocq/_CoqProject: -R GraphLib GraphLib
 (coq.theory
  (name GraphLib)
  (theories ListLib MaxMinLib SetsClass)

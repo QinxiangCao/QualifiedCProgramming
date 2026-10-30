@@ -1,0 +1,182 @@
+// qcp-builtin: builtin/mixed_char_array.strategies
+// Generated from the tool; do not edit.
+
+id : 1
+priority : core(1)
+left : CharArray::mixed_full(?p, ?n, ?l) at 0
+right : data_at(pointer_offset(p, ?i, I8), I8, ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : right_erase(1);
+         left_erase(0);
+         left_add(CharArray::mixed_missing_i(p, i, 0, n, l));
+         right_exist_add(v1);
+         right_add(l[i] == Some{Z}(v1));
+         right_add(v == v1);
+
+id : 2
+priority : post(1)
+left : CharArray::mixed_missing_i(?p, ?i, 0, ?n, ?l) at 0
+       data_at(pointer_offset(p, i, I8), I8, ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(Some{Z}(v) == l[i]);
+action : left_erase(1);
+         left_erase(0);
+         left_add(CharArray::mixed_full(p, n, l));
+
+id : 3
+priority : post(3)
+left : CharArray::mixed_missing_i(?p, ?i, 0, ?n, ?l) at 0
+       data_at(pointer_offset(p, i, I8), I8, ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(CharArray::mixed_full(p, n, replace_Znth{option{Z}}(i, Some{Z}(v), l)));
+
+id : 4
+priority : core(1)
+left : CharArray::mixed_full(?p, ?n, ?l1) at 0
+right : CharArray::mixed_full(p, n, ?l2) at 1
+action : right_erase(1);
+         left_erase(0);
+         right_add(l1 == l2);
+
+id : 5
+priority : core(1)
+left : CharArray::mixed_missing_i(?p, ?i, ?v, ?n, ?l) at 0
+right : CharArray::mixed_missing_i(p, i, v, n, l) at 1
+action : left_erase(0);
+         right_erase(1);
+
+id : 6
+priority : core(1)
+left : CharArray::mixed_seg(?p, ?x, ?y, ?l1) at 0
+right : CharArray::mixed_seg(p, x, y, ?l2) at 1
+action : right_erase(1);
+         left_erase(0);
+         right_add(l1 == l2);
+
+id : 7
+priority : core(1)
+left : CharArray::mixed_seg(?p, ?x, ?y, ?l) at 0
+right : data_at(pointer_offset(p, ?i, I8), I8, ?v) at 1
+check : infer(x <= i);
+        infer(i < y);
+action : right_erase(1);
+         left_erase(0);
+         left_add(CharArray::mixed_missing_i(p, i, x, y, l));
+         right_exist_add(v1);
+         right_add(Some{Z}(v1) == l[i - x]);
+         right_add(v == v1);
+
+id : 8
+priority : core(1)
+left : CharArray::mixed_seg(?p, ?x, ?y, ?l1) at 0
+       CharArray::mixed_seg(p, y, ?z, ?l2) at 1
+right : CharArray::mixed_seg(p, x, z, ?l3) at 2
+check : infer(y <= z);
+        infer(x <= y);
+action : right_erase(2);
+         left_erase(0);
+         left_erase(1);
+         right_add(l3 == app{option{Z}}(l1, l2));
+
+id : 9
+priority : core(1)
+left : CharArray::mixed_seg(?p, ?x, ?z, ?l3) at 2
+right : CharArray::mixed_seg(p, x, ?y, ?l1) at 0
+        CharArray::mixed_seg(p, y, z, ?l2) at 1
+check : infer(y <= z);
+        infer(x <= y);
+action : left_erase(2);
+         right_erase(0);
+         right_erase(1);
+         right_add(l3 == app{option{Z}}(l1, l2));
+         right_add(Zlength{option{Z}}(l1) == y - x);
+
+id : 10
+priority : core(1)
+right : CharArray::mixed_seg(?p, ?x, x, ?l) at 0
+action : right_erase(0);
+         right_add(l == nil{option{Z}});
+
+id : 11
+priority : post(1)
+left : CharArray::mixed_missing_i(?p, ?i, ?x, ?y, ?l) at 0
+       data_at(pointer_offset(p, i, I8), I8, ?v) at 1
+check : infer(x <= i);
+        infer(i < y);
+        infer(Some{Z}(v) == l[i - x]);
+action : left_erase(1);
+         left_erase(0);
+         left_add(CharArray::mixed_seg(p, x, y, l));
+
+id : 12
+priority : post(4)
+left : CharArray::mixed_missing_i(?p, ?i, ?x, ?y, ?l) at 0
+       data_at(pointer_offset(p, i, I8), I8, ?v) at 1
+check : infer(x <= i);
+        infer(i < y);
+action : left_erase(1);
+         left_erase(0);
+         left_add(CharArray::mixed_seg(p, x, y, replace_Znth{option{Z}}(i - x, Some{Z}(v), l)));
+
+id : 13
+priority : core(1)
+left : CharArray::mixed_full(?p, ?n, ?l) at 0
+right : undef_data_at(pointer_offset(p, ?i, I8), I8) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : right_erase(1);
+         left_erase(0);
+         left_add(CharArray::mixed_missing_i(p, i, 0, n, l));
+
+id : 14
+priority : post(3)
+left : CharArray::mixed_missing_i(?p, ?i, 0, ?n, ?l) at 0
+       undef_data_at(pointer_offset(p, i, I8), I8) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(CharArray::mixed_full(p, n, replace_Znth{option{Z}}(i, None{Z}, l)));
+
+id : 15
+priority : post(4)
+left : CharArray::undef_missing_i(?p, ?i, 0, ?n) at 0
+       data_at(pointer_offset(p, i, I8), I8, ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(CharArray::mixed_full(p, n, replace_Znth{option{Z}}(i, Some{Z}(v), repeat_Z{option{Z}}(None{Z}, n))));
+
+id : 16
+priority : post(5)
+left : CharArray::undef_missing_i(?p, ?i, ?x, ?y) at 0
+       data_at(pointer_offset(p, i, I8), I8, ?v) at 1
+check : infer(x <= i);
+        infer(i < y);
+action : left_erase(1);
+         left_erase(0);
+         left_add(CharArray::mixed_seg(p, x, y, replace_Znth{option{Z}}(i - x, Some{Z}(v), repeat_Z{option{Z}}(None{Z}, y - x))));
+
+id : 101
+priority : array_length(0)
+left : CharArray::mixed_full(?p, ?n, ?l) at 0
+check : absense(Zlength{option{Z}}(l) == n);
+action : left_add(Zlength{option{Z}}(l) == n);
+
+id : 102
+priority : array_length(0)
+left : CharArray::mixed_seg(?p, ?x, ?y, ?l) at 0
+check : absense(Zlength{option{Z}}(l) == y - x);
+action : left_add(Zlength{option{Z}}(l) == y - x);
+
+id : 103
+priority : array_length(0)
+left : CharArray::mixed_missing_i(?p, ?i, ?x, ?y, ?l) at 0
+check : absense(Zlength{option{Z}}(l) == y - x);
+action : left_add(Zlength{option{Z}}(l) == y - x);

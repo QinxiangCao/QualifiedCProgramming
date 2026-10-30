@@ -434,276 +434,276 @@ private theorem rows_from_annotation (rows : List (List Int)) (lens : List Int) 
 
 theorem proof_of_compare_concatenated_order_safety_wit_1_split_goal_1 : compare_concatenated_order_safety_wit_1_split_goal_1 := by
   unfold compare_concatenated_order_safety_wit_1_split_goal_1
-  intro right_pre left_pre number_width_pre lengths_pre numbers_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro count flat lens rows numbers_pre lengths_pre number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   apply aux_compare_concatenated_order_safety_wit_1_split_goal_1 right_pre left_pre number_width_pre lengths_pre numbers_pre count flat lens rows
   all_goals first | assumption | omega
 
 theorem proof_of_compare_concatenated_order_safety_wit_1_split_goal_2 : compare_concatenated_order_safety_wit_1_split_goal_2 := by
   unfold compare_concatenated_order_safety_wit_1_split_goal_2
-  intro right_pre left_pre number_width_pre lengths_pre numbers_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro count flat lens rows numbers_pre lengths_pre number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   apply aux_compare_concatenated_order_safety_wit_1_split_goal_2 right_pre left_pre number_width_pre lengths_pre numbers_pre count flat lens rows
   all_goals first | assumption | omega
 
 theorem proof_of_compare_concatenated_order_entail_wit_1_split_goal_1 : compare_concatenated_order_entail_wit_1_split_goal_1 := by
   unfold compare_concatenated_order_entail_wit_1_split_goal_1
-  intro right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   apply aux_compare_concatenated_order_entail_wit_1_split_goal_1 right_pre left_pre number_width_pre count flat lens rows
   all_goals first | assumption | omega
 
 theorem proof_of_compare_concatenated_order_entail_wit_1_split_goal_2 : compare_concatenated_order_entail_wit_1_split_goal_2 := by
   unfold compare_concatenated_order_entail_wit_1_split_goal_2
-  intro right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   apply aux_compare_concatenated_order_entail_wit_1_split_goal_2 right_pre left_pre number_width_pre count flat lens rows
   all_goals first | assumption | omega
 
 theorem proof_of_compare_concatenated_order_entail_wit_1_split_goal_3 : compare_concatenated_order_entail_wit_1_split_goal_3 := by
   unfold compare_concatenated_order_entail_wit_1_split_goal_3
-  intro right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   apply aux_compare_concatenated_order_entail_wit_1_split_goal_5 right_pre left_pre number_width_pre count flat lens rows
   all_goals first | assumption | omega
 
 theorem proof_of_compare_concatenated_order_entail_wit_1_split_goal_4 : compare_concatenated_order_entail_wit_1_split_goal_4 := by
   unfold compare_concatenated_order_entail_wit_1_split_goal_4
-  intro right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   apply aux_compare_concatenated_order_entail_wit_1_split_goal_6 right_pre left_pre number_width_pre count flat lens rows
   all_goals first | assumption | omega
 
 theorem proof_of_compare_concatenated_order_entail_wit_1_split_goal_5 : compare_concatenated_order_entail_wit_1_split_goal_5 := by
   unfold compare_concatenated_order_entail_wit_1_split_goal_5
-  intro right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   apply aux_compare_concatenated_order_entail_wit_1_split_goal_7 right_pre left_pre number_width_pre count flat lens rows
   all_goals first | assumption | omega
 
 theorem proof_of_compare_concatenated_order_entail_wit_1_split_goal_6 : compare_concatenated_order_entail_wit_1_split_goal_6 := by
   unfold compare_concatenated_order_entail_wit_1_split_goal_6
-  intro right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   apply aux_compare_concatenated_order_entail_wit_1_split_goal_8 right_pre left_pre number_width_pre count flat lens rows
   all_goals first | assumption | omega
 
 theorem proof_of_compare_concatenated_order_entail_wit_2_split_goal_1 : compare_concatenated_order_entail_wit_2_split_goal_1 := by
   unfold compare_concatenated_order_entail_wit_2_split_goal_1
-  intro right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
+  intro count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   apply aux_compare_concatenated_order_entail_wit_3_split_goal_1 right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length
   all_goals first | assumption | omega
 
 theorem proof_of_compare_concatenated_order_entail_wit_3_split_goal_1 : compare_concatenated_order_entail_wit_3_split_goal_1 := by
   unfold compare_concatenated_order_entail_wit_3_split_goal_1
-  intro right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
+  intro count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   apply aux_compare_concatenated_order_entail_wit_5_split_goal_1 right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length
   all_goals first | assumption | omega
 
 theorem proof_of_compare_concatenated_order_entail_wit_4_1_split_goal_1 : compare_concatenated_order_entail_wit_4_1_split_goal_1 := by
   unfold compare_concatenated_order_entail_wit_4_1_split_goal_1
-  intro right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   exact (concat_digit_lookup__compare_digits flat rows lens count number_width_pre left_pre right_pre left_length right_length position hWF PreH39 ⟨by omega,by omega⟩ ⟨by omega,by omega⟩ PreH40.1 PreH40.2.1).1 ⟨by omega,by omega⟩
 
 theorem proof_of_compare_concatenated_order_entail_wit_4_2_split_goal_1 : compare_concatenated_order_entail_wit_4_2_split_goal_1 := by
   unfold compare_concatenated_order_entail_wit_4_2_split_goal_1
-  intro right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36
   exact (concat_digit_lookup__compare_digits flat rows lens count number_width_pre left_pre right_pre left_length right_length position hWF PreH37 ⟨by omega,by omega⟩ ⟨by omega,by omega⟩ PreH38.1 PreH38.2.1).2.1 ⟨by omega,by omega⟩
 
 theorem proof_of_compare_concatenated_order_entail_wit_5_split_goal_1 : compare_concatenated_order_entail_wit_5_split_goal_1 := by
   unfold compare_concatenated_order_entail_wit_5_split_goal_1
-  intro right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
+  intro count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
   apply aux_compare_concatenated_order_entail_wit_8_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right
   all_goals first | assumption | omega
 
 theorem proof_of_compare_concatenated_order_entail_wit_6_split_goal_1 : compare_concatenated_order_entail_wit_6_split_goal_1 := by
   unfold compare_concatenated_order_entail_wit_6_split_goal_1
-  intro right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
+  intro count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
   apply aux_compare_concatenated_order_entail_wit_10_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right
   all_goals first | assumption | omega
 
 theorem proof_of_compare_concatenated_order_entail_wit_7_1_split_goal_1 : compare_concatenated_order_entail_wit_7_1_split_goal_1 := by
   unfold compare_concatenated_order_entail_wit_7_1_split_goal_1
-  intro right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
+  intro count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   exact (concat_digit_lookup__compare_digits flat rows lens count number_width_pre left_pre right_pre left_length right_length position hWF PreH41 ⟨by omega,by omega⟩ ⟨by omega,by omega⟩ PreH42.1 PreH42.2.1).2.2.1 ⟨by omega,by omega⟩
 
 theorem proof_of_compare_concatenated_order_entail_wit_7_2_split_goal_1 : compare_concatenated_order_entail_wit_7_2_split_goal_1 := by
   unfold compare_concatenated_order_entail_wit_7_2_split_goal_1
-  intro right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   exact (concat_digit_lookup__compare_digits flat rows lens count number_width_pre left_pre right_pre left_length right_length position hWF PreH39 ⟨by omega,by omega⟩ ⟨by omega,by omega⟩ PreH40.1 PreH40.2.1).2.2.2 ⟨by omega,by omega⟩
 
 theorem proof_of_compare_concatenated_order_entail_wit_8_split_goal_1 : compare_concatenated_order_entail_wit_8_split_goal_1 := by
   unfold compare_concatenated_order_entail_wit_8_split_goal_1
-  intro right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   apply aux_compare_concatenated_order_entail_wit_12_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right right_then_left
   all_goals first | assumption | omega
 
 theorem proof_of_compare_concatenated_order_return_wit_1_split_goal_1 : compare_concatenated_order_return_wit_1_split_goal_1 := by
   unfold compare_concatenated_order_return_wit_1_split_goal_1
-  intro right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   apply aux_compare_concatenated_order_return_wit_1_split_goal_1 right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length
   all_goals first | assumption | omega
 
 theorem proof_of_compare_concatenated_order_return_wit_2_split_goal_1 : compare_concatenated_order_return_wit_2_split_goal_1 := by
   unfold compare_concatenated_order_return_wit_2_split_goal_1
-  intro right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   apply aux_compare_concatenated_order_return_wit_2_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right right_then_left
   all_goals first | assumption | omega
 
 theorem proof_of_compare_concatenated_order_return_wit_3_split_goal_1 : compare_concatenated_order_return_wit_3_split_goal_1 := by
   unfold compare_concatenated_order_return_wit_3_split_goal_1
-  intro right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   have hWF : RowsWellFormed rows lens count number_width_pre := rows_from_annotation rows lens count number_width_pre PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   apply aux_compare_concatenated_order_return_wit_3_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right right_then_left
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_2_split_goal_1 : concatenating_numbers_dp_entail_wit_2_split_goal_1 := by
   unfold concatenating_numbers_dp_entail_wit_2_split_goal_1
-  intro number_width_pre count_pre flat lens rows choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro flat lens rows count_pre number_width_pre choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   apply aux_concatenating_numbers_dp_entail_wit_2_split_goal_1 number_width_pre count_pre flat lens rows choices_2 mask state_count
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_1 : concatenating_numbers_dp_entail_wit_3_split_goal_1 := by
   unfold concatenating_numbers_dp_entail_wit_3_split_goal_1
-  intro number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   apply aux_concatenating_numbers_dp_entail_wit_3_split_goal_1 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_2 : concatenating_numbers_dp_entail_wit_3_split_goal_2 := by
   unfold concatenating_numbers_dp_entail_wit_3_split_goal_2
-  intro number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   apply aux_concatenating_numbers_dp_entail_wit_3_split_goal_2 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_3 : concatenating_numbers_dp_entail_wit_3_split_goal_3 := by
   unfold concatenating_numbers_dp_entail_wit_3_split_goal_3
-  intro number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   apply aux_concatenating_numbers_dp_entail_wit_3_split_goal_3 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_4 : concatenating_numbers_dp_entail_wit_3_split_goal_4 := by
   unfold concatenating_numbers_dp_entail_wit_3_split_goal_4
-  intro number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   apply aux_concatenating_numbers_dp_entail_wit_3_split_goal_4 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_1 : concatenating_numbers_dp_entail_wit_4_split_goal_1 := by
   unfold concatenating_numbers_dp_entail_wit_4_split_goal_1
-  intro number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   apply aux_concatenating_numbers_dp_entail_wit_4_split_goal_1 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_2 : concatenating_numbers_dp_entail_wit_4_split_goal_2 := by
   unfold concatenating_numbers_dp_entail_wit_4_split_goal_2
-  intro number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   apply aux_concatenating_numbers_dp_entail_wit_4_split_goal_2 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_3 : concatenating_numbers_dp_entail_wit_4_split_goal_3 := by
   unfold concatenating_numbers_dp_entail_wit_4_split_goal_3
-  intro number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   apply aux_concatenating_numbers_dp_entail_wit_4_split_goal_3 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_4 : concatenating_numbers_dp_entail_wit_4_split_goal_4 := by
   unfold concatenating_numbers_dp_entail_wit_4_split_goal_4
-  intro number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   apply aux_concatenating_numbers_dp_entail_wit_4_split_goal_4 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_5 : concatenating_numbers_dp_entail_wit_4_split_goal_5 := by
   unfold concatenating_numbers_dp_entail_wit_4_split_goal_5
-  intro number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   apply aux_concatenating_numbers_dp_entail_wit_4_split_goal_5 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_6_1_split_goal_1 : concatenating_numbers_dp_entail_wit_6_1_split_goal_1 := by
   unfold concatenating_numbers_dp_entail_wit_6_1_split_goal_1
-  intro number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   apply aux_concatenating_numbers_dp_entail_wit_6_1_split_goal_1 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_6_1_split_goal_2 : concatenating_numbers_dp_entail_wit_6_1_split_goal_2 := by
   unfold concatenating_numbers_dp_entail_wit_6_1_split_goal_2
-  intro number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   apply aux_concatenating_numbers_dp_entail_wit_6_1_split_goal_2 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_6_2_split_goal_1 : concatenating_numbers_dp_entail_wit_6_2_split_goal_1 := by
   unfold concatenating_numbers_dp_entail_wit_6_2_split_goal_1
-  intro number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
+  intro flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
   apply aux_concatenating_numbers_dp_entail_wit_6_2_split_goal_1 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_6_2_split_goal_2 : concatenating_numbers_dp_entail_wit_6_2_split_goal_2 := by
   unfold concatenating_numbers_dp_entail_wit_6_2_split_goal_2
-  intro number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
+  intro flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
   apply aux_concatenating_numbers_dp_entail_wit_6_2_split_goal_2 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_6_3_split_goal_1 : concatenating_numbers_dp_entail_wit_6_3_split_goal_1 := by
   unfold concatenating_numbers_dp_entail_wit_6_3_split_goal_1
-  intro number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
+  intro flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
   apply aux_concatenating_numbers_dp_entail_wit_6_3_split_goal_1 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_6_3_split_goal_2 : concatenating_numbers_dp_entail_wit_6_3_split_goal_2 := by
   unfold concatenating_numbers_dp_entail_wit_6_3_split_goal_2
-  intro number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
+  intro flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
   apply aux_concatenating_numbers_dp_entail_wit_6_3_split_goal_2 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_10_split_goal_1 : concatenating_numbers_dp_entail_wit_10_split_goal_1 := by
   unfold concatenating_numbers_dp_entail_wit_10_split_goal_1
-  intro number_width_pre count_pre flat lens rows prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
+  intro flat lens rows count_pre number_width_pre prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
   apply aux_concatenating_numbers_dp_entail_wit_11_split_goal_1 number_width_pre count_pre flat lens rows prior output result_length position first choices mask state_count
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_12_split_goal_1 : concatenating_numbers_dp_entail_wit_12_split_goal_1 := by
   unfold concatenating_numbers_dp_entail_wit_12_split_goal_1
-  intro number_width_pre count_pre flat lens rows prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
+  intro flat lens rows count_pre number_width_pre prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   apply aux_concatenating_numbers_dp_entail_wit_14_split_goal_1 number_width_pre count_pre flat lens rows prior output_2 result_length position first choices_2 mask state_count
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_12_split_goal_2 : concatenating_numbers_dp_entail_wit_12_split_goal_2 := by
   unfold concatenating_numbers_dp_entail_wit_12_split_goal_2
-  intro number_width_pre count_pre flat lens rows prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
+  intro flat lens rows count_pre number_width_pre prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   apply aux_concatenating_numbers_dp_entail_wit_14_split_goal_2 number_width_pre count_pre flat lens rows prior output_2 result_length position first choices_2 mask state_count
   all_goals first | assumption | omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_12_split_goal_3 : concatenating_numbers_dp_entail_wit_12_split_goal_3 := by
   unfold concatenating_numbers_dp_entail_wit_12_split_goal_3
-  intro number_width_pre count_pre flat lens rows prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
+  intro flat lens rows count_pre number_width_pre prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   apply aux_concatenating_numbers_dp_entail_wit_14_split_goal_3 number_width_pre count_pre flat lens rows prior output_2 result_length position first choices_2 mask state_count
   all_goals first | assumption | omega
@@ -711,7 +711,7 @@ theorem proof_of_concatenating_numbers_dp_entail_wit_12_split_goal_3 : concatena
 theorem proof_of_compare_concatenated_order_safety_wit_1 : compare_concatenated_order_safety_wit_1 := by
   unfold compare_concatenated_order_safety_wit_1
   right
-  intro right_pre left_pre number_width_pre lengths_pre numbers_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro count flat lens rows numbers_pre lengths_pre number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have hWF := rows_from_annotation rows lens count number_width_pre PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have hl := hWF.2.2 left_pre ⟨PreH5, PreH6⟩
   have hr := hWF.2.2 right_pre ⟨PreH7, PreH8⟩
@@ -720,22 +720,22 @@ theorem proof_of_compare_concatenated_order_safety_wit_1 : compare_concatenated_
 theorem proof_of_compare_concatenated_order_entail_wit_1 : compare_concatenated_order_entail_wit_1 := by
   unfold compare_concatenated_order_entail_wit_1
   right
-  intro right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_1_split_goal_1 right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
-    | exact (proof_of_compare_concatenated_order_entail_wit_1_split_goal_1 right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18)
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_1_split_goal_2 right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
-    | exact (proof_of_compare_concatenated_order_entail_wit_1_split_goal_2 right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18)
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_1_split_goal_3 right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
-    | exact (proof_of_compare_concatenated_order_entail_wit_1_split_goal_3 right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18)
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_1_split_goal_4 right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
-    | exact (proof_of_compare_concatenated_order_entail_wit_1_split_goal_4 right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18)
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_1_split_goal_5 right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
-    | exact (proof_of_compare_concatenated_order_entail_wit_1_split_goal_5 right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18)
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_1_split_goal_6 right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
-    | exact (proof_of_compare_concatenated_order_entail_wit_1_split_goal_6 right_pre left_pre number_width_pre count flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_1_split_goal_1 count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
+    | exact (proof_of_compare_concatenated_order_entail_wit_1_split_goal_1 count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_1_split_goal_2 count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
+    | exact (proof_of_compare_concatenated_order_entail_wit_1_split_goal_2 count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_1_split_goal_3 count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
+    | exact (proof_of_compare_concatenated_order_entail_wit_1_split_goal_3 count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_1_split_goal_4 count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
+    | exact (proof_of_compare_concatenated_order_entail_wit_1_split_goal_4 count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_1_split_goal_5 count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
+    | exact (proof_of_compare_concatenated_order_entail_wit_1_split_goal_5 count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_1_split_goal_6 count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
+    | exact (proof_of_compare_concatenated_order_entail_wit_1_split_goal_6 count flat lens rows number_width_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18)
     | assumption
     | omega
     | rfl
@@ -744,12 +744,12 @@ theorem proof_of_compare_concatenated_order_entail_wit_1 : compare_concatenated_
 theorem proof_of_compare_concatenated_order_entail_wit_2 : compare_concatenated_order_entail_wit_2 := by
   unfold compare_concatenated_order_entail_wit_2
   right
-  intro right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
+  intro count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_2_split_goal_1 right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42))
-    | exact (proof_of_compare_concatenated_order_entail_wit_2_split_goal_1 right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_2_split_goal_1 count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42))
+    | exact (proof_of_compare_concatenated_order_entail_wit_2_split_goal_1 count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42)
     | assumption
     | omega
     | rfl
@@ -758,12 +758,12 @@ theorem proof_of_compare_concatenated_order_entail_wit_2 : compare_concatenated_
 theorem proof_of_compare_concatenated_order_entail_wit_3 : compare_concatenated_order_entail_wit_3 := by
   unfold compare_concatenated_order_entail_wit_3
   right
-  intro right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
+  intro count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_3_split_goal_1 right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42))
-    | exact (proof_of_compare_concatenated_order_entail_wit_3_split_goal_1 right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_3_split_goal_1 count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42))
+    | exact (proof_of_compare_concatenated_order_entail_wit_3_split_goal_1 count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42)
     | assumption
     | omega
     | rfl
@@ -772,12 +772,12 @@ theorem proof_of_compare_concatenated_order_entail_wit_3 : compare_concatenated_
 theorem proof_of_compare_concatenated_order_entail_wit_4_1 : compare_concatenated_order_entail_wit_4_1 := by
   unfold compare_concatenated_order_entail_wit_4_1
   right
-  intro right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_4_1_split_goal_1 right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40))
-    | exact (proof_of_compare_concatenated_order_entail_wit_4_1_split_goal_1 right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_4_1_split_goal_1 count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40))
+    | exact (proof_of_compare_concatenated_order_entail_wit_4_1_split_goal_1 count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40)
     | assumption
     | omega
     | rfl
@@ -786,12 +786,12 @@ theorem proof_of_compare_concatenated_order_entail_wit_4_1 : compare_concatenate
 theorem proof_of_compare_concatenated_order_entail_wit_4_2 : compare_concatenated_order_entail_wit_4_2 := by
   unfold compare_concatenated_order_entail_wit_4_2
   right
-  intro right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_4_2_split_goal_1 right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38))
-    | exact (proof_of_compare_concatenated_order_entail_wit_4_2_split_goal_1 right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_4_2_split_goal_1 count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38))
+    | exact (proof_of_compare_concatenated_order_entail_wit_4_2_split_goal_1 count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38)
     | assumption
     | omega
     | rfl
@@ -800,12 +800,12 @@ theorem proof_of_compare_concatenated_order_entail_wit_4_2 : compare_concatenate
 theorem proof_of_compare_concatenated_order_entail_wit_5 : compare_concatenated_order_entail_wit_5 := by
   unfold compare_concatenated_order_entail_wit_5
   right
-  intro right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
+  intro count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_5_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44))
-    | exact (proof_of_compare_concatenated_order_entail_wit_5_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_5_split_goal_1 count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44))
+    | exact (proof_of_compare_concatenated_order_entail_wit_5_split_goal_1 count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44)
     | assumption
     | omega
     | rfl
@@ -814,12 +814,12 @@ theorem proof_of_compare_concatenated_order_entail_wit_5 : compare_concatenated_
 theorem proof_of_compare_concatenated_order_entail_wit_6 : compare_concatenated_order_entail_wit_6 := by
   unfold compare_concatenated_order_entail_wit_6
   right
-  intro right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
+  intro count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_6_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44))
-    | exact (proof_of_compare_concatenated_order_entail_wit_6_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_6_split_goal_1 count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44))
+    | exact (proof_of_compare_concatenated_order_entail_wit_6_split_goal_1 count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44)
     | assumption
     | omega
     | rfl
@@ -828,12 +828,12 @@ theorem proof_of_compare_concatenated_order_entail_wit_6 : compare_concatenated_
 theorem proof_of_compare_concatenated_order_entail_wit_7_1 : compare_concatenated_order_entail_wit_7_1 := by
   unfold compare_concatenated_order_entail_wit_7_1
   right
-  intro right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
+  intro count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_7_1_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42))
-    | exact (proof_of_compare_concatenated_order_entail_wit_7_1_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_7_1_split_goal_1 count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42))
+    | exact (proof_of_compare_concatenated_order_entail_wit_7_1_split_goal_1 count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42)
     | assumption
     | omega
     | rfl
@@ -842,12 +842,12 @@ theorem proof_of_compare_concatenated_order_entail_wit_7_1 : compare_concatenate
 theorem proof_of_compare_concatenated_order_entail_wit_7_2 : compare_concatenated_order_entail_wit_7_2 := by
   unfold compare_concatenated_order_entail_wit_7_2
   right
-  intro right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
+  intro count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_7_2_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40))
-    | exact (proof_of_compare_concatenated_order_entail_wit_7_2_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_7_2_split_goal_1 count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40))
+    | exact (proof_of_compare_concatenated_order_entail_wit_7_2_split_goal_1 count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40)
     | assumption
     | omega
     | rfl
@@ -856,12 +856,12 @@ theorem proof_of_compare_concatenated_order_entail_wit_7_2 : compare_concatenate
 theorem proof_of_compare_concatenated_order_entail_wit_8 : compare_concatenated_order_entail_wit_8 := by
   unfold compare_concatenated_order_entail_wit_8
   right
-  intro right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_8_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30))
-    | exact (proof_of_compare_concatenated_order_entail_wit_8_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_entail_wit_8_split_goal_1 count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30))
+    | exact (proof_of_compare_concatenated_order_entail_wit_8_split_goal_1 count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
     | assumption
     | omega
     | rfl
@@ -870,12 +870,12 @@ theorem proof_of_compare_concatenated_order_entail_wit_8 : compare_concatenated_
 theorem proof_of_compare_concatenated_order_return_wit_1 : compare_concatenated_order_return_wit_1 := by
   unfold compare_concatenated_order_return_wit_1
   right
-  intro right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_return_wit_1_split_goal_1 right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
-    | exact (proof_of_compare_concatenated_order_return_wit_1_split_goal_1 right_pre left_pre number_width_pre count flat lens rows position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_return_wit_1_split_goal_1 count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
+    | exact (proof_of_compare_concatenated_order_return_wit_1_split_goal_1 count flat lens rows number_width_pre left_pre right_pre position total_length right_length left_length PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
     | assumption
     | omega
     | rfl
@@ -884,12 +884,12 @@ theorem proof_of_compare_concatenated_order_return_wit_1 : compare_concatenated_
 theorem proof_of_compare_concatenated_order_return_wit_2 : compare_concatenated_order_return_wit_2 := by
   unfold compare_concatenated_order_return_wit_2
   right
-  intro right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_return_wit_2_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30))
-    | exact (proof_of_compare_concatenated_order_return_wit_2_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_return_wit_2_split_goal_1 count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30))
+    | exact (proof_of_compare_concatenated_order_return_wit_2_split_goal_1 count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
     | assumption
     | omega
     | rfl
@@ -898,12 +898,12 @@ theorem proof_of_compare_concatenated_order_return_wit_2 : compare_concatenated_
 theorem proof_of_compare_concatenated_order_return_wit_3 : compare_concatenated_order_return_wit_3 := by
   unfold compare_concatenated_order_return_wit_3
   right
-  intro right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_compare_concatenated_order_return_wit_3_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29))
-    | exact (proof_of_compare_concatenated_order_return_wit_3_split_goal_1 right_pre left_pre number_width_pre count flat lens rows left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29)
+    | (solve | Goal_apply (proof_of_compare_concatenated_order_return_wit_3_split_goal_1 count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29))
+    | exact (proof_of_compare_concatenated_order_return_wit_3_split_goal_1 count flat lens rows number_width_pre left_pre right_pre left_length right_length total_length position left_then_right right_then_left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29)
     | assumption
     | omega
     | rfl
@@ -912,12 +912,12 @@ theorem proof_of_compare_concatenated_order_return_wit_3 : compare_concatenated_
 theorem proof_of_concatenating_numbers_dp_entail_wit_2 : concatenating_numbers_dp_entail_wit_2 := by
   unfold concatenating_numbers_dp_entail_wit_2
   right
-  intro number_width_pre count_pre flat lens rows choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro flat lens rows count_pre number_width_pre choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_2_split_goal_1 number_width_pre count_pre flat lens rows choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_2_split_goal_1 number_width_pre count_pre flat lens rows choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_2_split_goal_1 flat lens rows count_pre number_width_pre choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_2_split_goal_1 flat lens rows count_pre number_width_pre choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
     | assumption
     | omega
     | rfl
@@ -926,18 +926,18 @@ theorem proof_of_concatenating_numbers_dp_entail_wit_2 : concatenating_numbers_d
 theorem proof_of_concatenating_numbers_dp_entail_wit_3 : concatenating_numbers_dp_entail_wit_3 := by
   unfold concatenating_numbers_dp_entail_wit_3
   right
-  intro number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_1 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_1 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_2 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_2 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_3 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_3 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_4 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_4 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_1 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_1 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_2 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_2 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_3 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_3 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_4 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_3_split_goal_4 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
     | assumption
     | omega
     | rfl
@@ -946,20 +946,20 @@ theorem proof_of_concatenating_numbers_dp_entail_wit_3 : concatenating_numbers_d
 theorem proof_of_concatenating_numbers_dp_entail_wit_4 : concatenating_numbers_dp_entail_wit_4 := by
   unfold concatenating_numbers_dp_entail_wit_4
   right
-  intro number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_1 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_1 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_2 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_2 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_3 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_3 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_4 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_4 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_5 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_5 number_width_pre count_pre flat lens rows choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_1 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_1 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_2 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_2 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_3 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_3 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_4 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_4 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_5 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_4_split_goal_5 flat lens rows count_pre number_width_pre choices_2 bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
     | assumption
     | omega
     | rfl
@@ -968,14 +968,14 @@ theorem proof_of_concatenating_numbers_dp_entail_wit_4 : concatenating_numbers_d
 theorem proof_of_concatenating_numbers_dp_entail_wit_6_1 : concatenating_numbers_dp_entail_wit_6_1 := by
   unfold concatenating_numbers_dp_entail_wit_6_1
   right
-  intro number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_6_1_split_goal_1 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_6_1_split_goal_1 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_6_1_split_goal_2 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_6_1_split_goal_2 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_6_1_split_goal_1 flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_6_1_split_goal_1 flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_6_1_split_goal_2 flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_6_1_split_goal_2 flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
     | assumption
     | omega
     | rfl
@@ -984,14 +984,14 @@ theorem proof_of_concatenating_numbers_dp_entail_wit_6_1 : concatenating_numbers
 theorem proof_of_concatenating_numbers_dp_entail_wit_6_2 : concatenating_numbers_dp_entail_wit_6_2 := by
   unfold concatenating_numbers_dp_entail_wit_6_2
   right
-  intro number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
+  intro flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_6_2_split_goal_1 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_6_2_split_goal_1 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34)
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_6_2_split_goal_2 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_6_2_split_goal_2 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_6_2_split_goal_1 flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_6_2_split_goal_1 flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_6_2_split_goal_2 flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_6_2_split_goal_2 flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34)
     | assumption
     | omega
     | rfl
@@ -1000,14 +1000,14 @@ theorem proof_of_concatenating_numbers_dp_entail_wit_6_2 : concatenating_numbers
 theorem proof_of_concatenating_numbers_dp_entail_wit_6_3 : concatenating_numbers_dp_entail_wit_6_3 := by
   unfold concatenating_numbers_dp_entail_wit_6_3
   right
-  intro number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
+  intro flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_6_3_split_goal_1 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_6_3_split_goal_1 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34)
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_6_3_split_goal_2 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_6_3_split_goal_2 number_width_pre count_pre flat lens rows choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_6_3_split_goal_1 flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_6_3_split_goal_1 flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_6_3_split_goal_2 flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_6_3_split_goal_2 flat lens rows count_pre number_width_pre choices_2 state_count mask bit rest previous_best bit_value retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34)
     | assumption
     | omega
     | rfl
@@ -1016,12 +1016,12 @@ theorem proof_of_concatenating_numbers_dp_entail_wit_6_3 : concatenating_numbers
 theorem proof_of_concatenating_numbers_dp_entail_wit_10 : concatenating_numbers_dp_entail_wit_10 := by
   unfold concatenating_numbers_dp_entail_wit_10
   right
-  intro number_width_pre count_pre flat lens rows prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
+  intro flat lens rows count_pre number_width_pre prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_10_split_goal_1 number_width_pre count_pre flat lens rows prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_10_split_goal_1 number_width_pre count_pre flat lens rows prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_10_split_goal_1 flat lens rows count_pre number_width_pre prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_10_split_goal_1 flat lens rows count_pre number_width_pre prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49)
     | assumption
     | omega
     | rfl
@@ -1030,16 +1030,16 @@ theorem proof_of_concatenating_numbers_dp_entail_wit_10 : concatenating_numbers_
 theorem proof_of_concatenating_numbers_dp_entail_wit_12 : concatenating_numbers_dp_entail_wit_12 := by
   unfold concatenating_numbers_dp_entail_wit_12
   right
-  intro number_width_pre count_pre flat lens rows prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
+  intro flat lens rows count_pre number_width_pre prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_12_split_goal_1 number_width_pre count_pre flat lens rows prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_12_split_goal_1 number_width_pre count_pre flat lens rows prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35)
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_12_split_goal_2 number_width_pre count_pre flat lens rows prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_12_split_goal_2 number_width_pre count_pre flat lens rows prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35)
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_12_split_goal_3 number_width_pre count_pre flat lens rows prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_12_split_goal_3 number_width_pre count_pre flat lens rows prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_12_split_goal_1 flat lens rows count_pre number_width_pre prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_12_split_goal_1 flat lens rows count_pre number_width_pre prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_12_split_goal_2 flat lens rows count_pre number_width_pre prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_12_split_goal_2 flat lens rows count_pre number_width_pre prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_12_split_goal_3 flat lens rows count_pre number_width_pre prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_12_split_goal_3 flat lens rows count_pre number_width_pre prior output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35)
     | assumption
     | omega
     | rfl
@@ -1047,7 +1047,7 @@ theorem proof_of_concatenating_numbers_dp_entail_wit_12 : concatenating_numbers_
 
 theorem proof_of_concatenating_numbers_dp_safety_wit_1_split_goal_1 : concatenating_numbers_dp_safety_wit_1_split_goal_1 := by
   unfold concatenating_numbers_dp_safety_wit_1_split_goal_1
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have hr := signed_Lastnbits_range (1*Z.pow 2 count_pre) 32 (by decide)
   change -2147483648≤signed_last_nbits (1*Z.pow 2 count_pre) 32 ∧ signed_last_nbits (1*Z.pow 2 count_pre) 32<2147483648 at hr
@@ -1057,7 +1057,7 @@ theorem proof_of_concatenating_numbers_dp_safety_wit_1_split_goal_1 : concatenat
 
 theorem proof_of_concatenating_numbers_dp_safety_wit_1_split_goal_2 : concatenating_numbers_dp_safety_wit_1_split_goal_2 := by
   unfold concatenating_numbers_dp_safety_wit_1_split_goal_2
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have hr := signed_Lastnbits_range (1*Z.pow 2 count_pre) 32 (by decide)
   change -2147483648≤signed_last_nbits (1*Z.pow 2 count_pre) 32 ∧ signed_last_nbits (1*Z.pow 2 count_pre) 32<2147483648 at hr
@@ -1067,21 +1067,21 @@ theorem proof_of_concatenating_numbers_dp_safety_wit_1_split_goal_2 : concatenat
 
 theorem proof_of_concatenating_numbers_dp_safety_wit_1_split_goal_3 : concatenating_numbers_dp_safety_wit_1_split_goal_3 := by
   unfold concatenating_numbers_dp_safety_wit_1_split_goal_3
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   dump_pre_spatial
   omega
 
 theorem proof_of_concatenating_numbers_dp_safety_wit_1_split_goal_4 : concatenating_numbers_dp_safety_wit_1_split_goal_4 := by
   unfold concatenating_numbers_dp_safety_wit_1_split_goal_4
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   dump_pre_spatial
   omega
 
 theorem proof_of_concatenating_numbers_dp_safety_wit_11_split_goal_1 : concatenating_numbers_dp_safety_wit_11_split_goal_1 := by
   unfold concatenating_numbers_dp_safety_wit_11_split_goal_1
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows choices bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre choices bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have hr := signed_Lastnbits_range (bit_value*Z.pow 2 1) 32 (by decide)
   change -2147483648≤signed_last_nbits (bit_value*Z.pow 2 1) 32 ∧ signed_last_nbits (bit_value*Z.pow 2 1) 32<2147483648 at hr
@@ -1091,7 +1091,7 @@ theorem proof_of_concatenating_numbers_dp_safety_wit_11_split_goal_1 : concatena
 
 theorem proof_of_concatenating_numbers_dp_safety_wit_11_split_goal_2 : concatenating_numbers_dp_safety_wit_11_split_goal_2 := by
   unfold concatenating_numbers_dp_safety_wit_11_split_goal_2
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows choices bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre choices bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have hr := signed_Lastnbits_range (bit_value*Z.pow 2 1) 32 (by decide)
   change -2147483648≤signed_last_nbits (bit_value*Z.pow 2 1) 32 ∧ signed_last_nbits (bit_value*Z.pow 2 1) 32<2147483648 at hr
@@ -1101,21 +1101,21 @@ theorem proof_of_concatenating_numbers_dp_safety_wit_11_split_goal_2 : concatena
 
 theorem proof_of_concatenating_numbers_dp_safety_wit_11_split_goal_3 : concatenating_numbers_dp_safety_wit_11_split_goal_3 := by
   unfold concatenating_numbers_dp_safety_wit_11_split_goal_3
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows choices bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre choices bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   dump_pre_spatial
   omega
 
 theorem proof_of_concatenating_numbers_dp_safety_wit_11_split_goal_4 : concatenating_numbers_dp_safety_wit_11_split_goal_4 := by
   unfold concatenating_numbers_dp_safety_wit_11_split_goal_4
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows choices bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre choices bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   dump_pre_spatial
   omega
 
 theorem proof_of_concatenating_numbers_dp_safety_wit_28_split_goal_1 : concatenating_numbers_dp_safety_wit_28_split_goal_1 := by
   unfold concatenating_numbers_dp_safety_wit_28_split_goal_1
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   have hr := signed_Lastnbits_range (1*Z.pow 2 first) 32 (by decide)
   change -2147483648≤signed_last_nbits (1*Z.pow 2 first) 32 ∧ signed_last_nbits (1*Z.pow 2 first) 32<2147483648 at hr
@@ -1125,7 +1125,7 @@ theorem proof_of_concatenating_numbers_dp_safety_wit_28_split_goal_1 : concatena
 
 theorem proof_of_concatenating_numbers_dp_safety_wit_28_split_goal_2 : concatenating_numbers_dp_safety_wit_28_split_goal_2 := by
   unfold concatenating_numbers_dp_safety_wit_28_split_goal_2
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   have hr := signed_Lastnbits_range (1*Z.pow 2 first) 32 (by decide)
   change -2147483648≤signed_last_nbits (1*Z.pow 2 first) 32 ∧ signed_last_nbits (1*Z.pow 2 first) 32<2147483648 at hr
@@ -1135,39 +1135,39 @@ theorem proof_of_concatenating_numbers_dp_safety_wit_28_split_goal_2 : concatena
 
 theorem proof_of_concatenating_numbers_dp_safety_wit_28_split_goal_3 : concatenating_numbers_dp_safety_wit_28_split_goal_3 := by
   unfold concatenating_numbers_dp_safety_wit_28_split_goal_3
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   dump_pre_spatial
   omega
 
 theorem proof_of_concatenating_numbers_dp_safety_wit_28_split_goal_4 : concatenating_numbers_dp_safety_wit_28_split_goal_4 := by
   unfold concatenating_numbers_dp_safety_wit_28_split_goal_4
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   dump_pre_spatial
   omega
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_1 : concatenating_numbers_dp_entail_wit_8_split_goal_1 := by
   unfold concatenating_numbers_dp_entail_wit_8_split_goal_1
-  intro number_width_pre count_pre flat lens rows choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro flat lens rows count_pre number_width_pre choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hg := greedy_output_full_mask__output_initialization rows lens count_pre PreH11 (by omega)
   simpa only [← PreH2] using hg
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_2 : concatenating_numbers_dp_entail_wit_8_split_goal_2 := by
   unfold concatenating_numbers_dp_entail_wit_8_split_goal_2
-  intro number_width_pre count_pre flat lens rows choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro flat lens rows count_pre number_width_pre choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have he : mask = state_count := by omega
   simpa only [he] using PreH22
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_3 : concatenating_numbers_dp_entail_wit_8_split_goal_3 := by
   unfold concatenating_numbers_dp_entail_wit_8_split_goal_3
-  intro number_width_pre count_pre flat lens rows choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro flat lens rows count_pre number_width_pre choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   rfl
 
 theorem proof_of_concatenating_numbers_dp_safety_wit_1 : concatenating_numbers_dp_safety_wit_1 := by
   unfold concatenating_numbers_dp_safety_wit_1
   right
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   split_pures <;> dump_pre_spatial
   all_goals first
@@ -1196,7 +1196,7 @@ theorem proof_of_concatenating_numbers_dp_safety_wit_1 : concatenating_numbers_d
 theorem proof_of_concatenating_numbers_dp_safety_wit_11 : concatenating_numbers_dp_safety_wit_11 := by
   unfold concatenating_numbers_dp_safety_wit_11
   right
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows choices bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre choices bit_value bit mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   split_pures <;> dump_pre_spatial
   all_goals first
@@ -1225,7 +1225,7 @@ theorem proof_of_concatenating_numbers_dp_safety_wit_11 : concatenating_numbers_
 theorem proof_of_concatenating_numbers_dp_safety_wit_28 : concatenating_numbers_dp_safety_wit_28 := by
   unfold concatenating_numbers_dp_safety_wit_28
   right
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre prior output result_length position first choices mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35
   have hWF : RowsWellFormed rows lens count_pre number_width_pre := rows_from_annotation rows lens count_pre number_width_pre PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   split_pures <;> dump_pre_spatial
   all_goals first
@@ -1254,16 +1254,16 @@ theorem proof_of_concatenating_numbers_dp_safety_wit_28 : concatenating_numbers_
 theorem proof_of_concatenating_numbers_dp_entail_wit_8 : concatenating_numbers_dp_entail_wit_8 := by
   unfold concatenating_numbers_dp_entail_wit_8
   right
-  intro number_width_pre count_pre flat lens rows choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro flat lens rows count_pre number_width_pre choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   aggressive_pre_process
   all_goals try (apply dump_spatial_left)
   all_goals first
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_1 number_width_pre count_pre flat lens rows choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_1 number_width_pre count_pre flat lens rows choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_2 number_width_pre count_pre flat lens rows choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_2 number_width_pre count_pre flat lens rows choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
-    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_3 number_width_pre count_pre flat lens rows choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
-    | exact (proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_3 number_width_pre count_pre flat lens rows choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_1 flat lens rows count_pre number_width_pre choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_1 flat lens rows count_pre number_width_pre choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_2 flat lens rows count_pre number_width_pre choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_2 flat lens rows count_pre number_width_pre choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+    | (solve | Goal_apply (proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_3 flat lens rows count_pre number_width_pre choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+    | exact (proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_3 flat lens rows count_pre number_width_pre choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
     | assumption
     | omega
     | rfl
@@ -1278,7 +1278,7 @@ attribute [local irreducible]
 theorem proof_of_concatenating_numbers_dp_entail_wit_1 : concatenating_numbers_dp_entail_wit_1 := by
   unfold concatenating_numbers_dp_entail_wit_1
   left
-  intro result lengths width count numbers flat lens rows hn hnmax hw hwmax hshift hshiftmax hsum hsummax hr hl hmap hlb hlu hhb hhu hdb hdu heq hvalues
+  intro flat lens rows numbers count width lengths result hn hnmax hw hwmax hshift hshiftmax hsum hsummax hr hl hmap hlb hlu hhb hhu hdb hdu heq hvalues
   have hrows := decimal_rows_lengths_from_map rows width hmap
   have hflat : FlatRows flat rows count width := by
     refine ⟨?_, hr, ?_⟩
@@ -1317,7 +1317,7 @@ theorem proof_of_concatenating_numbers_dp_entail_wit_1 : concatenating_numbers_d
 
 theorem proof_of_concatenating_numbers_dp_entail_wit_5 : concatenating_numbers_dp_entail_wit_5 := by
   unfold concatenating_numbers_dp_entail_wit_5
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows choices state_count mask bit bit_value rest PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre choices state_count mask bit bit_value rest PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   simp only [Int.sub_zero]
   by_cases hz : rest = 0
   · Left
@@ -1342,7 +1342,7 @@ theorem proof_of_concatenating_numbers_dp_entail_wit_5 : concatenating_numbers_d
 theorem proof_of_concatenating_numbers_dp_entail_wit_9 : concatenating_numbers_dp_entail_wit_9 := by
   unfold concatenating_numbers_dp_entail_wit_9
   left
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows choices output_2 result_length mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre choices output_2 result_length mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   have hWF := rows_from_annotation rows lens count_pre number_width_pre
     PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hbest := PreH25.2.2.2 mask (show 1 ≤ mask ∧ mask < state_count by omega)
@@ -1363,7 +1363,7 @@ theorem proof_of_concatenating_numbers_dp_entail_wit_9 : concatenating_numbers_d
 theorem proof_of_concatenating_numbers_dp_entail_wit_11 : concatenating_numbers_dp_entail_wit_11 := by
   unfold concatenating_numbers_dp_entail_wit_11
   left
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows prior_2 output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre prior_2 output_2 result_length position first choices_2 mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43
   have hWF := rows_from_annotation rows lens count_pre number_width_pre
     PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have happ := append_row_prefix_step__output_row_copy flat rows lens count_pre
@@ -1381,7 +1381,7 @@ theorem proof_of_concatenating_numbers_dp_entail_wit_11 : concatenating_numbers_
 theorem proof_of_concatenating_numbers_dp_entail_wit_13 : concatenating_numbers_dp_entail_wit_13 := by
   unfold concatenating_numbers_dp_entail_wit_13
   left
-  intro result_pre lengths_pre number_width_pre count_pre numbers_pre flat lens rows choices output_2 result_length mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro flat lens rows numbers_pre count_pre number_width_pre lengths_pre result_pre choices output_2 result_length mask state_count PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   have hWF := rows_from_annotation rows lens count_pre number_width_pre
     PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hg : GreedyOutputPrefix rows lens count_pre 0 output_2 := by

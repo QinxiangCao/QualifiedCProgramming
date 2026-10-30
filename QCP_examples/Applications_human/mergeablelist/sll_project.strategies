@@ -107,8 +107,8 @@ action : left_erase(0);
          left_exist_add(h);
          left_exist_add(pt);
          left_add(p != 0);
-         left_add(store(field_addr(p, sllb, head), PTR(struct sll), h));
-         left_add(store(field_addr(p, sllb, ptail), PTR(PTR(struct sll)), pt));
+         left_add(store(field_addr(p, sllb, head), PTR, h));
+         left_add(store(field_addr(p, sllb, ptail), PTR, pt));
          left_add(sll(h, l));
 
 // sllb unfold rules - right side
@@ -120,16 +120,16 @@ action : left_erase(0);
 //          right_exist_add(h);
 //          right_exist_add(pt);
 //          right_add(p != 0);
-//          right_add(store(field_addr(p, sllb, head), PTR(struct sll), h));
-//          right_add(store(field_addr(p, sllb, ptail), PTR(PTR(struct sll)), pt));
+//          right_add(store(field_addr(p, sllb, head), PTR, h));
+//          right_add(store(field_addr(p, sllb, ptail), PTR, pt));
 //          right_add(sll(h, l));
 
 // sllb fold rules
 // Strategy 34 removed: cannot prove without additional constraints
 // id : 34
 // priority : fold_sllb(0)
-// left : store(field_addr(?p, sllb, head), PTR(struct sll), ?h) at 0
-//        store(field_addr(p, sllb, ptail), PTR(PTR(struct sll)), ?pt) at 1
+// left : store(field_addr(?p, sllb, head), PTR, ?h) at 0
+//        store(field_addr(p, sllb, ptail), PTR, ?pt) at 1
 //        sll(h, ?l) at 2
 //        (p != NULL || NULL != p) at 3
 // action : left_erase(0);
@@ -149,8 +149,8 @@ left : sllb_sll(?p, ?l) at 0
 action : left_erase(0);
          left_exist_add(h);
          left_add(p != 0);
-         left_add(store(field_addr(p, sllb, head), PTR(struct sll), h));
-         left_add(store(field_addr(p, sllb, ptail), PTR(PTR(struct sll)), 0));
+         left_add(store(field_addr(p, sllb, head), PTR, h));
+         left_add(store(field_addr(p, sllb, ptail), PTR, 0));
          left_add(sll(h, l));
 
 // sllb_sll unfold - right side
@@ -161,16 +161,16 @@ right : sllb_sll(?p, ?l) at 0
 action : right_erase(0);
          right_exist_add(h);
          right_add(p != 0);
-         right_add(store(field_addr(p, sllb, head), PTR(struct sll), h));
-         right_add(store(field_addr(p, sllb, ptail), PTR(PTR(struct sll)), 0));
+         right_add(store(field_addr(p, sllb, head), PTR, h));
+         right_add(store(field_addr(p, sllb, ptail), PTR, 0));
          right_add(sll(h, l));
 
 // sllb_sll fold - from components
 // Note: We match only (p != 0), not (p != 0 || 0 != p), because the latter is harder to prove
 id : 37
 priority : fold_sllb_sll(0)
-left : store(field_addr(?p, sllb, head), PTR(struct sll), ?h) at 0
-       store(field_addr(p, sllb, ptail), PTR(PTR(struct sll)), 0) at 1
+left : store(field_addr(?p, sllb, head), PTR, ?h) at 0
+       store(field_addr(p, sllb, ptail), PTR, 0) at 1
        sll(h, ?l) at 2
        p != 0 at 3
 action : left_erase(0);

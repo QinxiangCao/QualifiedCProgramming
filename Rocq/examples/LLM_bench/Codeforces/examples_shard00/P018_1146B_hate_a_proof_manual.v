@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P018_1146B_hate_a_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P018_1146B_hate_a_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.StdLib.string_lib.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P018_1146B_hate_a_lib.
@@ -24,7 +8,7 @@ Local Open Scope sac.
 
 Lemma proof_of_solver_safety_wit_9_split_goal_1 : solver_safety_wit_9_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (nonnegative_land_one_zero_div2__parity_setup k PreH8 PreH12)
     as (Hquot_nonneg & Hexact & Hquot_le).
@@ -34,7 +18,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_9_split_goal_2 : solver_safety_wit_9_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (nonnegative_land_one_zero_div2__parity_setup k PreH8 PreH12)
     as (Hquot_nonneg & Hexact & Hquot_le).
@@ -51,11 +35,10 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(
-    assert (Hvalid : valid_string given_data);
-    [ unfold valid_string, all_ascii, no_inner_nul;
-      split; intros k Hk; destruct (PreH4 k Hk); lia
-    | unfold string_length; lia ]).
+  LLM_pre_process ltac:(lia || int_auto).
+  unfold string_length.
+  dump_pre_spatial.
+  lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2.
@@ -69,19 +52,19 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_3 : solver_entail_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold valid_string, all_ascii, no_inner_nul.
-  split; intros k Hk; destruct (PreH4 k Hk); lia.
+  split; intros k Hk; destruct (PreH3 k Hk); lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_4 : solver_entail_wit_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_spatial : solver_entail_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold c_string, string_length.
   replace (CharArray.undef_full out_pre (Zlength given_data + 1)) with
     (CharArray.undef_full
@@ -121,22 +104,22 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_2 : solver_entail_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_3 : solver_entail_wit_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_spatial : solver_entail_wit_2_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold string_length, c_string.
   cancel.
 Qed.
@@ -152,7 +135,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_1_split_goal_1 : solver_entail_wit_3_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite app_Znth1 by lia.
   assert (Hcurrent : Znth i given_data 0 <> 97).
   {
@@ -162,12 +145,12 @@ Proof.
   eapply filtered_prefix_step_non_a__filter_update.
   - lia.
   - exact Hcurrent.
-  - exact PreH13.
+  - exact PreH12.
 Qed.
 
 Lemma proof_of_solver_entail_wit_3_1_split_goal_2 : solver_entail_wit_3_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Zlength_app, Zlength_cons, Zlength_nil.
   lia.
 Qed.
@@ -181,7 +164,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_2_split_goal_1 : solver_entail_wit_3_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hcurrent : Znth i given_data 0 = 97).
   {
     rewrite <- (@app_Znth1 Z 0 given_data (0 :: nil) i) by lia.
@@ -190,7 +173,7 @@ Proof.
   eapply filtered_prefix_step_a__filter_update.
   - lia.
   - exact Hcurrent.
-  - exact PreH13.
+  - exact PreH12.
 Qed.
 
 Lemma proof_of_solver_entail_wit_3_2 : solver_entail_wit_3_2.
@@ -201,7 +184,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_1 : solver_entail_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold NoAInterval.
   intros j Hj.
   lia.
@@ -209,7 +192,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_2 : solver_entail_wit_4_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (nonnegative_land_one_zero_div2__parity_setup k PreH8 PreH12)
     as (Hquot_nonneg & Hexact & Hquot_le).
@@ -218,7 +201,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_3 : solver_entail_wit_4_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (nonnegative_land_one_zero_div2__parity_setup k PreH8 PreH12)
     as (Hquot_nonneg & Hexact & Hquot_le).
@@ -227,7 +210,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_4 : solver_entail_wit_4_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (nonnegative_land_one_zero_div2__parity_setup k PreH8 PreH12)
     as (Hquot_nonneg & Hexact & Hquot_le).
@@ -236,7 +219,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_5 : solver_entail_wit_4_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (nonnegative_land_one_zero_div2__parity_setup k PreH8 PreH12)
     as (Hquot_nonneg & Hexact & Hquot_le).
@@ -245,7 +228,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_6 : solver_entail_wit_4_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof
     (nonnegative_land_one_zero_div2__parity_setup k PreH8 PreH12)
     as (Hquot_nonneg & Hexact & Hquot_le).
@@ -254,14 +237,14 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_7 : solver_entail_wit_4_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace n with i by lia.
   exact PreH11.
 Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_8 : solver_entail_wit_4_split_goal_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   exact (PreH5 j H).
 Qed.
 
@@ -280,20 +263,20 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_1 : solver_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold NoAInterval in *.
   intros j Hj.
   destruct Hj as [Hlo Hhi].
   assert (j < i \/ j = i) as [Hlt | Heq] by lia.
-  - apply PreH19. lia.
+  - apply PreH18. lia.
   - subst j.
     unfold Znth in PreH1.
     rewrite app_nth1 in PreH1.
     + exact PreH1.
-    + apply Z2Nat.inj_lt in PreH3; try lia.
-      rewrite PreH4, Zlength_correct in PreH3.
-      rewrite Nat2Z.id in PreH3.
-      exact PreH3.
+    + apply Z2Nat.inj_lt in PreH2; try lia.
+      rewrite PreH3, Zlength_correct in PreH2.
+      rewrite Nat2Z.id in PreH2.
+      exact PreH2.
 Qed.
 
 Lemma proof_of_solver_entail_wit_5 : solver_entail_wit_5.
@@ -304,7 +287,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_split_goal_1 : solver_entail_wit_6_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold MatchedSuffixPrefix.
   intros j Hj.
   lia.
@@ -312,7 +295,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_split_goal_2 : solver_entail_wit_6_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold NoAInterval in *.
   intros j Hj.
   apply PreH17.
@@ -321,7 +304,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_split_goal_3 : solver_entail_wit_6_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply PreH5.
   assumption.
 Qed.
@@ -336,22 +319,22 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_split_goal_1 : solver_entail_wit_7_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold MatchedSuffixPrefix in *.
   intros j Hj.
   assert (j < i \/ j = i) as [Hlt | Heq] by lia.
-  - rewrite <- PreH14.
-    apply PreH20.
+  - rewrite <- PreH13.
+    apply PreH19.
     lia.
   - subst j.
-    rewrite <- PreH14.
+    rewrite <- PreH13.
     unfold Znth in PreH1 |- *.
     rewrite app_nth1 in PreH1.
     + exact PreH1.
     + assert (0 <= prefix + i < n) as Hbound by lia.
       destruct Hbound as [Hnonneg Hltbound].
       apply Z2Nat.inj_lt in Hltbound; try lia.
-      rewrite PreH4, Zlength_correct, Nat2Z.id in Hltbound.
+      rewrite PreH3, Zlength_correct, Nat2Z.id in Hltbound.
       exact Hltbound.
 Qed.
 
@@ -363,7 +346,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1 : solver_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = suffix) by lia.
   subst i.
   set (result := sublist 0 prefix given_data).
@@ -424,7 +407,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_2_split_goal_1 : solver_return_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold Spec.
   right.
   split; [reflexivity |].
@@ -433,14 +416,14 @@ Proof.
     as [Htwice Htwice_len].
   destruct (generates_prefix_suffix_shape__result_spec source given_data Hgen)
     as [Hgiven_len [Hsuffix_shape Hfilter_prefix]].
-  unfold FilteredPrefix in PreH12.
-  rewrite (sublist_self given_data n PreH5) in PreH12.
+  unfold FilteredPrefix in PreH11.
+  rewrite (sublist_self given_data n PreH4) in PreH11.
   assert (Hsuffix_len :
       suffix = Zlength (filter (fun c => negb (Z.eqb c 97)) source)).
-  { rewrite <- PreH12 in Htwice_len. lia. }
+  { rewrite <- PreH11 in Htwice_len. lia. }
   assert (Hsource_len : prefix = Zlength source) by lia.
   apply PreH2.
-  rewrite PreH12, Htwice.
+  rewrite PreH11, Htwice.
   rewrite app_Znth1 by lia.
   rewrite app_Znth1 by lia.
   rewrite Hsource_len.
@@ -457,7 +440,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_3_split_goal_1 : solver_return_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold Spec.
   right.
   split; [reflexivity |].
@@ -466,11 +449,11 @@ Proof.
     as [Htwice Htwice_len].
   destruct (generates_prefix_suffix_shape__result_spec source given_data Hgen)
     as [Hgiven_len [Hsuffix_shape Hfilter_prefix]].
-  unfold FilteredPrefix in PreH12.
-  rewrite (sublist_self given_data n PreH5) in PreH12.
+  unfold FilteredPrefix in PreH11.
+  rewrite (sublist_self given_data n PreH4) in PreH11.
   assert (Hsuffix_len :
       suffix = Zlength (filter (fun c => negb (Z.eqb c 97)) source)).
-  { rewrite <- PreH12 in Htwice_len. lia. }
+  { rewrite <- PreH11 in Htwice_len. lia. }
   assert (Hsource_len : prefix = Zlength source) by lia.
   rewrite app_Znth1 in PreH2 by lia.
   pose proof (filter_contains_no_a__result_spec source
@@ -489,7 +472,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_4_split_goal_1 : solver_return_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold Spec.
   right.
   split; [reflexivity |].
@@ -497,12 +480,12 @@ Proof.
   destruct (generates_filter_twice__result_spec source given_data Hgen)
     as [Htwice Htwice_len].
   assert (i = n) by lia. subst i.
-  unfold FilteredPrefix in PreH13.
-  rewrite (sublist_self given_data n PreH4) in PreH13.
+  unfold FilteredPrefix in PreH12.
+  rewrite (sublist_self given_data n PreH3) in PreH12.
   assert (Hk :
       k = 2 * Zlength (filter (fun c => negb (Z.eqb c 97)) source)).
-  { rewrite <- PreH13 in Htwice_len. lia. }
-  apply PreH14.
+  { rewrite <- PreH12 in Htwice_len. lia. }
+  apply PreH13.
   rewrite Hk.
   apply even_land_one__result_spec.
 Qed.
@@ -515,7 +498,7 @@ Qed.
 
 Lemma proof_of_solver_which_implies_wit_1 : solver_which_implies_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply (CharArray.full_Zlength (&( "stripped" )) k filtered_2).
   Intros_p Hlen.
   assert (Hnonneg : 0 <= k).
@@ -540,7 +523,7 @@ Qed.
 
 Lemma proof_of_solver_which_implies_wit_2 : solver_which_implies_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply (CharArray.full_Zlength (&( "stripped" )) k filtered_2).
   Intros_p Hlen.
   assert (Hnonneg : 0 <= k).
@@ -565,7 +548,7 @@ Qed.
 
 Lemma proof_of_solver_which_implies_wit_3 : solver_which_implies_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply (CharArray.full_Zlength (&( "stripped" )) k filtered_2).
   Intros_p Hlen.
   assert (Hnonneg : 0 <= k).
@@ -590,7 +573,7 @@ Qed.
 
 Lemma proof_of_solver_which_implies_wit_4 : solver_which_implies_wit_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply (CharArray.full_Zlength (&( "stripped" )) k filtered_2).
   Intros_p Hlen.
   assert (Hnonneg : 0 <= k).

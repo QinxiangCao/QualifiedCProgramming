@@ -12,7 +12,7 @@
 
 Require Import SetsClass.SetsClass.
 From MonadLib.SetMonad Require Import SetBasic.
-Import Monad MonadNotation SetsNotation.
+Import Monad MonadNotation SetProgNotations SetsNotation.
 Local Open Scope nat.
 Local Open Scope monad_scope.
 Local Open Scope setprog_scope.

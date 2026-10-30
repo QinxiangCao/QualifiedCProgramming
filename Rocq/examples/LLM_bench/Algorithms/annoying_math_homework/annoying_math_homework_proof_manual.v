@@ -1,22 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap MonotonicList.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
+From AUXLib Require Import MonotonicList.
 From SimpleC.EE.LLM_bench.Algorithms.annoying_math_homework Require Import annoying_math_homework_goal.
 From SimpleC.EE.LLM_bench.Algorithms.annoying_math_homework Require Import annoying_math_homework_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.annoying_math_homework.annoying_math_homework_lib.
 Local Open Scope sac.
@@ -29,7 +14,7 @@ Ltac view_bounds :=
 
 Lemma proof_of_digits_sum_init_safety_wit_8_split_goal_1 : digits_sum_init_safety_wit_8_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   rewrite PowerPrefix_view in PreH5 by view_bounds.
   destruct PreH5 as [_ [_ Hforall]].
@@ -47,7 +32,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_safety_wit_8_split_goal_2 : digits_sum_init_safety_wit_8_split_goal_2.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   rewrite PowerPrefix_view in PreH5 by view_bounds.
   destruct PreH5 as [_ [_ Hforall]].
@@ -72,7 +57,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_safety_wit_36_split_goal_1 : digits_sum_init_safety_wit_36_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   rewrite DigitDPCellProgress_view in PreH9 by view_bounds.
   destruct PreH9 as [_ [_ [_ [_ [_ [Hprev _]]]]]].
@@ -122,7 +107,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_safety_wit_36_split_goal_2 : digits_sum_init_safety_wit_36_split_goal_2.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   rewrite DigitDPCellProgress_view in PreH9 by view_bounds.
   destruct PreH9 as [_ [_ [_ [_ [_ [Hprev _]]]]]].
@@ -175,7 +160,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_safety_wit_38_split_goal_1 : digits_sum_init_safety_wit_38_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   unfold PowerTable in PreH10.
   rename PreH10 into Hforall.
@@ -193,7 +178,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_safety_wit_38_split_goal_2 : digits_sum_init_safety_wit_38_split_goal_2.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   unfold PowerTable in PreH10.
   rename PreH10 into Hforall.
@@ -218,7 +203,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_safety_wit_47_split_goal_1 : digits_sum_init_safety_wit_47_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   rewrite DigitDPCellProgress_view in PreH9 by view_bounds.
   destruct PreH9 as
@@ -269,7 +254,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_safety_wit_47_split_goal_2 : digits_sum_init_safety_wit_47_split_goal_2.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   rewrite DigitDPCellProgress_view in PreH9 by view_bounds.
   destruct PreH9 as
@@ -345,7 +330,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_2_split_goal_1 : digits_sum_init_entail_wit_2_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof PreH5 as Hprefix.
   replace
     (signed_last_nbits
@@ -390,7 +375,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_2_split_goal_2 : digits_sum_init_entail_wit_2_split_goal_2.
 Proof.
-  aggressive_pre_process. view_bounds.
+  LLM_pre_process ltac:(lia || nia || int_auto). view_bounds.
 Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_2 : digits_sum_init_entail_wit_2.
@@ -460,7 +445,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_7_split_goal_1 : digits_sum_init_entail_wit_7_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite DigitDPBaseProgress_view by view_bounds.
   repeat split; try lia.
   intros k Hk _. symmetry. exact ((proj1 (Forall_Znth (eq 0) 0 dp_l_2)) PreH5 k ltac:(lia)).
@@ -474,7 +459,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_8_split_goal_1 : digits_sum_init_entail_wit_8_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite DigitDPBaseProgress_view in * by view_bounds.
   repeat split; try lia.
   - replace 200 with (Zlength dp_l_2) by lia.
@@ -503,7 +488,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_8_split_goal_2 : digits_sum_init_entail_wit_8_split_goal_2.
 Proof.
-  aggressive_pre_process. view_bounds.
+  LLM_pre_process ltac:(lia || nia || int_auto). view_bounds.
 Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_8 : digits_sum_init_entail_wit_8.
@@ -515,7 +500,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_9_split_goal_1 : digits_sum_init_entail_wit_9_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite DigitDPOuterProgress_view by view_bounds.
   rewrite DigitDPBaseProgress_view in PreH5 by view_bounds.
   destruct PreH5 as [Hlength [Hj [Hdpold Hdpnew]]].
@@ -549,7 +534,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_10_split_goal_1 : digits_sum_init_entail_wit_10_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite DigitDPRowProgress_view by view_bounds.
   rewrite DigitDPOuterProgress_view in PreH5 by view_bounds.
   destruct PreH5 as [Hlength [_ [Hforall1 [Hforall2 Hforall3]]]].
@@ -571,7 +556,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_11_split_goal_1 : digits_sum_init_entail_wit_11_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite DigitDPCellProgress_view by view_bounds.
   rewrite DigitDPRowProgress_view in PreH7 by view_bounds.
   repeat split; try assumption; try tauto; try lia.
@@ -599,7 +584,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_12_split_goal_1 : digits_sum_init_entail_wit_12_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite DigitDPCellProgress_view in PreH9 by view_bounds.
   destruct PreH9 as
     [Hlen [Hplaces [Hleading [Hnext
@@ -701,7 +686,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_12_split_goal_2 : digits_sum_init_entail_wit_12_split_goal_2.
 Proof.
-  aggressive_pre_process. view_bounds.
+  LLM_pre_process ltac:(lia || nia || int_auto). view_bounds.
 Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_12 : digits_sum_init_entail_wit_12.
@@ -713,7 +698,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_13_split_goal_1 : digits_sum_init_entail_wit_13_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite DigitDPCellProgress_view in PreH9 by view_bounds.
   destruct PreH9 as
     [Hlen [Hplaces [Hleading [Hnext
@@ -772,7 +757,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_14_split_goal_1 : digits_sum_init_entail_wit_14_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite DigitDPOuterProgress_view by view_bounds.
   rewrite DigitDPRowProgress_view in PreH7 by view_bounds.
   assert (j = 10) by lia; subst j.
@@ -802,7 +787,7 @@ Qed.
 
 Lemma proof_of_digits_sum_init_return_wit_1_split_goal_1 : digits_sum_init_return_wit_1_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (i = 20) by lia; subst i.
   unfold DigitDPTable, DigitDPOuterProgress in *. tauto.
 Qed.
@@ -815,7 +800,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_safety_wit_17_split_goal_1 : prefix_digits_sum_safety_wit_17_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   rewrite DigitPositionPower_view in PreH12 by view_bounds.
   destruct PreH12 as [[Hi Hile] Hpower].
@@ -828,7 +813,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_safety_wit_17_split_goal_2 : prefix_digits_sum_safety_wit_17_split_goal_2.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   rewrite DigitPositionPower_view in PreH12 by view_bounds.
   destruct PreH12 as [[Hi Hile] Hpower].
@@ -847,7 +832,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_safety_wit_23_split_goal_1 : prefix_digits_sum_safety_wit_23_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   unfold DigitDPTable in PreH20.
   destruct PreH20 as [_ Hcell].
@@ -870,7 +855,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_safety_wit_23_split_goal_2 : prefix_digits_sum_safety_wit_23_split_goal_2.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   unfold DigitDPTable in PreH20.
   destruct PreH20 as [_ Hcell].
@@ -900,20 +885,12 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_safety_wit_30_split_goal_1 : prefix_digits_sum_safety_wit_30_split_goal_1.
 Proof.
-  aggressive_pre_process.
-  split_pures; dump_pre_spatial.
-  rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
-  destruct PreH19 as [[Hz Hzero] | [[Hlo Hhi] Hpow]].
-  - lia.
-  - subst power_ll. right.
-    assert (Hpos : 0 < 10 ^ (i - 1)).
-    { apply Z.pow_pos_nonneg; lia. }
-    lia.
+  LLM_pre_process ltac:(lia || nia || int_auto).
 Qed.
 
 Lemma proof_of_prefix_digits_sum_safety_wit_30_split_goal_2 : prefix_digits_sum_safety_wit_30_split_goal_2.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
   destruct PreH19 as [[Hz Hzero] | [[Hlo Hhi] Hpow]].
@@ -933,7 +910,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_safety_wit_33_split_goal_1 : prefix_digits_sum_safety_wit_33_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   rewrite ExtractedDigitCount_view in PreH16 by view_bounds.
   destruct PreH16 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
@@ -954,7 +931,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_safety_wit_33_split_goal_2 : prefix_digits_sum_safety_wit_33_split_goal_2.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   rewrite ExtractedDigitCount_view in PreH16 by view_bounds.
   destruct PreH16 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
@@ -979,21 +956,12 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_safety_wit_34_split_goal_1 : prefix_digits_sum_safety_wit_34_split_goal_1.
 Proof.
-  aggressive_pre_process.
-  split_pures; dump_pre_spatial.
-  rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
-  destruct PreH19 as [[Hz Hzero] | [[Hlo Hhi] Hpow]].
-  - lia.
-  - subst power_ll.
-    right.
-    assert (Hpos : 0 < 10 ^ (i - 1)).
-    { apply Z.pow_pos_nonneg; lia. }
-    lia.
+  LLM_pre_process ltac:(lia || nia || int_auto).
 Qed.
 
 Lemma proof_of_prefix_digits_sum_safety_wit_34_split_goal_2 : prefix_digits_sum_safety_wit_34_split_goal_2.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
   destruct PreH19 as [[Hz Hzero] | [[Hlo Hhi] Hpow]].
@@ -1013,7 +981,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_safety_wit_38_split_goal_1 : prefix_digits_sum_safety_wit_38_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   rewrite ExtractedDigitCount_view in PreH16 by view_bounds.
   destruct PreH16 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
@@ -1035,7 +1003,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_safety_wit_38_split_goal_2 : prefix_digits_sum_safety_wit_38_split_goal_2.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   rewrite ExtractedDigitCount_view in PreH16 by view_bounds.
   destruct PreH16 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
@@ -1064,7 +1032,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_safety_wit_41_split_goal_1 : prefix_digits_sum_safety_wit_41_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   rewrite ExtractedDigitCount_view in PreH16 by view_bounds.
   destruct PreH16 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
@@ -1090,7 +1058,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_safety_wit_41_split_goal_2 : prefix_digits_sum_safety_wit_41_split_goal_2.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   rewrite ExtractedDigitCount_view in PreH16 by view_bounds.
   destruct PreH16 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
@@ -1123,12 +1091,12 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_1_split_goal_1 : prefix_digits_sum_entail_wit_1_split_goal_1.
 Proof.
-  aggressive_pre_process. constructor.
+  LLM_pre_process ltac:(lia || nia || int_auto).
 Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_1_split_goal_2 : prefix_digits_sum_entail_wit_1_split_goal_2.
 Proof.
-  aggressive_pre_process. view_bounds.
+  LLM_pre_process ltac:(lia || nia || int_auto).
 Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_1 : prefix_digits_sum_entail_wit_1.
@@ -1140,12 +1108,12 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_2_split_goal_1 : prefix_digits_sum_entail_wit_2_split_goal_1.
 Proof.
-  aggressive_pre_process. apply Forall_app. split; [assumption|]. repeat constructor.
+  LLM_pre_process ltac:(lia || nia || int_auto). apply Forall_app. split; [assumption|]. repeat constructor.
 Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_2_split_goal_2 : prefix_digits_sum_entail_wit_2_split_goal_2.
 Proof.
-  aggressive_pre_process. view_bounds.
+  LLM_pre_process ltac:(lia || nia || int_auto). view_bounds.
 Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_2 : prefix_digits_sum_entail_wit_2.
@@ -1157,7 +1125,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_3_split_goal_1 : prefix_digits_sum_entail_wit_3_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite ExtractedDigitBuffer_view by view_bounds.
   assert (Hzero : forall k, 0 <= k < Zlength digits_l_2 -> Znth k digits_l_2 0 = 0).
   { intros k Hk. symmetry. exact ((proj1 (Forall_Znth (eq 0) 0 digits_l_2)) PreH10 k Hk). }
@@ -1183,7 +1151,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_4_split_goal_1 : prefix_digits_sum_entail_wit_4_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   intros.
   rewrite ExtractedDigitBuffer_view in PreH12 |- * by view_bounds.
   destruct PreH12 as [Hlen [Hcount [Hremaining [Hdigits Hzero]]]].
@@ -1222,12 +1190,12 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_4_split_goal_2 : prefix_digits_sum_entail_wit_4_split_goal_2.
 Proof.
-  aggressive_pre_process. view_bounds.
+  LLM_pre_process ltac:(lia || nia || int_auto). view_bounds.
 Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_4_split_goal_3 : prefix_digits_sum_entail_wit_4_split_goal_3.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof H as Hzero.
   rewrite ExtractedDigitBuffer_view in PreH12 by view_bounds.
   destruct PreH12 as [_ [_ [Hremaining _]]].
@@ -1250,7 +1218,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_4_split_goal_4 : prefix_digits_sum_entail_wit_4_split_goal_4.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite ExtractedDigitBuffer_view in PreH12 by view_bounds.
   destruct PreH12 as [_ [_ [Hremaining _]]].
   subst tmpx.
@@ -1272,7 +1240,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_4_split_goal_5 : prefix_digits_sum_entail_wit_4_split_goal_5.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite Z.quot_div_nonneg by lia.
   pose proof (Z.div_mod tmpx 10 ltac:(lia)) as Hdecomp.
   destruct (Z.mod_pos_bound tmpx 10 ltac:(lia)) as [Hmodlo Hmodhi].
@@ -1291,7 +1259,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_5_split_goal_1 : prefix_digits_sum_entail_wit_5_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   subst ans.
   apply AccumulatedDigitSumCorrect_initial.
   - lia.
@@ -1302,11 +1270,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_5_split_goal_2 : prefix_digits_sum_entail_wit_5_split_goal_2.
 Proof.
-  aggressive_pre_process.
-  rewrite DigitPositionPower_view by view_bounds.
-  subst power_ll.
-  simpl.
-  lia.
+  LLM_pre_process ltac:(lia || nia || int_auto).
 Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_5 : prefix_digits_sum_entail_wit_5.
@@ -1318,7 +1282,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_6_split_goal_1 : prefix_digits_sum_entail_wit_6_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite DigitPositionPower_view in PreH12 |- * by view_bounds.
   destruct PreH12 as [Hrange Hpower].
   split; [lia|].
@@ -1336,7 +1300,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_7_split_goal_1 : prefix_digits_sum_entail_wit_7_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite DigitPositionPower_view in PreH12 by view_bounds.
   rewrite OuterDigitPositionPower_view by view_bounds.
   right.
@@ -1408,7 +1372,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_10_split_goal_1 : prefix_digits_sum_entail_wit_10_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   eapply outer_power_predecessor__prefix_inner_outer_scan.
   - exact PreH5.
   - exact PreH19.
@@ -1416,7 +1380,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_10_split_goal_2 : prefix_digits_sum_entail_wit_10_split_goal_2.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hjeq : j = Znth i digits_l_2 0) by lia.
   unfold InnerCandidateDigitProgress in PreH17.
   destruct PreH17 as [choice_sum [Hchoice HansEq]].
@@ -1533,7 +1497,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_10_split_goal_3 : prefix_digits_sum_entail_wit_10_split_goal_3.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hpower_pos : 0 < power_ll).
   {
     rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
@@ -1584,7 +1548,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_10_split_goal_4 : prefix_digits_sum_entail_wit_10_split_goal_4.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hpower_pos : 0 < power_ll).
   {
     rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
@@ -1644,7 +1608,7 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_return_wit_1_split_goal_1 : prefix_digits_sum_return_wit_1_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   unfold AccumulatedDigitSumCorrect in PreH13.
   destruct PreH13 as [[Hi Hprefix_sum] | [Hi Hremaining]].
@@ -1654,23 +1618,21 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_return_wit_1_split_goal_spatial : prefix_digits_sum_return_wit_1_split_goal_spatial.
 Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   aggressive_pre_process.
   sep_apply (IntArray.full_to_undef_full digits_pre 20 digits_l); easy.
 Qed.
 
 Lemma proof_of_prefix_digits_sum_return_wit_1 : prefix_digits_sum_return_wit_1.
 Proof.
-  unfold prefix_digits_sum_return_wit_1. right. intros.
-  split_pure_spatial.
-  - sep_apply (IntArray.full_to_undef_full digits_pre 20 digits_l); easy.
-  - split_pures; dump_pre_spatial.
-    unfold AccumulatedDigitSumCorrect in PreH13.
-    destruct PreH13 as [[Hi Hsum] | [Hi _]]; [exact Hsum|lia].
+  aggressive_pre_process.
+  - Goal_apply proof_of_prefix_digits_sum_return_wit_1_split_goal_spatial.
+  - Goal_apply proof_of_prefix_digits_sum_return_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_prefix_digits_sum_return_wit_2_split_goal_1 : prefix_digits_sum_return_wit_2_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   apply PrefixDigitSum_nonpositive.
   lia.
 Qed.
@@ -1683,7 +1645,7 @@ Qed.
 
 Lemma proof_of_interval_digits_sum_safety_wit_10_split_goal_1 : interval_digits_sum_safety_wit_10_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   pose proof (Z.rem_bound_abs (ans1 - ans2) digit_sum_modulus
     ltac:(unfold digit_sum_modulus; lia)) as Hrem.
@@ -1694,7 +1656,7 @@ Qed.
 
 Lemma proof_of_interval_digits_sum_safety_wit_10_split_goal_2 : interval_digits_sum_safety_wit_10_split_goal_2.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   split_pures; dump_pre_spatial.
   pose proof (Z.rem_bound_abs (ans1 - ans2) digit_sum_modulus
     ltac:(unfold digit_sum_modulus; lia)) as Hrem.
@@ -1712,7 +1674,7 @@ Qed.
 
 Lemma proof_of_interval_digits_sum_safety_wit_12_split_goal_1 : interval_digits_sum_safety_wit_12_split_goal_1.
 Proof.
-  aggressive_pre_process. split_pures; dump_pre_spatial.
+  LLM_pre_process ltac:(lia || nia || int_auto). split_pures; dump_pre_spatial.
   pose proof (PrefixDigitSum_range _ _ PreH4) as Hleft.
   pose proof (PrefixDigitSum_range _ _ PreH5) as Hright.
   unfold digit_sum_modulus in *. lia.
@@ -1720,7 +1682,7 @@ Qed.
 
 Lemma proof_of_interval_digits_sum_safety_wit_12_split_goal_2 : interval_digits_sum_safety_wit_12_split_goal_2.
 Proof.
-  aggressive_pre_process. split_pures; dump_pre_spatial.
+  LLM_pre_process ltac:(lia || nia || int_auto). split_pures; dump_pre_spatial.
   pose proof (PrefixDigitSum_range _ _ PreH4) as Hleft.
   pose proof (PrefixDigitSum_range _ _ PreH5) as Hright.
   unfold digit_sum_modulus in *. lia.
@@ -1735,7 +1697,7 @@ Qed.
 
 Lemma proof_of_interval_digits_sum_return_wit_1_split_goal_1 : interval_digits_sum_return_wit_1_split_goal_1.
 Proof.
-  aggressive_pre_process.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite normalized_outer_rem__interval_bridge.
   apply IntervalDigitSum_from_prefixes__interval_bridge; assumption.
 Qed.

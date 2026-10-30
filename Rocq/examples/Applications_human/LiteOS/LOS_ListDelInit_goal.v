@@ -1,20 +1,4 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
+From SimpleC.Verification Require Import VCPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.glob_vars_and_defs.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.Los_Verify_State_def.
@@ -27,9 +11,9 @@ From SimpleC.EE.Applications_human Require Import los_sortlink_strategy_proof.
 
 (*----- Function LOS_ListDelInit -----*)
 
-Definition LOS_ListDelInit_return_wit_1 := 
+Definition LOS_ListDelInit_return_wit_1 :=
 (
-forall (A: Type) (list_pre: Z) (next: Z) (prev: Z) (a: A) (storeA: (Z -> (A -> Assertion))) ,
+forall (A: Type) (next: Z) (prev: Z) (a: A) (storeA: (Z -> (A -> Assertion))) (list_pre: Z),
   (store_dll storeA list_pre (@nil (@DL_Node A)) )
   **  ((&((prev)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> next)
   **  (dllseg_shift storeA list_pre list_pre (@nil (@DL_Node A)) )
@@ -42,21 +26,21 @@ forall (A: Type) (list_pre: Z) (next: Z) (prev: Z) (a: A) (storeA: (Z -> (A -> A
   **  ((&((next)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> prev)
 ) \/
 (
-forall (A: Type) (list_pre: Z) (storeA: (Z -> (A -> Assertion))) ,
+forall (A: Type) (storeA: (Z -> (A -> Assertion))) (list_pre: Z),
   (dllseg_shift storeA list_pre list_pre (@nil (@DL_Node A)) )
 |--
   TT && emp 
 ).
 
-Definition LOS_ListDelInit_return_wit_1_split_goal_spatial := 
-forall (A: Type) (list_pre: Z) (storeA: (Z -> (A -> Assertion))) ,
+Definition LOS_ListDelInit_return_wit_1_split_goal_spatial :=
+forall (A: Type) (storeA: (Z -> (A -> Assertion))) (list_pre: Z),
   (dllseg_shift storeA list_pre list_pre (@nil (@DL_Node A)) )
 |--
   TT && emp 
 .
 
-Definition LOS_ListDelInit_partial_solve_wit_1 := 
-forall (A: Type) (list_pre: Z) (next: Z) (prev: Z) (a: A) (storeA: (Z -> (A -> Assertion))) ,
+Definition LOS_ListDelInit_partial_solve_wit_1 :=
+forall (A: Type) (next: Z) (prev: Z) (a: A) (storeA: (Z -> (A -> Assertion))) (list_pre: Z),
   ((&((list_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> next)
   **  ((&((next)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> list_pre)
   **  (dllseg_shift storeA prev list_pre (cons ((Build_DL_Node (a) (list_pre))) ((@nil (@DL_Node A)))) )
@@ -69,8 +53,8 @@ forall (A: Type) (list_pre: Z) (next: Z) (prev: Z) (a: A) (storeA: (Z -> (A -> A
   **  ((&((next)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> list_pre)
 .
 
-Definition LOS_ListDelInit_partial_solve_wit_2 := 
-forall (A: Type) (list_pre: Z) (next: Z) (prev: Z) (a: A) (storeA: (Z -> (A -> Assertion))) ,
+Definition LOS_ListDelInit_partial_solve_wit_2 :=
+forall (A: Type) (next: Z) (prev: Z) (a: A) (storeA: (Z -> (A -> Assertion))) (list_pre: Z),
   (dllseg_shift storeA prev list_pre (cons ((Build_DL_Node (a) (list_pre))) ((@nil (@DL_Node A)))) )
   **  ((&((list_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> next)
   **  ((&((next)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> prev)
@@ -83,8 +67,8 @@ forall (A: Type) (list_pre: Z) (next: Z) (prev: Z) (a: A) (storeA: (Z -> (A -> A
   **  ((&((next)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> prev)
 .
 
-Definition LOS_ListDelInit_partial_solve_wit_3 := 
-forall (A: Type) (list_pre: Z) (next: Z) (prev: Z) (a: A) (storeA: (Z -> (A -> Assertion))) ,
+Definition LOS_ListDelInit_partial_solve_wit_3 :=
+forall (A: Type) (next: Z) (prev: Z) (a: A) (storeA: (Z -> (A -> Assertion))) (list_pre: Z),
   (dllseg_shift storeA prev list_pre (cons ((Build_DL_Node (a) (list_pre))) ((@nil (@DL_Node A)))) )
   **  ((&((list_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> next)
   **  ((&((next)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> prev)
@@ -97,8 +81,8 @@ forall (A: Type) (list_pre: Z) (next: Z) (prev: Z) (a: A) (storeA: (Z -> (A -> A
   **  ((&((next)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> prev)
 .
 
-Definition LOS_ListDelInit_partial_solve_wit_4 := 
-forall (A: Type) (list_pre: Z) (next: Z) (prev: Z) (a: A) (storeA: (Z -> (A -> Assertion))) ,
+Definition LOS_ListDelInit_partial_solve_wit_4 :=
+forall (A: Type) (next: Z) (prev: Z) (a: A) (storeA: (Z -> (A -> Assertion))) (list_pre: Z),
   ((&((prev)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> next)
   **  (dllseg_shift storeA list_pre list_pre (@nil (@DL_Node A)) )
   **  ((&((list_pre)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> prev)
@@ -114,18 +98,59 @@ forall (A: Type) (list_pre: Z) (next: Z) (prev: Z) (a: A) (storeA: (Z -> (A -> A
   **  ((&((next)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> prev)
 .
 
-Definition LOS_ListDelete_derive_mid_level_spec_by_low_level_spec := 
-forall (A: Type) ,
-forall (node_pre: Z) (l2_mid_level_spec: (@list (@DL_Node A))) (l1_mid_level_spec: (@list (@DL_Node A))) (a_mid_level_spec: A) (p_mid_level_spec: Z) (storeA1_mid_level_spec: (Z -> (A -> Assertion))) ,
-  (store_dll storeA1_mid_level_spec p_mid_level_spec (app (l1_mid_level_spec) ((cons ((Build_DL_Node (a_mid_level_spec) (node_pre))) (l2_mid_level_spec)))) )
+(* Shallow FunAssertion specs for LOS_ListDelete. *)
+Definition LOS_ListDelete_sig : FuncSig := ([ * struct "LOS_DL_LIST"], void)%ctype.
+
+Definition LOS_ListDelete_low_level_spec : Spec LOS_ListDelete_sig :=
+  fun F =>
+ALL A : Type,
+ALL (storeA: (Z -> (A -> Assertion))),
+ALL (a: A),
+ALL (prev: Z),
+ALL (next: Z),
+HoareFun ([ * struct "LOS_DL_LIST"], void)%ctype
+  (fun node_pre =>
+  (((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> next)
+  **  ((&((next)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> node_pre)
+  **  (dllseg_shift storeA prev node_pre (cons ((Build_DL_Node (a) (node_pre))) ((@nil (@DL_Node A)))) )))
+  (fun node_pre (_retval : unit) =>
+  (((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |->_)
+  **  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |->_)
+  **  (storeA node_pre a )
+  **  ((&((prev)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> next)
+  **  ((&((next)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> prev)))
+  F.
+
+Definition LOS_ListDelete_mid_level_spec : Spec LOS_ListDelete_sig :=
+  fun F =>
+ALL A : Type,
+ALL (storeA1: (Z -> (A -> Assertion))),
+ALL (p: Z),
+ALL (a: A),
+ALL (l1: (@list (@DL_Node A))),
+ALL (l2: (@list (@DL_Node A))),
+HoareFun ([ * struct "LOS_DL_LIST"], void)%ctype
+  (fun node_pre =>
+  ((store_dll storeA1 p (app (l1) ((cons ((Build_DL_Node (a) (node_pre))) (l2)))) )))
+  (fun node_pre (_retval : unit) =>
+  ((store_dll storeA1 p (app (l1) (l2)) )
+  **  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |->_)
+  **  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |->_)
+  **  (storeA1 node_pre a )))
+  F.
+
+Definition LOS_ListDelete_low_level_spec_entail_mid_level_spec :=
+forall (A: Type),
+forall (node_pre: Z) (storeA1_mid_level_spec: (Z -> (A -> Assertion))) (p_mid_level_spec: Z) (a_mid_level_spec: A) (l1_mid_level_spec: (@list (@DL_Node A))) (l2_mid_level_spec: (@list (@DL_Node A))),
+  ((store_dll storeA1_mid_level_spec p_mid_level_spec (app (l1_mid_level_spec) ((cons ((Build_DL_Node (a_mid_level_spec) (node_pre))) (l2_mid_level_spec)))) ))
 |--
-EX (A: Type) ,
-EX (storeA_low_level_spec: (Z -> (A -> Assertion))) (a_low_level_spec: A) (prev_low_level_spec: Z) (next_low_level_spec: Z) ,
+EX (A_2: Type) ,
+EX (storeA_low_level_spec: (Z -> (A_2 -> Assertion)))(a_low_level_spec: A_2)(prev_low_level_spec: Z)(next_low_level_spec: Z),
   (((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> next_low_level_spec)
   **  ((&((next_low_level_spec)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> node_pre)
   **  (dllseg_shift storeA_low_level_spec prev_low_level_spec node_pre (cons ((Build_DL_Node (a_low_level_spec) (node_pre))) (nil)) ))
   **
-  ((((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |->_)
+  (  (((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |->_)
   **  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |->_)
   **  (storeA_low_level_spec node_pre a_low_level_spec )
   **  ((&((prev_low_level_spec)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> next_low_level_spec)
@@ -146,6 +171,6 @@ Axiom proof_of_LOS_ListDelInit_partial_solve_wit_1 : LOS_ListDelInit_partial_sol
 Axiom proof_of_LOS_ListDelInit_partial_solve_wit_2 : LOS_ListDelInit_partial_solve_wit_2.
 Axiom proof_of_LOS_ListDelInit_partial_solve_wit_3 : LOS_ListDelInit_partial_solve_wit_3.
 Axiom proof_of_LOS_ListDelInit_partial_solve_wit_4 : LOS_ListDelInit_partial_solve_wit_4.
-Axiom proof_of_LOS_ListDelete_derive_mid_level_spec_by_low_level_spec : LOS_ListDelete_derive_mid_level_spec_by_low_level_spec.
+Axiom proof_of_LOS_ListDelete_low_level_spec_entail_mid_level_spec : LOS_ListDelete_low_level_spec_entail_mid_level_spec.
 
 End VC_Correct.

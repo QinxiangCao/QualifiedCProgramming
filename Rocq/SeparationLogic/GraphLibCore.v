@@ -31,14 +31,14 @@ Local Open Scope list.
 *)
 
 Module Type GraphLibCoreSig
-  (Arch : CArchSig)
+  (ArchImpl : CArchSig)
   (Endian : CEndianSig)
   (CRules: SeparationLogicSig)
-  (DePredSig : DerivedPredSig Arch Endian CRules)
-  (SLibSig : StoreLibSig Arch Endian CRules DePredSig)
-  (ALibSig : ArrayLibSig Arch Endian CRules DePredSig SLibSig)
-  (A2LibSig : Array2LibSig Arch Endian CRules DePredSig SLibSig ALibSig)
-  (P2LibSig : PtrArray2LibSig Arch Endian CRules DePredSig SLibSig ALibSig).
+  (DePredSig : DerivedPredSig ArchImpl Endian CRules)
+  (SLibSig : StoreLibSig ArchImpl Endian CRules DePredSig)
+  (ALibSig : ArrayLibSig ArchImpl Endian CRules DePredSig SLibSig)
+  (A2LibSig : Array2LibSig ArchImpl Endian CRules DePredSig SLibSig ALibSig)
+  (P2LibSig : PtrArray2LibSig ArchImpl Endian CRules DePredSig SLibSig ALibSig).
 
 Import CRules.
 Import DePredSig.

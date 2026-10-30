@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Engineering.string Require Import strcpy_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.StdLib.string_lib.
 Local Open Scope sac.
@@ -43,9 +28,9 @@ Proof.
       unfold string_lib.c_string, string_lib.string_length in *.
       destruct (Z_lt_ge_dec i (Zlength src_str)) as [Hlt | Hge]; [lia |].
       assert (i = Zlength src_str) as -> by lia.
-      rewrite app_Znth2 in PreH2 by lia.
-      replace (Zlength src_str - Zlength src_str) with 0 in PreH2 by lia.
-      rewrite Znth0_cons in PreH2.
+      rewrite app_Znth2 in PreH1 by lia.
+      replace (Zlength src_str - Zlength src_str) with 0 in PreH1 by lia.
+      rewrite Znth0_cons in PreH1.
       contradiction.
     }
     replace (sublist 0 (i + 1) src_str)
@@ -70,9 +55,9 @@ Proof.
       unfold string_lib.c_string, string_lib.string_length in *.
       destruct (Z_lt_ge_dec i (Zlength src_str)) as [Hlt | Hge]; [lia |].
       assert (i = Zlength src_str) as -> by lia.
-      rewrite app_Znth2 in PreH2 by lia.
-      replace (Zlength src_str - Zlength src_str) with 0 in PreH2 by lia.
-      rewrite Znth0_cons in PreH2.
+      rewrite app_Znth2 in PreH1 by lia.
+      replace (Zlength src_str - Zlength src_str) with 0 in PreH1 by lia.
+      rewrite Znth0_cons in PreH1.
       contradiction.
     }
     lia.
@@ -84,11 +69,11 @@ Proof.
   LLM_pre_process ltac:(int_auto).
   assert (Hi : i = string_lib.string_length src_str).
   {
-    unfold string_lib.valid_string in PreH4.
-    destruct PreH4 as [_ Hno].
+    unfold string_lib.valid_string in PreH2.
+    destruct PreH2 as [_ Hno].
     unfold string_lib.c_string, string_lib.string_length in *.
     destruct (Z_lt_ge_dec i (Zlength src_str)) as [Hlt | Hge].
-    - rewrite app_Znth1 in PreH3 by lia.
+    - rewrite app_Znth1 in PreH1 by lia.
       exfalso.
       apply (Hno i); [lia | assumption].
     - lia.
@@ -127,12 +112,12 @@ Lemma proof_of_strncpy_entail_wit_2 : strncpy_entail_wit_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
-  - rewrite (strncpy_sublist_succ src_str i PreH2 PreH7 PreH9).
+  - rewrite (strncpy_sublist_succ src_str i PreH1 PreH6 PreH8).
     unfold string_lib.store_string.
     cancel.
   - split_pures.
     all: dump_pre_spatial; try lia; try assumption.
-    pose proof (strncpy_c_string_nonzero_lt src_str i PreH2 PreH7 PreH9).
+    pose proof (strncpy_c_string_nonzero_lt src_str i PreH1 PreH6 PreH8).
     lia.
 Qed.
 

@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.super_piano Require Import super_piano_goal.
 From SimpleC.EE.LLM_bench.Algorithms.super_piano Require Import super_piano_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.super_piano.super_piano_lib.
 Local Open Scope sac.
@@ -345,7 +329,7 @@ Qed.
 Lemma proof_of_piano_set_node_return_wit_1 : piano_set_node_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_piano_set_node_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_piano_set_node_return_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_piano_swap_node_return_wit_1_split_goal_1 : piano_swap_node_return_wit_1_split_goal_1.
@@ -357,7 +341,7 @@ Qed.
 Lemma proof_of_piano_swap_node_return_wit_1 : piano_swap_node_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_piano_swap_node_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_piano_swap_node_return_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_frontier_top_value_return_wit_1_split_goal_1 : frontier_top_value_return_wit_1_split_goal_1.
@@ -373,7 +357,7 @@ Qed.
 Lemma proof_of_frontier_top_value_return_wit_1 : frontier_top_value_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_frontier_top_value_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_frontier_top_value_return_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_frontier_top_start_return_wit_1_split_goal_1 : frontier_top_start_return_wit_1_split_goal_1.
@@ -389,7 +373,7 @@ Qed.
 Lemma proof_of_frontier_top_start_return_wit_1 : frontier_top_start_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_frontier_top_start_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_frontier_top_start_return_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_frontier_top_lo_return_wit_1_split_goal_1 : frontier_top_lo_return_wit_1_split_goal_1.
@@ -405,7 +389,7 @@ Qed.
 Lemma proof_of_frontier_top_lo_return_wit_1 : frontier_top_lo_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_frontier_top_lo_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_frontier_top_lo_return_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_frontier_top_hi_return_wit_1_split_goal_1 : frontier_top_hi_return_wit_1_split_goal_1.
@@ -421,7 +405,7 @@ Qed.
 Lemma proof_of_frontier_top_hi_return_wit_1 : frontier_top_hi_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_frontier_top_hi_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_frontier_top_hi_return_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_frontier_top_best_return_wit_1_split_goal_1 : frontier_top_best_return_wit_1_split_goal_1.
@@ -437,7 +421,7 @@ Qed.
 Lemma proof_of_frontier_top_best_return_wit_1 : frontier_top_best_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_frontier_top_best_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_frontier_top_best_return_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_frontier_pop_only_entail_wit_1 : frontier_pop_only_entail_wit_1.

@@ -1,27 +1,35 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.huffman_encoding Require Import huffman_encoding_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.huffman_encoding.huffman_encoding_lib.
 Local Open Scope sac.
 
 
 (* Only the original proved mathematical lemmas are reused. No auto witness is imported. *)
+Ltac huffman_after_preprocess :=
+  try (match goal with
+  | Hl : Forall (Z.le 1) ?w, Hu : Forall (Z.ge 1000) ?w |- _ =>
+    assert (Hinput : HuffmanInputBounded w) by
+      (apply (proj2 (huffman_input_bounds_iff w)); split; assumption)
+  end);
+  repeat match goal with
+  | H : HuffmanMinScan ?l ?n ?i |- _ =>
+      apply (proj1 (huffman_scan_iff l n i ltac:(lia))) in H
+  | H : HuffmanFirstHeld ?a ?b ?c ?d ?e |- _ =>
+      apply huffman_first_held_iff in H
+  | H : HuffmanPairReady ?a ?b ?c ?d ?e ?f |- _ =>
+      apply huffman_pair_ready_iff in H
+  end;
+  try (match goal with
+  | Hl : Forall (Z.le 1) (sublist 0 ?n ?l),
+    Hu : Forall (Z.ge 8000) (sublist 0 ?n ?l) |- _ =>
+    assert (Hlive : forall k, 0 <= k < n -> 1 <= Znth k l 0 <= 8000) by
+      (intros k Hk;
+       pose proof (proj1 (huffman_prefix_forall_iff _ l n ltac:(lia)) Hl k Hk) as Hlo;
+       pose proof (proj1 (huffman_prefix_forall_iff _ l n ltac:(lia)) Hu k Hk) as Hhi;
+       apply Z.ge_le in Hhi; lia)
+  end).
+
 Ltac huffman_prepare :=
   (LLM_pre_process ltac:(lia || int_auto));
   try (match goal with
@@ -134,13 +142,15 @@ Ltac huffman_scan_goal :=
 
 Lemma proof_of_huffman_cost_safety_wit_15_split_goal_1 : huffman_cost_safety_wit_15_split_goal_1.
 Proof.
-  huffman_prepare. specialize (Hlive second ltac:(lia)).
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess. specialize (Hlive second ltac:(lia)).
   dump_pre_spatial; lia.
 Qed.
 
 Lemma proof_of_huffman_cost_safety_wit_15_split_goal_2 : huffman_cost_safety_wit_15_split_goal_2.
 Proof.
-  huffman_prepare. specialize (Hlive second ltac:(lia)).
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess. specialize (Hlive second ltac:(lia)).
   dump_pre_spatial; lia.
 Qed.
 
@@ -153,13 +163,15 @@ Qed.
 
 Lemma proof_of_huffman_cost_safety_wit_16_split_goal_1 : huffman_cost_safety_wit_16_split_goal_1.
 Proof.
-  huffman_prepare. specialize (Hlive second ltac:(lia)).
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess. specialize (Hlive second ltac:(lia)).
   dump_pre_spatial; lia.
 Qed.
 
 Lemma proof_of_huffman_cost_safety_wit_16_split_goal_2 : huffman_cost_safety_wit_16_split_goal_2.
 Proof.
-  huffman_prepare. specialize (Hlive second ltac:(lia)).
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess. specialize (Hlive second ltac:(lia)).
   dump_pre_spatial; lia.
 Qed.
 
@@ -274,7 +286,8 @@ Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_4_split_goal_1 : huffman_cost_entail_wit_4_split_goal_1.
 Proof.
-  huffman_prepare. huffman_scan_goal.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess. huffman_scan_goal.
   apply huffman_min_scan_init__min_scan_updates.
 Qed.
 
@@ -286,7 +299,8 @@ Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_6_1_split_goal_1 : huffman_cost_entail_wit_6_1_split_goal_1.
 Proof.
-  huffman_prepare. huffman_scan_goal.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess. huffman_scan_goal.
   eapply huffman_min_scan_take_new__min_scan_updates; eauto.
 Qed.
 
@@ -298,7 +312,8 @@ Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_6_2_split_goal_1 : huffman_cost_entail_wit_6_2_split_goal_1.
 Proof.
-  huffman_prepare. huffman_scan_goal.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess. huffman_scan_goal.
   eapply huffman_min_scan_keep_old__min_scan_updates.
   - assumption.
   - unfold Z.ge in *.
@@ -318,13 +333,15 @@ Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_7_split_goal_1 : huffman_cost_entail_wit_7_split_goal_1.
 Proof.
-  huffman_prepare. huffman_scan_goal.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess. huffman_scan_goal.
   apply huffman_min_scan_init__min_scan_updates.
 Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_7_split_goal_2 : huffman_cost_entail_wit_7_split_goal_2.
 Proof.
-  huffman_prepare. apply huffman_first_held_iff.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess. apply huffman_first_held_iff.
   eapply huffman_first_held_after_removal__removals_bounds; try lia.
   - replace active with i by lia. assumption.
   - assumption.
@@ -332,7 +349,8 @@ Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_7_split_goal_3 : huffman_cost_entail_wit_7_split_goal_3.
 Proof.
-  huffman_prepare.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess.
   apply huffman_prefix_forall_iff; [rewrite Zlength_replace_Znth; lia|].
   intros k Hk. destruct (Z.eq_dec k first) as [->|Hne].
   - rewrite Znth_replace_Znth_Same by lia.
@@ -345,7 +363,8 @@ Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_7_split_goal_4 : huffman_cost_entail_wit_7_split_goal_4.
 Proof.
-  huffman_prepare.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess.
   apply huffman_prefix_forall_iff; [rewrite Zlength_replace_Znth; lia|].
   intros k Hk. destruct (Z.eq_dec k first) as [->|Hne].
   - rewrite Znth_replace_Znth_Same by lia.
@@ -358,17 +377,20 @@ Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_7_split_goal_5 : huffman_cost_entail_wit_7_split_goal_5.
 Proof.
-  huffman_prepare. specialize (Hlive first ltac:(lia)). lia.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess. specialize (Hlive first ltac:(lia)). lia.
 Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_7_split_goal_6 : huffman_cost_entail_wit_7_split_goal_6.
 Proof.
-  huffman_prepare. specialize (Hlive first ltac:(lia)). lia.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess. specialize (Hlive first ltac:(lia)). lia.
 Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_7_split_goal_7 : huffman_cost_entail_wit_7_split_goal_7.
 Proof.
-  huffman_prepare. rewrite Zlength_replace_Znth. assumption.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess. rewrite Zlength_replace_Znth. assumption.
 Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_7 : huffman_cost_entail_wit_7.
@@ -385,7 +407,8 @@ Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_8_1_split_goal_1 : huffman_cost_entail_wit_8_1_split_goal_1.
 Proof.
-  huffman_prepare. huffman_scan_goal.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess. huffman_scan_goal.
   eapply huffman_min_scan_take_new__min_scan_updates; eauto.
 Qed.
 
@@ -397,7 +420,8 @@ Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_8_2_split_goal_1 : huffman_cost_entail_wit_8_2_split_goal_1.
 Proof.
-  huffman_prepare. huffman_scan_goal.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess. huffman_scan_goal.
   eapply huffman_min_scan_keep_old__min_scan_updates.
   - assumption.
   - unfold Z.ge in *.
@@ -417,7 +441,8 @@ Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_9_split_goal_1 : huffman_cost_entail_wit_9_split_goal_1.
 Proof.
-  huffman_prepare.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess.
   replace (total + (x + Znth second work_l_2 0))
     with (total + x + Znth second work_l_2 0) by lia.
   apply huffman_progress_after_merge__merge_transition.
@@ -428,7 +453,8 @@ Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_9_split_goal_2 : huffman_cost_entail_wit_9_split_goal_2.
 Proof.
-  huffman_prepare.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess.
   pose proof (huffman_residual_charge_bounds__removals_bounds
     weights_l work_l_2 active x second total n_pre
     ltac:(assumption) ltac:(assumption) ltac:(lia) Hinput
@@ -450,7 +476,8 @@ Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_9_split_goal_3 : huffman_cost_entail_wit_9_split_goal_3.
 Proof.
-  huffman_prepare.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess.
   pose proof (huffman_residual_charge_bounds__removals_bounds
     weights_l work_l_2 active x second total n_pre
     ltac:(assumption) ltac:(assumption) ltac:(lia) Hinput
@@ -472,7 +499,8 @@ Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_9_split_goal_4 : huffman_cost_entail_wit_9_split_goal_4.
 Proof.
-  huffman_prepare.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess.
   pose proof (huffman_residual_charge_bounds__removals_bounds
     weights_l work_l_2 active x second total n_pre
     ltac:(assumption) ltac:(assumption) ltac:(lia) Hinput
@@ -482,13 +510,15 @@ Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_9_split_goal_5 : huffman_cost_entail_wit_9_split_goal_5.
 Proof.
-  huffman_prepare.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess.
   specialize (Hlive second ltac:(lia)). lia.
 Qed.
 
 Lemma proof_of_huffman_cost_entail_wit_9_split_goal_6 : huffman_cost_entail_wit_9_split_goal_6.
 Proof.
-  huffman_prepare.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  huffman_after_preprocess.
   repeat rewrite Zlength_replace_Znth. assumption.
 Qed.
 

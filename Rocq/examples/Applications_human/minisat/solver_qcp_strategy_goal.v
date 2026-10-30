@@ -1,20 +1,61 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
+Require Import SimpleC.EE.Applications_human.minisat.vec_qcp_lib.
 Require Import SimpleC.EE.Applications_human.minisat.solver_qcp_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
+
+Definition solver_qcp_strategy72 :=
+  forall (index : Z) (hi : Z) (cursor : Z) (base : Z) (arr : (@list Z)),
+    TT &&
+    (“ (cursor = (base + (index * sizeof(INT)))) ”) &&
+    (“ (base < cursor) ”) &&
+    (“ (index <= hi) ”) &&
+    emp **
+    ((IntArray.seg base 0 hi arr))
+    |--
+    (
+    TT &&
+    (“ (cursor = (base + (index * sizeof(INT)))) ”) &&
+    (“ (0 < index) ”) &&
+    emp **
+    ((IntArray.missing_i base (index - 1) 0 hi arr))
+    ) ** (
+    ALL (value : Z),
+      TT &&
+      (“ (value = (Znth (index - 1) arr  0)) ”) &&
+      emp -*
+      TT &&
+      emp **
+      ((poly_store FET_int (cursor + ((- 1) * sizeof(INT))) value))
+      ).
+
+Definition solver_qcp_strategy73 :=
+  forall (index : Z) (hi : Z) (cursor : Z) (base : Z) (arr : (@list Z)),
+    TT &&
+    (“ (cursor = (base + (index * sizeof(INT)))) ”) &&
+    (“ (0 < index) ”) &&
+    (“ (index <= hi) ”) &&
+    emp **
+    ((IntArray.missing_i base (index - 1) 0 hi arr)) **
+    ((poly_store FET_int (cursor + ((- 1) * sizeof(INT))) (Znth (index - 1) arr  0)))
+    |--
+    (
+    TT &&
+    (“ (cursor = (base + (index * sizeof(INT)))) ”) &&
+    emp **
+    ((IntArray.seg base 0 hi arr))
+    ) ** (
+    TT &&
+    emp -*
+    TT &&
+    emp
+    ).
 
 Definition solver_qcp_strategy12 :=
   forall (i : Z) (hi : Z) (lo : Z) (p : Z) (l : (@list fp64)),
     TT &&
-    (“ (Z.le lo i) ”) &&
-    (“ (Z.lt i hi) ”) &&
+    (“ (lo <= i) ”) &&
+    (“ (i < hi) ”) &&
     emp **
     ((DoubleArray.seg p lo hi l))
     |--
@@ -25,45 +66,18 @@ Definition solver_qcp_strategy12 :=
     ) ** (
     ALL (v : fp64),
       TT &&
-      (“ (v = ( double_Znth (Z.sub i lo) l)) ”) &&
+      (“ (v = (double_Znth (i - lo) l)) ”) &&
       emp -*
       TT &&
       emp **
-      ((store_double (Z.add p (Z.mul i (@sizeof_front_end_type FET_double))) v))
+      ((poly_store FET_double (p + (i * sizeof(DOUBLE))) v))
       ).
-
-Definition solver_qcp_strategy35 :=
-  forall (cap : Z) (words : (@list Z)) (actual_cut : Z) (required_cut : Z) (closed_v : Z) (raw_v : Z) (p : Z),
-    TT &&
-    (“ (raw_v = closed_v) ”) &&
-    (“ (actual_cut = required_cut) ”) &&
-    (“ (Z.le 0 (@Zlength Z (@sublist Z 0 actual_cut words))) ”) &&
-    (“ (Z.le (@Zlength Z (@sublist Z 0 actual_cut words)) cap) ”) &&
-    (“ (Z.lt 0 cap) ”) &&
-    (“ (Z.le cap ( INT_MAX)) ”) &&
-    emp **
-    ((poly_store FET_int &( ((raw_v)) # "vecp_t" ->ₛ "size") (@Zlength Z (@sublist Z 0 actual_cut words)))) **
-    ((poly_store FET_int &( ((raw_v)) # "vecp_t" ->ₛ "cap") cap)) **
-    ((poly_store FET_ptr &( ((raw_v)) # "vecp_t" ->ₛ "ptr") p)) **
-    ((PtrArray.seg p 0 (@Zlength Z (@sublist Z 0 actual_cut words)) (@sublist Z 0 actual_cut words))) **
-    ((PtrArray.undef_seg p (@Zlength Z (@sublist Z 0 actual_cut words)) cap))
-    |--
-    (
-    TT &&
-    emp
-    ) ** (
-    TT &&
-    emp -*
-    TT &&
-    emp **
-    ((vecp_rep closed_v (@sublist Z 0 required_cut words) cap))
-    ).
 
 Definition solver_qcp_strategy36 :=
   forall (hi : Z) (lo : Z) (p : Z) (l : (@list Z)),
     TT &&
-    (“ (Z.le lo 0) ”) &&
-    (“ (Z.lt 0 hi) ”) &&
+    (“ (lo <= 0) ”) &&
+    (“ (0 < hi) ”) &&
     emp **
     ((IntArray.seg p lo hi l))
     |--
@@ -74,7 +88,7 @@ Definition solver_qcp_strategy36 :=
     ) ** (
     ALL (v : Z),
       TT &&
-      (“ (v = (Znth (Z.sub 0 lo) l  0)) ”) &&
+      (“ (v = (Znth (0 - lo) l  0)) ”) &&
       emp -*
       TT &&
       emp **
@@ -85,8 +99,8 @@ Definition solver_qcp_strategy69 :=
   forall (hi : Z) (q : Z) (p : Z) (lo : Z) (l : (@list Z)),
     TT &&
     (“ (p = q) ” || “ (q = p) ”) &&
-    (“ (Z.le lo 0) ”) &&
-    (“ (Z.lt 0 hi) ”) &&
+    (“ (lo <= 0) ”) &&
+    (“ (0 < hi) ”) &&
     emp **
     ((IntArray.seg p lo hi l))
     |--
@@ -98,7 +112,7 @@ Definition solver_qcp_strategy69 :=
     ) ** (
     ALL (v : Z),
       TT &&
-      (“ (v = (Znth (Z.sub 0 lo) l  0)) ”) &&
+      (“ (v = (Znth (0 - lo) l  0)) ”) &&
       emp -*
       TT &&
       emp **
@@ -109,8 +123,8 @@ Definition solver_qcp_strategy37 :=
   forall (i : Z) (hi : Z) (q : Z) (p : Z) (lo : Z) (l : (@list Z)),
     TT &&
     (“ (q = p) ”) &&
-    (“ (Z.le lo i) ”) &&
-    (“ (Z.lt i hi) ”) &&
+    (“ (lo <= i) ”) &&
+    (“ (i < hi) ”) &&
     emp **
     ((IntArray.seg p lo hi l))
     |--
@@ -121,11 +135,11 @@ Definition solver_qcp_strategy37 :=
     ) ** (
     ALL (v : Z),
       TT &&
-      (“ (v = (Znth (Z.sub i lo) l  0)) ”) &&
+      (“ (v = (Znth (i - lo) l  0)) ”) &&
       emp -*
       TT &&
       emp **
-      ((poly_store FET_int (Z.add q (Z.mul i (@sizeof_front_end_type FET_int))) v))
+      ((poly_store FET_int (q + (i * sizeof(INT))) v))
       ).
 
 Definition solver_qcp_strategy39 :=
@@ -134,7 +148,7 @@ Definition solver_qcp_strategy39 :=
     (“ (xp = yp) ”) &&
     (“ (xp = xr) ”) &&
     emp **
-    ((poly_store FET_int ( clause_hdr_addr xp) w)) **
+    ((poly_store FET_int (clause_hdr_addr xp) w)) **
     ((learnt_sort_alias_remainder db activities xr xw xa))
     |--
     (
@@ -148,16 +162,16 @@ Definition solver_qcp_strategy39 :=
       emp -*
       TT &&
       emp **
-      ((poly_store FET_int ( clause_hdr_addr yp) v))
+      ((poly_store FET_int (clause_hdr_addr yp) v))
       ).
 
 Definition solver_qcp_strategy40 :=
-  forall (xp : Z) (xr : Z) (yp : Z) (a : fp32) (db : dbmap) (xa : fp32) (xw : (@list Z)) (activities : (@list fp32)),
+  forall (xp : Z) (xr : Z) (yp : Z) (size : Z) (a : fp32) (db : dbmap) (xa : fp32) (xw : (@list Z)) (activities : (@list fp32)),
     TT &&
     (“ (xp = yp) ”) &&
     (“ (xp = xr) ”) &&
     emp **
-    ((store_float ( clause_act_addr xp) a)) **
+    ((poly_store FET_float (clause_act_addr xp size) a)) **
     ((learnt_sort_alias_remainder db activities xr xw xa))
     |--
     (
@@ -165,81 +179,44 @@ Definition solver_qcp_strategy40 :=
     emp **
     ((learnt_sort_alias_remainder db activities xr xw xa))
     ) ** (
-    ALL (b : fp32),
+    ALL (other_size : Z) (b : fp32),
       TT &&
       (“ (b = a) ”) &&
+      (“ (other_size = size) ”) &&
       emp -*
       TT &&
       emp **
-      ((store_float ( clause_act_addr yp) b))
+      ((poly_store FET_float (clause_act_addr yp other_size) b))
       ).
 
 Definition solver_qcp_strategy41 :=
   forall (hi : Z) (q : Z) (cp : Z) (lo : Z) (l : (@list Z)),
     TT &&
-    (“ (q = ( clause_lits_addr cp)) ”) &&
-    (“ (Z.le lo 0) ”) &&
-    (“ (Z.lt 0 hi) ”) &&
+    (“ (q = (clause_lits_addr cp)) ”) &&
+    (“ (lo <= 0) ”) &&
+    (“ (0 < hi) ”) &&
     emp **
-    ((IntArray.seg ( clause_lits_addr cp) lo hi l))
+    ((IntArray.seg (clause_lits_addr cp) lo hi l))
     |--
     (
     TT &&
     emp **
-    ((IntArray.missing_i ( clause_lits_addr cp) 0 lo hi l))
+    ((IntArray.missing_i (clause_lits_addr cp) 0 lo hi l))
     ) ** (
     ALL (v : Z),
       TT &&
-      (“ (v = (Znth (Z.sub 0 lo) l  0)) ”) &&
+      (“ (v = (Znth (0 - lo) l  0)) ”) &&
       emp -*
       TT &&
       emp **
       ((poly_store FET_int q v))
       ).
 
-Definition solver_qcp_strategy60 :=
-  forall (p : Z) (q : Z) (hi : Z) (l : (@list Z)) (lo : Z),
-    TT &&
-    (“ (p = q) ”) &&
-    emp **
-    ((IntArray.seg p lo hi l))
-    |--
-    (
-    TT &&
-    emp
-    ) ** (
-    TT &&
-    emp -*
-    TT &&
-    emp **
-    ((IntArray.seg q lo hi l))
-    ).
-
-Definition solver_qcp_strategy68 :=
-  forall (hi : Z) (hi2 : Z) (p : Z) (q : Z) (lo2 : Z) (lo : Z) (l : (@list Z)),
-    TT &&
-    (“ (p = q) ”) &&
-    (“ (lo = lo2) ”) &&
-    (“ (hi = hi2) ”) &&
-    emp **
-    ((PtrArray.seg p lo hi l))
-    |--
-    (
-    TT &&
-    emp
-    ) ** (
-    TT &&
-    emp -*
-    TT &&
-    emp **
-    ((PtrArray.seg q lo2 hi2 l))
-    ).
-
 Definition solver_qcp_strategy61 :=
   forall (i : Z) (n : Z) (p : Z) (words : (@list Z)),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     emp **
     ((PtrArray.missing_i p i 0 n (@replace_Znth Z i (@Znth Z i words 0) (@replace_Znth Z i (@Znth Z i words 0) words))))
     |--
@@ -254,14 +231,80 @@ Definition solver_qcp_strategy61 :=
     ((PtrArray.missing_i p i 0 n words))
     ).
 
+Definition solver_qcp_strategy75 :=
+  forall (level : Z) (wl : Z) (M : msolver) (s : Z),
+    TT &&
+    emp **
+    ((solver_cancel_root_frame s level M wl)) **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "root_level") (ms_root_level M)))
+    |--
+    (
+    TT &&
+    emp
+    ) ** (
+    TT &&
+    emp -*
+    TT &&
+    emp **
+    ((solver_cancel_pre s level M wl))
+    ).
+
+Definition solver_qcp_strategy93 :=
+  forall (i : Z) (n : Z) (wm : (@list (@list Z))) (b : Z),
+    TT &&
+    (“ (0 <= i) ”) &&
+    (“ (i < (2 * n)) ”) &&
+    emp **
+    ((wlists_rep b n wm))
+    |--
+    (
+    TT &&
+    (“ ((@Zlength (@list Z) wm) = (2 * n)) ”) &&
+    emp **
+    ((VecpArray.full b (2 * n) wm))
+    ) ** (
+    ALL (l : (@list Z)) (p : Z),
+      TT &&
+      emp **
+      ((Vecp.rep (Vecp.slot b i) l) || (Vecp.rep_ptr (Vecp.slot b i) p l)) -*
+      TT &&
+      emp **
+      ((Vecp.rep (Vecp.slot b i) l) || (Vecp.rep_ptr (Vecp.slot b i) p l))
+      ).
+
+Definition solver_qcp_strategy94 :=
+  forall (i : Z) (n : Z) (b : Z) (w : Z) (wm : (@list (@list Z))),
+    TT &&
+    (“ (w = (Vecp.slot b i)) ” || “ ((Vecp.slot b i) = w) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < (2 * n)) ”) &&
+    emp **
+    ((wlists_rep b n wm))
+    |--
+    (
+    TT &&
+    (“ (w = (Vecp.slot b i)) ” || “ ((Vecp.slot b i) = w) ”) &&
+    (“ ((@Zlength (@list Z) wm) = (2 * n)) ”) &&
+    emp **
+    ((VecpArray.full b (2 * n) wm))
+    ) ** (
+    ALL (l : (@list Z)) (p : Z),
+      TT &&
+      emp **
+      ((Vecp.rep w l) || (Vecp.rep_ptr w p l)) -*
+      TT &&
+      emp **
+      ((Vecp.rep w l) || (Vecp.rep_ptr w p l))
+      ).
+
 Definition solver_qcp_strategy13 :=
   forall (i : Z) (hi : Z) (lo : Z) (l : (@list fp64)) (p : Z),
     TT &&
-    (“ (Z.le lo i) ”) &&
-    (“ (Z.lt i hi) ”) &&
+    (“ (lo <= i) ”) &&
+    (“ (i < hi) ”) &&
     emp **
     ((DoubleArray.missing_i p i lo hi l)) **
-    ((store_double (Z.add p (Z.mul i (@sizeof_front_end_type FET_double))) ( double_Znth (Z.sub i lo) l)))
+    ((poly_store FET_double (p + (i * sizeof(DOUBLE))) (double_Znth (i - lo) l)))
     |--
     (
     TT &&
@@ -279,11 +322,11 @@ Definition solver_qcp_strategy67 :=
     TT &&
     (“ (q = p) ”) &&
     (“ (i = j) ”) &&
-    (“ (Z.le lo i) ”) &&
-    (“ (Z.lt i hi) ”) &&
+    (“ (lo <= i) ”) &&
+    (“ (i < hi) ”) &&
     emp **
     ((IntArray.missing_i p i lo hi l)) **
-    ((poly_store FET_int (Z.add q (Z.mul j (@sizeof_front_end_type FET_int))) (Znth (Z.sub i lo) l  0)))
+    ((poly_store FET_int (q + (j * sizeof(INT))) (Znth (i - lo) l  0)))
     |--
     (
     TT &&
@@ -299,18 +342,18 @@ Definition solver_qcp_strategy67 :=
 Definition solver_qcp_strategy42 :=
   forall (i : Z) (hi : Z) (cp : Z) (q : Z) (lo : Z) (l : (@list Z)),
     TT &&
-    (“ (q = ( clause_lits_addr cp)) ”) &&
+    (“ (q = (clause_lits_addr cp)) ”) &&
     (“ (i = 0) ”) &&
-    (“ (Z.le lo i) ”) &&
-    (“ (Z.lt i hi) ”) &&
+    (“ (lo <= i) ”) &&
+    (“ (i < hi) ”) &&
     emp **
-    ((IntArray.missing_i ( clause_lits_addr cp) i lo hi l)) **
-    ((poly_store FET_int q (Znth (Z.sub i lo) l  0)))
+    ((IntArray.missing_i (clause_lits_addr cp) i lo hi l)) **
+    ((poly_store FET_int q (Znth (i - lo) l  0)))
     |--
     (
     TT &&
     emp **
-    ((IntArray.seg ( clause_lits_addr cp) lo hi l))
+    ((IntArray.seg (clause_lits_addr cp) lo hi l))
     ) ** (
     TT &&
     emp -*
@@ -323,11 +366,11 @@ Definition solver_qcp_strategy58 :=
     TT &&
     (“ (q = p) ”) &&
     (“ (i = j) ”) &&
-    (“ (Z.le lo i) ”) &&
-    (“ (Z.lt i hi) ”) &&
+    (“ (lo <= i) ”) &&
+    (“ (i < hi) ”) &&
     emp **
     ((PtrArray.missing_i p i lo hi l)) **
-    ((poly_store FET_ptr (Z.add q (Z.mul j (@sizeof_front_end_type FET_ptr))) (Znth (Z.sub i lo) l  0)))
+    ((poly_store FET_ptr (q + (j * sizeof(PTR))) (Znth (i - lo) l  0)))
     |--
     (
     TT &&
@@ -345,11 +388,11 @@ Definition solver_qcp_strategy57 :=
     TT &&
     (“ (q = p) ”) &&
     (“ (i = j) ”) &&
-    (“ (Z.le lo i) ”) &&
-    (“ (Z.lt i hi) ”) &&
+    (“ (lo <= i) ”) &&
+    (“ (i < hi) ”) &&
     emp **
     ((CharArray.missing_i p i lo hi l)) **
-    ((poly_store FET_char (Z.add q (Z.mul j (@sizeof_front_end_type FET_char))) (Znth (Z.sub i lo) l  0)))
+    ((poly_store FET_char (q + (j * sizeof(CHAR))) (Znth (i - lo) l  0)))
     |--
     (
     TT &&
@@ -362,231 +405,43 @@ Definition solver_qcp_strategy57 :=
     emp
     ).
 
-Definition solver_qcp_strategy2 :=
-  forall (cap : Z) (l : (@list Z)) (v : Z),
+Definition solver_qcp_strategy76 :=
+  forall (q : Z) (cp : Z),
     TT &&
+    (“ (q = (clause_lits_addr cp)) ”) &&
     emp **
-    ((veci_rep v l cap))
-    |--
-    EX (p : Z),
-      (
-      TT &&
-      (“ (Z.le 0 (@Zlength Z l)) ”) &&
-      (“ (Z.le (@Zlength Z l) cap) ”) &&
-      (“ (Z.lt 0 cap) ”) &&
-      (“ (Z.le cap ( INT_MAX)) ”) &&
-      emp **
-      ((poly_store FET_int &( ((v)) # "veci_t" ->ₛ "size") (@Zlength Z l))) **
-      ((poly_store FET_int &( ((v)) # "veci_t" ->ₛ "cap") cap)) **
-      ((poly_store FET_ptr &( ((v)) # "veci_t" ->ₛ "ptr") p)) **
-      ((IntArray.seg p 0 (@Zlength Z l) l)) **
-      ((IntArray.undef_seg p (@Zlength Z l) cap))
-      ) ** (
-      ALL (target_p : Z) (y : Z),
-        TT &&
-        emp **
-        ((poly_store FET_int &( ((v)) # "veci_t" ->ₛ "size") y) || (veci_rep_at v target_p l cap) || (poly_store FET_int &( ((v)) # "veci_t" ->ₛ "cap") y) || (poly_store FET_ptr &( ((v)) # "veci_t" ->ₛ "ptr") y)) -*
-        TT &&
-        emp **
-        ((poly_store FET_int &( ((v)) # "veci_t" ->ₛ "size") y) || (veci_rep_at v target_p l cap) || (poly_store FET_int &( ((v)) # "veci_t" ->ₛ "cap") y) || (poly_store FET_ptr &( ((v)) # "veci_t" ->ₛ "ptr") y))
-        ).
-
-Definition solver_qcp_strategy3 :=
-  forall (y : Z) (v : Z),
-    TT &&
-    emp **
-    ((poly_store FET_int &( ((v)) # "veci_t" ->ₛ "size") y) || (poly_store FET_int &( ((v)) # "veci_t" ->ₛ "cap") y) || (poly_store FET_ptr &( ((v)) # "veci_t" ->ₛ "ptr") y))
+    ((poly_undef_store FET_int ((clause_lits_addr cp) + sizeof(INT))))
     |--
     (
     TT &&
+    (“ (q = (clause_lits_addr cp)) ”) &&
     emp **
-    ((poly_store FET_int &( ((v)) # "veci_t" ->ₛ "size") y) || (poly_store FET_int &( ((v)) # "veci_t" ->ₛ "cap") y) || (poly_store FET_ptr &( ((v)) # "veci_t" ->ₛ "ptr") y))
+    ((poly_undef_store FET_int (q + (1 * sizeof(INT)))))
     ) ** (
-    ALL (cap : Z) (l : (@list Z)) (p : Z),
-      TT &&
-      (“ (Z.le 0 (@Zlength Z l)) ”) &&
-      (“ (Z.le (@Zlength Z l) cap) ”) &&
-      (“ (Z.lt 0 cap) ”) &&
-      (“ (Z.le cap ( INT_MAX)) ”) &&
-      emp **
-      ((poly_store FET_int &( ((v)) # "veci_t" ->ₛ "size") (@Zlength Z l))) **
-      ((poly_store FET_int &( ((v)) # "veci_t" ->ₛ "cap") cap)) **
-      ((poly_store FET_ptr &( ((v)) # "veci_t" ->ₛ "ptr") p)) **
-      ((IntArray.seg p 0 (@Zlength Z l) l)) **
-      ((IntArray.undef_seg p (@Zlength Z l) cap)) -*
-      TT &&
-      emp **
-      ((veci_rep v l cap))
-      ).
-
-Definition solver_qcp_strategy4 :=
-  forall (cap : Z) (l : (@list Z)) (v : Z) (p : Z),
     TT &&
+    emp -*
+    TT &&
+    emp
+    ).
+
+Definition solver_qcp_strategy77 :=
+  forall (q : Z) (cp : Z),
+    TT &&
+    (“ (q = (clause_lits_addr cp)) ”) &&
     emp **
-    ((veci_rep_at v p l cap))
+    ((poly_undef_store FET_int (clause_lits_addr cp)))
     |--
     (
     TT &&
-    (“ (Z.le 0 (@Zlength Z l)) ”) &&
-    (“ (Z.le (@Zlength Z l) cap) ”) &&
-    (“ (Z.lt 0 cap) ”) &&
-    (“ (Z.le cap ( INT_MAX)) ”) &&
+    (“ (q = (clause_lits_addr cp)) ”) &&
     emp **
-    ((poly_store FET_int &( ((v)) # "veci_t" ->ₛ "size") (@Zlength Z l))) **
-    ((poly_store FET_int &( ((v)) # "veci_t" ->ₛ "cap") cap)) **
-    ((poly_store FET_ptr &( ((v)) # "veci_t" ->ₛ "ptr") p)) **
-    ((IntArray.seg p 0 (@Zlength Z l) l)) **
-    ((IntArray.undef_seg p (@Zlength Z l) cap))
+    ((poly_undef_store FET_int (q + (0 * sizeof(INT)))))
     ) ** (
-    ALL (y : Z),
-      TT &&
-      emp **
-      ((poly_store FET_int &( ((v)) # "veci_t" ->ₛ "size") y) || (poly_store FET_int &( ((v)) # "veci_t" ->ₛ "cap") y) || (poly_store FET_ptr &( ((v)) # "veci_t" ->ₛ "ptr") y)) -*
-      TT &&
-      emp **
-      ((poly_store FET_int &( ((v)) # "veci_t" ->ₛ "size") y) || (poly_store FET_int &( ((v)) # "veci_t" ->ₛ "cap") y) || (poly_store FET_ptr &( ((v)) # "veci_t" ->ₛ "ptr") y))
-      ).
-
-Definition solver_qcp_strategy5 :=
-  forall (y : Z) (v : Z),
     TT &&
-    emp **
-    ((poly_store FET_int &( ((v)) # "veci_t" ->ₛ "size") y) || (poly_store FET_int &( ((v)) # "veci_t" ->ₛ "cap") y) || (poly_store FET_ptr &( ((v)) # "veci_t" ->ₛ "ptr") y))
-    |--
-    (
+    emp -*
     TT &&
-    emp **
-    ((poly_store FET_int &( ((v)) # "veci_t" ->ₛ "size") y) || (poly_store FET_int &( ((v)) # "veci_t" ->ₛ "cap") y) || (poly_store FET_ptr &( ((v)) # "veci_t" ->ₛ "ptr") y))
-    ) ** (
-    ALL (cap : Z) (l : (@list Z)) (p : Z),
-      TT &&
-      (“ (Z.le 0 (@Zlength Z l)) ”) &&
-      (“ (Z.le (@Zlength Z l) cap) ”) &&
-      (“ (Z.lt 0 cap) ”) &&
-      (“ (Z.le cap ( INT_MAX)) ”) &&
-      emp **
-      ((poly_store FET_int &( ((v)) # "veci_t" ->ₛ "size") (@Zlength Z l))) **
-      ((poly_store FET_int &( ((v)) # "veci_t" ->ₛ "cap") cap)) **
-      ((poly_store FET_ptr &( ((v)) # "veci_t" ->ₛ "ptr") p)) **
-      ((IntArray.seg p 0 (@Zlength Z l) l)) **
-      ((IntArray.undef_seg p (@Zlength Z l) cap)) -*
-      TT &&
-      emp **
-      ((veci_rep_at v p l cap))
-      ).
-
-Definition solver_qcp_strategy6 :=
-  forall (cap : Z) (l : (@list Z)) (v : Z),
-    TT &&
-    emp **
-    ((vecp_rep v l cap))
-    |--
-    EX (p : Z),
-      (
-      TT &&
-      (“ (Z.le 0 (@Zlength Z l)) ”) &&
-      (“ (Z.le (@Zlength Z l) cap) ”) &&
-      (“ (Z.lt 0 cap) ”) &&
-      (“ (Z.le cap ( INT_MAX)) ”) &&
-      emp **
-      ((poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "size") (@Zlength Z l))) **
-      ((poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "cap") cap)) **
-      ((poly_store FET_ptr &( ((v)) # "vecp_t" ->ₛ "ptr") p)) **
-      ((PtrArray.seg p 0 (@Zlength Z l) l)) **
-      ((PtrArray.undef_seg p (@Zlength Z l) cap))
-      ) ** (
-      ALL (target_p : Z) (y : Z),
-        TT &&
-        emp **
-        ((poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "size") y) || (vecp_rep_at v target_p l cap) || (poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "cap") y) || (poly_store FET_ptr &( ((v)) # "vecp_t" ->ₛ "ptr") y)) -*
-        TT &&
-        emp **
-        ((poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "size") y) || (vecp_rep_at v target_p l cap) || (poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "cap") y) || (poly_store FET_ptr &( ((v)) # "vecp_t" ->ₛ "ptr") y))
-        ).
-
-Definition solver_qcp_strategy7 :=
-  forall (y : Z) (v : Z),
-    TT &&
-    emp **
-    ((poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "size") y) || (poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "cap") y) || (poly_store FET_ptr &( ((v)) # "vecp_t" ->ₛ "ptr") y))
-    |--
-    (
-    TT &&
-    emp **
-    ((poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "size") y) || (poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "cap") y) || (poly_store FET_ptr &( ((v)) # "vecp_t" ->ₛ "ptr") y))
-    ) ** (
-    ALL (cap : Z) (l : (@list Z)) (p : Z),
-      TT &&
-      (“ (Z.le 0 (@Zlength Z l)) ”) &&
-      (“ (Z.le (@Zlength Z l) cap) ”) &&
-      (“ (Z.lt 0 cap) ”) &&
-      (“ (Z.le cap ( INT_MAX)) ”) &&
-      emp **
-      ((poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "size") (@Zlength Z l))) **
-      ((poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "cap") cap)) **
-      ((poly_store FET_ptr &( ((v)) # "vecp_t" ->ₛ "ptr") p)) **
-      ((PtrArray.seg p 0 (@Zlength Z l) l)) **
-      ((PtrArray.undef_seg p (@Zlength Z l) cap)) -*
-      TT &&
-      emp **
-      ((vecp_rep v l cap))
-      ).
-
-Definition solver_qcp_strategy8 :=
-  forall (cap : Z) (l : (@list Z)) (v : Z) (p : Z),
-    TT &&
-    emp **
-    ((vecp_rep_at v p l cap))
-    |--
-    (
-    TT &&
-    (“ (Z.le 0 (@Zlength Z l)) ”) &&
-    (“ (Z.le (@Zlength Z l) cap) ”) &&
-    (“ (Z.lt 0 cap) ”) &&
-    (“ (Z.le cap ( INT_MAX)) ”) &&
-    emp **
-    ((poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "size") (@Zlength Z l))) **
-    ((poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "cap") cap)) **
-    ((poly_store FET_ptr &( ((v)) # "vecp_t" ->ₛ "ptr") p)) **
-    ((PtrArray.seg p 0 (@Zlength Z l) l)) **
-    ((PtrArray.undef_seg p (@Zlength Z l) cap))
-    ) ** (
-    ALL (y : Z),
-      TT &&
-      emp **
-      ((poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "size") y) || (poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "cap") y) || (poly_store FET_ptr &( ((v)) # "vecp_t" ->ₛ "ptr") y)) -*
-      TT &&
-      emp **
-      ((poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "size") y) || (poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "cap") y) || (poly_store FET_ptr &( ((v)) # "vecp_t" ->ₛ "ptr") y))
-      ).
-
-Definition solver_qcp_strategy9 :=
-  forall (y : Z) (v : Z),
-    TT &&
-    emp **
-    ((poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "size") y) || (poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "cap") y) || (poly_store FET_ptr &( ((v)) # "vecp_t" ->ₛ "ptr") y))
-    |--
-    (
-    TT &&
-    emp **
-    ((poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "size") y) || (poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "cap") y) || (poly_store FET_ptr &( ((v)) # "vecp_t" ->ₛ "ptr") y))
-    ) ** (
-    ALL (cap : Z) (l : (@list Z)) (p : Z),
-      TT &&
-      (“ (Z.le 0 (@Zlength Z l)) ”) &&
-      (“ (Z.le (@Zlength Z l) cap) ”) &&
-      (“ (Z.lt 0 cap) ”) &&
-      (“ (Z.le cap ( INT_MAX)) ”) &&
-      emp **
-      ((poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "size") (@Zlength Z l))) **
-      ((poly_store FET_int &( ((v)) # "vecp_t" ->ₛ "cap") cap)) **
-      ((poly_store FET_ptr &( ((v)) # "vecp_t" ->ₛ "ptr") p)) **
-      ((PtrArray.seg p 0 (@Zlength Z l) l)) **
-      ((PtrArray.undef_seg p (@Zlength Z l) cap)) -*
-      TT &&
-      emp **
-      ((vecp_rep_at v p l cap))
-      ).
+    emp
+    ).
 
 Definition solver_qcp_strategy16 :=
   forall (y : Z) (s : Z),
@@ -599,17 +454,17 @@ Definition solver_qcp_strategy16 :=
     emp **
     ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "assigns") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "levels") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") y))
     ) ** (
-    ALL (qtail : Z) (cap : Z) (trail : (@list Z)) (levels : (@list Z)) (assigns : (@list Z)) (n : Z) (reasons : (@list Z)) (trl : Z) (rsn : Z) (lvl : Z) (asg : Z) (lim_cap : Z) (lim : (@list Z)),
+    ALL (qtail : Z) (cap : Z) (trail : (@list Z)) (levels : (@list Z)) (assigns : (@list Z)) (n : Z) (reasons : (@list Z)) (trl : Z) (rsn : Z) (lvl : Z) (asg : Z) (lim : (@list Z)),
       TT &&
-      (“ (Z.le 0 n) ”) &&
-      (“ (Z.le n cap) ”) &&
-      (“ (Z.le cap ( INT_MAX)) ”) &&
+      (“ (0 <= n) ”) &&
+      (“ (n <= cap) ”) &&
+      (“ (cap <= (INT_MAX)) ”) &&
       (“ ((@Zlength Z assigns) = n) ”) &&
       (“ ((@Zlength Z levels) = n) ”) &&
       (“ ((@Zlength Z reasons) = n) ”) &&
       (“ ((@Zlength Z trail) = qtail) ”) &&
-      (“ (Z.le 0 qtail) ”) &&
-      (“ (Z.le qtail cap) ”) &&
+      (“ (0 <= qtail) ”) &&
+      (“ (qtail <= cap) ”) &&
       emp **
       ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") qtail)) **
       ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "assigns") asg)) **
@@ -617,17 +472,17 @@ Definition solver_qcp_strategy16 :=
       ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") rsn)) **
       ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") trl)) **
       ((CharArray.seg asg 0 n assigns)) **
-      ((CharArray.undef_seg asg n cap)) **
+      ((solver_char_tail asg n cap)) **
       ((IntArray.seg lvl 0 n levels)) **
-      ((IntArray.undef_seg lvl n cap)) **
+      ((solver_int_tail lvl n cap)) **
       ((PtrArray.seg rsn 0 n reasons)) **
-      ((PtrArray.undef_seg rsn n cap)) **
+      ((solver_ptr_tail rsn n cap)) **
       ((IntArray.seg trl 0 qtail trail)) **
-      ((IntArray.undef_seg trl qtail cap)) **
-      ((veci_rep &( ((s)) # "solver_t" ->ₛ "trail_lim") lim lim_cap)) -*
+      ((solver_int_tail trl qtail cap)) **
+      ((Veci.rep &( ((s)) # "solver_t" ->ₛ "trail_lim") lim)) -*
       TT &&
       emp **
-      ((enqueue_state_at s asg lvl n cap qtail assigns levels reasons trail lim lim_cap))
+      ((enqueue_state_at s asg lvl n cap qtail assigns levels reasons trail lim))
       ).
 
 Definition solver_qcp_strategy23 :=
@@ -640,23 +495,23 @@ Definition solver_qcp_strategy23 :=
     TT &&
     emp
     ) ** (
-    ALL (order : (@list Z)) (order_cap : Z) (orderpos : (@list Z)),
+    ALL (order : (@list Z)) (orderpos : (@list Z)),
       TT &&
       emp -*
       TT &&
       emp **
-      ((solver_levels_slice_at s ( msolver_heap_project M orderpos order order_cap) lvl))
+      ((solver_levels_slice_at s (msolver_heap_project M orderpos order) lvl))
       ).
 
 Definition solver_qcp_strategy29 :=
   forall (i : Z) (j : Z) (n : Z) (words : (@list Z)) (p : Z),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     (“ (i = j) ”) &&
     emp **
     ((removable_reason_array_hole p i n words)) **
-    ((poly_store FET_ptr (Z.add p (Z.mul j (@sizeof_front_end_type FET_ptr))) (@Znth Z i words 0)))
+    ((poly_store FET_ptr (p + (j * sizeof(PTR))) (@Znth Z i words 0)))
     |--
     (
     TT &&
@@ -670,43 +525,43 @@ Definition solver_qcp_strategy29 :=
     ).
 
 Definition solver_qcp_strategy33 :=
-  forall (s : Z) (n : Z),
+  forall (s : Z) (l : (@list Z)),
     TT &&
     emp **
-    ((solver_clause_count_cell s n))
+    ((solver_clauses_rep s l))
     |--
     (
     TT &&
     emp **
-    ((poly_store FET_int &( ((&( ((s)) # "solver_t" ->ₛ "clauses"))) # "vecp_t" ->ₛ "size") n))
+    ((Vecp.rep &( ((s)) # "solver_t" ->ₛ "clauses") l))
     ) ** (
-    ALL (value : Z),
+    ALL (p : Z) (w : (@list Z)),
       TT &&
       emp **
-      ((poly_store FET_int &( ((&( ((s)) # "solver_t" ->ₛ "clauses"))) # "vecp_t" ->ₛ "size") value)) -*
+      ((Vecp.rep_ptr &( ((s)) # "solver_t" ->ₛ "clauses") p w) || (Vecp.rep &( ((s)) # "solver_t" ->ₛ "clauses") w)) -*
       TT &&
       emp **
-      ((poly_store FET_int &( ((&( ((s)) # "solver_t" ->ₛ "clauses"))) # "vecp_t" ->ₛ "size") value))
+      ((Vecp.rep_ptr &( ((s)) # "solver_t" ->ₛ "clauses") p w) || (Vecp.rep &( ((s)) # "solver_t" ->ₛ "clauses") w))
       ).
 
 Definition solver_qcp_strategy34 :=
-  forall (value : Z) (s : Z) (cap : Z) (words : (@list Z)),
+  forall (s : Z) (w : (@list Z)) (p : Z),
     TT &&
     emp **
-    ((poly_store FET_int &( ((&( ((s)) # "solver_t" ->ₛ "clauses"))) # "vecp_t" ->ₛ "size") value) || (vecp_rep &( ((s)) # "solver_t" ->ₛ "clauses") words cap))
+    ((Vecp.rep &( ((s)) # "solver_t" ->ₛ "clauses") w) || (Vecp.rep_ptr &( ((s)) # "solver_t" ->ₛ "clauses") p w))
     |--
     (
     TT &&
     emp **
-    ((poly_store FET_int &( ((&( ((s)) # "solver_t" ->ₛ "clauses"))) # "vecp_t" ->ₛ "size") value) || (vecp_rep &( ((s)) # "solver_t" ->ₛ "clauses") words cap))
+    ((Vecp.rep &( ((s)) # "solver_t" ->ₛ "clauses") w) || (Vecp.rep_ptr &( ((s)) # "solver_t" ->ₛ "clauses") p w))
     ) ** (
-    ALL (n : Z),
+    ALL (l : (@list Z)),
       TT &&
       emp **
-      ((poly_store FET_int &( ((&( ((s)) # "solver_t" ->ₛ "clauses"))) # "vecp_t" ->ₛ "size") n)) -*
+      ((Vecp.rep &( ((s)) # "solver_t" ->ₛ "clauses") l)) -*
       TT &&
       emp **
-      ((solver_clause_count_cell s n))
+      ((solver_clauses_rep s l))
       ).
 
 Definition solver_qcp_strategy43 :=
@@ -718,8 +573,8 @@ Definition solver_qcp_strategy43 :=
     (
     TT &&
     emp **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "root_level") ( ms_root_level M))) **
-    ((veci_rep &( ((s)) # "solver_t" ->ₛ "trail_lim") ( mt_lim ( ms_core M)) ( ms_lim_cap M)))
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "root_level") (ms_root_level M))) **
+    ((Veci.rep &( ((s)) # "solver_t" ->ₛ "trail_lim") (mt_lim (ms_core M))))
     ) ** (
     TT &&
     emp -*
@@ -733,8 +588,8 @@ Definition solver_qcp_strategy44 :=
     TT &&
     emp **
     ((solver_search_root_frame_at s M lvl wl)) **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "root_level") ( ms_root_level M))) **
-    ((veci_rep &( ((s)) # "solver_t" ->ₛ "trail_lim") ( mt_lim ( ms_core M)) ( ms_lim_cap M)))
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "root_level") (ms_root_level M))) **
+    ((Veci.rep &( ((s)) # "solver_t" ->ₛ "trail_lim") (mt_lim (ms_core M))))
     |--
     (
     TT &&
@@ -756,11 +611,11 @@ Definition solver_qcp_strategy45 :=
     (
     TT &&
     emp **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "root_level") ( ms_root_level M))) **
-    ((veci_rep &( ((s)) # "solver_t" ->ₛ "trail_lim") ( mt_lim ( ms_core M)) ( ms_lim_cap M))) **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "root_level") (ms_root_level M))) **
+    ((Veci.rep &( ((s)) # "solver_t" ->ₛ "trail_lim") (mt_lim (ms_core M)))) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "levels") lvl)) **
-    ((IntArray.seg lvl 0 ( ms_size M) ( mt_levels ( ms_core M)))) **
-    ((IntArray.undef_seg lvl ( ms_size M) ( ms_cap M)))
+    ((IntArray.seg lvl 0 (ms_size M) (mt_levels (ms_core M)))) **
+    ((solver_int_tail lvl (ms_size M) (ms_cap M)))
     ) ** (
     TT &&
     emp -*
@@ -774,11 +629,11 @@ Definition solver_qcp_strategy46 :=
     TT &&
     emp **
     ((solver_search_root_payload s M wl)) **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "root_level") ( ms_root_level M))) **
-    ((veci_rep &( ((s)) # "solver_t" ->ₛ "trail_lim") ( mt_lim ( ms_core M)) ( ms_lim_cap M))) **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "root_level") (ms_root_level M))) **
+    ((Veci.rep &( ((s)) # "solver_t" ->ₛ "trail_lim") (mt_lim (ms_core M)))) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "levels") lvl)) **
-    ((IntArray.seg lvl 0 ( ms_size M) ( mt_levels ( ms_core M)))) **
-    ((IntArray.undef_seg lvl ( ms_size M) ( ms_cap M)))
+    ((IntArray.seg lvl 0 (ms_size M) (mt_levels (ms_core M)))) **
+    ((solver_int_tail lvl (ms_size M) (ms_cap M)))
     |--
     (
     TT &&
@@ -800,8 +655,8 @@ Definition solver_qcp_strategy47 :=
     (
     TT &&
     emp **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "root_level") ( ms_root_level M))) **
-    ((veci_rep &( ((s)) # "solver_t" ->ₛ "trail_lim") ( mt_lim ( ms_core M)) ( ms_lim_cap M)))
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "root_level") (ms_root_level M))) **
+    ((Veci.rep &( ((s)) # "solver_t" ->ₛ "trail_lim") (mt_lim (ms_core M))))
     ) ** (
     TT &&
     emp -*
@@ -819,9 +674,9 @@ Definition solver_qcp_strategy48 :=
     (
     TT &&
     emp **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "conflicts") ( stats_conflicts ( ms_stats M)))) **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "root_level") ( ms_root_level M))) **
-    ((veci_rep &( ((s)) # "solver_t" ->ₛ "trail_lim") ( mt_lim ( ms_core M)) ( ms_lim_cap M)))
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "conflicts") (stats_conflicts (ms_stats M)))) **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "root_level") (ms_root_level M))) **
+    ((Veci.rep &( ((s)) # "solver_t" ->ₛ "trail_lim") (mt_lim (ms_core M))))
     ) ** (
     TT &&
     emp -*
@@ -839,12 +694,12 @@ Definition solver_qcp_strategy49 :=
     (
     TT &&
     emp **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") ( ms_size M))) **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") (ms_size M))) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "assigns") asg)) **
-    ((CharArray.seg asg 0 ( ms_size M) ( mt_assigns ( ms_core M)))) **
+    ((CharArray.seg asg 0 (ms_size M) (mt_assigns (ms_core M)))) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "levels") lvl)) **
-    ((IntArray.seg lvl 0 ( ms_size M) ( mt_levels ( ms_core M)))) **
-    ((store_double &( ((s)) # "solver_t" ->ₛ "progress_estimate") ( ms_progress M)))
+    ((IntArray.seg lvl 0 (ms_size M) (mt_levels (ms_core M)))) **
+    ((poly_store FET_double &( ((s)) # "solver_t" ->ₛ "progress_estimate") (ms_progress M)))
     ) ** (
     TT &&
     emp -*
@@ -862,10 +717,10 @@ Definition solver_qcp_strategy50 :=
     (
     TT &&
     emp **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "starts") ( stats_starts ( ms_stats M)))) **
-    ((store_double &( ((s)) # "solver_t" ->ₛ "var_decay") ( ms_var_decay M))) **
-    ((store_float &( ((s)) # "solver_t" ->ₛ "cla_decay") ( ms_cla_decay M))) **
-    ((veci_rep &( ((s)) # "solver_t" ->ₛ "model") ( ms_model M) ( ms_model_cap M)))
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "starts") (stats_starts (ms_stats M)))) **
+    ((poly_store FET_double &( ((s)) # "solver_t" ->ₛ "var_decay") (ms_var_decay M))) **
+    ((poly_store FET_float &( ((s)) # "solver_t" ->ₛ "cla_decay") (ms_cla_decay M))) **
+    ((Veci.rep &( ((s)) # "solver_t" ->ₛ "model") (ms_model M)))
     ) ** (
     TT &&
     emp -*
@@ -883,8 +738,8 @@ Definition solver_qcp_strategy51 :=
     (
     TT &&
     emp **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") ( ms_qtail M))) **
-    ((vecp_rep &( ((s)) # "solver_t" ->ₛ "learnts") ( db_words ( ms_learnt M)) ( ms_learnt_cap M)))
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") (ms_qtail M))) **
+    ((Vecp.rep &( ((s)) # "solver_t" ->ₛ "learnts") (db_words (ms_learnt M))))
     ) ** (
     TT &&
     emp -*
@@ -898,8 +753,8 @@ Definition solver_qcp_strategy52 :=
     TT &&
     emp **
     ((solver_search_reducedb_frame_at s M lvl wl)) **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") ( ms_qtail M))) **
-    ((vecp_rep &( ((s)) # "solver_t" ->ₛ "learnts") ( db_words ( ms_learnt M)) ( ms_learnt_cap M)))
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") (ms_qtail M))) **
+    ((Vecp.rep &( ((s)) # "solver_t" ->ₛ "learnts") (db_words (ms_learnt M))))
     |--
     (
     TT &&
@@ -921,8 +776,8 @@ Definition solver_qcp_strategy53 :=
     (
     TT &&
     emp **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "max_literals") ( stats_max_literals ( ms_stats M)))) **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "tot_literals") ( stats_tot_literals ( ms_stats M))))
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "max_literals") (stats_max_literals (ms_stats M)))) **
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "tot_literals") (stats_tot_literals (ms_stats M))))
     ) ** (
     TT &&
     emp -*
@@ -940,11 +795,11 @@ Definition solver_qcp_strategy54 :=
     (
     TT &&
     emp **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qhead") ( mt_qhead ( ms_core M)))) **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "simpdb_assigns") ( ms_simpdb_assigns M))) **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "simpdb_props") ( ms_simpdb_props M))) **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "clauses_literals") ( stats_clauses_literals ( ms_stats M)))) **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "learnts_literals") ( stats_learnts_literals ( ms_stats M))))
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qhead") (mt_qhead (ms_core M)))) **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "simpdb_assigns") (ms_simpdb_assigns M))) **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "simpdb_props") (ms_simpdb_props M))) **
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "clauses_literals") (stats_clauses_literals (ms_stats M)))) **
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "learnts_literals") (stats_learnts_literals (ms_stats M))))
     ) ** (
     TT &&
     emp -*
@@ -963,11 +818,11 @@ Definition solver_qcp_strategy55 :=
       (
       TT &&
       emp **
-      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") ( ms_size M))) **
+      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") (ms_size M))) **
       ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "assigns") values_ptr)) **
-      ((CharArray.seg values_ptr 0 ( ms_size M) ( mt_assigns ( ms_core M)))) **
-      ((CharArray.undef_seg values_ptr ( ms_size M) ( ms_cap M))) **
-      ((veci_rep &( ((s)) # "solver_t" ->ₛ "model") ( ms_model M) ( ms_model_cap M)))
+      ((CharArray.seg values_ptr 0 (ms_size M) (mt_assigns (ms_core M)))) **
+      ((solver_char_tail values_ptr (ms_size M) (ms_cap M))) **
+      ((Veci.rep &( ((s)) # "solver_t" ->ₛ "model") (ms_model M)))
       ) ** (
       TT &&
       emp -*
@@ -983,11 +838,11 @@ Definition solver_qcp_strategy56 :=
     emp **
     ((solver_reason_levels_frame_at s M trl tgs wl)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") rsn)) **
-    ((PtrArray.seg rsn 0 n ( ms_reason_words M))) **
-    ((PtrArray.undef_seg rsn n ( ms_cap M))) **
+    ((PtrArray.seg rsn 0 n (ms_reason_words M))) **
+    ((solver_ptr_tail rsn n (ms_cap M))) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "levels") lvl)) **
-    ((IntArray.seg lvl 0 n ( mt_levels ( ms_core M)))) **
-    ((IntArray.undef_seg lvl n ( ms_cap M)))
+    ((IntArray.seg lvl 0 n (mt_levels (ms_core M)))) **
+    ((solver_int_tail lvl n (ms_cap M)))
     |--
     (
     TT &&
@@ -1009,7 +864,7 @@ Definition solver_qcp_strategy62 :=
     (
     TT &&
     emp **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") ( ms_qtail M))) **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") (ms_qtail M))) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "wlists") wl)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "activity") act)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "assigns") asg)) **
@@ -1018,22 +873,22 @@ Definition solver_qcp_strategy62 :=
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "levels") lvl)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") trl)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "tags") tgs)) **
-    ((DoubleArray.seg act 0 sz ( ms_activity M))) **
-    ((DoubleArray.undef_seg act sz ( ms_cap M))) **
-    ((CharArray.seg asg 0 sz ( mt_assigns ( ms_core M)))) **
-    ((CharArray.undef_seg asg sz ( ms_cap M))) **
-    ((IntArray.seg opos 0 sz ( ms_orderpos M))) **
-    ((IntArray.undef_seg opos sz ( ms_cap M))) **
-    ((PtrArray.seg rsn 0 sz ( ms_reason_words M))) **
-    ((PtrArray.undef_seg rsn sz ( ms_cap M))) **
-    ((IntArray.seg lvl 0 sz ( mt_levels ( ms_core M)))) **
-    ((IntArray.undef_seg lvl sz ( ms_cap M))) **
-    ((CharArray.seg tgs 0 sz ( ms_tags M))) **
-    ((CharArray.undef_seg tgs sz ( ms_cap M))) **
-    ((IntArray.seg trl 0 ( ms_qtail M) ( mt_trail ( ms_core M)))) **
-    ((IntArray.undef_seg trl ( ms_qtail M) ( ms_cap M))) **
-    ((wlists_rep wl sz ( ms_wm M) ( ms_wcaps M))) **
-    ((wlists_undef wl (Z.mul 2 sz) (Z.mul 2 ( ms_cap M))))
+    ((DoubleArray.seg act 0 sz (ms_activity M))) **
+    ((solver_double_tail act sz (ms_cap M))) **
+    ((CharArray.seg asg 0 sz (mt_assigns (ms_core M)))) **
+    ((solver_char_tail asg sz (ms_cap M))) **
+    ((IntArray.seg opos 0 sz (ms_orderpos M))) **
+    ((solver_int_tail opos sz (ms_cap M))) **
+    ((PtrArray.seg rsn 0 sz (ms_reason_words M))) **
+    ((solver_ptr_tail rsn sz (ms_cap M))) **
+    ((IntArray.seg lvl 0 sz (mt_levels (ms_core M)))) **
+    ((solver_int_tail lvl sz (ms_cap M))) **
+    ((CharArray.seg tgs 0 sz (ms_tags M))) **
+    ((solver_char_tail tgs sz (ms_cap M))) **
+    ((IntArray.seg trl 0 (ms_qtail M) (mt_trail (ms_core M)))) **
+    ((solver_int_tail trl (ms_qtail M) (ms_cap M))) **
+    ((wlists_rep wl sz (ms_wm M))) **
+    ((solver_wlists_tail wl (2 * sz) (2 * (ms_cap M))))
     ) ** (
     ALL (y : Z),
       TT &&
@@ -1054,78 +909,78 @@ Definition solver_qcp_strategy63 :=
     TT &&
     emp **
     ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") n)) **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") ( ms_qtail M))) **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") (ms_qtail M))) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "activity") act)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "orderpos") opos)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") rsn)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "levels") lvl)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") trl)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "tags") tgs)) **
-    ((DoubleArray.seg act 0 n ( ms_activity M))) **
-    ((IntArray.seg opos 0 n ( ms_orderpos M))) **
-    ((PtrArray.seg rsn 0 n ( ms_reason_words M))) **
-    ((IntArray.seg lvl 0 n ( mt_levels ( ms_core M)))) **
-    ((IntArray.seg trl 0 ( ms_qtail M) ( mt_trail ( ms_core M)))) **
-    ((CharArray.seg tgs 0 n ( ms_tags M))) **
-    ((vecp_rep &( ((s)) # "solver_t" ->ₛ "learnts") ( db_words ( ms_learnt M)) ( ms_learnt_cap M))) **
-    ((veci_rep &( ((s)) # "solver_t" ->ₛ "tagged") ( ms_tagged M) ( ms_tagged_cap M))) **
-    ((veci_rep &( ((s)) # "solver_t" ->ₛ "order") ( ms_order M) ( ms_order_cap M))) **
-    ((veci_rep &( ((s)) # "solver_t" ->ₛ "trail_lim") ( mt_lim ( ms_core M)) ( ms_lim_cap M))) **
-    ((store_double &( ((s)) # "solver_t" ->ₛ "var_inc") ( ms_var_inc M))) **
-    ((store_float &( ((s)) # "solver_t" ->ₛ "cla_inc") ( ms_cla_inc M))) **
+    ((DoubleArray.seg act 0 n (ms_activity M))) **
+    ((IntArray.seg opos 0 n (ms_orderpos M))) **
+    ((PtrArray.seg rsn 0 n (ms_reason_words M))) **
+    ((IntArray.seg lvl 0 n (mt_levels (ms_core M)))) **
+    ((IntArray.seg trl 0 (ms_qtail M) (mt_trail (ms_core M)))) **
+    ((CharArray.seg tgs 0 n (ms_tags M))) **
+    ((Vecp.rep &( ((s)) # "solver_t" ->ₛ "learnts") (db_words (ms_learnt M)))) **
+    ((Veci.rep &( ((s)) # "solver_t" ->ₛ "tagged") (ms_tagged M))) **
+    ((Veci.rep &( ((s)) # "solver_t" ->ₛ "order") (ms_order M))) **
+    ((Veci.rep &( ((s)) # "solver_t" ->ₛ "trail_lim") (mt_lim (ms_core M)))) **
+    ((poly_store FET_double &( ((s)) # "solver_t" ->ₛ "var_inc") (ms_var_inc M))) **
+    ((poly_store FET_float &( ((s)) # "solver_t" ->ₛ "cla_inc") (ms_cla_inc M))) **
     ((solver_analyze_inert_at s M n act opos rsn lvl trl tgs)) **
     ((solver_analyze_frame s M wl))
     ) ** (
-    ALL (dl : (@list fp64)) (yd : fp64) (yf : fp32) (c : Z) (hi : Z) (l : (@list Z)) (lo : Z) (y : Z) (i : Z),
+    ALL (dl : (@list fp64)) (yd : fp64) (yf : fp32) (hi : Z) (l : (@list Z)) (lo : Z) (y : Z) (i : Z),
       TT &&
       emp **
-      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "activity") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "orderpos") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "levels") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "tags") y) || (store_double &( ((s)) # "solver_t" ->ₛ "var_inc") yd) || (store_float &( ((s)) # "solver_t" ->ₛ "cla_inc") yf) || (vecp_rep &( ((s)) # "solver_t" ->ₛ "learnts") l c) || (veci_rep &( ((s)) # "solver_t" ->ₛ "tagged") l c) || (veci_rep &( ((s)) # "solver_t" ->ₛ "order") l c) || (veci_rep &( ((s)) # "solver_t" ->ₛ "trail_lim") l c) || (DoubleArray.seg act lo hi dl) || (IntArray.seg opos lo hi l) || (PtrArray.seg rsn lo hi l) || (IntArray.seg lvl lo hi l) || (IntArray.seg trl lo hi l) || (CharArray.seg tgs lo hi l) || (poly_store FET_char (Z.add tgs (Z.mul i (@sizeof_front_end_type FET_char))) y) || (poly_store FET_int (Z.add lvl (Z.mul i (@sizeof_front_end_type FET_int))) y) || (poly_store FET_int (Z.add trl (Z.mul i (@sizeof_front_end_type FET_int))) y) || (poly_store FET_ptr (Z.add rsn (Z.mul i (@sizeof_front_end_type FET_ptr))) y)) -*
+      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "activity") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "orderpos") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "levels") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "tags") y) || (poly_store FET_double &( ((s)) # "solver_t" ->ₛ "var_inc") yd) || (poly_store FET_float &( ((s)) # "solver_t" ->ₛ "cla_inc") yf) || (Vecp.rep &( ((s)) # "solver_t" ->ₛ "learnts") l) || (Veci.rep &( ((s)) # "solver_t" ->ₛ "tagged") l) || (Veci.rep &( ((s)) # "solver_t" ->ₛ "order") l) || (Veci.rep &( ((s)) # "solver_t" ->ₛ "trail_lim") l) || (DoubleArray.seg act lo hi dl) || (IntArray.seg opos lo hi l) || (PtrArray.seg rsn lo hi l) || (IntArray.seg lvl lo hi l) || (IntArray.seg trl lo hi l) || (CharArray.seg tgs lo hi l) || (poly_store FET_char (tgs + (i * sizeof(CHAR))) y) || (poly_store FET_int (lvl + (i * sizeof(INT))) y) || (poly_store FET_int (trl + (i * sizeof(INT))) y) || (poly_store FET_ptr (rsn + (i * sizeof(PTR))) y)) -*
       TT &&
       emp **
-      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "activity") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "orderpos") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "levels") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "tags") y) || (store_double &( ((s)) # "solver_t" ->ₛ "var_inc") yd) || (store_float &( ((s)) # "solver_t" ->ₛ "cla_inc") yf) || (vecp_rep &( ((s)) # "solver_t" ->ₛ "learnts") l c) || (veci_rep &( ((s)) # "solver_t" ->ₛ "tagged") l c) || (veci_rep &( ((s)) # "solver_t" ->ₛ "order") l c) || (veci_rep &( ((s)) # "solver_t" ->ₛ "trail_lim") l c) || (DoubleArray.seg act lo hi dl) || (IntArray.seg opos lo hi l) || (PtrArray.seg rsn lo hi l) || (IntArray.seg lvl lo hi l) || (IntArray.seg trl lo hi l) || (CharArray.seg tgs lo hi l) || (poly_store FET_char (Z.add tgs (Z.mul i (@sizeof_front_end_type FET_char))) y) || (poly_store FET_int (Z.add lvl (Z.mul i (@sizeof_front_end_type FET_int))) y) || (poly_store FET_int (Z.add trl (Z.mul i (@sizeof_front_end_type FET_int))) y) || (poly_store FET_ptr (Z.add rsn (Z.mul i (@sizeof_front_end_type FET_ptr))) y))
+      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "activity") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "orderpos") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "levels") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "tags") y) || (poly_store FET_double &( ((s)) # "solver_t" ->ₛ "var_inc") yd) || (poly_store FET_float &( ((s)) # "solver_t" ->ₛ "cla_inc") yf) || (Vecp.rep &( ((s)) # "solver_t" ->ₛ "learnts") l) || (Veci.rep &( ((s)) # "solver_t" ->ₛ "tagged") l) || (Veci.rep &( ((s)) # "solver_t" ->ₛ "order") l) || (Veci.rep &( ((s)) # "solver_t" ->ₛ "trail_lim") l) || (DoubleArray.seg act lo hi dl) || (IntArray.seg opos lo hi l) || (PtrArray.seg rsn lo hi l) || (IntArray.seg lvl lo hi l) || (IntArray.seg trl lo hi l) || (CharArray.seg tgs lo hi l) || (poly_store FET_char (tgs + (i * sizeof(CHAR))) y) || (poly_store FET_int (lvl + (i * sizeof(INT))) y) || (poly_store FET_int (trl + (i * sizeof(INT))) y) || (poly_store FET_ptr (rsn + (i * sizeof(PTR))) y))
       ).
 
 Definition solver_qcp_strategy64 :=
-  forall (s : Z) (act : Z) (opos : Z) (trl : Z) (opos_l : (@list Z)) (ord_l : (@list Z)) (wl : Z) (ord_cap : Z) (rsn_l : (@list Z)) (asg_l : (@list Z)) (rsn : Z) (asg : Z) (M : msolver),
+  forall (s : Z) (act : Z) (opos : Z) (trl : Z) (opos_l : (@list Z)) (ord_l : (@list Z)) (wl : Z) (rsn_l : (@list Z)) (asg_l : (@list Z)) (rsn : Z) (asg : Z) (M : msolver),
     TT &&
     emp **
-    ((solver_cancel_open_at s M act asg opos rsn trl asg_l opos_l rsn_l ord_l ord_cap wl))
+    ((solver_cancel_open_at s M act asg opos rsn trl asg_l opos_l rsn_l ord_l wl))
     |--
     (
     TT &&
     emp **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") ( ms_size M))) **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qhead") ( mt_qhead ( ms_core M)))) **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") ( ms_qtail M))) **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") (ms_size M))) **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qhead") (mt_qhead (ms_core M)))) **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") (ms_qtail M))) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "activity") act)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "assigns") asg)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "orderpos") opos)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") rsn)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") trl)) **
-    ((DoubleArray.seg act 0 ( ms_size M) ( ms_activity M))) **
-    ((CharArray.seg asg 0 ( ms_size M) asg_l)) **
-    ((IntArray.seg opos 0 ( ms_size M) opos_l)) **
-    ((PtrArray.seg rsn 0 ( ms_size M) rsn_l)) **
-    ((IntArray.seg trl 0 ( ms_qtail M) ( mt_trail ( ms_core M)))) **
+    ((DoubleArray.seg act 0 (ms_size M) (ms_activity M))) **
+    ((CharArray.seg asg 0 (ms_size M) asg_l)) **
+    ((IntArray.seg opos 0 (ms_size M) opos_l)) **
+    ((PtrArray.seg rsn 0 (ms_size M) rsn_l)) **
+    ((IntArray.seg trl 0 (ms_qtail M) (mt_trail (ms_core M)))) **
     ((solver_cancel_undef_tail M act asg opos rsn trl)) **
-    ((veci_rep &( ((s)) # "solver_t" ->ₛ "order") ord_l ord_cap)) **
-    ((veci_rep &( ((s)) # "solver_t" ->ₛ "trail_lim") ( mt_lim ( ms_core M)) ( ms_lim_cap M))) **
+    ((Veci.rep &( ((s)) # "solver_t" ->ₛ "order") ord_l)) **
+    ((Veci.rep &( ((s)) # "solver_t" ->ₛ "trail_lim") (mt_lim (ms_core M)))) **
     ((solver_cancel_frame s M wl))
     ) ** (
-    ALL (lo : Z) (l : (@list Z)) (hi : Z) (dl : (@list fp64)) (c : Z) (y : Z) (i : Z),
+    ALL (lo : Z) (l : (@list Z)) (hi : Z) (dl : (@list fp64)) (y : Z) (i : Z),
       TT &&
       emp **
-      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qhead") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "activity") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "assigns") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "orderpos") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") y) || (veci_rep &( ((s)) # "solver_t" ->ₛ "order") l c) || (veci_rep &( ((s)) # "solver_t" ->ₛ "trail_lim") l c) || (DoubleArray.seg act lo hi dl) || (CharArray.seg asg lo hi l) || (IntArray.seg opos lo hi l) || (PtrArray.seg rsn lo hi l) || (IntArray.seg trl lo hi l) || (poly_store FET_int (Z.add trl (Z.mul i (@sizeof_front_end_type FET_int))) y)) -*
+      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qhead") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "activity") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "assigns") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "orderpos") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") y) || (Veci.rep &( ((s)) # "solver_t" ->ₛ "order") l) || (Veci.rep &( ((s)) # "solver_t" ->ₛ "trail_lim") l) || (DoubleArray.seg act lo hi dl) || (CharArray.seg asg lo hi l) || (IntArray.seg opos lo hi l) || (PtrArray.seg rsn lo hi l) || (IntArray.seg trl lo hi l) || (poly_store FET_int (trl + (i * sizeof(INT))) y)) -*
       TT &&
       emp **
-      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qhead") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "activity") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "assigns") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "orderpos") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") y) || (veci_rep &( ((s)) # "solver_t" ->ₛ "order") l c) || (veci_rep &( ((s)) # "solver_t" ->ₛ "trail_lim") l c) || (DoubleArray.seg act lo hi dl) || (CharArray.seg asg lo hi l) || (IntArray.seg opos lo hi l) || (PtrArray.seg rsn lo hi l) || (IntArray.seg trl lo hi l) || (poly_store FET_int (Z.add trl (Z.mul i (@sizeof_front_end_type FET_int))) y))
+      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qhead") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "activity") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "assigns") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "orderpos") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") y) || (Veci.rep &( ((s)) # "solver_t" ->ₛ "order") l) || (Veci.rep &( ((s)) # "solver_t" ->ₛ "trail_lim") l) || (DoubleArray.seg act lo hi dl) || (CharArray.seg asg lo hi l) || (IntArray.seg opos lo hi l) || (PtrArray.seg rsn lo hi l) || (IntArray.seg trl lo hi l) || (poly_store FET_int (trl + (i * sizeof(INT))) y))
       ).
 
 Definition solver_qcp_strategy65 :=
-  forall (s : Z) (cap : Z) (rsn : Z) (caps : (@list Z)) (reasons0 : (@list Z)) (stats0 : (@list Z)) (wm : (@list (@list Z))) (wl : Z) (n : Z),
+  forall (s : Z) (cap : Z) (rsn : Z) (stats0 : (@list Z)) (reasons0 : (@list Z)) (wm : (@list (@list Z))) (wl : Z) (n : Z),
     TT &&
     emp **
-    ((clause_remove_open_at s n cap wl rsn wm caps stats0 reasons0))
+    ((clause_remove_open_at s n cap wl rsn wm stats0 reasons0))
     |--
     (
     TT &&
@@ -1133,28 +988,28 @@ Definition solver_qcp_strategy65 :=
     ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") n)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") rsn)) **
     ((PtrArray.seg rsn 0 n reasons0)) **
-    ((PtrArray.undef_seg rsn n cap)) **
+    ((solver_ptr_tail rsn n cap)) **
     ((solver_wlists_handle s wl)) **
-    ((wlists_rep wl n wm caps)) **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "starts") ( stats_starts stats0))) **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "decisions") ( stats_decisions stats0))) **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "propagations") ( stats_propagations stats0))) **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "inspects") ( stats_inspects stats0))) **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "conflicts") ( stats_conflicts stats0))) **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "clauses") ( stats_clauses stats0))) **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "clauses_literals") ( stats_clauses_literals stats0))) **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "learnts") ( stats_learnts stats0))) **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "learnts_literals") ( stats_learnts_literals stats0))) **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "max_literals") ( stats_max_literals stats0))) **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "tot_literals") ( stats_tot_literals stats0)))
+    ((wlists_rep wl n wm)) **
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "starts") (stats_starts stats0))) **
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "decisions") (stats_decisions stats0))) **
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "propagations") (stats_propagations stats0))) **
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "inspects") (stats_inspects stats0))) **
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "conflicts") (stats_conflicts stats0))) **
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "clauses") (stats_clauses stats0))) **
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "clauses_literals") (stats_clauses_literals stats0))) **
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "learnts") (stats_learnts stats0))) **
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "learnts_literals") (stats_learnts_literals stats0))) **
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "max_literals") (stats_max_literals stats0))) **
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "tot_literals") (stats_tot_literals stats0)))
     ) ** (
-    ALL (lo : Z) (hi : Z) (wn : Z) (wcd : (@list Z)) (wmd : (@list (@list Z))) (l : (@list Z)) (y : Z) (i : Z),
+    ALL (lo : Z) (hi : Z) (wn : Z) (wmd : (@list (@list Z))) (l : (@list Z)) (y : Z) (i : Z),
       TT &&
       emp **
-      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "starts") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "decisions") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "propagations") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "inspects") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "conflicts") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "clauses") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "clauses_literals") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "learnts") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "learnts_literals") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "max_literals") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "tot_literals") y) || (wlists_rep wl wn wmd wcd) || (PtrArray.seg rsn lo hi l) || (PtrArray.undef_seg rsn lo hi) || (poly_store FET_ptr (Z.add rsn (Z.mul i (@sizeof_front_end_type FET_ptr))) y)) -*
+      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "starts") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "decisions") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "propagations") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "inspects") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "conflicts") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "clauses") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "clauses_literals") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "learnts") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "learnts_literals") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "max_literals") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "tot_literals") y) || (wlists_rep wl wn wmd) || (PtrArray.seg rsn lo hi l) || (PtrArray.undef_seg rsn lo hi) || (poly_store FET_ptr (rsn + (i * sizeof(PTR))) y)) -*
       TT &&
       emp **
-      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "starts") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "decisions") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "propagations") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "inspects") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "conflicts") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "clauses") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "clauses_literals") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "learnts") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "learnts_literals") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "max_literals") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "tot_literals") y) || (wlists_rep wl wn wmd wcd) || (PtrArray.seg rsn lo hi l) || (PtrArray.undef_seg rsn lo hi) || (poly_store FET_ptr (Z.add rsn (Z.mul i (@sizeof_front_end_type FET_ptr))) y))
+      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "starts") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "decisions") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "propagations") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "inspects") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "conflicts") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "clauses") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "clauses_literals") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "learnts") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "learnts_literals") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "max_literals") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "tot_literals") y) || (wlists_rep wl wn wmd) || (PtrArray.seg rsn lo hi l) || (PtrArray.undef_seg rsn lo hi) || (poly_store FET_ptr (rsn + (i * sizeof(PTR))) y))
       ).
 
 Definition solver_qcp_strategy66 :=
@@ -1166,51 +1021,416 @@ Definition solver_qcp_strategy66 :=
     (
     TT &&
     emp **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qhead") ( mt_qhead ( ms_core M)))) **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") ( ms_qtail M))) **
-    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "simpdb_props") ( ms_simpdb_props M))) **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qhead") (mt_qhead (ms_core M)))) **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") (ms_qtail M))) **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "simpdb_props") (ms_simpdb_props M))) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "wlists") wl)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "assigns") asg)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") rsn)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "levels") lvl)) **
     ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") trl)) **
-    ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "binary") ( ms_binary M))) **
-    ((CharArray.seg asg 0 ( ms_size M) ( mt_assigns ( ms_core M)))) **
-    ((CharArray.undef_seg asg ( ms_size M) ( ms_cap M))) **
-    ((PtrArray.seg rsn 0 ( ms_size M) ( ms_reason_words M))) **
-    ((PtrArray.undef_seg rsn ( ms_size M) ( ms_cap M))) **
-    ((IntArray.seg lvl 0 ( ms_size M) ( mt_levels ( ms_core M)))) **
-    ((IntArray.undef_seg lvl ( ms_size M) ( ms_cap M))) **
-    ((IntArray.seg trl 0 ( ms_qtail M) ( mt_trail ( ms_core M)))) **
-    ((IntArray.undef_seg trl ( ms_qtail M) ( ms_cap M))) **
-    ((veci_rep &( ((s)) # "solver_t" ->ₛ "trail_lim") ( mt_lim ( ms_core M)) ( ms_lim_cap M))) **
-    ((wlists_rep wl ( ms_size M) ( ms_wm M) ( ms_wcaps M))) **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "propagations") ( stats_propagations ( ms_stats M)))) **
-    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "inspects") ( stats_inspects ( ms_stats M)))) **
+    ((poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "binary") (ms_binary M))) **
+    ((CharArray.seg asg 0 (ms_size M) (mt_assigns (ms_core M)))) **
+    ((solver_char_tail asg (ms_size M) (ms_cap M))) **
+    ((PtrArray.seg rsn 0 (ms_size M) (ms_reason_words M))) **
+    ((solver_ptr_tail rsn (ms_size M) (ms_cap M))) **
+    ((IntArray.seg lvl 0 (ms_size M) (mt_levels (ms_core M)))) **
+    ((solver_int_tail lvl (ms_size M) (ms_cap M))) **
+    ((IntArray.seg trl 0 (ms_qtail M) (mt_trail (ms_core M)))) **
+    ((solver_int_tail trl (ms_qtail M) (ms_cap M))) **
+    ((Veci.rep &( ((s)) # "solver_t" ->ₛ "trail_lim") (mt_lim (ms_core M)))) **
+    ((wlists_rep wl (ms_size M) (ms_wm M))) **
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "propagations") (stats_propagations (ms_stats M)))) **
+    ((poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "inspects") (stats_inspects (ms_stats M)))) **
     ((solver_propagate_frame s M))
     ) ** (
-    ALL (l : (@list Z)) (c : Z) (wmd : (@list (@list Z))) (wcd : (@list Z)) (wn : Z) (hi : Z) (lo : Z) (y : Z) (i : Z),
+    ALL (l : (@list Z)) (wmd : (@list (@list Z))) (wn : Z) (hi : Z) (lo : Z) (y : Z) (i : Z),
       TT &&
       emp **
-      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qhead") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "simpdb_props") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "wlists") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "assigns") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "levels") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "binary") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "propagations") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "inspects") y) || (veci_rep &( ((s)) # "solver_t" ->ₛ "trail_lim") l c) || (wlists_rep wl wn wmd wcd) || (CharArray.seg asg lo hi l) || (CharArray.undef_seg asg lo hi) || (PtrArray.seg rsn lo hi l) || (PtrArray.undef_seg rsn lo hi) || (IntArray.seg lvl lo hi l) || (IntArray.undef_seg lvl lo hi) || (IntArray.seg trl lo hi l) || (IntArray.undef_seg trl lo hi) || (poly_store FET_char (Z.add asg (Z.mul i (@sizeof_front_end_type FET_char))) y) || (poly_store FET_ptr (Z.add rsn (Z.mul i (@sizeof_front_end_type FET_ptr))) y) || (poly_store FET_int (Z.add lvl (Z.mul i (@sizeof_front_end_type FET_int))) y) || (poly_store FET_int (Z.add trl (Z.mul i (@sizeof_front_end_type FET_int))) y)) -*
+      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qhead") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "simpdb_props") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "wlists") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "assigns") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "levels") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "binary") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "propagations") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "inspects") y) || (Veci.rep &( ((s)) # "solver_t" ->ₛ "trail_lim") l) || (wlists_rep wl wn wmd) || (CharArray.seg asg lo hi l) || (CharArray.undef_seg asg lo hi) || (PtrArray.seg rsn lo hi l) || (PtrArray.undef_seg rsn lo hi) || (IntArray.seg lvl lo hi l) || (IntArray.undef_seg lvl lo hi) || (IntArray.seg trl lo hi l) || (IntArray.undef_seg trl lo hi) || (poly_store FET_char (asg + (i * sizeof(CHAR))) y) || (poly_store FET_ptr (rsn + (i * sizeof(PTR))) y) || (poly_store FET_int (lvl + (i * sizeof(INT))) y) || (poly_store FET_int (trl + (i * sizeof(INT))) y)) -*
       TT &&
       emp **
-      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qhead") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "simpdb_props") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "wlists") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "assigns") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "levels") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "binary") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "propagations") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "inspects") y) || (veci_rep &( ((s)) # "solver_t" ->ₛ "trail_lim") l c) || (wlists_rep wl wn wmd wcd) || (CharArray.seg asg lo hi l) || (CharArray.undef_seg asg lo hi) || (PtrArray.seg rsn lo hi l) || (PtrArray.undef_seg rsn lo hi) || (IntArray.seg lvl lo hi l) || (IntArray.undef_seg lvl lo hi) || (IntArray.seg trl lo hi l) || (IntArray.undef_seg trl lo hi) || (poly_store FET_char (Z.add asg (Z.mul i (@sizeof_front_end_type FET_char))) y) || (poly_store FET_ptr (Z.add rsn (Z.mul i (@sizeof_front_end_type FET_ptr))) y) || (poly_store FET_int (Z.add lvl (Z.mul i (@sizeof_front_end_type FET_int))) y) || (poly_store FET_int (Z.add trl (Z.mul i (@sizeof_front_end_type FET_int))) y))
+      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qhead") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "qtail") y) || (poly_store FET_int &( ((s)) # "solver_t" ->ₛ "simpdb_props") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "wlists") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "assigns") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "reasons") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "levels") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "trail") y) || (poly_store FET_ptr &( ((s)) # "solver_t" ->ₛ "binary") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "propagations") y) || (poly_store FET_uint64 &( ((&( ((s)) # "solver_t" ->ₛ "stats"))) # "stats_t" ->ₛ "inspects") y) || (Veci.rep &( ((s)) # "solver_t" ->ₛ "trail_lim") l) || (wlists_rep wl wn wmd) || (CharArray.seg asg lo hi l) || (CharArray.undef_seg asg lo hi) || (PtrArray.seg rsn lo hi l) || (PtrArray.undef_seg rsn lo hi) || (IntArray.seg lvl lo hi l) || (IntArray.undef_seg lvl lo hi) || (IntArray.seg trl lo hi l) || (IntArray.undef_seg trl lo hi) || (poly_store FET_char (asg + (i * sizeof(CHAR))) y) || (poly_store FET_ptr (rsn + (i * sizeof(PTR))) y) || (poly_store FET_int (lvl + (i * sizeof(INT))) y) || (poly_store FET_int (trl + (i * sizeof(INT))) y))
+      ).
+
+Definition solver_qcp_strategy74 :=
+  forall (s : Z) (M : msolver) (wl : Z) (level : Z),
+    TT &&
+    emp **
+    ((solver_cancel_pre s level M wl))
+    |--
+    (
+    TT &&
+    emp **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "root_level") (ms_root_level M))) **
+    ((solver_cancel_root_frame s level M wl))
+    ) ** (
+    ALL (value : Z),
+      TT &&
+      emp **
+      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "root_level") value)) -*
+      TT &&
+      emp **
+      ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "root_level") value))
+      ).
+
+Definition solver_qcp_strategy78 :=
+  forall (p : Z) (cap : Z) (lo : Z),
+    TT &&
+    emp **
+    ((solver_int_tail p lo cap))
+    |--
+    EX (physical : Z),
+      (
+      TT &&
+      (“ (cap <= physical) ”) &&
+      (“ (physical <= (INT_MAX)) ”) &&
+      (“ (vec_buf_ok physical p) ”) &&
+      emp **
+      ((IntArray.undef_seg p lo physical))
+      ) ** (
+      ALL (hi : Z),
+        TT &&
+        emp **
+        ((IntArray.undef_seg p lo hi)) -*
+        TT &&
+        emp **
+        ((IntArray.undef_seg p lo hi))
+        ).
+
+Definition solver_qcp_strategy79 :=
+  forall (p : Z) (physical : Z) (lo : Z),
+    TT &&
+    emp **
+    ((IntArray.undef_seg p lo physical))
+    |--
+    (
+    TT &&
+    emp **
+    ((IntArray.undef_seg p lo physical))
+    ) ** (
+    ALL (cap : Z),
+      TT &&
+      (“ (cap <= physical) ”) &&
+      (“ (physical <= (INT_MAX)) ”) &&
+      (“ (vec_buf_ok physical p) ”) &&
+      emp **
+      ((IntArray.undef_seg p lo physical)) -*
+      TT &&
+      emp **
+      ((solver_int_tail p lo cap))
+      ).
+
+Definition solver_qcp_strategy80 :=
+  forall (p : Z) (cap : Z) (lo : Z),
+    TT &&
+    emp **
+    ((solver_ptr_tail p lo cap))
+    |--
+    EX (physical : Z),
+      (
+      TT &&
+      (“ (cap <= physical) ”) &&
+      (“ (physical <= (INT_MAX)) ”) &&
+      (“ (vec_buf_ok physical p) ”) &&
+      emp **
+      ((PtrArray.undef_seg p lo physical))
+      ) ** (
+      ALL (hi : Z),
+        TT &&
+        emp **
+        ((PtrArray.undef_seg p lo hi)) -*
+        TT &&
+        emp **
+        ((PtrArray.undef_seg p lo hi))
+        ).
+
+Definition solver_qcp_strategy81 :=
+  forall (p : Z) (physical : Z) (lo : Z),
+    TT &&
+    emp **
+    ((PtrArray.undef_seg p lo physical))
+    |--
+    (
+    TT &&
+    emp **
+    ((PtrArray.undef_seg p lo physical))
+    ) ** (
+    ALL (cap : Z),
+      TT &&
+      (“ (cap <= physical) ”) &&
+      (“ (physical <= (INT_MAX)) ”) &&
+      (“ (vec_buf_ok physical p) ”) &&
+      emp **
+      ((PtrArray.undef_seg p lo physical)) -*
+      TT &&
+      emp **
+      ((solver_ptr_tail p lo cap))
+      ).
+
+Definition solver_qcp_strategy82 :=
+  forall (p : Z) (cap : Z) (lo : Z),
+    TT &&
+    emp **
+    ((solver_char_tail p lo cap))
+    |--
+    EX (physical : Z),
+      (
+      TT &&
+      (“ (cap <= physical) ”) &&
+      (“ (physical <= (INT_MAX)) ”) &&
+      (“ (vec_buf_ok physical p) ”) &&
+      emp **
+      ((CharArray.undef_seg p lo physical))
+      ) ** (
+      ALL (hi : Z),
+        TT &&
+        emp **
+        ((CharArray.undef_seg p lo hi)) -*
+        TT &&
+        emp **
+        ((CharArray.undef_seg p lo hi))
+        ).
+
+Definition solver_qcp_strategy83 :=
+  forall (p : Z) (physical : Z) (lo : Z),
+    TT &&
+    emp **
+    ((CharArray.undef_seg p lo physical))
+    |--
+    (
+    TT &&
+    emp **
+    ((CharArray.undef_seg p lo physical))
+    ) ** (
+    ALL (cap : Z),
+      TT &&
+      (“ (cap <= physical) ”) &&
+      (“ (physical <= (INT_MAX)) ”) &&
+      (“ (vec_buf_ok physical p) ”) &&
+      emp **
+      ((CharArray.undef_seg p lo physical)) -*
+      TT &&
+      emp **
+      ((solver_char_tail p lo cap))
+      ).
+
+Definition solver_qcp_strategy84 :=
+  forall (p : Z) (cap : Z) (lo : Z),
+    TT &&
+    emp **
+    ((solver_double_tail p lo cap))
+    |--
+    EX (physical : Z),
+      (
+      TT &&
+      (“ (cap <= physical) ”) &&
+      (“ (physical <= (INT_MAX)) ”) &&
+      (“ (vec_buf_ok physical p) ”) &&
+      emp **
+      ((DoubleArray.undef_seg p lo physical))
+      ) ** (
+      ALL (hi : Z),
+        TT &&
+        emp **
+        ((DoubleArray.undef_seg p lo hi)) -*
+        TT &&
+        emp **
+        ((DoubleArray.undef_seg p lo hi))
+        ).
+
+Definition solver_qcp_strategy85 :=
+  forall (p : Z) (physical : Z) (lo : Z),
+    TT &&
+    emp **
+    ((DoubleArray.undef_seg p lo physical))
+    |--
+    (
+    TT &&
+    emp **
+    ((DoubleArray.undef_seg p lo physical))
+    ) ** (
+    ALL (cap : Z),
+      TT &&
+      (“ (cap <= physical) ”) &&
+      (“ (physical <= (INT_MAX)) ”) &&
+      (“ (vec_buf_ok physical p) ”) &&
+      emp **
+      ((DoubleArray.undef_seg p lo physical)) -*
+      TT &&
+      emp **
+      ((solver_double_tail p lo cap))
+      ).
+
+Definition solver_qcp_strategy86 :=
+  forall (p : Z) (cap : Z) (lo : Z),
+    TT &&
+    emp **
+    ((solver_wlists_tail p lo cap))
+    |--
+    EX (physical : Z),
+      (
+      TT &&
+      (“ (cap <= physical) ”) &&
+      (“ (physical <= (INT_MAX)) ”) &&
+      (“ (vec_buf_ok physical p) ”) &&
+      emp **
+      ((VecpArray.undef_seg p lo physical))
+      ) ** (
+      ALL (hi : Z),
+        TT &&
+        emp **
+        ((VecpArray.undef_seg p lo hi)) -*
+        TT &&
+        emp **
+        ((VecpArray.undef_seg p lo hi))
+        ).
+
+Definition solver_qcp_strategy87 :=
+  forall (p : Z) (physical : Z) (lo : Z),
+    TT &&
+    emp **
+    ((VecpArray.undef_seg p lo physical))
+    |--
+    (
+    TT &&
+    emp **
+    ((VecpArray.undef_seg p lo physical))
+    ) ** (
+    ALL (cap : Z),
+      TT &&
+      (“ (cap <= physical) ”) &&
+      (“ (physical <= (INT_MAX)) ”) &&
+      (“ (vec_buf_ok physical p) ”) &&
+      emp **
+      ((VecpArray.undef_seg p lo physical)) -*
+      TT &&
+      emp **
+      ((solver_wlists_tail p lo cap))
+      ).
+
+Definition solver_qcp_strategy88 :=
+  forall (i : Z) (cap : Z) (p : Z) (lo : Z),
+    TT &&
+    (“ (lo <= i) ”) &&
+    (“ (i < cap) ”) &&
+    emp **
+    ((solver_int_tail p lo cap))
+    |--
+    EX (physical : Z),
+      (
+      TT &&
+      (“ (cap <= physical) ”) &&
+      (“ (physical <= (INT_MAX)) ”) &&
+      (“ (vec_buf_ok physical p) ”) &&
+      emp **
+      ((IntArray.undef_seg p lo physical))
+      ) ** (
+      ALL (value : Z),
+        TT &&
+        emp **
+        ((poly_store FET_int (p + (i * sizeof(INT))) value) || (poly_undef_store FET_int (p + (i * sizeof(INT))))) -*
+        TT &&
+        emp **
+        ((poly_store FET_int (p + (i * sizeof(INT))) value) || (poly_undef_store FET_int (p + (i * sizeof(INT)))))
+        ).
+
+Definition solver_qcp_strategy89 :=
+  forall (i : Z) (cap : Z) (p : Z) (lo : Z),
+    TT &&
+    (“ (lo <= i) ”) &&
+    (“ (i < cap) ”) &&
+    emp **
+    ((solver_ptr_tail p lo cap))
+    |--
+    EX (physical : Z),
+      (
+      TT &&
+      (“ (cap <= physical) ”) &&
+      (“ (physical <= (INT_MAX)) ”) &&
+      (“ (vec_buf_ok physical p) ”) &&
+      emp **
+      ((PtrArray.undef_seg p lo physical))
+      ) ** (
+      ALL (value : Z),
+        TT &&
+        emp **
+        ((poly_store FET_ptr (p + (i * sizeof(PTR))) value) || (poly_undef_store FET_ptr (p + (i * sizeof(PTR))))) -*
+        TT &&
+        emp **
+        ((poly_store FET_ptr (p + (i * sizeof(PTR))) value) || (poly_undef_store FET_ptr (p + (i * sizeof(PTR)))))
+        ).
+
+Definition solver_qcp_strategy90 :=
+  forall (i : Z) (cap : Z) (p : Z) (lo : Z),
+    TT &&
+    (“ (lo <= i) ”) &&
+    (“ (i < cap) ”) &&
+    emp **
+    ((solver_char_tail p lo cap))
+    |--
+    EX (physical : Z),
+      (
+      TT &&
+      (“ (cap <= physical) ”) &&
+      (“ (physical <= (INT_MAX)) ”) &&
+      (“ (vec_buf_ok physical p) ”) &&
+      emp **
+      ((CharArray.undef_seg p lo physical))
+      ) ** (
+      ALL (value : Z),
+        TT &&
+        emp **
+        ((poly_store FET_char (p + (i * sizeof(CHAR))) value) || (poly_undef_store FET_char (p + (i * sizeof(CHAR))))) -*
+        TT &&
+        emp **
+        ((poly_store FET_char (p + (i * sizeof(CHAR))) value) || (poly_undef_store FET_char (p + (i * sizeof(CHAR)))))
+        ).
+
+Definition solver_qcp_strategy92 :=
+  forall (words : (@list Z)) (F : cnf) (A_inst : (@list literal)) (root : Z) (A_arr : (@list literal)) (n : Z) (M : msolver) (c : Z) (s : Z) (lvl : Z) (wl : Z) (begin : Z),
+    TT &&
+    emp **
+    ((clause_new_pending_at_root s begin lvl n F A_arr A_inst M words c 0 wl root))
+    |--
+    (
+    TT &&
+    (“ (n = (ms_size M)) ”) &&
+    (“ (clause_new_stage_ready_root n F A_arr A_inst M M words 0 root) ”) &&
+    (“ (clause_allocator_fresh M c) ”) &&
+    (“ ((lit_neg_c (@Znth Z 0 words 0)) <> (lit_neg_c (@Znth Z 1 words 0))) ”) &&
+    emp **
+    ((Vecp.rep &( ((s)) # "solver_t" ->ₛ "clauses") (db_words (ms_prob M)))) **
+    ((Vecp.rep (Vecp.slot wl (lit_neg_c (@Znth Z 0 words 0))) (@app Z (@Znth (@list Z) (lit_neg_c (@Znth Z 0 words 0)) (ms_wm M) (@nil Z)) (@cons Z (clause_watch_word c words (@Znth Z 1 words 0)) (@nil Z))))) **
+    ((Vecp.rep (Vecp.slot wl (lit_neg_c (@Znth Z 1 words 0))) (@app Z (@Znth (@list Z) (lit_neg_c (@Znth Z 1 words 0)) (ms_wm M) (@nil Z)) (@cons Z (clause_watch_word c words (@Znth Z 0 words 0)) (@nil Z))))) **
+    ((MiniSatClause.rep c (msat_false) words)) **
+    ((clause_db_rep (ms_prob M))) **
+    ((clause_new_transaction_rest_at_gen s wl (lit_neg_c (@Znth Z 0 words 0)) (lit_neg_c (@Znth Z 1 words 0)) M lvl 0)) **
+    ((poly_store FET_int &( ((s)) # "solver_t" ->ₛ "size") n)) **
+    ((IntArray.seg begin 0 (@Zlength Z words) words))
+    ) ** (
+    ALL (target_l : (@list Z)),
+      TT &&
+      emp **
+      ((Vecp.rep &( ((s)) # "solver_t" ->ₛ "clauses") target_l)) -*
+      TT &&
+      emp **
+      ((Vecp.rep &( ((s)) # "solver_t" ->ₛ "clauses") target_l))
       ).
 
 Definition solver_qcp_strategy14 :=
   forall (i : Z) (hi : Z) (lo : Z) (l : (@list fp64)) (v : fp64) (p : Z),
     TT &&
-    (“ (Z.le lo i) ”) &&
-    (“ (Z.lt i hi) ”) &&
+    (“ (lo <= i) ”) &&
+    (“ (i < hi) ”) &&
     emp **
     ((DoubleArray.missing_i p i lo hi l)) **
-    ((store_double (Z.add p (Z.mul i (@sizeof_front_end_type FET_double))) v))
+    ((poly_store FET_double (p + (i * sizeof(DOUBLE))) v))
     |--
     (
     TT &&
     emp **
-    ((DoubleArray.seg p lo hi (@replace_Znth fp64 (Z.sub i lo) v l)))
+    ((DoubleArray.seg p lo hi (@replace_Znth fp64 (i - lo) v l)))
     ) ** (
     TT &&
     emp -*
@@ -1223,16 +1443,16 @@ Definition solver_qcp_strategy59 :=
     TT &&
     (“ (q = p) ”) &&
     (“ (i = j) ”) &&
-    (“ (Z.le lo i) ”) &&
-    (“ (Z.lt i hi) ”) &&
+    (“ (lo <= i) ”) &&
+    (“ (i < hi) ”) &&
     emp **
     ((CharArray.missing_i p i lo hi l)) **
-    ((poly_store FET_char (Z.add q (Z.mul j (@sizeof_front_end_type FET_char))) v))
+    ((poly_store FET_char (q + (j * sizeof(CHAR))) v))
     |--
     (
     TT &&
     emp **
-    ((CharArray.seg p lo hi (@replace_Znth Z (Z.sub i lo) v l)))
+    ((CharArray.seg p lo hi (@replace_Znth Z (i - lo) v l)))
     ) ** (
     TT &&
     emp -*
@@ -1244,17 +1464,17 @@ Definition solver_qcp_strategy38 :=
   forall (i : Z) (j : Z) (lo : Z) (p : Z) (q : Z) (hi : Z) (l : (@list Z)) (v : Z),
     TT &&
     (“ (q = p) ”) &&
-    (“ (Z.le lo i) ”) &&
-    (“ (Z.lt i hi) ”) &&
+    (“ (lo <= i) ”) &&
+    (“ (i < hi) ”) &&
     (“ (i = j) ”) &&
     emp **
     ((IntArray.missing_i p i lo hi l)) **
-    ((poly_store FET_int (Z.add q (Z.mul j (@sizeof_front_end_type FET_int))) v))
+    ((poly_store FET_int (q + (j * sizeof(INT))) v))
     |--
     (
     TT &&
     emp **
-    ((IntArray.seg p lo hi (@replace_Znth Z (Z.sub i lo) v l)))
+    ((IntArray.seg p lo hi (@replace_Znth Z (i - lo) v l)))
     ) ** (
     TT &&
     emp -*
@@ -1264,30 +1484,26 @@ Definition solver_qcp_strategy38 :=
 
 Module Type solver_qcp_Strategy_Correct.
 
+  Axiom solver_qcp_strategy72_correctness : solver_qcp_strategy72.
+  Axiom solver_qcp_strategy73_correctness : solver_qcp_strategy73.
   Axiom solver_qcp_strategy12_correctness : solver_qcp_strategy12.
-  Axiom solver_qcp_strategy35_correctness : solver_qcp_strategy35.
   Axiom solver_qcp_strategy36_correctness : solver_qcp_strategy36.
   Axiom solver_qcp_strategy69_correctness : solver_qcp_strategy69.
   Axiom solver_qcp_strategy37_correctness : solver_qcp_strategy37.
   Axiom solver_qcp_strategy39_correctness : solver_qcp_strategy39.
   Axiom solver_qcp_strategy40_correctness : solver_qcp_strategy40.
   Axiom solver_qcp_strategy41_correctness : solver_qcp_strategy41.
-  Axiom solver_qcp_strategy60_correctness : solver_qcp_strategy60.
-  Axiom solver_qcp_strategy68_correctness : solver_qcp_strategy68.
   Axiom solver_qcp_strategy61_correctness : solver_qcp_strategy61.
+  Axiom solver_qcp_strategy75_correctness : solver_qcp_strategy75.
+  Axiom solver_qcp_strategy93_correctness : solver_qcp_strategy93.
+  Axiom solver_qcp_strategy94_correctness : solver_qcp_strategy94.
   Axiom solver_qcp_strategy13_correctness : solver_qcp_strategy13.
   Axiom solver_qcp_strategy67_correctness : solver_qcp_strategy67.
   Axiom solver_qcp_strategy42_correctness : solver_qcp_strategy42.
   Axiom solver_qcp_strategy58_correctness : solver_qcp_strategy58.
   Axiom solver_qcp_strategy57_correctness : solver_qcp_strategy57.
-  Axiom solver_qcp_strategy2_correctness : solver_qcp_strategy2.
-  Axiom solver_qcp_strategy3_correctness : solver_qcp_strategy3.
-  Axiom solver_qcp_strategy4_correctness : solver_qcp_strategy4.
-  Axiom solver_qcp_strategy5_correctness : solver_qcp_strategy5.
-  Axiom solver_qcp_strategy6_correctness : solver_qcp_strategy6.
-  Axiom solver_qcp_strategy7_correctness : solver_qcp_strategy7.
-  Axiom solver_qcp_strategy8_correctness : solver_qcp_strategy8.
-  Axiom solver_qcp_strategy9_correctness : solver_qcp_strategy9.
+  Axiom solver_qcp_strategy76_correctness : solver_qcp_strategy76.
+  Axiom solver_qcp_strategy77_correctness : solver_qcp_strategy77.
   Axiom solver_qcp_strategy16_correctness : solver_qcp_strategy16.
   Axiom solver_qcp_strategy23_correctness : solver_qcp_strategy23.
   Axiom solver_qcp_strategy29_correctness : solver_qcp_strategy29.
@@ -1312,6 +1528,21 @@ Module Type solver_qcp_Strategy_Correct.
   Axiom solver_qcp_strategy64_correctness : solver_qcp_strategy64.
   Axiom solver_qcp_strategy65_correctness : solver_qcp_strategy65.
   Axiom solver_qcp_strategy66_correctness : solver_qcp_strategy66.
+  Axiom solver_qcp_strategy74_correctness : solver_qcp_strategy74.
+  Axiom solver_qcp_strategy78_correctness : solver_qcp_strategy78.
+  Axiom solver_qcp_strategy79_correctness : solver_qcp_strategy79.
+  Axiom solver_qcp_strategy80_correctness : solver_qcp_strategy80.
+  Axiom solver_qcp_strategy81_correctness : solver_qcp_strategy81.
+  Axiom solver_qcp_strategy82_correctness : solver_qcp_strategy82.
+  Axiom solver_qcp_strategy83_correctness : solver_qcp_strategy83.
+  Axiom solver_qcp_strategy84_correctness : solver_qcp_strategy84.
+  Axiom solver_qcp_strategy85_correctness : solver_qcp_strategy85.
+  Axiom solver_qcp_strategy86_correctness : solver_qcp_strategy86.
+  Axiom solver_qcp_strategy87_correctness : solver_qcp_strategy87.
+  Axiom solver_qcp_strategy88_correctness : solver_qcp_strategy88.
+  Axiom solver_qcp_strategy89_correctness : solver_qcp_strategy89.
+  Axiom solver_qcp_strategy90_correctness : solver_qcp_strategy90.
+  Axiom solver_qcp_strategy92_correctness : solver_qcp_strategy92.
   Axiom solver_qcp_strategy14_correctness : solver_qcp_strategy14.
   Axiom solver_qcp_strategy59_correctness : solver_qcp_strategy59.
   Axiom solver_qcp_strategy38_correctness : solver_qcp_strategy38.

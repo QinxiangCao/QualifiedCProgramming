@@ -1,14 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.QCP_demos_human.bst_fp_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
 
 Definition bst_fp_strategy0 :=
   forall (p : Z) (tr0 : tree) (fa : Z),
@@ -39,7 +32,7 @@ Definition bst_fp_strategy1 :=
   ) ** (
   ALL (pt : partial_tree) (q : Z) (r : Z) (p : Z),
     TT &&
-    (“ (pt = ( empty_partial_tree)) ”) &&
+    (“ (pt = (empty_partial_tree)) ”) &&
     emp **
     ((poly_store FET_ptr p r)) -*
     TT &&
@@ -62,9 +55,9 @@ Definition bst_fp_strategy2 :=
     ALL (tr0 : tree) (tr1 : tree) (v : Z) (tr2 : tree) (k : Z) (l : Z) (r : Z),
       TT &&
       (“ (p <> 0) ”) &&
-      (“ (Z.le (Z.opp 2147483648) k) ”) &&
-      (“ (Z.le k 2147483647) ”) &&
-      (“ (tr0 = ( make_tree tr1 k v tr2)) ”) &&
+      (“ ((- 2147483648) <= k) ”) &&
+      (“ (k <= 2147483647) ”) &&
+      (“ (tr0 = (make_tree tr1 k v tr2)) ”) &&
       emp **
       ((poly_store FET_int &( ((p)) # "tree" ->ₛ "key") k)) **
       ((poly_store FET_int &( ((p)) # "tree" ->ₛ "value") v)) **

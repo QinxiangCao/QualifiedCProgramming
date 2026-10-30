@@ -1,6 +1,5 @@
 ; Converted from:
 ; - _CoqProject: -R Rocq/MonadLib MonadLib
-; - Rocq/_CoqProject: -R MonadLib MonadLib
 (coq.theory
  (name MonadLib)
  (modules (:standard \ MonadTest))

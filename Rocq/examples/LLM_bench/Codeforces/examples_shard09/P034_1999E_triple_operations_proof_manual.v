@@ -1,29 +1,13 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P034_1999E_triple_operations_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P034_1999E_triple_operations_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P034_1999E_triple_operations_lib.
 Local Open Scope sac.
 
 Lemma proof_of_solver_safety_wit_7_split_goal_1 : solver_safety_wit_7_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold TripleTablesPrefix in PreH13.
   destruct PreH13 as
       (Hf_len & Hp_len & Hn & Hf0 & Hp0 & Hf_bound & Hp_bound & Hf_rec & Hp_rec).
@@ -36,7 +20,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_7_split_goal_2 : solver_safety_wit_7_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold TripleTablesPrefix in PreH13.
   destruct PreH13 as
       (Hf_len & Hp_len & Hn & Hf0 & Hp0 & Hf_bound & Hp_bound & Hf_rec & Hp_rec).
@@ -56,7 +40,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_11_split_goal_1 : solver_safety_wit_11_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold TripleTablesPrefix in PreH13.
   destruct PreH13 as
       (Hf_len & Hp_len & Hn & Hf0 & Hp0 & Hf_bound & Hp_bound & Hf_rec & Hp_rec).
@@ -78,7 +62,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_11_split_goal_2 : solver_safety_wit_11_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold TripleTablesPrefix in PreH13.
   destruct PreH13 as
       (Hf_len & Hp_len & Hn & Hf0 & Hp0 & Hf_bound & Hp_bound & Hf_rec & Hp_rec).
@@ -107,7 +91,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_17_split_goal_1 : solver_safety_wit_17_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH6 i ltac:(lia)) as Hquery.
   destruct Hquery as [[Hl Hlr] Hr].
   unfold TripleTablesPrefix in PreH9.
@@ -121,7 +105,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_17_split_goal_2 : solver_safety_wit_17_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH6 i ltac:(lia)) as Hquery.
   destruct Hquery as [[Hl Hlr] Hr].
   unfold TripleTablesPrefix in PreH9.
@@ -142,7 +126,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_18_split_goal_1 : solver_safety_wit_18_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH6 i ltac:(lia)) as Hquery.
   destruct Hquery as [[Hl Hlr] Hr].
   unfold TripleTablesPrefix in PreH9.
@@ -155,7 +139,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_18_split_goal_2 : solver_safety_wit_18_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH6 i ltac:(lia)) as Hquery.
   destruct Hquery as [[Hl Hlr] Hr].
   unfold TripleTablesPrefix in PreH9.
@@ -175,7 +159,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_19_split_goal_1 : solver_safety_wit_19_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH6 i ltac:(lia)) as Hquery.
   destruct Hquery as [[Hl Hlr] Hr].
   unfold TripleTablesPrefix in PreH9.
@@ -187,7 +171,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_19_split_goal_2 : solver_safety_wit_19_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (PreH6 i ltac:(lia)) as Hquery.
   destruct Hquery as [[Hl Hlr] Hr].
   unfold TripleTablesPrefix in PreH9.
@@ -206,7 +190,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1 : solver_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (0 :: nil).
   Exists (0 :: nil).
   split_pure_spatial.
@@ -230,14 +214,14 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.quot_div_nonneg by lia.
   apply Z.div_lt; lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_2 : solver_entail_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.quot_div_nonneg by lia.
   apply Z.div_pos; lia.
 Qed.
@@ -251,7 +235,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.quot_div_nonneg by lia.
   replace (i / 3 - 0) with (i / 3) by lia.
   replace (i - 1 - 0) with (i - 1) by lia.
@@ -267,7 +251,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4 : solver_entail_wit_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (i = 200005) by lia.
   subst i.
   pose proof
@@ -308,7 +292,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_1 : solver_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   apply triple_outputs_prefix_snoc__output_transition.
   - exact PreH12.
   - apply PreH11.
@@ -324,7 +308,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1 : solver_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (i_2 = q_pre) by lia.
   subst i_2.
   unfold TripleOutputsPrefix in PreH12.

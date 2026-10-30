@@ -173,7 +173,7 @@ void OsDeleteSortLink(SortLinkList *node)
             store_sorted_dll(storeA, x, app(l1, cons(Build_DL_Node(mksortedLinkNode(a,t), node), l2)))
         */
         OsDeleteNodeSortLink(node)
-        /*@ where storeA = storeA, x = x, t = t, l1 = l1 , l2 = l2, a = a; A = A */
+        /*@ where {A = A} storeA = storeA, x = x, t = t, l1 = l1 , l2 = l2, a = a */
         ;
     }
 }

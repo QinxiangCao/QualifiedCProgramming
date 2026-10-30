@@ -46,26 +46,26 @@ private theorem singleton_subsequence (x : Int) (l : List Int) (k : Int)
 
 theorem proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1 := by
   unfold solver_entail_wit_1_split_goal_1
-  intro m_pre n_pre right left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro right left n_pre m_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   dump_pre_spatial
   exact PreH6
 
 theorem proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2 := by
   unfold solver_entail_wit_1_split_goal_2
-  intro m_pre n_pre right left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro right left n_pre m_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   dump_pre_spatial
   exact PreH5
 
 theorem proof_of_solver_entail_wit_1_split_goal_spatial : solver_entail_wit_1_split_goal_spatial := by
   unfold solver_entail_wit_1_split_goal_spatial
-  intro m_pre n_pre right left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro right left n_pre m_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   simp only [SimpleC.SL.CommonAssertion.DerivedPredSig.sizeof_char, Int.zero_mul, Int.add_zero, Int.one_mul]
   cancel
 
 theorem proof_of_solver_entail_wit_1 : solver_entail_wit_1 := by
   unfold solver_entail_wit_1
   right
-  intro m_pre n_pre right left PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro right left n_pre m_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   simp only [SimpleC.SL.CommonAssertion.DerivedPredSig.sizeof_char, Int.zero_mul, Int.add_zero, Int.one_mul]
   split_pure_spatial
   · cancel
@@ -74,7 +74,7 @@ theorem proof_of_solver_entail_wit_1 : solver_entail_wit_1 := by
 theorem proof_of_solver_entail_wit_2 : solver_entail_wit_2 := by
   unfold solver_entail_wit_2
   right
-  intro m_pre n_pre right left retval k_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro right left n_pre m_pre retval k_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   simp only [SimpleC.SL.CommonAssertion.DerivedPredSig.sizeof_char, Int.zero_mul, Int.add_zero, Int.one_mul]
   refine Automation.exp_right_rule (CRules := naive_C_Rules) (List.replicate 1001 (0 : Int)) ?_
   split_pure_spatial
@@ -95,56 +95,58 @@ theorem proof_of_solver_entail_wit_2 : solver_entail_wit_2 := by
 
 theorem proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1 := by
   unfold solver_entail_wit_3_split_goal_1
-  intro m_pre n_pre right left k_4 seen_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
-  simpa only [Zlength_replace_Znth] using PreH13
+  intro right left n_pre m_pre k_4 seen_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  have previous_PreH1 : ((0:Int)<=1001) := by omega
+  simpa only [Zlength_replace_Znth] using PreH12
 
 theorem proof_of_solver_entail_wit_3 : solver_entail_wit_3 := by
   unfold solver_entail_wit_3
   right
-  intro m_pre n_pre right left k_4 seen_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro right left n_pre m_pre k_4 seen_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  have previous_PreH1 : ((0:Int)<=1001) := by omega
   split_pure_spatial
   · cancel
   · dump_pre_spatial
-    simpa only [Zlength_replace_Znth] using PreH13
+    simpa only [Zlength_replace_Znth] using PreH12
 
 theorem proof_of_solver_entail_wit_4_split_goal_1 : solver_entail_wit_4_split_goal_1 := by
   unfold solver_entail_wit_4_split_goal_1
-  intro m_pre n_pre right left k_9 seen_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro right left n_pre m_pre k_9 seen_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   intro k hk
   omega
 
 theorem proof_of_solver_entail_wit_4_split_goal_2 : solver_entail_wit_4_split_goal_2 := by
   unfold solver_entail_wit_4_split_goal_2
-  intro m_pre n_pre right left k_9 seen_l_2 i k_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro right left n_pre m_pre k_9 seen_l_2 i k_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   intro v hv
   obtain ⟨k, hk, heq⟩ := PreH15 v hv
   exact ⟨k, ⟨hk.1, by omega⟩, heq⟩
 
 theorem proof_of_solver_entail_wit_4_split_goal_3 : solver_entail_wit_4_split_goal_3 := by
   unfold solver_entail_wit_4_split_goal_3
-  intro m_pre n_pre right left k_9 seen_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro right left n_pre m_pre k_9 seen_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   intro k hk
   exact PreH14 k ⟨hk.1, by omega⟩
 
 theorem proof_of_solver_entail_wit_4_split_goal_4 : solver_entail_wit_4_split_goal_4 := by
   unfold solver_entail_wit_4_split_goal_4
-  intro m_pre n_pre right left k_9 seen_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro right left n_pre m_pre k_9 seen_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   exact PreH13
 
 theorem proof_of_solver_entail_wit_4_split_goal_5 : solver_entail_wit_4_split_goal_5 := by
   unfold solver_entail_wit_4_split_goal_5
-  intro m_pre n_pre right left k_9 seen_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro right left n_pre m_pre k_9 seen_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   exact PreH9
 
 theorem proof_of_solver_entail_wit_4_split_goal_6 : solver_entail_wit_4_split_goal_6 := by
   unfold solver_entail_wit_4_split_goal_6
-  intro m_pre n_pre right left k_9 seen_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro right left n_pre m_pre k_9 seen_l_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   exact PreH8
 
 theorem proof_of_solver_entail_wit_4 : solver_entail_wit_4 := by
   unfold solver_entail_wit_4
   right
-  intro m_pre n_pre right left k_9 seen_l_2 i k_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro right left n_pre m_pre k_9 seen_l_2 i k_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   have hi : i = n_pre := by omega
   subst i
   split_pure_spatial
@@ -156,7 +158,7 @@ theorem proof_of_solver_entail_wit_4 : solver_entail_wit_4 := by
 
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   unfold solver_return_wit_1
-  intro m_pre b_pre n_pre a_pre right left k_4 seen_l j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro right left a_pre n_pre b_pre m_pre k_4 seen_l j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have hspec : Spec left right none := by
     left
     refine ⟨rfl, ?_⟩
@@ -180,21 +182,22 @@ theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
 
 theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
   unfold solver_return_wit_2
-  intro m_pre b_pre n_pre a_pre right left k_4 seen_l j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-  have hx := PreH10 j ⟨PreH11, PreH2⟩
+  intro right left a_pre n_pre b_pre m_pre k_4 seen_l j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  have previous_PreH1 : ((0:Int)<=1001) := by omega
+  have hx := PreH9 j ⟨PreH10, PreH1⟩
   have hxrange : 0 ≤ Znth j right 0 ∧ Znth j right 0 < 1001 := by omega
   have hseen : Znth (Znth j right 0) seen_l 0 = 1 := by
-    rcases PreH14 _ hxrange with h | h
-    · exact False.elim (PreH18 h)
+    rcases PreH13 _ hxrange with h | h
+    · exact False.elim (PreH17 h)
     · exact h
-  obtain ⟨kl, hkl, hklv⟩ := PreH16 _ ⟨hxrange, hseen⟩
+  obtain ⟨kl, hkl, hklv⟩ := PreH15 _ ⟨hxrange, hseen⟩
   have hspec : Spec left right (some [Znth j right 0]) := by
     right
     refine ⟨[Znth j right 0], rfl, ?_⟩
     constructor
     · refine ⟨by simp, ?_, ?_⟩
       · exact singleton_subsequence _ left kl ⟨hkl.1, by omega⟩ hklv
-      · exact singleton_subsequence _ right j ⟨PreH11, by omega⟩ rfl
+      · exact singleton_subsequence _ right j ⟨PreH10, by omega⟩ rfl
     · intro c hc
       rcases hc with ⟨hn, _, _⟩
       cases c with

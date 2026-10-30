@@ -159,7 +159,7 @@ static inline void LOS_ListTailInsert(LOS_DL_LIST *list, LOS_DL_LIST *node)
         store(field_addr(list,struct LOS_DL_LIST,pstPrev),struct LOS_DL_LIST *,list_pstPrev) *
         dllseg_shift(storeA,list,list_pstPrev,l)
     */
-    LOS_ListAdd(list->pstPrev, node) /*@ where (low_level_spec) storeA = storeA , a = a , list_pstNext = list ; A = A */;
+    LOS_ListAdd(list->pstPrev, node) /*@ where (low_level_spec) {A = A} storeA = storeA , a = a , list_pstNext = list */;
 }
 static inline void LOS_ListHeadInsert(LOS_DL_LIST *list, LOS_DL_LIST *node)
 /*@ With {A} (a: A) (storeA: Z -> A -> Assertion) (l: list(DL_Node A))
@@ -171,5 +171,5 @@ static inline void LOS_ListHeadInsert(LOS_DL_LIST *list, LOS_DL_LIST *node)
     Ensure store_dll(storeA,list,cons(Build_DL_Node(a, node), l))
 */
 {
-    LOS_ListAdd(list, node)/*@ where (high_level_spec) storeA1 = storeA , a = a , l = l ; A = A */;
+    LOS_ListAdd(list, node)/*@ where (high_level_spec) {A = A} storeA1 = storeA , a = a , l = l */;
 }

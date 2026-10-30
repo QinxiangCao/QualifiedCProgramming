@@ -1,13 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.convex_hull_float Require Import pointf_array_strategy_goal.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.convex_hull_float.convex_hull_float_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 
@@ -181,6 +175,7 @@ Qed.
 Lemma pointf_array_strategy15_correctness : pointf_array_strategy15.
 Proof.
   pre_process_default; normalize_pointf_size.
+  cbn [poly_store poly_undef_store].
   sep_apply_l_atomic (PointFArray.undef_seg_split_to_undef_missing_i p x x y).
   - dump_pre_spatial.
     lia.
@@ -226,6 +221,7 @@ Qed.
 Lemma pointf_array_strategy30_correctness : pointf_array_strategy30.
 Proof.
   pre_process_default; normalize_pointf_size.
+  cbn [poly_store poly_undef_store].
   unfold store_pointf, pointf_get_x, pointf_get_y.
   cancel ((&((p) # "PointF" ->ₛ "y") # Float |-> pointf_y a)).
   Intros_r vx0.
@@ -238,6 +234,7 @@ Qed.
 Lemma pointf_array_strategy31_correctness : pointf_array_strategy31.
 Proof.
   pre_process_default; normalize_pointf_size.
+  cbn [poly_store poly_undef_store].
   unfold store_pointf, pointf_get_x, pointf_get_y.
   cancel ((&((p) # "PointF" ->ₛ "x") # Float |-> pointf_x a)).
   Intros_r vy0.
@@ -344,6 +341,7 @@ Qed.
 Lemma pointf_array_strategy21_correctness : pointf_array_strategy21.
 Proof.
   pre_process_default; normalize_pointf_size.
+  cbn [poly_store poly_undef_store].
   sep_apply_l_atomic (pointf_full_split_to_missing_i p i n l __default_PointF).
   - dump_pre_spatial.
     lia.
@@ -360,6 +358,7 @@ Qed.
 Lemma pointf_array_strategy22_correctness : pointf_array_strategy22.
 Proof.
   pre_process_default; normalize_pointf_size.
+  cbn [poly_store poly_undef_store].
   sep_apply_l_atomic (pointf_full_split_to_missing_i p i n l __default_PointF).
   - dump_pre_spatial.
     lia.
@@ -376,6 +375,7 @@ Qed.
 Lemma pointf_array_strategy23_correctness : pointf_array_strategy23.
 Proof.
   pre_process_default; normalize_pointf_size.
+  cbn [poly_store poly_undef_store].
   sep_apply_l_atomic (pointf_seg_split_to_missing_i p x i y l __default_PointF).
   - dump_pre_spatial.
     lia.
@@ -392,6 +392,7 @@ Qed.
 Lemma pointf_array_strategy24_correctness : pointf_array_strategy24.
 Proof.
   pre_process_default; normalize_pointf_size.
+  cbn [poly_store poly_undef_store].
   sep_apply_l_atomic (pointf_seg_split_to_missing_i p x i y l __default_PointF).
   - dump_pre_spatial.
     lia.

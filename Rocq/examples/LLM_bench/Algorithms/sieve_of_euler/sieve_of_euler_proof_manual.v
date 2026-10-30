@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.sieve_of_euler Require Import sieve_of_euler_goal.
 From SimpleC.EE.LLM_bench.Algorithms.sieve_of_euler Require Import sieve_of_euler_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.sieve_of_euler.sieve_of_euler_lib.
 Local Open Scope sac.
@@ -80,7 +64,7 @@ Proof.
   sep_apply (IntArray.undef_full_split_to_undef_seg (&("flag")) (n_pre + 1) 46341); try lia.
   sep_apply (IntArray.undef_seg_split_to_undef_seg (&("flag")) 0 2 (n_pre + 1)); try lia.
   entailer!.
-Qed. 
+Qed.
 
 Lemma proof_of_get_prime_entail_wit_2 : get_prime_entail_wit_2.
 Proof.
@@ -120,8 +104,6 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_get_prime_entail_wit_4_split_goal_1.
   - Goal_apply proof_of_get_prime_entail_wit_4_split_goal_2.
-
-  all: try sieve_finish.
 Qed. 
 
 Lemma proof_of_get_prime_entail_wit_5_split_goal_1 : get_prime_entail_wit_5_split_goal_1.
@@ -135,9 +117,7 @@ Qed.
 Lemma proof_of_get_prime_entail_wit_5 : get_prime_entail_wit_5.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_get_prime_entail_wit_5_split_goal_1.
-
-  all: try sieve_finish.
+  - Goal_apply proof_of_get_prime_entail_wit_5_split_goal_1.
 Qed. 
 
 Lemma proof_of_get_prime_entail_wit_6_1_split_goal_1 : get_prime_entail_wit_6_1_split_goal_1.
@@ -189,8 +169,6 @@ Proof.
   - Goal_apply proof_of_get_prime_entail_wit_6_1_split_goal_2.
   - Goal_apply proof_of_get_prime_entail_wit_6_1_split_goal_3.
   - Goal_apply proof_of_get_prime_entail_wit_6_1_split_goal_4.
-
-  all: try sieve_finish.
 Qed. 
 
 Lemma proof_of_get_prime_entail_wit_6_2_split_goal_1 : get_prime_entail_wit_6_2_split_goal_1.
@@ -243,7 +221,9 @@ Proof.
 Qed.
 
 Lemma proof_of_get_prime_entail_wit_6_2_split_goal_5 : get_prime_entail_wit_6_2_split_goal_5.
-Proof. exact proof_of_get_prime_entail_wit_6_2_split_goal_4. Qed.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  Goal_apply proof_of_get_prime_entail_wit_6_2_split_goal_4. Qed.
 
 Lemma proof_of_get_prime_entail_wit_6_2 : get_prime_entail_wit_6_2.
 Proof.
@@ -253,8 +233,6 @@ Proof.
   - Goal_apply proof_of_get_prime_entail_wit_6_2_split_goal_3.
   - Goal_apply proof_of_get_prime_entail_wit_6_2_split_goal_4.
   - Goal_apply proof_of_get_prime_entail_wit_6_2_split_goal_5.
-
-  all: try sieve_finish.
 Qed. 
 
 Lemma proof_of_get_prime_entail_wit_7_split_goal_1 : get_prime_entail_wit_7_split_goal_1.
@@ -296,8 +274,6 @@ Proof.
   - Goal_apply proof_of_get_prime_entail_wit_7_split_goal_1.
   - Goal_apply proof_of_get_prime_entail_wit_7_split_goal_2.
   - Goal_apply proof_of_get_prime_entail_wit_7_split_goal_3.
-
-  all: try sieve_finish.
 Qed. 
 
 Lemma proof_of_get_prime_entail_wit_8_split_goal_1 : get_prime_entail_wit_8_split_goal_1.
@@ -317,9 +293,7 @@ Qed.
 Lemma proof_of_get_prime_entail_wit_8 : get_prime_entail_wit_8.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_get_prime_entail_wit_8_split_goal_1.
-
-  all: try sieve_finish.
+  - Goal_apply proof_of_get_prime_entail_wit_8_split_goal_1.
 Qed. 
 
 Lemma proof_of_get_prime_entail_wit_9_split_goal_1 : get_prime_entail_wit_9_split_goal_1.
@@ -418,8 +392,6 @@ Proof.
   - Goal_apply proof_of_get_prime_entail_wit_9_split_goal_2.
   - Goal_apply proof_of_get_prime_entail_wit_9_split_goal_3.
   - Goal_apply proof_of_get_prime_entail_wit_9_split_goal_4.
-
-  all: try sieve_finish.
 Qed. 
 
 Lemma proof_of_get_prime_entail_wit_10_split_goal_1 : get_prime_entail_wit_10_split_goal_1.
@@ -447,8 +419,6 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_get_prime_entail_wit_10_split_goal_1.
   - Goal_apply proof_of_get_prime_entail_wit_10_split_goal_2.
-
-  all: try sieve_finish.
 Qed. 
 
 Lemma proof_of_get_prime_entail_wit_11_1_split_goal_1 : get_prime_entail_wit_11_1_split_goal_1.
@@ -470,49 +440,53 @@ Proof.
 Qed.
 
 Lemma proof_of_get_prime_entail_wit_11_1 : get_prime_entail_wit_11_1.
-Proof. aggressive_pre_process. Goal_apply proof_of_get_prime_entail_wit_11_1_split_goal_1. Qed. 
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_get_prime_entail_wit_11_1_split_goal_1.
+Qed.
 
 Lemma proof_of_get_prime_entail_wit_12 : get_prime_entail_wit_12.
 Proof.
-  unfold get_prime_entail_wit_12. right. intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   replace i with (n_pre + 1) in * by lia.
   assert (Hres : EulerSieveResult n_pre tot flag_l prime_l).
   {
     assert (Houter : Legacy.EulerOuterState n_pre (n_pre + 1) tot flag_l prime_l) by sieve_restore.
     sieve_weaken.
-  unfold Legacy.EulerOuterState in Houter.
-  destruct Houter as [Hflag Hrest].
-  destruct Hrest as [Hprime_len Hrest].
-  destruct Hrest as [Hnext_low Hrest].
-  destruct Hrest as [Hnext_high Hrest].
-  destruct Hrest as [Htot_nonneg Hrest].
-  destruct Hrest as [Htot_lt Hrest].
-  destruct Hrest as [Hprime_prefix Hbounds].
-  unfold Legacy.EulerFlagState in Hflag.
-  destruct Hflag as [Hflag_len Hflag_entries].
-  unfold Legacy.EulerSieveResult.
-  split; [exact Hflag_len |].
-  split; [exact Hprime_len |].
-  split; [exact Htot_nonneg |].
-  split; [lia |].
-  split.
-  - unfold Legacy.LeastPrimeFlagList.
+    unfold Legacy.EulerOuterState in Houter.
+    destruct Houter as [Hflag Hrest].
+    destruct Hrest as [Hprime_len Hrest].
+    destruct Hrest as [Hnext_low Hrest].
+    destruct Hrest as [Hnext_high Hrest].
+    destruct Hrest as [Htot_nonneg Hrest].
+    destruct Hrest as [Htot_lt Hrest].
+    destruct Hrest as [Hprime_prefix Hbounds].
+    unfold Legacy.EulerFlagState in Hflag.
+    destruct Hflag as [Hflag_len Hflag_entries].
+    unfold Legacy.EulerSieveResult.
     split; [exact Hflag_len |].
-    intros k Hk.
-    unfold Legacy.FlagValue.
-    destruct (Hflag_entries k Hk) as [Hknown _].
-    apply Hknown; lia.
-  - replace (n_pre + 1 - 1) with n_pre in Hprime_prefix by lia.
-    exact Hprime_prefix.
-
-
+    split; [exact Hprime_len |].
+    split; [exact Htot_nonneg |].
+    split; [lia |].
+    split.
+    - unfold Legacy.LeastPrimeFlagList.
+      split; [exact Hflag_len |].
+      intros k Hk.
+      unfold Legacy.FlagValue.
+      destruct (Hflag_entries k Hk) as [Hknown _].
+      apply Hknown; lia.
+    - replace (n_pre + 1 - 1) with n_pre in Hprime_prefix by lia.
+      exact Hprime_prefix.
   }
   Exists flag_l.
   sep_apply (IntArray.seg_to_undef_seg (&("flag")) 2 (n_pre + 1) flag_l).
   sep_apply (IntArray.undef_seg_merge_to_undef_seg (&("flag")) 0 2 (n_pre + 1)); try lia.
   sep_apply (IntArray.undef_seg_merge_to_undef_full (&("flag")) 0 (n_pre + 1) 46341); try lia.
   repeat rewrite Z.mul_0_l. repeat rewrite Z.add_0_r. repeat rewrite Z.sub_0_r.
-  entailer!.
+  Exists prime_l.
+  split_pure_spatial.
+  - repeat cancel.
+  - split_pures; dump_pre_spatial; try assumption; lia.
 Qed. 
 
 Lemma proof_of_get_prime_return_wit_1 : get_prime_return_wit_1.
@@ -520,4 +494,3 @@ Proof.
   unfold get_prime_return_wit_1. right. intros. Exists tot.
   pose proof (proj2 PreH3) as Hprime. entailer!.
 Qed. 
-

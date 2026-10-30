@@ -1,28 +1,12 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.Kruskal Require Import kruskal_union_find_goal.
 From SimpleC.EE.LLM_bench.Algorithms.Kruskal Require Import kruskal_union_find_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 From MonadLib Require Export MonadLib.
 From MonadLib.StateRelMonad Require Export StateRelMonad.
 Export MonadNotation.
 Local Open Scope monad.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
+From AUXLib Require Import relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Local Open Scope monad.
 Require Import SimpleC.EE.LLM_bench.Algorithms.Kruskal.kruskal_union_find_lib.
@@ -45,7 +29,7 @@ Qed.
 Lemma proof_of_swap_edge_entail_wit_1 : swap_edge_entail_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_swap_edge_entail_wit_1_split_goal_spatial.
+  - Goal_apply proof_of_swap_edge_entail_wit_1_split_goal_spatial.
 Qed. 
 
 Lemma proof_of_swap_edge_entail_wit_2_split_goal_spatial : swap_edge_entail_wit_2_split_goal_spatial.
@@ -63,7 +47,7 @@ Qed.
 Lemma proof_of_swap_edge_entail_wit_2 : swap_edge_entail_wit_2.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_swap_edge_entail_wit_2_split_goal_spatial.
+  - Goal_apply proof_of_swap_edge_entail_wit_2_split_goal_spatial.
 Qed. 
 
 Lemma proof_of_swap_edge_return_wit_1_split_goal_spatial : swap_edge_return_wit_1_split_goal_spatial.
@@ -126,7 +110,7 @@ Qed.
 Lemma proof_of_swap_edge_return_wit_1 : swap_edge_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_swap_edge_return_wit_1_split_goal_spatial.
+  - Goal_apply proof_of_swap_edge_return_wit_1_split_goal_spatial.
 Qed. 
 
 Lemma proof_of_swap_edge_return_wit_2_split_goal_spatial : swap_edge_return_wit_2_split_goal_spatial.
@@ -223,7 +207,7 @@ Qed.
 Lemma proof_of_swap_edge_return_wit_2 : swap_edge_return_wit_2.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_swap_edge_return_wit_2_split_goal_spatial.
+  - Goal_apply proof_of_swap_edge_return_wit_2_split_goal_spatial.
 Qed. 
 
 Lemma proof_of_swap_edge_return_wit_3_split_goal_1 : swap_edge_return_wit_3_split_goal_1.
@@ -905,8 +889,10 @@ Proof.
   - Goal_apply proof_of_kruskal_partial_solve_wit_10_pure_split_goal_2.
 Qed. 
 
-Lemma proof_of_kruskal_derive_high_level_spec_by_low_level_spec : kruskal_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_kruskal_low_level_spec_entail_high_level_spec : kruskal_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold kruskal_low_level_spec_entail_high_level_spec.
+  intros u_pre v_pre w_pre n_pre m_pre orig_u_high_level_spec orig_v_high_level_spec orig_w_high_level_spec g_high_level_spec.
   LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof
     (safeExec_kruskal_return_is_mst__high_level_refinement
@@ -919,20 +905,21 @@ Proof.
   - cancel (IntArray.full u_pre m_pre orig_u_high_level_spec).
     cancel (IntArray.full v_pre m_pre orig_v_high_level_spec).
     cancel (IntArray.full w_pre m_pre orig_w_high_level_spec).
+    Intros_r retval.
     apply derivable1_wand_sepcon_adjoint.
     Intros retval_rw_2 retval_rv_2 retval_ru_2 lru_2 lrv_2 lrw_2
-      l_u_2 l_v_2 l_w_2 edge_order_2 rg_2 retval_2.
+      l_u_2 l_v_2 l_w_2 edge_order_2 rg_2.
     Exists retval_rw_2 retval_rv_2 retval_ru_2 lru_2 lrv_2 lrw_2
-      l_u_2 l_v_2 l_w_2 edge_order_2 rg_2 retval_2.
+      l_u_2 l_v_2 l_w_2 edge_order_2 rg_2.
     repeat (split_pure_spatial || split_pures).
     + cancel (IntArray.full u_pre m_pre l_u_2).
       cancel (IntArray.full v_pre m_pre l_v_2).
       cancel (IntArray.full w_pre m_pre l_w_2).
-      cancel ((&((retval_2) # "mst_tree" ->ₛ "ru")) # Ptr |-> retval_ru_2).
+      cancel ((&((retval) # "mst_tree" ->ₛ "ru")) # Ptr |-> retval_ru_2).
       cancel (IntArray.full retval_ru_2 (n_pre - 1) lru_2).
-      cancel ((&((retval_2) # "mst_tree" ->ₛ "rv")) # Ptr |-> retval_rv_2).
+      cancel ((&((retval) # "mst_tree" ->ₛ "rv")) # Ptr |-> retval_rv_2).
       cancel (IntArray.full retval_rv_2 (n_pre - 1) lrv_2).
-      cancel ((&((retval_2) # "mst_tree" ->ₛ "rw")) # Ptr |-> retval_rw_2).
+      cancel ((&((retval) # "mst_tree" ->ₛ "rw")) # Ptr |-> retval_rw_2).
       cancel (IntArray.full retval_rw_2 (n_pre - 1) lrw_2).
     + dump_pre_spatial.
       pose proof
@@ -944,4 +931,3 @@ Proof.
     + dump_pre_spatial; assumption.
   - repeat (split_pure_spatial || split_pures); dump_pre_spatial; assumption.
 Qed. 
-

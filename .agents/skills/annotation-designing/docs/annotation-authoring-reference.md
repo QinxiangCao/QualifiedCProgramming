@@ -56,6 +56,8 @@ Spec 来源是题目描述、输入输出格式和消除歧义所需的样例说
 - 对排序结果，组合 `Permutation` 与 `increasing` / `decreasing`。
 - 对 segment sum，普通场景直接用现有 list `sum(sublist lo hi l)`；indexed / finite-set sum 按签名复用 `sum_range` / `sum` / `sum_set_R`，区间枚举使用 `Zrange`，不得递归重写。仅在题目概念确需名称时保留一层业务 predicate，端点与同名接口见[知识规则 §2](spec-and-contract-knowledge.md#2-算术与库接口)。
 - 对最大/最小/最优性，必须使用 `MaxMinLib` 的 `min_value_of_subset` / `max_value_of_subset`，不得自定义 `IsMinimum` / `IsMaximum` 等同义接口；题目或跨函数接口需要名称时，保留一层直接引用库语义的 case predicate。
+- 含元素个数、capacity 与元素 buffer 指针的 struct 使用 `Veci` / `Vecp` / `VecpArray`，不得手写其字段谓词或绑定其 capacity。见[可增长 vector](array-string-guide.md#可增长-vector)。
+- literal、clause、CNF 与 SAT/UNSAT 判定使用 CDCLLib：C 编码只解码一次，判定在输入上用 `models` / `cnf_sat` / `cnf_unsat` 表达，不另定义 literal 类型或可满足性。见 [CDCLLib 谓词](pure-proposition-predicates.md#cdcllib-谓词)。
 - 对二分答案，定义 `CanX`、`CannotX` 和真实答案 predicate；主循环 invariant 维护答案在当前边界内。先读 [二分答案正例](examples/binary-search-answer.md)，配套 C annotation 见同目录的 `split_array_largest_sum.c`。
 - 对 DP，定义 table entry 的数学含义，而不是定义一份递归 DP 程序再追踪它。
 - 对 refinement proof，只保留 proof type 所需的 `safeExec` / monad spec；不要把最终 functional correctness 重复塞进 C loop invariant。

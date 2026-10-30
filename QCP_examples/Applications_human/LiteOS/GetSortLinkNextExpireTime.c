@@ -171,7 +171,7 @@ static inline unsigned long long GetSortLinkNextExpireTime(SortLinkAttribute *so
     which implies
     store_dll(storesortedLinkNode(storeA), &(sortHead->sortLink), map(sortedLinkNodeMapping, l))
     */
-    if (LOS_ListEmpty(head)/*@ where (getfirstSpec) storeA = storesortedLinkNode(storeA) , l = map(sortedLinkNodeMapping, l) ; A = sortedLinkNode(A) */) {
+    if (LOS_ListEmpty(head)/*@ where (getfirstSpec) {A = sortedLinkNode(A)} storeA = storesortedLinkNode(storeA) , l = map(sortedLinkNodeMapping, l) */) {
         return OS_SORT_LINK_UINT64_MAX - tickPrecision;
     }
     SortLinkList *listSorted = LOS_DL_LIST_ENTRY(list)/*@where item = list*/;

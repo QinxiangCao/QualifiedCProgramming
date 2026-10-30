@@ -1,0 +1,5 @@
+From SimpleC.Verification.BuiltIn Require Import bool_array_strategy_goal bool_array_strategy_proof.
+
+Module bool_array_Strategy_Correctness : bool_array_Strategy_Correct.
+  Include bool_array_strategy_proof.
+End bool_array_Strategy_Correctness.

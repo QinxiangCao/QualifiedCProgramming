@@ -13,7 +13,7 @@ private noncomputable abbrev charArray := naive_C_Rules.CharArray
 private noncomputable abbrev intArray := naive_C_Rules.IntArray
 
 theorem proof_of_solver_safety_wit_4_split_goal_1 : solver_safety_wit_4_split_goal_1 := by
-  intro oj_pre oi_pre n_pre t_pre s_pre target source counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro target source s_pre t_pre n_pre oi_pre oj_pre counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   dump_pre_spatial
   simp only [INT_MAX,INT_MIN]
   have hc := PreH5 i (by omega)
@@ -21,7 +21,7 @@ theorem proof_of_solver_safety_wit_4_split_goal_1 : solver_safety_wit_4_split_go
   omega
 
 theorem proof_of_solver_safety_wit_4_split_goal_2 : solver_safety_wit_4_split_goal_2 := by
-  intro oj_pre oi_pre n_pre t_pre s_pre target source counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro target source s_pre t_pre n_pre oi_pre oj_pre counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   dump_pre_spatial
   simp only [INT_MAX,INT_MIN]
   have hc := PreH5 i (by omega)
@@ -30,14 +30,14 @@ theorem proof_of_solver_safety_wit_4_split_goal_2 : solver_safety_wit_4_split_go
 
 theorem proof_of_solver_safety_wit_4 : solver_safety_wit_4 := by
   right
-  intro oj_pre oi_pre n_pre t_pre s_pre target source counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro target source s_pre t_pre n_pre oi_pre oj_pre counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_4_split_goal_1 oj_pre oi_pre n_pre t_pre s_pre target source counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-    | exact proof_of_solver_safety_wit_4_split_goal_2 oj_pre oi_pre n_pre t_pre s_pre target source counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+    | exact proof_of_solver_safety_wit_4_split_goal_1 target source s_pre t_pre n_pre oi_pre oj_pre counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+    | exact proof_of_solver_safety_wit_4_split_goal_2 target source s_pre t_pre n_pre oi_pre oj_pre counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 theorem proof_of_solver_safety_wit_7_split_goal_1 : solver_safety_wit_7_split_goal_1 := by
-  intro oj_pre oi_pre n_pre t_pre s_pre target source counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro target source s_pre t_pre n_pre oi_pre oj_pre counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   dump_pre_spatial
   simp only [INT_MAX,INT_MIN]
   have hs := PreH5 i (by omega)
@@ -52,7 +52,7 @@ theorem proof_of_solver_safety_wit_7_split_goal_1 : solver_safety_wit_7_split_go
     omega
 
 theorem proof_of_solver_safety_wit_7_split_goal_2 : solver_safety_wit_7_split_goal_2 := by
-  intro oj_pre oi_pre n_pre t_pre s_pre target source counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro target source s_pre t_pre n_pre oi_pre oj_pre counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   dump_pre_spatial
   simp only [INT_MAX,INT_MIN]
   have hs := PreH5 i (by omega)
@@ -68,14 +68,14 @@ theorem proof_of_solver_safety_wit_7_split_goal_2 : solver_safety_wit_7_split_go
 
 theorem proof_of_solver_safety_wit_7 : solver_safety_wit_7 := by
   right
-  intro oj_pre oi_pre n_pre t_pre s_pre target source counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro target source s_pre t_pre n_pre oi_pre oj_pre counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pures
   all_goals first
-    | exact proof_of_solver_safety_wit_7_split_goal_1 oj_pre oi_pre n_pre t_pre s_pre target source counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-    | exact proof_of_solver_safety_wit_7_split_goal_2 oj_pre oi_pre n_pre t_pre s_pre target source counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+    | exact proof_of_solver_safety_wit_7_split_goal_1 target source s_pre t_pre n_pre oi_pre oj_pre counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+    | exact proof_of_solver_safety_wit_7_split_goal_2 target source s_pre t_pre n_pre oi_pre oj_pre counts i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 theorem proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1 := by
-  intro n_pre target source PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro target source n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   constructor
   · rfl
   · intro c hc
@@ -83,26 +83,26 @@ theorem proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_go
     exact Znth_repeat 0 26 c
 
 theorem proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2 := by
-  intro n_pre target source PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro target source n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   exact PreH5
 
 theorem proof_of_solver_entail_wit_1_split_goal_3 : solver_entail_wit_1_split_goal_3 := by
-  intro n_pre target source PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro target source n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   exact PreH4
 
 theorem proof_of_solver_entail_wit_1 : solver_entail_wit_1 := by
   right
-  intro n_pre target source PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro target source n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_1_split_goal_1 n_pre target source PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
-      | exact proof_of_solver_entail_wit_1_split_goal_2 n_pre target source PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
-      | exact proof_of_solver_entail_wit_1_split_goal_3 n_pre target source PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+      | exact proof_of_solver_entail_wit_1_split_goal_1 target source n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+      | exact proof_of_solver_entail_wit_1_split_goal_2 target source n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+      | exact proof_of_solver_entail_wit_1_split_goal_3 target source n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
 
 theorem proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_goal_1 := by
-  intro n_pre target source counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro target source n_pre counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   apply counted_prefix_step__count_invariants source target counts_2 i
   · omega
   · omega
@@ -112,82 +112,82 @@ theorem proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_go
 
 theorem proof_of_solver_entail_wit_2 : solver_entail_wit_2 := by
   right
-  intro n_pre target source counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro target source n_pre counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_2_split_goal_1 n_pre target source counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_solver_entail_wit_2_split_goal_1 target source n_pre counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 theorem proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1 := by
-  intro n_pre target source counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro target source n_pre counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   intro c hc;omega
 
 theorem proof_of_solver_entail_wit_3_split_goal_2 : solver_entail_wit_3_split_goal_2 := by
-  intro n_pre target source counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro target source n_pre counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have he : i=n_pre := by omega
   simpa only [he] using PreH11
 
 theorem proof_of_solver_entail_wit_3_split_goal_3 : solver_entail_wit_3_split_goal_3 := by
-  intro n_pre target source counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro target source n_pre counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   exact PreH6
 
 theorem proof_of_solver_entail_wit_3_split_goal_4 : solver_entail_wit_3_split_goal_4 := by
-  intro n_pre target source counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro target source n_pre counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   exact PreH5
 
 theorem proof_of_solver_entail_wit_3 : solver_entail_wit_3 := by
   right
-  intro n_pre target source counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro target source n_pre counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_3_split_goal_1 n_pre target source counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-      | exact proof_of_solver_entail_wit_3_split_goal_2 n_pre target source counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-      | exact proof_of_solver_entail_wit_3_split_goal_3 n_pre target source counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-      | exact proof_of_solver_entail_wit_3_split_goal_4 n_pre target source counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_solver_entail_wit_3_split_goal_1 target source n_pre counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_solver_entail_wit_3_split_goal_2 target source n_pre counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_solver_entail_wit_3_split_goal_3 target source n_pre counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_solver_entail_wit_3_split_goal_4 target source n_pre counts_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 theorem proof_of_solver_entail_wit_4_split_goal_1 : solver_entail_wit_4_split_goal_1 := by
-  intro n_pre target source counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro target source n_pre counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   exact (combined_parity_from_full_counts__parity_scan source target n_pre counts_2 PreH7 PreH8 PreH11).2 c (by omega) PreH13
 
 theorem proof_of_solver_entail_wit_4 : solver_entail_wit_4 := by
   right
-  intro n_pre target source counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro target source n_pre counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_4_split_goal_1 n_pre target source counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_solver_entail_wit_4_split_goal_1 target source n_pre counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
 
 theorem proof_of_solver_entail_wit_5_split_goal_1 : solver_entail_wit_5_split_goal_1 := by
-  intro n_pre target source counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro target source n_pre counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   apply (combined_parity_from_full_counts__parity_scan source target n_pre counts_2 PreH7 PreH8 PreH11).1
   intro k hk
   exact PreH12 k (by omega)
 
 theorem proof_of_solver_entail_wit_5_split_goal_2 : solver_entail_wit_5_split_goal_2 := by
-  intro n_pre target source counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro target source n_pre counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   exact PreH6
 
 theorem proof_of_solver_entail_wit_5_split_goal_3 : solver_entail_wit_5_split_goal_3 := by
-  intro n_pre target source counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro target source n_pre counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   exact PreH5
 
 theorem proof_of_solver_entail_wit_5 : solver_entail_wit_5 := by
   right
-  intro n_pre target source counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro target source n_pre counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_5_split_goal_1 n_pre target source counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
-      | exact proof_of_solver_entail_wit_5_split_goal_2 n_pre target source counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
-      | exact proof_of_solver_entail_wit_5_split_goal_3 n_pre target source counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+      | exact proof_of_solver_entail_wit_5_split_goal_1 target source n_pre counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+      | exact proof_of_solver_entail_wit_5_split_goal_2 target source n_pre counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+      | exact proof_of_solver_entail_wit_5_split_goal_3 target source n_pre counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
 
 theorem proof_of_solver_entail_wit_6_split_goal_1 : solver_entail_wit_6_split_goal_1 := by
-  intro n_pre target source counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro target source n_pre counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   apply counts_even_before_succ__parity_scan counts_2 c PreH9
   · rw [counted_prefix_full_count__parity_scan source target n_pre counts_2 c PreH7 PreH8 PreH11 (by omega)]
     omega
@@ -196,16 +196,16 @@ theorem proof_of_solver_entail_wit_6_split_goal_1 : solver_entail_wit_6_split_go
 
 theorem proof_of_solver_entail_wit_6 : solver_entail_wit_6 := by
   right
-  intro n_pre target source counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro target source n_pre counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_6_split_goal_1 n_pre target source counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+      | exact proof_of_solver_entail_wit_6_split_goal_1 target source n_pre counts_2 c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
 
 theorem proof_of_solver_entail_wit_7 : solver_entail_wit_7 := by
   right
-  intro n_pre target source counts_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro target source n_pre counts_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   Exists ([] : List (Int×Int))
   split_pure_spatial
   · cancel
@@ -217,7 +217,7 @@ theorem proof_of_solver_entail_wit_7 : solver_entail_wit_7 := by
 
 theorem proof_of_solver_entail_wit_8 : solver_entail_wit_8 := by
   right
-  intro n_pre target source is_2 js_2 ops_2 m i tt_2 ss_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro target source n_pre is_2 js_2 ops_2 m i tt_2 ss_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   Exists ops_2
   split_pure_spatial
   · cancel
@@ -227,7 +227,7 @@ theorem proof_of_solver_entail_wit_8 : solver_entail_wit_8 := by
 
 theorem proof_of_solver_entail_wit_9 : solver_entail_wit_9 := by
   right
-  intro n_pre target source is_2 js_2 ops_2 m j i tt_2 ss_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro target source n_pre is_2 js_2 ops_2 m j i tt_2 ss_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   Exists ops_2
   split_pure_spatial
   · cancel
@@ -237,7 +237,7 @@ theorem proof_of_solver_entail_wit_9 : solver_entail_wit_9 := by
 
 theorem proof_of_solver_entail_wit_10 : solver_entail_wit_10 := by
   right
-  intro n_pre target source is_2 js_2 ops_2 m j i tt_2 ss_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro target source n_pre is_2 js_2 ops_2 m j i tt_2 ss_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   Exists ops_2
   split_pure_spatial
   · cancel
@@ -249,7 +249,7 @@ theorem proof_of_solver_entail_wit_10 : solver_entail_wit_10 := by
 
 theorem proof_of_solver_entail_wit_11 : solver_entail_wit_11 := by
   right
-  intro n_pre target source is_2 js_2 ops_2 m j i tt_2 ss_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro target source n_pre is_2 js_2 ops_2 m j i tt_2 ss_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   Exists ops_2
   split_pure_spatial
   · cancel
@@ -259,7 +259,7 @@ theorem proof_of_solver_entail_wit_11 : solver_entail_wit_11 := by
 
 theorem proof_of_solver_entail_wit_12_1 : solver_entail_wit_12_1 := by
   right
-  intro n_pre target source is_2 js_2 ops_2 m j i tt_2 ss_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro target source n_pre is_2 js_2 ops_2 m j i tt_2 ss_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hs := PreH22.1
   have ht := PreH22.2.1
   have hsb1 := replace_znth_preserves_char_bounds__repair_transitions ss_2 j (Znth j tt_2 0) n_pre (by omega) (by omega) (PreH8 j (by omega)) PreH7
@@ -279,7 +279,7 @@ theorem proof_of_solver_entail_wit_12_1 : solver_entail_wit_12_1 := by
 
 theorem proof_of_solver_entail_wit_12_2 : solver_entail_wit_12_2 := by
   right
-  intro n_pre target source is_2 js_2 ops_2 m i tt_2 ss_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro target source n_pre is_2 js_2 ops_2 m i tt_2 ss_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have hs := PreH16.1
   Exists ops_2
   split_pure_spatial
@@ -290,7 +290,7 @@ theorem proof_of_solver_entail_wit_12_2 : solver_entail_wit_12_2 := by
 
 theorem proof_of_solver_entail_wit_12_3 : solver_entail_wit_12_3 := by
   right
-  intro n_pre target source is_2 js_2 ops_2 m j i tt_2 ss_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro target source n_pre is_2 js_2 ops_2 m j i tt_2 ss_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   have hs := PreH21.1
   have ht := PreH21.2.1
   have hsb := replace_znth_preserves_char_bounds__repair_transitions ss_2 j (Znth i tt_2 0) n_pre (by omega) (by omega) (PreH8 i (by omega)) PreH7
@@ -308,7 +308,7 @@ theorem proof_of_solver_entail_wit_12_3 : solver_entail_wit_12_3 := by
 
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   right
-  intro oj_pre oi_pre n_pre t_pre s_pre target source is_2 js_2 ops_2 m i tt ss __default__Prod_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro target source s_pre t_pre n_pre oi_pre oj_pre is_2 js_2 ops_2 m i tt ss __default__Prod_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   have hw := repair_state_success_swaps_work__final_results source target ss tt i ops_2 PreH2 (by omega) (by omega) PreH15
   have hb := hw.1
   have hspec : Spec source target (some ops_2) := Or.inr ⟨ops_2,rfl,hw⟩
@@ -328,7 +328,7 @@ theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
 
 theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
   right
-  intro oj_pre oi_pre n_pre t_pre s_pre target source is_2 js_2 ops_2 m j i tt ss PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro target source s_pre t_pre n_pre oi_pre oj_pre is_2 js_2 ops_2 m j i tt ss PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   rcases PreH21 with ⟨hs,ht,hprefix,hperm,heven,htrace,hops⟩
   have hv := PreH6 i (by omega)
   exfalso
@@ -340,7 +340,7 @@ theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
 
 theorem proof_of_solver_return_wit_3 : solver_return_wit_3 := by
   right
-  intro oj_pre oi_pre n_pre t_pre s_pre target source counts c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro target source s_pre t_pre n_pre oi_pre oj_pre counts c PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   have hn : ¬∃ ops,SwapsWork source target ops := by
     rintro ⟨ops,hw⟩
     exact combined_odd_forbids_swaps_work__final_results source target c ops PreH9 hw

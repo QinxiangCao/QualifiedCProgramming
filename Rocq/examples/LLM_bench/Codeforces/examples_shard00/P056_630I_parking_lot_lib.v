@@ -277,7 +277,7 @@ Proof.
   intros A B P Q FP FQ f Hmap Hsurj Hinj.
   rewrite !set_card_as_Zlength_enum__solver_result.
   f_equal.
-  rewrite <- map_length with (f := f) (l := @enum A P FP).
+  rewrite <- length_map with (f := f) (l := @enum A P FP).
   apply Permutation_length.
   apply NoDup_Permutation.
   - apply Injective_map_NoDup_in.
@@ -308,7 +308,7 @@ Proof.
     List.length (list_prod xs ys) =
       (List.length xs * List.length ys)%nat).
   { intros xs ys. induction xs as [|x xs IH]; simpl; [reflexivity|].
-    rewrite app_length, length_map, IH. lia. }
+    rewrite length_app, length_map, IH. lia. }
   change (Z.of_nat (List.length
       (list_prod (@enum A P FP) (@enum B Q FQ))) =
     Z.of_nat (List.length (@enum A P FP)) *

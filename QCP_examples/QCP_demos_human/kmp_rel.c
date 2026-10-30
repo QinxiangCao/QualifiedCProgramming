@@ -123,8 +123,8 @@ int * constr(char *patn)
     for (; i < len; i++) {
         /*@ Given vnext0 */
         j = inner(patn, vnext, patn[i], j) 
-          /*@ where (bind_spec) str0 = str, vnext0 = vnext0, m = i, n = n, 
-              X = X, f = constr_loop_from_after(0, str, i, vnext0); B = list Z */;
+          /*@ where (bind_spec) {B = list Z} str0 = str, vnext0 = vnext0, m = i, n = n,
+              X = X, f = constr_loop_from_after(0, str, i, vnext0) */;
         /*@ exists l0,
             IntArray::full((vnext + i * sizeof(int)), n-i, l0) && i < n
             which implies
@@ -183,8 +183,8 @@ int match(char *patn, char *text, int *vnext)
     */
     for (; i < text_len; i++) {
       j = inner(patn, vnext, text[i], j)
-          /*@ where (bind_spec) str0 = patn0, vnext0 = vnext0, m = n, n = n,
-              X = X, f = match_loop_from_after(0, patn0, text0, vnext0, i) ; B = option Z*/
+          /*@ where (bind_spec) {B = option Z} str0 = patn0, vnext0 = vnext0, m = n, n = n,
+              X = X, f = match_loop_from_after(0, patn0, text0, vnext0, i) */
           ;
       if (j == patn_len)
       {

@@ -57,7 +57,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def exgcd_safety_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (INT_MIN < a_pre)) (PreH2 : (a_pre <= INT_MAX)) (PreH3 : (INT_MIN < b_pre)) (PreH4 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (INT_MIN < a_pre)) (PreH2 : (a_pre <= INT_MAX)) (PreH3 : (INT_MIN < b_pre)) (PreH4 : (b_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -69,7 +69,7 @@ noncomputable def exgcd_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def exgcd_safety_wit_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (b_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (b_pre = (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -81,7 +81,7 @@ noncomputable def exgcd_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def exgcd_safety_wit_3 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre < (0 : Int))) (PreH2 : (b_pre = (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (a_pre < (0 : Int))) (PreH2 : (b_pre = (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -92,7 +92,7 @@ noncomputable def exgcd_safety_wit_3 : Prop :=
   “ (1 ≠ (INT_MIN)) ”
 
 noncomputable def exgcd_safety_wit_4 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre < (0 : Int))) (PreH2 : (b_pre = (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (a_pre < (0 : Int))) (PreH2 : (b_pre = (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -104,7 +104,7 @@ noncomputable def exgcd_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def exgcd_safety_wit_5 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre >= (0 : Int))) (PreH2 : (b_pre = (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (a_pre >= (0 : Int))) (PreH2 : (b_pre = (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -116,7 +116,7 @@ noncomputable def exgcd_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def exgcd_safety_wit_6 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (a_pre >= (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (a_pre >= (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -128,7 +128,7 @@ noncomputable def exgcd_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def exgcd_safety_wit_7 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (a_pre >= (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (a_pre >= (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -140,7 +140,7 @@ noncomputable def exgcd_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def exgcd_safety_wit_8 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre < (0 : Int))) (PreH2 : (b_pre = (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (a_pre < (0 : Int))) (PreH2 : (b_pre = (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -152,7 +152,7 @@ noncomputable def exgcd_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def exgcd_safety_wit_9 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (a_pre >= (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (a_pre >= (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -164,7 +164,7 @@ noncomputable def exgcd_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def exgcd_safety_wit_10 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (a_pre >= (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (a_pre >= (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -176,7 +176,7 @@ noncomputable def exgcd_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def exgcd_safety_wit_11 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (b_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (b_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) ,
   ((( &( "g" ) )) # Int |->_)
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
@@ -189,35 +189,35 @@ noncomputable def exgcd_safety_wit_11 : Prop :=
   “ (b_pre ≠ (0 : Int)) ”
 
 noncomputable def exgcd_safety_wit_12 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) = (0 : Int))) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = (0 : Int))) (PreH6 : (b_pre ≠ (0 : Int))) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) = (0 : Int))) (PreH4 : ((Zabs (x_v)) <= 1)) (PreH5 : (y_v = (0 : Int))) (PreH6 : (b_pre ≠ (0 : Int))) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ ((x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v)) <= INT_MAX) ” &&
-  “ ((INT_MIN) <= (x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v))) ”
+  “ ((x_v - ((Z.quot a_pre b_pre) * y_v)) <= INT_MAX) ” &&
+  “ ((INT_MIN) <= (x_v - ((Z.quot a_pre b_pre) * y_v))) ”
 
 noncomputable def exgcd_safety_wit_13 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) = (0 : Int))) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = (0 : Int))) (PreH6 : (b_pre ≠ (0 : Int))) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) = (0 : Int))) (PreH4 : ((Zabs (x_v)) <= 1)) (PreH5 : (y_v = (0 : Int))) (PreH6 : (b_pre ≠ (0 : Int))) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ (((Z.quot a_pre b_pre) * y_callee_v) <= INT_MAX) ” &&
-  “ ((INT_MIN) <= ((Z.quot a_pre b_pre) * y_callee_v)) ”
+  “ (((Z.quot a_pre b_pre) * y_v) <= INT_MAX) ” &&
+  “ ((INT_MIN) <= ((Z.quot a_pre b_pre) * y_v)) ”
 
 noncomputable def exgcd_safety_wit_14 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) = (0 : Int))) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = (0 : Int))) (PreH6 : (b_pre ≠ (0 : Int))) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) = (0 : Int))) (PreH4 : ((Zabs (x_v)) <= 1)) (PreH5 : (y_v = (0 : Int))) (PreH6 : (b_pre ≠ (0 : Int))) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
@@ -229,112 +229,112 @@ noncomputable def exgcd_safety_wit_14 : Prop :=
 
 noncomputable def exgcd_safety_wit_15 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_callee_v = (0 : Int))) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_v = (0 : Int))) (PreH6 : ((Zabs (y_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ ((x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v)) <= INT_MAX) ” &&
-  “ ((INT_MIN) <= (x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v))) ”
+  “ ((x_v - ((Z.quot a_pre b_pre) * y_v)) <= INT_MAX) ” &&
+  “ ((INT_MIN) <= (x_v - ((Z.quot a_pre b_pre) * y_v))) ”
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_callee_v = (0 : Int))) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_v = (0 : Int))) (PreH6 : ((Zabs (y_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ ((x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v)) <= INT_MAX) ” &&
-  “ ((INT_MIN) <= (x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v))) ”
+  “ ((x_v - ((Z.quot a_pre b_pre) * y_v)) <= INT_MAX) ” &&
+  “ ((INT_MIN) <= (x_v - ((Z.quot a_pre b_pre) * y_v))) ”
 )
 
 noncomputable def exgcd_safety_wit_15_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_callee_v = (0 : Int))) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_v = (0 : Int))) (PreH6 : ((Zabs (y_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ ((x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v)) <= INT_MAX) ”
+  “ ((x_v - ((Z.quot a_pre b_pre) * y_v)) <= INT_MAX) ”
 
 noncomputable def exgcd_safety_wit_15_split_goal_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_callee_v = (0 : Int))) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_v = (0 : Int))) (PreH6 : ((Zabs (y_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ ((INT_MIN) <= (x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v))) ”
+  “ ((INT_MIN) <= (x_v - ((Z.quot a_pre b_pre) * y_v))) ”
 
 noncomputable def exgcd_safety_wit_16 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_callee_v = (0 : Int))) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_v = (0 : Int))) (PreH6 : ((Zabs (y_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ (((Z.quot a_pre b_pre) * y_callee_v) <= INT_MAX) ” &&
-  “ ((INT_MIN) <= ((Z.quot a_pre b_pre) * y_callee_v)) ”
+  “ (((Z.quot a_pre b_pre) * y_v) <= INT_MAX) ” &&
+  “ ((INT_MIN) <= ((Z.quot a_pre b_pre) * y_v)) ”
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_callee_v = (0 : Int))) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_v = (0 : Int))) (PreH6 : ((Zabs (y_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ (((Z.quot a_pre b_pre) * y_callee_v) <= INT_MAX) ” &&
-  “ ((INT_MIN) <= ((Z.quot a_pre b_pre) * y_callee_v)) ”
+  “ (((Z.quot a_pre b_pre) * y_v) <= INT_MAX) ” &&
+  “ ((INT_MIN) <= ((Z.quot a_pre b_pre) * y_v)) ”
 )
 
 noncomputable def exgcd_safety_wit_16_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_callee_v = (0 : Int))) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_v = (0 : Int))) (PreH6 : ((Zabs (y_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ (((Z.quot a_pre b_pre) * y_callee_v) <= INT_MAX) ”
+  “ (((Z.quot a_pre b_pre) * y_v) <= INT_MAX) ”
 
 noncomputable def exgcd_safety_wit_16_split_goal_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_callee_v = (0 : Int))) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_v = (0 : Int))) (PreH6 : ((Zabs (y_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ ((INT_MIN) <= ((Z.quot a_pre b_pre) * y_callee_v)) ”
+  “ ((INT_MIN) <= ((Z.quot a_pre b_pre) * y_v)) ”
 
 noncomputable def exgcd_safety_wit_17 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_callee_v = (0 : Int))) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_v = (0 : Int))) (PreH6 : ((Zabs (y_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
@@ -346,112 +346,112 @@ noncomputable def exgcd_safety_wit_17 : Prop :=
 
 noncomputable def exgcd_safety_wit_18 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_callee_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ ((x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v)) <= INT_MAX) ” &&
-  “ ((INT_MIN) <= (x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v))) ”
+  “ ((x_v - ((Z.quot a_pre b_pre) * y_v)) <= INT_MAX) ” &&
+  “ ((INT_MIN) <= (x_v - ((Z.quot a_pre b_pre) * y_v))) ”
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_callee_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ ((x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v)) <= INT_MAX) ” &&
-  “ ((INT_MIN) <= (x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v))) ”
+  “ ((x_v - ((Z.quot a_pre b_pre) * y_v)) <= INT_MAX) ” &&
+  “ ((INT_MIN) <= (x_v - ((Z.quot a_pre b_pre) * y_v))) ”
 )
 
 noncomputable def exgcd_safety_wit_18_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_callee_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ ((x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v)) <= INT_MAX) ”
+  “ ((x_v - ((Z.quot a_pre b_pre) * y_v)) <= INT_MAX) ”
 
 noncomputable def exgcd_safety_wit_18_split_goal_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_callee_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ ((INT_MIN) <= (x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v))) ”
+  “ ((INT_MIN) <= (x_v - ((Z.quot a_pre b_pre) * y_v))) ”
 
 noncomputable def exgcd_safety_wit_19 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_callee_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ (((Z.quot a_pre b_pre) * y_callee_v) <= INT_MAX) ” &&
-  “ ((INT_MIN) <= ((Z.quot a_pre b_pre) * y_callee_v)) ”
+  “ (((Z.quot a_pre b_pre) * y_v) <= INT_MAX) ” &&
+  “ ((INT_MIN) <= ((Z.quot a_pre b_pre) * y_v)) ”
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_callee_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ (((Z.quot a_pre b_pre) * y_callee_v) <= INT_MAX) ” &&
-  “ ((INT_MIN) <= ((Z.quot a_pre b_pre) * y_callee_v)) ”
+  “ (((Z.quot a_pre b_pre) * y_v) <= INT_MAX) ” &&
+  “ ((INT_MIN) <= ((Z.quot a_pre b_pre) * y_v)) ”
 )
 
 noncomputable def exgcd_safety_wit_19_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_callee_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ (((Z.quot a_pre b_pre) * y_callee_v) <= INT_MAX) ”
+  “ (((Z.quot a_pre b_pre) * y_v) <= INT_MAX) ”
 
 noncomputable def exgcd_safety_wit_19_split_goal_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_callee_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
   ** ((( &( "y" ) )) # Ptr |-> (y_pre))
 |--
-  “ ((INT_MIN) <= ((Z.quot a_pre b_pre) * y_callee_v)) ”
+  “ ((INT_MIN) <= ((Z.quot a_pre b_pre) * y_v)) ”
 
 noncomputable def exgcd_safety_wit_20 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_callee_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> (x_callee_v))
-  ** ((x_pre) # Int |-> (y_callee_v))
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v) + ((Z.rem a_pre b_pre) * y_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> (x_v))
+  ** ((x_pre) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
@@ -463,145 +463,145 @@ noncomputable def exgcd_safety_wit_20 : Prop :=
 
 noncomputable def exgcd_return_wit_1 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) = (0 : Int))) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = (0 : Int))) (PreH6 : (b_pre ≠ (0 : Int))) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> ((x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v))))
-  ** ((x_pre) # Int |-> (y_callee_v))
+forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) = (0 : Int))) (PreH4 : ((Zabs (x_v_4)) <= 1)) (PreH5 : (y_v_4 = (0 : Int))) (PreH6 : (b_pre ≠ (0 : Int))) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> ((x_v_4 - ((Z.quot a_pre b_pre) * y_v_4))))
+  ** ((x_pre) # Int |-> (y_v_4))
 |--
-  EX y_pre_v_2 : Int, EX x_pre_v_2 : Int,
+  EX y_v_2 : Int, EX x_v_2 : Int,
   “ (retval = (Zgcd (a_pre) (b_pre))) ” &&
-  “ (((a_pre * x_pre_v_2) + (b_pre * y_pre_v_2)) = (Zgcd (a_pre) (b_pre))) ” &&
+  “ (((a_pre * x_v_2) + (b_pre * y_v_2)) = (Zgcd (a_pre) (b_pre))) ” &&
   “ (b_pre ≠ (0 : Int)) ” &&
   “ ((Z.rem a_pre b_pre) = (0 : Int)) ” &&
-  “ (x_pre_v_2 = (0 : Int)) ” &&
-  “ ((Zabs (y_pre_v_2)) <= 1) ”
-  &&  ((x_pre) # Int |-> (x_pre_v_2))
-  ** ((y_pre) # Int |-> (y_pre_v_2))
+  “ (x_v_2 = (0 : Int)) ” &&
+  “ ((Zabs (y_v_2)) <= 1) ”
+  &&  ((x_pre) # Int |-> (x_v_2))
+  ** ((y_pre) # Int |-> (y_v_2))
 ) \/
 (
-forall (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) = (0 : Int))) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = (0 : Int))) (PreH6 : (b_pre ≠ (0 : Int))) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) = (0 : Int))) (PreH4 : ((Zabs (x_v_4)) <= 1)) (PreH5 : (y_v_4 = (0 : Int))) (PreH6 : (b_pre ≠ (0 : Int))) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
   TT && emp 
 |--
-  “ ((Zabs ((x_callee_v - ((Z.quot a_pre b_pre) * (0 : Int))))) <= 1) ” &&
-  “ (((a_pre * (0 : Int)) + (b_pre * (x_callee_v - ((Z.quot a_pre b_pre) * (0 : Int))))) = (Zgcd (a_pre) (b_pre))) ” &&
+  “ ((Zabs ((x_v_4 - ((Z.quot a_pre b_pre) * (0 : Int))))) <= 1) ” &&
+  “ (((a_pre * (0 : Int)) + (b_pre * (x_v_4 - ((Z.quot a_pre b_pre) * (0 : Int))))) = (Zgcd (a_pre) (b_pre))) ” &&
   “ (retval = (Zgcd (a_pre) (b_pre))) ”
   &&  emp
 )
 
 noncomputable def exgcd_return_wit_1_split_goal_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) = (0 : Int))) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = (0 : Int))) (PreH6 : (b_pre ≠ (0 : Int))) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
-  ((Zabs ((x_callee_v - ((Z.quot a_pre b_pre) * (0 : Int))))) <= 1)
+  forall (a_pre : Int) (b_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) = (0 : Int))) (PreH4 : ((Zabs (x_v_4)) <= 1)) (PreH5 : (y_v_4 = (0 : Int))) (PreH6 : (b_pre ≠ (0 : Int))) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
+  ((Zabs ((x_v_4 - ((Z.quot a_pre b_pre) * (0 : Int))))) <= 1)
 
 noncomputable def exgcd_return_wit_1_split_goal_2 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) = (0 : Int))) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = (0 : Int))) (PreH6 : (b_pre ≠ (0 : Int))) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
-  (((a_pre * (0 : Int)) + (b_pre * (x_callee_v - ((Z.quot a_pre b_pre) * (0 : Int))))) = (Zgcd (a_pre) (b_pre)))
+  forall (a_pre : Int) (b_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) = (0 : Int))) (PreH4 : ((Zabs (x_v_4)) <= 1)) (PreH5 : (y_v_4 = (0 : Int))) (PreH6 : (b_pre ≠ (0 : Int))) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
+  (((a_pre * (0 : Int)) + (b_pre * (x_v_4 - ((Z.quot a_pre b_pre) * (0 : Int))))) = (Zgcd (a_pre) (b_pre)))
 
 noncomputable def exgcd_return_wit_1_split_goal_3 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) = (0 : Int))) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = (0 : Int))) (PreH6 : (b_pre ≠ (0 : Int))) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) = (0 : Int))) (PreH4 : ((Zabs (x_v_4)) <= 1)) (PreH5 : (y_v_4 = (0 : Int))) (PreH6 : (b_pre ≠ (0 : Int))) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
   (retval = (Zgcd (a_pre) (b_pre)))
 
 noncomputable def exgcd_return_wit_2 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_callee_v = (0 : Int))) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> ((x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v))))
-  ** ((x_pre) # Int |-> (y_callee_v))
+forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_v_4 = (0 : Int))) (PreH6 : ((Zabs (y_v_4)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> ((x_v_4 - ((Z.quot a_pre b_pre) * y_v_4))))
+  ** ((x_pre) # Int |-> (y_v_4))
 |--
-  EX y_pre_v_3 : Int, EX x_pre_v_3 : Int,
+  EX y_v_3 : Int, EX x_v_3 : Int,
   “ (retval = (Zgcd (a_pre) (b_pre))) ” &&
-  “ (((a_pre * x_pre_v_3) + (b_pre * y_pre_v_3)) = (Zgcd (a_pre) (b_pre))) ” &&
+  “ (((a_pre * x_v_3) + (b_pre * y_v_3)) = (Zgcd (a_pre) (b_pre))) ” &&
   “ (b_pre ≠ (0 : Int)) ” &&
   “ ((Z.rem a_pre b_pre) ≠ (0 : Int)) ” &&
-  “ ((Zabs (x_pre_v_3)) <= (Z.quot (Zabs (b_pre)) (Zgcd (a_pre) (b_pre)))) ” &&
-  “ ((Zabs (y_pre_v_3)) <= (Z.quot (Zabs (a_pre)) (Zgcd (a_pre) (b_pre)))) ”
-  &&  ((x_pre) # Int |-> (x_pre_v_3))
-  ** ((y_pre) # Int |-> (y_pre_v_3))
+  “ ((Zabs (x_v_3)) <= (Z.quot (Zabs (b_pre)) (Zgcd (a_pre) (b_pre)))) ” &&
+  “ ((Zabs (y_v_3)) <= (Z.quot (Zabs (a_pre)) (Zgcd (a_pre) (b_pre)))) ”
+  &&  ((x_pre) # Int |-> (x_v_3))
+  ** ((y_pre) # Int |-> (y_v_3))
 ) \/
 (
-forall (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_callee_v = (0 : Int))) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_v_4 = (0 : Int))) (PreH6 : ((Zabs (y_v_4)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
   TT && emp 
 |--
-  “ ((Zabs (((0 : Int) - ((Z.quot a_pre b_pre) * y_callee_v)))) <= (Z.quot (Zabs (a_pre)) (Zgcd (a_pre) (b_pre)))) ” &&
-  “ ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (a_pre) (b_pre)))) ” &&
-  “ (((a_pre * y_callee_v) + (b_pre * ((0 : Int) - ((Z.quot a_pre b_pre) * y_callee_v)))) = (Zgcd (a_pre) (b_pre))) ” &&
+  “ ((Zabs (((0 : Int) - ((Z.quot a_pre b_pre) * y_v_4)))) <= (Z.quot (Zabs (a_pre)) (Zgcd (a_pre) (b_pre)))) ” &&
+  “ ((Zabs (y_v_4)) <= (Z.quot (Zabs (b_pre)) (Zgcd (a_pre) (b_pre)))) ” &&
+  “ (((a_pre * y_v_4) + (b_pre * ((0 : Int) - ((Z.quot a_pre b_pre) * y_v_4)))) = (Zgcd (a_pre) (b_pre))) ” &&
   “ (retval = (Zgcd (a_pre) (b_pre))) ”
   &&  emp
 )
 
 noncomputable def exgcd_return_wit_2_split_goal_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_callee_v = (0 : Int))) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((Zabs (((0 : Int) - ((Z.quot a_pre b_pre) * y_callee_v)))) <= (Z.quot (Zabs (a_pre)) (Zgcd (a_pre) (b_pre))))
+  forall (a_pre : Int) (b_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_v_4 = (0 : Int))) (PreH6 : ((Zabs (y_v_4)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((Zabs (((0 : Int) - ((Z.quot a_pre b_pre) * y_v_4)))) <= (Z.quot (Zabs (a_pre)) (Zgcd (a_pre) (b_pre))))
 
 noncomputable def exgcd_return_wit_2_split_goal_2 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_callee_v = (0 : Int))) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (a_pre) (b_pre))))
+  forall (a_pre : Int) (b_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_v_4 = (0 : Int))) (PreH6 : ((Zabs (y_v_4)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((Zabs (y_v_4)) <= (Z.quot (Zabs (b_pre)) (Zgcd (a_pre) (b_pre))))
 
 noncomputable def exgcd_return_wit_2_split_goal_3 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_callee_v = (0 : Int))) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  (((a_pre * y_callee_v) + (b_pre * ((0 : Int) - ((Z.quot a_pre b_pre) * y_callee_v)))) = (Zgcd (a_pre) (b_pre)))
+  forall (a_pre : Int) (b_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_v_4 = (0 : Int))) (PreH6 : ((Zabs (y_v_4)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  (((a_pre * y_v_4) + (b_pre * ((0 : Int) - ((Z.quot a_pre b_pre) * y_v_4)))) = (Zgcd (a_pre) (b_pre)))
 
 noncomputable def exgcd_return_wit_2_split_goal_4 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_callee_v = (0 : Int))) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) = (0 : Int))) (PreH5 : (x_v_4 = (0 : Int))) (PreH6 : ((Zabs (y_v_4)) <= 1)) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
   (retval = (Zgcd (a_pre) (b_pre)))
 
 noncomputable def exgcd_return_wit_3 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_callee_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int |-> ((x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v))))
-  ** ((x_pre) # Int |-> (y_callee_v))
+forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_v_4)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_v_4)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((y_pre) # Int |-> ((x_v_4 - ((Z.quot a_pre b_pre) * y_v_4))))
+  ** ((x_pre) # Int |-> (y_v_4))
 |--
-  EX y_pre_v_3 : Int, EX x_pre_v_3 : Int,
+  EX y_v_3 : Int, EX x_v_3 : Int,
   “ (retval = (Zgcd (a_pre) (b_pre))) ” &&
-  “ (((a_pre * x_pre_v_3) + (b_pre * y_pre_v_3)) = (Zgcd (a_pre) (b_pre))) ” &&
+  “ (((a_pre * x_v_3) + (b_pre * y_v_3)) = (Zgcd (a_pre) (b_pre))) ” &&
   “ (b_pre ≠ (0 : Int)) ” &&
   “ ((Z.rem a_pre b_pre) ≠ (0 : Int)) ” &&
-  “ ((Zabs (x_pre_v_3)) <= (Z.quot (Zabs (b_pre)) (Zgcd (a_pre) (b_pre)))) ” &&
-  “ ((Zabs (y_pre_v_3)) <= (Z.quot (Zabs (a_pre)) (Zgcd (a_pre) (b_pre)))) ”
-  &&  ((x_pre) # Int |-> (x_pre_v_3))
-  ** ((y_pre) # Int |-> (y_pre_v_3))
+  “ ((Zabs (x_v_3)) <= (Z.quot (Zabs (b_pre)) (Zgcd (a_pre) (b_pre)))) ” &&
+  “ ((Zabs (y_v_3)) <= (Z.quot (Zabs (a_pre)) (Zgcd (a_pre) (b_pre)))) ”
+  &&  ((x_pre) # Int |-> (x_v_3))
+  ** ((y_pre) # Int |-> (y_v_3))
 ) \/
 (
-forall (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_callee_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_v_4)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_v_4)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
   TT && emp 
 |--
-  “ ((Zabs ((x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v)))) <= (Z.quot (Zabs (a_pre)) (Zgcd (a_pre) (b_pre)))) ” &&
-  “ ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (a_pre) (b_pre)))) ” &&
-  “ (((a_pre * y_callee_v) + (b_pre * (x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v)))) = (Zgcd (a_pre) (b_pre))) ” &&
+  “ ((Zabs ((x_v_4 - ((Z.quot a_pre b_pre) * y_v_4)))) <= (Z.quot (Zabs (a_pre)) (Zgcd (a_pre) (b_pre)))) ” &&
+  “ ((Zabs (y_v_4)) <= (Z.quot (Zabs (b_pre)) (Zgcd (a_pre) (b_pre)))) ” &&
+  “ (((a_pre * y_v_4) + (b_pre * (x_v_4 - ((Z.quot a_pre b_pre) * y_v_4)))) = (Zgcd (a_pre) (b_pre))) ” &&
   “ (retval = (Zgcd (a_pre) (b_pre))) ”
   &&  emp
 )
 
 noncomputable def exgcd_return_wit_3_split_goal_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_callee_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((Zabs ((x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v)))) <= (Z.quot (Zabs (a_pre)) (Zgcd (a_pre) (b_pre))))
+  forall (a_pre : Int) (b_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_v_4)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_v_4)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((Zabs ((x_v_4 - ((Z.quot a_pre b_pre) * y_v_4)))) <= (Z.quot (Zabs (a_pre)) (Zgcd (a_pre) (b_pre))))
 
 noncomputable def exgcd_return_wit_3_split_goal_2 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_callee_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (a_pre) (b_pre))))
+  forall (a_pre : Int) (b_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_v_4)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_v_4)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((Zabs (y_v_4)) <= (Z.quot (Zabs (b_pre)) (Zgcd (a_pre) (b_pre))))
 
 noncomputable def exgcd_return_wit_3_split_goal_3 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_callee_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
-  (((a_pre * y_callee_v) + (b_pre * (x_callee_v - ((Z.quot a_pre b_pre) * y_callee_v)))) = (Zgcd (a_pre) (b_pre)))
+  forall (a_pre : Int) (b_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_v_4)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_v_4)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  (((a_pre * y_v_4) + (b_pre * (x_v_4 - ((Z.quot a_pre b_pre) * y_v_4)))) = (Zgcd (a_pre) (b_pre)))
 
 noncomputable def exgcd_return_wit_3_split_goal_4 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_callee_v) + ((Z.rem a_pre b_pre) * y_callee_v)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_callee_v)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_callee_v)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (y_v_4 : Int) (x_v_4 : Int) (retval : Int) (PreH1 : (retval = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH2 : (((b_pre * x_v_4) + ((Z.rem a_pre b_pre) * y_v_4)) = (Zgcd (b_pre) ((Z.rem a_pre b_pre))))) (PreH3 : ((Z.rem a_pre b_pre) ≠ (0 : Int))) (PreH4 : ((Z.rem b_pre (Z.rem a_pre b_pre)) ≠ (0 : Int))) (PreH5 : ((Zabs (x_v_4)) <= (Z.quot (Zabs ((Z.rem a_pre b_pre))) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH6 : ((Zabs (y_v_4)) <= (Z.quot (Zabs (b_pre)) (Zgcd (b_pre) ((Z.rem a_pre b_pre)))))) (PreH7 : (b_pre ≠ (0 : Int))) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
   (retval = (Zgcd (a_pre) (b_pre)))
 
 noncomputable def exgcd_return_wit_4 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre < (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre < (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   ((x_pre) # Int |-> ((-1)))
   ** ((y_pre) # Int |-> ((0 : Int)))
 |--
-  EX y_pre_v : Int, EX x_pre_v : Int,
+  EX y_v : Int, EX x_v : Int,
   “ (retval = (Zgcd (a_pre) (b_pre))) ” &&
-  “ (((a_pre * x_pre_v) + (b_pre * y_pre_v)) = (Zgcd (a_pre) (b_pre))) ” &&
+  “ (((a_pre * x_v) + (b_pre * y_v)) = (Zgcd (a_pre) (b_pre))) ” &&
   “ (b_pre = (0 : Int)) ” &&
-  “ ((Zabs (x_pre_v)) <= 1) ” &&
-  “ (y_pre_v = (0 : Int)) ”
-  &&  ((x_pre) # Int |-> (x_pre_v))
-  ** ((y_pre) # Int |-> (y_pre_v))
+  “ ((Zabs (x_v)) <= 1) ” &&
+  “ (y_v = (0 : Int)) ”
+  &&  ((x_pre) # Int |-> (x_v))
+  ** ((y_pre) # Int |-> (y_v))
 ) \/
 (
-forall (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre < (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre < (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((Zabs ((-1))) <= 1) ” &&
@@ -611,34 +611,34 @@ forall (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pr
 )
 
 noncomputable def exgcd_return_wit_4_split_goal_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre < (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre < (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   ((Zabs ((-1))) <= 1)
 
 noncomputable def exgcd_return_wit_4_split_goal_2 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre < (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre < (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   (((a_pre * (-1)) + ((0 : Int) * (0 : Int))) = (Zgcd (a_pre) ((0 : Int))))
 
 noncomputable def exgcd_return_wit_4_split_goal_3 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre < (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre < (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   (retval = (Zgcd (a_pre) ((0 : Int))))
 
 noncomputable def exgcd_return_wit_5 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre = (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre = (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
   ((x_pre) # Int |-> ((0 : Int)))
   ** ((y_pre) # Int |-> ((0 : Int)))
 |--
-  EX y_pre_v : Int, EX x_pre_v : Int,
+  EX y_v : Int, EX x_v : Int,
   “ (retval = (Zgcd (a_pre) (b_pre))) ” &&
-  “ (((a_pre * x_pre_v) + (b_pre * y_pre_v)) = (Zgcd (a_pre) (b_pre))) ” &&
+  “ (((a_pre * x_v) + (b_pre * y_v)) = (Zgcd (a_pre) (b_pre))) ” &&
   “ (b_pre = (0 : Int)) ” &&
-  “ ((Zabs (x_pre_v)) <= 1) ” &&
-  “ (y_pre_v = (0 : Int)) ”
-  &&  ((x_pre) # Int |-> (x_pre_v))
-  ** ((y_pre) # Int |-> (y_pre_v))
+  “ ((Zabs (x_v)) <= 1) ” &&
+  “ (y_v = (0 : Int)) ”
+  &&  ((x_pre) # Int |-> (x_v))
+  ** ((y_pre) # Int |-> (y_v))
 ) \/
 (
-forall (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre = (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre = (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((Zabs ((0 : Int))) <= 1) ” &&
@@ -648,34 +648,34 @@ forall (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pr
 )
 
 noncomputable def exgcd_return_wit_5_split_goal_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre = (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre = (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
   ((Zabs ((0 : Int))) <= 1)
 
 noncomputable def exgcd_return_wit_5_split_goal_2 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre = (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre = (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
   ((((0 : Int) * (0 : Int)) + ((0 : Int) * (0 : Int))) = (Zgcd ((0 : Int)) ((0 : Int))))
 
 noncomputable def exgcd_return_wit_5_split_goal_3 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre = (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre = (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
   (retval = (Zgcd ((0 : Int)) ((0 : Int))))
 
 noncomputable def exgcd_return_wit_6 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
   ((x_pre) # Int |-> (1))
   ** ((y_pre) # Int |-> ((0 : Int)))
 |--
-  EX y_pre_v : Int, EX x_pre_v : Int,
+  EX y_v : Int, EX x_v : Int,
   “ (retval = (Zgcd (a_pre) (b_pre))) ” &&
-  “ (((a_pre * x_pre_v) + (b_pre * y_pre_v)) = (Zgcd (a_pre) (b_pre))) ” &&
+  “ (((a_pre * x_v) + (b_pre * y_v)) = (Zgcd (a_pre) (b_pre))) ” &&
   “ (b_pre = (0 : Int)) ” &&
-  “ ((Zabs (x_pre_v)) <= 1) ” &&
-  “ (y_pre_v = (0 : Int)) ”
-  &&  ((x_pre) # Int |-> (x_pre_v))
-  ** ((y_pre) # Int |-> (y_pre_v))
+  “ ((Zabs (x_v)) <= 1) ” &&
+  “ (y_v = (0 : Int)) ”
+  &&  ((x_pre) # Int |-> (x_v))
+  ** ((y_pre) # Int |-> (y_v))
 ) \/
 (
-forall (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ ((Zabs (1)) <= 1) ” &&
@@ -685,19 +685,19 @@ forall (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pr
 )
 
 noncomputable def exgcd_return_wit_6_split_goal_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
   ((Zabs (1)) <= 1)
 
 noncomputable def exgcd_return_wit_6_split_goal_2 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
   (((a_pre * 1) + ((0 : Int) * (0 : Int))) = (Zgcd (a_pre) ((0 : Int))))
 
 noncomputable def exgcd_return_wit_6_split_goal_3 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (retval : Int) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre ≠ (0 : Int))) (PreH3 : (a_pre >= (0 : Int))) (PreH4 : (b_pre = (0 : Int))) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
   (retval = (Zgcd (a_pre) ((0 : Int))))
 
 noncomputable def exgcd_partial_solve_wit_1_pure : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre < (0 : Int))) (PreH2 : (b_pre = (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (a_pre < (0 : Int))) (PreH2 : (b_pre = (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -709,7 +709,7 @@ noncomputable def exgcd_partial_solve_wit_1_pure : Prop :=
   “ (a_pre <= INT_MAX) ”
 
 noncomputable def exgcd_partial_solve_wit_1_aux : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre < (0 : Int))) (PreH2 : (b_pre = (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (a_pre < (0 : Int))) (PreH2 : (b_pre = (0 : Int))) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) ,
   ((x_pre) # Int |-> ((-1)))
   ** ((y_pre) # Int |-> ((0 : Int)))
 |--
@@ -727,7 +727,7 @@ noncomputable def exgcd_partial_solve_wit_1_aux : Prop :=
 noncomputable def exgcd_partial_solve_wit_1 : Prop := exgcd_partial_solve_wit_1_pure -> exgcd_partial_solve_wit_1_aux
 
 noncomputable def exgcd_partial_solve_wit_2_pure : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (a_pre >= (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (a_pre >= (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -739,7 +739,7 @@ noncomputable def exgcd_partial_solve_wit_2_pure : Prop :=
   “ (a_pre <= INT_MAX) ”
 
 noncomputable def exgcd_partial_solve_wit_2_aux : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (a_pre >= (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (a_pre = (0 : Int))) (PreH2 : (a_pre >= (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   ((x_pre) # Int |-> ((0 : Int)))
   ** ((y_pre) # Int |-> ((0 : Int)))
 |--
@@ -758,7 +758,7 @@ noncomputable def exgcd_partial_solve_wit_2_aux : Prop :=
 noncomputable def exgcd_partial_solve_wit_2 : Prop := exgcd_partial_solve_wit_2_pure -> exgcd_partial_solve_wit_2_aux
 
 noncomputable def exgcd_partial_solve_wit_3_pure : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (a_pre >= (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (a_pre >= (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
   ** ((( &( "x" ) )) # Ptr |-> (x_pre))
@@ -770,7 +770,7 @@ noncomputable def exgcd_partial_solve_wit_3_pure : Prop :=
   “ (a_pre <= INT_MAX) ”
 
 noncomputable def exgcd_partial_solve_wit_3_aux : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (a_pre >= (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (a_pre ≠ (0 : Int))) (PreH2 : (a_pre >= (0 : Int))) (PreH3 : (b_pre = (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   ((x_pre) # Int |-> (1))
   ** ((y_pre) # Int |-> ((0 : Int)))
 |--
@@ -790,7 +790,7 @@ noncomputable def exgcd_partial_solve_wit_3 : Prop := exgcd_partial_solve_wit_3_
 
 noncomputable def exgcd_partial_solve_wit_4_pure : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (b_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (b_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) ,
   ((( &( "g" ) )) # Int |->_)
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
@@ -805,7 +805,7 @@ forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (b_pre �
   “ (INT_MIN < (Z.rem a_pre b_pre)) ”
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (b_pre >= INT_MIN)) (PreH2 : (a_pre >= INT_MIN)) (PreH3 : (b_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (b_pre >= INT_MIN)) (PreH2 : (a_pre >= INT_MIN)) (PreH3 : (b_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   ((( &( "g" ) )) # Int |->_)
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
@@ -819,7 +819,7 @@ forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (b_pre >
 )
 
 noncomputable def exgcd_partial_solve_wit_4_pure_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (b_pre >= INT_MIN)) (PreH2 : (a_pre >= INT_MIN)) (PreH3 : (b_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (b_pre >= INT_MIN)) (PreH2 : (a_pre >= INT_MIN)) (PreH3 : (b_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   ((( &( "g" ) )) # Int |->_)
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
@@ -831,7 +831,7 @@ noncomputable def exgcd_partial_solve_wit_4_pure_split_goal_1 : Prop :=
   “ (INT_MIN < (Z.rem a_pre b_pre)) ”
 
 noncomputable def exgcd_partial_solve_wit_4_pure_split_goal_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (b_pre >= INT_MIN)) (PreH2 : (a_pre >= INT_MIN)) (PreH3 : (b_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (b_pre >= INT_MIN)) (PreH2 : (a_pre >= INT_MIN)) (PreH3 : (b_pre ≠ (0 : Int))) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   ((( &( "g" ) )) # Int |->_)
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "b" ) )) # Int |-> (b_pre))
@@ -843,7 +843,7 @@ noncomputable def exgcd_partial_solve_wit_4_pure_split_goal_2 : Prop :=
   “ ((Z.rem a_pre b_pre) <= INT_MAX) ”
 
 noncomputable def exgcd_partial_solve_wit_4_aux : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) (PreH1 : (b_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) ,
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (b_pre ≠ (0 : Int))) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) ,
   ((x_pre) # Int |->_)
   ** ((y_pre) # Int |->_)
 |--
@@ -861,8 +861,8 @@ noncomputable def exgcd_partial_solve_wit_4_aux : Prop :=
 
 noncomputable def exgcd_partial_solve_wit_4 : Prop := exgcd_partial_solve_wit_4_pure -> exgcd_partial_solve_wit_4_aux
 
-noncomputable def exgcd_derive_Inter_by_Proof : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (b_pre : Int) (a_pre : Int) ,
+noncomputable def exgcd_Proof_entail_Inter : Prop :=
+  forall (a_pre : Int) (b_pre : Int) (x_pre : Int) (y_pre : Int) ,
   (“ (INT_MIN < a_pre) ” &&
   “ (a_pre <= INT_MAX) ” &&
   “ (INT_MIN < b_pre) ” &&
@@ -877,40 +877,40 @@ noncomputable def exgcd_derive_Inter_by_Proof : Prop :=
   &&  ((x_pre) # Int |->_)
   ** ((y_pre) # Int |->_))
   **
-  (((EX y_callee_v : Int, EX x_callee_v : Int, EX retval_2 : Int,
+  (((EX y_v_2 : Int, EX x_v_2 : Int, EX retval_2 : Int,
   “ (retval_2 = (Zgcd (a_pre) (b_pre))) ” &&
-  “ (((a_pre * x_callee_v) + (b_pre * y_callee_v)) = (Zgcd (a_pre) (b_pre))) ” &&
+  “ (((a_pre * x_v_2) + (b_pre * y_v_2)) = (Zgcd (a_pre) (b_pre))) ” &&
   “ (b_pre = (0 : Int)) ” &&
-  “ ((Zabs (x_callee_v)) <= 1) ” &&
-  “ (y_callee_v = (0 : Int)) ”
-  &&  ((x_pre) # Int |-> (x_callee_v))
-  ** ((y_pre) # Int |-> (y_callee_v)))
+  “ ((Zabs (x_v_2)) <= 1) ” &&
+  “ (y_v_2 = (0 : Int)) ”
+  &&  ((x_pre) # Int |-> (x_v_2))
+  ** ((y_pre) # Int |-> (y_v_2)))
   ||
-  (EX y_callee_v_2 : Int, EX x_callee_v_2 : Int, EX retval_2 : Int,
+  (EX y_v_3 : Int, EX x_v_3 : Int, EX retval_2 : Int,
   “ (retval_2 = (Zgcd (a_pre) (b_pre))) ” &&
-  “ (((a_pre * x_callee_v_2) + (b_pre * y_callee_v_2)) = (Zgcd (a_pre) (b_pre))) ” &&
+  “ (((a_pre * x_v_3) + (b_pre * y_v_3)) = (Zgcd (a_pre) (b_pre))) ” &&
   “ (b_pre ≠ (0 : Int)) ” &&
   “ ((Z.rem a_pre b_pre) = (0 : Int)) ” &&
-  “ (x_callee_v_2 = (0 : Int)) ” &&
-  “ ((Zabs (y_callee_v_2)) <= 1) ”
-  &&  ((x_pre) # Int |-> (x_callee_v_2))
-  ** ((y_pre) # Int |-> (y_callee_v_2)))
+  “ (x_v_3 = (0 : Int)) ” &&
+  “ ((Zabs (y_v_3)) <= 1) ”
+  &&  ((x_pre) # Int |-> (x_v_3))
+  ** ((y_pre) # Int |-> (y_v_3)))
   ||
-  (EX y_callee_v_3 : Int, EX x_callee_v_3 : Int, EX retval_2 : Int,
+  (EX y_v_4 : Int, EX x_v_4 : Int, EX retval_2 : Int,
   “ (retval_2 = (Zgcd (a_pre) (b_pre))) ” &&
-  “ (((a_pre * x_callee_v_3) + (b_pre * y_callee_v_3)) = (Zgcd (a_pre) (b_pre))) ” &&
+  “ (((a_pre * x_v_4) + (b_pre * y_v_4)) = (Zgcd (a_pre) (b_pre))) ” &&
   “ (b_pre ≠ (0 : Int)) ” &&
   “ ((Z.rem a_pre b_pre) ≠ (0 : Int)) ” &&
-  “ ((Zabs (x_callee_v_3)) <= (Z.quot (Zabs (b_pre)) (Zgcd (a_pre) (b_pre)))) ” &&
-  “ ((Zabs (y_callee_v_3)) <= (Z.quot (Zabs (a_pre)) (Zgcd (a_pre) (b_pre)))) ”
-  &&  ((x_pre) # Int |-> (x_callee_v_3))
-  ** ((y_pre) # Int |-> (y_callee_v_3))))
+  “ ((Zabs (x_v_4)) <= (Z.quot (Zabs (b_pre)) (Zgcd (a_pre) (b_pre)))) ” &&
+  “ ((Zabs (y_v_4)) <= (Z.quot (Zabs (a_pre)) (Zgcd (a_pre) (b_pre)))) ”
+  &&  ((x_pre) # Int |-> (x_v_4))
+  ** ((y_pre) # Int |-> (y_v_4))))
   -*
-  (EX y_pre_v : Int, EX x_pre_v : Int, EX retval : Int,
+  (EX y_v : Int, EX x_v : Int, EX retval : Int,
   “ (retval = (Zgcd (a_pre) (b_pre))) ” &&
-  “ (((a_pre * x_pre_v) + (b_pre * y_pre_v)) = (Zgcd (a_pre) (b_pre))) ”
-  &&  ((x_pre) # Int |-> (x_pre_v))
-  ** ((y_pre) # Int |-> (y_pre_v))))
+  “ (((a_pre * x_v) + (b_pre * y_v)) = (Zgcd (a_pre) (b_pre))) ”
+  &&  ((x_pre) # Int |-> (x_v))
+  ** ((y_pre) # Int |-> (y_v))))
 
 
 structure VC_Correct : Type where
@@ -948,6 +948,6 @@ structure VC_Correct : Type where
   proof_of_exgcd_return_wit_5 : exgcd_return_wit_5
   proof_of_exgcd_return_wit_6 : exgcd_return_wit_6
   proof_of_exgcd_partial_solve_wit_4_pure : exgcd_partial_solve_wit_4_pure
-  proof_of_exgcd_derive_Inter_by_Proof : exgcd_derive_Inter_by_Proof
+  proof_of_exgcd_Proof_entail_Inter : exgcd_Proof_entail_Inter
 
 end SimpleC.EE.QCP_demos_LLM.generated.exgcd_goal

@@ -1,19 +1,14 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.QCP_demos_tutorial Require Import pos_int_pair_strategy_goal.
 Import naive_C_Rules.
 Require Import SimpleC.EE.QCP_demos_tutorial.pos_int_pair_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 
 Lemma pos_int_pair_strategy0_correctness : pos_int_pair_strategy0.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   unfold store_pos_int_pair.
   unfold store_pos_int_pair_y_only.
   entailer!.
@@ -27,6 +22,7 @@ Qed.
 Lemma pos_int_pair_strategy1_correctness : pos_int_pair_strategy1.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   unfold store_pos_int_pair.
   unfold store_pos_int_pair_x_only.
   entailer!.

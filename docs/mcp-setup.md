@@ -44,15 +44,15 @@ cd ../..
 Set `mcp/qcp-mcp/CONFIGURE` to the QCP `mcp` binary for your platform:
 
 ```ini
-QCP_MCP_BIN=/absolute/path/to/qcp-binary-democases/linux-binary/mcp
+QCP_MCP_BIN=/absolute/path/to/qcp-binary-democases/bin/linux/mcp
 ```
 
 ```ini
-QCP_MCP_BIN=/absolute/path/to/qcp-binary-democases/mac-arm64-binary/mcp
+QCP_MCP_BIN=/absolute/path/to/qcp-binary-democases/bin/macos-arm64/mcp
 ```
 
 ```ini
-QCP_MCP_BIN=/absolute/path/to/qcp-binary-democases/mac-x86-64-binary/mcp
+QCP_MCP_BIN=/absolute/path/to/qcp-binary-democases/bin/macos-x86_64/mcp
 ```
 
 Windows PowerShell:
@@ -63,7 +63,7 @@ uv venv --python 3.12 .venv-win
 uv pip install --python .venv-win\Scripts\python.exe -e .
 cd ..\..
 
-$env:QCP_MCP_BIN = (Resolve-Path .\win-binary\mcp.exe).Path
+$env:QCP_MCP_BIN = (Resolve-Path .\bin\windows\mcp.exe).Path
 $env:QCP_MCP_PYTHON = (Resolve-Path .\mcp\qcp-mcp\.venv-win\Scripts\python.exe).Path
 ```
 
@@ -145,7 +145,7 @@ Windows:
       "args": ["-m", "qcp_mcp.server"],
       "env": {
         "PYTHONPATH": "D:/absolute/path/to/qcp-binary-democases/mcp/qcp-mcp/src",
-        "QCP_MCP_BIN": "D:/absolute/path/to/qcp-binary-democases/win-binary/mcp.exe"
+        "QCP_MCP_BIN": "D:/absolute/path/to/qcp-binary-democases/bin/windows/mcp.exe"
       }
     }
   }

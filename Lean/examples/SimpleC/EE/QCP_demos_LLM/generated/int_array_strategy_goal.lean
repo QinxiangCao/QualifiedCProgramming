@@ -57,6 +57,63 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 
+noncomputable def int_array_strategy101 : Prop :=
+  forall (l : (List Int)) (n : Int) (p : Int),
+    TT &&
+    emp **
+    ((intArray.full p n l))
+    |--
+    (
+    TT &&
+    (“ ((@Zlength Int l) = n) ”) &&
+    emp **
+    ((intArray.full p n l))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
+noncomputable def int_array_strategy102 : Prop :=
+  forall (l : (List Int)) (x : Int) (y : Int) (p : Int),
+    TT &&
+    emp **
+    ((intArray.seg p x y l))
+    |--
+    (
+    TT &&
+    (“ ((@Zlength Int l) = (y - x)) ”) &&
+    emp **
+    ((intArray.seg p x y l))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
+noncomputable def int_array_strategy103 : Prop :=
+  forall (l : (List Int)) (x : Int) (y : Int) (p : Int) (i : Int),
+    TT &&
+    emp **
+    ((intArray.missing_i p i x y l))
+    |--
+    (
+    TT &&
+    (“ ((@Zlength Int l) = (y - x)) ”) &&
+    emp **
+    ((intArray.missing_i p i x y l))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
 noncomputable def int_array_strategy1 : Prop :=
   forall (i : Int) (n : Int) (p : Int) (l : (List Int)),
     TT &&
@@ -136,6 +193,27 @@ noncomputable def int_array_strategy6 : Prop :=
       TT &&
       emp **
       ((intArray.seg p x y l2)))
+      )
+
+noncomputable def int_array_strategy17 : Prop :=
+  forall (i : Int) (n : Int) (p : Int) (l1 : (List Int)),
+    TT &&
+    (“ (i = n) ”) &&
+    emp **
+    ((intArray.seg p (0 : Int) i l1))
+    |--
+    (
+    TT &&
+    emp
+    ) ** (
+    ALL l2 : (List Int), 
+(
+      TT &&
+      (“ (l1 = l2) ”) &&
+      emp) -* (
+      TT &&
+      emp **
+      ((intArray.full p n l2)))
       )
 
 noncomputable def int_array_strategy7 : Prop :=
@@ -227,27 +305,6 @@ noncomputable def int_array_strategy10 : Prop :=
     )
 
 noncomputable def int_array_strategy13 : Prop :=
-  forall (i : Int) (n : Int) (p : Int) (l1 : (List Int)),
-    TT &&
-    (“ (i = n) ”) &&
-    emp **
-    ((intArray.seg p (0 : Int) i l1))
-    |--
-    (
-    TT &&
-    emp
-    ) ** (
-    ALL l2 : (List Int), 
-(
-      TT &&
-      (“ (l1 = l2) ”) &&
-      emp) -* (
-      TT &&
-      emp **
-      ((intArray.full p n l2)))
-      )
-
-noncomputable def int_array_strategy14 : Prop :=
   forall (n : Int),
     TT &&
     (“ (n = (0 : Int)) ”) &&
@@ -266,24 +323,6 @@ noncomputable def int_array_strategy14 : Prop :=
       emp **
       ((intArray.full p n l)))
       )
-
-noncomputable def int_array_strategy15 : Prop :=
-  forall (x : Int) (y : Int) (p : Int) (l : (List Int)),
-    TT &&
-    (“ (x = y) ”) &&
-    emp **
-    ((intArray.seg p x y l))
-    |--
-    (
-    TT &&
-    emp
-    ) ** (
-(
-    TT &&
-    emp) -* (
-    TT &&
-    emp)
-    )
 
 noncomputable def int_array_strategy2 : Prop :=
   forall (i : Int) (n : Int) (l : (List Int)) (p : Int),
@@ -319,45 +358,6 @@ noncomputable def int_array_strategy11 : Prop :=
     TT &&
     emp **
     ((intArray.seg p x y l))
-    ) ** (
-(
-    TT &&
-    emp) -* (
-    TT &&
-    emp)
-    )
-
-noncomputable def int_array_strategy16 : Prop :=
-  forall (y : Int) (l : (List Int)) (v : Int) (p : Int) (z : Int),
-    TT &&
-    emp **
-    ((intArray.seg p y z l)) **
-    (((p + z * sizeof(INT)) # INT |-> (v)))
-    |--
-    (
-    TT &&
-    emp **
-    ((intArray.seg p y (z + (1 : Int)) (@List.append Int l (@List.cons Int v (@List.nil Int)))))
-    ) ** (
-(
-    TT &&
-    emp) -* (
-    TT &&
-    emp)
-    )
-
-noncomputable def int_array_strategy17 : Prop :=
-  forall (x : Int) (i : Int) (l : (List Int)) (y : Int) (v : Int) (p : Int),
-    TT &&
-    (“ (x = (i + (1 : Int))) ”) &&
-    emp **
-    ((intArray.seg p x y l)) **
-    (((p + i * sizeof(INT)) # INT |-> (v)))
-    |--
-    (
-    TT &&
-    emp **
-    ((intArray.seg p i y (@List.cons Int v l)))
     ) ** (
 (
     TT &&
@@ -429,24 +429,87 @@ noncomputable def int_array_strategy12 : Prop :=
     emp)
     )
 
+noncomputable def int_array_strategy14 : Prop :=
+  forall (i : Int) (n : Int) (l : (List Int)) (v : Int) (p : Int),
+    TT &&
+    (“ (i = n) ”) &&
+    emp **
+    ((intArray.full p n l)) **
+    (((p + i * sizeof(INT)) # INT |-> (v)))
+    |--
+    (
+    TT &&
+    emp **
+    ((intArray.full p (n + (1 : Int)) (@List.append Int l (@List.cons Int v (@List.nil Int)))))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
+noncomputable def int_array_strategy15 : Prop :=
+  forall (i : Int) (y : Int) (x : Int) (l : (List Int)) (v : Int) (p : Int),
+    TT &&
+    (“ (i = y) ”) &&
+    emp **
+    ((intArray.seg p x y l)) **
+    (((p + i * sizeof(INT)) # INT |-> (v)))
+    |--
+    (
+    TT &&
+    emp **
+    ((intArray.seg p x (y + (1 : Int)) (@List.append Int l (@List.cons Int v (@List.nil Int)))))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
+noncomputable def int_array_strategy16 : Prop :=
+  forall (i : Int) (n : Int) (l : (List Int)) (v : Int) (p : Int),
+    TT &&
+    (“ ((0 : Int) < i) ”) &&
+    emp **
+    ((intArray.full (p + i * sizeof(INT)) n l)) **
+    (((p + (i - (1 : Int)) * sizeof(INT)) # INT |-> (v)))
+    |--
+    (
+    TT &&
+    emp **
+    ((intArray.full (p + (i - (1 : Int)) * sizeof(INT)) (n + (1 : Int)) (@List.cons Int v l)))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
 structure int_array_Strategy_Correct : Type where
+  int_array_strategy101_correctness : int_array_strategy101
+  int_array_strategy102_correctness : int_array_strategy102
+  int_array_strategy103_correctness : int_array_strategy103
   int_array_strategy1_correctness : int_array_strategy1
   int_array_strategy4_correctness : int_array_strategy4
   int_array_strategy5_correctness : int_array_strategy5
   int_array_strategy6_correctness : int_array_strategy6
+  int_array_strategy17_correctness : int_array_strategy17
   int_array_strategy7_correctness : int_array_strategy7
   int_array_strategy8_correctness : int_array_strategy8
   int_array_strategy9_correctness : int_array_strategy9
   int_array_strategy10_correctness : int_array_strategy10
   int_array_strategy13_correctness : int_array_strategy13
-  int_array_strategy14_correctness : int_array_strategy14
-  int_array_strategy15_correctness : int_array_strategy15
   int_array_strategy2_correctness : int_array_strategy2
   int_array_strategy11_correctness : int_array_strategy11
-  int_array_strategy16_correctness : int_array_strategy16
-  int_array_strategy17_correctness : int_array_strategy17
   int_array_strategy31_correctness : int_array_strategy31
   int_array_strategy3_correctness : int_array_strategy3
   int_array_strategy12_correctness : int_array_strategy12
+  int_array_strategy14_correctness : int_array_strategy14
+  int_array_strategy15_correctness : int_array_strategy15
+  int_array_strategy16_correctness : int_array_strategy16
 
 end SimpleC.EE.QCP_demos_LLM.generated.int_array_strategy_goal

@@ -18,7 +18,7 @@ Local Open Scope string.
 Import ListNotations.
 Local Open Scope list.
 
-Module Type MapLibSig (Arch : CArchSig) (Endian : CEndianSig) (CRules: SeparationLogicSig) (DePredSig : DerivedPredSig Arch Endian CRules) (SLibSig : StoreLibSig Arch Endian CRules DePredSig).
+Module Type MapLibSig (ArchImpl : CArchSig) (Endian : CEndianSig) (CRules: SeparationLogicSig) (DePredSig : DerivedPredSig ArchImpl Endian CRules) (SLibSig : StoreLibSig ArchImpl Endian CRules DePredSig).
 
 Import CRules.
 Import DePredSig.
@@ -56,13 +56,10 @@ Proof.
   Exists (l1 ++ l2).
   entailer!.
   + subst l.
-    change (l1 ++ a :: l2) with (l1 ++ (a :: nil) ++ l2).
     rewrite !map_app.
-    rewrite !derivable1_sepcon_iter_sepcon2.
-    rewrite <- derivable1_sepcon_iter_sepcon1.
-    entailer!.
-    rewrite derivable1_iter_sepcon_l.
-    simpl.
+    rewrite !logic_equiv_iter_sepcon_app.
+    cbn [map].
+    rewrite logic_equiv_iter_sepcon_cons.
     rewrite H.
     entailer!.
   + subst l.
@@ -88,13 +85,10 @@ Proof.
   intros.
   unfold store_map, store_map_missing_i.
   Intros l.
-  Exists ((a :: nil) ++ l).
+  Exists (a :: l).
   entailer!.
-  + rewrite !map_app.
-    rewrite <- derivable1_sepcon_iter_sepcon1.
-    entailer!.
-    rewrite <- derivable1_iter_sepcon_r.
-    simpl.
+  + cbn [map].
+    rewrite logic_equiv_iter_sepcon_cons.
     rewrite H.
     entailer!.
   + simpl; constructor.
@@ -152,36 +146,26 @@ Lemma store_map_equiv :
 Proof.
   intros.
   unfold store_map.
+  assert (Hmaps : forall l,
+    map (fun a : A => match m a with
+                      | Some b => P a b
+                      | None => emp
+                      end) l =
+    map (fun a : A => match m1 a with
+                      | Some b => P a b
+                      | None => emp
+                      end) l).
+  {
+    intros l.
+    apply map_ext_in.
+    intros.
+    rewrite H.
+    reflexivity.
+  }
   split; Intros l ; Exists l; entailer!.
-  - assert (map (fun a : A => match m a with
-                               | Some b => P a b
-                               | None => emp
-                               end) l =
-            map (fun a : A => match m1 a with
-                               | Some b => P a b
-                               | None => emp
-                               end) l). {
-      apply map_ext_in.
-      intros.
-      rewrite H.
-      auto.
-    }
-    rewrite H2. entailer!.
+  - rewrite Hmaps. entailer!.
   - intros. rewrite H0. rewrite H. reflexivity.
-  - assert (map (fun a : A => match m a with
-                                | Some b => P a b
-                                | None => emp
-                              end) l =
-            map (fun a : A => match m1 a with
-                                | Some b => P a b
-                                | None => emp
-                              end) l). {
-        apply map_ext_in.
-        intros.
-        rewrite H.
-        auto.
-    }
-    rewrite H2. entailer!.
+  - rewrite Hmaps. entailer!.
   - intros. rewrite H0. rewrite H. reflexivity.
 Qed.
 
@@ -192,40 +176,37 @@ Lemma store_map_missing_i_equiv :
 Proof.
   intros.
   unfold store_map_missing_i.
+  assert (Hmaps : forall l,
+    (forall a, In a l -> a <> i) ->
+    map (fun a : A => match m a with
+                      | Some b => P a b
+                      | None => emp
+                      end) l =
+    map (fun a : A => match m1 a with
+                      | Some b => P a b
+                      | None => emp
+                      end) l).
+  {
+    intros l Hneq.
+    apply map_ext_in.
+    intros.
+    rewrite H by auto.
+    reflexivity.
+  }
   split; Intros l ; Exists l; entailer!.
-  - assert (map (fun a : A => match m a with
-                               | Some b => P a b
-                               | None => emp
-                               end) l =
-            map (fun a : A => match m1 a with
-                               | Some b => P a b
-                               | None => emp
-                               end) l). {
-      apply map_ext_in.
-      intros. rewrite H0 in H2.
-      rewrite H;
-      auto.
-      apply H2.
-    }
-    rewrite H2. entailer!.
+  - rewrite Hmaps.
+    + entailer!.
+    + intros a0 Hin.
+      apply H0 in Hin.
+      tauto.
   - intros. split; intros.
     + apply H0 in H2. rewrite H in H2 ; auto. apply H2.
     + apply H0. rewrite H ; auto. apply H2.
-  - assert (map (fun a : A => match m a with
-                                | Some b => P a b
-                                | None => emp
-                              end) l =
-            map (fun a : A => match m1 a with
-                                | Some b => P a b
-                                | None => emp
-                              end) l). {
-        apply map_ext_in.
-        intros. rewrite H0 in H2.
-        rewrite H;
-        auto.
-        apply H2.
-    }
-    rewrite H2. entailer!.
+  - rewrite Hmaps.
+    + entailer!.
+    + intros a0 Hin.
+      apply H0 in Hin.
+      tauto.
   - intros. split; intros.
     + apply H0 in H2. rewrite H; auto. apply H2.
     + apply H0. rewrite H in H2; auto. apply H2.
@@ -239,74 +220,33 @@ Lemma store_map_empty :
 Proof.
   intros.
   unfold store_map.
+  assert (Hiter : forall l,
+    iter_sepcon
+      (map (fun a => match m a with Some b => P a b | None => emp end) l)
+    --||-- emp).
+  {
+    induction l as [| a l IH].
+    - cbn [map].
+      apply logic_equiv_iter_sepcon_nil.
+    - cbn [map].
+      rewrite logic_equiv_iter_sepcon_cons, IH.
+      rewrite logic_equiv_sepcon_emp.
+      specialize (H0 a).
+      destruct (m a) eqn: Hma.
+      + destruct H0 as [Hnone | Hemp].
+        * congruence.
+        * apply Hemp. reflexivity.
+      + reflexivity.
+  }
   split.
   - Intros l.
-    clear H1 H.
-    generalize dependent l.
-    induction l ; intros.
-    + simpl in *. entailer!.
-    + simpl in *.
-      specialize (H0 a).
-      destruct (m a).
-      * destruct H0 ; try congruence.
-        specialize (H b).
-        replace (P a b :: map (fun a0 : A => match m a0 with
-                                         | Some b0 => P a0 b0
-                                         | None => emp
-                                         end) l) with
-            (P a b :: nil ++ map (fun a0 : A => match m a0 with
-                                         | Some b0 => P a0 b0
-                                         | None => emp
-                                         end) l) by reflexivity.
-        sep_apply (derivable1_sepcon_iter_sepcon2 (P a b :: [])).
-        sep_apply IHl. 
-        unfold iter_sepcon. simpl.
-        rewrite H ; try auto. entailer!.
-        inversion H2 ; auto.
-      * replace (emp :: map (fun a0 : A => match m a0 with
-                                         | Some b0 => P a0 b0
-                                         | None => emp
-                                         end) l) with
-            (emp :: nil ++ map (fun a0 : A => match m a0 with
-                                         | Some b0 => P a0 b0
-                                         | None => emp
-                                         end) l) by reflexivity.
-        sep_apply (derivable1_sepcon_iter_sepcon2 (emp :: [])).
-        sep_apply IHl. 
-        unfold iter_sepcon. simpl. entailer!.
-        inversion H2 ; auto.
+    rewrite Hiter.
+    entailer!.
   - destruct H as [l [? ?] ].
     Exists l.
     entailer!.
-    clear H.
-    induction l ; intros.
-    + simpl in *. entailer!.
-    + simpl in *.
-      sep_apply IHl.
-      sep_apply derivable1_sepcon_emp_r.
-      assert (emp |-- iter_sepcon (match m a with
-                                        | Some b => P a b
-                                        | None => emp
-                                        end :: nil)).
-      { 
-        unfold iter_sepcon. simpl.
-        specialize (H0 a).
-        destruct (m a).
-        - destruct H0 ; try congruence.
-          rewrite H0 ; try auto.
-          entailer!.
-        - entailer!.
-      }
-      rewrite H2.
-      sep_apply (derivable1_sepcon_iter_sepcon1 ([match m a with
-| Some b => P a b
-| None => emp
-end]) (map (fun a0 : A => match m a0 with
-| Some b => P a0 b
-| None => emp
-end) l)).
-      entailer!.
-      inversion H1 ; auto.
+    rewrite Hiter.
+    entailer!.
 Qed.
 
               

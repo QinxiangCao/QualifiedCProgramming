@@ -62,7 +62,7 @@ action : right_erase(2);
 id : 7
 priority : core(1)
 left : GraphMatrixPtr::store_graph(?size, ?model, ?p, ?rows) at 0
-right : data_at(?p + (?i * sizeof(PTR)), PTR, ?v) at 1
+right : data_at(pointer_offset(p, ?i, PTR), PTR, ?v) at 1
 check : infer(0 <= i);
         infer(i < size);
 action : right_erase(1);
@@ -85,7 +85,7 @@ check : infer(0 <= i);
 action : right_erase(1);
          left_erase(0);
          left_add(model(rows));
-         left_add(data_at(p + (i * sizeof(PTR)), PTR, row_ptr));
+         left_add(data_at(pointer_offset(p, i, PTR), PTR, row_ptr));
          left_add(IntArray::missing_i(row_ptr, j, 0, Zlength{Z}(rows[i]), rows[i]));
          left_add(IntPtrArray2::missing_i(p, size, i, row_ptr, rows));
          right_add(v == Znth{Z}(j, rows[i], 0));
@@ -93,7 +93,7 @@ action : right_erase(1);
 id : 9
 priority : core(1)
 left : GraphMatrixPtr::row_rep(?size, ?model, ?p, ?i, ?row_ptr, ?rows) at 0
-right : data_at(?p + (?i * sizeof(PTR)), PTR, ?v) at 1
+right : data_at(pointer_offset(p, ?i, PTR), PTR, ?v) at 1
 check : infer(0 <= i);
         infer(i < size);
 action : right_erase(1);
@@ -106,7 +106,7 @@ action : right_erase(1);
 id : 10
 priority : core(1)
 left : (?model : list{list{Z}} -> Prop)(?rows) at 0
-       data_at(?p + (?i * sizeof(PTR)), PTR, ?row_ptr) at 1
+       data_at(pointer_offset(?p, ?i, PTR), PTR, ?row_ptr) at 1
        IntArray::full(row_ptr, Zlength{Z}(rows[i]), rows[i]) at 2
        IntPtrArray2::missing_i(p, ?size, i, row_ptr, rows) at 3
 right : GraphMatrixPtr::row_rep(size, model, p, i, row_ptr, rows) at 4

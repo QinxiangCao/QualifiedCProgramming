@@ -14,7 +14,7 @@ local instance : SacContext := ⟨naive_C_Rules⟩
 private noncomputable abbrev intArray := naive_C_Rules.IntArray
 
 theorem proof_of_solver_entail_wit_15_split_goal_1 : solver_entail_wit_15_split_goal_1 := by
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   apply max_imposters_on_total_implies_spec__final_specification n_pre comments cs_2 total PreH13 _ _ PreH20
   · intro v hv
     exact PreH21 v ⟨hv.1,by omega⟩
@@ -33,14 +33,14 @@ theorem proof_of_solver_entail_wit_15_split_goal_1 : solver_entail_wit_15_split_
 theorem proof_of_solver_entail_wit_15 : solver_entail_wit_15 := by
   unfold solver_entail_wit_15
   right
-  intro m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial <;> first
-    | exact proof_of_solver_entail_wit_15_split_goal_1 m_pre n_pre comment_kinds comment_targets comment_sources comments ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+    | exact proof_of_solver_entail_wit_15_split_goal_1 comment_kinds comment_targets comment_sources comments n_pre m_pre ks_2 cs_2 hs_2 ns_2 ts_2 ws_2 total s __default__Prod__Prod_Z_Z_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
 
 theorem proof_of_solver_return_wit_1_split_goal_spatial : solver_return_wit_1_split_goal_spatial := by
-  intro stack__pre color_pre wt_pre to_pre nxt_pre head_pre comment_diff_pre comment_v_pre comment_u_pre m_pre n_pre comment_kinds comment_targets comment_sources comments hs ns ts ws cs ks total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre comment_u_pre comment_v_pre comment_diff_pre head_pre nxt_pre to_pre wt_pre color_pre stack__pre hs ns ts ws cs ks total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   sep_apply (intArray.full_to_full_shape comment_u_pre (m_pre) comment_sources)
   sep_apply (intArray.full_to_full_shape comment_v_pre (m_pre) comment_targets)
   sep_apply (intArray.full_to_full_shape comment_diff_pre (m_pre) comment_kinds)
@@ -55,11 +55,11 @@ theorem proof_of_solver_return_wit_1_split_goal_spatial : solver_return_wit_1_sp
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   unfold solver_return_wit_1
   right
-  intro stack__pre color_pre wt_pre to_pre nxt_pre head_pre comment_diff_pre comment_v_pre comment_u_pre m_pre n_pre comment_kinds comment_targets comment_sources comments hs ns ts ws cs ks total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
-  exact proof_of_solver_return_wit_1_split_goal_spatial stack__pre color_pre wt_pre to_pre nxt_pre head_pre comment_diff_pre comment_v_pre comment_u_pre m_pre n_pre comment_kinds comment_targets comment_sources comments hs ns ts ws cs ks total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre comment_u_pre comment_v_pre comment_diff_pre head_pre nxt_pre to_pre wt_pre color_pre stack__pre hs ns ts ws cs ks total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  exact proof_of_solver_return_wit_1_split_goal_spatial comment_kinds comment_targets comment_sources comments n_pre m_pre comment_u_pre comment_v_pre comment_diff_pre head_pre nxt_pre to_pre wt_pre color_pre stack__pre hs ns ts ws cs ks total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
 
 theorem proof_of_solver_return_wit_2_split_goal_spatial : solver_return_wit_2_split_goal_spatial := by
-  intro stack__pre color_pre wt_pre to_pre nxt_pre head_pre comment_diff_pre comment_v_pre comment_u_pre m_pre n_pre comment_kinds comment_targets comment_sources comments hs ns ts ws cs ks s total top c0 c1 e u v want PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre comment_u_pre comment_v_pre comment_diff_pre head_pre nxt_pre to_pre wt_pre color_pre stack__pre hs ns ts ws cs ks s total top c0 c1 e u v want PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   sep_apply (intArray.full_to_full_shape comment_u_pre (m_pre) comment_sources)
   sep_apply (intArray.full_to_full_shape comment_v_pre (m_pre) comment_targets)
   sep_apply (intArray.full_to_full_shape comment_diff_pre (m_pre) comment_kinds)
@@ -74,7 +74,7 @@ theorem proof_of_solver_return_wit_2_split_goal_spatial : solver_return_wit_2_sp
 theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
   unfold solver_return_wit_2
   right
-  intro stack__pre color_pre wt_pre to_pre nxt_pre head_pre comment_diff_pre comment_v_pre comment_u_pre m_pre n_pre comment_kinds comment_targets comment_sources comments hs ns ts ws cs ks s total top c0 c1 e u v want PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
-  exact proof_of_solver_return_wit_2_split_goal_spatial stack__pre color_pre wt_pre to_pre nxt_pre head_pre comment_diff_pre comment_v_pre comment_u_pre m_pre n_pre comment_kinds comment_targets comment_sources comments hs ns ts ws cs ks s total top c0 c1 e u v want PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro comment_kinds comment_targets comment_sources comments n_pre m_pre comment_u_pre comment_v_pre comment_diff_pre head_pre nxt_pre to_pre wt_pre color_pre stack__pre hs ns ts ws cs ks s total top c0 c1 e u v want PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  exact proof_of_solver_return_wit_2_split_goal_spatial comment_kinds comment_targets comment_sources comments n_pre m_pre comment_u_pre comment_v_pre comment_diff_pre head_pre nxt_pre to_pre wt_pre color_pre stack__pre hs ns ts ws cs ks s total top c0 c1 e u v want PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
 
 end SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P053_1594D_the_number_of_imposters_proof_manual

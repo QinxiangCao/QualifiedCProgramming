@@ -22,7 +22,7 @@ description: Controller 首次交付 annotation attempt 或追加失败 VC 时�
 
 结果与进度 predicate 只表达数学性质，不混入内存 ownership、输入限制或实现安全范围。题目定义答案所需的候选集合、有效域和输出格式仍须保留。Function spec 直接展开输入范围、元素范围和 overflow 条件；With 管理逻辑值，Require 管理入口条件和资源，Ensure 的数学部分只承诺需要的最终结果，空间资源单独归还。
 
-新 spec、helper 和 annotation 统一使用 Z 与 Z-indexed list 接口；与下标无关的逐元素性质使用 Forall。最值必须使用 MaxMinLib 的 min_value_of_subset / max_value_of_subset；求和、区间枚举与自反传递闭包分别复用 sum_range / sum / sum_set_R、Zrange、clos_refl_trans，不重写同义定义。边界、签名和示例见[知识规则](docs/spec-and-contract-knowledge.md)。
+新 spec、helper 和 annotation 统一使用 Z 与 Z-indexed list 接口；与下标无关的逐元素性质使用 Forall。最值必须使用 MaxMinLib 的 min_value_of_subset / max_value_of_subset；求和、区间枚举、自反传递闭包、可增长 vector 与 CNF/SAT 分别复用 sum_range / sum / sum_set_R、Zrange、clos_refl_trans、Veci / Vecp / VecpArray 与 CDCLLib 的 literal / clause / cnf / models / cnf_sat / cnf_unsat，不重写同义定义。边界、签名和示例见[知识规则](docs/spec-and-contract-knowledge.md)。
 
 每个循环前写一条 Inv Assert，只包含当前数学进度、下一次执行需要的范围、仍存活的资源和必要的 @pre bridge。普通 Assert 只在 symbolic execution 无法得到下游必需状态时使用；可按需放在 if 前，不放在 return 或 Inv Assert 前。函数体不使用 by local、branch-control、普通 Inv、multi-inv 或 call where。
 

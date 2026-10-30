@@ -1,14 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.hashtable.hashtbl_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
 
 Definition hashtbl_strategy0 :=
   forall (p : Z),
@@ -147,7 +140,7 @@ Definition hashtbl_strategy12 :=
   TT &&
   emp
   ) ** (
-  ALL ty (l : (@list Z)) (p : Z),
+  ALL (ty : front_end_type) (l : (@list Z)) (p : Z),
     TT &&
     (“ (p <> 0) ”) &&
     (“ (l = (@nil Z)) ”) &&
@@ -183,7 +176,7 @@ Definition hashtbl_strategy13 :=
       ).
 
 Definition hashtbl_strategy14 :=
-  forall ty (l1 : (@list Z)) (p : Z) (q : Z),
+  forall (ty : front_end_type) (l1 : (@list Z)) (p : Z) (q : Z),
     TT &&
     emp **
     ((sllbseg p q l1)) **

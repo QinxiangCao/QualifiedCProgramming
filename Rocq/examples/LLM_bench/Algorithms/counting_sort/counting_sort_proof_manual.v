@@ -1,21 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import MonotonicList int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
+From AUXLib Require Import MonotonicList.
 From SimpleC.EE.LLM_bench.Algorithms.counting_sort Require Import counting_sort_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.counting_sort.counting_sort_lib.
 Local Open Scope sac.
@@ -740,23 +725,8 @@ Qed.
 Lemma proof_of_sort_entail_wit_14 : sort_entail_wit_14.
 Proof.
   aggressive_pre_process.
-  - Goal_apply
-      (proof_of_sort_entail_wit_14_split_goal_spatial
-         n_pre input i bucket_starts live sorted_2
-         PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
-         PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13).
-  - Goal_apply
-      ((ltac:(
-          sep_apply
-            (proof_of_sort_entail_wit_14_split_goal_1
-               n_pre input i bucket_starts live sorted_2
-               PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
-               PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13);
-          cancel)) :
-        IntArray.seg (&( "output" )) 0 n_pre sorted_2 **
-          (IntArray.undef_seg (&( "output" )) n_pre 100 **
-           IntArray.full (&( "count" )) 100 bucket_starts)
-        |-- “ CountingSorted input live ”).
+  - Goal_apply proof_of_sort_entail_wit_14_split_goal_spatial.
+  - Goal_apply proof_of_sort_entail_wit_14_split_goal_1.
 Qed.
 
 Lemma proof_of_sort_return_wit_1_split_goal_1 : sort_return_wit_1_split_goal_1.
@@ -781,4 +751,3 @@ Proof.
   - Goal_apply proof_of_sort_return_wit_1_split_goal_1.
   - Goal_apply proof_of_sort_return_wit_1_split_goal_2.
 Qed.
-

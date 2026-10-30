@@ -1,0 +1,145 @@
+// qcp-builtin: builtin/undef_char_array.strategies
+// Generated from the tool; do not edit.
+
+id : 16
+priority : core(1)
+left : CharArray::undef_full(?p, ?n) at 0
+right : CharArray::undef_full(p, n) at 1
+action : right_erase(1);
+         left_erase(0);
+
+id : 17
+priority : core(1)
+left : CharArray::undef_seg(?p, ?x, ?y) at 0
+right : CharArray::undef_seg(p, x, y) at 1
+action : right_erase(1);
+         left_erase(0);
+
+id : 1
+priority : core(3)
+left : CharArray::undef_full(?p, ?n) at 0
+right : undef_data_at(pointer_offset(p, ?i, I8), I8) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : right_erase(1);
+         left_erase(0);
+         left_add(CharArray::undef_missing_i(p, i, 0, n));
+
+id : 2
+priority : post(1)
+left : CharArray::undef_missing_i(?p, ?i, 0, ?n) at 0
+       undef_data_at(pointer_offset(p, i, I8), I8) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(CharArray::undef_full(p, n));
+
+id : 3
+priority : core(1)
+left : CharArray::undef_seg(?p, ?x, ?y) at 0
+right : undef_data_at(pointer_offset(p, x, I8), I8) at 1
+check : infer(x < y);
+action : right_erase(1);
+         left_erase(0);
+         left_add(CharArray::undef_seg(p, x + 1, y));
+
+id : 4
+priority : core(1)
+left : CharArray::undef_seg(?p, ?x, ?y) at 0
+right : undef_data_at(pointer_offset(p, ?i, I8), I8) at 1
+check : infer(x <= i);
+        infer(i < y);
+action : right_erase(1);
+         left_erase(0);
+         left_add(CharArray::undef_missing_i(p, i, x, y));
+
+id : 5
+priority : post(1)
+left : CharArray::undef_missing_i(?p, ?i, ?x, ?y) at 0
+       undef_data_at(pointer_offset(p, i, I8), I8) at 1
+check : infer(x <= i);
+        infer(i < y);
+action : left_erase(1);
+         left_erase(0);
+         left_add(CharArray::undef_seg(p, x, y));
+
+id : 6
+priority : core(1)
+left : CharArray::undef_seg(?p, ?x, ?y) at 0
+       CharArray::undef_seg(p, y, ?z) at 1
+right : CharArray::undef_seg(p, x, z) at 2
+check : infer(y <= z);
+        infer(x <= y);
+action : right_erase(2);
+         left_erase(0);
+         left_erase(1);
+
+id : 7
+priority : core(1)
+left : CharArray::undef_seg(?p, ?x, ?z) at 2
+right : CharArray::undef_seg(p, x, ?y) at 0
+        CharArray::undef_seg(p, y, z) at 1
+check : infer(y <= z);
+        infer(x <= y);
+action : left_erase(2);
+         right_erase(0);
+         right_erase(1);
+
+id : 8
+priority : core(1)
+right : CharArray::undef_seg(?p, ?x, x) at 0
+action : right_erase(0);
+
+id : 9
+priority : core(1)
+left : CharArray::undef_full(?p, ?n) at 0
+right : CharArray::undef_seg(p, 0, n) at 1
+action : right_erase(1);
+         left_erase(0);
+
+id : 10
+priority : core(1)
+right : CharArray::undef_full(?p, ?n) at 0
+check : infer(n == 0);
+action : right_erase(0);
+
+id : 11
+priority : core(1)
+left : CharArray::undef_seg(?p, ?x, ?y) at 0
+check : infer(x == y);
+action : left_erase(0);
+
+id : 12
+priority : core(1)
+left : CharArray::undef_seg(?p, ?x, ?y) at 0
+right : CharArray::undef_seg(p, ?x1, ?y1) at 1
+check : infer(y1 == y);
+        infer(x1 == x);
+action : right_erase(1);
+         left_erase(0);
+
+id : 15
+priority : core(1)
+left : CharArray::undef_full(?p, ?n) at 0
+right : undef_data_at(pointer_offset(p, 0, I8), I8) at 1
+check : infer(0 < n);
+action : right_erase(1);
+         left_erase(0);
+         left_add(CharArray::undef_seg(p, 1, n));
+
+id : 13
+priority : post(0)
+left : CharArray::undef_missing_i(?p, ?i, ?x, ?y) at 0
+check : infer(i == x);
+        infer(i < y);
+action : left_erase(0);
+         left_add(CharArray::undef_seg(p, x + 1, y));
+
+id : 14
+priority : post(0)
+left : CharArray::undef_missing_i(?p, ?i, ?x, ?y) at 0
+check : infer(i + 1 == y);
+        infer(x <= i);
+action : left_erase(0);
+         left_add(CharArray::undef_seg(p, x, i));

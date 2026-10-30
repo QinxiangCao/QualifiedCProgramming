@@ -2633,21 +2633,10 @@ Proof.
     change ((l1 ++ (i + 1) :: l2)%list)
       with ((l1 ++ ((i + 1) :: nil) ++ l2)%list).
     rewrite !map_app.
-    rewrite derivable1_sepcon_iter_sepcon2.
-    sep_apply (derivable1_sepcon_iter_sepcon2
-      (map (fun a => match m a with
-                     | Some b => P a b
-                     | None => emp
-                     end) ((i + 1) :: nil))
-      (map (fun a => match m a with
-                     | Some b => P a b
-                     | None => emp
-                     end) l2)).
-    rewrite derivable1_iter_sepcon_l.
+    rewrite !logic_equiv_iter_sepcon_app.
     simpl.
+    rewrite logic_equiv_iter_sepcon_single.
     rewrite Hlookup.
-    rewrite <- derivable1_sepcon_iter_sepcon1.
-    normalize.
     sepcon_assoc_change.
     cancel.
   - split_pures.
@@ -2874,7 +2863,6 @@ Proof.
           |-> Znth (i + 1) (replace_Znth i 0 lh) 0).
       cancel
         (sll (Znth (i + 1) (replace_Znth i 0 lh) 0) li_next).
-      change (sizeof(PTR)) with ptr_size_Z.
       cancel.
       unfold derivable1.
       auto.
@@ -3905,8 +3893,6 @@ Proof.
       (h_bucks + ind * sizeof(PTR)) it l_prev b_next l_res).
   Intros new_head.
   normalize.
-  rewrite sizeof_ptr.
-  fold ptr_size_Z.
   Exists new_head.
   sep_apply_l_atomic
     (PtrArray.missing_i_merge_to_full
@@ -4823,9 +4809,9 @@ Proof.
   intros m p v.
   destruct (m p) as [old |] eqn:Hmp.
   - sep_apply (store_map_split store_uint p old m Hmp).
-    unfold store_uint.
-    Intros.
-    sep_apply_l_atomic (dup_store_4bytes p v old).
+    sep_apply (store_uint_forget 4 4 p v).
+    sep_apply (store_uint_forget 4 4 p old).
+    sep_apply_l_atomic (undef_store_int_exclusive 4 4 p ltac:(lia)).
     Intros_p Hfalse.
     contradiction.
   - sep_apply (store_map_equiv_store_map_missing store_uint m p Hmp).

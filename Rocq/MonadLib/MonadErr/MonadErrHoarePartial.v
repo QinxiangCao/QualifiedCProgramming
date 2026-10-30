@@ -307,8 +307,7 @@ Lemma Hoare_nrm_assume_bind {A Σ: Type}:
     Hoare_nrm P1 (assume!! P2;; c) Q.
 Proof.
   unfold Hoare_nrm; intros P1 P2 c Q Hc a σ1 σ2 HP Hrun.
-  unfold bind, MonadErr.bind in Hrun; simpl in Hrun.
-  unfold nrm_nrm in Hrun.
+  unfold_monad in Hrun.
   destruct Hrun as [u [σmid [[Hσ HP2] Hc']]].
   subst σmid.
   specialize (Hc HP2).
@@ -326,8 +325,7 @@ Lemma Hoare_nrm_assumeS_bind {A Σ: Type}:
     Hoare_nrm P1 (assume P2;; c) Q.
 Proof.
   unfold Hoare_nrm; intros P1 P2 c Q Hc a σ1 σ2 HP Hrun.
-  unfold bind, MonadErr.bind in Hrun; simpl in Hrun.
-  unfold nrm_nrm in Hrun.
+  unfold_monad in Hrun.
   destruct Hrun as [u [σmid [[Hσ HP2] Hc']]].
   subst σmid.
   eapply Hc; eauto.
@@ -339,8 +337,7 @@ Lemma Hoare_nrm_assert_bind {A Σ: Type}:
     Hoare_nrm P (assert P';; c) Q.
 Proof.
   unfold Hoare_nrm; intros P P' c Q Hc a σ1 σ2 HP Hrun.
-  unfold bind, MonadErr.bind in Hrun; simpl in Hrun.
-  unfold nrm_nrm in Hrun.
+  unfold_monad in Hrun.
   destruct Hrun as [u [σmid [[Hσ HP'] Hc']]].
   subst σmid.
   specialize (Hc HP').
@@ -353,7 +350,7 @@ Lemma Hoare_nrm_assertS_bind_intro {A Σ: Type}:
     Hoare_nrm P (assertS P';; c) Q.
 Proof.
   unfold Hoare_nrm; intros P P' c Q Hc a σ1 σ2 HP Hrun.
-  unfold bind, MonadErr.bind in Hrun; simpl in Hrun.
+  unfold bind in Hrun; simpl in Hrun.
   unfold nrm_nrm in Hrun.
   destruct Hrun as [u [σmid [[Hσ _] Hc']]].
   subst σmid.
@@ -369,8 +366,7 @@ Proof.
   - unfold Hoare_nrm in *.
     intros a σ1 σ2 HP Hrun.
     apply (Hhoare a σ1 σ2 HP).
-    unfold bind, MonadErr.bind; simpl.
-    unfold nrm_nrm.
+    unfold_monad.
     exists tt; exists σ1; split; [|assumption].
     split; [reflexivity| apply Himp; assumption].
   - eapply Hoare_nrm_bind; [apply Hoare_nrm_assertS; exact Himp|].

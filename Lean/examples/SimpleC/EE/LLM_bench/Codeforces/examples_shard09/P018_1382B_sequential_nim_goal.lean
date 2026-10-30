@@ -59,7 +59,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def solver_safety_wit_1 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH4 : (n_pre = (Zlength (piles)))) ,
+  forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH4 : (n_pre = (Zlength (piles)))) ,
   ((( &( "c" ) )) # Int |->_)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -69,7 +69,7 @@ noncomputable def solver_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_2 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : (c < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
+  forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (c : Int) (PreH1 : (c < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
   (intArray.full a_pre n_pre piles)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -79,7 +79,7 @@ noncomputable def solver_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_3 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Znth c piles (0 : Int)) = 1)) (PreH2 : (c < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= c)) (PreH8 : (c <= n_pre)) (PreH9 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
+  forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (c : Int) (PreH1 : ((Znth c piles (0 : Int)) = 1)) (PreH2 : (c < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= c)) (PreH8 : (c <= n_pre)) (PreH9 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
   (intArray.full a_pre n_pre piles)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -89,7 +89,7 @@ noncomputable def solver_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (c + 1)) ”
 
 noncomputable def solver_safety_wit_4 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : (c = n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : ((0 : Int) <= c)) (PreH6 : (c <= n_pre)) (PreH7 : (LeadingOnes piles c)) ,
+  forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (c : Int) (PreH1 : (c = n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : ((0 : Int) <= c)) (PreH6 : (c <= n_pre)) (PreH7 : (LeadingOnes piles c)) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "c" ) )) # Int |-> (c))
@@ -99,7 +99,7 @@ noncomputable def solver_safety_wit_4 : Prop :=
   “ (2 ≠ (0 : Int)) ”
 
 noncomputable def solver_safety_wit_5 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : (c = n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : ((0 : Int) <= c)) (PreH6 : (c <= n_pre)) (PreH7 : (LeadingOnes piles c)) ,
+  forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (c : Int) (PreH1 : (c = n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : ((0 : Int) <= c)) (PreH6 : (c <= n_pre)) (PreH7 : (LeadingOnes piles c)) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "c" ) )) # Int |-> (c))
@@ -109,7 +109,7 @@ noncomputable def solver_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def solver_safety_wit_6 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : (c = n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : ((0 : Int) <= c)) (PreH6 : (c <= n_pre)) (PreH7 : (LeadingOnes piles c)) ,
+  forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (c : Int) (PreH1 : (c = n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : ((0 : Int) <= c)) (PreH6 : (c <= n_pre)) (PreH7 : (LeadingOnes piles c)) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "c" ) )) # Int |-> (c))
@@ -119,7 +119,7 @@ noncomputable def solver_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_7 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : (c ≠ n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : ((0 : Int) <= c)) (PreH6 : (c <= n_pre)) (PreH7 : (LeadingOnes piles c)) ,
+  forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (c : Int) (PreH1 : (c ≠ n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : ((0 : Int) <= c)) (PreH6 : (c <= n_pre)) (PreH7 : (LeadingOnes piles c)) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "c" ) )) # Int |-> (c))
@@ -129,7 +129,7 @@ noncomputable def solver_safety_wit_7 : Prop :=
   “ (2 ≠ (0 : Int)) ”
 
 noncomputable def solver_safety_wit_8 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : (c ≠ n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : ((0 : Int) <= c)) (PreH6 : (c <= n_pre)) (PreH7 : (LeadingOnes piles c)) ,
+  forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (c : Int) (PreH1 : (c ≠ n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : ((0 : Int) <= c)) (PreH6 : (c <= n_pre)) (PreH7 : (LeadingOnes piles c)) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "c" ) )) # Int |-> (c))
@@ -139,7 +139,7 @@ noncomputable def solver_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def solver_safety_wit_9 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : (c ≠ n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : ((0 : Int) <= c)) (PreH6 : (c <= n_pre)) (PreH7 : (LeadingOnes piles c)) ,
+  forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (c : Int) (PreH1 : (c ≠ n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : ((0 : Int) <= c)) (PreH6 : (c <= n_pre)) (PreH7 : (LeadingOnes piles c)) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "c" ) )) # Int |-> (c))
@@ -150,7 +150,7 @@ noncomputable def solver_safety_wit_9 : Prop :=
 
 noncomputable def solver_entail_wit_1 : Prop :=
   (
-forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i_3 : Int) , ((((0 : Int) <= i_3) ∧ (i_3 < n_pre)) -> ((1 <= (Znth i_3 piles (0 : Int))) ∧ ((Znth i_3 piles (0 : Int)) <= 1000000000)))) (PreH4 : (n_pre = (Zlength (piles)))) ,
+forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i_3 : Int) , ((((0 : Int) <= i_3) ∧ (i_3 < n_pre)) -> ((1 <= (Znth i_3 piles (0 : Int))) ∧ ((Znth i_3 piles (0 : Int)) <= 1000000000)))) (PreH4 : (n_pre = (Zlength (piles)))) ,
   (intArray.full a_pre n_pre piles)
 |--
   “ (1 <= n_pre) ” &&
@@ -163,7 +163,7 @@ forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (PreH1 : (1 <= n_pre)) (
   &&  (intArray.full a_pre n_pre piles)
 ) \/
 (
-forall (n_pre : Int) (piles : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i_3 : Int) , ((((0 : Int) <= i_3) ∧ (i_3 < n_pre)) -> ((1 <= (Znth i_3 piles (0 : Int))) ∧ ((Znth i_3 piles (0 : Int)) <= 1000000000)))) (PreH4 : (n_pre = (Zlength (piles)))) ,
+forall (piles : (List Int)) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i_3 : Int) , ((((0 : Int) <= i_3) ∧ (i_3 < n_pre)) -> ((1 <= (Znth i_3 piles (0 : Int))) ∧ ((Znth i_3 piles (0 : Int)) <= 1000000000)))) (PreH4 : (n_pre = (Zlength (piles)))) ,
   TT && emp 
 |--
   “ forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < (0 : Int))) -> ((Znth i_2 piles (0 : Int)) = 1)) ” &&
@@ -172,15 +172,15 @@ forall (n_pre : Int) (piles : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre
 )
 
 noncomputable def solver_entail_wit_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (piles : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i_3 : Int) , ((((0 : Int) <= i_3) ∧ (i_3 < n_pre)) -> ((1 <= (Znth i_3 piles (0 : Int))) ∧ ((Znth i_3 piles (0 : Int)) <= 1000000000)))) (PreH4 : (n_pre = (Zlength (piles)))) ,
+  forall (piles : (List Int)) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i_3 : Int) , ((((0 : Int) <= i_3) ∧ (i_3 < n_pre)) -> ((1 <= (Znth i_3 piles (0 : Int))) ∧ ((Znth i_3 piles (0 : Int)) <= 1000000000)))) (PreH4 : (n_pre = (Zlength (piles)))) ,
   forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < (0 : Int))) -> ((Znth i_2 piles (0 : Int)) = 1))
 
 noncomputable def solver_entail_wit_1_split_goal_2 : Prop :=
-  forall (n_pre : Int) (piles : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i_3 : Int) , ((((0 : Int) <= i_3) ∧ (i_3 < n_pre)) -> ((1 <= (Znth i_3 piles (0 : Int))) ∧ ((Znth i_3 piles (0 : Int)) <= 1000000000)))) (PreH4 : (n_pre = (Zlength (piles)))) ,
+  forall (piles : (List Int)) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : forall (i_3 : Int) , ((((0 : Int) <= i_3) ∧ (i_3 < n_pre)) -> ((1 <= (Znth i_3 piles (0 : Int))) ∧ ((Znth i_3 piles (0 : Int)) <= 1000000000)))) (PreH4 : (n_pre = (Zlength (piles)))) ,
   forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))
 
 noncomputable def solver_entail_wit_2 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Znth c piles (0 : Int)) = 1)) (PreH2 : (c < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= c)) (PreH8 : (c <= n_pre)) (PreH9 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
+  forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (c : Int) (PreH1 : ((Znth c piles (0 : Int)) = 1)) (PreH2 : (c < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= c)) (PreH8 : (c <= n_pre)) (PreH9 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
   (intArray.full a_pre n_pre piles)
 |--
   “ (1 <= n_pre) ” &&
@@ -194,7 +194,7 @@ noncomputable def solver_entail_wit_2 : Prop :=
 
 noncomputable def solver_entail_wit_3_1 : Prop :=
   (
-forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : (c >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
+forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (c : Int) (PreH1 : (c >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
   (intArray.full a_pre n_pre piles)
 |--
   “ (1 <= n_pre) ” &&
@@ -206,7 +206,7 @@ forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : (c >=
   &&  (intArray.full a_pre n_pre piles)
 ) \/
 (
-forall (n_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : (c >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
+forall (piles : (List Int)) (n_pre : Int) (c : Int) (PreH1 : (c >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
   TT && emp 
 |--
   “ (LeadingOnes piles c) ”
@@ -214,12 +214,12 @@ forall (n_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : (c >= n_pre)) (PreH
 )
 
 noncomputable def solver_entail_wit_3_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : (c >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
+  forall (piles : (List Int)) (n_pre : Int) (c : Int) (PreH1 : (c >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
   (LeadingOnes piles c)
 
 noncomputable def solver_entail_wit_3_2 : Prop :=
   (
-forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Znth c piles (0 : Int)) ≠ 1)) (PreH2 : (c < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= c)) (PreH8 : (c <= n_pre)) (PreH9 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
+forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (c : Int) (PreH1 : ((Znth c piles (0 : Int)) ≠ 1)) (PreH2 : (c < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= c)) (PreH8 : (c <= n_pre)) (PreH9 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
   (intArray.full a_pre n_pre piles)
 |--
   “ (1 <= n_pre) ” &&
@@ -231,7 +231,7 @@ forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Znt
   &&  (intArray.full a_pre n_pre piles)
 ) \/
 (
-forall (n_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Znth c piles (0 : Int)) ≠ 1)) (PreH2 : (c < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= c)) (PreH8 : (c <= n_pre)) (PreH9 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
+forall (piles : (List Int)) (n_pre : Int) (c : Int) (PreH1 : ((Znth c piles (0 : Int)) ≠ 1)) (PreH2 : (c < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= c)) (PreH8 : (c <= n_pre)) (PreH9 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
   TT && emp 
 |--
   “ (LeadingOnes piles c) ”
@@ -239,12 +239,12 @@ forall (n_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Znth c piles (0 :
 )
 
 noncomputable def solver_entail_wit_3_2_split_goal_1 : Prop :=
-  forall (n_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Znth c piles (0 : Int)) ≠ 1)) (PreH2 : (c < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= c)) (PreH8 : (c <= n_pre)) (PreH9 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
+  forall (piles : (List Int)) (n_pre : Int) (c : Int) (PreH1 : ((Znth c piles (0 : Int)) ≠ 1)) (PreH2 : (c < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= c)) (PreH8 : (c <= n_pre)) (PreH9 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
   (LeadingOnes piles c)
 
 noncomputable def solver_return_wit_1 : Prop :=
   (
-forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Z.rem c 2) ≠ (0 : Int))) (PreH2 : (c ≠ n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : (LeadingOnes piles c)) ,
+forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (c : Int) (PreH1 : ((Z.rem c 2) ≠ (0 : Int))) (PreH2 : (c ≠ n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : (LeadingOnes piles c)) ,
   (intArray.full a_pre n_pre piles)
 |--
   EX out : Int,
@@ -253,7 +253,7 @@ forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Z.r
   &&  (intArray.full a_pre n_pre piles)
 ) \/
 (
-forall (n_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Z.rem c 2) ≠ (0 : Int))) (PreH2 : (c ≠ n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : (LeadingOnes piles c)) ,
+forall (piles : (List Int)) (n_pre : Int) (c : Int) (PreH1 : ((Z.rem c 2) ≠ (0 : Int))) (PreH2 : (c ≠ n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : (LeadingOnes piles c)) ,
   TT && emp 
 |--
   EX out : Int,
@@ -264,7 +264,7 @@ forall (n_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Z.rem c 2) ≠ (0
 
 noncomputable def solver_return_wit_2 : Prop :=
   (
-forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Z.rem c 2) = (0 : Int))) (PreH2 : (c ≠ n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : (LeadingOnes piles c)) ,
+forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (c : Int) (PreH1 : ((Z.rem c 2) = (0 : Int))) (PreH2 : (c ≠ n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : (LeadingOnes piles c)) ,
   (intArray.full a_pre n_pre piles)
 |--
   EX out : Int,
@@ -273,7 +273,7 @@ forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Z.r
   &&  (intArray.full a_pre n_pre piles)
 ) \/
 (
-forall (n_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Z.rem c 2) = (0 : Int))) (PreH2 : (c ≠ n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : (LeadingOnes piles c)) ,
+forall (piles : (List Int)) (n_pre : Int) (c : Int) (PreH1 : ((Z.rem c 2) = (0 : Int))) (PreH2 : (c ≠ n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : (LeadingOnes piles c)) ,
   TT && emp 
 |--
   EX out : Int,
@@ -284,7 +284,7 @@ forall (n_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Z.rem c 2) = (0 :
 
 noncomputable def solver_return_wit_3 : Prop :=
   (
-forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Z.rem n_pre 2) ≠ 1)) (PreH2 : (c = n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : (LeadingOnes piles c)) ,
+forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (c : Int) (PreH1 : ((Z.rem n_pre 2) ≠ 1)) (PreH2 : (c = n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : (LeadingOnes piles c)) ,
   (intArray.full a_pre n_pre piles)
 |--
   EX out : Int,
@@ -293,7 +293,7 @@ forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Z.r
   &&  (intArray.full a_pre n_pre piles)
 ) \/
 (
-forall (n_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Z.rem n_pre 2) ≠ 1)) (PreH2 : (c = n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : (LeadingOnes piles c)) ,
+forall (piles : (List Int)) (n_pre : Int) (c : Int) (PreH1 : ((Z.rem n_pre 2) ≠ 1)) (PreH2 : (c = n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : (LeadingOnes piles c)) ,
   TT && emp 
 |--
   EX out : Int,
@@ -304,7 +304,7 @@ forall (n_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Z.rem n_pre 2) �
 
 noncomputable def solver_return_wit_4 : Prop :=
   (
-forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Z.rem n_pre 2) = 1)) (PreH2 : (c = n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : (LeadingOnes piles c)) ,
+forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (c : Int) (PreH1 : ((Z.rem n_pre 2) = 1)) (PreH2 : (c = n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : (LeadingOnes piles c)) ,
   (intArray.full a_pre n_pre piles)
 |--
   EX out : Int,
@@ -313,7 +313,7 @@ forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Z.r
   &&  (intArray.full a_pre n_pre piles)
 ) \/
 (
-forall (n_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Z.rem n_pre 2) = 1)) (PreH2 : (c = n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : (LeadingOnes piles c)) ,
+forall (piles : (List Int)) (n_pre : Int) (c : Int) (PreH1 : ((Z.rem n_pre 2) = 1)) (PreH2 : (c = n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (n_pre = (Zlength (piles)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : (LeadingOnes piles c)) ,
   TT && emp 
 |--
   EX out : Int,
@@ -323,7 +323,7 @@ forall (n_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : ((Z.rem n_pre 2) = 
 )
 
 noncomputable def solver_partial_solve_wit_1 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (piles : (List Int)) (c : Int) (PreH1 : (c < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
+  forall (piles : (List Int)) (a_pre : Int) (n_pre : Int) (c : Int) (PreH1 : (c < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (n_pre = (Zlength (piles)))) (PreH5 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < n_pre)) -> ((1 <= (Znth i piles (0 : Int))) ∧ ((Znth i piles (0 : Int)) <= 1000000000)))) (PreH6 : ((0 : Int) <= c)) (PreH7 : (c <= n_pre)) (PreH8 : forall (i_2 : Int) , ((((0 : Int) <= i_2) ∧ (i_2 < c)) -> ((Znth i_2 piles (0 : Int)) = 1))) ,
   (intArray.full a_pre n_pre piles)
 |--
   “ (c < n_pre) ” &&

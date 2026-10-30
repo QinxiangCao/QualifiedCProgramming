@@ -82,6 +82,9 @@ def _enclosing_function(source: str, comment_start: int) -> str:
     """Return the function whose signature precedes this annotation block."""
 
     head = _strip_comments(source[:comment_start])
+    # Parenthesized macro values are not C function declarators.  In particular,
+    # a leading `#define INF (1LL << 62)` must not own the first function's spec.
+    head = re.sub(r"(?m)^[ \t]*#(?:[^\n]*\\\r?\n)*[^\n]*", "", head)
     head = head[head.rfind(";") + 1 :]
     head = head[head.rfind("}") + 1 :]
     match = DECLARATOR_RE.search(head)

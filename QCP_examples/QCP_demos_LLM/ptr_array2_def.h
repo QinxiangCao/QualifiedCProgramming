@@ -8,4 +8,3 @@
 */
 
 /*@ include strategies "ptr_array2.strategies" */
-/*@ include strategies "char_array.strategies" */

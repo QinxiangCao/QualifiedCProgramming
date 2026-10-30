@@ -25,8 +25,108 @@ Fixpoint replace_nth {A: Type} (n: nat) (l: list A) (a: A) {struct l} :=
     | h :: t, S n => h :: replace_nth n t a
     end.
 
+Fixpoint remove_nth {A: Type} (n: nat) (l: list A) {struct l} :=
+    match l, n with
+    | [], _ => []
+    | _ :: t, O => t
+    | h :: t, S n => h :: remove_nth n t
+    end.
+
 Definition replace_Znth {A: Type} (n: Z) (a: A) (l: list A): list A :=
   replace_nth (Z.to_nat n) l a.
+
+Definition remove_Znth {A: Type} (n: Z) (l: list A): list A :=
+  remove_nth (Z.to_nat n) l.
+
+Lemma nth_map : forall {A B : Type} (f : A -> B) n (l : list A) d d',
+  (n < length l)%nat ->
+  nth n (map f l) d' = f (nth n l d).
+Proof.
+  intros.
+  rewrite nth_indep with (d' := f d).
+  - apply map_nth.
+  - rewrite length_map.
+    lia.
+Qed.
+
+Lemma map_replace_nth : forall {A B : Type} (f : A -> B) n (l : list A) a,
+  map f (replace_nth n l a) = replace_nth n (map f l) (f a).
+Proof.
+  intros A B f n l a.
+  revert n.
+  induction l; intros; destruct n; simpl; try reflexivity.
+  rewrite IHl.
+  reflexivity.
+Qed.
+
+Lemma map_replace_Znth : forall {A B : Type} (f : A -> B) n (l : list A) a,
+  map f (replace_Znth n a l) = replace_Znth n (f a) (map f l).
+Proof.
+  intros.
+  unfold replace_Znth.
+  rewrite map_replace_nth.
+  reflexivity.
+Qed.
+
+Lemma map_remove_nth : forall {A B : Type} (f : A -> B) n (l : list A),
+  map f (remove_nth n l) = remove_nth n (map f l).
+Proof.
+  intros A B f n l.
+  revert n.
+  induction l; intros; destruct n; simpl; try reflexivity.
+  rewrite IHl.
+  reflexivity.
+Qed.
+
+Lemma map_remove_Znth : forall {A B : Type} (f : A -> B) n (l : list A),
+  map f (remove_Znth n l) = remove_Znth n (map f l).
+Proof.
+  intros.
+  unfold remove_Znth.
+  rewrite map_remove_nth.
+  reflexivity.
+Qed.
+
+Lemma replace_nth_decomp : forall {A : Type} n (l : list A) (a : A),
+  (n < length l)%nat ->
+  replace_nth n l a = firstn n l ++ a :: skipn (S n) l.
+Proof.
+  intros.
+  revert n H; induction l; intros; simpl in *; try lia.
+  destruct n; simpl.
+  - reflexivity.
+  - f_equal.
+    apply IHl.
+    lia.
+Qed.
+
+Lemma replace_Znth_decomp : forall {A : Type} n (l : list A) (a : A),
+  0 <= n < Zlength l ->
+  replace_Znth n a l = firstn (Z.to_nat n) l ++ a :: skipn (S (Z.to_nat n)) l.
+Proof.
+  intros.
+  unfold replace_Znth.
+  apply replace_nth_decomp.
+  rewrite Zlength_correct in H.
+  lia.
+Qed.
+
+Lemma remove_nth_decomp : forall {A : Type} n (l : list A),
+  remove_nth n l = firstn n l ++ skipn (S n) l.
+Proof.
+  intros A n l.
+  revert n; induction l as [| h t IH]; intros [| n]; simpl; auto.
+  rewrite IH.
+  reflexivity.
+Qed.
+
+Lemma remove_Znth_decomp : forall {A : Type} n (l : list A),
+  remove_Znth n l = firstn (Z.to_nat n) l ++ skipn (S (Z.to_nat n)) l.
+Proof.
+  intros.
+  unfold remove_Znth.
+  apply remove_nth_decomp.
+Qed.
 
 Definition Nsublist {A: Type} (lo hi: nat) (l: list A): list A :=
   skipn lo (firstn hi l).

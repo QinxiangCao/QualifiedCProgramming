@@ -59,7 +59,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def solver_safety_wit_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (d_pre : Int) (years : (List Int)) (PreH1 : (2 <= ((Zlength (years)) + 1))) (PreH2 : (((Zlength (years)) + 1) <= 100)) (PreH3 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre < b_pre)) (PreH6 : (b_pre <= ((Zlength (years)) + 1))) ,
+  forall (years : (List Int)) (d_pre : Int) (a_pre : Int) (b_pre : Int) (PreH1 : (2 <= ((Zlength (years)) + 1))) (PreH2 : (((Zlength (years)) + 1) <= 100)) (PreH3 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre < b_pre)) (PreH6 : (b_pre <= ((Zlength (years)) + 1))) ,
   ((( &( "ans" ) )) # Int |->_)
   ** ((( &( "d" ) )) # Ptr |-> (d_pre))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
@@ -71,7 +71,7 @@ noncomputable def solver_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_2 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (d_pre : Int) (years : (List Int)) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
+  forall (years : (List Int)) (d_pre : Int) (a_pre : Int) (b_pre : Int) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
   (intArray.full d_pre ((Zlength (years)) + 1) ((0 : Int) :: years))
   ** ((( &( "d" ) )) # Ptr |-> (d_pre))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
@@ -85,7 +85,7 @@ noncomputable def solver_safety_wit_2 : Prop :=
 
 noncomputable def solver_safety_wit_3 : Prop :=
   (
-forall (b_pre : Int) (a_pre : Int) (d_pre : Int) (years : (List Int)) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
+forall (years : (List Int)) (d_pre : Int) (a_pre : Int) (b_pre : Int) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
   (intArray.full d_pre ((Zlength (years)) + 1) ((0 : Int) :: years))
   ** ((( &( "d" ) )) # Ptr |-> (d_pre))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
@@ -98,7 +98,7 @@ forall (b_pre : Int) (a_pre : Int) (d_pre : Int) (years : (List Int)) (ans : Int
   “ ((INT_MIN) <= (ans + (Znth i ((0 : Int) :: years) (0 : Int)))) ”
 ) \/
 (
-forall (b_pre : Int) (a_pre : Int) (d_pre : Int) (years : (List Int)) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
+forall (years : (List Int)) (d_pre : Int) (a_pre : Int) (b_pre : Int) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
   (intArray.full d_pre ((Zlength (years)) + 1) ((0 : Int) :: years))
   ** ((( &( "d" ) )) # Ptr |-> (d_pre))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
@@ -112,7 +112,7 @@ forall (b_pre : Int) (a_pre : Int) (d_pre : Int) (years : (List Int)) (ans : Int
 )
 
 noncomputable def solver_safety_wit_3_split_goal_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (d_pre : Int) (years : (List Int)) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
+  forall (years : (List Int)) (d_pre : Int) (a_pre : Int) (b_pre : Int) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
   (intArray.full d_pre ((Zlength (years)) + 1) ((0 : Int) :: years))
   ** ((( &( "d" ) )) # Ptr |-> (d_pre))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
@@ -124,7 +124,7 @@ noncomputable def solver_safety_wit_3_split_goal_1 : Prop :=
   “ ((ans + (Znth i ((0 : Int) :: years) (0 : Int))) <= INT_MAX) ”
 
 noncomputable def solver_safety_wit_3_split_goal_2 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (d_pre : Int) (years : (List Int)) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
+  forall (years : (List Int)) (d_pre : Int) (a_pre : Int) (b_pre : Int) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
   (intArray.full d_pre ((Zlength (years)) + 1) ((0 : Int) :: years))
   ** ((( &( "d" ) )) # Ptr |-> (d_pre))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
@@ -137,7 +137,7 @@ noncomputable def solver_safety_wit_3_split_goal_2 : Prop :=
 
 noncomputable def solver_entail_wit_1 : Prop :=
   (
-forall (b_pre : Int) (a_pre : Int) (d_pre : Int) (years : (List Int)) (PreH1 : (2 <= ((Zlength (years)) + 1))) (PreH2 : (((Zlength (years)) + 1) <= 100)) (PreH3 : forall (idx_2 : Int) , ((((0 : Int) <= idx_2) ∧ (idx_2 < (Zlength (years)))) -> ((1 <= (Znth idx_2 years (0 : Int))) ∧ ((Znth idx_2 years (0 : Int)) <= 100)))) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre < b_pre)) (PreH6 : (b_pre <= ((Zlength (years)) + 1))) ,
+forall (years : (List Int)) (d_pre : Int) (a_pre : Int) (b_pre : Int) (PreH1 : (2 <= ((Zlength (years)) + 1))) (PreH2 : (((Zlength (years)) + 1) <= 100)) (PreH3 : forall (idx_2 : Int) , ((((0 : Int) <= idx_2) ∧ (idx_2 < (Zlength (years)))) -> ((1 <= (Znth idx_2 years (0 : Int))) ∧ ((Znth idx_2 years (0 : Int)) <= 100)))) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre < b_pre)) (PreH6 : (b_pre <= ((Zlength (years)) + 1))) ,
   (intArray.full d_pre ((Zlength (years)) + 1) ((0 : Int) :: years))
   ** (intArray.undef_seg d_pre ((Zlength (years)) + 1) 101)
 |--
@@ -155,7 +155,7 @@ forall (b_pre : Int) (a_pre : Int) (d_pre : Int) (years : (List Int)) (PreH1 : (
   ** (intArray.undef_seg d_pre ((Zlength (years)) + 1) 101)
 ) \/
 (
-forall (b_pre : Int) (a_pre : Int) (years : (List Int)) (PreH1 : (2 <= ((Zlength (years)) + 1))) (PreH2 : (((Zlength (years)) + 1) <= 100)) (PreH3 : forall (idx_2 : Int) , ((((0 : Int) <= idx_2) ∧ (idx_2 < (Zlength (years)))) -> ((1 <= (Znth idx_2 years (0 : Int))) ∧ ((Znth idx_2 years (0 : Int)) <= 100)))) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre < b_pre)) (PreH6 : (b_pre <= ((Zlength (years)) + 1))) ,
+forall (years : (List Int)) (a_pre : Int) (b_pre : Int) (PreH1 : (2 <= ((Zlength (years)) + 1))) (PreH2 : (((Zlength (years)) + 1) <= 100)) (PreH3 : forall (idx_2 : Int) , ((((0 : Int) <= idx_2) ∧ (idx_2 < (Zlength (years)))) -> ((1 <= (Znth idx_2 years (0 : Int))) ∧ ((Znth idx_2 years (0 : Int)) <= 100)))) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre < b_pre)) (PreH6 : (b_pre <= ((Zlength (years)) + 1))) ,
   TT && emp 
 |--
   “ (Spec ((Zlength (years)) + 1) years a_pre a_pre (0 : Int)) ” &&
@@ -164,16 +164,16 @@ forall (b_pre : Int) (a_pre : Int) (years : (List Int)) (PreH1 : (2 <= ((Zlength
 )
 
 noncomputable def solver_entail_wit_1_split_goal_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (years : (List Int)) (PreH1 : (2 <= ((Zlength (years)) + 1))) (PreH2 : (((Zlength (years)) + 1) <= 100)) (PreH3 : forall (idx_2 : Int) , ((((0 : Int) <= idx_2) ∧ (idx_2 < (Zlength (years)))) -> ((1 <= (Znth idx_2 years (0 : Int))) ∧ ((Znth idx_2 years (0 : Int)) <= 100)))) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre < b_pre)) (PreH6 : (b_pre <= ((Zlength (years)) + 1))) ,
+  forall (years : (List Int)) (a_pre : Int) (b_pre : Int) (PreH1 : (2 <= ((Zlength (years)) + 1))) (PreH2 : (((Zlength (years)) + 1) <= 100)) (PreH3 : forall (idx_2 : Int) , ((((0 : Int) <= idx_2) ∧ (idx_2 < (Zlength (years)))) -> ((1 <= (Znth idx_2 years (0 : Int))) ∧ ((Znth idx_2 years (0 : Int)) <= 100)))) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre < b_pre)) (PreH6 : (b_pre <= ((Zlength (years)) + 1))) ,
   (Spec ((Zlength (years)) + 1) years a_pre a_pre (0 : Int))
 
 noncomputable def solver_entail_wit_1_split_goal_2 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (years : (List Int)) (PreH1 : (2 <= ((Zlength (years)) + 1))) (PreH2 : (((Zlength (years)) + 1) <= 100)) (PreH3 : forall (idx_2 : Int) , ((((0 : Int) <= idx_2) ∧ (idx_2 < (Zlength (years)))) -> ((1 <= (Znth idx_2 years (0 : Int))) ∧ ((Znth idx_2 years (0 : Int)) <= 100)))) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre < b_pre)) (PreH6 : (b_pre <= ((Zlength (years)) + 1))) ,
+  forall (years : (List Int)) (a_pre : Int) (b_pre : Int) (PreH1 : (2 <= ((Zlength (years)) + 1))) (PreH2 : (((Zlength (years)) + 1) <= 100)) (PreH3 : forall (idx_2 : Int) , ((((0 : Int) <= idx_2) ∧ (idx_2 < (Zlength (years)))) -> ((1 <= (Znth idx_2 years (0 : Int))) ∧ ((Znth idx_2 years (0 : Int)) <= 100)))) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre < b_pre)) (PreH6 : (b_pre <= ((Zlength (years)) + 1))) ,
   forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))
 
 noncomputable def solver_entail_wit_2 : Prop :=
   (
-forall (b_pre : Int) (a_pre : Int) (d_pre : Int) (years : (List Int)) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
+forall (years : (List Int)) (d_pre : Int) (a_pre : Int) (b_pre : Int) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
   (intArray.full d_pre ((Zlength (years)) + 1) ((0 : Int) :: years))
   ** (intArray.undef_seg d_pre ((Zlength (years)) + 1) 101)
 |--
@@ -191,7 +191,7 @@ forall (b_pre : Int) (a_pre : Int) (d_pre : Int) (years : (List Int)) (ans : Int
   ** (intArray.undef_seg d_pre ((Zlength (years)) + 1) 101)
 ) \/
 (
-forall (b_pre : Int) (a_pre : Int) (years : (List Int)) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
+forall (years : (List Int)) (a_pre : Int) (b_pre : Int) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
   TT && emp 
 |--
   “ (Spec ((Zlength (years)) + 1) years a_pre (i + 1) (ans + (Znth i ((0 : Int) :: years) (0 : Int)))) ” &&
@@ -201,20 +201,20 @@ forall (b_pre : Int) (a_pre : Int) (years : (List Int)) (ans : Int) (i : Int) (P
 )
 
 noncomputable def solver_entail_wit_2_split_goal_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (years : (List Int)) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
+  forall (years : (List Int)) (a_pre : Int) (b_pre : Int) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
   (Spec ((Zlength (years)) + 1) years a_pre (i + 1) (ans + (Znth i ((0 : Int) :: years) (0 : Int))))
 
 noncomputable def solver_entail_wit_2_split_goal_2 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (years : (List Int)) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
+  forall (years : (List Int)) (a_pre : Int) (b_pre : Int) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
   ((ans + (Znth i ((0 : Int) :: years) (0 : Int))) <= (100 * ((i + 1) - a_pre)))
 
 noncomputable def solver_entail_wit_2_split_goal_3 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (years : (List Int)) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
+  forall (years : (List Int)) (a_pre : Int) (b_pre : Int) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
   ((0 : Int) <= (ans + (Znth i ((0 : Int) :: years) (0 : Int))))
 
 noncomputable def solver_return_wit_1 : Prop :=
   (
-forall (b_pre : Int) (a_pre : Int) (d_pre : Int) (years : (List Int)) (ans : Int) (i : Int) (PreH1 : (i >= b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
+forall (years : (List Int)) (d_pre : Int) (a_pre : Int) (b_pre : Int) (ans : Int) (i : Int) (PreH1 : (i >= b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
   (intArray.full d_pre ((Zlength (years)) + 1) ((0 : Int) :: years))
   ** (intArray.undef_seg d_pre ((Zlength (years)) + 1) 101)
 |--
@@ -223,7 +223,7 @@ forall (b_pre : Int) (a_pre : Int) (d_pre : Int) (years : (List Int)) (ans : Int
   ** (intArray.undef_seg d_pre ((Zlength (years)) + 1) 101)
 ) \/
 (
-forall (b_pre : Int) (a_pre : Int) (years : (List Int)) (ans : Int) (i : Int) (PreH1 : (i >= b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
+forall (years : (List Int)) (a_pre : Int) (b_pre : Int) (ans : Int) (i : Int) (PreH1 : (i >= b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
   TT && emp 
 |--
   “ (Spec ((Zlength (years)) + 1) years a_pre b_pre ans) ”
@@ -231,11 +231,11 @@ forall (b_pre : Int) (a_pre : Int) (years : (List Int)) (ans : Int) (i : Int) (P
 )
 
 noncomputable def solver_return_wit_1_split_goal_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (years : (List Int)) (ans : Int) (i : Int) (PreH1 : (i >= b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
+  forall (years : (List Int)) (a_pre : Int) (b_pre : Int) (ans : Int) (i : Int) (PreH1 : (i >= b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
   (Spec ((Zlength (years)) + 1) years a_pre b_pre ans)
 
 noncomputable def solver_partial_solve_wit_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (d_pre : Int) (years : (List Int)) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
+  forall (years : (List Int)) (d_pre : Int) (a_pre : Int) (b_pre : Int) (ans : Int) (i : Int) (PreH1 : (i < b_pre)) (PreH2 : (2 <= ((Zlength (years)) + 1))) (PreH3 : (((Zlength (years)) + 1) <= 100)) (PreH4 : forall (idx : Int) , ((((0 : Int) <= idx) ∧ (idx < (Zlength (years)))) -> ((1 <= (Znth idx years (0 : Int))) ∧ ((Znth idx years (0 : Int)) <= 100)))) (PreH5 : (1 <= a_pre)) (PreH6 : (a_pre <= i)) (PreH7 : (i <= b_pre)) (PreH8 : (b_pre <= ((Zlength (years)) + 1))) (PreH9 : ((0 : Int) <= ans)) (PreH10 : (ans <= (100 * (i - a_pre)))) (PreH11 : (Spec ((Zlength (years)) + 1) years a_pre i ans)) ,
   (intArray.full d_pre ((Zlength (years)) + 1) ((0 : Int) :: years))
   ** (intArray.undef_seg d_pre ((Zlength (years)) + 1) 101)
 |--

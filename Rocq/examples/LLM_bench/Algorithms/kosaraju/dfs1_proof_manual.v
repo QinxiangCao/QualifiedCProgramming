@@ -1,28 +1,12 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.kosaraju Require Import dfs1_goal.
 From SimpleC.EE.LLM_bench.Algorithms.kosaraju Require Import dfs1_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 From MonadLib Require Export MonadLib.
 From MonadLib.MonadErr Require Export StateRelMonadErr.
 Export MonadNotation.
 Local Open Scope monad.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
+From AUXLib Require Import relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Require Import SimpleC.EE.LLM_bench.Algorithms.kosaraju.dfs1_lib.
 Local Open Scope sac.
@@ -72,7 +56,6 @@ Ltac dfs1_solve_current_index :=
   end.
 
 Ltac dfs1_solve_split :=
-  LLM_pre_process ltac:(lia || nia || int_auto);
   subst;
   repeat match goal with
   | H : dfs1_sequence_state_ready _ _ _ _ _ _ |- _ =>
@@ -128,56 +111,65 @@ Ltac dfs1_solve_split :=
 
 Lemma proof_of_dfs1_entail_wit_1_split_goal_1 : dfs1_entail_wit_1_split_goal_1.
 Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   dfs1_solve_split.
 Qed.
 
 Lemma proof_of_dfs1_entail_wit_1_split_goal_2 : dfs1_entail_wit_1_split_goal_2.
 Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   dfs1_solve_split.
 Qed.
 
 Lemma proof_of_dfs1_entail_wit_1_split_goal_3 : dfs1_entail_wit_1_split_goal_3.
 Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   dfs1_solve_split.
 Qed.
 
 Lemma proof_of_dfs1_entail_wit_1_split_goal_4 : dfs1_entail_wit_1_split_goal_4.
 Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   dfs1_solve_split.
 Qed.
 
 Lemma proof_of_dfs1_entail_wit_1_split_goal_5 : dfs1_entail_wit_1_split_goal_5.
 Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   dfs1_solve_split.
 Qed.
 
 Lemma proof_of_dfs1_entail_wit_1_split_goal_6 : dfs1_entail_wit_1_split_goal_6.
 Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   dfs1_solve_split.
 Qed.
 
 Lemma proof_of_dfs1_entail_wit_1_split_goal_7 : dfs1_entail_wit_1_split_goal_7.
 Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   dfs1_solve_split.
 Qed.
 
 Lemma proof_of_dfs1_entail_wit_1_split_goal_8 : dfs1_entail_wit_1_split_goal_8.
 Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   dfs1_solve_split.
 Qed.
 
 Lemma proof_of_dfs1_entail_wit_1_split_goal_9 : dfs1_entail_wit_1_split_goal_9.
 Proof.
-  dfs1_solve_split.
+  LLM_pre_process ltac:(lia || nia || int_auto).
 Qed.
 
 Lemma proof_of_dfs1_entail_wit_1_split_goal_10 : dfs1_entail_wit_1_split_goal_10.
 Proof.
-  dfs1_solve_split.
+  LLM_pre_process ltac:(lia || nia || int_auto).
 Qed.
 
 Lemma proof_of_dfs1_entail_wit_1_split_goal_11 : dfs1_entail_wit_1_split_goal_11.
 Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   dfs1_solve_split.
 Qed.
 
@@ -244,19 +236,22 @@ Qed.
 
 Lemma proof_of_dfs1_entail_wit_1 : dfs1_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  Exists timer_v_low_level_spec
-    (replace_Znth u_pre 1 vis1_l_low_level_spec)
-    fin_l_low_level_spec.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial;
-      try solve
-        [ eapply proof_of_dfs1_entail_wit_1_split_goal_12; eauto
-        | eapply proof_of_dfs1_entail_wit_1_split_goal_13; eauto
-        | eapply proof_of_dfs1_entail_wit_1_split_goal_14; eauto
-        | eapply proof_of_dfs1_entail_wit_1_split_goal_15; eauto
-        | dfs1_solve_split | assumption | reflexivity | lia | eauto ].
+  aggressive_pre_process.
+  - Goal_apply proof_of_dfs1_entail_wit_1_split_goal_1.
+  - Goal_apply proof_of_dfs1_entail_wit_1_split_goal_2.
+  - Goal_apply proof_of_dfs1_entail_wit_1_split_goal_3.
+  - Goal_apply proof_of_dfs1_entail_wit_1_split_goal_4.
+  - Goal_apply proof_of_dfs1_entail_wit_1_split_goal_5.
+  - Goal_apply proof_of_dfs1_entail_wit_1_split_goal_6.
+  - Goal_apply proof_of_dfs1_entail_wit_1_split_goal_7.
+  - Goal_apply proof_of_dfs1_entail_wit_1_split_goal_8.
+  - Goal_apply proof_of_dfs1_entail_wit_1_split_goal_9.
+  - Goal_apply proof_of_dfs1_entail_wit_1_split_goal_10.
+  - Goal_apply proof_of_dfs1_entail_wit_1_split_goal_11.
+  - Goal_apply proof_of_dfs1_entail_wit_1_split_goal_12.
+  - Goal_apply proof_of_dfs1_entail_wit_1_split_goal_13.
+  - Goal_apply proof_of_dfs1_entail_wit_1_split_goal_14.
+  - Goal_apply proof_of_dfs1_entail_wit_1_split_goal_15.
 Qed.
 
 Lemma proof_of_dfs1_entail_wit_2_split_goal_1 : dfs1_entail_wit_2_split_goal_1.
@@ -281,26 +276,15 @@ Qed.
 
 Lemma proof_of_dfs1_entail_wit_2_split_goal_3 : dfs1_entail_wit_2_split_goal_3.
 Proof.
-  dfs1_solve_split.
+  LLM_pre_process ltac:(lia || nia || int_auto).
 Qed.
 
 Lemma proof_of_dfs1_entail_wit_2 : dfs1_entail_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial;
-      try solve [dfs1_solve_split | assumption | reflexivity | lia | eauto].
-    + unfold csr_wf1 in PreH2.
-      destruct PreH2 as
-        [_ [_ [_ [_ [_ [_ [_ [Hcol [_ _]]]]]]]]].
-      specialize (Hcol i ltac:(lia)).
-      lia.
-    + unfold csr_wf1 in PreH2.
-      destruct PreH2 as
-        [_ [_ [_ [_ [_ [_ [_ [Hcol [_ _]]]]]]]]].
-      specialize (Hcol i ltac:(lia)).
-      lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_dfs1_entail_wit_2_split_goal_1.
+  - Goal_apply proof_of_dfs1_entail_wit_2_split_goal_2.
+  - Goal_apply proof_of_dfs1_entail_wit_2_split_goal_3.
 Qed.
 
 Lemma proof_of_dfs1_entail_wit_3_1_split_goal_1 : dfs1_entail_wit_3_1_split_goal_1.
@@ -372,79 +356,37 @@ Qed.
 
 Lemma proof_of_dfs1_entail_wit_3_1 : dfs1_entail_wit_3_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  Exists timer_v_ vis1_l_ fin_l_.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial;
-      try solve
-        [ eapply proof_of_dfs1_entail_wit_3_1_split_goal_1; eauto
-        | eapply proof_of_dfs1_entail_wit_3_1_split_goal_2; eauto
-        | eapply proof_of_dfs1_entail_wit_3_1_split_goal_3; eauto
-        | eapply proof_of_dfs1_entail_wit_3_1_split_goal_4; eauto
-        | eapply proof_of_dfs1_entail_wit_3_1_split_goal_5; eauto
-        | eapply proof_of_dfs1_entail_wit_3_1_split_goal_6; eauto
-        | eapply proof_of_dfs1_entail_wit_3_1_split_goal_7; eauto
-        | dfs1_solve_split | assumption | reflexivity | lia | eauto];
-      try solve
-        [ unfold dfs1_timer_surplus_preserved in PreH10;
-          pose proof (PreH10 1 ltac:(lia) PreH32) as Hnonzero;
-          pose proof (count_nonzero_le_Zlength vis1_l_) as Hcount;
-          unfold csr_wf1 in PreH1;
-          destruct PreH1 as
-            [_ [_ [Hvis_len [_ [_ [_ [_ [_ [_ _]]]]]]]]];
-          rewrite Hvis_len in Hcount;
-          rewrite PreH2 in Hcount;
-          lia
-        | unfold dfs1_timer_surplus_preserved in PreH10;
-          specialize (PreH10 1 ltac:(lia) PreH32);
-          lia
-        | intros w Hw;
-          apply PreH11;
-          split;
-          [ lia
-          | apply PreH35; exact Hw ]
-        | unfold dfs1_active_timer_surplus, dfs1_timer_surplus_preserved in *;
-          intros spare Hspare Hbound;
-          specialize (PreH10 (spare + 1) ltac:(lia)) as Hpreserve;
-          replace (timer_v_ + spare + 1) with (timer_v_ + (spare + 1)) by lia;
-          apply Hpreserve;
-          replace (timer_m_2 + (spare + 1)) with (timer_m_2 + spare + 1) by lia;
-          apply PreH36; lia
-        | assert (Htimer0 : (0 <= timer_v_low_level_spec)%Z) by
-            (unfold dfs1_active_sequence_extension, dfs1_sequence_extension in PreH18;
-             destruct PreH18 as [[[Htimer0 _] _] _];
-             exact Htimer0);
-          eapply dfs1_active_sequence_extension_recurse;
-          [ exact Htimer0
-          | rewrite PreH2; lia
-          | exact PreH18
-          | exact PreH4 ] ].
+  aggressive_pre_process.
+  - Goal_apply proof_of_dfs1_entail_wit_3_1_split_goal_1.
+  - Goal_apply proof_of_dfs1_entail_wit_3_1_split_goal_2.
+  - Goal_apply proof_of_dfs1_entail_wit_3_1_split_goal_3.
+  - Goal_apply proof_of_dfs1_entail_wit_3_1_split_goal_4.
+  - Goal_apply proof_of_dfs1_entail_wit_3_1_split_goal_5.
+  - Goal_apply proof_of_dfs1_entail_wit_3_1_split_goal_6.
+  - Goal_apply proof_of_dfs1_entail_wit_3_1_split_goal_7.
 Qed.
 
 Lemma proof_of_dfs1_entail_wit_3_2_split_goal_1 : dfs1_entail_wit_3_2_split_goal_1.
 Proof.
-  dfs1_solve_split.
+  LLM_pre_process ltac:(lia || nia || int_auto).
 Qed.
 
 Lemma proof_of_dfs1_entail_wit_3_2_split_goal_2 : dfs1_entail_wit_3_2_split_goal_2.
 Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   dfs1_solve_split.
 Qed.
 
 Lemma proof_of_dfs1_entail_wit_3_2 : dfs1_entail_wit_3_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  Exists timer_m_2 vis1_m_2 fin_m_2.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial;
-      try solve [dfs1_solve_split | assumption | reflexivity | lia | eauto].
+  aggressive_pre_process.
+  - Goal_apply proof_of_dfs1_entail_wit_3_2_split_goal_1.
+  - Goal_apply proof_of_dfs1_entail_wit_3_2_split_goal_2.
 Qed.
 
 Lemma proof_of_dfs1_return_wit_1_split_goal_1 : dfs1_return_wit_1_split_goal_1.
 Proof.
-  dfs1_solve_split.
+  LLM_pre_process ltac:(lia || nia || int_auto).
 Qed.
 
 Lemma proof_of_dfs1_return_wit_1_split_goal_2 : dfs1_return_wit_1_split_goal_2.
@@ -537,66 +479,14 @@ Qed.
 
 Lemma proof_of_dfs1_return_wit_1 : dfs1_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  Exists (timer_m + 1) vis1_m (replace_Znth timer_m u_pre fin_m).
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial;
-      try solve
-        [ eapply proof_of_dfs1_return_wit_1_split_goal_1; eauto
-        | eapply proof_of_dfs1_return_wit_1_split_goal_2; eauto
-        | eapply proof_of_dfs1_return_wit_1_split_goal_3; eauto
-        | eapply proof_of_dfs1_return_wit_1_split_goal_4; eauto
-        | eapply proof_of_dfs1_return_wit_1_split_goal_5; eauto
-        | eapply proof_of_dfs1_return_wit_1_split_goal_6; eauto
-        | eapply proof_of_dfs1_return_wit_1_split_goal_7; eauto
-        | dfs1_solve_split | assumption | reflexivity | lia | eauto];
-      try solve
-        [ intros spare Hspare Hbound;
-          specialize (PreH26 spare Hspare Hbound);
-          lia
-        | destruct PreH7 as [_ Hfresh];
-          eapply dfs1_return_close_sequence_active; eauto; try lia;
-          [ rewrite PreH4; lia
-          | rewrite PreH4; lia
-          | unfold csr_wf1 in PreH2;
-            destruct PreH2 as
-              [_ [_ [_ [Hfin [_ [_ [_ [_ [_ _]]]]]]]]];
-            exact Hfin
-          | exact Hfresh
-          | rewrite <- PreH10; lia ]
-        | eapply dfs1_finish_prefix_marked_extend; eauto; try lia;
-          unfold csr_wf1 in PreH2;
-          destruct PreH2 as
-            [_ [_ [_ [Hfin [_ [_ [_ [_ [_ _]]]]]]]]];
-          rewrite PreH4 in Hfin;
-          exact Hfin
-        | eapply dfs1_sequence_extension_close_active; eauto; try lia;
-          [ unfold csr_wf1 in PreH2;
-            destruct PreH2 as
-              [_ [_ [_ [Hfin [_ [_ [_ [_ [_ _]]]]]]]]];
-            exact Hfin
-          | rewrite PreH4; lia ]
-        | unfold dfs1_sequence_state_ready in *;
-          destruct PreH5 as [_ [Hfaith _]];
-          unfold csr_wf1 in PreH2;
-          destruct PreH2 as
-            [Hvalid [Hrow [Hvis [Hfin [Hm [Hlo [Hhi [Hcol [Hroword Hcap]]]]]]]]];
-          pose proof (count_nonzero_le_Zlength vis1_m) as Hcount;
-          rewrite Hvis in Hcount;
-          rewrite PreH4 in Hcount;
-          split;
-          [ unfold csr_wf1;
-            repeat (split; try assumption);
-            rewrite Zlength_replace_Znth;
-            exact Hfin
-          | split; [exact Hfaith | lia] ]
-        | unfold csr_wf1 in PreH2;
-          destruct PreH2 as
-            [Hvalid [Hrow [Hvis [Hfin [Hm [Hlo [Hhi [Hcol [Hroword Hcap]]]]]]]]];
-          repeat (split; try assumption);
-          rewrite Zlength_replace_Znth;
-          exact Hfin ].
+  aggressive_pre_process.
+  - Goal_apply proof_of_dfs1_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_dfs1_return_wit_1_split_goal_2.
+  - Goal_apply proof_of_dfs1_return_wit_1_split_goal_3.
+  - Goal_apply proof_of_dfs1_return_wit_1_split_goal_4.
+  - Goal_apply proof_of_dfs1_return_wit_1_split_goal_5.
+  - Goal_apply proof_of_dfs1_return_wit_1_split_goal_6.
+  - Goal_apply proof_of_dfs1_return_wit_1_split_goal_7.
 Qed.
 
 Lemma proof_of_dfs1_partial_solve_wit_6_pure_split_goal_1 : dfs1_partial_solve_wit_6_pure_split_goal_1.
@@ -617,12 +507,14 @@ Qed.
 
 Lemma proof_of_dfs1_partial_solve_wit_6_pure : dfs1_partial_solve_wit_6_pure.
 Proof.
-  right.
-  exact proof_of_dfs1_partial_solve_wit_6_pure_split_goal_1.
+  aggressive_pre_process.
+  - Goal_apply proof_of_dfs1_partial_solve_wit_6_pure_split_goal_1.
 Qed.
 
-Lemma proof_of_dfs1_derive_bind_spec_by_low_level_spec : dfs1_derive_bind_spec_by_low_level_spec.
+Lemma proof_of_dfs1_low_level_spec_entail_bind_spec : dfs1_low_level_spec_entail_bind_spec.
 Proof.
+  unfold dfs1_low_level_spec_entail_bind_spec.
+  intros B u n_pre radj_col_pre radj_row_pre vis1_pre fin_pre timer_p_pre g_bind_spec radj_col_l_bind_spec radj_row_l_bind_spec vis1_l_bind_spec fin_l_bind_spec timer_v_bind_spec X_bind_spec f_bind_spec.
   LLM_pre_process ltac:(lia || nia || int_auto).
   match goal with
   | Hsafe : safeExec _ (bind _ _) _ |- _ =>
@@ -658,8 +550,10 @@ Proof.
   - split_pures; dump_pre_spatial; try assumption.
 Qed. 
 
-Lemma proof_of_dfs1_derive_high_level_spec_by_low_level_spec : dfs1_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_dfs1_low_level_spec_entail_high_level_spec : dfs1_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold dfs1_low_level_spec_entail_high_level_spec.
+  intros u n_pre radj_col_pre radj_row_pre vis1_pre fin_pre timer_p_pre g_high_level_spec radj_col_l_high_level_spec radj_row_l_high_level_spec vis1_l_high_level_spec fin_l_high_level_spec timer_v_high_level_spec X_high_level_spec.
   LLM_pre_process ltac:(lia || nia || int_auto).
   Exists g_high_level_spec radj_col_l_high_level_spec
     radj_row_l_high_level_spec vis1_l_high_level_spec

@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.QCP_demos_LLM Require Import sll_merge_rel_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 Import naive_C_Rules.
 From SimpleC.EE.QCP_demos_LLM Require Import sll_lib.
 From SimpleC.EE.QCP_demos_LLM Require Import sll_merge_rel_lib.
@@ -407,19 +392,22 @@ Proof.
     - exact PreH6.
 Qed.
 
-Lemma proof_of_merge_sort3_derive_low_level_spec_aux_by_low_level_spec : merge_sort3_derive_low_level_spec_aux_by_low_level_spec.
+Lemma proof_of_merge_sort3_low_level_spec_entail_low_level_spec_aux : merge_sort3_low_level_spec_entail_low_level_spec_aux.
 Proof.
+  unfold merge_sort3_low_level_spec_entail_low_level_spec_aux.
+  intros B x_pre l_low_level_spec_aux c_low_level_spec_aux X_low_level_spec_aux.
   LLM_pre_process ltac:(int_auto).
   apply safeExec_bind in H0 as (X_low_level_spec & Hsafe_first & Hsafe_cont).
   Exists l_low_level_spec_aux.
   Exists X_low_level_spec.
   split_pure_spatial.
   + cancel (sll x_pre l_low_level_spec_aux).
+    Intros_r retval.
     apply derivable1_wand_sepcon_adjoint.
-    Intros l0_2. Intros retval_2.
-    Exists l0_2. Exists retval_2.
+    Intros l0_2. Intros.
+    Exists l0_2. 
     repeat (split_pure_spatial || split_pures).
-    - cancel (sll retval_2 l0_2).
+    - cancel (sll retval l0_2).
     - dump_pre_spatial.
       apply (Hsafe_cont ATrue l0_2).
       exact H0.
@@ -428,18 +416,21 @@ Proof.
     - dump_pre_spatial. exact Hsafe_first.
 Qed.
 
-Lemma proof_of_merge_sort3_derive_high_level_spec_by_low_level_spec : merge_sort3_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_merge_sort3_low_level_spec_entail_high_level_spec : merge_sort3_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold merge_sort3_low_level_spec_entail_high_level_spec.
+  intros x_pre l_high_level_spec.
   LLM_pre_process ltac:(int_auto).
   Exists l_high_level_spec.
   Exists (fun l0 _ => Permutation l_high_level_spec l0 /\ incr l0).
   split_pure_spatial.
   + cancel (sll x_pre l_high_level_spec).
+    Intros_r retval.
     apply derivable1_wand_sepcon_adjoint.
-    Intros l0_2. Intros retval_2.
-    Exists l0_2. Exists retval_2.
+    Intros l0_2. Intros.
+    Exists l0_2. 
     repeat (split_pure_spatial || split_pures).
-    - cancel (sll retval_2 l0_2).
+    - cancel (sll retval l0_2).
     - dump_pre_spatial.
       apply safeExec_ret in H0 as (? & _ & Hret).
       sets_unfold in Hret.
@@ -458,37 +449,43 @@ Proof.
         exists tt. exact I.
 Qed.
 
-Lemma proof_of_merge_sort2_derive_low_level_spec_aux_by_low_level_spec : merge_sort2_derive_low_level_spec_aux_by_low_level_spec.
+Lemma proof_of_merge_sort2_low_level_spec_entail_low_level_spec_aux : merge_sort2_low_level_spec_entail_low_level_spec_aux.
 Proof.
+  unfold merge_sort2_low_level_spec_entail_low_level_spec_aux.
+  intros B x_pre l_low_level_spec_aux c_low_level_spec_aux X_low_level_spec_aux.
   LLM_pre_process ltac:(int_auto).
   apply safeExec_bind in H as (X_low_level_spec & Hsafe_first & Hsafe_cont).
   Exists l_low_level_spec_aux.
   Exists X_low_level_spec.
   split_pure_spatial.
   + cancel (sll x_pre l_low_level_spec_aux).
+    Intros_r retval.
     apply derivable1_wand_sepcon_adjoint.
-    Intros l0_2. Intros retval_2.
-    Exists l0_2. Exists retval_2.
+    Intros l0_2. Intros.
+    Exists l0_2. 
     repeat (split_pure_spatial || split_pures).
-    - cancel (sll retval_2 l0_2).
+    - cancel (sll retval l0_2).
     - dump_pre_spatial.
       apply (Hsafe_cont ATrue l0_2).
       exact H.
   + dump_pre_spatial. exact Hsafe_first.
 Qed.
 
-Lemma proof_of_merge_sort2_derive_high_level_spec_by_low_level_spec : merge_sort2_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_merge_sort2_low_level_spec_entail_high_level_spec : merge_sort2_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold merge_sort2_low_level_spec_entail_high_level_spec.
+  intros x_pre l_high_level_spec.
   LLM_pre_process ltac:(int_auto).
   Exists l_high_level_spec.
   Exists (fun l0 _ => Permutation l_high_level_spec l0 /\ incr l0).
   split_pure_spatial.
   + cancel (sll x_pre l_high_level_spec).
+    Intros_r retval.
     apply derivable1_wand_sepcon_adjoint.
-    Intros l0_2. Intros retval_2.
-    Exists l0_2. Exists retval_2.
+    Intros l0_2. Intros.
+    Exists l0_2. 
     repeat (split_pure_spatial || split_pures).
-    - cancel (sll retval_2 l0_2).
+    - cancel (sll retval l0_2).
     - dump_pre_spatial.
       apply safeExec_ret in H as (? & _ & Hret).
       sets_unfold in Hret.
@@ -505,37 +502,43 @@ Proof.
       exists tt. exact I.
 Qed.
 
-Lemma proof_of_merge_sort_derive_low_level_spec_aux_by_low_level_spec : merge_sort_derive_low_level_spec_aux_by_low_level_spec.
+Lemma proof_of_merge_sort_low_level_spec_entail_low_level_spec_aux : merge_sort_low_level_spec_entail_low_level_spec_aux.
 Proof.
+  unfold merge_sort_low_level_spec_entail_low_level_spec_aux.
+  intros B x_pre l_low_level_spec_aux c_low_level_spec_aux X_low_level_spec_aux.
   LLM_pre_process ltac:(int_auto).
   apply safeExec_bind in H as (X_low_level_spec & Hsafe_first & Hsafe_cont).
   Exists l_low_level_spec_aux.
   Exists X_low_level_spec.
   split_pure_spatial.
   + cancel (sll x_pre l_low_level_spec_aux).
+    Intros_r retval.
     apply derivable1_wand_sepcon_adjoint.
-    Intros l0_2. Intros retval_2.
-    Exists l0_2. Exists retval_2.
+    Intros l0_2. Intros.
+    Exists l0_2. 
     repeat (split_pure_spatial || split_pures).
-    - cancel (sll retval_2 l0_2).
+    - cancel (sll retval l0_2).
     - dump_pre_spatial.
       apply (Hsafe_cont ATrue l0_2).
       exact H.
   + dump_pre_spatial. exact Hsafe_first.
 Qed.
 
-Lemma proof_of_merge_sort_derive_high_level_spec_by_low_level_spec : merge_sort_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_merge_sort_low_level_spec_entail_high_level_spec : merge_sort_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold merge_sort_low_level_spec_entail_high_level_spec.
+  intros x_pre l_high_level_spec.
   LLM_pre_process ltac:(int_auto).
   Exists l_high_level_spec.
   Exists (fun l0 _ => Permutation l_high_level_spec l0 /\ incr l0).
   split_pure_spatial.
   + cancel (sll x_pre l_high_level_spec).
+    Intros_r retval.
     apply derivable1_wand_sepcon_adjoint.
-    Intros l0_2. Intros retval_2.
-    Exists l0_2. Exists retval_2.
+    Intros l0_2. Intros.
+    Exists l0_2. 
     repeat (split_pure_spatial || split_pures).
-    - cancel (sll retval_2 l0_2).
+    - cancel (sll retval l0_2).
     - dump_pre_spatial.
       apply safeExec_ret in H as (? & _ & Hret).
       sets_unfold in Hret.
@@ -552,8 +555,10 @@ Proof.
       exists tt. exact I.
 Qed.
 
-Lemma proof_of_split_rec_derive_low_level_spec_aux_by_low_level_spec : split_rec_derive_low_level_spec_aux_by_low_level_spec.
+Lemma proof_of_split_rec_low_level_spec_entail_low_level_spec_aux : split_rec_low_level_spec_entail_low_level_spec_aux.
 Proof.
+  unfold split_rec_low_level_spec_entail_low_level_spec_aux.
+  intros B x_pre p_pre q_pre l_low_level_spec_aux l1_low_level_spec_aux l2_low_level_spec_aux c_low_level_spec_aux X_low_level_spec_aux pv_low_level_spec_aux qv_low_level_spec_aux.
   LLM_pre_process ltac:(int_auto).
   apply safeExec_bind in H as (X_low_level_spec & Hsafe_first & Hsafe_cont).
   Exists l_low_level_spec_aux. Exists l1_low_level_spec_aux. Exists l2_low_level_spec_aux.
@@ -580,8 +585,10 @@ Proof.
   + dump_pre_spatial. exact Hsafe_first.
 Qed.
 
-Lemma proof_of_split_rec_derive_high_level_spec_by_low_level_spec : split_rec_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_split_rec_low_level_spec_entail_high_level_spec : split_rec_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold split_rec_low_level_spec_entail_high_level_spec.
+  intros x_pre p_pre q_pre l_high_level_spec X_high_level_spec pv_high_level_spec qv_high_level_spec.
   LLM_pre_process ltac:(int_auto).
   Exists l_high_level_spec. Exists (@nil Z). Exists (@nil Z).
   Exists X_high_level_spec.

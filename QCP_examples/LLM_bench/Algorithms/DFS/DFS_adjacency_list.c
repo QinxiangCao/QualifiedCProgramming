@@ -336,12 +336,11 @@ void dfs_adjacency_list(struct list **adjacency, int vertex_count,
              */
             /*@ Given call_set */
             dfs_adjacency_list(adjacency, vertex_count, visited, neighbor)
-              /*@ where(bind_spec)
+              /*@ where(bind_spec) {B = unit}
                     g = g, row_ptrs = row_ptrs,
                     node_addrs = node_addrs, rows = rows,
                     visited_set = call_set,
-                    c = DFSAdjacencyList::dfs_continue(g, vertex), X = X;
-                    B = unit */;
+                    c = DFSAdjacencyList::dfs_continue(g, vertex), X = X */;
 
             /*@ Assert
                   exists (after_set: Z -> Prop) (after_values: list Z)

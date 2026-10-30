@@ -1,5 +1,0 @@
-From SimpleC.EE.Applications_human.fme_ge_gmp.fme Require Import safeexec_fme_gmp_strategy_goal safeexec_fme_gmp_strategy_proof.
-
-Module safeexec_fme_gmp_Strategy_Correctness : safeexec_fme_gmp_Strategy_Correct.
-  Include safeexec_fme_gmp_strategy_proof.
-End safeexec_fme_gmp_Strategy_Correctness.

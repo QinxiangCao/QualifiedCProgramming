@@ -3,14 +3,14 @@
 // #include <stdlib.h>
 typedef unsigned long size_t;
 static int cmp_desc(const void *x, const void *y)
-/*@ With (a b : Z)
+/*@ With (va vb : Z)
     Require
-      data_at(x, int, a) * data_at(y, int, b)
+      data_at(x, int, va) * data_at(y, int, vb)
     Ensure
-      ((b > a && __return == 1) ||
-       (b < a && __return == -1) ||
-       (b == a && __return == 0)) &&
-      data_at(x, int, a) * data_at(y, int, b)
+      ((vb > va && __return == 1) ||
+       (vb < va && __return == -1) ||
+       (vb == va && __return == 0)) &&
+      data_at(x, int, va) * data_at(y, int, vb)
 */
 {
     int a = *(const int *)x, b = *(const int *)y;

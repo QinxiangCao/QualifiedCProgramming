@@ -7,6 +7,7 @@ Require Import Logic.lib.List_Func_ext.
 Require Import Logic.GeneralLogic.Base.
 Require Import Logic.GeneralLogic.ProofTheory.BasicSequentCalculus.
 Require Import Logic.GeneralLogic.ProofTheory.BasicDeduction.
+Require Import Logic.GeneralLogic.ProofTheory.BasicLogicEquiv.
 Require Import Logic.MinimumLogic.Syntax.
 Require Import Logic.MinimumLogic.ProofTheory.Minimum.
 Require Import Logic.MinimumLogic.ProofTheory.RewriteClass.
@@ -230,7 +231,7 @@ Context {L: Language}
         {iter_sepcon_DL: IterSepconDeduction_left L GammaD1}
         {bD: BasicDeduction L GammaD1}.
 
-Lemma derivable1_sepcon_iter_sepcon1:
+Lemma derivable1_iter_sepcon_app1:
   forall xs ys,
     iter_sepcon xs * iter_sepcon ys |-- iter_sepcon (xs ++ ys).
 Proof.
@@ -242,7 +243,7 @@ Proof.
   apply provable_sepcon_iter_sepcon.
 Qed.
 
-Lemma derivable1_sepcon_iter_sepcon2:
+Lemma derivable1_iter_sepcon_app2:
   forall xs ys,
     iter_sepcon (xs ++ ys) |-- iter_sepcon xs * iter_sepcon ys.
 Proof.
@@ -255,6 +256,78 @@ Proof.
 Qed.
 
 End IterSepconD1Rules.
+
+Section IterSepconLogicEquivRules.
+
+Context {L: Language}
+        {minL: MinimumLanguage L}
+        {andpL: AndLanguage L}
+        {sepconL: SepconLanguage L}
+        {empL: EmpLanguage L}
+        {iter_sepcon_L: IterSepconLanguage L}
+        {GammaD1: Derivable1 L}
+        {GammaE: LogicEquiv L}
+        {andpD: AndDeduction L GammaD1}
+        {adjD: ImpAndAdjointDeduction L GammaD1}
+        {sepconD: SepconDeduction L GammaD1}
+        {empD: EmpDeduction L GammaD1}
+        {iter_sepcon_DL: IterSepconDeduction_left L GammaD1}
+        {bD: BasicDeduction L GammaD1}
+        {GammaED1: EquivDerivable1 L GammaD1 GammaE}
+        {bE: BasicLogicEquiv L GammaE}.
+
+Lemma logic_equiv_iter_sepcon_nil:
+  logic_equiv (iter_sepcon nil) emp.
+Proof.
+  rewrite __logic_equiv_derivable1.
+  split.
+  - rewrite derivable1_iter_sepcon_l.
+    simpl. apply derivable1_refl.
+  - rewrite <- derivable1_iter_sepcon_r.
+    simpl. apply derivable1_refl.
+Qed.
+
+Lemma logic_equiv_iter_sepcon_single:
+  forall x,
+    logic_equiv (iter_sepcon (x :: nil)) x.
+Proof.
+  intros.
+  rewrite __logic_equiv_derivable1.
+  split.
+  - rewrite derivable1_iter_sepcon_l.
+    simpl.
+    rewrite derivable1_sepcon_comm.
+    apply derivable1_sepcon_emp_l.
+  - rewrite <- derivable1_iter_sepcon_r.
+    simpl.
+    eapply derivable1_trans.
+    + apply derivable1_sepcon_emp_r.
+    + apply derivable1_sepcon_comm.
+Qed.
+
+Lemma logic_equiv_iter_sepcon_app:
+  forall xs ys,
+    logic_equiv (iter_sepcon (xs ++ ys)) (iter_sepcon xs * iter_sepcon ys).
+Proof.
+  intros.
+  rewrite __logic_equiv_derivable1.
+  split.
+  - apply derivable1_iter_sepcon_app2.
+  - apply derivable1_iter_sepcon_app1.
+Qed.
+
+Lemma logic_equiv_iter_sepcon_cons:
+  forall x xs,
+    logic_equiv (iter_sepcon (x :: xs)) (x * iter_sepcon xs).
+Proof.
+  intros.
+  change (x :: xs) with ((x :: nil) ++ xs).
+  rewrite logic_equiv_iter_sepcon_app.
+  rewrite logic_equiv_iter_sepcon_single.
+  reflexivity.
+Qed.
+
+End IterSepconLogicEquivRules.
 
 (*** InstanceDerivations ***)
 

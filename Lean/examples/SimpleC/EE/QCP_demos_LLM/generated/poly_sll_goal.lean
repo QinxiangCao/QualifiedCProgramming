@@ -58,7 +58,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def reverse_safety_wit_1 : Prop :=
-  forall (A : Type) (p_pre : Int) (l : (List A)) (storeA : (Int -> (A -> Assertion))) ,
+  forall (A : Type) (l : (List A)) (storeA : (Int -> (A -> Assertion))) (p_pre : Int) ,
   ((( &( "w" ) )) # Ptr |->_)
   ** ((( &( "p" ) )) # Ptr |-> (p_pre))
   ** (sll storeA p_pre l)
@@ -67,7 +67,7 @@ noncomputable def reverse_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def reverse_entail_wit_1 : Prop :=
-  forall (A : Type) (p_pre : Int) (l : (List A)) (storeA : (Int -> (A -> Assertion))) ,
+  forall (A : Type) (l : (List A)) (storeA : (Int -> (A -> Assertion))) (p_pre : Int) ,
   (sll storeA p_pre l)
 |--
   “ ((0 : Int) = (0 : Int)) ” &&
@@ -77,7 +77,7 @@ noncomputable def reverse_entail_wit_1 : Prop :=
 
 noncomputable def reverse_entail_wit_2 : Prop :=
   (
-forall (A : Type) (p_pre : Int) (l : (List A)) (storeA : (Int -> (A -> Assertion))) (w : Int) (v : Int) (PreH1 : (w = (0 : Int))) (PreH2 : (v = p_pre)) ,
+forall (A : Type) (l : (List A)) (storeA : (Int -> (A -> Assertion))) (p_pre : Int) (w : Int) (v : Int) (PreH1 : (w = (0 : Int))) (PreH2 : (v = p_pre)) ,
   (sll storeA w (@List.nil A))
   ** (sll storeA v l)
 |--
@@ -87,7 +87,7 @@ forall (A : Type) (p_pre : Int) (l : (List A)) (storeA : (Int -> (A -> Assertion
   ** (sll storeA v l2)
 ) \/
 (
-forall (A : Type) (p_pre : Int) (l : (List A)) (w : Int) (v : Int) (PreH1 : (w = (0 : Int))) (PreH2 : (v = p_pre)) ,
+forall (A : Type) (l : (List A)) (p_pre : Int) (w : Int) (v : Int) (PreH1 : (w = (0 : Int))) (PreH2 : (v = p_pre)) ,
   TT && emp 
 |--
   “ (l = (((@List.nil A)).reverse ++ l)) ”
@@ -95,7 +95,7 @@ forall (A : Type) (p_pre : Int) (l : (List A)) (w : Int) (v : Int) (PreH1 : (w =
 )
 
 noncomputable def reverse_entail_wit_2_split_goal_1 : Prop :=
-  forall (A : Type) (p_pre : Int) (l : (List A)) (w : Int) (v : Int) (PreH1 : (w = (0 : Int))) (PreH2 : (v = p_pre)) ,
+  forall (A : Type) (l : (List A)) (p_pre : Int) (w : Int) (v : Int) (PreH1 : (w = (0 : Int))) (PreH2 : (v = p_pre)) ,
   (l = (((@List.nil A)).reverse ++ l))
 
 noncomputable def reverse_entail_wit_3 : Prop :=

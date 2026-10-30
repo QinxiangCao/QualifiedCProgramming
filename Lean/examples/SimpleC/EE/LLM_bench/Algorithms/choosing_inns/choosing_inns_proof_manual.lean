@@ -170,8 +170,7 @@ theorem proof_of_initCounts_entail_wit_2 : initCounts_entail_wit_2 := by
 
 theorem proof_of_initCounts_return_wit_1 : initCounts_return_wit_1 := by
   unfold initCounts_return_wit_1
-  right
-  intro k good_ptr seen_ptr good seen i hik hk0 hk hi0 hik' hslen hs hglen hg
+  intro seen_ptr good_ptr k good seen i hik hk0 hk hi0 hik' hslen hs hglen hg
   have hi : i = k := by omega
   subst i
   Exists good
@@ -181,6 +180,11 @@ theorem proof_of_initCounts_return_wit_1 : initCounts_return_wit_1 := by
     sep_apply (intArray.seg_to_full seen_ptr 0 k seen)
     sep_apply (intArray.seg_to_full good_ptr 0 k good)
     simp only [Int.sub_zero, Int.zero_mul, Int.add_zero]
+    cancel
+    refine naive_C_Rules.toContext.derivable1_trans _ _ _
+      (naive_C_Rules.toContext.derivable1_sepcon_mono _ _ _ _
+        (intArray.undef_seg_empty seen_ptr k).1
+        (intArray.undef_seg_empty good_ptr k).1) ?_
     cancel
   · split_pures <;> dump_pre_spatial
     all_goals first | assumption | omega
@@ -199,7 +203,7 @@ theorem aux_copyCounts_entail_wit_1_split_goal_1 : (forall (k_pre : Int) (good_o
 theorem proof_of_copyCounts_entail_wit_1 : copyCounts_entail_wit_1 := by
   unfold copyCounts_entail_wit_1
   right
-  intro k_pre good_old seen_l NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
+  intro good_old seen_l k_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
   have PreH1 : (1 <= k_pre) := NewPreH1
   have PreH2 : (k_pre <= 50) := NewPreH2
   have PreH3 : (CountArraySafe seen_l k_pre 200000) := by
@@ -252,7 +256,7 @@ theorem aux_copyCounts_entail_wit_2_split_goal_2 : (forall (k_pre : Int) (good_o
 theorem proof_of_copyCounts_entail_wit_2 : copyCounts_entail_wit_2 := by
   unfold copyCounts_entail_wit_2
   right
-  intro k_pre good_old seen_l good_cur_2 i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
+  intro good_old seen_l k_pre good_cur_2 i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
   have PreH1 : (i < k_pre) := NewPreH1
   have PreH2 : (1 <= k_pre) := NewPreH2
   have PreH3 : (k_pre <= 50) := NewPreH3
@@ -297,7 +301,7 @@ theorem proof_of_copyCounts_entail_wit_2 : copyCounts_entail_wit_2 := by
 
 theorem proof_of_copyCounts_return_wit_1_split_goal_1 : copyCounts_return_wit_1_split_goal_1 := by
   unfold copyCounts_return_wit_1_split_goal_1
-  intro k_pre good_old seen_l good_cur i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
+  intro good_old seen_l k_pre good_cur i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
   first
   | assumption
   | omega
@@ -323,7 +327,7 @@ theorem proof_of_copyCounts_return_wit_1_split_goal_1 : copyCounts_return_wit_1_
 theorem proof_of_copyCounts_return_wit_1 : copyCounts_return_wit_1 := by
   unfold copyCounts_return_wit_1
   right
-  intro k_pre good_old seen_l good_cur i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
+  intro good_old seen_l k_pre good_cur i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
   have PreH1 : (i >= k_pre) := NewPreH1
   have PreH2 : (1 <= k_pre) := NewPreH2
   have PreH3 : (k_pre <= 50) := NewPreH3
@@ -355,13 +359,13 @@ theorem proof_of_copyCounts_return_wit_1 : copyCounts_return_wit_1 := by
       | assumption
       | omega
       | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-      | exact proof_of_copyCounts_return_wit_1_split_goal_1 k_pre good_old seen_l good_cur i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
+      | exact proof_of_copyCounts_return_wit_1_split_goal_1 good_old seen_l k_pre good_cur i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15
 
 
 theorem proof_of_countChoosingInns_entail_wit_1 : countChoosingInns_entail_wit_1 := by
   unfold countChoosingInns_entail_wit_1
   right
-  intro p_pre k_pre n_pre costs_l colors_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro costs_l colors_l n_pre k_pre p_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   sep_apply (naive_C_Rules.IntArray.undef_full_split_to_undef_seg (&("seen")) k_pre 50 (by omega))
   sep_apply (naive_C_Rules.IntArray.undef_full_split_to_undef_seg (&("good")) k_pre 50 (by omega))
   sep_apply (naive_C_Rules.IntArray.undef_seg_to_undef_full (&("seen")) 0 k_pre)
@@ -373,7 +377,7 @@ theorem proof_of_countChoosingInns_entail_wit_1 : countChoosingInns_entail_wit_1
 theorem proof_of_countChoosingInns_entail_wit_2 : countChoosingInns_entail_wit_2 := by
   unfold countChoosingInns_entail_wit_2
   right
-  intro p_pre k_pre n_pre costs_l colors_l answer good_l_2 seen_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro costs_l colors_l n_pre k_pre p_pre answer good_l_2 seen_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have hs := zero_from_annotation seen_l_2 k_pre PreH1 PreH2
   have hg := zero_from_annotation good_l_2 k_pre PreH3 PreH4
   have hp := CountsZeroFull_to_ChoosingPrefixState_zero colors_l costs_l k_pre p_pre seen_l_2 good_l_2 hs hg
@@ -392,7 +396,7 @@ theorem proof_of_countChoosingInns_entail_wit_2 : countChoosingInns_entail_wit_2
 
 theorem proof_of_countChoosingInns_entail_wit_3_split_goal_1 : countChoosingInns_entail_wit_3_split_goal_1 := by
   unfold countChoosingInns_entail_wit_3_split_goal_1
-  intro p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+  intro costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
   first
   | assumption
   | omega
@@ -410,7 +414,7 @@ theorem proof_of_countChoosingInns_entail_wit_3_split_goal_1 : countChoosingInns
 
 theorem proof_of_countChoosingInns_entail_wit_3_split_goal_2 : countChoosingInns_entail_wit_3_split_goal_2 := by
   unfold countChoosingInns_entail_wit_3_split_goal_2
-  intro p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+  intro costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
   first
   | assumption
   | omega
@@ -427,7 +431,7 @@ theorem proof_of_countChoosingInns_entail_wit_3_split_goal_2 : countChoosingInns
 
 theorem proof_of_countChoosingInns_entail_wit_3_split_goal_3 : countChoosingInns_entail_wit_3_split_goal_3 := by
   unfold countChoosingInns_entail_wit_3_split_goal_3
-  intro p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+  intro costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
   first
   | assumption
   | omega
@@ -444,7 +448,7 @@ theorem proof_of_countChoosingInns_entail_wit_3_split_goal_3 : countChoosingInns
 
 theorem proof_of_countChoosingInns_entail_wit_3_split_goal_4 : countChoosingInns_entail_wit_3_split_goal_4 := by
   unfold countChoosingInns_entail_wit_3_split_goal_4
-  intro p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+  intro costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
   first
   | assumption
   | omega
@@ -460,7 +464,7 @@ theorem proof_of_countChoosingInns_entail_wit_3_split_goal_4 : countChoosingInns
 
 theorem proof_of_countChoosingInns_entail_wit_3_split_goal_5 : countChoosingInns_entail_wit_3_split_goal_5 := by
   unfold countChoosingInns_entail_wit_3_split_goal_5
-  intro p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+  intro costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
   first
   | assumption
   | omega
@@ -476,7 +480,7 @@ theorem proof_of_countChoosingInns_entail_wit_3_split_goal_5 : countChoosingInns
 
 theorem proof_of_countChoosingInns_entail_wit_3_split_goal_6 : countChoosingInns_entail_wit_3_split_goal_6 := by
   unfold countChoosingInns_entail_wit_3_split_goal_6
-  intro p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+  intro costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
   first
   | assumption
   | omega
@@ -492,7 +496,7 @@ theorem proof_of_countChoosingInns_entail_wit_3_split_goal_6 : countChoosingInns
 
 theorem proof_of_countChoosingInns_entail_wit_3_split_goal_7 : countChoosingInns_entail_wit_3_split_goal_7 := by
   unfold countChoosingInns_entail_wit_3_split_goal_7
-  intro p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+  intro costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
   first
   | assumption
   | omega
@@ -508,7 +512,7 @@ theorem proof_of_countChoosingInns_entail_wit_3_split_goal_7 : countChoosingInns
 
 theorem proof_of_countChoosingInns_entail_wit_3_split_goal_8 : countChoosingInns_entail_wit_3_split_goal_8 := by
   unfold countChoosingInns_entail_wit_3_split_goal_8
-  intro p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+  intro costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
   first
   | assumption
   | omega
@@ -523,7 +527,7 @@ theorem proof_of_countChoosingInns_entail_wit_3_split_goal_8 : countChoosingInns
 
 theorem proof_of_countChoosingInns_entail_wit_3_split_goal_9 : countChoosingInns_entail_wit_3_split_goal_9 := by
   unfold countChoosingInns_entail_wit_3_split_goal_9
-  intro p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+  intro costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
   first
   | assumption
   | omega
@@ -538,7 +542,7 @@ theorem proof_of_countChoosingInns_entail_wit_3_split_goal_9 : countChoosingInns
 
 theorem proof_of_countChoosingInns_entail_wit_3_split_goal_10 : countChoosingInns_entail_wit_3_split_goal_10 := by
   unfold countChoosingInns_entail_wit_3_split_goal_10
-  intro p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+  intro costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
   first
   | assumption
   | omega
@@ -552,7 +556,7 @@ theorem proof_of_countChoosingInns_entail_wit_3_split_goal_10 : countChoosingInn
 
 theorem proof_of_countChoosingInns_entail_wit_3_split_goal_11 : countChoosingInns_entail_wit_3_split_goal_11 := by
   unfold countChoosingInns_entail_wit_3_split_goal_11
-  intro p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+  intro costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
   first
   | assumption
   | omega
@@ -567,7 +571,7 @@ theorem proof_of_countChoosingInns_entail_wit_3_split_goal_11 : countChoosingInn
 theorem proof_of_countChoosingInns_entail_wit_3 : countChoosingInns_entail_wit_3 := by
   unfold countChoosingInns_entail_wit_3
   right
-  intro p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+  intro costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
   have PreH1 : (i < n_pre) := NewPreH1
   have PreH2 : (ChoosingInputSafe colors_l costs_l n_pre k_pre p_pre) := by inns_math
   have PreH3 : ((0 : Int) <= i) := NewPreH14
@@ -583,23 +587,23 @@ theorem proof_of_countChoosingInns_entail_wit_3 : countChoosingInns_entail_wit_3
       | assumption
       | omega
       | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_1 p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
-      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_2 p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
-      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_3 p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
-      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_4 p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
-      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_5 p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
-      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_6 p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
-      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_7 p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
-      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_8 p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
-      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_9 p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
-      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_10 p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
-      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_11 p_pre k_pre n_pre costs_l colors_l good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_1 costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_2 costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_3 costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_4 costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_5 costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_6 costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_7 costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_8 costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_9 costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_10 costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+      | exact proof_of_countChoosingInns_entail_wit_3_split_goal_11 costs_l colors_l n_pre k_pre p_pre good_l_2 seen_l_2 answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
 
 
 theorem proof_of_countChoosingInns_entail_wit_4 : countChoosingInns_entail_wit_4 := by
   unfold countChoosingInns_entail_wit_4
   right
-  intro p_pre k_pre n_pre costs_l colors_l seen_l good_l_2 c i cost answer NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40
+  intro costs_l colors_l n_pre k_pre p_pre seen_l good_l_2 c i cost answer NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40
   have PreH2 : (c = (Znth i colors_l (0 : Int))) := NewPreH2
   have PreH4 : (ChoosingInputSafe colors_l costs_l n_pre k_pre p_pre) := by inns_math
   have PreH5 : ((0 : Int) <= i) := NewPreH16
@@ -659,7 +663,7 @@ theorem aux_countChoosingInns_entail_wit_5_split_goal_2 : (forall (p_pre : Int) 
 theorem proof_of_countChoosingInns_entail_wit_5 : countChoosingInns_entail_wit_5 := by
   unfold countChoosingInns_entail_wit_5
   right
-  intro p_pre k_pre n_pre costs_l colors_l seen_next_2 seen_l good_l c i cost answer NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48
+  intro costs_l colors_l n_pre k_pre p_pre seen_next_2 seen_l good_l c i cost answer NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40 NewPreH41 NewPreH42 NewPreH43 NewPreH44 NewPreH45 NewPreH46 NewPreH47 NewPreH48
   have PreH1 : (CountArraySafe seen_next_2 k_pre 200000) := by inns_math
   have PreH2 : (c = (Znth i colors_l (0 : Int))) := NewPreH1
   have PreH3 : (cost = (Znth i costs_l (0 : Int))) := NewPreH2
@@ -691,7 +695,7 @@ theorem proof_of_countChoosingInns_entail_wit_5 : countChoosingInns_entail_wit_5
 theorem proof_of_countChoosingInns_entail_wit_6 : countChoosingInns_entail_wit_6 := by
   unfold countChoosingInns_entail_wit_6
   right
-  intro p_pre k_pre n_pre costs_l colors_l seen_l_2 good_l c i cost answer NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40
+  intro costs_l colors_l n_pre k_pre p_pre seen_l_2 good_l c i cost answer NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27 NewPreH28 NewPreH29 NewPreH30 NewPreH31 NewPreH32 NewPreH33 NewPreH34 NewPreH35 NewPreH36 NewPreH37 NewPreH38 NewPreH39 NewPreH40
   have PreH2 : (c = (Znth i colors_l (0 : Int))) := NewPreH2
   have PreH4 : (ChoosingInputSafe colors_l costs_l n_pre k_pre p_pre) := by inns_math
   have PreH5 : ((0 : Int) <= i) := NewPreH16
@@ -721,7 +725,7 @@ theorem proof_of_countChoosingInns_entail_wit_6 : countChoosingInns_entail_wit_6
 theorem proof_of_countChoosingInns_entail_wit_8 : countChoosingInns_entail_wit_8 := by
   unfold countChoosingInns_entail_wit_8
   right
-  intro p_pre k_pre n_pre costs_l colors_l good_l seen_l answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
+  intro costs_l colors_l n_pre k_pre p_pre good_l seen_l answer i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13 NewPreH14 NewPreH15 NewPreH16 NewPreH17 NewPreH18 NewPreH19 NewPreH20 NewPreH21 NewPreH22 NewPreH23 NewPreH24 NewPreH25 NewPreH26 NewPreH27
   have PreH1 : (i >= n_pre) := NewPreH1
   have PreH2 : (ChoosingInputSafe colors_l costs_l n_pre k_pre p_pre) := by inns_math
   have PreH3 : ((0 : Int) <= i) := NewPreH14

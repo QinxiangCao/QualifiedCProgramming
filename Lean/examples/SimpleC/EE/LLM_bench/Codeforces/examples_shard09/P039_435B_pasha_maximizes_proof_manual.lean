@@ -14,7 +14,7 @@ local instance : SacContext := ⟨naive_C_Rules⟩
 theorem proof_of_solver_entail_wit_1 : solver_entail_wit_1 := by
   unfold solver_entail_wit_1
   left
-  intro k_pre n_pre d_pre digits PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro digits d_pre n_pre k_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   Exists digits
   split_pure_spatial
   · cancel
@@ -28,7 +28,7 @@ theorem proof_of_solver_entail_wit_1 : solver_entail_wit_1 := by
 theorem proof_of_solver_entail_wit_2 : solver_entail_wit_2 := by
   unfold solver_entail_wit_2
   left
-  intro k_pre n_pre d_pre digits i cur_2 k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro digits d_pre n_pre k_pre i cur_2 k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   Exists cur_2
   split_pure_spatial
   · cancel
@@ -41,7 +41,7 @@ theorem proof_of_solver_entail_wit_2 : solver_entail_wit_2 := by
 theorem proof_of_solver_entail_wit_3_1 : solver_entail_wit_3_1 := by
   unfold solver_entail_wit_3_1
   left
-  intro k_pre n_pre d_pre digits best j i cur_2 k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro digits d_pre n_pre k_pre best j i cur_2 k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have hm := first_maximum_prefix_extend_strict_app_zero__selection_scan cur_2 i j best PreH21 (by omega) PreH1
   Exists cur_2
   split_pure_spatial
@@ -52,7 +52,7 @@ theorem proof_of_solver_entail_wit_3_1 : solver_entail_wit_3_1 := by
 theorem proof_of_solver_entail_wit_3_2 : solver_entail_wit_3_2 := by
   unfold solver_entail_wit_3_2
   left
-  intro k_pre n_pre d_pre digits best j i cur_2 k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro digits d_pre n_pre k_pre best j i cur_2 k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have hm := first_maximum_prefix_extend_nonstrict_app_zero__selection_scan cur_2 i j best PreH21 (by omega) PreH1
   Exists cur_2
   split_pure_spatial
@@ -63,7 +63,7 @@ theorem proof_of_solver_entail_wit_3_2 : solver_entail_wit_3_2 := by
 theorem proof_of_solver_entail_wit_4_1 : solver_entail_wit_4_1 := by
   unfold solver_entail_wit_4_1
   left
-  intro k_pre n_pre d_pre digits best j i cur_2 k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro digits d_pre n_pre k_pre best j i cur_2 k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   have hj : j = n_pre := by omega
   have hm : ReachableFirstMaximum cur_2 i k best := by
     unfold ReachableFirstMaximum
@@ -81,7 +81,7 @@ theorem proof_of_solver_entail_wit_4_1 : solver_entail_wit_4_1 := by
 theorem proof_of_solver_entail_wit_4_2 : solver_entail_wit_4_2 := by
   unfold solver_entail_wit_4_2
   left
-  intro k_pre n_pre d_pre digits best j i cur_2 k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro digits d_pre n_pre k_pre best j i cur_2 k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hj : j = i + k + 1 := by omega
   have hm : ReachableFirstMaximum cur_2 i k best := by
     unfold ReachableFirstMaximum
@@ -99,7 +99,7 @@ theorem proof_of_solver_entail_wit_4_2 : solver_entail_wit_4_2 := by
 theorem proof_of_solver_entail_wit_5 : solver_entail_wit_5 := by
   unfold solver_entail_wit_5
   left
-  intro k_pre n_pre d_pre digits k best j i cur_2 before_2 start_k_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro digits d_pre n_pre k_pre k best j i cur_2 before_2 start_k_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   subst cur_2
   have hstep := move_left_step_padded__bubble_transition before_2 best j ⟨by omega, by omega, by omega⟩
   have hlen := move_left_Zlength__bubble_transition before_2 best (j - 1) ⟨by omega, by omega, by omega⟩
@@ -118,7 +118,7 @@ theorem proof_of_solver_entail_wit_5 : solver_entail_wit_5 := by
 theorem proof_of_solver_entail_wit_6 : solver_entail_wit_6 := by
   unfold solver_entail_wit_6
   left
-  intro k_pre n_pre d_pre digits k best j i cur_2 before start_k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro digits d_pre n_pre k_pre k best j i cur_2 before start_k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hj : j = i := by omega
   subst j
   subst cur_2
@@ -139,7 +139,7 @@ theorem proof_of_solver_entail_wit_6 : solver_entail_wit_6 := by
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   unfold solver_return_wit_1
   left
-  intro k_pre n_pre d_pre digits i cur k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro digits d_pre n_pre k_pre i cur k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   Exists cur
   split_pure_spatial
   · cancel
@@ -149,7 +149,7 @@ theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
 theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
   unfold solver_return_wit_2
   left
-  intro k_pre n_pre d_pre digits i cur k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro digits d_pre n_pre k_pre i cur k PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   Exists cur
   split_pure_spatial
   · cancel

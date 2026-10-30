@@ -42,6 +42,43 @@ def _drift(state: dict, task: dict) -> list[str]:
     return errors
 
 
+def retry_parent(args) -> int:
+    """Explicitly reopen an infrastructure-blocked parent after its cause is addressed."""
+    from controller_rounds import current_attempt, waiting
+    state = load_run(args)
+    review = current_attempt(state, "vc-checking")
+    task = state["attempts"].get(args.round)
+    if (state["run_control"]["status"] != "active" or state["phase"] != "vc-checking"
+            or state.get("pending_retry") or waiting(state)
+            or state.get("final_candidate") or state.get("final_apply")
+            or not args.reason.strip()
+            or not review or review["status"] != "blocked"
+            or review.get("blocker", {}).get("failure_class") != "infrastructure"
+            or review.get("retry_reason") != "parent-check-failed"
+            or review.get("retry_previous_attempt") != args.round
+            or not task or task.get("phase") != "vc-proving"
+            or task["status"] != "blocked"
+            or task.get("blocker", {}).get("failure_class") != "parent-check"
+            or task.get("source_annotation") != state["current"]["annotation"]
+            or any(group["status"] != "accepted" for group in task.get("groups", {}).values())):
+        raise SystemExit("retry-parent requires an infrastructure review of fully accepted current groups")
+    errors = _current_files_errors(state)
+    if errors:
+        raise SystemExit("retry-parent refuses current-file drift: " + errors[0])
+    task.setdefault("parent_retries", []).append({
+        "requested_at": _utc(), "reason": args.reason, "review": review["attempt_id"],
+        "previous_blocker": task["blocker"],
+    })
+    task.update(status="running")
+    task.pop("blocker", None)
+    task.pop("finished_at", None)
+    state["current"]["vc-proving"] = task["attempt_id"]
+    state.update(phase="vc-proving", current_blockers=[])
+    _save_state(Path(state["run_root"]), state)
+    # This only schedules a fresh merge and full check; it accepts no proofs.
+    return _respond(state, {"status": "passed", "reopened_round": task["attempt_id"]})
+
+
 def vc_proving_preparing(args) -> int:
     from controller_rounds import require_action
     state = load_run(args)

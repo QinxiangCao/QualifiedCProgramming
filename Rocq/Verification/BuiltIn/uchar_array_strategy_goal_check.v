@@ -1,0 +1,5 @@
+From SimpleC.Verification.BuiltIn Require Import uchar_array_strategy_goal uchar_array_strategy_proof.
+
+Module uchar_array_Strategy_Correctness : uchar_array_Strategy_Correct.
+  Include uchar_array_strategy_proof.
+End uchar_array_Strategy_Correctness.

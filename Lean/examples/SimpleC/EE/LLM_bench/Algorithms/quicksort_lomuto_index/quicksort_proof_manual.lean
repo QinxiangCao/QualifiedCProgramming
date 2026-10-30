@@ -67,51 +67,51 @@ private theorem manual_forall_suffix (P : Int → Prop) (l : List Int) (lo hi : 
 
 theorem proof_of_partition_entail_wit_1_split_goal_1 : partition_entail_wit_1_split_goal_1 := by
   unfold partition_entail_wit_1_split_goal_1
-  intro high_pre low_pre n_pre l PreH1 PreH2 PreH3 PreH4
+  intro l n_pre low_pre high_pre PreH1 PreH2 PreH3 PreH4
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   intro k hk
   omega
 
 theorem proof_of_partition_entail_wit_1_split_goal_2 : partition_entail_wit_1_split_goal_2 := by
   unfold partition_entail_wit_1_split_goal_2
-  intro high_pre low_pre n_pre l PreH1 PreH2 PreH3 PreH4
+  intro l n_pre low_pre high_pre PreH1 PreH2 PreH3 PreH4
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   intro k hk
   omega
 
 theorem proof_of_partition_entail_wit_1_split_goal_3 : partition_entail_wit_1_split_goal_3 := by
   unfold partition_entail_wit_1_split_goal_3
-  intro high_pre low_pre n_pre l PreH1 PreH2 PreH3 PreH4
+  intro l n_pre low_pre high_pre PreH1 PreH2 PreH3 PreH4
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   exact same_outside_range_refl l low_pre high_pre
 
 theorem proof_of_partition_entail_wit_1_split_goal_4 : partition_entail_wit_1_split_goal_4 := by
   unfold partition_entail_wit_1_split_goal_4
-  intro high_pre low_pre n_pre l PreH1 PreH2 PreH3 PreH4
+  intro l n_pre low_pre high_pre PreH1 PreH2 PreH3 PreH4
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   exact List.Perm.refl l
 
 theorem proof_of_partition_entail_wit_1 : partition_entail_wit_1 := by
   unfold partition_entail_wit_1
   right
-  intro high_pre low_pre n_pre l PreH1 PreH2 PreH3 PreH4
+  intro l n_pre low_pre high_pre PreH1 PreH2 PreH3 PreH4
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | (solve | Goal_apply (proof_of_partition_entail_wit_1_split_goal_1 high_pre low_pre n_pre l PreH1 PreH2 PreH3 PreH4))
-      | exact (proof_of_partition_entail_wit_1_split_goal_1 high_pre low_pre n_pre l PreH1 PreH2 PreH3 PreH4)
-      | (solve | Goal_apply (proof_of_partition_entail_wit_1_split_goal_2 high_pre low_pre n_pre l PreH1 PreH2 PreH3 PreH4))
-      | exact (proof_of_partition_entail_wit_1_split_goal_2 high_pre low_pre n_pre l PreH1 PreH2 PreH3 PreH4)
-      | (solve | Goal_apply (proof_of_partition_entail_wit_1_split_goal_3 high_pre low_pre n_pre l PreH1 PreH2 PreH3 PreH4))
-      | exact (proof_of_partition_entail_wit_1_split_goal_3 high_pre low_pre n_pre l PreH1 PreH2 PreH3 PreH4)
-      | (solve | Goal_apply (proof_of_partition_entail_wit_1_split_goal_4 high_pre low_pre n_pre l PreH1 PreH2 PreH3 PreH4))
-      | exact (proof_of_partition_entail_wit_1_split_goal_4 high_pre low_pre n_pre l PreH1 PreH2 PreH3 PreH4)
+      | (solve | Goal_apply (proof_of_partition_entail_wit_1_split_goal_1 l n_pre low_pre high_pre PreH1 PreH2 PreH3 PreH4))
+      | exact (proof_of_partition_entail_wit_1_split_goal_1 l n_pre low_pre high_pre PreH1 PreH2 PreH3 PreH4)
+      | (solve | Goal_apply (proof_of_partition_entail_wit_1_split_goal_2 l n_pre low_pre high_pre PreH1 PreH2 PreH3 PreH4))
+      | exact (proof_of_partition_entail_wit_1_split_goal_2 l n_pre low_pre high_pre PreH1 PreH2 PreH3 PreH4)
+      | (solve | Goal_apply (proof_of_partition_entail_wit_1_split_goal_3 l n_pre low_pre high_pre PreH1 PreH2 PreH3 PreH4))
+      | exact (proof_of_partition_entail_wit_1_split_goal_3 l n_pre low_pre high_pre PreH1 PreH2 PreH3 PreH4)
+      | (solve | Goal_apply (proof_of_partition_entail_wit_1_split_goal_4 l n_pre low_pre high_pre PreH1 PreH2 PreH3 PreH4))
+      | exact (proof_of_partition_entail_wit_1_split_goal_4 l n_pre low_pre high_pre PreH1 PreH2 PreH3 PreH4)
       | trivial
 
 theorem proof_of_partition_entail_wit_2_1_split_goal_3 : partition_entail_wit_2_1_split_goal_3 := by
   unfold partition_entail_wit_2_1_split_goal_3
-  intro high_pre low_pre n_pre l l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro l n_pre low_pre high_pre l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   simp only [Zlength_replace_Znth] at PreH1
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
@@ -121,7 +121,7 @@ theorem proof_of_partition_entail_wit_2_1_split_goal_3 : partition_entail_wit_2_
 
 theorem proof_of_partition_entail_wit_2_1_split_goal_4 : partition_entail_wit_2_1_split_goal_4 := by
   unfold partition_entail_wit_2_1_split_goal_4
-  intro high_pre low_pre n_pre l l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro l n_pre low_pre high_pre l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   simp only [Zlength_replace_Znth] at PreH1
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
@@ -130,7 +130,7 @@ theorem proof_of_partition_entail_wit_2_1_split_goal_4 : partition_entail_wit_2_
 
 theorem proof_of_partition_entail_wit_2_1_split_goal_1 : partition_entail_wit_2_1_split_goal_1 := by
   unfold partition_entail_wit_2_1_split_goal_1
-  intro high_pre low_pre n_pre l l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro l n_pre low_pre high_pre l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   simp only [Zlength_replace_Znth] at PreH1
   apply lomuto_Forall_sublist_by_Znth _ _ _ _ (by omega) (by simpa only [Zlength_replace_Znth] using (show j_2+1 ≤ Zlength l1_2 by omega))
   intro k hk
@@ -143,7 +143,7 @@ theorem proof_of_partition_entail_wit_2_1_split_goal_1 : partition_entail_wit_2_
 
 theorem proof_of_partition_entail_wit_2_1_split_goal_2 : partition_entail_wit_2_1_split_goal_2 := by
   unfold partition_entail_wit_2_1_split_goal_2
-  intro high_pre low_pre n_pre l l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro l n_pre low_pre high_pre l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   simp only [Zlength_replace_Znth] at PreH1
   apply lomuto_Forall_sublist_by_Znth _ _ _ _ (by omega) (by simpa only [Zlength_replace_Znth] using (show (i_2+1)+1 ≤ Zlength l1_2 by omega))
   intro k hk
@@ -160,7 +160,7 @@ theorem proof_of_partition_entail_wit_2_1_split_goal_2 : partition_entail_wit_2_
 
 theorem proof_of_partition_entail_wit_2_1_split_goal_5 : partition_entail_wit_2_1_split_goal_5 := by
   unfold partition_entail_wit_2_1_split_goal_5
-  intro high_pre low_pre n_pre l l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro l n_pre low_pre high_pre l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   simp only [Zlength_replace_Znth] at PreH1
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
@@ -169,20 +169,20 @@ theorem proof_of_partition_entail_wit_2_1_split_goal_5 : partition_entail_wit_2_
 theorem proof_of_partition_entail_wit_2_1 : partition_entail_wit_2_1 := by
   unfold partition_entail_wit_2_1
   right
-  intro high_pre low_pre n_pre l l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro l n_pre low_pre high_pre l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_partition_entail_wit_2_1_split_goal_1 high_pre low_pre n_pre l l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
-      | exact proof_of_partition_entail_wit_2_1_split_goal_2 high_pre low_pre n_pre l l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
-      | exact proof_of_partition_entail_wit_2_1_split_goal_3 high_pre low_pre n_pre l l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
-      | exact proof_of_partition_entail_wit_2_1_split_goal_4 high_pre low_pre n_pre l l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
-      | exact proof_of_partition_entail_wit_2_1_split_goal_5 high_pre low_pre n_pre l l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+      | exact proof_of_partition_entail_wit_2_1_split_goal_1 l n_pre low_pre high_pre l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+      | exact proof_of_partition_entail_wit_2_1_split_goal_2 l n_pre low_pre high_pre l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+      | exact proof_of_partition_entail_wit_2_1_split_goal_3 l n_pre low_pre high_pre l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+      | exact proof_of_partition_entail_wit_2_1_split_goal_4 l n_pre low_pre high_pre l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+      | exact proof_of_partition_entail_wit_2_1_split_goal_5 l n_pre low_pre high_pre l1_2 j_2 i_2 pivot_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
 
 theorem proof_of_partition_return_wit_1_split_goal_1 : partition_return_wit_1_split_goal_1 := by
   unfold partition_return_wit_1_split_goal_1
-  intro high_pre low_pre n_pre l l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro l n_pre low_pre high_pre l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   simp only [Zlength_replace_Znth] at PreH1
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
@@ -193,7 +193,7 @@ theorem proof_of_partition_return_wit_1_split_goal_1 : partition_return_wit_1_sp
 
 theorem proof_of_partition_return_wit_1_split_goal_2 : partition_return_wit_1_split_goal_2 := by
   unfold partition_return_wit_1_split_goal_2
-  intro high_pre low_pre n_pre l l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro l n_pre low_pre high_pre l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   simp only [Zlength_replace_Znth] at PreH1
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
@@ -203,7 +203,7 @@ theorem proof_of_partition_return_wit_1_split_goal_2 : partition_return_wit_1_sp
 
 theorem proof_of_partition_return_wit_1_split_goal_3 : partition_return_wit_1_split_goal_3 := by
   unfold partition_return_wit_1_split_goal_3
-  intro high_pre low_pre n_pre l l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro l n_pre low_pre high_pre l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   simp only [Zlength_replace_Znth] at PreH1
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
@@ -213,22 +213,22 @@ theorem proof_of_partition_return_wit_1_split_goal_3 : partition_return_wit_1_sp
 theorem proof_of_partition_return_wit_1 : partition_return_wit_1 := by
   unfold partition_return_wit_1
   right
-  intro high_pre low_pre n_pre l l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+  intro l n_pre low_pre high_pre l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | (solve | Goal_apply (proof_of_partition_return_wit_1_split_goal_1 high_pre low_pre n_pre l l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14))
-      | exact (proof_of_partition_return_wit_1_split_goal_1 high_pre low_pre n_pre l l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14)
-      | (solve | Goal_apply (proof_of_partition_return_wit_1_split_goal_2 high_pre low_pre n_pre l l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14))
-      | exact (proof_of_partition_return_wit_1_split_goal_2 high_pre low_pre n_pre l l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14)
-      | (solve | Goal_apply (proof_of_partition_return_wit_1_split_goal_3 high_pre low_pre n_pre l l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14))
-      | exact (proof_of_partition_return_wit_1_split_goal_3 high_pre low_pre n_pre l l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14)
+      | (solve | Goal_apply (proof_of_partition_return_wit_1_split_goal_1 l n_pre low_pre high_pre l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14))
+      | exact (proof_of_partition_return_wit_1_split_goal_1 l n_pre low_pre high_pre l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14)
+      | (solve | Goal_apply (proof_of_partition_return_wit_1_split_goal_2 l n_pre low_pre high_pre l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14))
+      | exact (proof_of_partition_return_wit_1_split_goal_2 l n_pre low_pre high_pre l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14)
+      | (solve | Goal_apply (proof_of_partition_return_wit_1_split_goal_3 l n_pre low_pre high_pre l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14))
+      | exact (proof_of_partition_return_wit_1_split_goal_3 l n_pre low_pre high_pre l1_2 j i pivot PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14)
       | trivial
 
 theorem proof_of_quicksort_range_return_wit_1_split_goal_1 : quicksort_range_return_wit_1_split_goal_1 := by
   unfold quicksort_range_return_wit_1_split_goal_1
-  intro right_pre left_pre n_pre l l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro l n_pre left_pre right_pre l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   have hl3 := PreH3.1
   have hl2 := PreH7.1
@@ -242,7 +242,7 @@ theorem proof_of_quicksort_range_return_wit_1_split_goal_1 : quicksort_range_ret
 
 theorem proof_of_quicksort_range_return_wit_1_split_goal_2 : quicksort_range_return_wit_1_split_goal_2 := by
   unfold quicksort_range_return_wit_1_split_goal_2
-  intro right_pre left_pre n_pre l l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro l n_pre left_pre right_pre l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   have h1 := same_outside_range_weaken_local l1_2 l1_3 left_pre (retval - 1) left_pre right_pre (by omega) (by omega) PreH7
   have h2 := same_outside_range_weaken_local l1_3 l1_4 (retval + 1) right_pre left_pre right_pre (by omega) (by omega) PreH3
@@ -251,29 +251,29 @@ theorem proof_of_quicksort_range_return_wit_1_split_goal_2 : quicksort_range_ret
 
 theorem proof_of_quicksort_range_return_wit_1_split_goal_3 : quicksort_range_return_wit_1_split_goal_3 := by
   unfold quicksort_range_return_wit_1_split_goal_3
-  intro right_pre left_pre n_pre l l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro l n_pre left_pre right_pre l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   exact PreH12.trans (PreH6.trans PreH2)
 
 theorem proof_of_quicksort_range_return_wit_1 : quicksort_range_return_wit_1 := by
   unfold quicksort_range_return_wit_1
   right
-  intro right_pre left_pre n_pre l l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro l n_pre left_pre right_pre l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_1_split_goal_1 right_pre left_pre n_pre l l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
-      | exact (proof_of_quicksort_range_return_wit_1_split_goal_1 right_pre left_pre n_pre l l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
-      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_1_split_goal_2 right_pre left_pre n_pre l l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
-      | exact (proof_of_quicksort_range_return_wit_1_split_goal_2 right_pre left_pre n_pre l l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
-      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_1_split_goal_3 right_pre left_pre n_pre l l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
-      | exact (proof_of_quicksort_range_return_wit_1_split_goal_3 right_pre left_pre n_pre l l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
+      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_1_split_goal_1 l n_pre left_pre right_pre l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
+      | exact (proof_of_quicksort_range_return_wit_1_split_goal_1 l n_pre left_pre right_pre l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
+      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_1_split_goal_2 l n_pre left_pre right_pre l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
+      | exact (proof_of_quicksort_range_return_wit_1_split_goal_2 l n_pre left_pre right_pre l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
+      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_1_split_goal_3 l n_pre left_pre right_pre l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
+      | exact (proof_of_quicksort_range_return_wit_1_split_goal_3 l n_pre left_pre right_pre l1_2 retval l1_3 l1_4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
       | trivial
 
 theorem proof_of_quicksort_range_return_wit_2_split_goal_1 : quicksort_range_return_wit_2_split_goal_1 := by
   unfold quicksort_range_return_wit_2_split_goal_1
-  intro right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   have hlen := PreH3.1
   have hp := partitioned_at_preserved_by_right_local l1_2 l1_3 left_pre right_pre retval PreH2 PreH14 PreH3 (by omega) PreH11
@@ -281,36 +281,36 @@ theorem proof_of_quicksort_range_return_wit_2_split_goal_1 : quicksort_range_ret
 
 theorem proof_of_quicksort_range_return_wit_2_split_goal_2 : quicksort_range_return_wit_2_split_goal_2 := by
   unfold quicksort_range_return_wit_2_split_goal_2
-  intro right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   exact same_outside_range_trans_local l l1_2 l1_3 left_pre right_pre PreH10
     (same_outside_range_weaken_local l1_2 l1_3 (retval + 1) right_pre left_pre right_pre (by omega) (by omega) PreH3)
 
 theorem proof_of_quicksort_range_return_wit_2_split_goal_3 : quicksort_range_return_wit_2_split_goal_3 := by
   unfold quicksort_range_return_wit_2_split_goal_3
-  intro right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   exact PreH9.trans PreH2
 
 theorem proof_of_quicksort_range_return_wit_2 : quicksort_range_return_wit_2 := by
   unfold quicksort_range_return_wit_2
   right
-  intro right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_2_split_goal_1 right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-      | exact (proof_of_quicksort_range_return_wit_2_split_goal_1 right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_2_split_goal_2 right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-      | exact (proof_of_quicksort_range_return_wit_2_split_goal_2 right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_2_split_goal_3 right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-      | exact (proof_of_quicksort_range_return_wit_2_split_goal_3 right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_2_split_goal_1 l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+      | exact (proof_of_quicksort_range_return_wit_2_split_goal_1 l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_2_split_goal_2 l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+      | exact (proof_of_quicksort_range_return_wit_2_split_goal_2 l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_2_split_goal_3 l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+      | exact (proof_of_quicksort_range_return_wit_2_split_goal_3 l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
       | trivial
 
 theorem proof_of_quicksort_range_return_wit_3_split_goal_1 : quicksort_range_return_wit_3_split_goal_1 := by
   unfold quicksort_range_return_wit_3_split_goal_1
-  intro right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   have hlen := PreH4.1
   have hp := partitioned_at_preserved_by_left_local l1_2 l1_3 left_pre right_pre retval PreH3 PreH14 PreH4 (by omega) PreH11
@@ -318,36 +318,36 @@ theorem proof_of_quicksort_range_return_wit_3_split_goal_1 : quicksort_range_ret
 
 theorem proof_of_quicksort_range_return_wit_3_split_goal_2 : quicksort_range_return_wit_3_split_goal_2 := by
   unfold quicksort_range_return_wit_3_split_goal_2
-  intro right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   exact same_outside_range_trans_local l l1_2 l1_3 left_pre right_pre PreH10
     (same_outside_range_weaken_local l1_2 l1_3 left_pre (retval - 1) left_pre right_pre (by omega) (by omega) PreH4)
 
 theorem proof_of_quicksort_range_return_wit_3_split_goal_3 : quicksort_range_return_wit_3_split_goal_3 := by
   unfold quicksort_range_return_wit_3_split_goal_3
-  intro right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   exact PreH9.trans PreH3
 
 theorem proof_of_quicksort_range_return_wit_3 : quicksort_range_return_wit_3 := by
   unfold quicksort_range_return_wit_3
   right
-  intro right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_3_split_goal_1 right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-      | exact (proof_of_quicksort_range_return_wit_3_split_goal_1 right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_3_split_goal_2 right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-      | exact (proof_of_quicksort_range_return_wit_3_split_goal_2 right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_3_split_goal_3 right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-      | exact (proof_of_quicksort_range_return_wit_3_split_goal_3 right_pre left_pre n_pre l l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_3_split_goal_1 l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+      | exact (proof_of_quicksort_range_return_wit_3_split_goal_1 l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_3_split_goal_2 l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+      | exact (proof_of_quicksort_range_return_wit_3_split_goal_2 l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_3_split_goal_3 l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+      | exact (proof_of_quicksort_range_return_wit_3_split_goal_3 l n_pre left_pre right_pre l1_2 retval l1_3 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
       | trivial
 
 theorem proof_of_quicksort_range_return_wit_4_split_goal_1 : quicksort_range_return_wit_4_split_goal_1 := by
   unfold quicksort_range_return_wit_4_split_goal_1
-  intro right_pre left_pre n_pre l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
+  intro l n_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   intro i j hi hij hj
   have he : i = j := by omega
@@ -355,35 +355,35 @@ theorem proof_of_quicksort_range_return_wit_4_split_goal_1 : quicksort_range_ret
 
 theorem proof_of_quicksort_range_return_wit_4_split_goal_2 : quicksort_range_return_wit_4_split_goal_2 := by
   unfold quicksort_range_return_wit_4_split_goal_2
-  intro right_pre left_pre n_pre l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
+  intro l n_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   exact same_outside_range_refl l left_pre right_pre
 
 theorem proof_of_quicksort_range_return_wit_4_split_goal_3 : quicksort_range_return_wit_4_split_goal_3 := by
   unfold quicksort_range_return_wit_4_split_goal_3
-  intro right_pre left_pre n_pre l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
+  intro l n_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   exact List.Perm.refl l
 
 theorem proof_of_quicksort_range_return_wit_4 : quicksort_range_return_wit_4 := by
   unfold quicksort_range_return_wit_4
   right
-  intro right_pre left_pre n_pre l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
+  intro l n_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_4_split_goal_1 right_pre left_pre n_pre l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6))
-      | exact (proof_of_quicksort_range_return_wit_4_split_goal_1 right_pre left_pre n_pre l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6)
-      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_4_split_goal_2 right_pre left_pre n_pre l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6))
-      | exact (proof_of_quicksort_range_return_wit_4_split_goal_2 right_pre left_pre n_pre l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6)
-      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_4_split_goal_3 right_pre left_pre n_pre l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6))
-      | exact (proof_of_quicksort_range_return_wit_4_split_goal_3 right_pre left_pre n_pre l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6)
+      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_4_split_goal_1 l n_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6))
+      | exact (proof_of_quicksort_range_return_wit_4_split_goal_1 l n_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6)
+      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_4_split_goal_2 l n_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6))
+      | exact (proof_of_quicksort_range_return_wit_4_split_goal_2 l n_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6)
+      | (solve | Goal_apply (proof_of_quicksort_range_return_wit_4_split_goal_3 l n_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6))
+      | exact (proof_of_quicksort_range_return_wit_4_split_goal_3 l n_pre left_pre right_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6)
       | trivial
 
 theorem proof_of_quicksort_return_wit_1_split_goal_1 : quicksort_return_wit_1_split_goal_1 := by
   unfold quicksort_return_wit_1_split_goal_1
-  intro n_pre l l1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
+  intro l n_pre l1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
   try simp (disch := omega) only [manual_forall_sublist, manual_forall_suffix, manual_range_succ_iff, manual_range_lower_succ_iff, manual_range_upper_succ_iff] at *
   apply range_nondecreasing_full_to_increasing
   simpa only [PreH1] using PreH4
@@ -391,19 +391,19 @@ theorem proof_of_quicksort_return_wit_1_split_goal_1 : quicksort_return_wit_1_sp
 theorem proof_of_quicksort_return_wit_1 : quicksort_return_wit_1 := by
   unfold quicksort_return_wit_1
   right
-  intro n_pre l l1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
+  intro l n_pre l1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | (solve | Goal_apply (proof_of_quicksort_return_wit_1_split_goal_1 n_pre l l1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6))
-      | exact (proof_of_quicksort_return_wit_1_split_goal_1 n_pre l l1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6)
+      | (solve | Goal_apply (proof_of_quicksort_return_wit_1_split_goal_1 l n_pre l1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6))
+      | exact (proof_of_quicksort_return_wit_1_split_goal_1 l n_pre l1_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6)
       | trivial
 
 theorem proof_of_partition_entail_wit_2_2 : partition_entail_wit_2_2 := by
   unfold partition_entail_wit_2_2
   right
-  intro high low n l current j i pivot hlen hread hjh hpivot hlo hlh hhigh hli hij hjh' hperm hout hreadpivot hleft hmiddle
+  intro l n low high current j i pivot hlen hread hjh hpivot hlo hlh hhigh hli hij hjh' hperm hout hreadpivot hleft hmiddle
   have hnew : Forall (fun x : Int => pivot < x) (sublist (i+1) (j+1) current) := by
     apply lomuto_Forall_sublist_by_Znth _ current _ _ (by omega) (by omega)
     intro k hk

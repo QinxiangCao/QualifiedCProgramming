@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P037_1266C_diverse_matrix_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P037_1266C_diverse_matrix_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.array2_ext_lib.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P037_1266C_diverse_matrix_lib.
@@ -24,7 +8,7 @@ Local Open Scope sac.
 
 Lemma proof_of_solver_entail_wit_1 : solver_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists rows_2.
   subst r_pre.
   unfold ConstructionPrefix, StagedConstruction, ConstructionIndices in PreH2.
@@ -51,7 +35,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2 : solver_entail_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists rows_2.
   replace (1 - 1) with 0 by lia.
   split_pure_spatial.
@@ -64,7 +48,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3 : solver_entail_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists ((replace_Znth (j - 1) (Some (j + 1))
     (Znth 0 rows_2 __default__List__App_option_Z)) :: nil).
   subst r_pre.
@@ -83,7 +67,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_split_goal_1 : solver_entail_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_4 : solver_entail_wit_4.
@@ -94,7 +78,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_1 : solver_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace ((i - 1) * c_pre + (1 - 1)) with ((i - 1) * c_pre) by ring.
   exact PreH11.
 Qed.
@@ -107,7 +91,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_split_goal_1 : solver_entail_wit_6_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (j = c_pre + 1) by lia. subst j.
   replace ((i + 1 - 1) * c_pre)
     with ((i - 1) * c_pre + (c_pre + 1 - 1)) by ring.
@@ -116,7 +100,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_split_goal_2 : solver_entail_wit_6_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_6 : solver_entail_wit_6.
@@ -128,7 +112,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7 : solver_entail_wit_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (replace_Znth (i - 1)
     (replace_Znth (j - 1) (Some ((c_pre + i) * j))
       (Znth (i - 1) rows_2 __default__List__App_option_Z)) rows_2).
@@ -179,7 +163,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1 : solver_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hi : i = r_pre + 1) by lia. subst i.
   assert (Hrows : rows = Array2.some_rows (ConstructionMatrix r_pre c_pre)).
   { unfold Array2.some_rows.
@@ -201,7 +185,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_2 : solver_return_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hj : j = c_pre + 1) by lia. subst j.
   subst r_pre.
   assert (Hrows : rows = Array2.some_rows (ConstructionMatrix 1 c_pre)).
@@ -246,7 +230,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_3_split_goal_1 : solver_return_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   exact no_diverse_one_by_one__degenerate_result.
 Qed.
 
@@ -258,7 +242,7 @@ Qed.
 
 Lemma proof_of_solver_which_implies_wit_1 : solver_which_implies_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (StagedConstruction r_pre c_pre 0).
   split_pure_spatial.
   - sep_apply_l_atomic

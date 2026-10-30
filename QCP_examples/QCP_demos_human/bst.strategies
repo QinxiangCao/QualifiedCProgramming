@@ -16,7 +16,7 @@ action : left_erase(0);
 id : 1
 priority : core(1)
 right : store_ptb(?p, p, ?pt) at 0
-        store(p, PTR(struct tree), ?q) at 1
+        store(p, PTR, ?q) at 1
 action : right_erase(0);
          right_add(pt == empty_partial_tree());
 
@@ -32,7 +32,7 @@ action : left_erase(0);
 id : 4
 priority : core(1)
 right : store_pt(?p, p, ?pt) at 0
-        store(p, PTR(struct tree), ?q) at 1
+        store(p, PTR, ?q) at 1
 action : right_erase(0);
          right_add(pt == empty_partial_tree());
 

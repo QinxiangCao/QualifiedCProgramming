@@ -59,7 +59,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def wins_safety_wit_1 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
+  forall (place_pre : Int) (score_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
   ((( &( "z" ) )) # Int |->_)
   ** ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
@@ -68,7 +68,7 @@ noncomputable def wins_safety_wit_1 : Prop :=
   “ (475 ≠ (0 : Int)) ”
 
 noncomputable def wins_safety_wit_2 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
+  forall (place_pre : Int) (score_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
   ((( &( "z" ) )) # Int |->_)
   ** ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
@@ -77,7 +77,7 @@ noncomputable def wins_safety_wit_2 : Prop :=
   “ (50 ≠ (0 : Int)) ”
 
 noncomputable def wins_safety_wit_3 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
+  forall (place_pre : Int) (score_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
   ((( &( "z" ) )) # Int |->_)
   ** ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
@@ -86,7 +86,7 @@ noncomputable def wins_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 50) ”
 
 noncomputable def wins_safety_wit_4 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
+  forall (place_pre : Int) (score_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
   ((( &( "z" ) )) # Int |->_)
   ** ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
@@ -95,7 +95,7 @@ noncomputable def wins_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 475) ”
 
 noncomputable def wins_safety_wit_5 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
+  forall (place_pre : Int) (score_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "z" ) )) # Int |-> ((Z.rem (Z.quot score_pre 50) 475)))
   ** ((( &( "place" ) )) # Int |-> (place_pre))
@@ -105,7 +105,7 @@ noncomputable def wins_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def wins_safety_wit_6 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= 25)) (PreH7 : ((0 : Int) <= z)) (PreH8 : (z < 475)) (PreH9 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= 25)) (PreH7 : ((0 : Int) <= z)) (PreH8 : (z < 475)) (PreH9 : (ShirtScanState score_pre place_pre i z)) ,
   ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -115,7 +115,7 @@ noncomputable def wins_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= 25) ”
 
 noncomputable def wins_safety_wit_7 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
   ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -125,7 +125,7 @@ noncomputable def wins_safety_wit_7 : Prop :=
   “ (475 ≠ (0 : Int)) ”
 
 noncomputable def wins_safety_wit_8 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
   ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -135,7 +135,7 @@ noncomputable def wins_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= ((z * 96) + 42)) ”
 
 noncomputable def wins_safety_wit_9 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
   ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -145,7 +145,7 @@ noncomputable def wins_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= (z * 96)) ”
 
 noncomputable def wins_safety_wit_10 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
   ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -155,7 +155,7 @@ noncomputable def wins_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= 96) ”
 
 noncomputable def wins_safety_wit_11 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
   ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -165,7 +165,7 @@ noncomputable def wins_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= 42) ”
 
 noncomputable def wins_safety_wit_12 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
   ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -176,7 +176,7 @@ noncomputable def wins_safety_wit_12 : Prop :=
 
 noncomputable def wins_safety_wit_13 : Prop :=
   (
-forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
+forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
   ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -186,7 +186,7 @@ forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)
   “ ((INT_MIN) <= ((Z.rem ((z * 96) + 42) 475) + 26)) ”
 ) \/
 (
-forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
+forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
   ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -197,7 +197,7 @@ forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)
 )
 
 noncomputable def wins_safety_wit_13_split_goal_1 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
   ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -206,7 +206,7 @@ noncomputable def wins_safety_wit_13_split_goal_1 : Prop :=
   “ (((Z.rem ((z * 96) + 42) 475) + 26) <= INT_MAX) ”
 
 noncomputable def wins_safety_wit_13_split_goal_2 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
   ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -215,7 +215,7 @@ noncomputable def wins_safety_wit_13_split_goal_2 : Prop :=
   “ ((INT_MIN) <= ((Z.rem ((z * 96) + 42) 475) + 26)) ”
 
 noncomputable def wins_safety_wit_14 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (i < 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
   ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -225,7 +225,7 @@ noncomputable def wins_safety_wit_14 : Prop :=
   “ ((INT_MIN) <= 26) ”
 
 noncomputable def wins_safety_wit_15 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) = place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) = place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
   ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -235,7 +235,7 @@ noncomputable def wins_safety_wit_15 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def wins_safety_wit_16 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) ≠ place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) ≠ place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
   ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -245,7 +245,7 @@ noncomputable def wins_safety_wit_16 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def wins_safety_wit_17 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i >= 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (i >= 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
   ((( &( "place" ) )) # Int |-> (place_pre))
   ** ((( &( "score" ) )) # Int |-> (score_pre))
   ** ((( &( "z" ) )) # Int |-> (z))
@@ -255,7 +255,7 @@ noncomputable def wins_safety_wit_17 : Prop :=
 
 noncomputable def wins_entail_wit_1 : Prop :=
   (
-forall (score_pre : Int) (place_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
+forall (place_pre : Int) (score_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ (26 <= place_pre) ” &&
@@ -270,7 +270,7 @@ forall (score_pre : Int) (place_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : 
   &&  emp
 ) \/
 (
-forall (score_pre : Int) (place_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
+forall (place_pre : Int) (score_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
   TT && emp 
 |--
   “ (ShirtScanState score_pre place_pre (0 : Int) (Z.rem (Z.quot score_pre 50) 475)) ” &&
@@ -280,20 +280,20 @@ forall (score_pre : Int) (place_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : 
 )
 
 noncomputable def wins_entail_wit_1_split_goal_1 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
+  forall (place_pre : Int) (score_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
   (ShirtScanState score_pre place_pre (0 : Int) (Z.rem (Z.quot score_pre 50) 475))
 
 noncomputable def wins_entail_wit_1_split_goal_2 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
+  forall (place_pre : Int) (score_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
   ((Z.rem (Z.quot score_pre 50) 475) < 475)
 
 noncomputable def wins_entail_wit_1_split_goal_3 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
+  forall (place_pre : Int) (score_pre : Int) (PreH1 : (26 <= place_pre)) (PreH2 : (place_pre <= 500)) (PreH3 : ((0 : Int) <= score_pre)) (PreH4 : (score_pre <= INT_MAX)) ,
   ((0 : Int) <= (Z.rem (Z.quot score_pre 50) 475))
 
 noncomputable def wins_entail_wit_2 : Prop :=
   (
-forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) ≠ place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
+forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) ≠ place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
   TT && emp 
 |--
   “ (26 <= place_pre) ” &&
@@ -308,7 +308,7 @@ forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem
   &&  emp
 ) \/
 (
-forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) ≠ place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
+forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) ≠ place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
   TT && emp 
 |--
   “ (ShirtScanState score_pre place_pre (i + 1) (Z.rem ((z * 96) + 42) 475)) ” &&
@@ -318,20 +318,20 @@ forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem
 )
 
 noncomputable def wins_entail_wit_2_split_goal_1 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) ≠ place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) ≠ place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
   (ShirtScanState score_pre place_pre (i + 1) (Z.rem ((z * 96) + 42) 475))
 
 noncomputable def wins_entail_wit_2_split_goal_2 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) ≠ place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) ≠ place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
   ((Z.rem ((z * 96) + 42) 475) < 475)
 
 noncomputable def wins_entail_wit_2_split_goal_3 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) ≠ place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) ≠ place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
   ((0 : Int) <= (Z.rem ((z * 96) + 42) 475))
 
 noncomputable def wins_return_wit_1 : Prop :=
   (
-forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i >= 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
+forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (i >= 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
   TT && emp 
 |--
   “ ((0 : Int) = (0 : Int)) ” &&
@@ -339,7 +339,7 @@ forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i >= 25
   &&  emp
 ) \/
 (
-forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i >= 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
+forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (i >= 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
   TT && emp 
 |--
   “ (NoShirtSelection score_pre place_pre) ”
@@ -347,12 +347,12 @@ forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i >= 25
 )
 
 noncomputable def wins_return_wit_1_split_goal_1 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (i >= 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (i >= 25)) (PreH2 : (26 <= place_pre)) (PreH3 : (place_pre <= 500)) (PreH4 : ((0 : Int) <= score_pre)) (PreH5 : (score_pre <= INT_MAX)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 25)) (PreH8 : ((0 : Int) <= z)) (PreH9 : (z < 475)) (PreH10 : (ShirtScanState score_pre place_pre i z)) ,
   (NoShirtSelection score_pre place_pre)
 
 noncomputable def wins_return_wit_2 : Prop :=
   (
-forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) = place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
+forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) = place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
   TT && emp 
 |--
   “ (1 = 1) ” &&
@@ -360,7 +360,7 @@ forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem
   &&  emp
 ) \/
 (
-forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) = place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
+forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) = place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
   TT && emp 
 |--
   “ (ShirtSelection score_pre ((Z.rem ((z * 96) + 42) 475) + 26)) ”
@@ -368,11 +368,11 @@ forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem
 )
 
 noncomputable def wins_return_wit_2_split_goal_1 : Prop :=
-  forall (score_pre : Int) (place_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) = place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
+  forall (place_pre : Int) (score_pre : Int) (z : Int) (i : Int) (PreH1 : (((Z.rem ((z * 96) + 42) 475) + 26) = place_pre)) (PreH2 : (i < 25)) (PreH3 : (26 <= place_pre)) (PreH4 : (place_pre <= 500)) (PreH5 : ((0 : Int) <= score_pre)) (PreH6 : (score_pre <= INT_MAX)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 25)) (PreH9 : ((0 : Int) <= z)) (PreH10 : (z < 475)) (PreH11 : (ShirtScanState score_pre place_pre i z)) ,
   (ShirtSelection score_pre ((Z.rem ((z * 96) + 42) 475) + 26))
 
 noncomputable def solver_safety_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : ((0 : Int) <= (score - y_pre))) (PreH8 : ((score - y_pre) <= 49)) (PreH9 : (AlignmentSearch x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : ((0 : Int) <= (score - y_pre))) (PreH8 : ((score - y_pre) <= 49)) (PreH9 : (AlignmentSearch x_pre y_pre score)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -382,7 +382,7 @@ noncomputable def solver_safety_wit_1 : Prop :=
   “ (50 ≠ (0 : Int)) ”
 
 noncomputable def solver_safety_wit_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : ((0 : Int) <= (score - y_pre))) (PreH8 : ((score - y_pre) <= 49)) (PreH9 : (AlignmentSearch x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : ((0 : Int) <= (score - y_pre))) (PreH8 : ((score - y_pre) <= 49)) (PreH9 : (AlignmentSearch x_pre y_pre score)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -392,7 +392,7 @@ noncomputable def solver_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (score - x_pre)) ”
 
 noncomputable def solver_safety_wit_3 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : ((0 : Int) <= (score - y_pre))) (PreH8 : ((score - y_pre) <= 49)) (PreH9 : (AlignmentSearch x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : ((0 : Int) <= (score - y_pre))) (PreH8 : ((score - y_pre) <= 49)) (PreH9 : (AlignmentSearch x_pre y_pre score)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -402,7 +402,7 @@ noncomputable def solver_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 50) ”
 
 noncomputable def solver_safety_wit_4 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : ((0 : Int) <= (score - y_pre))) (PreH8 : ((score - y_pre) <= 49)) (PreH9 : (AlignmentSearch x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : ((0 : Int) <= (score - y_pre))) (PreH8 : ((score - y_pre) <= 49)) (PreH9 : (AlignmentSearch x_pre y_pre score)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -412,7 +412,7 @@ noncomputable def solver_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_5 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : ((Z.rem (score - x_pre) 50) ≠ (0 : Int))) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (Pre p_pre x_pre y_pre)) (PreH8 : ((0 : Int) <= (score - y_pre))) (PreH9 : ((score - y_pre) <= 49)) (PreH10 : (AlignmentSearch x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : ((Z.rem (score - x_pre) 50) ≠ (0 : Int))) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (Pre p_pre x_pre y_pre)) (PreH8 : ((0 : Int) <= (score - y_pre))) (PreH9 : ((score - y_pre) <= 49)) (PreH10 : (AlignmentSearch x_pre y_pre score)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -422,7 +422,7 @@ noncomputable def solver_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (score + 1)) ”
 
 noncomputable def solver_safety_wit_6 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (retval : Int) (PreH1 : (retval = (0 : Int))) (PreH2 : (retval = 1)) (PreH3 : (ShirtSelection score p_pre)) (PreH4 : (26 <= p_pre)) (PreH5 : (p_pre <= 500)) (PreH6 : (1 <= y_pre)) (PreH7 : (y_pre <= x_pre)) (PreH8 : (x_pre <= 20000)) (PreH9 : (Pre p_pre x_pre y_pre)) (PreH10 : (y_pre <= score)) (PreH11 : (score <= (x_pre + (50 * 475)))) (PreH12 : (CandidateSearch p_pre x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (retval : Int) (PreH1 : (retval = (0 : Int))) (PreH2 : (retval = 1)) (PreH3 : (ShirtSelection score p_pre)) (PreH4 : (26 <= p_pre)) (PreH5 : (p_pre <= 500)) (PreH6 : (1 <= y_pre)) (PreH7 : (y_pre <= x_pre)) (PreH8 : (x_pre <= 20000)) (PreH9 : (Pre p_pre x_pre y_pre)) (PreH10 : (y_pre <= score)) (PreH11 : (score <= (x_pre + (50 * 475)))) (PreH12 : (CandidateSearch p_pre x_pre y_pre score)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -431,7 +431,7 @@ noncomputable def solver_safety_wit_6 : Prop :=
   “ False ”
 
 noncomputable def solver_safety_wit_7 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : (retval = (0 : Int))) (PreH3 : (NoShirtSelection score p_pre)) (PreH4 : (26 <= p_pre)) (PreH5 : (p_pre <= 500)) (PreH6 : (1 <= y_pre)) (PreH7 : (y_pre <= x_pre)) (PreH8 : (x_pre <= 20000)) (PreH9 : (Pre p_pre x_pre y_pre)) (PreH10 : (y_pre <= score)) (PreH11 : (score <= (x_pre + (50 * 475)))) (PreH12 : (CandidateSearch p_pre x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : (retval = (0 : Int))) (PreH3 : (NoShirtSelection score p_pre)) (PreH4 : (26 <= p_pre)) (PreH5 : (p_pre <= 500)) (PreH6 : (1 <= y_pre)) (PreH7 : (y_pre <= x_pre)) (PreH8 : (x_pre <= 20000)) (PreH9 : (Pre p_pre x_pre y_pre)) (PreH10 : (y_pre <= score)) (PreH11 : (score <= (x_pre + (50 * 475)))) (PreH12 : (CandidateSearch p_pre x_pre y_pre score)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -440,7 +440,7 @@ noncomputable def solver_safety_wit_7 : Prop :=
   “ False ”
 
 noncomputable def solver_safety_wit_8 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : (y_pre <= score)) (PreH8 : (score < (x_pre + (50 * 475)))) (PreH9 : (score <= (INT_MAX - 50))) (PreH10 : (CandidateSearch p_pre x_pre y_pre score)) (PreH11 : (NoShirtSelection score p_pre)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : (y_pre <= score)) (PreH8 : (score < (x_pre + (50 * 475)))) (PreH9 : (score <= (INT_MAX - 50))) (PreH10 : (CandidateSearch p_pre x_pre y_pre score)) (PreH11 : (NoShirtSelection score p_pre)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -450,7 +450,7 @@ noncomputable def solver_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (score + 50)) ”
 
 noncomputable def solver_safety_wit_9 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : (y_pre <= score)) (PreH8 : (score < (x_pre + (50 * 475)))) (PreH9 : (score <= (INT_MAX - 50))) (PreH10 : (CandidateSearch p_pre x_pre y_pre score)) (PreH11 : (NoShirtSelection score p_pre)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : (y_pre <= score)) (PreH8 : (score < (x_pre + (50 * 475)))) (PreH9 : (score <= (INT_MAX - 50))) (PreH10 : (CandidateSearch p_pre x_pre y_pre score)) (PreH11 : (NoShirtSelection score p_pre)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -460,7 +460,7 @@ noncomputable def solver_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= 50) ”
 
 noncomputable def solver_safety_wit_10 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (score <= x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (score <= x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -470,7 +470,7 @@ noncomputable def solver_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_11 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (score > x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (score > x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -480,7 +480,7 @@ noncomputable def solver_safety_wit_11 : Prop :=
   “ (100 ≠ (0 : Int)) ”
 
 noncomputable def solver_safety_wit_12 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (score > x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (score > x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -490,7 +490,7 @@ noncomputable def solver_safety_wit_12 : Prop :=
   “ ((INT_MIN) <= ((score - x_pre) + 99)) ”
 
 noncomputable def solver_safety_wit_13 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (score > x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (score > x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -500,7 +500,7 @@ noncomputable def solver_safety_wit_13 : Prop :=
   “ ((INT_MIN) <= (score - x_pre)) ”
 
 noncomputable def solver_safety_wit_14 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (score > x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (score > x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -510,7 +510,7 @@ noncomputable def solver_safety_wit_14 : Prop :=
   “ ((INT_MIN) <= 99) ”
 
 noncomputable def solver_safety_wit_15 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (score > x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (score > x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -521,7 +521,7 @@ noncomputable def solver_safety_wit_15 : Prop :=
 
 noncomputable def solver_entail_wit_1 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) ,
+forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) ,
   TT && emp 
 |--
   “ (26 <= p_pre) ” &&
@@ -536,7 +536,7 @@ forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (PreH1 : (26 <= p_pre)) (PreH2 
   &&  emp
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) ,
+forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) ,
   TT && emp 
 |--
   “ (AlignmentSearch x_pre y_pre y_pre) ”
@@ -544,12 +544,12 @@ forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (PreH1 : (26 <= p_pre)) (PreH2 
 )
 
 noncomputable def solver_entail_wit_1_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) ,
   (AlignmentSearch x_pre y_pre y_pre)
 
 noncomputable def solver_entail_wit_2 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : ((Z.rem (score - x_pre) 50) ≠ (0 : Int))) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (Pre p_pre x_pre y_pre)) (PreH8 : ((0 : Int) <= (score - y_pre))) (PreH9 : ((score - y_pre) <= 49)) (PreH10 : (AlignmentSearch x_pre y_pre score)) ,
+forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : ((Z.rem (score - x_pre) 50) ≠ (0 : Int))) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (Pre p_pre x_pre y_pre)) (PreH8 : ((0 : Int) <= (score - y_pre))) (PreH9 : ((score - y_pre) <= 49)) (PreH10 : (AlignmentSearch x_pre y_pre score)) ,
   TT && emp 
 |--
   “ (26 <= p_pre) ” &&
@@ -564,7 +564,7 @@ forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : ((Z.rem 
   &&  emp
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : ((Z.rem (score - x_pre) 50) ≠ (0 : Int))) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (Pre p_pre x_pre y_pre)) (PreH8 : ((0 : Int) <= (score - y_pre))) (PreH9 : ((score - y_pre) <= 49)) (PreH10 : (AlignmentSearch x_pre y_pre score)) ,
+forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : ((Z.rem (score - x_pre) 50) ≠ (0 : Int))) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (Pre p_pre x_pre y_pre)) (PreH8 : ((0 : Int) <= (score - y_pre))) (PreH9 : ((score - y_pre) <= 49)) (PreH10 : (AlignmentSearch x_pre y_pre score)) ,
   TT && emp 
 |--
   “ (AlignmentSearch x_pre y_pre (score + 1)) ” &&
@@ -573,16 +573,16 @@ forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : ((Z.rem 
 )
 
 noncomputable def solver_entail_wit_2_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : ((Z.rem (score - x_pre) 50) ≠ (0 : Int))) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (Pre p_pre x_pre y_pre)) (PreH8 : ((0 : Int) <= (score - y_pre))) (PreH9 : ((score - y_pre) <= 49)) (PreH10 : (AlignmentSearch x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : ((Z.rem (score - x_pre) 50) ≠ (0 : Int))) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (Pre p_pre x_pre y_pre)) (PreH8 : ((0 : Int) <= (score - y_pre))) (PreH9 : ((score - y_pre) <= 49)) (PreH10 : (AlignmentSearch x_pre y_pre score)) ,
   (AlignmentSearch x_pre y_pre (score + 1))
 
 noncomputable def solver_entail_wit_2_split_goal_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : ((Z.rem (score - x_pre) 50) ≠ (0 : Int))) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (Pre p_pre x_pre y_pre)) (PreH8 : ((0 : Int) <= (score - y_pre))) (PreH9 : ((score - y_pre) <= 49)) (PreH10 : (AlignmentSearch x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : ((Z.rem (score - x_pre) 50) ≠ (0 : Int))) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (Pre p_pre x_pre y_pre)) (PreH8 : ((0 : Int) <= (score - y_pre))) (PreH9 : ((score - y_pre) <= 49)) (PreH10 : (AlignmentSearch x_pre y_pre score)) ,
   (((score + 1) - y_pre) <= 49)
 
 noncomputable def solver_entail_wit_3 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : ((Z.rem (score - x_pre) 50) = (0 : Int))) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (Pre p_pre x_pre y_pre)) (PreH8 : ((0 : Int) <= (score - y_pre))) (PreH9 : ((score - y_pre) <= 49)) (PreH10 : (AlignmentSearch x_pre y_pre score)) ,
+forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : ((Z.rem (score - x_pre) 50) = (0 : Int))) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (Pre p_pre x_pre y_pre)) (PreH8 : ((0 : Int) <= (score - y_pre))) (PreH9 : ((score - y_pre) <= 49)) (PreH10 : (AlignmentSearch x_pre y_pre score)) ,
   TT && emp 
 |--
   “ (26 <= p_pre) ” &&
@@ -597,7 +597,7 @@ forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : ((Z.rem 
   &&  emp
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : ((Z.rem (score - x_pre) 50) = (0 : Int))) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (Pre p_pre x_pre y_pre)) (PreH8 : ((0 : Int) <= (score - y_pre))) (PreH9 : ((score - y_pre) <= 49)) (PreH10 : (AlignmentSearch x_pre y_pre score)) ,
+forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : ((Z.rem (score - x_pre) 50) = (0 : Int))) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (Pre p_pre x_pre y_pre)) (PreH8 : ((0 : Int) <= (score - y_pre))) (PreH9 : ((score - y_pre) <= 49)) (PreH10 : (AlignmentSearch x_pre y_pre score)) ,
   TT && emp 
 |--
   “ (CandidateSearch p_pre x_pre y_pre score) ”
@@ -605,12 +605,12 @@ forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : ((Z.rem 
 )
 
 noncomputable def solver_entail_wit_3_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : ((Z.rem (score - x_pre) 50) = (0 : Int))) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (Pre p_pre x_pre y_pre)) (PreH8 : ((0 : Int) <= (score - y_pre))) (PreH9 : ((score - y_pre) <= 49)) (PreH10 : (AlignmentSearch x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : ((Z.rem (score - x_pre) 50) = (0 : Int))) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (Pre p_pre x_pre y_pre)) (PreH8 : ((0 : Int) <= (score - y_pre))) (PreH9 : ((score - y_pre) <= 49)) (PreH10 : (AlignmentSearch x_pre y_pre score)) ,
   (CandidateSearch p_pre x_pre y_pre score)
 
 noncomputable def solver_entail_wit_4 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (retval : Int) (PreH1 : (retval = (0 : Int))) (PreH2 : (retval = (0 : Int))) (PreH3 : (NoShirtSelection score p_pre)) (PreH4 : (26 <= p_pre)) (PreH5 : (p_pre <= 500)) (PreH6 : (1 <= y_pre)) (PreH7 : (y_pre <= x_pre)) (PreH8 : (x_pre <= 20000)) (PreH9 : (Pre p_pre x_pre y_pre)) (PreH10 : (y_pre <= score)) (PreH11 : (score <= (x_pre + (50 * 475)))) (PreH12 : (CandidateSearch p_pre x_pre y_pre score)) ,
+forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (retval : Int) (PreH1 : (retval = (0 : Int))) (PreH2 : (retval = (0 : Int))) (PreH3 : (NoShirtSelection score p_pre)) (PreH4 : (26 <= p_pre)) (PreH5 : (p_pre <= 500)) (PreH6 : (1 <= y_pre)) (PreH7 : (y_pre <= x_pre)) (PreH8 : (x_pre <= 20000)) (PreH9 : (Pre p_pre x_pre y_pre)) (PreH10 : (y_pre <= score)) (PreH11 : (score <= (x_pre + (50 * 475)))) (PreH12 : (CandidateSearch p_pre x_pre y_pre score)) ,
   TT && emp 
 |--
   “ (26 <= p_pre) ” &&
@@ -627,7 +627,7 @@ forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (retval : Int) (P
   &&  emp
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (retval : Int) (PreH1 : (retval = (0 : Int))) (PreH2 : (retval = (0 : Int))) (PreH3 : (NoShirtSelection score p_pre)) (PreH4 : (26 <= p_pre)) (PreH5 : (p_pre <= 500)) (PreH6 : (1 <= y_pre)) (PreH7 : (y_pre <= x_pre)) (PreH8 : (x_pre <= 20000)) (PreH9 : (Pre p_pre x_pre y_pre)) (PreH10 : (y_pre <= score)) (PreH11 : (score <= (x_pre + (50 * 475)))) (PreH12 : (CandidateSearch p_pre x_pre y_pre score)) ,
+forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (retval : Int) (PreH1 : (retval = (0 : Int))) (PreH2 : (retval = (0 : Int))) (PreH3 : (NoShirtSelection score p_pre)) (PreH4 : (26 <= p_pre)) (PreH5 : (p_pre <= 500)) (PreH6 : (1 <= y_pre)) (PreH7 : (y_pre <= x_pre)) (PreH8 : (x_pre <= 20000)) (PreH9 : (Pre p_pre x_pre y_pre)) (PreH10 : (y_pre <= score)) (PreH11 : (score <= (x_pre + (50 * 475)))) (PreH12 : (CandidateSearch p_pre x_pre y_pre score)) ,
   TT && emp 
 |--
   “ (score < (x_pre + (50 * 475))) ”
@@ -635,12 +635,12 @@ forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (retval : Int) (P
 )
 
 noncomputable def solver_entail_wit_4_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (retval : Int) (PreH1 : (retval = (0 : Int))) (PreH2 : (retval = (0 : Int))) (PreH3 : (NoShirtSelection score p_pre)) (PreH4 : (26 <= p_pre)) (PreH5 : (p_pre <= 500)) (PreH6 : (1 <= y_pre)) (PreH7 : (y_pre <= x_pre)) (PreH8 : (x_pre <= 20000)) (PreH9 : (Pre p_pre x_pre y_pre)) (PreH10 : (y_pre <= score)) (PreH11 : (score <= (x_pre + (50 * 475)))) (PreH12 : (CandidateSearch p_pre x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (retval : Int) (PreH1 : (retval = (0 : Int))) (PreH2 : (retval = (0 : Int))) (PreH3 : (NoShirtSelection score p_pre)) (PreH4 : (26 <= p_pre)) (PreH5 : (p_pre <= 500)) (PreH6 : (1 <= y_pre)) (PreH7 : (y_pre <= x_pre)) (PreH8 : (x_pre <= 20000)) (PreH9 : (Pre p_pre x_pre y_pre)) (PreH10 : (y_pre <= score)) (PreH11 : (score <= (x_pre + (50 * 475)))) (PreH12 : (CandidateSearch p_pre x_pre y_pre score)) ,
   (score < (x_pre + (50 * 475)))
 
 noncomputable def solver_entail_wit_5 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : (y_pre <= score)) (PreH8 : (score < (x_pre + (50 * 475)))) (PreH9 : (score <= (INT_MAX - 50))) (PreH10 : (CandidateSearch p_pre x_pre y_pre score)) (PreH11 : (NoShirtSelection score p_pre)) ,
+forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : (y_pre <= score)) (PreH8 : (score < (x_pre + (50 * 475)))) (PreH9 : (score <= (INT_MAX - 50))) (PreH10 : (CandidateSearch p_pre x_pre y_pre score)) (PreH11 : (NoShirtSelection score p_pre)) ,
   TT && emp 
 |--
   “ (26 <= p_pre) ” &&
@@ -655,7 +655,7 @@ forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (26 <= p
   &&  emp
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : (y_pre <= score)) (PreH8 : (score < (x_pre + (50 * 475)))) (PreH9 : (score <= (INT_MAX - 50))) (PreH10 : (CandidateSearch p_pre x_pre y_pre score)) (PreH11 : (NoShirtSelection score p_pre)) ,
+forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : (y_pre <= score)) (PreH8 : (score < (x_pre + (50 * 475)))) (PreH9 : (score <= (INT_MAX - 50))) (PreH10 : (CandidateSearch p_pre x_pre y_pre score)) (PreH11 : (NoShirtSelection score p_pre)) ,
   TT && emp 
 |--
   “ (CandidateSearch p_pre x_pre y_pre (score + 50)) ” &&
@@ -664,16 +664,16 @@ forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (26 <= p
 )
 
 noncomputable def solver_entail_wit_5_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : (y_pre <= score)) (PreH8 : (score < (x_pre + (50 * 475)))) (PreH9 : (score <= (INT_MAX - 50))) (PreH10 : (CandidateSearch p_pre x_pre y_pre score)) (PreH11 : (NoShirtSelection score p_pre)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : (y_pre <= score)) (PreH8 : (score < (x_pre + (50 * 475)))) (PreH9 : (score <= (INT_MAX - 50))) (PreH10 : (CandidateSearch p_pre x_pre y_pre score)) (PreH11 : (NoShirtSelection score p_pre)) ,
   (CandidateSearch p_pre x_pre y_pre (score + 50))
 
 noncomputable def solver_entail_wit_5_split_goal_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : (y_pre <= score)) (PreH8 : (score < (x_pre + (50 * 475)))) (PreH9 : (score <= (INT_MAX - 50))) (PreH10 : (CandidateSearch p_pre x_pre y_pre score)) (PreH11 : (NoShirtSelection score p_pre)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : (y_pre <= score)) (PreH8 : (score < (x_pre + (50 * 475)))) (PreH9 : (score <= (INT_MAX - 50))) (PreH10 : (CandidateSearch p_pre x_pre y_pre score)) (PreH11 : (NoShirtSelection score p_pre)) ,
   ((score + 50) <= (x_pre + (50 * 475)))
 
 noncomputable def solver_entail_wit_6 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : (retval = 1)) (PreH3 : (ShirtSelection score p_pre)) (PreH4 : (26 <= p_pre)) (PreH5 : (p_pre <= 500)) (PreH6 : (1 <= y_pre)) (PreH7 : (y_pre <= x_pre)) (PreH8 : (x_pre <= 20000)) (PreH9 : (Pre p_pre x_pre y_pre)) (PreH10 : (y_pre <= score)) (PreH11 : (score <= (x_pre + (50 * 475)))) (PreH12 : (CandidateSearch p_pre x_pre y_pre score)) ,
+forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : (retval = 1)) (PreH3 : (ShirtSelection score p_pre)) (PreH4 : (26 <= p_pre)) (PreH5 : (p_pre <= 500)) (PreH6 : (1 <= y_pre)) (PreH7 : (y_pre <= x_pre)) (PreH8 : (x_pre <= 20000)) (PreH9 : (Pre p_pre x_pre y_pre)) (PreH10 : (y_pre <= score)) (PreH11 : (score <= (x_pre + (50 * 475)))) (PreH12 : (CandidateSearch p_pre x_pre y_pre score)) ,
   TT && emp 
 |--
   “ (26 <= p_pre) ” &&
@@ -687,7 +687,7 @@ forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (retval : Int) (P
   &&  emp
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : (retval = 1)) (PreH3 : (ShirtSelection score p_pre)) (PreH4 : (26 <= p_pre)) (PreH5 : (p_pre <= 500)) (PreH6 : (1 <= y_pre)) (PreH7 : (y_pre <= x_pre)) (PreH8 : (x_pre <= 20000)) (PreH9 : (Pre p_pre x_pre y_pre)) (PreH10 : (y_pre <= score)) (PreH11 : (score <= (x_pre + (50 * 475)))) (PreH12 : (CandidateSearch p_pre x_pre y_pre score)) ,
+forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : (retval = 1)) (PreH3 : (ShirtSelection score p_pre)) (PreH4 : (26 <= p_pre)) (PreH5 : (p_pre <= 500)) (PreH6 : (1 <= y_pre)) (PreH7 : (y_pre <= x_pre)) (PreH8 : (x_pre <= 20000)) (PreH9 : (Pre p_pre x_pre y_pre)) (PreH10 : (y_pre <= score)) (PreH11 : (score <= (x_pre + (50 * 475)))) (PreH12 : (CandidateSearch p_pre x_pre y_pre score)) ,
   TT && emp 
 |--
   “ (FirstWinningCandidate p_pre x_pre y_pre score) ”
@@ -695,19 +695,19 @@ forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (retval : Int) (P
 )
 
 noncomputable def solver_entail_wit_6_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : (retval = 1)) (PreH3 : (ShirtSelection score p_pre)) (PreH4 : (26 <= p_pre)) (PreH5 : (p_pre <= 500)) (PreH6 : (1 <= y_pre)) (PreH7 : (y_pre <= x_pre)) (PreH8 : (x_pre <= 20000)) (PreH9 : (Pre p_pre x_pre y_pre)) (PreH10 : (y_pre <= score)) (PreH11 : (score <= (x_pre + (50 * 475)))) (PreH12 : (CandidateSearch p_pre x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : (retval = 1)) (PreH3 : (ShirtSelection score p_pre)) (PreH4 : (26 <= p_pre)) (PreH5 : (p_pre <= 500)) (PreH6 : (1 <= y_pre)) (PreH7 : (y_pre <= x_pre)) (PreH8 : (x_pre <= 20000)) (PreH9 : (Pre p_pre x_pre y_pre)) (PreH10 : (y_pre <= score)) (PreH11 : (score <= (x_pre + (50 * 475)))) (PreH12 : (CandidateSearch p_pre x_pre y_pre score)) ,
   (FirstWinningCandidate p_pre x_pre y_pre score)
 
 noncomputable def solver_return_wit_1 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (score <= x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
+forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (score <= x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
   TT && emp 
 |--
   “ (Spec p_pre x_pre y_pre (0 : Int)) ”
   &&  emp
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (score <= x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
+forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (score <= x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
   TT && emp 
 |--
   “ (Spec p_pre x_pre y_pre (0 : Int)) ”
@@ -715,19 +715,19 @@ forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (score <
 )
 
 noncomputable def solver_return_wit_1_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (score <= x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (score <= x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
   (Spec p_pre x_pre y_pre (0 : Int))
 
 noncomputable def solver_return_wit_2 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (score > x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
+forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (score > x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
   TT && emp 
 |--
   “ (Spec p_pre x_pre y_pre (Z.quot ((score - x_pre) + 99) 100)) ”
   &&  emp
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (score > x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
+forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (score > x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
   TT && emp 
 |--
   “ (Spec p_pre x_pre y_pre (Z.quot ((score - x_pre) + 99) 100)) ”
@@ -735,11 +735,11 @@ forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (score >
 )
 
 noncomputable def solver_return_wit_2_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (score > x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (score > x_pre)) (PreH2 : (26 <= p_pre)) (PreH3 : (p_pre <= 500)) (PreH4 : (1 <= y_pre)) (PreH5 : (y_pre <= x_pre)) (PreH6 : (x_pre <= 20000)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (FirstWinningCandidate p_pre x_pre y_pre score)) ,
   (Spec p_pre x_pre y_pre (Z.quot ((score - x_pre) + 99) 100))
 
 noncomputable def solver_partial_solve_wit_1_pure : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (CandidateSearch p_pre x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (CandidateSearch p_pre x_pre y_pre score)) ,
   ((( &( "p" ) )) # Int |-> (p_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -751,7 +751,7 @@ noncomputable def solver_partial_solve_wit_1_pure : Prop :=
   “ (score <= INT_MAX) ”
 
 noncomputable def solver_partial_solve_wit_1_aux : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (p_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (CandidateSearch p_pre x_pre y_pre score)) ,
+  forall (p_pre : Int) (x_pre : Int) (y_pre : Int) (score : Int) (PreH1 : (26 <= p_pre)) (PreH2 : (p_pre <= 500)) (PreH3 : (1 <= y_pre)) (PreH4 : (y_pre <= x_pre)) (PreH5 : (x_pre <= 20000)) (PreH6 : (Pre p_pre x_pre y_pre)) (PreH7 : (y_pre <= score)) (PreH8 : (score <= (x_pre + (50 * 475)))) (PreH9 : (CandidateSearch p_pre x_pre y_pre score)) ,
   TT && emp 
 |--
   “ (26 <= p_pre) ” &&

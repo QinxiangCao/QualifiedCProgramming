@@ -11,6 +11,7 @@ def VC_Correctness : SimpleC.EE.LLM_bench.Algorithms.choosing_inns.choosing_inns
   proof_of_initCounts_safety_wit_2 := proof_of_initCounts_safety_wit_2
   proof_of_initCounts_safety_wit_3 := proof_of_initCounts_safety_wit_3
   proof_of_initCounts_safety_wit_4 := proof_of_initCounts_safety_wit_4
+  proof_of_initCounts_return_wit_1 := proof_of_initCounts_return_wit_1
   proof_of_initCounts_partial_solve_wit_1 := proof_of_initCounts_partial_solve_wit_1
   proof_of_initCounts_partial_solve_wit_2 := proof_of_initCounts_partial_solve_wit_2
   proof_of_copyCounts_safety_wit_1 := proof_of_copyCounts_safety_wit_1
@@ -48,7 +49,6 @@ def VC_Correctness : SimpleC.EE.LLM_bench.Algorithms.choosing_inns.choosing_inns
   proof_of_countChoosingInns_partial_solve_wit_10 := proof_of_countChoosingInns_partial_solve_wit_10
   proof_of_initCounts_entail_wit_1 := proof_of_initCounts_entail_wit_1
   proof_of_initCounts_entail_wit_2 := proof_of_initCounts_entail_wit_2
-  proof_of_initCounts_return_wit_1 := proof_of_initCounts_return_wit_1
   proof_of_copyCounts_entail_wit_1 := proof_of_copyCounts_entail_wit_1
   proof_of_copyCounts_entail_wit_2 := proof_of_copyCounts_entail_wit_2
   proof_of_copyCounts_return_wit_1 := proof_of_copyCounts_return_wit_1

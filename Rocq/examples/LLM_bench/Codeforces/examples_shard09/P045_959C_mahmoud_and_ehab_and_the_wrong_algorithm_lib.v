@@ -288,7 +288,7 @@ Proof.
         d 2 y2 3 y3 q2 Ho2 Hd2 Ho3 Hd3). lia. }
     assert (Hin : incl e [q2;q3]).
     { eapply NoDup_length_incl.
-      - repeat constructor; simpl; intuition.
+      - repeat constructor; simpl; intuition (auto with *).
       - apply Nat2Z.inj_le. simpl. rewrite <- Zlength_correct. lia.
       - intros z [-> | [-> | []]]; assumption. }
     specialize (Hin q Hq). simpl in Hin. destruct Hin as [-> | [-> | []]].
@@ -311,7 +311,7 @@ Proof.
         d 3 y3 4 y4 q3 Ho3 Hd3 Ho4 Hd4); lia).
     assert (Hin : incl e [q2;q3;q4]).
     { eapply NoDup_length_incl.
-      - repeat constructor; simpl; intuition.
+      - repeat constructor; simpl; intuition (auto with *).
       - apply Nat2Z.inj_le. simpl. rewrite <- Zlength_correct. lia.
       - intros z [-> | [-> | [-> | []]]]; assumption. }
     specialize (Hin q Hq). simpl in Hin.
@@ -347,7 +347,7 @@ Proof.
         d 4 y4 5 y5 q4 Ho4 Hd4 Ho5 Hd5); lia).
     assert (Hin : incl e [q2;q3;q4;q5]).
     { eapply NoDup_length_incl.
-      - repeat constructor; simpl; intuition.
+      - repeat constructor; simpl; intuition (auto with *).
       - apply Nat2Z.inj_le. simpl. rewrite <- Zlength_correct. lia.
       - intros z [-> | [-> | [-> | [-> | []]]]]; assumption. }
     specialize (Hin q Hq). simpl in Hin.
@@ -432,7 +432,7 @@ Lemma set_card_Z_range__final_semantics :
 Proof.
   intros low high Hrange.
   transitivity (#(fun x : Z => low <= x < high /\ True)).
-  - apply set_card_ext__final_semantics. intuition.
+  - apply set_card_ext__final_semantics. intuition (auto with *).
   - rewrite set_card_Z_as_sum__final_semantics.
     destruct (prop_dec True) as [_ | Hfalse]; [|contradiction].
     rewrite SumLib.ZRange.sum_Z_range_const by lia. lia.
@@ -549,7 +549,7 @@ Proof.
               ** apply single_vpath_valid. exists (1, x).
                  unfold zstep_aux. simpl. repeat split; try lia.
                  left. apply Hedge. lia.
-              ** repeat constructor; simpl; intuition.
+              ** repeat constructor; simpl; intuition (auto with *).
            ++ intros q [path [[_ [_ [Hp _]]] ->]].
               apply valid_vpath_length_pos__final_semantics with (u := 1) (v := x) in Hp;
                 [lia | congruence].
@@ -618,7 +618,7 @@ Proof.
   assert (Hlen : (2 <= length (@enum A P FP))%nat).
   { pose proof (NoDup_incl_length (l := [x;y]) (l' := @enum A P FP)) as Hle.
     apply Hle.
-    - repeat constructor; simpl; intuition.
+    - repeat constructor; simpl; intuition (auto with *).
     - intros z [-> | [-> | []]]; assumption. }
   assert (Hfold : forall l : list A,
     fold_right (fun (_ : A) (acc : Z) => 1 + acc) 0 l = Z.of_nat (length l)).
@@ -647,7 +647,7 @@ Proof.
         specialize (Honly a Hin). destruct Honly as [-> | [-> | ->]]; simpl; auto.
     - change (length [x;y;z] <= length (@enum A P FP))%nat.
       eapply NoDup_incl_length.
-      + repeat constructor; simpl; intuition.
+      + repeat constructor; simpl; intuition (auto with *).
       + intros a [Ha | [Ha | [Ha | []]]].
         * subst a. apply (proj1 (@enum_ok A P FP x)). exact Hx.
         * subst a. apply (proj1 (@enum_ok A P FP y)). exact Hy.
@@ -822,7 +822,7 @@ Proof.
       + exists 0. split; [|reflexivity]. split.
         * exists [1]. repeat split; try lia.
           -- apply valid_vpath_empty.
-          -- repeat constructor; simpl; intuition.
+          -- repeat constructor; simpl; intuition (auto with *).
         * intros q [path [[_ [_ [Hp _]]] ->]].
           apply valid_vpath_length_nonneg__final_semantics in Hp. lia.
       + destruct (Z.eq_dec x 5) as [-> | Hx5].
@@ -881,7 +881,7 @@ Proof.
           -- exists [1;x]. repeat split; try lia.
              ++ apply single_vpath_valid. exists (1,x). unfold zstep_aux. simpl.
                 repeat split; try lia. all: cbn; try lia; try tauto.
-             ++ repeat constructor; simpl; intuition.
+             ++ repeat constructor; simpl; intuition (auto with *).
           -- intros q [path [[_ [_ [Hp _]]] ->]].
              apply valid_vpath_length_pos__final_semantics with (u:=1) (v:=x) in Hp;
                [lia | congruence]. }
@@ -896,7 +896,7 @@ Proof.
           + apply set_card_ext__final_semantics. intro x. intuition lia.
           + eapply set_card_three_exact__final_semantics
               with (x := 1) (y := 5) (z := 6);
-              simpl; try lia; intuition. }
+              simpl; try lia; intuition (auto with *). }
       assert (Hodd :
         #(fun x : Z => 1 <= x < n+1 /\
           Z.even (if Z.eq_dec x 1 then 0 else if Z.eq_dec x 5 then 2

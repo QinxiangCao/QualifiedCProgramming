@@ -8,8 +8,8 @@ underlying `mcp` executable, keeps a session alive, and exposes tools such as
 
 - Python 3.12+
 - The repository `mcp` binary
-  - Linux / WSL: `linux-binary/mcp`
-  - Windows: `win-binary/mcp.exe`
+  - Linux / WSL: `bin/linux/mcp`
+  - Windows: `bin/windows/mcp.exe`
 
 ## Configuration
 
@@ -22,13 +22,13 @@ underlying `mcp` executable, keeps a session alive, and exposes tools such as
 The config file may contain either:
 
 ```ini
-QCP_MCP_BIN=/absolute/path/to/qcp-binary-democases/linux-binary/mcp
+QCP_MCP_BIN=/absolute/path/to/qcp-binary-democases/bin/linux/mcp
 ```
 
 or:
 
 ```ini
-QCP_MCP_BIN=D:/absolute/path/to/qcp-binary-democases/win-binary/mcp.exe
+QCP_MCP_BIN=D:/absolute/path/to/qcp-binary-democases/bin/windows/mcp.exe
 ```
 
 If `QCP_MCP_BIN` is already set in the environment, you do not need to modify
@@ -45,7 +45,7 @@ uv sync
 Optional `CONFIGURE`:
 
 ```ini
-QCP_MCP_BIN=/absolute/path/to/qcp-binary-democases/linux-binary/mcp
+QCP_MCP_BIN=/absolute/path/to/qcp-binary-democases/bin/linux/mcp
 ```
 
 ## Windows / PowerShell Setup
@@ -76,14 +76,14 @@ Recommended Windows usage:
 Linux / WSL:
 
 ```bash
-PYTHONPATH=$PWD/src QCP_MCP_BIN=/absolute/path/to/qcp-binary-democases/linux-binary/mcp \
+PYTHONPATH=$PWD/src QCP_MCP_BIN=/absolute/path/to/qcp-binary-democases/bin/linux/mcp \
   .venv/bin/python -m qcp_mcp.server
 ```
 
 Windows:
 
 ```powershell
-$env:QCP_MCP_BIN = 'D:\absolute\path\to\qcp-binary-democases\win-binary\mcp.exe'
+$env:QCP_MCP_BIN = 'D:\absolute\path\to\qcp-binary-democases\bin\windows\mcp.exe'
 .\.venv-win\Scripts\python.exe -m qcp_mcp.server
 ```
 
@@ -126,7 +126,7 @@ Linux / WSL:
       ],
       "env": {
         "PYTHONPATH": "/absolute/path/to/qcp-binary-democases/mcp/qcp-mcp/src",
-        "QCP_MCP_BIN": "/absolute/path/to/qcp-binary-democases/linux-binary/mcp"
+        "QCP_MCP_BIN": "/absolute/path/to/qcp-binary-democases/bin/linux/mcp"
       }
     }
   }
@@ -147,7 +147,7 @@ Windows:
       ],
       "env": {
         "PYTHONPATH": "D:/absolute/path/to/qcp-binary-democases/mcp/qcp-mcp/src",
-        "QCP_MCP_BIN": "D:/absolute/path/to/qcp-binary-democases/win-binary/mcp.exe"
+        "QCP_MCP_BIN": "D:/absolute/path/to/qcp-binary-democases/bin/windows/mcp.exe"
       }
     }
   }
@@ -159,13 +159,13 @@ Windows:
 Linux / WSL:
 
 ```bash
-claude mcp add -s project qcp --env QCP_MCP_BIN=/absolute/path/to/qcp-binary-democases/linux-binary/mcp -- /absolute/path/to/qcp-binary-democases/mcp/qcp-mcp/.venv/bin/python -m qcp_mcp.server
+claude mcp add -s project qcp --env QCP_MCP_BIN=/absolute/path/to/qcp-binary-democases/bin/linux/mcp -- /absolute/path/to/qcp-binary-democases/mcp/qcp-mcp/.venv/bin/python -m qcp_mcp.server
 ```
 
 Windows:
 
 ```powershell
-claude mcp add -s project qcp --env QCP_MCP_BIN=D:/absolute/path/to/qcp-binary-democases/win-binary/mcp.exe -- D:/absolute/path/to/qcp-binary-democases/mcp/qcp-mcp/.venv-win/Scripts/python.exe -m qcp_mcp.server
+claude mcp add -s project qcp --env QCP_MCP_BIN=D:/absolute/path/to/qcp-binary-democases/bin/windows/mcp.exe -- D:/absolute/path/to/qcp-binary-democases/mcp/qcp-mcp/.venv-win/Scripts/python.exe -m qcp_mcp.server
 ```
 
 ### Codex
@@ -173,11 +173,11 @@ claude mcp add -s project qcp --env QCP_MCP_BIN=D:/absolute/path/to/qcp-binary-d
 Linux / WSL:
 
 ```bash
-codex mcp add qcp --env PYTHONPATH=/absolute/path/to/qcp-binary-democases/mcp/qcp-mcp/src --env QCP_MCP_BIN=/absolute/path/to/qcp-binary-democases/linux-binary/mcp -- /absolute/path/to/qcp-binary-democases/mcp/qcp-mcp/.venv/bin/python -m qcp_mcp.server
+codex mcp add qcp --env PYTHONPATH=/absolute/path/to/qcp-binary-democases/mcp/qcp-mcp/src --env QCP_MCP_BIN=/absolute/path/to/qcp-binary-democases/bin/linux/mcp -- /absolute/path/to/qcp-binary-democases/mcp/qcp-mcp/.venv/bin/python -m qcp_mcp.server
 ```
 
 Windows:
 
 ```powershell
-codex mcp add qcp --env PYTHONPATH=D:/absolute/path/to/qcp-binary-democases/mcp/qcp-mcp/src --env QCP_MCP_BIN=D:/absolute/path/to/qcp-binary-democases/win-binary/mcp.exe -- D:/absolute/path/to/qcp-binary-democases/mcp/qcp-mcp/.venv-win/Scripts/python.exe -m qcp_mcp.server
+codex mcp add qcp --env PYTHONPATH=D:/absolute/path/to/qcp-binary-democases/mcp/qcp-mcp/src --env QCP_MCP_BIN=D:/absolute/path/to/qcp-binary-democases/bin/windows/mcp.exe -- D:/absolute/path/to/qcp-binary-democases/mcp/qcp-mcp/.venv-win/Scripts/python.exe -m qcp_mcp.server
 ```

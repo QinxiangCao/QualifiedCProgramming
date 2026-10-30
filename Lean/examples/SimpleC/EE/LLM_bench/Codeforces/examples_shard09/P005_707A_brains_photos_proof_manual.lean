@@ -12,39 +12,39 @@ open scoped SimpleC.SL.SAC
 local instance : SacContext := ⟨naive_C_Rules⟩
 
 theorem proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1 := by
-  intro m n photo default h1 h2 h3 h4 h5 h6 h7
+  intro photo n m default h1 h2 h3 h4 h5 h6 h7
   intro k hk
   omega
 
 theorem proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2 := by
-  intro m n photo default h1 h2 h3 h4 h5 h6 h7
+  intro photo n m default h1 h2 h3 h4 h5 h6 h7
   exact pre_rectangular_facts__initialization photo n m default h5 h6
 
 theorem proof_of_solver_entail_wit_1_split_goal_3 : solver_entail_wit_1_split_goal_3 := by
-  intro m n photo default h1 h2 h3 h4 h5 h6 h7
+  intro photo n m default h1 h2 h3 h4 h5 h6 h7
   exact h7
 
 theorem proof_of_solver_entail_wit_1_split_goal_4 : solver_entail_wit_1_split_goal_4 := by
-  intro m n photo default h1 h2 h3 h4 h5 h6 h7
+  intro photo n m default h1 h2 h3 h4 h5 h6 h7
   exact h6
 
 theorem proof_of_solver_entail_wit_1 : solver_entail_wit_1 := by
   unfold solver_entail_wit_1
   right
-  intro m n photo default h1 h2 h3 h4 h5 h6 h7
+  intro photo n m default h1 h2 h3 h4 h5 h6 h7
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_1_split_goal_1 m n photo default h1 h2 h3 h4 h5 h6 h7
-      | exact proof_of_solver_entail_wit_1_split_goal_2 m n photo default h1 h2 h3 h4 h5 h6 h7
-      | exact proof_of_solver_entail_wit_1_split_goal_3 m n photo default h1 h2 h3 h4 h5 h6 h7
-      | exact proof_of_solver_entail_wit_1_split_goal_4 m n photo default h1 h2 h3 h4 h5 h6 h7
+      | exact proof_of_solver_entail_wit_1_split_goal_1 photo n m default h1 h2 h3 h4 h5 h6 h7
+      | exact proof_of_solver_entail_wit_1_split_goal_2 photo n m default h1 h2 h3 h4 h5 h6 h7
+      | exact proof_of_solver_entail_wit_1_split_goal_3 photo n m default h1 h2 h3 h4 h5 h6 h7
+      | exact proof_of_solver_entail_wit_1_split_goal_4 photo n m default h1 h2 h3 h4 h5 h6 h7
 
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   unfold solver_return_wit_1
   right
-  intro m n photo i default h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
+  intro photo n m i default h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12
   have hn : ¬ HasColor photo := by
     intro hc
     rcases (has_color_concat_characterization__results photo).mp hc with ⟨c, hc, hp⟩
@@ -67,7 +67,7 @@ theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
 theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
   unfold solver_return_wit_2
   right
-  intro m n photo i default h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14
+  intro photo n m i default h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14
   have hc : HasColor photo := by
     apply (has_color_concat_characterization__results photo).mpr
     exact ⟨Znth i (concat photo) 0, Znth_In_range__results (List.flatten photo) i 0 (by omega), Or.inr (Or.inl h1)⟩
@@ -82,7 +82,7 @@ theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
 theorem proof_of_solver_return_wit_3 : solver_return_wit_3 := by
   unfold solver_return_wit_3
   right
-  intro m n photo i default h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13
+  intro photo n m i default h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13
   have hc : HasColor photo := by
     apply (has_color_concat_characterization__results photo).mpr
     exact ⟨Znth i (concat photo) 0, Znth_In_range__results (List.flatten photo) i 0 (by omega), Or.inl h1⟩
@@ -97,7 +97,7 @@ theorem proof_of_solver_return_wit_3 : solver_return_wit_3 := by
 theorem proof_of_solver_return_wit_4 : solver_return_wit_4 := by
   unfold solver_return_wit_4
   right
-  intro m n photo i default h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
+  intro photo n m i default h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15
   have hc : HasColor photo := by
     apply (has_color_concat_characterization__results photo).mpr
     exact ⟨Znth i (concat photo) 0, Znth_In_range__results (List.flatten photo) i 0 (by omega), Or.inr (Or.inr h1)⟩

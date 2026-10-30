@@ -1,14 +1,8 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.Applications_human.minigmp Require Import gmp_strategy_goal.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.minigmp.GmpAux SimpleC.EE.Applications_human.minigmp.GmpNumber.
 Import Aux.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 

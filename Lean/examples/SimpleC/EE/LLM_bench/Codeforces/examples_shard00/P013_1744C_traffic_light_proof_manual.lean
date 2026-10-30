@@ -30,13 +30,13 @@ private theorem cyclic_small (l : List Int) (i : Int) (hi : 0≤i ∧ i<Zlength 
 
 theorem proof_of_solver_entail_wit_1_red_split_goal_1 : solver_entail_wit_1_red_split_goal_1 := by
   unfold solver_entail_wit_1_red_split_goal_1
-  intro c_pre n_pre lights PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro lights n_pre c_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   rw [PreH2]
   exact traffic_scan_state_initial__initialization 114 lights PreH3
 
 theorem proof_of_solver_entail_wit_1_red_split_goal_2 : solver_entail_wit_1_red_split_goal_2 := by
   unfold solver_entail_wit_1_red_split_goal_2
-  intro c_pre n_pre lights PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro lights n_pre c_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   intro idx hidx
   apply PreH6 idx
   omega
@@ -44,23 +44,23 @@ theorem proof_of_solver_entail_wit_1_red_split_goal_2 : solver_entail_wit_1_red_
 theorem proof_of_solver_entail_wit_1_red : solver_entail_wit_1_red := by
   unfold solver_entail_wit_1_red
   right
-  intro c_pre n_pre lights PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro lights n_pre c_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_entail_wit_1_red_split_goal_1 c_pre n_pre lights PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7)
-      | exact (proof_of_solver_entail_wit_1_red_split_goal_2 c_pre n_pre lights PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7)
+      | exact (proof_of_solver_entail_wit_1_red_split_goal_1 lights n_pre c_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7)
+      | exact (proof_of_solver_entail_wit_1_red_split_goal_2 lights n_pre c_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7)
 
 theorem proof_of_solver_entail_wit_2_yellow_split_goal_1 : solver_entail_wit_2_yellow_split_goal_1 := by
   unfold solver_entail_wit_2_yellow_split_goal_1
-  intro c_pre n_pre lights PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro lights n_pre c_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   rw [PreH2]
   exact traffic_scan_state_initial__initialization 121 lights PreH3
 
 theorem proof_of_solver_entail_wit_2_yellow_split_goal_2 : solver_entail_wit_2_yellow_split_goal_2 := by
   unfold solver_entail_wit_2_yellow_split_goal_2
-  intro c_pre n_pre lights PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro lights n_pre c_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   intro idx hidx
   apply PreH6 idx
   omega
@@ -68,63 +68,70 @@ theorem proof_of_solver_entail_wit_2_yellow_split_goal_2 : solver_entail_wit_2_y
 theorem proof_of_solver_entail_wit_2_yellow : solver_entail_wit_2_yellow := by
   unfold solver_entail_wit_2_yellow
   right
-  intro c_pre n_pre lights PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro lights n_pre c_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_entail_wit_2_yellow_split_goal_1 c_pre n_pre lights PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7)
-      | exact (proof_of_solver_entail_wit_2_yellow_split_goal_2 c_pre n_pre lights PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7)
+      | exact (proof_of_solver_entail_wit_2_yellow_split_goal_1 lights n_pre c_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7)
+      | exact (proof_of_solver_entail_wit_2_yellow_split_goal_2 lights n_pre c_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7)
 
 theorem proof_of_solver_entail_wit_3_red_split_goal_1 : solver_entail_wit_3_red_split_goal_1 := by
   unfold solver_entail_wit_3_red_split_goal_1
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  have previous_PreH23 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := AUXLib.rem_nonneg_bounds i n (by omega) (by omega)
   exact hr.2
 
 theorem proof_of_solver_entail_wit_3_red_split_goal_2 : solver_entail_wit_3_red_split_goal_2 := by
   unfold solver_entail_wit_3_red_split_goal_2
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  have previous_PreH23 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := AUXLib.rem_nonneg_bounds i n (by omega) (by omega)
   exact hr.1
 
 theorem proof_of_solver_entail_wit_3_red : solver_entail_wit_3_red := by
   unfold solver_entail_wit_3_red
   right
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  have previous_PreH23 : ((0:Int)<=(n_pre+1)) := by omega
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_entail_wit_3_red_split_goal_1 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
-      | exact (proof_of_solver_entail_wit_3_red_split_goal_2 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
+      | exact (proof_of_solver_entail_wit_3_red_split_goal_1 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29)
+      | exact (proof_of_solver_entail_wit_3_red_split_goal_2 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29)
 
 theorem proof_of_solver_entail_wit_4_yellow_split_goal_1 : solver_entail_wit_4_yellow_split_goal_1 := by
   unfold solver_entail_wit_4_yellow_split_goal_1
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  have previous_PreH23 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := AUXLib.rem_nonneg_bounds i n (by omega) (by omega)
   exact hr.2
 
 theorem proof_of_solver_entail_wit_4_yellow_split_goal_2 : solver_entail_wit_4_yellow_split_goal_2 := by
   unfold solver_entail_wit_4_yellow_split_goal_2
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  have previous_PreH23 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := AUXLib.rem_nonneg_bounds i n (by omega) (by omega)
   exact hr.1
 
 theorem proof_of_solver_entail_wit_4_yellow : solver_entail_wit_4_yellow := by
   unfold solver_entail_wit_4_yellow
   right
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  have previous_PreH23 : ((0:Int)<=(n_pre+1)) := by omega
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_entail_wit_4_yellow_split_goal_1 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
-      | exact (proof_of_solver_entail_wit_4_yellow_split_goal_2 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
+      | exact (proof_of_solver_entail_wit_4_yellow_split_goal_1 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29)
+      | exact (proof_of_solver_entail_wit_4_yellow_split_goal_2 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29)
 
 theorem proof_of_solver_entail_wit_5_1_red_split_goal_1 : solver_entail_wit_5_1_red_split_goal_1 := by
   unfold solver_entail_wit_5_1_red_split_goal_1
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  have previous_PreH25 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := cyclic_read lights i n (by omega) (by omega) (by omega)
   have hs : TrafficScanState 114 lights i ans next_green := by rw [← PreH15]; exact PreH24
   have hg : DoubledTrafficChar lights i≠103 := by rw [← hr]; exact PreH4
@@ -135,7 +142,8 @@ theorem proof_of_solver_entail_wit_5_1_red_split_goal_1 : solver_entail_wit_5_1_
 
 theorem proof_of_solver_entail_wit_5_1_red_split_goal_2 : solver_entail_wit_5_1_red_split_goal_2 := by
   unfold solver_entail_wit_5_1_red_split_goal_2
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  have previous_PreH25 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := cyclic_read lights i n (by omega) (by omega) (by omega)
   have hs : TrafficScanState 114 lights i ans next_green := by rw [← PreH15]; exact PreH24
   have hg : DoubledTrafficChar lights i≠103 := by rw [← hr]; exact PreH4
@@ -147,17 +155,19 @@ theorem proof_of_solver_entail_wit_5_1_red_split_goal_2 : solver_entail_wit_5_1_
 theorem proof_of_solver_entail_wit_5_1_red : solver_entail_wit_5_1_red := by
   unfold solver_entail_wit_5_1_red
   right
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  have previous_PreH25 : ((0:Int)<=(n_pre+1)) := by omega
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_entail_wit_5_1_red_split_goal_1 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32)
-      | exact (proof_of_solver_entail_wit_5_1_red_split_goal_2 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32)
+      | exact (proof_of_solver_entail_wit_5_1_red_split_goal_1 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31)
+      | exact (proof_of_solver_entail_wit_5_1_red_split_goal_2 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31)
 
 theorem proof_of_solver_entail_wit_5_2_red_split_goal_1 : solver_entail_wit_5_2_red_split_goal_1 := by
   unfold solver_entail_wit_5_2_red_split_goal_1
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  have previous_PreH24 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := cyclic_read lights i n (by omega) (by omega) (by omega)
   have hs : TrafficScanState 114 lights i ans next_green := by rw [← PreH14]; exact PreH23
   have hn : Znth i lights 0≠114 := by
@@ -169,16 +179,18 @@ theorem proof_of_solver_entail_wit_5_2_red_split_goal_1 : solver_entail_wit_5_2_
 theorem proof_of_solver_entail_wit_5_2_red : solver_entail_wit_5_2_red := by
   unfold solver_entail_wit_5_2_red
   right
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  have previous_PreH24 : ((0:Int)<=(n_pre+1)) := by omega
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_entail_wit_5_2_red_split_goal_1 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31)
+      | exact (proof_of_solver_entail_wit_5_2_red_split_goal_1 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
 
 theorem proof_of_solver_entail_wit_5_3_red_split_goal_1 : solver_entail_wit_5_3_red_split_goal_1 := by
   unfold solver_entail_wit_5_3_red_split_goal_1
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  have previous_PreH24 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := cyclic_read lights i n (by omega) (by omega) (by omega)
   have hs : TrafficScanState 114 lights i ans next_green := by rw [← PreH14]; exact PreH23
   have hn : Znth i lights 0≠114 := by
@@ -190,16 +202,18 @@ theorem proof_of_solver_entail_wit_5_3_red_split_goal_1 : solver_entail_wit_5_3_
 theorem proof_of_solver_entail_wit_5_3_red : solver_entail_wit_5_3_red := by
   unfold solver_entail_wit_5_3_red
   right
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  have previous_PreH24 : ((0:Int)<=(n_pre+1)) := by omega
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_entail_wit_5_3_red_split_goal_1 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31)
+      | exact (proof_of_solver_entail_wit_5_3_red_split_goal_1 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
 
 theorem proof_of_solver_entail_wit_5_4_red_split_goal_1 : solver_entail_wit_5_4_red_split_goal_1 := by
   unfold solver_entail_wit_5_4_red_split_goal_1
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  have previous_PreH23 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := cyclic_read lights i n (by omega) (by omega) (by omega)
   have hs : TrafficScanState 114 lights i ans next_green := by rw [← PreH13]; exact PreH22
   have hg : DoubledTrafficChar lights i=103 := by rw [← hr]; exact PreH2
@@ -208,16 +222,18 @@ theorem proof_of_solver_entail_wit_5_4_red_split_goal_1 : solver_entail_wit_5_4_
 theorem proof_of_solver_entail_wit_5_4_red : solver_entail_wit_5_4_red := by
   unfold solver_entail_wit_5_4_red
   right
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  have previous_PreH23 : ((0:Int)<=(n_pre+1)) := by omega
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_entail_wit_5_4_red_split_goal_1 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
+      | exact (proof_of_solver_entail_wit_5_4_red_split_goal_1 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29)
 
 theorem proof_of_solver_entail_wit_5_5_red_split_goal_1 : solver_entail_wit_5_5_red_split_goal_1 := by
   unfold solver_entail_wit_5_5_red_split_goal_1
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  have previous_PreH23 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := cyclic_read lights i n (by omega) (by omega) (by omega)
   have hs : TrafficScanState 114 lights i ans next_green := by rw [← PreH13]; exact PreH22
   have hg : DoubledTrafficChar lights i≠103 := by rw [← hr]; exact PreH2
@@ -226,16 +242,18 @@ theorem proof_of_solver_entail_wit_5_5_red_split_goal_1 : solver_entail_wit_5_5_
 theorem proof_of_solver_entail_wit_5_5_red : solver_entail_wit_5_5_red := by
   unfold solver_entail_wit_5_5_red
   right
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  have previous_PreH23 : ((0:Int)<=(n_pre+1)) := by omega
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_entail_wit_5_5_red_split_goal_1 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
+      | exact (proof_of_solver_entail_wit_5_5_red_split_goal_1 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29)
 
 theorem proof_of_solver_entail_wit_5_6_red_split_goal_1 : solver_entail_wit_5_6_red_split_goal_1 := by
   unfold solver_entail_wit_5_6_red_split_goal_1
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  have previous_PreH25 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := cyclic_read lights i n (by omega) (by omega) (by omega)
   have hs : TrafficScanState 114 lights i ans next_green := by rw [← PreH15]; exact PreH24
   have hg : DoubledTrafficChar lights i≠103 := by rw [← hr]; exact PreH4
@@ -244,16 +262,18 @@ theorem proof_of_solver_entail_wit_5_6_red_split_goal_1 : solver_entail_wit_5_6_
 theorem proof_of_solver_entail_wit_5_6_red : solver_entail_wit_5_6_red := by
   unfold solver_entail_wit_5_6_red
   right
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  have previous_PreH25 : ((0:Int)<=(n_pre+1)) := by omega
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_entail_wit_5_6_red_split_goal_1 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32)
+      | exact (proof_of_solver_entail_wit_5_6_red_split_goal_1 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31)
 
 theorem proof_of_solver_entail_wit_6_1_yellow_split_goal_1 : solver_entail_wit_6_1_yellow_split_goal_1 := by
   unfold solver_entail_wit_6_1_yellow_split_goal_1
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  have previous_PreH25 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := cyclic_read lights i n (by omega) (by omega) (by omega)
   have hs : TrafficScanState 121 lights i ans next_green := by rw [← PreH15]; exact PreH24
   have hg : DoubledTrafficChar lights i≠103 := by rw [← hr]; exact PreH4
@@ -264,7 +284,8 @@ theorem proof_of_solver_entail_wit_6_1_yellow_split_goal_1 : solver_entail_wit_6
 
 theorem proof_of_solver_entail_wit_6_1_yellow_split_goal_2 : solver_entail_wit_6_1_yellow_split_goal_2 := by
   unfold solver_entail_wit_6_1_yellow_split_goal_2
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  have previous_PreH25 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := cyclic_read lights i n (by omega) (by omega) (by omega)
   have hs : TrafficScanState 121 lights i ans next_green := by rw [← PreH15]; exact PreH24
   have hg : DoubledTrafficChar lights i≠103 := by rw [← hr]; exact PreH4
@@ -276,17 +297,19 @@ theorem proof_of_solver_entail_wit_6_1_yellow_split_goal_2 : solver_entail_wit_6
 theorem proof_of_solver_entail_wit_6_1_yellow : solver_entail_wit_6_1_yellow := by
   unfold solver_entail_wit_6_1_yellow
   right
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  have previous_PreH25 : ((0:Int)<=(n_pre+1)) := by omega
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_entail_wit_6_1_yellow_split_goal_1 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32)
-      | exact (proof_of_solver_entail_wit_6_1_yellow_split_goal_2 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32)
+      | exact (proof_of_solver_entail_wit_6_1_yellow_split_goal_1 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31)
+      | exact (proof_of_solver_entail_wit_6_1_yellow_split_goal_2 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31)
 
 theorem proof_of_solver_entail_wit_6_2_yellow_split_goal_1 : solver_entail_wit_6_2_yellow_split_goal_1 := by
   unfold solver_entail_wit_6_2_yellow_split_goal_1
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  have previous_PreH24 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := cyclic_read lights i n (by omega) (by omega) (by omega)
   have hs : TrafficScanState 121 lights i ans next_green := by rw [← PreH14]; exact PreH23
   have hn : Znth i lights 0≠121 := by
@@ -298,16 +321,18 @@ theorem proof_of_solver_entail_wit_6_2_yellow_split_goal_1 : solver_entail_wit_6
 theorem proof_of_solver_entail_wit_6_2_yellow : solver_entail_wit_6_2_yellow := by
   unfold solver_entail_wit_6_2_yellow
   right
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  have previous_PreH24 : ((0:Int)<=(n_pre+1)) := by omega
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_entail_wit_6_2_yellow_split_goal_1 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31)
+      | exact (proof_of_solver_entail_wit_6_2_yellow_split_goal_1 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
 
 theorem proof_of_solver_entail_wit_6_3_yellow_split_goal_1 : solver_entail_wit_6_3_yellow_split_goal_1 := by
   unfold solver_entail_wit_6_3_yellow_split_goal_1
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  have previous_PreH24 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := cyclic_read lights i n (by omega) (by omega) (by omega)
   have hs : TrafficScanState 121 lights i ans next_green := by rw [← PreH14]; exact PreH23
   have hn : Znth i lights 0≠121 := by
@@ -319,16 +344,18 @@ theorem proof_of_solver_entail_wit_6_3_yellow_split_goal_1 : solver_entail_wit_6
 theorem proof_of_solver_entail_wit_6_3_yellow : solver_entail_wit_6_3_yellow := by
   unfold solver_entail_wit_6_3_yellow
   right
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  have previous_PreH24 : ((0:Int)<=(n_pre+1)) := by omega
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_entail_wit_6_3_yellow_split_goal_1 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31)
+      | exact (proof_of_solver_entail_wit_6_3_yellow_split_goal_1 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
 
 theorem proof_of_solver_entail_wit_6_4_yellow_split_goal_1 : solver_entail_wit_6_4_yellow_split_goal_1 := by
   unfold solver_entail_wit_6_4_yellow_split_goal_1
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  have previous_PreH23 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := cyclic_read lights i n (by omega) (by omega) (by omega)
   have hs : TrafficScanState 121 lights i ans next_green := by rw [← PreH13]; exact PreH22
   have hg : DoubledTrafficChar lights i=103 := by rw [← hr]; exact PreH2
@@ -337,16 +364,18 @@ theorem proof_of_solver_entail_wit_6_4_yellow_split_goal_1 : solver_entail_wit_6
 theorem proof_of_solver_entail_wit_6_4_yellow : solver_entail_wit_6_4_yellow := by
   unfold solver_entail_wit_6_4_yellow
   right
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  have previous_PreH23 : ((0:Int)<=(n_pre+1)) := by omega
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_entail_wit_6_4_yellow_split_goal_1 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
+      | exact (proof_of_solver_entail_wit_6_4_yellow_split_goal_1 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29)
 
 theorem proof_of_solver_entail_wit_6_5_yellow_split_goal_1 : solver_entail_wit_6_5_yellow_split_goal_1 := by
   unfold solver_entail_wit_6_5_yellow_split_goal_1
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  have previous_PreH23 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := cyclic_read lights i n (by omega) (by omega) (by omega)
   have hs : TrafficScanState 121 lights i ans next_green := by rw [← PreH13]; exact PreH22
   have hg : DoubledTrafficChar lights i≠103 := by rw [← hr]; exact PreH2
@@ -355,16 +384,18 @@ theorem proof_of_solver_entail_wit_6_5_yellow_split_goal_1 : solver_entail_wit_6
 theorem proof_of_solver_entail_wit_6_5_yellow : solver_entail_wit_6_5_yellow := by
   unfold solver_entail_wit_6_5_yellow
   right
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  have previous_PreH23 : ((0:Int)<=(n_pre+1)) := by omega
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_entail_wit_6_5_yellow_split_goal_1 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
+      | exact (proof_of_solver_entail_wit_6_5_yellow_split_goal_1 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29)
 
 theorem proof_of_solver_entail_wit_6_6_yellow_split_goal_1 : solver_entail_wit_6_6_yellow_split_goal_1 := by
   unfold solver_entail_wit_6_6_yellow_split_goal_1
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  have previous_PreH25 : ((0:Int)<=(n_pre+1)) := by omega
   have hr := cyclic_read lights i n (by omega) (by omega) (by omega)
   have hs : TrafficScanState 121 lights i ans next_green := by rw [← PreH15]; exact PreH24
   have hg : DoubledTrafficChar lights i≠103 := by rw [← hr]; exact PreH4
@@ -373,16 +404,18 @@ theorem proof_of_solver_entail_wit_6_6_yellow_split_goal_1 : solver_entail_wit_6
 theorem proof_of_solver_entail_wit_6_6_yellow : solver_entail_wit_6_6_yellow := by
   unfold solver_entail_wit_6_6_yellow
   right
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  have previous_PreH25 : ((0:Int)<=(n_pre+1)) := by omega
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_entail_wit_6_6_yellow_split_goal_1 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32)
+      | exact (proof_of_solver_entail_wit_6_6_yellow_split_goal_1 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31)
 
 theorem proof_of_solver_return_wit_1_red_split_goal_1 : solver_return_wit_1_red_split_goal_1 := by
   unfold solver_return_wit_1_red_split_goal_1
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  have previous_PreH15 : ((0:Int)<=(n_pre+1)) := by omega
   have hc : c=114 := by assumption
   have hp : Pre 114 lights := by rw [← hc]; exact PreH7
   have hs : TrafficScanState 114 lights i ans next_green := by rw [← hc]; exact PreH14
@@ -391,16 +424,18 @@ theorem proof_of_solver_return_wit_1_red_split_goal_1 : solver_return_wit_1_red_
 theorem proof_of_solver_return_wit_1_red : solver_return_wit_1_red := by
   unfold solver_return_wit_1_red
   right
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  have previous_PreH15 : ((0:Int)<=(n_pre+1)) := by omega
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_return_wit_1_red_split_goal_1 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+      | exact (proof_of_solver_return_wit_1_red_split_goal_1 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21)
 
 theorem proof_of_solver_return_wit_2_yellow_split_goal_1 : solver_return_wit_2_yellow_split_goal_1 := by
   unfold solver_return_wit_2_yellow_split_goal_1
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  have previous_PreH15 : ((0:Int)<=(n_pre+1)) := by omega
   have hc : c=121 := by assumption
   have hp : Pre 121 lights := by rw [← hc]; exact PreH7
   have hs : TrafficScanState 121 lights i ans next_green := by rw [← hc]; exact PreH14
@@ -409,16 +444,17 @@ theorem proof_of_solver_return_wit_2_yellow_split_goal_1 : solver_return_wit_2_y
 theorem proof_of_solver_return_wit_2_yellow : solver_return_wit_2_yellow := by
   unfold solver_return_wit_2_yellow
   right
-  intro c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  have previous_PreH15 : ((0:Int)<=(n_pre+1)) := by omega
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_return_wit_2_yellow_split_goal_1 c_pre n_pre lights next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+      | exact (proof_of_solver_return_wit_2_yellow_split_goal_1 lights n_pre c_pre next_green ans i c n PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21)
 
 theorem proof_of_solver_return_wit_3_green_split_goal_1 : solver_return_wit_3_green_split_goal_1 := by
   unfold solver_return_wit_3_green_split_goal_1
-  intro c_pre n_pre lights PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro lights n_pre c_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   apply green_current_spec_zero__final_results lights
   rw [← PreH1]
   exact PreH7
@@ -426,11 +462,11 @@ theorem proof_of_solver_return_wit_3_green_split_goal_1 : solver_return_wit_3_gr
 theorem proof_of_solver_return_wit_3_green : solver_return_wit_3_green := by
   unfold solver_return_wit_3_green
   right
-  intro c_pre n_pre lights PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro lights n_pre c_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact (proof_of_solver_return_wit_3_green_split_goal_1 c_pre n_pre lights PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7)
+      | exact (proof_of_solver_return_wit_3_green_split_goal_1 lights n_pre c_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7)
 
 end SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P013_1744C_traffic_light_proof_manual

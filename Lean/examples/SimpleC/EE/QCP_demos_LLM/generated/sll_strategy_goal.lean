@@ -249,7 +249,7 @@ noncomputable def sll_strategy17 : Prop :=
   TT &&
   emp
   ) ** (
-  ALL l : (List Int), ALL ty, ALL p : Int, 
+  ALL ty : front_end_type, ALL l : (List Int), ALL p : Int, 
 (
     TT &&
     (“ (l = (@List.nil Int)) ”) &&
@@ -286,7 +286,7 @@ noncomputable def sll_strategy18 : Prop :=
       )
 
 noncomputable def sll_strategy19 : Prop :=
-  forall ty (l1 : (List Int)) (p : Int) (q : Int),
+  forall (ty : front_end_type) (l1 : (List Int)) (p : Int) (q : Int),
     TT &&
     emp **
     ((sllbseg p q l1)) **

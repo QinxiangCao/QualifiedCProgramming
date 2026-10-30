@@ -3,7 +3,6 @@ From SimpleC.EE.LLM_bench.Algorithms.DFS Require Import DFS_adjacency_matrix_goa
 Module VC_Correctness : VC_Correct.
   Include safeexec_strategy_proof.
   Include array2_strategy_proof.
-  Include int_array_strategy_proof.
   Include int_ptr_array2_strategy_proof.
   Include graph_matrix_strategy_proof.
   Include DFS_adjacency_matrix_proof_auto.

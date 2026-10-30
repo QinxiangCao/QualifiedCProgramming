@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.chinese_remainder_theorem Require Import chinese_remainder_theorem_goal.
 From SimpleC.EE.LLM_bench.Algorithms.chinese_remainder_theorem Require Import chinese_remainder_theorem_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.chinese_remainder_theorem.chinese_remainder_theorem_lib.
 Require Import AUXLib.MonotonicList.
@@ -217,7 +201,7 @@ Proof.
   pose proof (Hentries i ltac:(lia)) as [Hmodulus Hremainder].
   pose proof
     (crt_c_rem_mul_int_bounds__machine_safety
-       (x_callee_v * (product ÷ Znth i moduli_l 0)) product
+       (x_v * (product ÷ Znth i moduli_l 0)) product
        (Znth i remainders_l 0) PreH8 PreH9
        ltac:(lia) ltac:(lia)) as Hbound.
   dump_pre_spatial.
@@ -276,7 +260,7 @@ Proof.
   pose proof (Hentries i ltac:(lia)) as [Hmodulus Hremainder].
   pose proof
     (crt_c_rem_mul_int_bounds__machine_safety
-       (x_callee_v * (product ÷ Znth i moduli_l 0)) product
+       (x_v * (product ÷ Znth i moduli_l 0)) product
        (Znth i remainders_l 0) PreH8 PreH9
        ltac:(lia) ltac:(lia)) as Hbound.
   dump_pre_spatial.
@@ -339,7 +323,7 @@ Proof.
   pose proof
     (Z.rem_bound_abs
        ((Z.rem
-           (x_callee_v * (product ÷ Znth i moduli_l 0)) product) *
+           (x_v * (product ÷ Znth i moduli_l 0)) product) *
         Znth i remainders_l 0)
        product ltac:(lia)) as Hterm.
   dump_pre_spatial.
@@ -643,7 +627,7 @@ Proof.
     intros k Hk. apply Hzero. lia. }
   match goal with |- CRTUnprocessedZero _ _ (Z.rem ?sum product) =>
     replace sum with
-      (result + Z.rem (Z.rem (x_callee_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product + 1 * product) by ring
+      (result + Z.rem (Z.rem (x_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product + 1 * product) by ring
   end.
   eapply crt_update_unprocessed_rem; try eassumption; lia.
 Qed.
@@ -697,12 +681,12 @@ Proof.
   assert (Hupdate :
     CRTProcessedCongruences remainders_l moduli_l (i + 1)
       ((result +
-        ((((x_callee_v * (product / Znth i moduli_l 0)) mod product) *
+        ((((x_v * (product / Znth i moduli_l 0)) mod product) *
           Znth i remainders_l 0) mod product)) mod product)).
   {
     eapply
       (crt_update_processed__crt_transition
-        remainders_l moduli_l result i product x_callee_v y_callee_v).
+        remainders_l moduli_l result i product x_v y_v).
     - exact PreH6.
     - lia.
     - exact PreH8.
@@ -734,9 +718,9 @@ Proof.
   assert (Hterm_mod :
     (Z.rem
       (Z.rem
-        (x_callee_v * (product / Znth i moduli_l 0)) product *
+        (x_v * (product / Znth i moduli_l 0)) product *
         Znth i remainders_l 0) product) mod product =
-    (((x_callee_v * (product / Znth i moduli_l 0)) mod product *
+    (((x_v * (product / Znth i moduli_l 0)) mod product *
       Znth i remainders_l 0) mod product)).
   {
     rewrite crt_rem_mod__crt_transition by lia.
@@ -744,12 +728,12 @@ Proof.
   }
   pose proof
     (Z.rem_bound_abs
-      (Z.rem (x_callee_v * (product / Znth i moduli_l 0)) product *
+      (Z.rem (x_v * (product / Znth i moduli_l 0)) product *
         Znth i remainders_l 0) product) as Hterm_bound.
   rewrite
     (Z.abs_neq
       (Z.rem
-        (Z.rem (x_callee_v * (product / Znth i moduli_l 0)) product *
+        (Z.rem (x_v * (product / Znth i moduli_l 0)) product *
           Znth i remainders_l 0) product))
     in Hterm_bound by lia.
   rewrite (Z.abs_eq product) in Hterm_bound by lia.
@@ -757,17 +741,17 @@ Proof.
     0 <= result +
       (Z.rem
         (Z.rem
-          (x_callee_v * (product / Znth i moduli_l 0)) product *
+          (x_v * (product / Znth i moduli_l 0)) product *
           Znth i remainders_l 0) product + product)) by lia.
   assert (Hupdate_eq :
     Z.rem
       (result +
         (Z.rem
           (Z.rem
-            (x_callee_v * (product / Znth i moduli_l 0)) product *
+            (x_v * (product / Znth i moduli_l 0)) product *
             Znth i remainders_l 0) product + product)) product =
     (result +
-      (((x_callee_v * (product / Znth i moduli_l 0)) mod product *
+      (((x_v * (product / Znth i moduli_l 0)) mod product *
         Znth i remainders_l 0) mod product)) mod product).
   {
     rewrite crt_rem_eq_mod_of_nonnegative_dividend__crt_transition by lia.
@@ -775,13 +759,13 @@ Proof.
       (result +
         (Z.rem
           (Z.rem
-            (x_callee_v * (product / Znth i moduli_l 0)) product *
+            (x_v * (product / Znth i moduli_l 0)) product *
             Znth i remainders_l 0) product + product))
       with
       ((result +
         Z.rem
           (Z.rem
-            (x_callee_v * (product / Znth i moduli_l 0)) product *
+            (x_v * (product / Znth i moduli_l 0)) product *
             Znth i remainders_l 0) product) + 1 * product)
       by ring.
     rewrite Z.mod_add by lia.
@@ -789,7 +773,7 @@ Proof.
       ((result mod product +
         (Z.rem
           (Z.rem
-            (x_callee_v * (product / Znth i moduli_l 0)) product *
+            (x_v * (product / Znth i moduli_l 0)) product *
             Znth i remainders_l 0) product) mod product) mod product).
     - apply Zplus_mod.
     - rewrite Hterm_mod.
@@ -849,13 +833,13 @@ Proof.
   pose proof
     (Z.rem_bound_abs
       (Z.rem
-        (x_callee_v * (Z.quot product (Znth i moduli_l 0))) product *
+        (x_v * (Z.quot product (Znth i moduli_l 0))) product *
         Znth i remainders_l 0) product) as Hterm_bound.
   rewrite
     (Z.abs_neq
       (Z.rem
         (Z.rem
-          (x_callee_v * (Z.quot product (Znth i moduli_l 0))) product *
+          (x_v * (Z.quot product (Znth i moduli_l 0))) product *
           Znth i remainders_l 0) product))
     in Hterm_bound by lia.
   rewrite (Z.abs_eq product) in Hterm_bound by lia.
@@ -864,7 +848,7 @@ Proof.
       (result +
         (Z.rem
           (Z.rem
-            (x_callee_v * (Z.quot product (Znth i moduli_l 0))) product *
+            (x_v * (Z.quot product (Znth i moduli_l 0))) product *
             Znth i remainders_l 0) product + product))
       product ltac:(lia) ltac:(lia)).
   lia.
@@ -918,13 +902,13 @@ Proof.
   pose proof
     (Z.rem_bound_abs
       (Z.rem
-        (x_callee_v * (Z.quot product (Znth i moduli_l 0))) product *
+        (x_v * (Z.quot product (Znth i moduli_l 0))) product *
         Znth i remainders_l 0) product) as Hterm_bound.
   rewrite
     (Z.abs_neq
       (Z.rem
         (Z.rem
-          (x_callee_v * (Z.quot product (Znth i moduli_l 0))) product *
+          (x_v * (Z.quot product (Znth i moduli_l 0))) product *
           Znth i remainders_l 0) product))
     in Hterm_bound by lia.
   rewrite (Z.abs_eq product) in Hterm_bound by lia.
@@ -933,7 +917,7 @@ Proof.
       (result +
         (Z.rem
           (Z.rem
-            (x_callee_v * (Z.quot product (Znth i moduli_l 0))) product *
+            (x_v * (Z.quot product (Znth i moduli_l 0))) product *
             Znth i remainders_l 0) product + product))
       product ltac:(lia) ltac:(lia)).
   lia.
@@ -995,7 +979,7 @@ Proof.
     intros k Hk. apply Hzero. lia. }
   match goal with |- CRTUnprocessedZero _ _ (Z.rem ?sum product) =>
     replace sum with
-      (result + Z.rem (Z.rem (x_callee_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product + 0 * product) by ring
+      (result + Z.rem (Z.rem (x_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product + 0 * product) by ring
   end.
   eapply crt_update_unprocessed_rem; try eassumption; lia.
 Qed.
@@ -1049,12 +1033,12 @@ Proof.
   assert (Hupdate :
     CRTProcessedCongruences remainders_l moduli_l (i + 1)
       ((result +
-        ((((x_callee_v * (product / Znth i moduli_l 0)) mod product) *
+        ((((x_v * (product / Znth i moduli_l 0)) mod product) *
           Znth i remainders_l 0) mod product)) mod product)).
   {
     eapply
       (crt_update_processed__crt_transition
-        remainders_l moduli_l result i product x_callee_v y_callee_v).
+        remainders_l moduli_l result i product x_v y_v).
     - exact PreH6.
     - lia.
     - exact PreH8.
@@ -1086,14 +1070,14 @@ Proof.
   assert (Hterm_eq :
     Z.rem
       (Z.rem
-        (x_callee_v * (product / Znth i moduli_l 0)) product *
+        (x_v * (product / Znth i moduli_l 0)) product *
         Znth i remainders_l 0) product =
-    (((x_callee_v * (product / Znth i moduli_l 0)) mod product *
+    (((x_v * (product / Znth i moduli_l 0)) mod product *
       Znth i remainders_l 0) mod product)).
   {
     transitivity
       ((Z.rem
-        (x_callee_v * (product / Znth i moduli_l 0)) product *
+        (x_v * (product / Znth i moduli_l 0)) product *
         Znth i remainders_l 0) mod product).
     - apply crt_nonnegative_rem_eq_mod__crt_transition; lia.
     - apply crt_rem_mul_mod__crt_transition. lia.
@@ -1103,10 +1087,10 @@ Proof.
       (result +
         Z.rem
           (Z.rem
-            (x_callee_v * (product / Znth i moduli_l 0)) product *
+            (x_v * (product / Znth i moduli_l 0)) product *
             Znth i remainders_l 0) product) product =
     (result +
-      (((x_callee_v * (product / Znth i moduli_l 0)) mod product *
+      (((x_v * (product / Znth i moduli_l 0)) mod product *
         Znth i remainders_l 0) mod product)) mod product).
   {
     rewrite crt_rem_eq_mod_of_nonnegative_dividend__crt_transition by lia.
@@ -1166,7 +1150,7 @@ Proof.
       (result +
         Z.rem
           (Z.rem
-            (x_callee_v * (Z.quot product (Znth i moduli_l 0))) product *
+            (x_v * (Z.quot product (Znth i moduli_l 0))) product *
             Znth i remainders_l 0) product)
       product ltac:(lia) ltac:(lia)).
   lia.
@@ -1222,7 +1206,7 @@ Proof.
       (result +
         Z.rem
           (Z.rem
-            (x_callee_v * (Z.quot product (Znth i moduli_l 0))) product *
+            (x_v * (Z.quot product (Znth i moduli_l 0))) product *
             Znth i remainders_l 0) product)
       product ltac:(lia) ltac:(lia)).
   lia.
@@ -1289,7 +1273,7 @@ Qed.
 Lemma proof_of_chinese_remainder_theorem_return_wit_1 : chinese_remainder_theorem_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_chinese_remainder_theorem_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_chinese_remainder_theorem_return_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_1 : chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_1.

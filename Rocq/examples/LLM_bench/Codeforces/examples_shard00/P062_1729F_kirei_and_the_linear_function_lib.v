@@ -684,8 +684,8 @@ Lemma decimal_fold_digit_sum_mod9__query_choose_candidate :
     (acc + ListLib.sum (map (fun digit => digit - 48) digits)) mod 9.
 Proof.
   induction digits as [|digit digits IH]; intros acc.
-  - simpl [ListLib.sum]. rewrite Z.add_0_r. reflexivity.
-  - simpl [ListLib.sum].
+  - simpl. rewrite Z.add_0_r. reflexivity.
+  - simpl.
     rewrite IH.
     change ((10 * acc + (digit - 48) +
       ListLib.sum (map (fun digit0 : Z => digit0 - 48) digits)) mod 9 =

@@ -177,59 +177,57 @@ theorem proof_of_step_return_wit_1 : step_return_wit_1 := by
       | exact proof_of_step_return_wit_1_split_goal_1 x_pre mx mn x PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
 
 theorem proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1 := by
-  intro k_pre a_pre a1 PreH1 PreH2 PreH3 PreH4 PreH5
-  exact sequence_prefix_base__solver_prefix a_pre
+  intro a1 a_pre k_pre PreH1 PreH2 PreH3 PreH4 PreH5
+  exact sequence_prefix_base__solver_prefix a1
 
 theorem proof_of_solver_entail_wit_1 : solver_entail_wit_1 := by
   right
-  intro k_pre a_pre a1 PreH1 PreH2 PreH3 PreH4 PreH5
+  intro a1 a_pre k_pre PreH1 PreH2 PreH3 PreH4 PreH5
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_1_split_goal_1 k_pre a_pre a1 PreH1 PreH2 PreH3 PreH4 PreH5
+      | exact proof_of_solver_entail_wit_1_split_goal_1 a1 a_pre k_pre PreH1 PreH2 PreH3 PreH4 PreH5
 
 theorem proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_goal_1 := by
-  intro k_pre a_pre a1 a i retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
-  rw [PreH6]
+  intro a1 a_pre k_pre a i retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   rw [PreH1,Int.add_zero] at PreH4
   exact sequence_fixed_point_spec__solver_results a1 i k_pre a PreH11 PreH12 PreH16 PreH4
 
 theorem proof_of_solver_entail_wit_2 : solver_entail_wit_2 := by
   right
-  intro k_pre a_pre a1 a i retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro a1 a_pre k_pre a i retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_2_split_goal_1 k_pre a_pre a1 a i retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+      | exact proof_of_solver_entail_wit_2_split_goal_1 a1 a_pre k_pre a i retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
 
 theorem proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1 := by
-  intro k_pre a_pre a1 a i retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
-  rw [PreH6]
+  intro a1 a_pre k_pre a i retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   exact sequence_prefix_extend__solver_prefix a1 i a (a+retval) PreH11 PreH16 PreH4
 
 theorem proof_of_solver_entail_wit_3 : solver_entail_wit_3 := by
   right
-  intro k_pre a_pre a1 a i retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro a1 a_pre k_pre a i retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_entail_wit_3_split_goal_1 k_pre a_pre a1 a i retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+      | exact proof_of_solver_entail_wit_3_split_goal_1 a1 a_pre k_pre a i retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
 
 theorem proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1 := by
-  intro k_pre a_pre a1 a i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
-  rw [PreH2,show k_pre=i by omega]
+  intro a1 a_pre k_pre a i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  rw [show k_pre=i by omega]
   exact sequence_prefix_index_spec__solver_results a1 i a PreH12
 
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   right
-  intro k_pre a_pre a1 a i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro a1 a_pre k_pre a i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
-      | exact proof_of_solver_return_wit_1_split_goal_1 k_pre a_pre a1 a i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+      | exact proof_of_solver_return_wit_1_split_goal_1 a1 a_pre k_pre a i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
 
 end SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P026_1355A_sequence_with_digits_proof_manual

@@ -148,8 +148,8 @@ static int solver(const char *s, int n, int k, char out[][8])
                         CharArray::full(s@pre, n@pre, text) *
                         CharArray2::missing_i(out@pre, t, 0, 3 * n@pre, 8, rows) *
                         CharArray::full(
-                          pointer_offset(pointer_offset(out@pre, t, sizeof(char[8]), char[8]),
-                            0, sizeof(char), signed char),
+                          pointer_offset(pointer_offset(out@pre, t, char[8]),
+                            0, signed char),
                           8, rows[t])
                 */
                 write_left(out[t]);
@@ -201,8 +201,8 @@ static int solver(const char *s, int n, int k, char out[][8])
                     CharArray::full(s@pre, n@pre, text) *
                     CharArray2::missing_i(out@pre, t, 0, 3 * n@pre, 8, rows) *
                     CharArray::full(
-                      pointer_offset(pointer_offset(out@pre, t, sizeof(char[8]), char[8]),
-                        0, sizeof(char), signed char),
+                      pointer_offset(pointer_offset(out@pre, t, char[8]),
+                        0, signed char),
                       8, rows[t])
             */
             write_print(out[t], s[p - 1]);
@@ -232,8 +232,8 @@ static int solver(const char *s, int n, int k, char out[][8])
                             CharArray::full(s@pre, n@pre, text) *
                             CharArray2::missing_i(out@pre, t, 0, 3 * n@pre, 8, rows) *
                             CharArray::full(
-                              pointer_offset(pointer_offset(out@pre, t, sizeof(char[8]), char[8]),
-                                0, sizeof(char), signed char),
+                              pointer_offset(pointer_offset(out@pre, t, char[8]),
+                                0, signed char),
                               8, rows[t])
                     */
                     write_right(out[t]);
@@ -287,8 +287,8 @@ static int solver(const char *s, int n, int k, char out[][8])
                         CharArray::full(s@pre, n@pre, text) *
                         CharArray2::missing_i(out@pre, t, 0, 3 * n@pre, 8, rows) *
                         CharArray::full(
-                          pointer_offset(pointer_offset(out@pre, t, sizeof(char[8]), char[8]),
-                            0, sizeof(char), signed char),
+                          pointer_offset(pointer_offset(out@pre, t, char[8]),
+                            0, signed char),
                           8, rows[t])
                 */
                 write_right(out[t]);
@@ -340,8 +340,8 @@ static int solver(const char *s, int n, int k, char out[][8])
                     CharArray::full(s@pre, n@pre, text) *
                     CharArray2::missing_i(out@pre, t, 0, 3 * n@pre, 8, rows) *
                     CharArray::full(
-                      pointer_offset(pointer_offset(out@pre, t, sizeof(char[8]), char[8]),
-                        0, sizeof(char), signed char),
+                      pointer_offset(pointer_offset(out@pre, t, char[8]),
+                        0, signed char),
                       8, rows[t])
             */
             write_print(out[t], s[p - 1]);
@@ -371,8 +371,8 @@ static int solver(const char *s, int n, int k, char out[][8])
                             CharArray::full(s@pre, n@pre, text) *
                             CharArray2::missing_i(out@pre, t, 0, 3 * n@pre, 8, rows) *
                             CharArray::full(
-                              pointer_offset(pointer_offset(out@pre, t, sizeof(char[8]), char[8]),
-                                0, sizeof(char), signed char),
+                              pointer_offset(pointer_offset(out@pre, t, char[8]),
+                                0, signed char),
                               8, rows[t])
                     */
                     write_left(out[t]);

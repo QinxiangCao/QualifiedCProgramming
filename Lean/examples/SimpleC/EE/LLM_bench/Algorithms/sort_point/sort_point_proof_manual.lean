@@ -179,7 +179,7 @@ private theorem coords_of_range_result (gp : point) (flat : List Int)
 
 theorem completed_proof_of_cmp_polar_values_safety_wit_1 : cmp_polar_values_safety_wit_1 := by
   unfold cmp_polar_values_safety_wit_1
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
   have PreH1 : (CoordInBounds gx_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH2 : (CoordInBounds gy_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH3 : (CoordInBounds a_x_pre) := by unfold CoordInBounds; constructor <;> omega
@@ -198,7 +198,7 @@ theorem completed_proof_of_cmp_polar_values_safety_wit_1 : cmp_polar_values_safe
 
 theorem completed_proof_of_cmp_polar_values_safety_wit_2 : cmp_polar_values_safety_wit_2 := by
   unfold cmp_polar_values_safety_wit_2
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
   have PreH1 : (CoordInBounds gx_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH2 : (CoordInBounds gy_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH3 : (CoordInBounds a_x_pre) := by unfold CoordInBounds; constructor <;> omega
@@ -217,7 +217,7 @@ theorem completed_proof_of_cmp_polar_values_safety_wit_2 : cmp_polar_values_safe
 
 theorem completed_proof_of_cmp_polar_values_safety_wit_3 : cmp_polar_values_safety_wit_3 := by
   unfold cmp_polar_values_safety_wit_3
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
   have PreH1 : (CoordInBounds gx_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH2 : (CoordInBounds gy_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH3 : (CoordInBounds a_x_pre) := by unfold CoordInBounds; constructor <;> omega
@@ -236,7 +236,7 @@ theorem completed_proof_of_cmp_polar_values_safety_wit_3 : cmp_polar_values_safe
 
 theorem completed_proof_of_cmp_polar_values_safety_wit_4 : cmp_polar_values_safety_wit_4 := by
   unfold cmp_polar_values_safety_wit_4
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
   have PreH1 : (CoordInBounds gx_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH2 : (CoordInBounds gy_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH3 : (CoordInBounds a_x_pre) := by unfold CoordInBounds; constructor <;> omega
@@ -255,7 +255,7 @@ theorem completed_proof_of_cmp_polar_values_safety_wit_4 : cmp_polar_values_safe
 
 theorem completed_proof_of_cmp_polar_values_safety_wit_5 : cmp_polar_values_safety_wit_5 := by
   unfold cmp_polar_values_safety_wit_5
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
   have PreH1 : (CoordInBounds gx_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH2 : (CoordInBounds gy_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH3 : (CoordInBounds a_x_pre) := by unfold CoordInBounds; constructor <;> omega
@@ -274,7 +274,7 @@ theorem completed_proof_of_cmp_polar_values_safety_wit_5 : cmp_polar_values_safe
 
 theorem completed_proof_of_cmp_polar_values_safety_wit_6 : cmp_polar_values_safety_wit_6 := by
   unfold cmp_polar_values_safety_wit_6
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
   have PreH1 : (CoordInBounds gx_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH2 : (CoordInBounds gy_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH3 : (CoordInBounds a_x_pre) := by unfold CoordInBounds; constructor <;> omega
@@ -293,7 +293,7 @@ theorem completed_proof_of_cmp_polar_values_safety_wit_6 : cmp_polar_values_safe
 
 theorem completed_proof_of_cmp_polar_values_safety_wit_7 : cmp_polar_values_safety_wit_7 := by
   unfold cmp_polar_values_safety_wit_7
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
   have PreH1 : (CoordInBounds gx_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH2 : (CoordInBounds gy_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH3 : (CoordInBounds a_x_pre) := by unfold CoordInBounds; constructor <;> omega
@@ -312,7 +312,7 @@ theorem completed_proof_of_cmp_polar_values_safety_wit_7 : cmp_polar_values_safe
 
 theorem completed_proof_of_cmp_polar_values_safety_wit_8 : cmp_polar_values_safety_wit_8 := by
   unfold cmp_polar_values_safety_wit_8
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
   have PreH1 : (CoordInBounds gx_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH2 : (CoordInBounds gy_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH3 : (CoordInBounds a_x_pre) := by unfold CoordInBounds; constructor <;> omega
@@ -331,7 +331,7 @@ theorem completed_proof_of_cmp_polar_values_safety_wit_8 : cmp_polar_values_safe
 
 theorem completed_proof_of_cmp_polar_values_safety_wit_9 : cmp_polar_values_safety_wit_9 := by
   unfold cmp_polar_values_safety_wit_9
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
   have PreH1 : (CoordInBounds gx_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH2 : (CoordInBounds gy_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH3 : (CoordInBounds a_x_pre) := by unfold CoordInBounds; constructor <;> omega
@@ -350,7 +350,7 @@ theorem completed_proof_of_cmp_polar_values_safety_wit_9 : cmp_polar_values_safe
 
 theorem completed_proof_of_cmp_polar_values_safety_wit_10 : cmp_polar_values_safety_wit_10 := by
   unfold cmp_polar_values_safety_wit_10
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
   have PreH1 : (CoordInBounds gx_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH2 : (CoordInBounds gy_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH3 : (CoordInBounds a_x_pre) := by unfold CoordInBounds; constructor <;> omega
@@ -369,7 +369,7 @@ theorem completed_proof_of_cmp_polar_values_safety_wit_10 : cmp_polar_values_saf
 
 theorem completed_proof_of_cmp_polar_values_safety_wit_11 : cmp_polar_values_safety_wit_11 := by
   unfold cmp_polar_values_safety_wit_11
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
   have PreH1 : (CoordInBounds gx_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH2 : (CoordInBounds gy_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH3 : (CoordInBounds a_x_pre) := by unfold CoordInBounds; constructor <;> omega
@@ -388,7 +388,7 @@ theorem completed_proof_of_cmp_polar_values_safety_wit_11 : cmp_polar_values_saf
 
 theorem completed_proof_of_cmp_polar_values_safety_wit_12 : cmp_polar_values_safety_wit_12 := by
   unfold cmp_polar_values_safety_wit_12
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
   have PreH1 : (CoordInBounds gx_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH2 : (CoordInBounds gy_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH3 : (CoordInBounds a_x_pre) := by unfold CoordInBounds; constructor <;> omega
@@ -407,7 +407,7 @@ theorem completed_proof_of_cmp_polar_values_safety_wit_12 : cmp_polar_values_saf
 
 theorem completed_proof_of_cmp_polar_values_safety_wit_13 : cmp_polar_values_safety_wit_13 := by
   unfold cmp_polar_values_safety_wit_13
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
   have PreH1 : (CoordInBounds gx_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH2 : (CoordInBounds gy_pre) := by unfold CoordInBounds; constructor <;> omega
   have PreH3 : (CoordInBounds a_x_pre) := by unfold CoordInBounds; constructor <;> omega
@@ -426,7 +426,7 @@ theorem completed_proof_of_cmp_polar_values_safety_wit_13 : cmp_polar_values_saf
 
 theorem proof_of_cmp_polar_values_return_wit_1 : cmp_polar_values_return_wit_1 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22
   have PreH1 : (a_y_pre <= b_y_pre) := current_PreH1
   have PreH2 : (a_y_pre >= b_y_pre) := current_PreH2
   have PreH3 : (a_x_pre <= b_x_pre) := current_PreH3
@@ -450,11 +450,11 @@ theorem proof_of_cmp_polar_values_return_wit_1 : cmp_polar_values_return_wit_1 :
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_2 : cmp_polar_values_return_wit_2 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26
   have PreH1 : (a_y_pre <= b_y_pre) := current_PreH1
   have PreH2 : (a_y_pre >= b_y_pre) := current_PreH2
   have PreH3 : (a_x_pre <= b_x_pre) := current_PreH3
@@ -482,11 +482,11 @@ theorem proof_of_cmp_polar_values_return_wit_2 : cmp_polar_values_return_wit_2 :
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_3 : cmp_polar_values_return_wit_3 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26
   have PreH1 : (a_y_pre <= b_y_pre) := current_PreH1
   have PreH2 : (a_y_pre >= b_y_pre) := current_PreH2
   have PreH3 : (a_x_pre <= b_x_pre) := current_PreH3
@@ -514,11 +514,11 @@ theorem proof_of_cmp_polar_values_return_wit_3 : cmp_polar_values_return_wit_3 :
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_4 : cmp_polar_values_return_wit_4 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24
   have PreH1 : (a_y_pre <= b_y_pre) := current_PreH1
   have PreH2 : (a_y_pre >= b_y_pre) := current_PreH2
   have PreH3 : (a_x_pre <= b_x_pre) := current_PreH3
@@ -544,11 +544,11 @@ theorem proof_of_cmp_polar_values_return_wit_4 : cmp_polar_values_return_wit_4 :
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_5 : cmp_polar_values_return_wit_5 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22
   have PreH1 : (a_y_pre > b_y_pre) := current_PreH1
   have PreH2 : (a_y_pre >= b_y_pre) := current_PreH2
   have PreH3 : (a_x_pre <= b_x_pre) := current_PreH3
@@ -570,11 +570,11 @@ theorem proof_of_cmp_polar_values_return_wit_5 : cmp_polar_values_return_wit_5 :
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_6 : cmp_polar_values_return_wit_6 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24
   have PreH1 : (a_y_pre > b_y_pre) := current_PreH1
   have PreH2 : (a_y_pre >= b_y_pre) := current_PreH2
   have PreH3 : (a_x_pre <= b_x_pre) := current_PreH3
@@ -598,10 +598,10 @@ theorem proof_of_cmp_polar_values_return_wit_6 : cmp_polar_values_return_wit_6 :
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_7_split_goal_1 : cmp_polar_values_return_wit_7_split_goal_1 := by
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24
   have PreH1 : (a_y_pre > b_y_pre) := current_PreH1
   have PreH2 : (a_y_pre >= b_y_pre) := current_PreH2
   have PreH3 : (a_x_pre <= b_x_pre) := current_PreH3
@@ -624,11 +624,11 @@ theorem proof_of_cmp_polar_values_return_wit_7_split_goal_1 : cmp_polar_values_r
   subst b_x_pre
   simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]
   simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]
-  grind (splits := 40)
+  (ring_nf at *; grind (splits := 40))
 
 theorem proof_of_cmp_polar_values_return_wit_7 : cmp_polar_values_return_wit_7 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24
   have PreH1 : (a_y_pre > b_y_pre) := current_PreH1
   have PreH2 : (a_y_pre >= b_y_pre) := current_PreH2
   have PreH3 : (a_x_pre <= b_x_pre) := current_PreH3
@@ -652,11 +652,11 @@ theorem proof_of_cmp_polar_values_return_wit_7 : cmp_polar_values_return_wit_7 :
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_8 : cmp_polar_values_return_wit_8 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21
   have PreH1 : (a_y_pre < b_y_pre) := current_PreH1
   have PreH2 : (a_x_pre <= b_x_pre) := current_PreH2
   have PreH3 : (a_x_pre >= b_x_pre) := current_PreH3
@@ -677,11 +677,11 @@ theorem proof_of_cmp_polar_values_return_wit_8 : cmp_polar_values_return_wit_8 :
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_9 : cmp_polar_values_return_wit_9 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23
   have PreH1 : (a_y_pre < b_y_pre) := current_PreH1
   have PreH2 : (a_x_pre <= b_x_pre) := current_PreH2
   have PreH3 : (a_x_pre >= b_x_pre) := current_PreH3
@@ -704,11 +704,11 @@ theorem proof_of_cmp_polar_values_return_wit_9 : cmp_polar_values_return_wit_9 :
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_10 : cmp_polar_values_return_wit_10 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23
   have PreH1 : (a_y_pre < b_y_pre) := current_PreH1
   have PreH2 : (a_x_pre <= b_x_pre) := current_PreH2
   have PreH3 : (a_x_pre >= b_x_pre) := current_PreH3
@@ -731,11 +731,11 @@ theorem proof_of_cmp_polar_values_return_wit_10 : cmp_polar_values_return_wit_10
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_11 : cmp_polar_values_return_wit_11 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20
   have PreH1 : (a_x_pre > b_x_pre) := current_PreH1
   have PreH2 : (a_x_pre >= b_x_pre) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) <= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH3
@@ -753,11 +753,11 @@ theorem proof_of_cmp_polar_values_return_wit_11 : cmp_polar_values_return_wit_11
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_12 : cmp_polar_values_return_wit_12 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22
   have PreH1 : (a_x_pre > b_x_pre) := current_PreH1
   have PreH2 : (a_x_pre >= b_x_pre) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) <= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH3
@@ -777,11 +777,11 @@ theorem proof_of_cmp_polar_values_return_wit_12 : cmp_polar_values_return_wit_12
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_13 : cmp_polar_values_return_wit_13 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22
   have PreH1 : (a_x_pre > b_x_pre) := current_PreH1
   have PreH2 : (a_x_pre >= b_x_pre) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) <= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH3
@@ -801,11 +801,11 @@ theorem proof_of_cmp_polar_values_return_wit_13 : cmp_polar_values_return_wit_13
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_14 : cmp_polar_values_return_wit_14 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24
   have PreH1 : (a_x_pre > b_x_pre) := current_PreH1
   have PreH2 : (a_x_pre >= b_x_pre) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) <= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH3
@@ -827,11 +827,11 @@ theorem proof_of_cmp_polar_values_return_wit_14 : cmp_polar_values_return_wit_14
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_15 : cmp_polar_values_return_wit_15 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24
   have PreH1 : (a_x_pre > b_x_pre) := current_PreH1
   have PreH2 : (a_x_pre >= b_x_pre) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) <= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH3
@@ -853,11 +853,11 @@ theorem proof_of_cmp_polar_values_return_wit_15 : cmp_polar_values_return_wit_15
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_16 : cmp_polar_values_return_wit_16 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22
   have PreH1 : (a_x_pre > b_x_pre) := current_PreH1
   have PreH2 : (a_x_pre >= b_x_pre) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) <= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH3
@@ -877,11 +877,11 @@ theorem proof_of_cmp_polar_values_return_wit_16 : cmp_polar_values_return_wit_16
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_17 : cmp_polar_values_return_wit_17 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19
   have PreH1 : (a_x_pre < b_x_pre) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) <= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) >= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH3
@@ -898,11 +898,11 @@ theorem proof_of_cmp_polar_values_return_wit_17 : cmp_polar_values_return_wit_17
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_18 : cmp_polar_values_return_wit_18 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21
   have PreH1 : (a_x_pre < b_x_pre) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) <= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) >= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH3
@@ -921,11 +921,11 @@ theorem proof_of_cmp_polar_values_return_wit_18 : cmp_polar_values_return_wit_18
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_19 : cmp_polar_values_return_wit_19 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21
   have PreH1 : (a_x_pre < b_x_pre) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) <= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) >= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH3
@@ -944,11 +944,11 @@ theorem proof_of_cmp_polar_values_return_wit_19 : cmp_polar_values_return_wit_19
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_20 : cmp_polar_values_return_wit_20 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23
   have PreH1 : (a_x_pre < b_x_pre) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) <= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) >= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH3
@@ -969,11 +969,11 @@ theorem proof_of_cmp_polar_values_return_wit_20 : cmp_polar_values_return_wit_20
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_21 : cmp_polar_values_return_wit_21 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23
   have PreH1 : (a_x_pre < b_x_pre) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) <= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) >= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH3
@@ -994,11 +994,11 @@ theorem proof_of_cmp_polar_values_return_wit_21 : cmp_polar_values_return_wit_21
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_22 : cmp_polar_values_return_wit_22 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21
   have PreH1 : (a_x_pre < b_x_pre) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) <= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) >= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH3
@@ -1017,11 +1017,11 @@ theorem proof_of_cmp_polar_values_return_wit_22 : cmp_polar_values_return_wit_22
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_23 : cmp_polar_values_return_wit_23 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18
   have PreH1 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) > (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) >= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) >= (0 : Int)) := current_PreH3
@@ -1037,11 +1037,11 @@ theorem proof_of_cmp_polar_values_return_wit_23 : cmp_polar_values_return_wit_23
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_24 : cmp_polar_values_return_wit_24 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20
   have PreH1 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) > (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) >= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) >= (0 : Int)) := current_PreH3
@@ -1059,11 +1059,11 @@ theorem proof_of_cmp_polar_values_return_wit_24 : cmp_polar_values_return_wit_24
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_25 : cmp_polar_values_return_wit_25 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20
   have PreH1 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) > (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) >= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) >= (0 : Int)) := current_PreH3
@@ -1081,11 +1081,11 @@ theorem proof_of_cmp_polar_values_return_wit_25 : cmp_polar_values_return_wit_25
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_26 : cmp_polar_values_return_wit_26 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22
   have PreH1 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) > (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) >= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) >= (0 : Int)) := current_PreH3
@@ -1105,11 +1105,11 @@ theorem proof_of_cmp_polar_values_return_wit_26 : cmp_polar_values_return_wit_26
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_27 : cmp_polar_values_return_wit_27 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22
   have PreH1 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) > (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) >= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) >= (0 : Int)) := current_PreH3
@@ -1129,11 +1129,11 @@ theorem proof_of_cmp_polar_values_return_wit_27 : cmp_polar_values_return_wit_27
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_28 : cmp_polar_values_return_wit_28 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20
   have PreH1 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) > (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) >= (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) >= (0 : Int)) := current_PreH3
@@ -1151,11 +1151,11 @@ theorem proof_of_cmp_polar_values_return_wit_28 : cmp_polar_values_return_wit_28
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_29 : cmp_polar_values_return_wit_29 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17
   have PreH1 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) < (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) >= (0 : Int)) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) <= (0 : Int)) := current_PreH3
@@ -1170,11 +1170,11 @@ theorem proof_of_cmp_polar_values_return_wit_29 : cmp_polar_values_return_wit_29
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_30 : cmp_polar_values_return_wit_30 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19
   have PreH1 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) < (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) >= (0 : Int)) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) <= (0 : Int)) := current_PreH3
@@ -1191,11 +1191,11 @@ theorem proof_of_cmp_polar_values_return_wit_30 : cmp_polar_values_return_wit_30
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_31 : cmp_polar_values_return_wit_31 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19
   have PreH1 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) < (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) >= (0 : Int)) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) <= (0 : Int)) := current_PreH3
@@ -1212,11 +1212,11 @@ theorem proof_of_cmp_polar_values_return_wit_31 : cmp_polar_values_return_wit_31
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_32 : cmp_polar_values_return_wit_32 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21
   have PreH1 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) < (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) >= (0 : Int)) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) <= (0 : Int)) := current_PreH3
@@ -1235,11 +1235,11 @@ theorem proof_of_cmp_polar_values_return_wit_32 : cmp_polar_values_return_wit_32
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_33 : cmp_polar_values_return_wit_33 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21
   have PreH1 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) < (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) >= (0 : Int)) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) <= (0 : Int)) := current_PreH3
@@ -1258,11 +1258,11 @@ theorem proof_of_cmp_polar_values_return_wit_33 : cmp_polar_values_return_wit_33
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_34 : cmp_polar_values_return_wit_34 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19
   have PreH1 : ((((a_x_pre - gx_pre) * (a_x_pre - gx_pre)) + ((a_y_pre - gy_pre) * (a_y_pre - gy_pre))) < (((b_x_pre - gx_pre) * (b_x_pre - gx_pre)) + ((b_y_pre - gy_pre) * (b_y_pre - gy_pre)))) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) >= (0 : Int)) := current_PreH2
   have PreH3 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) <= (0 : Int)) := current_PreH3
@@ -1279,11 +1279,11 @@ theorem proof_of_cmp_polar_values_return_wit_34 : cmp_polar_values_return_wit_34
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_35 : cmp_polar_values_return_wit_35 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16
   have PreH1 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) < (0 : Int)) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) <= (0 : Int)) := current_PreH2
   have PreH3 : ((b_y_pre - gy_pre) > (0 : Int)) := current_PreH3
@@ -1297,11 +1297,11 @@ theorem proof_of_cmp_polar_values_return_wit_35 : cmp_polar_values_return_wit_35
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_36 : cmp_polar_values_return_wit_36 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18
   have PreH1 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) < (0 : Int)) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) <= (0 : Int)) := current_PreH2
   have PreH3 : ((b_x_pre - gx_pre) >= (0 : Int)) := current_PreH3
@@ -1317,11 +1317,11 @@ theorem proof_of_cmp_polar_values_return_wit_36 : cmp_polar_values_return_wit_36
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_37 : cmp_polar_values_return_wit_37 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19
   have PreH1 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) < (0 : Int)) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) <= (0 : Int)) := current_PreH2
   have PreH3 : ((b_x_pre - gx_pre) < (0 : Int)) := current_PreH3
@@ -1338,11 +1338,11 @@ theorem proof_of_cmp_polar_values_return_wit_37 : cmp_polar_values_return_wit_37
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_38 : cmp_polar_values_return_wit_38 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18
   have PreH1 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) < (0 : Int)) := current_PreH1
   have PreH2 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) <= (0 : Int)) := current_PreH2
   have PreH3 : ((b_y_pre - gy_pre) ≠ (0 : Int)) := current_PreH3
@@ -1358,11 +1358,11 @@ theorem proof_of_cmp_polar_values_return_wit_38 : cmp_polar_values_return_wit_38
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_39 : cmp_polar_values_return_wit_39 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15
   have PreH1 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) > (0 : Int)) := current_PreH1
   have PreH2 : ((b_y_pre - gy_pre) > (0 : Int)) := current_PreH2
   have PreH3 : ((a_y_pre - gy_pre) > (0 : Int)) := current_PreH3
@@ -1375,11 +1375,11 @@ theorem proof_of_cmp_polar_values_return_wit_39 : cmp_polar_values_return_wit_39
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_40 : cmp_polar_values_return_wit_40 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17
   have PreH1 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) > (0 : Int)) := current_PreH1
   have PreH2 : ((b_y_pre - gy_pre) > (0 : Int)) := current_PreH2
   have PreH3 : ((a_x_pre - gx_pre) >= (0 : Int)) := current_PreH3
@@ -1394,11 +1394,11 @@ theorem proof_of_cmp_polar_values_return_wit_40 : cmp_polar_values_return_wit_40
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_41 : cmp_polar_values_return_wit_41 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18
   have PreH1 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) > (0 : Int)) := current_PreH1
   have PreH2 : ((b_y_pre - gy_pre) ≠ (0 : Int)) := current_PreH2
   have PreH3 : ((b_y_pre - gy_pre) <= (0 : Int)) := current_PreH3
@@ -1414,11 +1414,11 @@ theorem proof_of_cmp_polar_values_return_wit_41 : cmp_polar_values_return_wit_41
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_42 : cmp_polar_values_return_wit_42 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17
   have PreH1 : ((((a_x_pre - gx_pre) * (b_y_pre - gy_pre)) - ((a_y_pre - gy_pre) * (b_x_pre - gx_pre))) > (0 : Int)) := current_PreH1
   have PreH2 : ((b_y_pre - gy_pre) ≠ (0 : Int)) := current_PreH2
   have PreH3 : ((b_y_pre - gy_pre) <= (0 : Int)) := current_PreH3
@@ -1433,11 +1433,11 @@ theorem proof_of_cmp_polar_values_return_wit_42 : cmp_polar_values_return_wit_42
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_43 : cmp_polar_values_return_wit_43 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16
   have PreH1 : ((b_y_pre - gy_pre) > (0 : Int)) := current_PreH1
   have PreH2 : ((a_x_pre - gx_pre) < (0 : Int)) := current_PreH2
   have PreH3 : ((a_y_pre - gy_pre) = (0 : Int)) := current_PreH3
@@ -1451,11 +1451,11 @@ theorem proof_of_cmp_polar_values_return_wit_43 : cmp_polar_values_return_wit_43
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_44 : cmp_polar_values_return_wit_44 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15
   have PreH1 : ((b_y_pre - gy_pre) > (0 : Int)) := current_PreH1
   have PreH2 : ((a_y_pre - gy_pre) ≠ (0 : Int)) := current_PreH2
   have PreH3 : ((a_y_pre - gy_pre) <= (0 : Int)) := current_PreH3
@@ -1468,11 +1468,11 @@ theorem proof_of_cmp_polar_values_return_wit_44 : cmp_polar_values_return_wit_44
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_45 : cmp_polar_values_return_wit_45 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18
   have PreH1 : ((b_x_pre - gx_pre) >= (0 : Int)) := current_PreH1
   have PreH2 : ((b_y_pre - gy_pre) = (0 : Int)) := current_PreH2
   have PreH3 : ((b_y_pre - gy_pre) <= (0 : Int)) := current_PreH3
@@ -1488,11 +1488,11 @@ theorem proof_of_cmp_polar_values_return_wit_45 : cmp_polar_values_return_wit_45
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_46 : cmp_polar_values_return_wit_46 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17
   have PreH1 : ((b_x_pre - gx_pre) >= (0 : Int)) := current_PreH1
   have PreH2 : ((b_y_pre - gy_pre) = (0 : Int)) := current_PreH2
   have PreH3 : ((b_y_pre - gy_pre) <= (0 : Int)) := current_PreH3
@@ -1507,11 +1507,11 @@ theorem proof_of_cmp_polar_values_return_wit_46 : cmp_polar_values_return_wit_46
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_47 : cmp_polar_values_return_wit_47 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16
   have PreH1 : ((b_x_pre - gx_pre) < (0 : Int)) := current_PreH1
   have PreH2 : ((b_y_pre - gy_pre) = (0 : Int)) := current_PreH2
   have PreH3 : ((b_y_pre - gy_pre) <= (0 : Int)) := current_PreH3
@@ -1525,11 +1525,11 @@ theorem proof_of_cmp_polar_values_return_wit_47 : cmp_polar_values_return_wit_47
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_48 : cmp_polar_values_return_wit_48 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18
   have PreH1 : ((b_x_pre - gx_pre) < (0 : Int)) := current_PreH1
   have PreH2 : ((b_y_pre - gy_pre) = (0 : Int)) := current_PreH2
   have PreH3 : ((b_y_pre - gy_pre) <= (0 : Int)) := current_PreH3
@@ -1545,11 +1545,11 @@ theorem proof_of_cmp_polar_values_return_wit_48 : cmp_polar_values_return_wit_48
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_49 : cmp_polar_values_return_wit_49 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15
   have PreH1 : ((b_y_pre - gy_pre) ≠ (0 : Int)) := current_PreH1
   have PreH2 : ((b_y_pre - gy_pre) <= (0 : Int)) := current_PreH2
   have PreH3 : ((a_y_pre - gy_pre) > (0 : Int)) := current_PreH3
@@ -1562,11 +1562,11 @@ theorem proof_of_cmp_polar_values_return_wit_49 : cmp_polar_values_return_wit_49
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_cmp_polar_values_return_wit_50 : cmp_polar_values_return_wit_50 := by
   right
-  intro b_y_pre b_x_pre a_y_pre a_x_pre gy_pre gx_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17
+  intro gx_pre gy_pre a_x_pre a_y_pre b_x_pre b_y_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17
   have PreH1 : ((b_y_pre - gy_pre) ≠ (0 : Int)) := current_PreH1
   have PreH2 : ((b_y_pre - gy_pre) <= (0 : Int)) := current_PreH2
   have PreH3 : ((a_x_pre - gx_pre) >= (0 : Int)) := current_PreH3
@@ -1581,11 +1581,11 @@ theorem proof_of_cmp_polar_values_return_wit_50 : cmp_polar_values_return_wit_50
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
-    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; grind (splits := 40))
+    all_goals first | omega | (simp only [PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y, mk_point]; simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_false_iff, Bool.and_eq_false_iff, decide_eq_false_iff_not]; (ring_nf at *; grind (splits := 40)))
 
 theorem proof_of_swap_points_return_wit_1 : swap_points_return_wit_1 := by
   right
-  intro j_pre i_pre n_pre pts_l flat current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
+  intro pts_l flat n_pre i_pre j_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12
   have PreH1 : ((0 : Int) <= i_pre) := current_PreH1
   have PreH2 : (i_pre < n_pre) := current_PreH2
   have PreH3 : ((0 : Int) <= j_pre) := current_PreH3
@@ -1609,7 +1609,7 @@ theorem proof_of_swap_points_return_wit_1 : swap_points_return_wit_1 := by
 
 theorem proof_of_partition_points_entail_wit_1 : partition_points_entail_wit_1 := by
   right
-  intro gy_pre gx_pre high_pre low_pre n_pre pts_l flat current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11
+  intro pts_l flat n_pre low_pre high_pre gx_pre gy_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11
   have tail_current_PreH8 := (coords_map_tail _ _ current_PreH8)
   have tail_current_PreH9 := (coords_map_tail _ _ current_PreH9)
   have tail_current_PreH10 := (coords_map_tail _ _ current_PreH10)
@@ -1644,7 +1644,7 @@ theorem proof_of_partition_points_entail_wit_1 : partition_points_entail_wit_1 :
 
 theorem proof_of_partition_points_entail_wit_2_1 : partition_points_entail_wit_2_1 := by
   right
-  intro gy_pre gx_pre high_pre low_pre n_pre pts_l pivot_x pivot_y j i retval flat_cur_2 pts_cur_2 current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26
+  intro pts_l n_pre low_pre high_pre gx_pre gy_pre pivot_x pivot_y j i retval flat_cur_2 pts_cur_2 current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26
   have tail_current_PreH22 := (coords_map_tail _ _ current_PreH22)
   have tail_current_PreH23 := (coords_map_tail _ _ current_PreH23)
   have tail_current_PreH24 := (coords_map_tail _ _ current_PreH24)
@@ -1713,7 +1713,7 @@ theorem proof_of_partition_points_entail_wit_2_1 : partition_points_entail_wit_2
 
 theorem proof_of_partition_points_entail_wit_2_2 : partition_points_entail_wit_2_2 := by
   right
-  intro gy_pre gx_pre high_pre low_pre n_pre pts_l pivot_x pivot_y j i retval flat_cur_2 pts_cur_2 current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24
+  intro pts_l n_pre low_pre high_pre gx_pre gy_pre pivot_x pivot_y j i retval flat_cur_2 pts_cur_2 current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24
   have tail_current_PreH20 := (coords_map_tail _ _ current_PreH20)
   have tail_current_PreH21 := (coords_map_tail _ _ current_PreH21)
   have tail_current_PreH22 := (coords_map_tail _ _ current_PreH22)
@@ -1757,7 +1757,7 @@ theorem proof_of_partition_points_entail_wit_2_2 : partition_points_entail_wit_2
 
 theorem proof_of_partition_points_return_wit_1 : partition_points_return_wit_1 := by
   right
-  intro gy_pre gx_pre high_pre low_pre n_pre pts_l pivot_x pivot_y j i flat_cur pts_cur current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24
+  intro pts_l n_pre low_pre high_pre gx_pre gy_pre pivot_x pivot_y j i flat_cur pts_cur current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24
   have tail_current_PreH20 := (coords_map_tail _ _ current_PreH20)
   have tail_current_PreH21 := (coords_map_tail _ _ current_PreH21)
   have tail_current_PreH22 := (coords_map_tail _ _ current_PreH22)
@@ -1805,7 +1805,7 @@ theorem proof_of_partition_points_return_wit_1 : partition_points_return_wit_1 :
 
 theorem proof_of_partition_points_partial_solve_wit_5_pure : partition_points_partial_solve_wit_5_pure := by
   right
-  intro gy_pre gx_pre high_pre low_pre n_pre coords_pre pts_l flat_cur pivot_x pivot_y pts_cur j i current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26 current_PreH27 current_PreH28 current_PreH29 current_PreH30 current_PreH31 current_PreH32 current_PreH33 current_PreH34 current_PreH35 current_PreH36 current_PreH37 current_PreH38 current_PreH39 current_PreH40 current_PreH41 current_PreH42 current_PreH43 current_PreH44
+  intro pts_l coords_pre n_pre low_pre high_pre gx_pre gy_pre flat_cur pivot_x pivot_y pts_cur j i current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26 current_PreH27 current_PreH28 current_PreH29 current_PreH30 current_PreH31 current_PreH32 current_PreH33 current_PreH34 current_PreH35 current_PreH36 current_PreH37 current_PreH38 current_PreH39 current_PreH40 current_PreH41 current_PreH42 current_PreH43 current_PreH44
   have tail_current_PreH40 := (coords_map_tail _ _ current_PreH40)
   have tail_current_PreH41 := (coords_map_tail _ _ current_PreH41)
   have tail_current_PreH42 := (coords_map_tail _ _ current_PreH42)
@@ -1863,7 +1863,7 @@ theorem proof_of_partition_points_partial_solve_wit_5_pure : partition_points_pa
 
 theorem proof_of_quicksort_points_range_entail_wit_1 : quicksort_points_range_entail_wit_1 := by
   right
-  intro gy_pre gx_pre right_pre left_pre n_pre flat current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14
+  intro flat n_pre left_pre right_pre gx_pre gy_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14
   have PreH1 : (left_pre < right_pre) := current_PreH1
   have PreH2 : ((0 : Int) <= n_pre) := current_PreH2
   have PreH3 : (n_pre <= 50000) := current_PreH3
@@ -1881,7 +1881,7 @@ theorem proof_of_quicksort_points_range_entail_wit_1 : quicksort_points_range_en
 
 theorem proof_of_quicksort_points_range_return_wit_4 : quicksort_points_range_return_wit_4 := by
   right
-  intro gy_pre gx_pre right_pre left_pre n_pre flat current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14
+  intro flat n_pre left_pre right_pre gx_pre gy_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14
   have PreH1 : (left_pre >= right_pre) := current_PreH1
   have PreH2 : ((0 : Int) <= n_pre) := current_PreH2
   have PreH3 : (n_pre <= 50000) := current_PreH3
@@ -1903,7 +1903,7 @@ theorem proof_of_quicksort_points_range_return_wit_4 : quicksort_points_range_re
 
 theorem proof_of_quicksort_points_range_return_wit_3 : quicksort_points_range_return_wit_3 := by
   right
-  intro gy_pre gx_pre right_pre left_pre n_pre flat pts_l flat_out_2 pts_out_2 retval flat_out_3 pts_out_3 current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26 current_PreH27 current_PreH28 current_PreH29
+  intro flat n_pre left_pre right_pre gx_pre gy_pre pts_l flat_out_2 pts_out_2 retval flat_out_3 pts_out_3 current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26 current_PreH27 current_PreH28 current_PreH29
   have tail_current_PreH26 := (coords_map_tail _ _ current_PreH26)
   have tail_current_PreH27 := (coords_map_tail _ _ current_PreH27)
   have tail_current_PreH28 := (coords_map_tail _ _ current_PreH28)
@@ -1948,7 +1948,7 @@ theorem proof_of_quicksort_points_range_return_wit_3 : quicksort_points_range_re
 
 theorem proof_of_quicksort_points_range_return_wit_1 : quicksort_points_range_return_wit_1 := by
   right
-  intro gy_pre gx_pre right_pre left_pre n_pre flat pts_l flat_out_2 pts_out_2 retval flat_out_3 pts_out_3 flat_out_4 pts_out_4 current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26 current_PreH27 current_PreH28 current_PreH29 current_PreH30 current_PreH31
+  intro flat n_pre left_pre right_pre gx_pre gy_pre pts_l flat_out_2 pts_out_2 retval flat_out_3 pts_out_3 flat_out_4 pts_out_4 current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26 current_PreH27 current_PreH28 current_PreH29 current_PreH30 current_PreH31
   have tail_current_PreH28 := (coords_map_tail _ _ current_PreH28)
   have tail_current_PreH29 := (coords_map_tail _ _ current_PreH29)
   have tail_current_PreH30 := (coords_map_tail _ _ current_PreH30)
@@ -2005,7 +2005,7 @@ theorem proof_of_quicksort_points_range_return_wit_1 : quicksort_points_range_re
 
 theorem proof_of_quicksort_points_range_return_wit_2 : quicksort_points_range_return_wit_2 := by
   right
-  intro gy_pre gx_pre right_pre left_pre n_pre flat pts_l flat_out_2 pts_out_2 retval flat_out_3 pts_out_3 current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26 current_PreH27 current_PreH28 current_PreH29
+  intro flat n_pre left_pre right_pre gx_pre gy_pre pts_l flat_out_2 pts_out_2 retval flat_out_3 pts_out_3 current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26 current_PreH27 current_PreH28 current_PreH29
   have tail_current_PreH26 := (coords_map_tail _ _ current_PreH26)
   have tail_current_PreH27 := (coords_map_tail _ _ current_PreH27)
   have tail_current_PreH28 := (coords_map_tail _ _ current_PreH28)
@@ -2050,7 +2050,7 @@ theorem proof_of_quicksort_points_range_return_wit_2 : quicksort_points_range_re
 
 theorem proof_of_quicksort_points_range_partial_solve_wit_2_pure : quicksort_points_range_partial_solve_wit_2_pure := by
   right
-  intro gy_pre gx_pre right_pre left_pre n_pre coords_pre flat pts_l flat_out pts_out retval current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26 current_PreH27 current_PreH28 current_PreH29 current_PreH30 current_PreH31 current_PreH32 current_PreH33 current_PreH34 current_PreH35 current_PreH36 current_PreH37 current_PreH38
+  intro flat coords_pre n_pre left_pre right_pre gx_pre gy_pre pts_l flat_out pts_out retval current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26 current_PreH27 current_PreH28 current_PreH29 current_PreH30 current_PreH31 current_PreH32 current_PreH33 current_PreH34 current_PreH35 current_PreH36 current_PreH37 current_PreH38
   have tail_current_PreH35 := (coords_map_tail _ _ current_PreH35)
   have tail_current_PreH36 := (coords_map_tail _ _ current_PreH36)
   have tail_current_PreH37 := (coords_map_tail _ _ current_PreH37)
@@ -2092,7 +2092,7 @@ theorem proof_of_quicksort_points_range_partial_solve_wit_2_pure : quicksort_poi
 
 theorem proof_of_quicksort_points_range_partial_solve_wit_3_pure : quicksort_points_range_partial_solve_wit_3_pure := by
   right
-  intro gy_pre gx_pre right_pre left_pre n_pre coords_pre flat pts_l flat_out_2 pts_out retval flat_out pts_out_2 current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26 current_PreH27 current_PreH28 current_PreH29 current_PreH30 current_PreH31 current_PreH32 current_PreH33 current_PreH34 current_PreH35 current_PreH36 current_PreH37 current_PreH38 current_PreH39 current_PreH40 current_PreH41
+  intro flat coords_pre n_pre left_pre right_pre gx_pre gy_pre pts_l flat_out_2 pts_out retval flat_out pts_out_2 current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26 current_PreH27 current_PreH28 current_PreH29 current_PreH30 current_PreH31 current_PreH32 current_PreH33 current_PreH34 current_PreH35 current_PreH36 current_PreH37 current_PreH38 current_PreH39 current_PreH40 current_PreH41
   have tail_current_PreH38 := (coords_map_tail _ _ current_PreH38)
   have tail_current_PreH39 := (coords_map_tail _ _ current_PreH39)
   have tail_current_PreH40 := (coords_map_tail _ _ current_PreH40)
@@ -2139,7 +2139,7 @@ theorem proof_of_quicksort_points_range_partial_solve_wit_3_pure : quicksort_poi
 
 theorem proof_of_quicksort_points_range_partial_solve_wit_4_pure : quicksort_points_range_partial_solve_wit_4_pure := by
   right
-  intro gy_pre gx_pre right_pre left_pre n_pre coords_pre flat pts_l flat_out pts_out retval current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26 current_PreH27 current_PreH28 current_PreH29 current_PreH30 current_PreH31 current_PreH32 current_PreH33 current_PreH34 current_PreH35 current_PreH36 current_PreH37 current_PreH38 current_PreH39
+  intro flat coords_pre n_pre left_pre right_pre gx_pre gy_pre pts_l flat_out pts_out retval current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14 current_PreH15 current_PreH16 current_PreH17 current_PreH18 current_PreH19 current_PreH20 current_PreH21 current_PreH22 current_PreH23 current_PreH24 current_PreH25 current_PreH26 current_PreH27 current_PreH28 current_PreH29 current_PreH30 current_PreH31 current_PreH32 current_PreH33 current_PreH34 current_PreH35 current_PreH36 current_PreH37 current_PreH38 current_PreH39
   have tail_current_PreH36 := (coords_map_tail _ _ current_PreH36)
   have tail_current_PreH37 := (coords_map_tail _ _ current_PreH37)
   have tail_current_PreH38 := (coords_map_tail _ _ current_PreH38)
@@ -2182,7 +2182,7 @@ theorem proof_of_quicksort_points_range_partial_solve_wit_4_pure : quicksort_poi
 
 theorem proof_of_sort_return_wit_1 : sort_return_wit_1 := by
   right
-  intro n_pre gy gx pts_l flat flat_out_2 pts_out_2 current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10
+  intro gy gx pts_l flat n_pre flat_out_2 pts_out_2 current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10
   have tail_current_PreH7 := (coords_map_tail _ _ current_PreH7)
   have tail_current_PreH8 := (coords_map_tail _ _ current_PreH8)
   have tail_current_PreH9 := (coords_map_tail _ _ current_PreH9)
@@ -2207,17 +2207,17 @@ theorem proof_of_sort_return_wit_1 : sort_return_wit_1 := by
 
 theorem proof_of_sort_partial_solve_wit_1_pure : sort_partial_solve_wit_1_pure := by
   right
-  intro n_pre pts_pre gy gx pts_l flat current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14
+  intro gy gx pts_l flat pts_pre n_pre current_PreH1 current_PreH2 current_PreH3 current_PreH4 current_PreH5 current_PreH6 current_PreH7 current_PreH8 current_PreH9 current_PreH10 current_PreH11 current_PreH12 current_PreH13 current_PreH14
   have tail_current_PreH11 := (coords_map_tail _ _ current_PreH11)
   have tail_current_PreH12 := (coords_map_tail _ _ current_PreH12)
   have tail_current_PreH13 := (coords_map_tail _ _ current_PreH13)
   have tail_current_PreH14 := (coords_map_tail _ _ current_PreH14)
-  have PreH1 : (n_pre <= INT_MAX) := current_PreH1
+  have PreH1 : (n_pre <= INT_MAX) := current_PreH3
   have PreH2 : (gx <= INT_MAX) := current_PreH2
-  have PreH3 : (gy <= INT_MAX) := current_PreH3
-  have PreH4 : (n_pre >= INT_MIN) := current_PreH4
+  have PreH3 : (gy <= INT_MAX) := current_PreH1
+  have PreH4 : (n_pre >= INT_MIN) := current_PreH6
   have PreH5 : (gx >= INT_MIN) := current_PreH5
-  have PreH6 : (gy >= INT_MIN) := current_PreH6
+  have PreH6 : (gy >= INT_MIN) := current_PreH4
   have PreH7 : ((0 : Int) <= n_pre) := current_PreH7
   have PreH8 : (n_pre <= 50000) := current_PreH8
   have PreH9 : ((Zlength (pts_l)) = n_pre) := current_PreH9

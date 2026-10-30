@@ -109,10 +109,10 @@ make clean
 
 ## QCP Command-Line Tool
 
-Use `linux-binary/symexec` directly. The following script is Rocq-only and
+Use `bin/linux/symexec` directly. The following script is Rocq-only and
 writes `.v` files under `Rocq/examples`:
 
-- `run-example-linux.sh`
+- `python3 scripts/generate.py`
 
 Lean-only users should run `run-example-lean-linux.sh` instead.
 

@@ -1,29 +1,13 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.SL Require Import IntLib.
 From SimpleC.EE.LLM_bench.Algorithms.Prim Require Import prim_forward_star_heap_goal.
 From SimpleC.EE.LLM_bench.Algorithms.Prim Require Import prim_forward_star_heap_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 From MonadLib Require Export MonadLib.
 From MonadLib.StateRelMonad Require Export StateRelMonad.
 Export MonadNotation.
 Local Open Scope monad.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
+From AUXLib Require Import relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Require Import GraphLib.graph_basic.
 Require Import SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_lib.
@@ -141,7 +125,7 @@ Qed.
 Lemma proof_of_prim_forward_star_heap_entail_wit_4 : prim_forward_star_heap_entail_wit_4.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_prim_forward_star_heap_entail_wit_4_split_goal_1.
+  - Goal_apply proof_of_prim_forward_star_heap_entail_wit_4_split_goal_1.
 Qed. 
 
 Lemma proof_of_prim_forward_star_heap_entail_wit_5 : prim_forward_star_heap_entail_wit_5.
@@ -202,7 +186,7 @@ Qed.
 Lemma proof_of_prim_forward_star_heap_entail_wit_6 : prim_forward_star_heap_entail_wit_6.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_prim_forward_star_heap_entail_wit_6_split_goal_1.
+  - Goal_apply proof_of_prim_forward_star_heap_entail_wit_6_split_goal_1.
 Qed. 
 
 Lemma proof_of_prim_forward_star_heap_entail_wit_7_split_goal_1 : prim_forward_star_heap_entail_wit_7_split_goal_1.
@@ -517,6 +501,12 @@ Proof.
   apply PreH11; exact H.
 Qed.
 
+Lemma proof_of_prim_forward_star_heap_entail_wit_12_split_goal_4 : prim_forward_star_heap_entail_wit_12_split_goal_4.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  f_equal; lia.
+Qed.
+
 
 
 Lemma proof_of_prim_forward_star_heap_entail_wit_12_split_goal_5 : prim_forward_star_heap_entail_wit_12_split_goal_5.
@@ -534,7 +524,6 @@ Qed.
 Lemma proof_of_prim_forward_star_heap_entail_wit_12_split_goal_7 : prim_forward_star_heap_entail_wit_12_split_goal_7.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
-  f_equal; lia.
 Qed.
 
 Lemma proof_of_prim_forward_star_heap_entail_wit_12 : prim_forward_star_heap_entail_wit_12.
@@ -543,7 +532,7 @@ Proof.
   - Goal_apply proof_of_prim_forward_star_heap_entail_wit_12_split_goal_1.
   - Goal_apply proof_of_prim_forward_star_heap_entail_wit_12_split_goal_2.
   - Goal_apply proof_of_prim_forward_star_heap_entail_wit_12_split_goal_3.
-  - change (repeat_Z (-1) 0) with (@nil Z); reflexivity.
+  - Goal_apply proof_of_prim_forward_star_heap_entail_wit_12_split_goal_4.
   - Goal_apply proof_of_prim_forward_star_heap_entail_wit_12_split_goal_5.
   - Goal_apply proof_of_prim_forward_star_heap_entail_wit_12_split_goal_6.
   - Goal_apply proof_of_prim_forward_star_heap_entail_wit_12_split_goal_7.
@@ -560,7 +549,7 @@ Qed.
 Lemma proof_of_prim_forward_star_heap_entail_wit_13 : prim_forward_star_heap_entail_wit_13.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_prim_forward_star_heap_entail_wit_13_split_goal_1.
+  - Goal_apply proof_of_prim_forward_star_heap_entail_wit_13_split_goal_1.
 Qed. 
 
 Lemma proof_of_prim_forward_star_heap_entail_wit_14 : prim_forward_star_heap_entail_wit_14.
@@ -620,7 +609,7 @@ Lemma proof_of_prim_forward_star_heap_entail_wit_16 : prim_forward_star_heap_ent
 Proof.
   right.
   LLM_pre_process ltac:(lia || nia || int_auto || auto).
-  subst key_out_callee_v data_out_callee_v.
+  subst key_out_v data_out_v.
   assert (Hsrc_graph : In src_low_level_spec (graph_vertices g_low_level_spec)).
   {
     rewrite PreH12.
@@ -1422,8 +1411,10 @@ Proof.
   repeat split_pures; dump_pre_spatial; auto; lia.
 Qed. 
 
-Lemma proof_of_prim_forward_star_heap_derive_high_level_spec_by_low_level_spec : prim_forward_star_heap_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_prim_forward_star_heap_low_level_spec_entail_high_level_spec : prim_forward_star_heap_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold prim_forward_star_heap_low_level_spec_entail_high_level_spec.
+  intros from_arr_pre to_arr_pre weight_arr_pre n m_pre lf_high_level_spec lt_high_level_spec lw_high_level_spec g_high_level_spec src_high_level_spec.
   LLM_pre_process ltac:(lia || nia || int_auto).
   Exists lf_high_level_spec lt_high_level_spec lw_high_level_spec
          g_high_level_spec src_high_level_spec
@@ -1439,7 +1430,8 @@ Proof.
   cancel (IntArray.full from_arr_pre m_pre lf_high_level_spec).
   cancel (IntArray.full to_arr_pre m_pre lt_high_level_spec).
   cancel (IntArray.full weight_arr_pre m_pre lw_high_level_spec).
-  apply derivable1_wand_sepcon_adjoint.
+  Intros_r retval.
+    apply derivable1_wand_sepcon_adjoint.
   Intros rheapc rheapv rheappos rqmap rsize.
   Intros redge ledge.
   Intros rvis lvis.
@@ -1452,7 +1444,7 @@ Proof.
   Intros retwt retv.
   Intros retu lru.
   Intros lrv lrwt.
-  Intros rg ret.
+  Intros rg.
   Exists rheapc rheapv rheappos rqmap rsize.
   Exists redge ledge.
   Exists rvis lvis.
@@ -1463,7 +1455,7 @@ Proof.
   Exists rto lto.
   Exists rfrom lfrom.
   Exists retwt retv.
-  Exists retu lru lrv lrwt rg ret.
+  Exists retu lru lrv lrwt rg.
   split_pure_spatial.
   - sepcon_assoc_change; cancel.
   - split_pures;
@@ -1487,4 +1479,3 @@ Proof.
         exact Hhoare
     end.
 Qed. 
-

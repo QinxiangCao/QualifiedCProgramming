@@ -58,7 +58,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def digits_sum_init_safety_wit_1 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) ,
+  forall (dp_pre : Int) (power_pre : Int) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** (intArray.undef_full dp_pre 200)
@@ -68,7 +68,7 @@ noncomputable def digits_sum_init_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def digits_sum_init_safety_wit_2 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) ,
+  forall (dp_pre : Int) (power_pre : Int) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** (intArray.undef_full dp_pre 200)
@@ -78,7 +78,7 @@ noncomputable def digits_sum_init_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def digits_sum_init_safety_wit_3 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) ,
+  forall (dp_pre : Int) (power_pre : Int) ,
   ((( &( "i" ) )) # Int |->_)
   ** (((power_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (1))
   ** (intArray.undef_seg power_pre 1 20)
@@ -90,7 +90,7 @@ noncomputable def digits_sum_init_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def digits_sum_init_safety_wit_4 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (1 <= i)) (PreH2 : (i <= 20)) (PreH3 : ((Zlength (power_l)) = i)) (PreH4 : (PowerPrefix power_l i)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (1 <= i)) (PreH2 : (i <= 20)) (PreH3 : ((Zlength (power_l)) = i)) (PreH4 : (PowerPrefix power_l i)) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -102,7 +102,7 @@ noncomputable def digits_sum_init_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 20) ”
 
 noncomputable def digits_sum_init_safety_wit_5 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
   ((( &( "bef" ) )) # Int64 |->_)
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
@@ -115,7 +115,7 @@ noncomputable def digits_sum_init_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (i - 1)) ”
 
 noncomputable def digits_sum_init_safety_wit_6 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
   ((( &( "bef" ) )) # Int64 |->_)
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
@@ -128,7 +128,7 @@ noncomputable def digits_sum_init_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def digits_sum_init_safety_wit_7 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
   (intArray.seg power_pre (0 : Int) i power_l)
   ** ((( &( "bef" ) )) # Int64 |-> ((Znth ((i - 1) - (0 : Int)) power_l (0 : Int))))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -142,7 +142,7 @@ noncomputable def digits_sum_init_safety_wit_7 : Prop :=
 
 noncomputable def digits_sum_init_safety_wit_8 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
   (intArray.seg power_pre (0 : Int) i power_l)
   ** ((( &( "bef" ) )) # Int64 |-> ((Znth ((i - 1) - (0 : Int)) power_l (0 : Int))))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -155,7 +155,7 @@ forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 
   “ ((-9223372036854775808) <= ((Znth ((i - 1) - (0 : Int)) power_l (0 : Int)) * 10)) ”
 ) \/
 (
-forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
   (intArray.seg power_pre (0 : Int) i power_l)
   ** ((( &( "bef" ) )) # Int64 |-> ((Znth ((i - 1) - (0 : Int)) power_l (0 : Int))))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -169,7 +169,7 @@ forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 
 )
 
 noncomputable def digits_sum_init_safety_wit_8_split_goal_1 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
   (intArray.seg power_pre (0 : Int) i power_l)
   ** ((( &( "bef" ) )) # Int64 |-> ((Znth ((i - 1) - (0 : Int)) power_l (0 : Int))))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -181,7 +181,7 @@ noncomputable def digits_sum_init_safety_wit_8_split_goal_1 : Prop :=
   “ (((Znth ((i - 1) - (0 : Int)) power_l (0 : Int)) * 10) <= 9223372036854775807) ”
 
 noncomputable def digits_sum_init_safety_wit_8_split_goal_2 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
   (intArray.seg power_pre (0 : Int) i power_l)
   ** ((( &( "bef" ) )) # Int64 |-> ((Znth ((i - 1) - (0 : Int)) power_l (0 : Int))))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -193,7 +193,7 @@ noncomputable def digits_sum_init_safety_wit_8_split_goal_2 : Prop :=
   “ ((-9223372036854775808) <= ((Znth ((i - 1) - (0 : Int)) power_l (0 : Int)) * 10)) ”
 
 noncomputable def digits_sum_init_safety_wit_9 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
   (intArray.seg power_pre (0 : Int) i power_l)
   ** ((( &( "bef" ) )) # Int64 |-> ((Znth ((i - 1) - (0 : Int)) power_l (0 : Int))))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -206,7 +206,7 @@ noncomputable def digits_sum_init_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= 10) ”
 
 noncomputable def digits_sum_init_safety_wit_10 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
   (intArray.seg power_pre (0 : Int) i power_l)
   ** ((( &( "bef" ) )) # Int64 |-> ((Znth ((i - 1) - (0 : Int)) power_l (0 : Int))))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -219,7 +219,7 @@ noncomputable def digits_sum_init_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= 1000000007) ”
 
 noncomputable def digits_sum_init_safety_wit_11 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
   (intArray.seg power_pre (0 : Int) (i + 1) (power_l ++ ((signed_last_nbits ((Z.rem ((Znth ((i - 1) - (0 : Int)) power_l (0 : Int)) * 10) 1000000007)) (32)) :: (@List.nil Int))))
   ** (intArray.undef_seg power_pre (i + 1) 20)
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -231,7 +231,7 @@ noncomputable def digits_sum_init_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def digits_sum_init_safety_wit_12 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i >= 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i >= 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
@@ -243,7 +243,7 @@ noncomputable def digits_sum_init_safety_wit_12 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def digits_sum_init_safety_wit_13 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (i : Int) (PreH1 : ((0 : Int) <= i)) (PreH2 : (i <= 20)) (PreH3 : ((Zlength (dp_l)) = (i * 10))) (PreH4 : (Forall (Eq ((0 : Int))) dp_l)) (PreH5 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (i : Int) (PreH1 : ((0 : Int) <= i)) (PreH2 : (i <= 20)) (PreH3 : ((Zlength (dp_l)) = (i * 10))) (PreH4 : (Forall (Eq ((0 : Int))) dp_l)) (PreH5 : (PowerTable power_l)) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -255,7 +255,7 @@ noncomputable def digits_sum_init_safety_wit_13 : Prop :=
   “ ((INT_MIN) <= 20) ”
 
 noncomputable def digits_sum_init_safety_wit_14 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (dp_l)) = (i * 10))) (PreH5 : (Forall (Eq ((0 : Int))) dp_l)) (PreH6 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (dp_l)) = (i * 10))) (PreH5 : (Forall (Eq ((0 : Int))) dp_l)) (PreH6 : (PowerTable power_l)) ,
   ((( &( "j" ) )) # Int |->_)
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
@@ -268,7 +268,7 @@ noncomputable def digits_sum_init_safety_wit_14 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def digits_sum_init_safety_wit_15 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : ((0 : Int) <= i)) (PreH2 : (i < 20)) (PreH3 : ((0 : Int) <= j)) (PreH4 : (j <= 10)) (PreH5 : ((Zlength (dp_l)) = ((i * 10) + j))) (PreH6 : (Forall (Eq ((0 : Int))) dp_l)) (PreH7 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : ((0 : Int) <= i)) (PreH2 : (i < 20)) (PreH3 : ((0 : Int) <= j)) (PreH4 : (j <= 10)) (PreH5 : ((Zlength (dp_l)) = ((i * 10) + j))) (PreH6 : (Forall (Eq ((0 : Int))) dp_l)) (PreH7 : (PowerTable power_l)) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -281,7 +281,7 @@ noncomputable def digits_sum_init_safety_wit_15 : Prop :=
   “ ((INT_MIN) <= 10) ”
 
 noncomputable def digits_sum_init_safety_wit_16 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l)) (PreH8 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l)) (PreH8 : (PowerTable power_l)) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -294,7 +294,7 @@ noncomputable def digits_sum_init_safety_wit_16 : Prop :=
   “ ((INT_MIN) <= ((i * 10) + j)) ”
 
 noncomputable def digits_sum_init_safety_wit_17 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l)) (PreH8 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l)) (PreH8 : (PowerTable power_l)) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -307,7 +307,7 @@ noncomputable def digits_sum_init_safety_wit_17 : Prop :=
   “ ((INT_MIN) <= (i * 10)) ”
 
 noncomputable def digits_sum_init_safety_wit_18 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l)) (PreH8 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l)) (PreH8 : (PowerTable power_l)) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -320,7 +320,7 @@ noncomputable def digits_sum_init_safety_wit_18 : Prop :=
   “ ((INT_MIN) <= 10) ”
 
 noncomputable def digits_sum_init_safety_wit_19 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l)) (PreH8 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l)) (PreH8 : (PowerTable power_l)) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -333,7 +333,7 @@ noncomputable def digits_sum_init_safety_wit_19 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def digits_sum_init_safety_wit_20 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l)) (PreH8 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l)) (PreH8 : (PowerTable power_l)) ,
   (intArray.seg dp_pre (0 : Int) (((i * 10) + j) + 1) (dp_l ++ ((0 : Int) :: (@List.nil Int))))
   ** (intArray.undef_seg dp_pre (((i * 10) + j) + 1) 200)
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -346,7 +346,7 @@ noncomputable def digits_sum_init_safety_wit_20 : Prop :=
   “ ((INT_MIN) <= (j + 1)) ”
 
 noncomputable def digits_sum_init_safety_wit_21 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j >= 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l)) (PreH8 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j >= 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l)) (PreH8 : (PowerTable power_l)) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -358,7 +358,7 @@ noncomputable def digits_sum_init_safety_wit_21 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def digits_sum_init_safety_wit_22 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (i : Int) (PreH1 : (i >= 20)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (dp_l)) = (i * 10))) (PreH5 : (Forall (Eq ((0 : Int))) dp_l)) (PreH6 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (i : Int) (PreH1 : (i >= 20)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (dp_l)) = (i * 10))) (PreH5 : (Forall (Eq ((0 : Int))) dp_l)) (PreH6 : (PowerTable power_l)) ,
   ((( &( "j" ) )) # Int |->_)
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
@@ -370,7 +370,7 @@ noncomputable def digits_sum_init_safety_wit_22 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def digits_sum_init_safety_wit_23 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (PreH1 : ((0 : Int) <= j)) (PreH2 : (j <= 10)) (PreH3 : ((Zlength (dp_l)) = 200)) (PreH4 : (DigitDPBaseProgress dp_l j)) (PreH5 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (PreH1 : ((0 : Int) <= j)) (PreH2 : (j <= 10)) (PreH3 : ((Zlength (dp_l)) = 200)) (PreH4 : (DigitDPBaseProgress dp_l j)) (PreH5 : (PowerTable power_l)) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** ((( &( "j" ) )) # Int |-> (j))
@@ -381,7 +381,7 @@ noncomputable def digits_sum_init_safety_wit_23 : Prop :=
   “ ((INT_MIN) <= 10) ”
 
 noncomputable def digits_sum_init_safety_wit_24 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= j)) (PreH3 : (j <= 10)) (PreH4 : ((Zlength (dp_l)) = 200)) (PreH5 : (DigitDPBaseProgress dp_l j)) (PreH6 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= j)) (PreH3 : (j <= 10)) (PreH4 : ((Zlength (dp_l)) = 200)) (PreH5 : (DigitDPBaseProgress dp_l j)) (PreH6 : (PowerTable power_l)) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** ((( &( "j" ) )) # Int |-> (j))
@@ -392,7 +392,7 @@ noncomputable def digits_sum_init_safety_wit_24 : Prop :=
   “ ((INT_MIN) <= (10 + j)) ”
 
 noncomputable def digits_sum_init_safety_wit_25 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= j)) (PreH3 : (j <= 10)) (PreH4 : ((Zlength (dp_l)) = 200)) (PreH5 : (DigitDPBaseProgress dp_l j)) (PreH6 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= j)) (PreH3 : (j <= 10)) (PreH4 : ((Zlength (dp_l)) = 200)) (PreH5 : (DigitDPBaseProgress dp_l j)) (PreH6 : (PowerTable power_l)) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** ((( &( "j" ) )) # Int |-> (j))
@@ -403,7 +403,7 @@ noncomputable def digits_sum_init_safety_wit_25 : Prop :=
   “ ((INT_MIN) <= 10) ”
 
 noncomputable def digits_sum_init_safety_wit_26 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= j)) (PreH3 : (j <= 10)) (PreH4 : ((Zlength (dp_l)) = 200)) (PreH5 : (DigitDPBaseProgress dp_l j)) (PreH6 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= j)) (PreH3 : (j <= 10)) (PreH4 : ((Zlength (dp_l)) = 200)) (PreH5 : (DigitDPBaseProgress dp_l j)) (PreH6 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 (replace_Znth ((10 + j)) (j) (dp_l)))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
@@ -414,7 +414,7 @@ noncomputable def digits_sum_init_safety_wit_26 : Prop :=
   “ ((INT_MIN) <= (j + 1)) ”
 
 noncomputable def digits_sum_init_safety_wit_27 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (PreH1 : (j >= 10)) (PreH2 : ((0 : Int) <= j)) (PreH3 : (j <= 10)) (PreH4 : ((Zlength (dp_l)) = 200)) (PreH5 : (DigitDPBaseProgress dp_l j)) (PreH6 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (PreH1 : (j >= 10)) (PreH2 : ((0 : Int) <= j)) (PreH3 : (j <= 10)) (PreH4 : ((Zlength (dp_l)) = 200)) (PreH5 : (DigitDPBaseProgress dp_l j)) (PreH6 : (PowerTable power_l)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
@@ -425,7 +425,7 @@ noncomputable def digits_sum_init_safety_wit_27 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def digits_sum_init_safety_wit_28 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (i : Int) (PreH1 : (2 <= i)) (PreH2 : (i <= 20)) (PreH3 : ((Zlength (dp_l)) = 200)) (PreH4 : (DigitDPOuterProgress dp_l i)) (PreH5 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (i : Int) (PreH1 : (2 <= i)) (PreH2 : (i <= 20)) (PreH3 : ((Zlength (dp_l)) = 200)) (PreH4 : (DigitDPOuterProgress dp_l i)) (PreH5 : (PowerTable power_l)) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -436,7 +436,7 @@ noncomputable def digits_sum_init_safety_wit_28 : Prop :=
   “ ((INT_MIN) <= 20) ”
 
 noncomputable def digits_sum_init_safety_wit_29 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (2 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (dp_l)) = 200)) (PreH5 : (DigitDPOuterProgress dp_l i)) (PreH6 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (2 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (dp_l)) = 200)) (PreH5 : (DigitDPOuterProgress dp_l i)) (PreH6 : (PowerTable power_l)) ,
   ((( &( "j" ) )) # Int |->_)
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
@@ -448,7 +448,7 @@ noncomputable def digits_sum_init_safety_wit_29 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def digits_sum_init_safety_wit_30 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (2 <= i)) (PreH2 : (i < 20)) (PreH3 : ((0 : Int) <= j)) (PreH4 : (j <= 10)) (PreH5 : ((Zlength (dp_l)) = 200)) (PreH6 : (DigitDPRowProgress dp_l i j)) (PreH7 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (2 <= i)) (PreH2 : (i < 20)) (PreH3 : ((0 : Int) <= j)) (PreH4 : (j <= 10)) (PreH5 : ((Zlength (dp_l)) = 200)) (PreH6 : (DigitDPRowProgress dp_l i j)) (PreH7 : (PowerTable power_l)) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -460,7 +460,7 @@ noncomputable def digits_sum_init_safety_wit_30 : Prop :=
   “ ((INT_MIN) <= 10) ”
 
 noncomputable def digits_sum_init_safety_wit_31 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = 200)) (PreH7 : (DigitDPRowProgress dp_l i j)) (PreH8 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = 200)) (PreH7 : (DigitDPRowProgress dp_l i j)) (PreH8 : (PowerTable power_l)) ,
   ((( &( "k" ) )) # Int |->_)
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
@@ -473,7 +473,7 @@ noncomputable def digits_sum_init_safety_wit_31 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def digits_sum_init_safety_wit_32 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (2 <= i)) (PreH2 : (i < 20)) (PreH3 : ((0 : Int) <= j)) (PreH4 : (j < 10)) (PreH5 : ((0 : Int) <= k)) (PreH6 : (k <= 10)) (PreH7 : ((Zlength (dp_l)) = 200)) (PreH8 : (DigitDPCellProgress dp_l i j k)) (PreH9 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (2 <= i)) (PreH2 : (i < 20)) (PreH3 : ((0 : Int) <= j)) (PreH4 : (j < 10)) (PreH5 : ((0 : Int) <= k)) (PreH6 : (k <= 10)) (PreH7 : ((Zlength (dp_l)) = 200)) (PreH8 : (DigitDPCellProgress dp_l i j k)) (PreH9 : (PowerTable power_l)) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -486,7 +486,7 @@ noncomputable def digits_sum_init_safety_wit_32 : Prop :=
   “ ((INT_MIN) <= 10) ”
 
 noncomputable def digits_sum_init_safety_wit_33 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   ((( &( "sub_power" ) )) # Int64 |->_)
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
@@ -500,7 +500,7 @@ noncomputable def digits_sum_init_safety_wit_33 : Prop :=
   “ ((INT_MIN) <= (i - 2)) ”
 
 noncomputable def digits_sum_init_safety_wit_34 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   ((( &( "sub_power" ) )) # Int64 |->_)
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
@@ -514,7 +514,7 @@ noncomputable def digits_sum_init_safety_wit_34 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def digits_sum_init_safety_wit_35 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
@@ -530,7 +530,7 @@ noncomputable def digits_sum_init_safety_wit_35 : Prop :=
 
 noncomputable def digits_sum_init_safety_wit_36 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
@@ -545,7 +545,7 @@ forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int
   “ ((-9223372036854775808) <= ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007))) ”
 ) \/
 (
-forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
@@ -561,7 +561,7 @@ forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int
 )
 
 noncomputable def digits_sum_init_safety_wit_36_split_goal_1 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
@@ -575,7 +575,7 @@ noncomputable def digits_sum_init_safety_wit_36_split_goal_1 : Prop :=
   “ (((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) <= 9223372036854775807) ”
 
 noncomputable def digits_sum_init_safety_wit_36_split_goal_2 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
@@ -589,7 +589,7 @@ noncomputable def digits_sum_init_safety_wit_36_split_goal_2 : Prop :=
   “ ((-9223372036854775808) <= ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007))) ”
 
 noncomputable def digits_sum_init_safety_wit_37 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
@@ -605,7 +605,7 @@ noncomputable def digits_sum_init_safety_wit_37 : Prop :=
 
 noncomputable def digits_sum_init_safety_wit_38 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
@@ -620,7 +620,7 @@ forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int
   “ ((-9223372036854775808) <= ((Znth (i - 2) power_l (0 : Int)) * j)) ”
 ) \/
 (
-forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
@@ -636,7 +636,7 @@ forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int
 )
 
 noncomputable def digits_sum_init_safety_wit_38_split_goal_1 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
@@ -650,7 +650,7 @@ noncomputable def digits_sum_init_safety_wit_38_split_goal_1 : Prop :=
   “ (((Znth (i - 2) power_l (0 : Int)) * j) <= 9223372036854775807) ”
 
 noncomputable def digits_sum_init_safety_wit_38_split_goal_2 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
@@ -664,7 +664,7 @@ noncomputable def digits_sum_init_safety_wit_38_split_goal_2 : Prop :=
   “ ((-9223372036854775808) <= ((Znth (i - 2) power_l (0 : Int)) * j)) ”
 
 noncomputable def digits_sum_init_safety_wit_39 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
   ** ((( &( "sub_power" ) )) # Int64 |-> ((Znth (i - 2) power_l (0 : Int))))
@@ -679,7 +679,7 @@ noncomputable def digits_sum_init_safety_wit_39 : Prop :=
   “ ((INT_MIN) <= (((i - 1) * 10) + k)) ”
 
 noncomputable def digits_sum_init_safety_wit_40 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
   ** ((( &( "sub_power" ) )) # Int64 |-> ((Znth (i - 2) power_l (0 : Int))))
@@ -694,7 +694,7 @@ noncomputable def digits_sum_init_safety_wit_40 : Prop :=
   “ ((INT_MIN) <= ((i - 1) * 10)) ”
 
 noncomputable def digits_sum_init_safety_wit_41 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
   ** ((( &( "sub_power" ) )) # Int64 |-> ((Znth (i - 2) power_l (0 : Int))))
@@ -709,7 +709,7 @@ noncomputable def digits_sum_init_safety_wit_41 : Prop :=
   “ ((INT_MIN) <= (i - 1)) ”
 
 noncomputable def digits_sum_init_safety_wit_42 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
   ** ((( &( "sub_power" ) )) # Int64 |-> ((Znth (i - 2) power_l (0 : Int))))
@@ -724,7 +724,7 @@ noncomputable def digits_sum_init_safety_wit_42 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def digits_sum_init_safety_wit_43 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
   ** ((( &( "sub_power" ) )) # Int64 |-> ((Znth (i - 2) power_l (0 : Int))))
@@ -739,7 +739,7 @@ noncomputable def digits_sum_init_safety_wit_43 : Prop :=
   “ ((INT_MIN) <= 10) ”
 
 noncomputable def digits_sum_init_safety_wit_44 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
@@ -754,7 +754,7 @@ noncomputable def digits_sum_init_safety_wit_44 : Prop :=
   “ ((INT_MIN) <= 1000000007) ”
 
 noncomputable def digits_sum_init_safety_wit_45 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "moving" ) )) # Int64 |->_)
   ** (intArray.full power_pre 20 power_l)
@@ -769,7 +769,7 @@ noncomputable def digits_sum_init_safety_wit_45 : Prop :=
   “ ((INT_MIN) <= 1000000007) ”
 
 noncomputable def digits_sum_init_safety_wit_46 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "new_dp" ) )) # Int64 |->_)
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)))
@@ -786,7 +786,7 @@ noncomputable def digits_sum_init_safety_wit_46 : Prop :=
 
 noncomputable def digits_sum_init_safety_wit_47 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "new_dp" ) )) # Int64 |->_)
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)))
@@ -802,7 +802,7 @@ forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int
   “ ((-9223372036854775808) <= ((Znth ((i * 10) + j) dp_l (0 : Int)) + (Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007))) ”
 ) \/
 (
-forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "new_dp" ) )) # Int64 |->_)
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)))
@@ -819,7 +819,7 @@ forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int
 )
 
 noncomputable def digits_sum_init_safety_wit_47_split_goal_1 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "new_dp" ) )) # Int64 |->_)
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)))
@@ -834,7 +834,7 @@ noncomputable def digits_sum_init_safety_wit_47_split_goal_1 : Prop :=
   “ (((Znth ((i * 10) + j) dp_l (0 : Int)) + (Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)) <= 9223372036854775807) ”
 
 noncomputable def digits_sum_init_safety_wit_47_split_goal_2 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "new_dp" ) )) # Int64 |->_)
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)))
@@ -849,7 +849,7 @@ noncomputable def digits_sum_init_safety_wit_47_split_goal_2 : Prop :=
   “ ((-9223372036854775808) <= ((Znth ((i * 10) + j) dp_l (0 : Int)) + (Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007))) ”
 
 noncomputable def digits_sum_init_safety_wit_48 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   ((( &( "new_dp" ) )) # Int64 |->_)
   ** (intArray.full dp_pre 200 dp_l)
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)))
@@ -865,7 +865,7 @@ noncomputable def digits_sum_init_safety_wit_48 : Prop :=
   “ ((INT_MIN) <= ((i * 10) + j)) ”
 
 noncomputable def digits_sum_init_safety_wit_49 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   ((( &( "new_dp" ) )) # Int64 |->_)
   ** (intArray.full dp_pre 200 dp_l)
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)))
@@ -881,7 +881,7 @@ noncomputable def digits_sum_init_safety_wit_49 : Prop :=
   “ ((INT_MIN) <= (i * 10)) ”
 
 noncomputable def digits_sum_init_safety_wit_50 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   ((( &( "new_dp" ) )) # Int64 |->_)
   ** (intArray.full dp_pre 200 dp_l)
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)))
@@ -897,7 +897,7 @@ noncomputable def digits_sum_init_safety_wit_50 : Prop :=
   “ ((INT_MIN) <= 10) ”
 
 noncomputable def digits_sum_init_safety_wit_51 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "new_dp" ) )) # Int64 |->_)
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)))
@@ -913,7 +913,7 @@ noncomputable def digits_sum_init_safety_wit_51 : Prop :=
   “ ((INT_MIN) <= 1000000007) ”
 
 noncomputable def digits_sum_init_safety_wit_52 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "new_dp" ) )) # Int64 |-> ((Z.rem ((Znth ((i * 10) + j) dp_l (0 : Int)) + (Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)) 1000000007)))
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)))
@@ -929,7 +929,7 @@ noncomputable def digits_sum_init_safety_wit_52 : Prop :=
   “ ((INT_MIN) <= ((i * 10) + j)) ”
 
 noncomputable def digits_sum_init_safety_wit_53 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "new_dp" ) )) # Int64 |-> ((Z.rem ((Znth ((i * 10) + j) dp_l (0 : Int)) + (Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)) 1000000007)))
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)))
@@ -945,7 +945,7 @@ noncomputable def digits_sum_init_safety_wit_53 : Prop :=
   “ ((INT_MIN) <= (i * 10)) ”
 
 noncomputable def digits_sum_init_safety_wit_54 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** ((( &( "new_dp" ) )) # Int64 |-> ((Z.rem ((Znth ((i * 10) + j) dp_l (0 : Int)) + (Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)) 1000000007)))
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)))
@@ -961,7 +961,7 @@ noncomputable def digits_sum_init_safety_wit_54 : Prop :=
   “ ((INT_MIN) <= 10) ”
 
 noncomputable def digits_sum_init_safety_wit_55 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 (replace_Znth (((i * 10) + j)) ((signed_last_nbits ((Z.rem ((Znth ((i * 10) + j) dp_l (0 : Int)) + (Z.rem ((Znth (((i - 1) * 10) + k) dp_l (0 : Int)) + (Z.rem ((Znth (i - 2) power_l (0 : Int)) * j) 1000000007)) 1000000007)) 1000000007)) (32))) (dp_l)))
   ** (intArray.full power_pre 20 power_l)
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -974,7 +974,7 @@ noncomputable def digits_sum_init_safety_wit_55 : Prop :=
   “ ((INT_MIN) <= (k + 1)) ”
 
 noncomputable def digits_sum_init_safety_wit_56 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k >= 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k >= 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -986,7 +986,7 @@ noncomputable def digits_sum_init_safety_wit_56 : Prop :=
   “ ((INT_MIN) <= (j + 1)) ”
 
 noncomputable def digits_sum_init_safety_wit_57 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j >= 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = 200)) (PreH7 : (DigitDPRowProgress dp_l i j)) (PreH8 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j >= 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = 200)) (PreH7 : (DigitDPRowProgress dp_l i j)) (PreH8 : (PowerTable power_l)) ,
   ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "power" ) )) # Ptr |-> (power_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -998,7 +998,7 @@ noncomputable def digits_sum_init_safety_wit_57 : Prop :=
 
 noncomputable def digits_sum_init_entail_wit_1 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) ,
+forall (dp_pre : Int) (power_pre : Int) ,
   (((power_pre + ((0 : Int) * sizeof(INT)))) # Int |-> (1))
   ** (intArray.undef_seg power_pre 1 20)
   ** (intArray.undef_full dp_pre 200)
@@ -1026,7 +1026,7 @@ forall (power_pre : Int) (PreH1 : (1 <= INT_MAX)) (PreH2 : (1 >= INT_MIN)) ,
 
 noncomputable def digits_sum_init_entail_wit_2 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l_2 : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l_2)) = i)) (PreH5 : (PowerPrefix power_l_2 i)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l_2 : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l_2)) = i)) (PreH5 : (PowerPrefix power_l_2 i)) ,
   (intArray.seg power_pre (0 : Int) (i + 1) (power_l_2 ++ ((signed_last_nbits ((Z.rem ((Znth ((i - 1) - (0 : Int)) power_l_2 (0 : Int)) * 10) 1000000007)) (32)) :: (@List.nil Int))))
   ** (intArray.undef_seg power_pre (i + 1) 20)
   ** (intArray.undef_full dp_pre 200)
@@ -1059,7 +1059,7 @@ noncomputable def digits_sum_init_entail_wit_2_split_goal_2 : Prop :=
 
 noncomputable def digits_sum_init_entail_wit_3 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l_2 : (List Int)) (i : Int) (PreH1 : (i >= 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l_2)) = i)) (PreH5 : (PowerPrefix power_l_2 i)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l_2 : (List Int)) (i : Int) (PreH1 : (i >= 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l_2)) = i)) (PreH5 : (PowerPrefix power_l_2 i)) ,
   (intArray.undef_full dp_pre 200)
   ** (intArray.seg power_pre (0 : Int) i power_l_2)
   ** (intArray.undef_seg power_pre i 20)
@@ -1090,7 +1090,7 @@ forall (dp_pre : Int) (power_l_2 : (List Int)) (i : Int) (PreH1 : (i >= 20)) (Pr
 
 noncomputable def digits_sum_init_entail_wit_4 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (dp_l_2)) = (i * 10))) (PreH5 : (Forall (Eq ((0 : Int))) dp_l_2)) (PreH6 : (PowerTable power_l_2)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (dp_l_2)) = (i * 10))) (PreH5 : (Forall (Eq ((0 : Int))) dp_l_2)) (PreH6 : (PowerTable power_l_2)) ,
   (intArray.seg dp_pre (0 : Int) (i * 10) dp_l_2)
   ** (intArray.undef_seg dp_pre (i * 10) 200)
   ** (intArray.full power_pre 20 power_l_2)
@@ -1124,7 +1124,7 @@ forall (dp_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (i : Int) (
 
 noncomputable def digits_sum_init_entail_wit_5 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l_2)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l_2)) (PreH8 : (PowerTable power_l_2)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l_2)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l_2)) (PreH8 : (PowerTable power_l_2)) ,
   (intArray.seg dp_pre (0 : Int) (((i * 10) + j) + 1) (dp_l_2 ++ ((0 : Int) :: (@List.nil Int))))
   ** (intArray.undef_seg dp_pre (((i * 10) + j) + 1) 200)
   ** (intArray.full power_pre 20 power_l_2)
@@ -1158,7 +1158,7 @@ forall (dp_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (j : Int) (
 
 noncomputable def digits_sum_init_entail_wit_6 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (j : Int) (i : Int) (PreH1 : (j >= 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l_2)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l_2)) (PreH8 : (PowerTable power_l_2)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (j : Int) (i : Int) (PreH1 : (j >= 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l_2)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l_2)) (PreH8 : (PowerTable power_l_2)) ,
   (intArray.seg dp_pre (0 : Int) ((i * 10) + j) dp_l_2)
   ** (intArray.undef_seg dp_pre ((i * 10) + j) 200)
   ** (intArray.full power_pre 20 power_l_2)
@@ -1188,7 +1188,7 @@ forall (dp_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (j : Int) (
 
 noncomputable def digits_sum_init_entail_wit_7 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : (i >= 20)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (dp_l_2)) = (i * 10))) (PreH5 : (Forall (Eq ((0 : Int))) dp_l_2)) (PreH6 : (PowerTable power_l_2)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : (i >= 20)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (dp_l_2)) = (i * 10))) (PreH5 : (Forall (Eq ((0 : Int))) dp_l_2)) (PreH6 : (PowerTable power_l_2)) ,
   (intArray.seg dp_pre (0 : Int) (i * 10) dp_l_2)
   ** (intArray.undef_seg dp_pre (i * 10) 200)
   ** (intArray.full power_pre 20 power_l_2)
@@ -1216,7 +1216,7 @@ noncomputable def digits_sum_init_entail_wit_7_split_goal_1 : Prop :=
 
 noncomputable def digits_sum_init_entail_wit_8 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (j : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= j)) (PreH3 : (j <= 10)) (PreH4 : ((Zlength (dp_l_2)) = 200)) (PreH5 : (DigitDPBaseProgress dp_l_2 j)) (PreH6 : (PowerTable power_l_2)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (j : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= j)) (PreH3 : (j <= 10)) (PreH4 : ((Zlength (dp_l_2)) = 200)) (PreH5 : (DigitDPBaseProgress dp_l_2 j)) (PreH6 : (PowerTable power_l_2)) ,
   (intArray.full dp_pre 200 (replace_Znth ((10 + j)) (j) (dp_l_2)))
   ** (intArray.full power_pre 20 power_l_2)
 |--
@@ -1248,7 +1248,7 @@ noncomputable def digits_sum_init_entail_wit_8_split_goal_2 : Prop :=
 
 noncomputable def digits_sum_init_entail_wit_9 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (j : Int) (PreH1 : (j >= 10)) (PreH2 : ((0 : Int) <= j)) (PreH3 : (j <= 10)) (PreH4 : ((Zlength (dp_l_2)) = 200)) (PreH5 : (DigitDPBaseProgress dp_l_2 j)) (PreH6 : (PowerTable power_l_2)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (j : Int) (PreH1 : (j >= 10)) (PreH2 : ((0 : Int) <= j)) (PreH3 : (j <= 10)) (PreH4 : ((Zlength (dp_l_2)) = 200)) (PreH5 : (DigitDPBaseProgress dp_l_2 j)) (PreH6 : (PowerTable power_l_2)) ,
   (intArray.full dp_pre 200 dp_l_2)
   ** (intArray.full power_pre 20 power_l_2)
 |--
@@ -1275,7 +1275,7 @@ noncomputable def digits_sum_init_entail_wit_9_split_goal_1 : Prop :=
 
 noncomputable def digits_sum_init_entail_wit_10 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (2 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (dp_l_2)) = 200)) (PreH5 : (DigitDPOuterProgress dp_l_2 i)) (PreH6 : (PowerTable power_l_2)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (2 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (dp_l_2)) = 200)) (PreH5 : (DigitDPOuterProgress dp_l_2 i)) (PreH6 : (PowerTable power_l_2)) ,
   (intArray.full dp_pre 200 dp_l_2)
   ** (intArray.full power_pre 20 power_l_2)
 |--
@@ -1304,7 +1304,7 @@ noncomputable def digits_sum_init_entail_wit_10_split_goal_1 : Prop :=
 
 noncomputable def digits_sum_init_entail_wit_11 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l_2)) = 200)) (PreH7 : (DigitDPRowProgress dp_l_2 i j)) (PreH8 : (PowerTable power_l_2)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l_2)) = 200)) (PreH7 : (DigitDPRowProgress dp_l_2 i j)) (PreH8 : (PowerTable power_l_2)) ,
   (intArray.full dp_pre 200 dp_l_2)
   ** (intArray.full power_pre 20 power_l_2)
 |--
@@ -1335,7 +1335,7 @@ noncomputable def digits_sum_init_entail_wit_11_split_goal_1 : Prop :=
 
 noncomputable def digits_sum_init_entail_wit_12 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l_2)) = 200)) (PreH9 : (DigitDPCellProgress dp_l_2 i j k)) (PreH10 : (PowerTable power_l_2)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l_2)) = 200)) (PreH9 : (DigitDPCellProgress dp_l_2 i j k)) (PreH10 : (PowerTable power_l_2)) ,
   (intArray.full dp_pre 200 (replace_Znth (((i * 10) + j)) ((signed_last_nbits ((Z.rem ((Znth ((i * 10) + j) dp_l_2 (0 : Int)) + (Z.rem ((Znth (((i - 1) * 10) + k) dp_l_2 (0 : Int)) + (Z.rem ((Znth (i - 2) power_l_2 (0 : Int)) * j) 1000000007)) 1000000007)) 1000000007)) (32))) (dp_l_2)))
   ** (intArray.full power_pre 20 power_l_2)
 |--
@@ -1371,7 +1371,7 @@ noncomputable def digits_sum_init_entail_wit_12_split_goal_2 : Prop :=
 
 noncomputable def digits_sum_init_entail_wit_13 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k >= 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l_2)) = 200)) (PreH9 : (DigitDPCellProgress dp_l_2 i j k)) (PreH10 : (PowerTable power_l_2)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k >= 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l_2)) = 200)) (PreH9 : (DigitDPCellProgress dp_l_2 i j k)) (PreH10 : (PowerTable power_l_2)) ,
   (intArray.full dp_pre 200 dp_l_2)
   ** (intArray.full power_pre 20 power_l_2)
 |--
@@ -1400,7 +1400,7 @@ noncomputable def digits_sum_init_entail_wit_13_split_goal_1 : Prop :=
 
 noncomputable def digits_sum_init_entail_wit_14 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (j : Int) (i : Int) (PreH1 : (j >= 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l_2)) = 200)) (PreH7 : (DigitDPRowProgress dp_l_2 i j)) (PreH8 : (PowerTable power_l_2)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (j : Int) (i : Int) (PreH1 : (j >= 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l_2)) = 200)) (PreH7 : (DigitDPRowProgress dp_l_2 i j)) (PreH8 : (PowerTable power_l_2)) ,
   (intArray.full dp_pre 200 dp_l_2)
   ** (intArray.full power_pre 20 power_l_2)
 |--
@@ -1427,7 +1427,7 @@ noncomputable def digits_sum_init_entail_wit_14_split_goal_1 : Prop :=
 
 noncomputable def digits_sum_init_return_wit_1 : Prop :=
   (
-forall (power_pre : Int) (dp_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : (i >= 20)) (PreH2 : (2 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (dp_l_2)) = 200)) (PreH5 : (DigitDPOuterProgress dp_l_2 i)) (PreH6 : (PowerTable power_l_2)) ,
+forall (dp_pre : Int) (power_pre : Int) (power_l_2 : (List Int)) (dp_l_2 : (List Int)) (i : Int) (PreH1 : (i >= 20)) (PreH2 : (2 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (dp_l_2)) = 200)) (PreH5 : (DigitDPOuterProgress dp_l_2 i)) (PreH6 : (PowerTable power_l_2)) ,
   (intArray.full dp_pre 200 dp_l_2)
   ** (intArray.full power_pre 20 power_l_2)
 |--
@@ -1450,7 +1450,7 @@ noncomputable def digits_sum_init_return_wit_1_split_goal_1 : Prop :=
   (DigitDPTable dp_l_2)
 
 noncomputable def digits_sum_init_partial_solve_wit_1 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) ,
+  forall (dp_pre : Int) (power_pre : Int) ,
   (intArray.undef_full dp_pre 200)
   ** (intArray.undef_full power_pre 20)
 |--
@@ -1459,7 +1459,7 @@ noncomputable def digits_sum_init_partial_solve_wit_1 : Prop :=
   ** (intArray.undef_full dp_pre 200)
 
 noncomputable def digits_sum_init_partial_solve_wit_2 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
   (intArray.undef_full dp_pre 200)
   ** (intArray.seg power_pre (0 : Int) i power_l)
   ** (intArray.undef_seg power_pre i 20)
@@ -1475,7 +1475,7 @@ noncomputable def digits_sum_init_partial_solve_wit_2 : Prop :=
   ** (intArray.undef_seg power_pre i 20)
 
 noncomputable def digits_sum_init_partial_solve_wit_3 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (i : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= i)) (PreH3 : (i <= 20)) (PreH4 : ((Zlength (power_l)) = i)) (PreH5 : (PowerPrefix power_l i)) ,
   (intArray.seg power_pre (0 : Int) i power_l)
   ** (intArray.undef_full dp_pre 200)
   ** (intArray.undef_seg power_pre i 20)
@@ -1491,7 +1491,7 @@ noncomputable def digits_sum_init_partial_solve_wit_3 : Prop :=
   ** (intArray.undef_full dp_pre 200)
 
 noncomputable def digits_sum_init_partial_solve_wit_4 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l)) (PreH8 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (i : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j <= 10)) (PreH6 : ((Zlength (dp_l)) = ((i * 10) + j))) (PreH7 : (Forall (Eq ((0 : Int))) dp_l)) (PreH8 : (PowerTable power_l)) ,
   (intArray.seg dp_pre (0 : Int) ((i * 10) + j) dp_l)
   ** (intArray.undef_seg dp_pre ((i * 10) + j) 200)
   ** (intArray.full power_pre 20 power_l)
@@ -1510,7 +1510,7 @@ noncomputable def digits_sum_init_partial_solve_wit_4 : Prop :=
   ** (intArray.full power_pre 20 power_l)
 
 noncomputable def digits_sum_init_partial_solve_wit_5 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= j)) (PreH3 : (j <= 10)) (PreH4 : ((Zlength (dp_l)) = 200)) (PreH5 : (DigitDPBaseProgress dp_l j)) (PreH6 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (j : Int) (PreH1 : (j < 10)) (PreH2 : ((0 : Int) <= j)) (PreH3 : (j <= 10)) (PreH4 : ((Zlength (dp_l)) = 200)) (PreH5 : (DigitDPBaseProgress dp_l j)) (PreH6 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full power_pre 20 power_l)
 |--
@@ -1525,7 +1525,7 @@ noncomputable def digits_sum_init_partial_solve_wit_5 : Prop :=
   ** (intArray.full power_pre 20 power_l)
 
 noncomputable def digits_sum_init_partial_solve_wit_6 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full power_pre 20 power_l)
 |--
@@ -1544,7 +1544,7 @@ noncomputable def digits_sum_init_partial_solve_wit_6 : Prop :=
   ** (intArray.full dp_pre 200 dp_l)
 
 noncomputable def digits_sum_init_partial_solve_wit_7 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full power_pre 20 power_l)
   ** (intArray.full dp_pre 200 dp_l)
 |--
@@ -1563,7 +1563,7 @@ noncomputable def digits_sum_init_partial_solve_wit_7 : Prop :=
   ** (intArray.full power_pre 20 power_l)
 
 noncomputable def digits_sum_init_partial_solve_wit_8 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full power_pre 20 power_l)
 |--
@@ -1582,7 +1582,7 @@ noncomputable def digits_sum_init_partial_solve_wit_8 : Prop :=
   ** (intArray.full power_pre 20 power_l)
 
 noncomputable def digits_sum_init_partial_solve_wit_9 : Prop :=
-  forall (power_pre : Int) (dp_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
+  forall (dp_pre : Int) (power_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (k : Int) (j : Int) (i : Int) (PreH1 : (k < 10)) (PreH2 : (2 <= i)) (PreH3 : (i < 20)) (PreH4 : ((0 : Int) <= j)) (PreH5 : (j < 10)) (PreH6 : ((0 : Int) <= k)) (PreH7 : (k <= 10)) (PreH8 : ((Zlength (dp_l)) = 200)) (PreH9 : (DigitDPCellProgress dp_l i j k)) (PreH10 : (PowerTable power_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full power_pre 20 power_l)
 |--
@@ -1601,7 +1601,7 @@ noncomputable def digits_sum_init_partial_solve_wit_9 : Prop :=
   ** (intArray.full power_pre 20 power_l)
 
 noncomputable def prefix_digits_sum_safety_wit_1 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (PreH1 : ((0 : Int) <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (PreH1 : ((0 : Int) <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (DigitDPTable dp_l)) ,
   ((( &( "m" ) )) # Int |->_)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -1613,7 +1613,7 @@ noncomputable def prefix_digits_sum_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_2 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (PreH1 : ((0 : Int) <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (PreH1 : ((0 : Int) <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (DigitDPTable dp_l)) ,
   ((( &( "ans" ) )) # Int |->_)
   ** ((( &( "m" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
@@ -1626,7 +1626,7 @@ noncomputable def prefix_digits_sum_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_3 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (PreH1 : ((0 : Int) <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (PreH1 : ((0 : Int) <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (DigitDPTable dp_l)) ,
   ((( &( "power_ll" ) )) # Int64 |->_)
   ** ((( &( "ans" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "m" ) )) # Int |-> ((0 : Int)))
@@ -1640,7 +1640,7 @@ noncomputable def prefix_digits_sum_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def prefix_digits_sum_safety_wit_4 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (PreH1 : ((0 : Int) <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (PreH1 : ((0 : Int) <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (DigitDPTable dp_l)) ,
   ((( &( "power_ll" ) )) # Int64 |-> (1))
   ** ((( &( "ans" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "m" ) )) # Int |-> ((0 : Int)))
@@ -1654,7 +1654,7 @@ noncomputable def prefix_digits_sum_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def prefix_digits_sum_safety_wit_5 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (PreH1 : (x_pre < 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (PreH1 : (x_pre < 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
   ((( &( "power_ll" ) )) # Int64 |-> (1))
   ** ((( &( "ans" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "m" ) )) # Int |-> ((0 : Int)))
@@ -1668,7 +1668,7 @@ noncomputable def prefix_digits_sum_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_6 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (PreH1 : (x_pre >= 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (PreH1 : (x_pre >= 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "power_ll" ) )) # Int64 |-> (1))
   ** ((( &( "ans" ) )) # Int |-> ((0 : Int)))
@@ -1683,7 +1683,7 @@ noncomputable def prefix_digits_sum_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_7 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digits_l : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (m = (0 : Int))) (PreH4 : (ans = (0 : Int))) (PreH5 : (power_ll = 1)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 20)) (PreH8 : ((Zlength (digits_l)) = i)) (PreH9 : (Forall (Eq ((0 : Int))) digits_l)) (PreH10 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (digits_l : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (m = (0 : Int))) (PreH4 : (ans = (0 : Int))) (PreH5 : (power_ll = 1)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= 20)) (PreH8 : ((Zlength (digits_l)) = i)) (PreH9 : (Forall (Eq ((0 : Int))) digits_l)) (PreH10 : (DigitDPTable dp_l)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "digits" ) )) # Ptr |-> (digits_pre))
@@ -1699,7 +1699,7 @@ noncomputable def prefix_digits_sum_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= 20) ”
 
 noncomputable def prefix_digits_sum_safety_wit_8 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digits_l : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l)) (PreH11 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (digits_l : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l)) (PreH11 : (DigitDPTable dp_l)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "digits" ) )) # Ptr |-> (digits_pre))
@@ -1715,7 +1715,7 @@ noncomputable def prefix_digits_sum_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_9 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digits_l : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l)) (PreH11 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (digits_l : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l)) (PreH11 : (DigitDPTable dp_l)) ,
   (intArray.seg digits_pre (0 : Int) (i + 1) (digits_l ++ ((0 : Int) :: (@List.nil Int))))
   ** (intArray.undef_seg digits_pre (i + 1) 20)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
@@ -1731,7 +1731,7 @@ noncomputable def prefix_digits_sum_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_10 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digits_l : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (digits_l : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "digits" ) )) # Ptr |-> (digits_pre))
@@ -1746,7 +1746,7 @@ noncomputable def prefix_digits_sum_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= (m + 1)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_11 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digits_l : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (digits_l : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "digits" ) )) # Ptr |-> (digits_pre))
@@ -1761,7 +1761,7 @@ noncomputable def prefix_digits_sum_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def prefix_digits_sum_safety_wit_12 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digits_l : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (digits_l : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "digits" ) )) # Ptr |-> (digits_pre))
@@ -1776,7 +1776,7 @@ noncomputable def prefix_digits_sum_safety_wit_12 : Prop :=
   “ (10 ≠ (0 : Int)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_13 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digits_l : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (digits_l : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "digits" ) )) # Ptr |-> (digits_pre))
@@ -1791,7 +1791,7 @@ noncomputable def prefix_digits_sum_safety_wit_13 : Prop :=
   “ ((INT_MIN) <= 10) ”
 
 noncomputable def prefix_digits_sum_safety_wit_14 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digits_l : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (digits_l : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
   (intArray.full digits_pre 20 (replace_Znth ((m + 1)) ((signed_last_nbits ((Z.rem tmpx 10)) (32))) (digits_l)))
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -1806,7 +1806,7 @@ noncomputable def prefix_digits_sum_safety_wit_14 : Prop :=
   “ (10 ≠ (0 : Int)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_15 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digits_l : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (digits_l : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
   (intArray.full digits_pre 20 (replace_Znth ((m + 1)) ((signed_last_nbits ((Z.rem tmpx 10)) (32))) (digits_l)))
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -1821,7 +1821,7 @@ noncomputable def prefix_digits_sum_safety_wit_15 : Prop :=
   “ ((INT_MIN) <= 10) ”
 
 noncomputable def prefix_digits_sum_safety_wit_16 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digits_l : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx = (0 : Int))) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (digits_l : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx = (0 : Int))) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -1838,7 +1838,7 @@ noncomputable def prefix_digits_sum_safety_wit_16 : Prop :=
 
 noncomputable def prefix_digits_sum_safety_wit_17 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "digits" ) )) # Ptr |-> (digits_pre))
@@ -1854,7 +1854,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
   “ ((-9223372036854775808) <= (power_ll * 10)) ”
 ) \/
 (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "digits" ) )) # Ptr |-> (digits_pre))
@@ -1871,7 +1871,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
 )
 
 noncomputable def prefix_digits_sum_safety_wit_17_split_goal_1 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "digits" ) )) # Ptr |-> (digits_pre))
@@ -1886,7 +1886,7 @@ noncomputable def prefix_digits_sum_safety_wit_17_split_goal_1 : Prop :=
   “ ((power_ll * 10) <= 9223372036854775807) ”
 
 noncomputable def prefix_digits_sum_safety_wit_17_split_goal_2 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "digits" ) )) # Ptr |-> (digits_pre))
@@ -1901,7 +1901,7 @@ noncomputable def prefix_digits_sum_safety_wit_17_split_goal_2 : Prop :=
   “ ((-9223372036854775808) <= (power_ll * 10)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_18 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "digits" ) )) # Ptr |-> (digits_pre))
@@ -1917,7 +1917,7 @@ noncomputable def prefix_digits_sum_safety_wit_18 : Prop :=
   “ ((INT_MIN) <= 10) ”
 
 noncomputable def prefix_digits_sum_safety_wit_19 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "digits" ) )) # Ptr |-> (digits_pre))
@@ -1933,7 +1933,7 @@ noncomputable def prefix_digits_sum_safety_wit_19 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_20 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l : (List Int)) (ans : Int) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (tmpx = (0 : Int))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= m)) (PreH6 : (m <= 19)) (PreH7 : ((0 : Int) <= ans)) (PreH8 : (ans < 1000000007)) (PreH9 : ((Zlength (digits_l)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (AccumulatedDigitSumCorrect x_pre i ans)) (PreH13 : (OuterDigitPositionPower i power_ll)) (PreH14 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (digits_l : (List Int)) (ans : Int) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (tmpx = (0 : Int))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= m)) (PreH6 : (m <= 19)) (PreH7 : ((0 : Int) <= ans)) (PreH8 : (ans < 1000000007)) (PreH9 : ((Zlength (digits_l)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (AccumulatedDigitSumCorrect x_pre i ans)) (PreH13 : (OuterDigitPositionPower i power_ll)) (PreH14 : (DigitDPTable dp_l)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
   ** ((( &( "digits" ) )) # Ptr |-> (digits_pre))
@@ -1949,7 +1949,7 @@ noncomputable def prefix_digits_sum_safety_wit_20 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_21 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l : (List Int)) (ans : Int) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (i > (0 : Int))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= ans)) (PreH9 : (ans < 1000000007)) (PreH10 : ((Zlength (digits_l)) = 20)) (PreH11 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH12 : (ExtractedDigitCount x_pre m)) (PreH13 : (AccumulatedDigitSumCorrect x_pre i ans)) (PreH14 : (OuterDigitPositionPower i power_ll)) (PreH15 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (digits_l : (List Int)) (ans : Int) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (i > (0 : Int))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= ans)) (PreH9 : (ans < 1000000007)) (PreH10 : ((Zlength (digits_l)) = 20)) (PreH11 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH12 : (ExtractedDigitCount x_pre m)) (PreH13 : (AccumulatedDigitSumCorrect x_pre i ans)) (PreH14 : (OuterDigitPositionPower i power_ll)) (PreH15 : (DigitDPTable dp_l)) ,
   ((( &( "j" ) )) # Int |->_)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -1966,7 +1966,7 @@ noncomputable def prefix_digits_sum_safety_wit_21 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_22 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
@@ -1984,7 +1984,7 @@ noncomputable def prefix_digits_sum_safety_wit_22 : Prop :=
 
 noncomputable def prefix_digits_sum_safety_wit_23 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
@@ -2001,7 +2001,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
   “ ((INT_MIN) <= (ans + (Znth ((i * 10) + j) dp_l (0 : Int)))) ”
 ) \/
 (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
@@ -2019,7 +2019,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
 )
 
 noncomputable def prefix_digits_sum_safety_wit_23_split_goal_1 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
@@ -2035,7 +2035,7 @@ noncomputable def prefix_digits_sum_safety_wit_23_split_goal_1 : Prop :=
   “ ((ans + (Znth ((i * 10) + j) dp_l (0 : Int))) <= INT_MAX) ”
 
 noncomputable def prefix_digits_sum_safety_wit_23_split_goal_2 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
@@ -2051,7 +2051,7 @@ noncomputable def prefix_digits_sum_safety_wit_23_split_goal_2 : Prop :=
   “ ((INT_MIN) <= (ans + (Znth ((i * 10) + j) dp_l (0 : Int)))) ”
 
 noncomputable def prefix_digits_sum_safety_wit_24 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -2068,7 +2068,7 @@ noncomputable def prefix_digits_sum_safety_wit_24 : Prop :=
   “ ((INT_MIN) <= ((i * 10) + j)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_25 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -2085,7 +2085,7 @@ noncomputable def prefix_digits_sum_safety_wit_25 : Prop :=
   “ ((INT_MIN) <= (i * 10)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_26 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -2102,7 +2102,7 @@ noncomputable def prefix_digits_sum_safety_wit_26 : Prop :=
   “ ((INT_MIN) <= 10) ”
 
 noncomputable def prefix_digits_sum_safety_wit_27 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
@@ -2119,7 +2119,7 @@ noncomputable def prefix_digits_sum_safety_wit_27 : Prop :=
   “ ((INT_MIN) <= 1000000007) ”
 
 noncomputable def prefix_digits_sum_safety_wit_28 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
@@ -2136,7 +2136,7 @@ noncomputable def prefix_digits_sum_safety_wit_28 : Prop :=
   “ ((INT_MIN) <= (j + 1)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_29 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "current_digit" ) )) # Int64 |->_)
   ** (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
@@ -2154,7 +2154,7 @@ noncomputable def prefix_digits_sum_safety_wit_29 : Prop :=
 
 noncomputable def prefix_digits_sum_safety_wit_30 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "current_digit" ) )) # Int64 |->_)
   ** (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
@@ -2171,7 +2171,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
   “ (power_ll ≠ (0 : Int)) ”
 ) \/
 (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "current_digit" ) )) # Int64 |->_)
   ** (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
@@ -2189,7 +2189,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
 )
 
 noncomputable def prefix_digits_sum_safety_wit_30_split_goal_1 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "current_digit" ) )) # Int64 |->_)
   ** (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
@@ -2205,7 +2205,7 @@ noncomputable def prefix_digits_sum_safety_wit_30_split_goal_1 : Prop :=
   “ ((x_pre ≠ (-9223372036854775808)) ∨ (power_ll ≠ (-1))) ”
 
 noncomputable def prefix_digits_sum_safety_wit_30_split_goal_2 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "current_digit" ) )) # Int64 |->_)
   ** (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
@@ -2221,7 +2221,7 @@ noncomputable def prefix_digits_sum_safety_wit_30_split_goal_2 : Prop :=
   “ (power_ll ≠ (0 : Int)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_31 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "current_digit" ) )) # Int64 |->_)
   ** (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
@@ -2238,7 +2238,7 @@ noncomputable def prefix_digits_sum_safety_wit_31 : Prop :=
   “ ((INT_MIN) <= 10) ”
 
 noncomputable def prefix_digits_sum_safety_wit_32 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "lower_digits" ) )) # Int64 |->_)
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
   ** (intArray.full digits_pre 20 digits_l)
@@ -2257,7 +2257,7 @@ noncomputable def prefix_digits_sum_safety_wit_32 : Prop :=
 
 noncomputable def prefix_digits_sum_safety_wit_33 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "lower_digits" ) )) # Int64 |->_)
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
   ** (intArray.full digits_pre 20 digits_l)
@@ -2275,7 +2275,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
   “ ((-9223372036854775808) <= ((Z.rem x_pre power_ll) + 1)) ”
 ) \/
 (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "lower_digits" ) )) # Int64 |->_)
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
   ** (intArray.full digits_pre 20 digits_l)
@@ -2294,7 +2294,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
 )
 
 noncomputable def prefix_digits_sum_safety_wit_33_split_goal_1 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "lower_digits" ) )) # Int64 |->_)
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
   ** (intArray.full digits_pre 20 digits_l)
@@ -2311,7 +2311,7 @@ noncomputable def prefix_digits_sum_safety_wit_33_split_goal_1 : Prop :=
   “ (((Z.rem x_pre power_ll) + 1) <= 9223372036854775807) ”
 
 noncomputable def prefix_digits_sum_safety_wit_33_split_goal_2 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "lower_digits" ) )) # Int64 |->_)
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
   ** (intArray.full digits_pre 20 digits_l)
@@ -2329,7 +2329,7 @@ noncomputable def prefix_digits_sum_safety_wit_33_split_goal_2 : Prop :=
 
 noncomputable def prefix_digits_sum_safety_wit_34 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "lower_digits" ) )) # Int64 |->_)
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
   ** (intArray.full digits_pre 20 digits_l)
@@ -2347,7 +2347,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
   “ (power_ll ≠ (0 : Int)) ”
 ) \/
 (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "lower_digits" ) )) # Int64 |->_)
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
   ** (intArray.full digits_pre 20 digits_l)
@@ -2366,7 +2366,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
 )
 
 noncomputable def prefix_digits_sum_safety_wit_34_split_goal_1 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "lower_digits" ) )) # Int64 |->_)
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
   ** (intArray.full digits_pre 20 digits_l)
@@ -2383,7 +2383,7 @@ noncomputable def prefix_digits_sum_safety_wit_34_split_goal_1 : Prop :=
   “ ((x_pre ≠ (-9223372036854775808)) ∨ (power_ll ≠ (-1))) ”
 
 noncomputable def prefix_digits_sum_safety_wit_34_split_goal_2 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "lower_digits" ) )) # Int64 |->_)
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
   ** (intArray.full digits_pre 20 digits_l)
@@ -2400,7 +2400,7 @@ noncomputable def prefix_digits_sum_safety_wit_34_split_goal_2 : Prop :=
   “ (power_ll ≠ (0 : Int)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_35 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "lower_digits" ) )) # Int64 |->_)
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
   ** (intArray.full digits_pre 20 digits_l)
@@ -2418,7 +2418,7 @@ noncomputable def prefix_digits_sum_safety_wit_35 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def prefix_digits_sum_safety_wit_36 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "lower_digits" ) )) # Int64 |->_)
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
   ** (intArray.full digits_pre 20 digits_l)
@@ -2436,7 +2436,7 @@ noncomputable def prefix_digits_sum_safety_wit_36 : Prop :=
   “ ((INT_MIN) <= 1000000007) ”
 
 noncomputable def prefix_digits_sum_safety_wit_37 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "moving" ) )) # Int64 |->_)
   ** ((( &( "lower_digits" ) )) # Int64 |-> ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007)))
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
@@ -2456,7 +2456,7 @@ noncomputable def prefix_digits_sum_safety_wit_37 : Prop :=
 
 noncomputable def prefix_digits_sum_safety_wit_38 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "moving" ) )) # Int64 |->_)
   ** ((( &( "lower_digits" ) )) # Int64 |-> ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007)))
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
@@ -2475,7 +2475,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
   “ ((-9223372036854775808) <= ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007) * (Z.rem (Z.quot x_pre power_ll) 10))) ”
 ) \/
 (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "moving" ) )) # Int64 |->_)
   ** ((( &( "lower_digits" ) )) # Int64 |-> ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007)))
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
@@ -2495,7 +2495,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
 )
 
 noncomputable def prefix_digits_sum_safety_wit_38_split_goal_1 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "moving" ) )) # Int64 |->_)
   ** ((( &( "lower_digits" ) )) # Int64 |-> ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007)))
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
@@ -2513,7 +2513,7 @@ noncomputable def prefix_digits_sum_safety_wit_38_split_goal_1 : Prop :=
   “ (((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007) * (Z.rem (Z.quot x_pre power_ll) 10)) <= 9223372036854775807) ”
 
 noncomputable def prefix_digits_sum_safety_wit_38_split_goal_2 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "moving" ) )) # Int64 |->_)
   ** ((( &( "lower_digits" ) )) # Int64 |-> ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007)))
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
@@ -2531,7 +2531,7 @@ noncomputable def prefix_digits_sum_safety_wit_38_split_goal_2 : Prop :=
   “ ((-9223372036854775808) <= ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007) * (Z.rem (Z.quot x_pre power_ll) 10))) ”
 
 noncomputable def prefix_digits_sum_safety_wit_39 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "moving" ) )) # Int64 |->_)
   ** ((( &( "lower_digits" ) )) # Int64 |-> ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007)))
   ** ((( &( "current_digit" ) )) # Int64 |-> ((Z.rem (Z.quot x_pre power_ll) 10)))
@@ -2550,7 +2550,7 @@ noncomputable def prefix_digits_sum_safety_wit_39 : Prop :=
   “ ((INT_MIN) <= 1000000007) ”
 
 noncomputable def prefix_digits_sum_safety_wit_40 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "new_ans" ) )) # Int64 |->_)
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007) * (Z.rem (Z.quot x_pre power_ll) 10)) 1000000007)))
   ** ((( &( "lower_digits" ) )) # Int64 |-> ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007)))
@@ -2571,7 +2571,7 @@ noncomputable def prefix_digits_sum_safety_wit_40 : Prop :=
 
 noncomputable def prefix_digits_sum_safety_wit_41 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "new_ans" ) )) # Int64 |->_)
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007) * (Z.rem (Z.quot x_pre power_ll) 10)) 1000000007)))
   ** ((( &( "lower_digits" ) )) # Int64 |-> ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007)))
@@ -2591,7 +2591,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
   “ ((-9223372036854775808) <= (ans + (Z.rem ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007) * (Z.rem (Z.quot x_pre power_ll) 10)) 1000000007))) ”
 ) \/
 (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "new_ans" ) )) # Int64 |->_)
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007) * (Z.rem (Z.quot x_pre power_ll) 10)) 1000000007)))
   ** ((( &( "lower_digits" ) )) # Int64 |-> ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007)))
@@ -2612,7 +2612,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
 )
 
 noncomputable def prefix_digits_sum_safety_wit_41_split_goal_1 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "new_ans" ) )) # Int64 |->_)
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007) * (Z.rem (Z.quot x_pre power_ll) 10)) 1000000007)))
   ** ((( &( "lower_digits" ) )) # Int64 |-> ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007)))
@@ -2631,7 +2631,7 @@ noncomputable def prefix_digits_sum_safety_wit_41_split_goal_1 : Prop :=
   “ ((ans + (Z.rem ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007) * (Z.rem (Z.quot x_pre power_ll) 10)) 1000000007)) <= 9223372036854775807) ”
 
 noncomputable def prefix_digits_sum_safety_wit_41_split_goal_2 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "new_ans" ) )) # Int64 |->_)
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007) * (Z.rem (Z.quot x_pre power_ll) 10)) 1000000007)))
   ** ((( &( "lower_digits" ) )) # Int64 |-> ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007)))
@@ -2650,7 +2650,7 @@ noncomputable def prefix_digits_sum_safety_wit_41_split_goal_2 : Prop :=
   “ ((-9223372036854775808) <= (ans + (Z.rem ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007) * (Z.rem (Z.quot x_pre power_ll) 10)) 1000000007))) ”
 
 noncomputable def prefix_digits_sum_safety_wit_42 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((( &( "new_ans" ) )) # Int64 |->_)
   ** ((( &( "moving" ) )) # Int64 |-> ((Z.rem ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007) * (Z.rem (Z.quot x_pre power_ll) 10)) 1000000007)))
   ** ((( &( "lower_digits" ) )) # Int64 |-> ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007)))
@@ -2670,7 +2670,7 @@ noncomputable def prefix_digits_sum_safety_wit_42 : Prop :=
   “ ((INT_MIN) <= 1000000007) ”
 
 noncomputable def prefix_digits_sum_safety_wit_43 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -2686,7 +2686,7 @@ noncomputable def prefix_digits_sum_safety_wit_43 : Prop :=
   “ (10 ≠ (0 : Int)) ”
 
 noncomputable def prefix_digits_sum_safety_wit_44 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -2702,7 +2702,7 @@ noncomputable def prefix_digits_sum_safety_wit_44 : Prop :=
   “ ((INT_MIN) <= 10) ”
 
 noncomputable def prefix_digits_sum_safety_wit_45 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (intArray.full digits_pre 20 digits_l)
   ** ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "dp" ) )) # Ptr |-> (dp_pre))
@@ -2719,7 +2719,7 @@ noncomputable def prefix_digits_sum_safety_wit_45 : Prop :=
 
 noncomputable def prefix_digits_sum_entail_wit_1 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (PreH1 : (x_pre >= 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (PreH1 : (x_pre >= 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.undef_full digits_pre 20)
 |--
@@ -2739,7 +2739,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (PreH
   ** (intArray.undef_seg digits_pre (0 : Int) 20)
 ) \/
 (
-forall (x_pre : Int) (dp_l : (List Int)) (PreH1 : (x_pre >= 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (PreH1 : (x_pre >= 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
   TT && emp 
 |--
   “ (Forall (Eq ((0 : Int))) (@List.nil Int)) ” &&
@@ -2748,16 +2748,16 @@ forall (x_pre : Int) (dp_l : (List Int)) (PreH1 : (x_pre >= 1)) (PreH2 : ((0 : I
 )
 
 noncomputable def prefix_digits_sum_entail_wit_1_split_goal_1 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (PreH1 : (x_pre >= 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (PreH1 : (x_pre >= 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
   (Forall (Eq ((0 : Int))) (@List.nil Int))
 
 noncomputable def prefix_digits_sum_entail_wit_1_split_goal_2 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (PreH1 : (x_pre >= 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (PreH1 : (x_pre >= 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
   ((Zlength ((@List.nil Int))) = (0 : Int))
 
 noncomputable def prefix_digits_sum_entail_wit_2 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l_2)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l_2)) (PreH11 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (digits_l_2 : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l_2)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l_2)) (PreH11 : (DigitDPTable dp_l)) ,
   (intArray.seg digits_pre (0 : Int) (i + 1) (digits_l_2 ++ ((0 : Int) :: (@List.nil Int))))
   ** (intArray.undef_seg digits_pre (i + 1) 20)
   ** (intArray.full dp_pre 200 dp_l)
@@ -2778,7 +2778,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digi
   ** (intArray.undef_seg digits_pre (i + 1) 20)
 ) \/
 (
-forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l_2)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l_2)) (PreH11 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (digits_l_2 : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l_2)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l_2)) (PreH11 : (DigitDPTable dp_l)) ,
   TT && emp 
 |--
   “ (Forall (Eq ((0 : Int))) (digits_l_2 ++ ((0 : Int) :: (@List.nil Int)))) ” &&
@@ -2787,16 +2787,16 @@ forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (i : Int) (po
 )
 
 noncomputable def prefix_digits_sum_entail_wit_2_split_goal_1 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l_2)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l_2)) (PreH11 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (digits_l_2 : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l_2)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l_2)) (PreH11 : (DigitDPTable dp_l)) ,
   (Forall (Eq ((0 : Int))) (digits_l_2 ++ ((0 : Int) :: (@List.nil Int))))
 
 noncomputable def prefix_digits_sum_entail_wit_2_split_goal_2 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l_2)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l_2)) (PreH11 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (digits_l_2 : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l_2)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l_2)) (PreH11 : (DigitDPTable dp_l)) ,
   ((Zlength ((digits_l_2 ++ ((0 : Int) :: (@List.nil Int))))) = (i + 1))
 
 noncomputable def prefix_digits_sum_entail_wit_3 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i >= 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l_2)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l_2)) (PreH11 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (digits_l_2 : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i >= 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l_2)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l_2)) (PreH11 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.seg digits_pre (0 : Int) i digits_l_2)
   ** (intArray.undef_seg digits_pre i 20)
@@ -2819,7 +2819,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digi
   ** (intArray.full digits_pre 20 digits_l)
 ) \/
 (
-forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i >= 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l_2)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l_2)) (PreH11 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (digits_l_2 : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i >= 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l_2)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l_2)) (PreH11 : (DigitDPTable dp_l)) ,
   TT && emp 
 |--
   “ (ExtractedDigitBuffer x_pre digits_l_2 (0 : Int) x_pre) ”
@@ -2827,12 +2827,12 @@ forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (i : Int) (po
 )
 
 noncomputable def prefix_digits_sum_entail_wit_3_split_goal_1 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i >= 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l_2)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l_2)) (PreH11 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (digits_l_2 : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i >= 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l_2)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l_2)) (PreH11 : (DigitDPTable dp_l)) ,
   (ExtractedDigitBuffer x_pre digits_l_2 (0 : Int) x_pre)
 
 noncomputable def prefix_digits_sum_entail_wit_4 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
   (intArray.full digits_pre 20 (replace_Znth ((m + 1)) ((signed_last_nbits ((Z.rem tmpx 10)) (32))) (digits_l_2)))
   ** (intArray.full dp_pre 200 dp_l)
 |--
@@ -2854,7 +2854,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digi
   ** (intArray.full digits_pre 20 digits_l)
 ) \/
 (
-forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
+forall (dp_l : (List Int)) (x_pre : Int) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
   TT && emp 
 |--
   “ (ExtractedDigitBuffer x_pre (replace_Znth ((m + 1)) ((signed_last_nbits ((Z.rem tmpx 10)) (32))) (digits_l_2)) (m + 1) (Z.quot tmpx 10)) ” &&
@@ -2866,28 +2866,28 @@ forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (tmpx : Int) 
 )
 
 noncomputable def prefix_digits_sum_entail_wit_4_split_goal_1 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
   (ExtractedDigitBuffer x_pre (replace_Znth ((m + 1)) ((signed_last_nbits ((Z.rem tmpx 10)) (32))) (digits_l_2)) (m + 1) (Z.quot tmpx 10))
 
 noncomputable def prefix_digits_sum_entail_wit_4_split_goal_2 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
   ((Zlength ((replace_Znth ((m + 1)) ((signed_last_nbits ((Z.rem tmpx 10)) (32))) (digits_l_2)))) = 20)
 
 noncomputable def prefix_digits_sum_entail_wit_4_split_goal_3 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
   (((Z.quot tmpx 10) = (0 : Int)) -> (ExtractedDigitCount x_pre (m + 1)))
 
 noncomputable def prefix_digits_sum_entail_wit_4_split_goal_4 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
   (((Z.quot tmpx 10) ≠ (0 : Int)) -> ((m + 1) < 19))
 
 noncomputable def prefix_digits_sum_entail_wit_4_split_goal_5 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
   ((Z.quot tmpx 10) >= (0 : Int))
 
 noncomputable def prefix_digits_sum_entail_wit_5 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx = (0 : Int))) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx = (0 : Int))) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full digits_pre 20 digits_l_2)
 |--
@@ -2909,7 +2909,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digi
   ** (intArray.full digits_pre 20 digits_l)
 ) \/
 (
-forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx = (0 : Int))) ,
+forall (dp_l : (List Int)) (x_pre : Int) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx = (0 : Int))) ,
   TT && emp 
 |--
   “ (AccumulatedDigitSumCorrect x_pre m (0 : Int)) ” &&
@@ -2918,16 +2918,16 @@ forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (tmpx : Int) 
 )
 
 noncomputable def prefix_digits_sum_entail_wit_5_split_goal_1 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx = (0 : Int))) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx = (0 : Int))) ,
   (AccumulatedDigitSumCorrect x_pre m (0 : Int))
 
 noncomputable def prefix_digits_sum_entail_wit_5_split_goal_2 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx = (0 : Int))) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (digits_l_2 : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l_2)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l_2 m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx = (0 : Int))) ,
   (DigitPositionPower 1 1)
 
 noncomputable def prefix_digits_sum_entail_wit_6 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l_2)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l_2)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full digits_pre 20 digits_l_2)
 |--
@@ -2949,7 +2949,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
   ** (intArray.full digits_pre 20 digits_l)
 ) \/
 (
-forall (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l_2)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (power_ll : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l_2)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
   TT && emp 
 |--
   “ (DigitPositionPower (i + 1) (power_ll * 10)) ”
@@ -2957,12 +2957,12 @@ forall (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l_2 : (List In
 )
 
 noncomputable def prefix_digits_sum_entail_wit_6_split_goal_1 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l_2)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (power_ll : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i < m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l_2)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
   (DigitPositionPower (i + 1) (power_ll * 10))
 
 noncomputable def prefix_digits_sum_entail_wit_7 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i >= m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l_2)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i >= m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l_2)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full digits_pre 20 digits_l_2)
 |--
@@ -2985,7 +2985,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
   ** (intArray.full digits_pre 20 digits_l)
 ) \/
 (
-forall (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i >= m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l_2)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (power_ll : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i >= m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l_2)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
   TT && emp 
 |--
   “ (OuterDigitPositionPower m power_ll) ”
@@ -2993,12 +2993,12 @@ forall (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l_2 : (List In
 )
 
 noncomputable def prefix_digits_sum_entail_wit_7_split_goal_1 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i >= m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l_2)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (power_ll : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (ans : Int) (PreH1 : (i >= m)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (ans = (0 : Int))) (PreH5 : (tmpx = (0 : Int))) (PreH6 : (1 <= i)) (PreH7 : (i <= m)) (PreH8 : (m <= 19)) (PreH9 : ((Zlength (digits_l_2)) = 20)) (PreH10 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH11 : (ExtractedDigitCount x_pre m)) (PreH12 : (DigitPositionPower i power_ll)) (PreH13 : (AccumulatedDigitSumCorrect x_pre m ans)) (PreH14 : (DigitDPTable dp_l)) ,
   (OuterDigitPositionPower m power_ll)
 
 noncomputable def prefix_digits_sum_entail_wit_8 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l_2 : (List Int)) (ans : Int) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (i > (0 : Int))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= ans)) (PreH9 : (ans < 1000000007)) (PreH10 : ((Zlength (digits_l_2)) = 20)) (PreH11 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH12 : (ExtractedDigitCount x_pre m)) (PreH13 : (AccumulatedDigitSumCorrect x_pre i ans)) (PreH14 : (OuterDigitPositionPower i power_ll)) (PreH15 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (digits_l_2 : (List Int)) (ans : Int) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (i > (0 : Int))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= ans)) (PreH9 : (ans < 1000000007)) (PreH10 : ((Zlength (digits_l_2)) = 20)) (PreH11 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH12 : (ExtractedDigitCount x_pre m)) (PreH13 : (AccumulatedDigitSumCorrect x_pre i ans)) (PreH14 : (OuterDigitPositionPower i power_ll)) (PreH15 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full digits_pre 20 digits_l_2)
 |--
@@ -3026,7 +3026,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
   ** (intArray.full digits_pre 20 digits_l)
 ) \/
 (
-forall (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l_2 : (List Int)) (ans : Int) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (i > (0 : Int))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= ans)) (PreH9 : (ans < 1000000007)) (PreH10 : ((Zlength (digits_l_2)) = 20)) (PreH11 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH12 : (ExtractedDigitCount x_pre m)) (PreH13 : (AccumulatedDigitSumCorrect x_pre i ans)) (PreH14 : (OuterDigitPositionPower i power_ll)) (PreH15 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (power_ll : Int) (digits_l_2 : (List Int)) (ans : Int) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (i > (0 : Int))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= ans)) (PreH9 : (ans < 1000000007)) (PreH10 : ((Zlength (digits_l_2)) = 20)) (PreH11 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH12 : (ExtractedDigitCount x_pre m)) (PreH13 : (AccumulatedDigitSumCorrect x_pre i ans)) (PreH14 : (OuterDigitPositionPower i power_ll)) (PreH15 : (DigitDPTable dp_l)) ,
   TT && emp 
 |--
   EX answer_before : Int,
@@ -3042,7 +3042,7 @@ forall (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l_2 : (List In
 
 noncomputable def prefix_digits_sum_entail_wit_9 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before_2 : Int) (ans : Int) (j : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l_2 (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l_2 (0 : Int)))) (PreH9 : ((Znth i digits_l_2 (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l_2 (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l_2)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before_2 ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before_2)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before_2 : Int) (ans : Int) (j : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l_2 (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l_2 (0 : Int)))) (PreH9 : ((Znth i digits_l_2 (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l_2 (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l_2)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before_2 ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before_2)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full digits_pre 20 digits_l_2)
 |--
@@ -3070,7 +3070,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
   ** (intArray.full digits_pre 20 digits_l)
 ) \/
 (
-forall (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before_2 : Int) (ans : Int) (j : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l_2 (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l_2 (0 : Int)))) (PreH9 : ((Znth i digits_l_2 (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l_2 (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l_2)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before_2 ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before_2)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (power_ll : Int) (answer_before_2 : Int) (ans : Int) (j : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l_2 (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l_2 (0 : Int)))) (PreH9 : ((Znth i digits_l_2 (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l_2 (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l_2)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before_2 ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before_2)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   TT && emp 
 |--
   EX answer_before : Int,
@@ -3085,7 +3085,7 @@ forall (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before_2 : Int
 
 noncomputable def prefix_digits_sum_entail_wit_10 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l_2 (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l_2 (0 : Int)))) (PreH9 : ((Znth i digits_l_2 (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l_2 (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l_2)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l_2 (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l_2 (0 : Int)))) (PreH9 : ((Znth i digits_l_2 (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l_2 (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l_2)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (intArray.full digits_pre 20 digits_l_2)
   ** (intArray.full dp_pre 200 dp_l)
 |--
@@ -3108,7 +3108,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
   ** (intArray.full digits_pre 20 digits_l)
 ) \/
 (
-forall (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l_2 (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l_2 (0 : Int)))) (PreH9 : ((Znth i digits_l_2 (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l_2 (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l_2)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l_2 (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l_2 (0 : Int)))) (PreH9 : ((Znth i digits_l_2 (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l_2 (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l_2)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   TT && emp 
 |--
   “ (OuterDigitPositionPower (i - 1) (Z.quot power_ll 10)) ” &&
@@ -3119,24 +3119,24 @@ forall (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) 
 )
 
 noncomputable def prefix_digits_sum_entail_wit_10_split_goal_1 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l_2 (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l_2 (0 : Int)))) (PreH9 : ((Znth i digits_l_2 (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l_2 (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l_2)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l_2 (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l_2 (0 : Int)))) (PreH9 : ((Znth i digits_l_2 (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l_2 (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l_2)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (OuterDigitPositionPower (i - 1) (Z.quot power_ll 10))
 
 noncomputable def prefix_digits_sum_entail_wit_10_split_goal_2 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l_2 (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l_2 (0 : Int)))) (PreH9 : ((Znth i digits_l_2 (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l_2 (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l_2)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l_2 (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l_2 (0 : Int)))) (PreH9 : ((Znth i digits_l_2 (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l_2 (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l_2)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (AccumulatedDigitSumCorrect x_pre (i - 1) (signed_last_nbits ((Z.rem (ans + (Z.rem ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007) * (Z.rem (Z.quot x_pre power_ll) 10)) 1000000007)) 1000000007)) (32)))
 
 noncomputable def prefix_digits_sum_entail_wit_10_split_goal_3 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l_2 (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l_2 (0 : Int)))) (PreH9 : ((Znth i digits_l_2 (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l_2 (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l_2)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l_2 (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l_2 (0 : Int)))) (PreH9 : ((Znth i digits_l_2 (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l_2 (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l_2)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((signed_last_nbits ((Z.rem (ans + (Z.rem ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007) * (Z.rem (Z.quot x_pre power_ll) 10)) 1000000007)) 1000000007)) (32)) < 1000000007)
 
 noncomputable def prefix_digits_sum_entail_wit_10_split_goal_4 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l_2 (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l_2 (0 : Int)))) (PreH9 : ((Znth i digits_l_2 (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l_2 (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l_2)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l_2 : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j >= (Znth i digits_l_2 (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l_2 (0 : Int)))) (PreH9 : ((Znth i digits_l_2 (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l_2 (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l_2)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l_2 m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   ((0 : Int) <= (signed_last_nbits ((Z.rem (ans + (Z.rem ((Z.rem ((Z.rem x_pre power_ll) + 1) 1000000007) * (Z.rem (Z.quot x_pre power_ll) 10)) 1000000007)) 1000000007)) (32)))
 
 noncomputable def prefix_digits_sum_return_wit_1 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l : (List Int)) (ans : Int) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (i <= (0 : Int))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= ans)) (PreH9 : (ans < 1000000007)) (PreH10 : ((Zlength (digits_l)) = 20)) (PreH11 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH12 : (ExtractedDigitCount x_pre m)) (PreH13 : (AccumulatedDigitSumCorrect x_pre i ans)) (PreH14 : (OuterDigitPositionPower i power_ll)) (PreH15 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (digits_l : (List Int)) (ans : Int) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (i <= (0 : Int))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= ans)) (PreH9 : (ans < 1000000007)) (PreH10 : ((Zlength (digits_l)) = 20)) (PreH11 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH12 : (ExtractedDigitCount x_pre m)) (PreH13 : (AccumulatedDigitSumCorrect x_pre i ans)) (PreH14 : (OuterDigitPositionPower i power_ll)) (PreH15 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full digits_pre 20 digits_l)
 |--
@@ -3145,7 +3145,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (powe
   ** (intArray.undef_full digits_pre 20)
 ) \/
 (
-forall (digits_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l : (List Int)) (ans : Int) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (i <= (0 : Int))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= ans)) (PreH9 : (ans < 1000000007)) (PreH10 : ((Zlength (digits_l)) = 20)) (PreH11 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH12 : (ExtractedDigitCount x_pre m)) (PreH13 : (AccumulatedDigitSumCorrect x_pre i ans)) (PreH14 : (OuterDigitPositionPower i power_ll)) (PreH15 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (digits_pre : Int) (power_ll : Int) (digits_l : (List Int)) (ans : Int) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (i <= (0 : Int))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= ans)) (PreH9 : (ans < 1000000007)) (PreH10 : ((Zlength (digits_l)) = 20)) (PreH11 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH12 : (ExtractedDigitCount x_pre m)) (PreH13 : (AccumulatedDigitSumCorrect x_pre i ans)) (PreH14 : (OuterDigitPositionPower i power_ll)) (PreH15 : (DigitDPTable dp_l)) ,
   (intArray.full digits_pre 20 digits_l)
 |--
   “ (PrefixDigitSum x_pre ans) ”
@@ -3153,20 +3153,20 @@ forall (digits_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (di
 )
 
 noncomputable def prefix_digits_sum_return_wit_1_split_goal_1 : Prop :=
-  forall (digits_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l : (List Int)) (ans : Int) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (i <= (0 : Int))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= ans)) (PreH9 : (ans < 1000000007)) (PreH10 : ((Zlength (digits_l)) = 20)) (PreH11 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH12 : (ExtractedDigitCount x_pre m)) (PreH13 : (AccumulatedDigitSumCorrect x_pre i ans)) (PreH14 : (OuterDigitPositionPower i power_ll)) (PreH15 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (digits_pre : Int) (power_ll : Int) (digits_l : (List Int)) (ans : Int) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (i <= (0 : Int))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= ans)) (PreH9 : (ans < 1000000007)) (PreH10 : ((Zlength (digits_l)) = 20)) (PreH11 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH12 : (ExtractedDigitCount x_pre m)) (PreH13 : (AccumulatedDigitSumCorrect x_pre i ans)) (PreH14 : (OuterDigitPositionPower i power_ll)) (PreH15 : (DigitDPTable dp_l)) ,
   (intArray.full digits_pre 20 digits_l)
 |--
   “ (PrefixDigitSum x_pre ans) ”
 
 noncomputable def prefix_digits_sum_return_wit_1_split_goal_spatial : Prop :=
-  forall (digits_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (digits_l : (List Int)) (ans : Int) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (i <= (0 : Int))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= ans)) (PreH9 : (ans < 1000000007)) (PreH10 : ((Zlength (digits_l)) = 20)) (PreH11 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH12 : (ExtractedDigitCount x_pre m)) (PreH13 : (AccumulatedDigitSumCorrect x_pre i ans)) (PreH14 : (OuterDigitPositionPower i power_ll)) (PreH15 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (digits_pre : Int) (power_ll : Int) (digits_l : (List Int)) (ans : Int) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (i <= (0 : Int))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= ans)) (PreH9 : (ans < 1000000007)) (PreH10 : ((Zlength (digits_l)) = 20)) (PreH11 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH12 : (ExtractedDigitCount x_pre m)) (PreH13 : (AccumulatedDigitSumCorrect x_pre i ans)) (PreH14 : (OuterDigitPositionPower i power_ll)) (PreH15 : (DigitDPTable dp_l)) ,
   (intArray.full digits_pre 20 digits_l)
 |--
   (intArray.undef_full digits_pre 20)
 
 noncomputable def prefix_digits_sum_return_wit_2 : Prop :=
   (
-forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (PreH1 : (x_pre < 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (PreH1 : (x_pre < 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.undef_full digits_pre 20)
 |--
@@ -3175,7 +3175,7 @@ forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (PreH
   ** (intArray.undef_full digits_pre 20)
 ) \/
 (
-forall (x_pre : Int) (dp_l : (List Int)) (PreH1 : (x_pre < 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
+forall (dp_l : (List Int)) (x_pre : Int) (PreH1 : (x_pre < 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
   TT && emp 
 |--
   “ (PrefixDigitSum x_pre (0 : Int)) ”
@@ -3183,11 +3183,11 @@ forall (x_pre : Int) (dp_l : (List Int)) (PreH1 : (x_pre < 1)) (PreH2 : ((0 : In
 )
 
 noncomputable def prefix_digits_sum_return_wit_2_split_goal_1 : Prop :=
-  forall (x_pre : Int) (dp_l : (List Int)) (PreH1 : (x_pre < 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (PreH1 : (x_pre < 1)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (DigitDPTable dp_l)) ,
   (PrefixDigitSum x_pre (0 : Int))
 
 noncomputable def prefix_digits_sum_partial_solve_wit_1 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digits_l : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l)) (PreH11 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (digits_l : (List Int)) (i : Int) (power_ll : Int) (ans : Int) (m : Int) (PreH1 : (i < 20)) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (m = (0 : Int))) (PreH5 : (ans = (0 : Int))) (PreH6 : (power_ll = 1)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= 20)) (PreH9 : ((Zlength (digits_l)) = i)) (PreH10 : (Forall (Eq ((0 : Int))) digits_l)) (PreH11 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.seg digits_pre (0 : Int) i digits_l)
   ** (intArray.undef_seg digits_pre i 20)
@@ -3209,7 +3209,7 @@ noncomputable def prefix_digits_sum_partial_solve_wit_1 : Prop :=
   ** (intArray.seg digits_pre (0 : Int) i digits_l)
 
 noncomputable def prefix_digits_sum_partial_solve_wit_2 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (digits_l : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (digits_l : (List Int)) (tmpx : Int) (m : Int) (power_ll : Int) (ans : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (ans = (0 : Int))) (PreH4 : (power_ll = 1)) (PreH5 : ((0 : Int) <= m)) (PreH6 : (m <= 19)) (PreH7 : (tmpx >= (0 : Int))) (PreH8 : ((tmpx ≠ (0 : Int)) -> (m < 19))) (PreH9 : ((tmpx = (0 : Int)) -> (1 <= m))) (PreH10 : ((tmpx = (0 : Int)) -> (ExtractedDigitCount x_pre m))) (PreH11 : ((Zlength (digits_l)) = 20)) (PreH12 : (ExtractedDigitBuffer x_pre digits_l m tmpx)) (PreH13 : (DigitDPTable dp_l)) (PreH14 : (tmpx ≠ (0 : Int))) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full digits_pre 20 digits_l)
 |--
@@ -3232,7 +3232,7 @@ noncomputable def prefix_digits_sum_partial_solve_wit_2 : Prop :=
   ** (intArray.full dp_pre 200 dp_l)
 
 noncomputable def prefix_digits_sum_partial_solve_wit_3 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (tmpx = (0 : Int))) (PreH4 : (1 <= i)) (PreH5 : (i <= m)) (PreH6 : (m <= 19)) (PreH7 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH8 : ((Znth i digits_l (0 : Int)) < 10)) (PreH9 : ((0 : Int) <= j)) (PreH10 : (j <= (Znth i digits_l (0 : Int)))) (PreH11 : ((0 : Int) <= ans)) (PreH12 : (ans < 1000000007)) (PreH13 : ((Zlength (digits_l)) = 20)) (PreH14 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH15 : (ExtractedDigitCount x_pre m)) (PreH16 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH17 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH18 : (OuterDigitPositionPower i power_ll)) (PreH19 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= 1000000000000000000)) (PreH3 : (tmpx = (0 : Int))) (PreH4 : (1 <= i)) (PreH5 : (i <= m)) (PreH6 : (m <= 19)) (PreH7 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH8 : ((Znth i digits_l (0 : Int)) < 10)) (PreH9 : ((0 : Int) <= j)) (PreH10 : (j <= (Znth i digits_l (0 : Int)))) (PreH11 : ((0 : Int) <= ans)) (PreH12 : (ans < 1000000007)) (PreH13 : ((Zlength (digits_l)) = 20)) (PreH14 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH15 : (ExtractedDigitCount x_pre m)) (PreH16 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH17 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH18 : (OuterDigitPositionPower i power_ll)) (PreH19 : (DigitDPTable dp_l)) ,
   (intArray.full dp_pre 200 dp_l)
   ** (intArray.full digits_pre 20 digits_l)
 |--
@@ -3260,7 +3260,7 @@ noncomputable def prefix_digits_sum_partial_solve_wit_3 : Prop :=
   ** (intArray.full dp_pre 200 dp_l)
 
 noncomputable def prefix_digits_sum_partial_solve_wit_4 : Prop :=
-  forall (digits_pre : Int) (dp_pre : Int) (x_pre : Int) (dp_l : (List Int)) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
+  forall (dp_l : (List Int)) (x_pre : Int) (dp_pre : Int) (digits_pre : Int) (power_ll : Int) (answer_before : Int) (ans : Int) (j : Int) (digits_l : (List Int)) (m : Int) (i : Int) (tmpx : Int) (PreH1 : (j < (Znth i digits_l (0 : Int)))) (PreH2 : (1 <= x_pre)) (PreH3 : (x_pre <= 1000000000000000000)) (PreH4 : (tmpx = (0 : Int))) (PreH5 : (1 <= i)) (PreH6 : (i <= m)) (PreH7 : (m <= 19)) (PreH8 : ((0 : Int) <= (Znth i digits_l (0 : Int)))) (PreH9 : ((Znth i digits_l (0 : Int)) < 10)) (PreH10 : ((0 : Int) <= j)) (PreH11 : (j <= (Znth i digits_l (0 : Int)))) (PreH12 : ((0 : Int) <= ans)) (PreH13 : (ans < 1000000007)) (PreH14 : ((Zlength (digits_l)) = 20)) (PreH15 : (ExtractedDigitBuffer x_pre digits_l m (0 : Int))) (PreH16 : (ExtractedDigitCount x_pre m)) (PreH17 : (InnerCandidateDigitProgress dp_l i j answer_before ans)) (PreH18 : (AccumulatedDigitSumCorrect x_pre i answer_before)) (PreH19 : (OuterDigitPositionPower i power_ll)) (PreH20 : (DigitDPTable dp_l)) ,
   (intArray.full digits_pre 20 digits_l)
   ** (intArray.full dp_pre 200 dp_l)
 |--
@@ -3289,7 +3289,7 @@ noncomputable def prefix_digits_sum_partial_solve_wit_4 : Prop :=
   ** (intArray.full digits_pre 20 digits_l)
 
 noncomputable def interval_digits_sum_safety_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "y" ) )) # Int64 |-> (y_pre))
   ** (intArray.undef_full (( &( "dp" ) ) + ((0 : Int) * sizeof(INT))) 200)
@@ -3300,7 +3300,7 @@ noncomputable def interval_digits_sum_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def interval_digits_sum_safety_wit_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "y" ) )) # Int64 |-> (y_pre))
   ** (intArray.undef_full (( &( "dp" ) ) + ((0 : Int) * sizeof(INT))) 200)
@@ -3311,7 +3311,7 @@ noncomputable def interval_digits_sum_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def interval_digits_sum_safety_wit_3 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (PreH1 : (DigitDPTable dp_l)) (PreH2 : (PowerTable power_l)) (PreH3 : (1 <= x_pre)) (PreH4 : (x_pre <= y_pre)) (PreH5 : (y_pre <= 1000000000000000000)) ,
+  forall (x_pre : Int) (y_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (PreH1 : (DigitDPTable dp_l)) (PreH2 : (PowerTable power_l)) (PreH3 : (1 <= x_pre)) (PreH4 : (x_pre <= y_pre)) (PreH5 : (y_pre <= 1000000000000000000)) ,
   ((( &( "ans1" ) )) # Int |->_)
   ** (intArray.full (( &( "dp" ) ) + ((0 : Int) * sizeof(INT))) 200 dp_l)
   ** (intArray.full (( &( "power" ) ) + ((0 : Int) * sizeof(INT))) 20 power_l)
@@ -3323,7 +3323,7 @@ noncomputable def interval_digits_sum_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def interval_digits_sum_safety_wit_4 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (PreH1 : (DigitDPTable dp_l)) (PreH2 : (PowerTable power_l)) (PreH3 : (1 <= x_pre)) (PreH4 : (x_pre <= y_pre)) (PreH5 : (y_pre <= 1000000000000000000)) ,
+  forall (x_pre : Int) (y_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (PreH1 : (DigitDPTable dp_l)) (PreH2 : (PowerTable power_l)) (PreH3 : (1 <= x_pre)) (PreH4 : (x_pre <= y_pre)) (PreH5 : (y_pre <= 1000000000000000000)) ,
   ((( &( "ans1" ) )) # Int |->_)
   ** (intArray.full (( &( "dp" ) ) + ((0 : Int) * sizeof(INT))) 200 dp_l)
   ** (intArray.full (( &( "power" ) ) + ((0 : Int) * sizeof(INT))) 20 power_l)
@@ -3335,7 +3335,7 @@ noncomputable def interval_digits_sum_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def interval_digits_sum_safety_wit_5 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (PreH1 : (PrefixDigitSum y_pre retval)) (PreH2 : (DigitDPTable dp_l)) (PreH3 : (PowerTable power_l)) (PreH4 : (1 <= x_pre)) (PreH5 : (x_pre <= y_pre)) (PreH6 : (y_pre <= 1000000000000000000)) ,
+  forall (x_pre : Int) (y_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (PreH1 : (PrefixDigitSum y_pre retval)) (PreH2 : (DigitDPTable dp_l)) (PreH3 : (PowerTable power_l)) (PreH4 : (1 <= x_pre)) (PreH5 : (x_pre <= y_pre)) (PreH6 : (y_pre <= 1000000000000000000)) ,
   ((( &( "ans2" ) )) # Int |->_)
   ** (intArray.full (( &( "dp" ) ) + ((0 : Int) * sizeof(INT))) 200 dp_l)
   ** (intArray.undef_full (( &( "digits" ) ) + ((0 : Int) * sizeof(INT))) 20)
@@ -3348,7 +3348,7 @@ noncomputable def interval_digits_sum_safety_wit_5 : Prop :=
   “ ((-9223372036854775808) <= (x_pre - 1)) ”
 
 noncomputable def interval_digits_sum_safety_wit_6 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (PreH1 : (PrefixDigitSum y_pre retval)) (PreH2 : (DigitDPTable dp_l)) (PreH3 : (PowerTable power_l)) (PreH4 : (1 <= x_pre)) (PreH5 : (x_pre <= y_pre)) (PreH6 : (y_pre <= 1000000000000000000)) ,
+  forall (x_pre : Int) (y_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (PreH1 : (PrefixDigitSum y_pre retval)) (PreH2 : (DigitDPTable dp_l)) (PreH3 : (PowerTable power_l)) (PreH4 : (1 <= x_pre)) (PreH5 : (x_pre <= y_pre)) (PreH6 : (y_pre <= 1000000000000000000)) ,
   ((( &( "ans2" ) )) # Int |->_)
   ** (intArray.full (( &( "dp" ) ) + ((0 : Int) * sizeof(INT))) 200 dp_l)
   ** (intArray.undef_full (( &( "digits" ) ) + ((0 : Int) * sizeof(INT))) 20)
@@ -3361,7 +3361,7 @@ noncomputable def interval_digits_sum_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def interval_digits_sum_safety_wit_7 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (PreH1 : (PrefixDigitSum y_pre retval)) (PreH2 : (DigitDPTable dp_l)) (PreH3 : (PowerTable power_l)) (PreH4 : (1 <= x_pre)) (PreH5 : (x_pre <= y_pre)) (PreH6 : (y_pre <= 1000000000000000000)) ,
+  forall (x_pre : Int) (y_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (PreH1 : (PrefixDigitSum y_pre retval)) (PreH2 : (DigitDPTable dp_l)) (PreH3 : (PowerTable power_l)) (PreH4 : (1 <= x_pre)) (PreH5 : (x_pre <= y_pre)) (PreH6 : (y_pre <= 1000000000000000000)) ,
   ((( &( "ans2" ) )) # Int |->_)
   ** (intArray.full (( &( "dp" ) ) + ((0 : Int) * sizeof(INT))) 200 dp_l)
   ** (intArray.undef_full (( &( "digits" ) ) + ((0 : Int) * sizeof(INT))) 20)
@@ -3374,7 +3374,7 @@ noncomputable def interval_digits_sum_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def interval_digits_sum_safety_wit_8 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (PreH1 : (PrefixDigitSum y_pre retval)) (PreH2 : (DigitDPTable dp_l)) (PreH3 : (PowerTable power_l)) (PreH4 : (1 <= x_pre)) (PreH5 : (x_pre <= y_pre)) (PreH6 : (y_pre <= 1000000000000000000)) ,
+  forall (x_pre : Int) (y_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (PreH1 : (PrefixDigitSum y_pre retval)) (PreH2 : (DigitDPTable dp_l)) (PreH3 : (PowerTable power_l)) (PreH4 : (1 <= x_pre)) (PreH5 : (x_pre <= y_pre)) (PreH6 : (y_pre <= 1000000000000000000)) ,
   ((( &( "ans2" ) )) # Int |->_)
   ** (intArray.full (( &( "dp" ) ) + ((0 : Int) * sizeof(INT))) 200 dp_l)
   ** (intArray.undef_full (( &( "digits" ) ) + ((0 : Int) * sizeof(INT))) 20)
@@ -3387,7 +3387,7 @@ noncomputable def interval_digits_sum_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def interval_digits_sum_safety_wit_9 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
+  forall (x_pre : Int) (y_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "y" ) )) # Int64 |-> (y_pre))
   ** ((( &( "ans1" ) )) # Int |-> (ans1))
@@ -3401,7 +3401,7 @@ noncomputable def interval_digits_sum_safety_wit_9 : Prop :=
 
 noncomputable def interval_digits_sum_safety_wit_10 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
+forall (x_pre : Int) (y_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "y" ) )) # Int64 |-> (y_pre))
   ** ((( &( "ans1" ) )) # Int |-> (ans1))
@@ -3414,7 +3414,7 @@ forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pr
   “ ((INT_MIN) <= ((Z.rem (ans1 - ans2) 1000000007) + 1000000007)) ”
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
+forall (x_pre : Int) (y_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "y" ) )) # Int64 |-> (y_pre))
   ** ((( &( "ans1" ) )) # Int |-> (ans1))
@@ -3428,7 +3428,7 @@ forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pr
 )
 
 noncomputable def interval_digits_sum_safety_wit_10_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
+  forall (x_pre : Int) (y_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "y" ) )) # Int64 |-> (y_pre))
   ** ((( &( "ans1" ) )) # Int |-> (ans1))
@@ -3440,7 +3440,7 @@ noncomputable def interval_digits_sum_safety_wit_10_split_goal_1 : Prop :=
   “ (((Z.rem (ans1 - ans2) 1000000007) + 1000000007) <= INT_MAX) ”
 
 noncomputable def interval_digits_sum_safety_wit_10_split_goal_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
+  forall (x_pre : Int) (y_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "y" ) )) # Int64 |-> (y_pre))
   ** ((( &( "ans1" ) )) # Int |-> (ans1))
@@ -3452,7 +3452,7 @@ noncomputable def interval_digits_sum_safety_wit_10_split_goal_2 : Prop :=
   “ ((INT_MIN) <= ((Z.rem (ans1 - ans2) 1000000007) + 1000000007)) ”
 
 noncomputable def interval_digits_sum_safety_wit_11 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
+  forall (x_pre : Int) (y_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "y" ) )) # Int64 |-> (y_pre))
   ** ((( &( "ans1" ) )) # Int |-> (ans1))
@@ -3466,7 +3466,7 @@ noncomputable def interval_digits_sum_safety_wit_11 : Prop :=
 
 noncomputable def interval_digits_sum_safety_wit_12 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
+forall (x_pre : Int) (y_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "y" ) )) # Int64 |-> (y_pre))
   ** ((( &( "ans1" ) )) # Int |-> (ans1))
@@ -3479,7 +3479,7 @@ forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pr
   “ ((INT_MIN) <= (ans1 - ans2)) ”
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
+forall (x_pre : Int) (y_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "y" ) )) # Int64 |-> (y_pre))
   ** ((( &( "ans1" ) )) # Int |-> (ans1))
@@ -3493,7 +3493,7 @@ forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pr
 )
 
 noncomputable def interval_digits_sum_safety_wit_12_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
+  forall (x_pre : Int) (y_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "y" ) )) # Int64 |-> (y_pre))
   ** ((( &( "ans1" ) )) # Int |-> (ans1))
@@ -3505,7 +3505,7 @@ noncomputable def interval_digits_sum_safety_wit_12_split_goal_1 : Prop :=
   “ ((ans1 - ans2) <= INT_MAX) ”
 
 noncomputable def interval_digits_sum_safety_wit_12_split_goal_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
+  forall (x_pre : Int) (y_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "y" ) )) # Int64 |-> (y_pre))
   ** ((( &( "ans1" ) )) # Int |-> (ans1))
@@ -3517,7 +3517,7 @@ noncomputable def interval_digits_sum_safety_wit_12_split_goal_2 : Prop :=
   “ ((INT_MIN) <= (ans1 - ans2)) ”
 
 noncomputable def interval_digits_sum_safety_wit_13 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
+  forall (x_pre : Int) (y_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "y" ) )) # Int64 |-> (y_pre))
   ** ((( &( "ans1" ) )) # Int |-> (ans1))
@@ -3530,7 +3530,7 @@ noncomputable def interval_digits_sum_safety_wit_13 : Prop :=
   “ ((INT_MIN) <= 1000000007) ”
 
 noncomputable def interval_digits_sum_safety_wit_14 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
+  forall (x_pre : Int) (y_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "y" ) )) # Int64 |-> (y_pre))
   ** ((( &( "ans1" ) )) # Int |-> (ans1))
@@ -3543,7 +3543,7 @@ noncomputable def interval_digits_sum_safety_wit_14 : Prop :=
   “ ((INT_MIN) <= 1000000007) ”
 
 noncomputable def interval_digits_sum_safety_wit_15 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
+  forall (x_pre : Int) (y_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
   ((( &( "x" ) )) # Int64 |-> (x_pre))
   ** ((( &( "y" ) )) # Int64 |-> (y_pre))
   ** ((( &( "ans1" ) )) # Int |-> (ans1))
@@ -3557,7 +3557,7 @@ noncomputable def interval_digits_sum_safety_wit_15 : Prop :=
 
 noncomputable def interval_digits_sum_entail_wit_1 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) ,
+forall (x_pre : Int) (y_pre : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) ,
   (intArray.undef_full ( &( "digits" ) ) 20)
   ** (intArray.undef_full ( &( "power" ) ) 20)
   ** (intArray.undef_full ( &( "dp" ) ) 200)
@@ -3570,7 +3570,7 @@ forall (y_pre : Int) (x_pre : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_p
   ** (intArray.undef_full (( &( "digits" ) ) + ((0 : Int) * sizeof(INT))) 20)
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) ,
+forall (x_pre : Int) (y_pre : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) ,
   (intArray.undef_full ( &( "digits" ) ) 20)
   ** (intArray.undef_full ( &( "power" ) ) 20)
   ** (intArray.undef_full ( &( "dp" ) ) 200)
@@ -3581,7 +3581,7 @@ forall (y_pre : Int) (x_pre : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_p
 )
 
 noncomputable def interval_digits_sum_entail_wit_1_split_goal_spatial : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) ,
   (intArray.undef_full ( &( "digits" ) ) 20)
   ** (intArray.undef_full ( &( "power" ) ) 20)
   ** (intArray.undef_full ( &( "dp" ) ) 200)
@@ -3592,7 +3592,7 @@ noncomputable def interval_digits_sum_entail_wit_1_split_goal_spatial : Prop :=
 
 noncomputable def interval_digits_sum_entail_wit_2 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (retval_2 : Int) (PreH1 : (PrefixDigitSum (x_pre - 1) retval_2)) (PreH2 : (PrefixDigitSum y_pre retval)) (PreH3 : (DigitDPTable dp_l)) (PreH4 : (PowerTable power_l)) (PreH5 : (1 <= x_pre)) (PreH6 : (x_pre <= y_pre)) (PreH7 : (y_pre <= 1000000000000000000)) ,
+forall (x_pre : Int) (y_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (retval_2 : Int) (PreH1 : (PrefixDigitSum (x_pre - 1) retval_2)) (PreH2 : (PrefixDigitSum y_pre retval)) (PreH3 : (DigitDPTable dp_l)) (PreH4 : (PowerTable power_l)) (PreH5 : (1 <= x_pre)) (PreH6 : (x_pre <= y_pre)) (PreH7 : (y_pre <= 1000000000000000000)) ,
   (intArray.full (( &( "dp" ) ) + ((0 : Int) * sizeof(INT))) 200 dp_l)
   ** (intArray.undef_full (( &( "digits" ) ) + ((0 : Int) * sizeof(INT))) 20)
   ** (intArray.full (( &( "power" ) ) + ((0 : Int) * sizeof(INT))) 20 power_l)
@@ -3607,7 +3607,7 @@ forall (y_pre : Int) (x_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (r
   ** (intArray.undef_full ( &( "digits" ) ) 20)
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (retval_2 : Int) (PreH1 : (PrefixDigitSum (x_pre - 1) retval_2)) (PreH2 : (PrefixDigitSum y_pre retval)) (PreH3 : (DigitDPTable dp_l)) (PreH4 : (PowerTable power_l)) (PreH5 : (1 <= x_pre)) (PreH6 : (x_pre <= y_pre)) (PreH7 : (y_pre <= 1000000000000000000)) ,
+forall (x_pre : Int) (y_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (retval_2 : Int) (PreH1 : (PrefixDigitSum (x_pre - 1) retval_2)) (PreH2 : (PrefixDigitSum y_pre retval)) (PreH3 : (DigitDPTable dp_l)) (PreH4 : (PowerTable power_l)) (PreH5 : (1 <= x_pre)) (PreH6 : (x_pre <= y_pre)) (PreH7 : (y_pre <= 1000000000000000000)) ,
   (intArray.full (( &( "dp" ) ) + ((0 : Int) * sizeof(INT))) 200 dp_l)
   ** (intArray.undef_full (( &( "digits" ) ) + ((0 : Int) * sizeof(INT))) 20)
   ** (intArray.full (( &( "power" ) ) + ((0 : Int) * sizeof(INT))) 20 power_l)
@@ -3618,7 +3618,7 @@ forall (y_pre : Int) (x_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (r
 )
 
 noncomputable def interval_digits_sum_entail_wit_2_split_goal_spatial : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (retval_2 : Int) (PreH1 : (PrefixDigitSum (x_pre - 1) retval_2)) (PreH2 : (PrefixDigitSum y_pre retval)) (PreH3 : (DigitDPTable dp_l)) (PreH4 : (PowerTable power_l)) (PreH5 : (1 <= x_pre)) (PreH6 : (x_pre <= y_pre)) (PreH7 : (y_pre <= 1000000000000000000)) ,
+  forall (x_pre : Int) (y_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (retval_2 : Int) (PreH1 : (PrefixDigitSum (x_pre - 1) retval_2)) (PreH2 : (PrefixDigitSum y_pre retval)) (PreH3 : (DigitDPTable dp_l)) (PreH4 : (PowerTable power_l)) (PreH5 : (1 <= x_pre)) (PreH6 : (x_pre <= y_pre)) (PreH7 : (y_pre <= 1000000000000000000)) ,
   (intArray.full (( &( "dp" ) ) + ((0 : Int) * sizeof(INT))) 200 dp_l)
   ** (intArray.undef_full (( &( "digits" ) ) + ((0 : Int) * sizeof(INT))) 20)
   ** (intArray.full (( &( "power" ) ) + ((0 : Int) * sizeof(INT))) 20 power_l)
@@ -3629,14 +3629,14 @@ noncomputable def interval_digits_sum_entail_wit_2_split_goal_spatial : Prop :=
 
 noncomputable def interval_digits_sum_return_wit_1 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
+forall (x_pre : Int) (y_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
   TT && emp 
 |--
   “ (IntervalDigitSum x_pre y_pre (Z.rem ((Z.rem (ans1 - ans2) 1000000007) + 1000000007) 1000000007)) ”
   &&  emp
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
+forall (x_pre : Int) (y_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
   TT && emp 
 |--
   “ (IntervalDigitSum x_pre y_pre (Z.rem ((Z.rem (ans1 - ans2) 1000000007) + 1000000007) 1000000007)) ”
@@ -3644,11 +3644,11 @@ forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pr
 )
 
 noncomputable def interval_digits_sum_return_wit_1_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
+  forall (x_pre : Int) (y_pre : Int) (ans1 : Int) (ans2 : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) (PreH4 : (PrefixDigitSum y_pre ans1)) (PreH5 : (PrefixDigitSum (x_pre - 1) ans2)) ,
   (IntervalDigitSum x_pre y_pre (Z.rem ((Z.rem (ans1 - ans2) 1000000007) + 1000000007) 1000000007))
 
 noncomputable def interval_digits_sum_partial_solve_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : (1 <= x_pre)) (PreH2 : (x_pre <= y_pre)) (PreH3 : (y_pre <= 1000000000000000000)) ,
   (intArray.undef_full (( &( "dp" ) ) + ((0 : Int) * sizeof(INT))) 200)
   ** (intArray.undef_full (( &( "power" ) ) + ((0 : Int) * sizeof(INT))) 20)
   ** (intArray.undef_full (( &( "digits" ) ) + ((0 : Int) * sizeof(INT))) 20)
@@ -3661,7 +3661,7 @@ noncomputable def interval_digits_sum_partial_solve_wit_1 : Prop :=
   ** (intArray.undef_full (( &( "digits" ) ) + ((0 : Int) * sizeof(INT))) 20)
 
 noncomputable def interval_digits_sum_partial_solve_wit_2_pure : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (PreH1 : (DigitDPTable dp_l)) (PreH2 : (PowerTable power_l)) (PreH3 : (1 <= x_pre)) (PreH4 : (x_pre <= y_pre)) (PreH5 : (y_pre <= 1000000000000000000)) ,
+  forall (x_pre : Int) (y_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (PreH1 : (DigitDPTable dp_l)) (PreH2 : (PowerTable power_l)) (PreH3 : (1 <= x_pre)) (PreH4 : (x_pre <= y_pre)) (PreH5 : (y_pre <= 1000000000000000000)) ,
   ((( &( "ans1" ) )) # Int |->_)
   ** (intArray.full (( &( "dp" ) ) + ((0 : Int) * sizeof(INT))) 200 dp_l)
   ** (intArray.full (( &( "power" ) ) + ((0 : Int) * sizeof(INT))) 20 power_l)
@@ -3674,7 +3674,7 @@ noncomputable def interval_digits_sum_partial_solve_wit_2_pure : Prop :=
   “ (DigitDPTable dp_l) ”
 
 noncomputable def interval_digits_sum_partial_solve_wit_2_aux : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (PreH1 : (DigitDPTable dp_l)) (PreH2 : (PowerTable power_l)) (PreH3 : (1 <= x_pre)) (PreH4 : (x_pre <= y_pre)) (PreH5 : (y_pre <= 1000000000000000000)) ,
+  forall (x_pre : Int) (y_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (PreH1 : (DigitDPTable dp_l)) (PreH2 : (PowerTable power_l)) (PreH3 : (1 <= x_pre)) (PreH4 : (x_pre <= y_pre)) (PreH5 : (y_pre <= 1000000000000000000)) ,
   (intArray.full (( &( "dp" ) ) + ((0 : Int) * sizeof(INT))) 200 dp_l)
   ** (intArray.full (( &( "power" ) ) + ((0 : Int) * sizeof(INT))) 20 power_l)
   ** (intArray.undef_full (( &( "digits" ) ) + ((0 : Int) * sizeof(INT))) 20)
@@ -3694,7 +3694,7 @@ noncomputable def interval_digits_sum_partial_solve_wit_2_aux : Prop :=
 noncomputable def interval_digits_sum_partial_solve_wit_2 : Prop := interval_digits_sum_partial_solve_wit_2_pure -> interval_digits_sum_partial_solve_wit_2_aux
 
 noncomputable def interval_digits_sum_partial_solve_wit_3_pure : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (PreH1 : (PrefixDigitSum y_pre retval)) (PreH2 : (DigitDPTable dp_l)) (PreH3 : (PowerTable power_l)) (PreH4 : (1 <= x_pre)) (PreH5 : (x_pre <= y_pre)) (PreH6 : (y_pre <= 1000000000000000000)) ,
+  forall (x_pre : Int) (y_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (PreH1 : (PrefixDigitSum y_pre retval)) (PreH2 : (DigitDPTable dp_l)) (PreH3 : (PowerTable power_l)) (PreH4 : (1 <= x_pre)) (PreH5 : (x_pre <= y_pre)) (PreH6 : (y_pre <= 1000000000000000000)) ,
   ((( &( "ans2" ) )) # Int |->_)
   ** (intArray.full (( &( "dp" ) ) + ((0 : Int) * sizeof(INT))) 200 dp_l)
   ** (intArray.undef_full (( &( "digits" ) ) + ((0 : Int) * sizeof(INT))) 20)
@@ -3708,7 +3708,7 @@ noncomputable def interval_digits_sum_partial_solve_wit_3_pure : Prop :=
   “ (DigitDPTable dp_l) ”
 
 noncomputable def interval_digits_sum_partial_solve_wit_3_aux : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (PreH1 : (PrefixDigitSum y_pre retval)) (PreH2 : (DigitDPTable dp_l)) (PreH3 : (PowerTable power_l)) (PreH4 : (1 <= x_pre)) (PreH5 : (x_pre <= y_pre)) (PreH6 : (y_pre <= 1000000000000000000)) ,
+  forall (x_pre : Int) (y_pre : Int) (power_l : (List Int)) (dp_l : (List Int)) (retval : Int) (PreH1 : (PrefixDigitSum y_pre retval)) (PreH2 : (DigitDPTable dp_l)) (PreH3 : (PowerTable power_l)) (PreH4 : (1 <= x_pre)) (PreH5 : (x_pre <= y_pre)) (PreH6 : (y_pre <= 1000000000000000000)) ,
   (intArray.full (( &( "dp" ) ) + ((0 : Int) * sizeof(INT))) 200 dp_l)
   ** (intArray.undef_full (( &( "digits" ) ) + ((0 : Int) * sizeof(INT))) 20)
   ** (intArray.full (( &( "power" ) ) + ((0 : Int) * sizeof(INT))) 20 power_l)

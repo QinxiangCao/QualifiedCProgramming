@@ -6,7 +6,11 @@ Require Import Coq.Vectors.Fin.
 Require Import Coq.Vectors.Vector.
 Require Import Coq.Lists.List.
 
-Require Import AUXLib.Idents.
+From AUXLib Require Import Decision Idents.
+
+(* Connect EqDec typeclass with Decision typeclass *)
+#[export] Instance eqdec_as_decision {A R} {equiv: Equivalence R} {eqd: EqDec A R} :
+  forall x y: A, Decision (R x y) := eqd.
 
 Lemma equiv_decb_true_eq {A: Type} {eqd: EqDec A eq} (x y: A) : equiv_decb x y = true -> x = y.
 Proof.
@@ -155,7 +159,7 @@ Proof.
   2: exfalso; apply (ne eq_refl).
   cbv in e. revert e. apply K_dec_on; auto.
   apply (eqd x).
-Qed. 
+Qed.
 
 (* Injectivity of dependent pair *)
 Lemma inj_pair2_eqdec {A: Type} {eqd: EqDec A eq} {P: A -> Type} {p: A} {x y: P p}:
@@ -167,4 +171,22 @@ Proof.
   cbv in eqd.
   refine (K_dec_on (eqd p) (fun Heq => eq_rect p P x p Heq = y -> x = y) _ Heq e).
   simpl. exact (fun x => x).
+Defined.
+
+#[export] Instance sigT_eqdec {A: Type} {P: A -> Type}
+  {eqdA: EqDec A eq}
+  {eqd: forall x : A, EqDec (P x) eq} :
+  EqDec (sigT P) eq.
+Proof.
+  intros [x1 p1] [x2 p2].
+  destruct (eqdA x1 x2) as [Heq | Hneq].
+  2: {
+    right. intros H. cbv in Hneq, H. inversion_sigma H; subst. tauto.
+  }
+  cbv in Heq. subst x2.
+  destruct (eqd x1 p1 p2) as [Heq | Hneq].
+  2: {
+    right. intros H. cbv in Hneq, H. apply inj_pair2_eqdec in H. tauto.
+  }
+  cbv in Heq. subst p2. left. reflexivity.
 Defined.

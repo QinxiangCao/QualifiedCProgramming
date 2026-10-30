@@ -22,7 +22,7 @@ macro_rules
 theorem proof_of_majorityElement_entail_wit_1 : majorityElement_entail_wit_1 := by
   unfold majorityElement_entail_wit_1
   left
-  intro n p l x hmajor hlo hhi hlen
+  intro l x p n hmajor hlo hhi hlen
   Exists x ([] : List Int) l
   grab hmajorCopy (IsMajorityElement x l)
   have hm := majority_on_reduced_init x 0 l hmajorCopy
@@ -35,7 +35,7 @@ theorem proof_of_majorityElement_entail_wit_1 : majorityElement_entail_wit_1 := 
 theorem proof_of_majorityElement_entail_wit_2_1 : majorityElement_entail_wit_2_1 := by
   unfold majorityElement_entail_wit_2_1
   left
-  intro n p l candidate x vote i l1 l2 hv hi hl hlen1 hi0 hin hn0 hnmax hv0 hvi hmajor hreduced
+  intro l p n candidate x vote i l1 l2 hv hi hl hlen1 hi0 hin hn0 hnmax hv0 hvi hmajor hreduced
   prop_apply naive_C_Rules.IntArray.full_Zlength
   Intros_p hlen
   have hlt : i < Zlength (l1 ++ l2) := by rw [← hl, hlen]; exact hi
@@ -59,7 +59,7 @@ theorem proof_of_majorityElement_entail_wit_2_1 : majorityElement_entail_wit_2_1
 theorem proof_of_majorityElement_entail_wit_2_2 : majorityElement_entail_wit_2_2 := by
   unfold majorityElement_entail_wit_2_2
   left
-  intro n p l candidate x vote i l1 l2 heq hv hi hl hlen1 hi0 hin hn0 hnmax hv0 hvi hmajor hreduced
+  intro l p n candidate x vote i l1 l2 heq hv hi hl hlen1 hi0 hin hn0 hnmax hv0 hvi hmajor hreduced
   prop_apply naive_C_Rules.IntArray.full_Zlength
   Intros_p hlen
   have hlt : i < Zlength (l1 ++ l2) := by rw [← hl, hlen]; exact hi
@@ -82,7 +82,7 @@ theorem proof_of_majorityElement_entail_wit_2_2 : majorityElement_entail_wit_2_2
 theorem proof_of_majorityElement_entail_wit_2_3 : majorityElement_entail_wit_2_3 := by
   unfold majorityElement_entail_wit_2_3
   left
-  intro n p l candidate x vote i l1 l2 hne hv hi hl hlen1 hi0 hin hn0 hnmax hv0 hvi hmajor hreduced
+  intro l p n candidate x vote i l1 l2 hne hv hi hl hlen1 hi0 hin hn0 hnmax hv0 hvi hmajor hreduced
   prop_apply naive_C_Rules.IntArray.full_Zlength
   Intros_p hlen
   have hlt : i < Zlength (l1 ++ l2) := by rw [← hl, hlen]; exact hi
@@ -105,7 +105,7 @@ theorem proof_of_majorityElement_entail_wit_2_3 : majorityElement_entail_wit_2_3
 theorem proof_of_majorityElement_return_wit_1 : majorityElement_return_wit_1 := by
   unfold majorityElement_return_wit_1
   left
-  intro n p l candidate x vote i l1 l2 hi hl hlen1 hi0 hin hn0 hnmax hv0 hvi hmajor hreduced
+  intro l p n candidate x vote i l1 l2 hi hl hlen1 hi0 hin hn0 hnmax hv0 hvi hmajor hreduced
   prop_apply naive_C_Rules.IntArray.full_Zlength
   Intros_p hlen
   have hlen2 : Zlength l2 = 0 := by

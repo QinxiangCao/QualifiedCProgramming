@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.longest_common_sequence Require Import longest_common_sequence_goal.
 From SimpleC.EE.LLM_bench.Algorithms.longest_common_sequence Require Import longest_common_sequence_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.longest_common_sequence.longest_common_sequence_lib.
 Local Open Scope sac.
@@ -162,7 +146,7 @@ Qed.
 
 Lemma proof_of_longest_common_sequence_which_implies_wit_1_split_goal_1 : longest_common_sequence_which_implies_wit_1_split_goal_1.
 Proof.
-  unfold longest_common_sequence_which_implies_wit_1_split_goal_1; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   all: lcsn_pack.
   pose proof (lcsn_diagonal_observation__read_exposure xs ys mixed_table table_l n_pre i j PreH1 PreH2 PreH3 PreH4 PreH5) as Hobs.
   unfold LCSNCellUndefined, LCSNCellInitialized, LCSNCellIndex in Hobs.
@@ -173,7 +157,7 @@ Qed.
 
 Lemma proof_of_longest_common_sequence_which_implies_wit_1_split_goal_2 : longest_common_sequence_which_implies_wit_1_split_goal_2.
 Proof.
-  unfold longest_common_sequence_which_implies_wit_1_split_goal_2; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   all: lcsn_pack.
   pose proof (lcsn_diagonal_observation__read_exposure xs ys mixed_table table_l n_pre i j PreH1 PreH2 PreH3 PreH4 PreH5) as Hobs.
   unfold LCSNCellUndefined, LCSNCellInitialized, LCSNCellIndex in Hobs.
@@ -184,7 +168,7 @@ Qed.
 
 Lemma proof_of_longest_common_sequence_which_implies_wit_1_split_goal_3 : longest_common_sequence_which_implies_wit_1_split_goal_3.
 Proof.
-  unfold longest_common_sequence_which_implies_wit_1_split_goal_3; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   all: lcsn_pack.
   pose proof (lcsn_diagonal_observation__read_exposure xs ys mixed_table table_l n_pre i j PreH1 PreH2 PreH3 PreH4 PreH5) as Hobs.
   unfold LCSNCellUndefined, LCSNCellInitialized, LCSNCellIndex in Hobs.
@@ -195,7 +179,7 @@ Qed.
 
 Lemma proof_of_longest_common_sequence_which_implies_wit_1_split_goal_4 : longest_common_sequence_which_implies_wit_1_split_goal_4.
 Proof.
-  unfold longest_common_sequence_which_implies_wit_1_split_goal_4; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   all: lcsn_pack.
   pose proof (lcsn_diagonal_observation__read_exposure xs ys mixed_table table_l n_pre i j PreH1 PreH2 PreH3 PreH4 PreH5) as Hobs.
   unfold LCSNCellUndefined, LCSNCellInitialized, LCSNCellIndex in Hobs.
@@ -304,16 +288,11 @@ Proof.
     sep_apply_l_atomic (IntArray.undef_seg_single (&("table")) current).
     subst diag current total.
     cancel.
-    cancel.
-    cancel.
-    cancel.
-    simpl.
-    cancel.
 Qed.
 
 Lemma proof_of_longest_common_sequence_which_implies_wit_2_split_goal_1 : longest_common_sequence_which_implies_wit_2_split_goal_1.
 Proof.
-  unfold longest_common_sequence_which_implies_wit_2_split_goal_1; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   all: lcsn_pack.
   pose proof (lcsn_neighbor_observations__read_exposure xs ys mixed_table table_l n_pre i j PreH1 PreH2 PreH3 PreH4 PreH5) as Hobs.
   unfold LCSNCellUndefined, LCSNCellInitialized, LCSNCellIndex in Hobs.
@@ -324,7 +303,7 @@ Qed.
 
 Lemma proof_of_longest_common_sequence_which_implies_wit_2_split_goal_2 : longest_common_sequence_which_implies_wit_2_split_goal_2.
 Proof.
-  unfold longest_common_sequence_which_implies_wit_2_split_goal_2; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   all: lcsn_pack.
   pose proof (lcsn_neighbor_observations__read_exposure xs ys mixed_table table_l n_pre i j PreH1 PreH2 PreH3 PreH4 PreH5) as Hobs.
   unfold LCSNCellUndefined, LCSNCellInitialized, LCSNCellIndex in Hobs.
@@ -335,7 +314,7 @@ Qed.
 
 Lemma proof_of_longest_common_sequence_which_implies_wit_2_split_goal_3 : longest_common_sequence_which_implies_wit_2_split_goal_3.
 Proof.
-  unfold longest_common_sequence_which_implies_wit_2_split_goal_3; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   all: lcsn_pack.
   pose proof (lcsn_diagonal_observation__read_exposure xs ys mixed_table table_l n_pre i j PreH1 PreH2 PreH3 PreH4 PreH5) as Hobs.
   unfold LCSNCellUndefined, LCSNCellInitialized, LCSNCellIndex in Hobs.
@@ -469,11 +448,6 @@ Proof.
       simpl IntArray.mixedstoreA.
       sep_apply_l_atomic (IntArray.undef_seg_single (&("table")) current).
       subst above left current total.
-      cancel.
-      cancel.
-      cancel.
-      cancel.
-      simpl.
       cancel.
 Qed.
 
@@ -1083,23 +1057,19 @@ Qed.
 
 Lemma proof_of_longest_common_sequence_which_implies_wit_1 : longest_common_sequence_which_implies_wit_1.
 Proof.
-  unfold longest_common_sequence_which_implies_wit_1; right; intros.
-  split_pure_spatial.
-  - exact (proof_of_longest_common_sequence_which_implies_wit_1_split_goal_spatial n_pre ys xs mixed_table table_l i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7).
-  - split_pures.
-    + exact (proof_of_longest_common_sequence_which_implies_wit_1_split_goal_1 n_pre ys xs mixed_table table_l i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7).
-    + exact (proof_of_longest_common_sequence_which_implies_wit_1_split_goal_2 n_pre ys xs mixed_table table_l i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7).
-    + exact (proof_of_longest_common_sequence_which_implies_wit_1_split_goal_3 n_pre ys xs mixed_table table_l i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7).
-    + exact (proof_of_longest_common_sequence_which_implies_wit_2_split_goal_3 n_pre ys xs mixed_table table_l i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7).
+  aggressive_pre_process.
+  - Goal_apply proof_of_longest_common_sequence_which_implies_wit_1_split_goal_spatial.
+  - Goal_apply proof_of_longest_common_sequence_which_implies_wit_1_split_goal_1.
+  - Goal_apply proof_of_longest_common_sequence_which_implies_wit_1_split_goal_2.
+  - Goal_apply proof_of_longest_common_sequence_which_implies_wit_1_split_goal_3.
+  - Goal_apply proof_of_longest_common_sequence_which_implies_wit_1_split_goal_4.
 Qed.
 
 Lemma proof_of_longest_common_sequence_which_implies_wit_2 : longest_common_sequence_which_implies_wit_2.
 Proof.
-  unfold longest_common_sequence_which_implies_wit_2; right; intros.
-  split_pure_spatial.
-  - exact (proof_of_longest_common_sequence_which_implies_wit_2_split_goal_spatial n_pre ys xs mixed_table table_l i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7).
-  - split_pures.
-    + exact (proof_of_longest_common_sequence_which_implies_wit_2_split_goal_1 n_pre ys xs mixed_table table_l i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7).
-    + exact (proof_of_longest_common_sequence_which_implies_wit_2_split_goal_2 n_pre ys xs mixed_table table_l i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7).
-    + exact (proof_of_longest_common_sequence_which_implies_wit_2_split_goal_3 n_pre ys xs mixed_table table_l i j PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7).
+  aggressive_pre_process.
+  - Goal_apply proof_of_longest_common_sequence_which_implies_wit_2_split_goal_spatial.
+  - Goal_apply proof_of_longest_common_sequence_which_implies_wit_2_split_goal_1.
+  - Goal_apply proof_of_longest_common_sequence_which_implies_wit_2_split_goal_2.
+  - Goal_apply proof_of_longest_common_sequence_which_implies_wit_2_split_goal_3.
 Qed.

@@ -1,34 +1,18 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P056_630I_parking_lot_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P056_630I_parking_lot_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P056_630I_parking_lot_lib.
 Local Open Scope sac.
 
 Lemma proof_of_power4_safety_wit_5_split_goal_1 : power4_safety_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_power4_safety_wit_5_split_goal_2 : power4_safety_wit_5_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_power4_safety_wit_5 : power4_safety_wit_5.
@@ -40,7 +24,7 @@ Qed.
 
 Lemma proof_of_power4_entail_wit_1 : power4_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   destruct (Z.eq_dec e_pre (-1)) as [Heq | Hneq].
   - Left.
     split_pure_spatial.
@@ -55,7 +39,7 @@ Qed.
 
 Lemma proof_of_power4_entail_wit_2_split_goal_1 : power4_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst r.
   assert (Hexp_nonnegative : 0 <= e_pre - e) by lia.
   assert (Hexp_upper : e_pre - e <= 25) by lia.
@@ -68,12 +52,12 @@ Qed.
 
 Lemma proof_of_power4_entail_wit_2_split_goal_2 : power4_entail_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_power4_entail_wit_2_split_goal_3 : power4_entail_wit_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst r.
   replace (e_pre - (e - 1)) with (Z.succ (e_pre - e)) by lia.
   rewrite Z.pow_succ_r by lia.
@@ -90,7 +74,7 @@ Qed.
 
 Lemma proof_of_power4_return_wit_2_split_goal_1 : power4_return_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (e = 0) by lia.
   subst e.
   rewrite Z.sub_0_r in PreH5.
@@ -105,7 +89,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_6_split_goal_1 : solver_safety_wit_6_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hn : n_pre = 3) by lia.
   subst n_pre.
@@ -117,7 +101,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_6_split_goal_2 : solver_safety_wit_6_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_safety_wit_6 : solver_safety_wit_6.
@@ -129,7 +113,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_7_split_goal_1 : solver_safety_wit_7_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   subst retval_2.
   subst retval.
@@ -147,7 +131,9 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_7_split_goal_2 : solver_safety_wit_7_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
+  dump_pre_spatial.
+  nia.
 Qed.
 
 Lemma proof_of_solver_safety_wit_7 : solver_safety_wit_7.
@@ -159,7 +145,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_9_split_goal_1 : solver_safety_wit_9_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   subst retval.
   assert (Hpow : 4 ^ (n_pre - 4) <= 4 ^ 26).
@@ -172,7 +158,9 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_9_split_goal_2 : solver_safety_wit_9_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
+  dump_pre_spatial.
+  nia.
 Qed.
 
 Lemma proof_of_solver_safety_wit_9 : solver_safety_wit_9.
@@ -184,7 +172,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_14_split_goal_1 : solver_safety_wit_14_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (Hn : n_pre = 3) by lia.
   subst n_pre.
@@ -195,7 +183,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_14_split_goal_2 : solver_safety_wit_14_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_safety_wit_14 : solver_safety_wit_14.
@@ -207,7 +195,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_15_split_goal_1 : solver_safety_wit_15_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   subst retval.
   assert (Hpow : 4 ^ (n_pre - 3) <= 4 ^ 27).
@@ -220,7 +208,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_15_split_goal_2 : solver_safety_wit_15_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_safety_wit_15 : solver_safety_wit_15.
@@ -256,4 +244,3 @@ Proof.
   aggressive_pre_process.
   Goal_apply proof_of_solver_return_wit_2_split_goal_1.
 Qed. 
-

@@ -1,0 +1,189 @@
+// qcp-builtin: builtin/uint64_array.strategies
+// Generated from the tool; do not edit.
+
+id : 1
+priority : core(1)
+left : UInt64Array::full(?p, ?n, ?l) at 0
+right : data_at(pointer_offset(p, ?i, U64), U64, ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : right_erase(1);
+         left_erase(0);
+         left_add(UInt64Array::missing_i(p, i, 0, n, l));
+         right_add(v == l[i]);
+
+id : 2
+priority : post(1)
+left : UInt64Array::missing_i(?p, ?i, 0, ?n, ?l) at 0
+       data_at(pointer_offset(p, i, U64), U64, l[i]) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(UInt64Array::full(p, n, l));
+
+id : 31
+priority : post(2)
+left : UInt64Array::missing_i(?p, ?i, 0, ?n, ?l) at 0
+       data_at(pointer_offset(p, i, U64), U64, Znth{Z}(i, l, 0)) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(UInt64Array::full(p, n, l));
+
+id : 3
+priority : post(3)
+left : UInt64Array::missing_i(?p, ?i, 0, ?n, ?l) at 0
+       data_at(pointer_offset(p, i, U64), U64, ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(UInt64Array::full(p, n, replace_Znth{Z}(i, v, l)));
+
+id : 4
+priority : core(1)
+left : UInt64Array::full(?p, ?n, ?l1) at 0
+right : UInt64Array::full(p, n, ?l2) at 1
+action : right_erase(1);
+         left_erase(0);
+         right_add(l1 == l2);
+
+id : 5
+priority : core(1)
+left : UInt64Array::missing_i(?p, ?i, ?v, ?n, ?l) at 0
+right : UInt64Array::missing_i(p, i, v, n, l) at 1
+action : left_erase(0);
+         right_erase(1);
+
+id : 6
+priority : core(1)
+left : UInt64Array::seg(?p, ?x, ?y, ?l1) at 0
+right : UInt64Array::seg(p, x, y, ?l2) at 1
+action : right_erase(1);
+         left_erase(0);
+         right_add(l1 == l2);
+
+id : 17
+priority : core(1)
+left : UInt64Array::seg(?p, 0, ?i, ?l1) at 0
+right : UInt64Array::full(p, ?n, ?l2) at 1
+check : infer(i == n);
+action : left_erase(0);
+         right_erase(1);
+         right_add(l1 == l2);
+
+id : 7
+priority : core(1)
+left : UInt64Array::seg(?p, ?x, ?y, ?l) at 0
+right : data_at(pointer_offset(p, ?i, U64), U64, ?v) at 1
+check : infer(x <= i);
+        infer(i < y);
+action : right_erase(1);
+         left_erase(0);
+         left_add(UInt64Array::missing_i(p, i, x, y, l));
+         right_add(v == l[i - x]);
+
+id : 8
+priority : core(1)
+left : UInt64Array::seg(?p, ?x, ?y, ?l1) at 0
+       UInt64Array::seg(p, y, ?z, ?l2) at 1
+right : UInt64Array::seg(p, x, z, ?l3) at 2
+check : infer(y <= z);
+        infer(x <= y);
+action : right_erase(2);
+         left_erase(0);
+         left_erase(1);
+         right_add(l3 == app{Z}(l1, l2));
+
+id : 9
+priority : core(1)
+left : UInt64Array::seg(?p, ?x, ?z, ?l3) at 2
+right : UInt64Array::seg(p, x, ?y, ?l1) at 0
+        UInt64Array::seg(p, y, z, ?l2) at 1
+check : infer(y <= z);
+        infer(x <= y);
+action : left_erase(2);
+         right_erase(0);
+         right_erase(1);
+         right_add(l3 == app{Z}(l1, l2));
+         right_add(Zlength{Z}(l1) == y - x);
+
+id : 10
+priority : core(1)
+right : UInt64Array::seg(?p, ?x, x, ?l) at 0
+action : right_erase(0);
+         right_add(l == nil{Z});
+
+id : 11
+priority : post(1)
+left : UInt64Array::missing_i(?p, ?i, ?x, ?y, ?l) at 0
+       data_at(pointer_offset(p, i, U64), U64, l[i - x]) at 1
+check : infer(x <= i);
+        infer(i < y);
+action : left_erase(1);
+         left_erase(0);
+         left_add(UInt64Array::seg(p, x, y, l));
+
+id : 12
+priority : post(4)
+left : UInt64Array::missing_i(?p, ?i, ?x, ?y, ?l) at 0
+       data_at(pointer_offset(p, i, U64), U64, ?v) at 1
+check : infer(x <= i);
+        infer(i < y);
+action : left_erase(1);
+         left_erase(0);
+         left_add(UInt64Array::seg(p, x, y, replace_Znth{Z}(i - x, v, l)));
+
+id : 13
+priority : core(1)
+right : UInt64Array::full(?p, ?n, ?l) at 0
+check : infer(n == 0);
+action : right_erase(0);
+         right_add(l == nil{Z});
+
+id : 14
+priority : post(4)
+left : UInt64Array::full(?p, ?n, ?l) at 0
+       data_at(pointer_offset(p, ?i, U64), U64, ?v) at 1
+check : infer(i == n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(UInt64Array::full(p, n + 1, app{Z}(l, cons{Z}(v, nil{Z}))));
+
+id : 15
+priority : post(4)
+left : UInt64Array::seg(?p, ?x, ?y, ?l) at 0
+       data_at(pointer_offset(p, ?i, U64), U64, ?v) at 1
+check : infer(i == y);
+action : left_erase(1);
+         left_erase(0);
+         left_add(UInt64Array::seg(p, x, y + 1, app{Z}(l, cons{Z}(v, nil{Z}))));
+
+id : 16
+priority : post(4)
+left : UInt64Array::full(pointer_offset(?p, ?i, U64), ?n, ?l) at 0
+       data_at(pointer_offset(p, i - 1, U64), U64, ?v) at 1
+check : infer(0 < i);
+action : left_erase(1);
+         left_erase(0);
+         left_add(UInt64Array::full(pointer_offset(p, i - 1, U64), n + 1, cons{Z}(v, l)));
+
+id : 101
+priority : array_length(0)
+left : UInt64Array::full(?p, ?n, ?l) at 0
+check : absense(Zlength{Z}(l) == n);
+action : left_add(Zlength{Z}(l) == n);
+
+id : 102
+priority : array_length(0)
+left : UInt64Array::seg(?p, ?x, ?y, ?l) at 0
+check : absense(Zlength{Z}(l) == y - x);
+action : left_add(Zlength{Z}(l) == y - x);
+
+id : 103
+priority : array_length(0)
+left : UInt64Array::missing_i(?p, ?i, ?x, ?y, ?l) at 0
+check : absense(Zlength{Z}(l) == y - x);
+action : left_add(Zlength{Z}(l) == y - x);

@@ -33,7 +33,7 @@ theorem proof_of_lowbit_return_wit_1 : lowbit_return_wit_1 := by
 
 theorem proof_of_add_safety_wit_1_split_goal_1 : add_safety_wit_1_split_goal_1 := by
   unfold add_safety_wit_1_split_goal_1
-  intro delta_pre pos_pre n_pre bit_pre bit_l a bit_cur pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bit_l a bit_pre n_pre pos_pre delta_pre bit_cur pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   have safe_PreH10 : (FenwickIntervalsIntSafe (FenwickAddArray (a) (pos_pre) (delta_pre)) n_pre) := by
     intro lo hi hlo hhi
     exact PreH9 lo hi ⟨hlo, hhi⟩
@@ -52,7 +52,7 @@ theorem proof_of_add_safety_wit_1_split_goal_1 : add_safety_wit_1_split_goal_1 :
 
 theorem proof_of_add_safety_wit_1_split_goal_2 : add_safety_wit_1_split_goal_2 := by
   unfold add_safety_wit_1_split_goal_2
-  intro delta_pre pos_pre n_pre bit_pre bit_l a bit_cur pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bit_l a bit_pre n_pre pos_pre delta_pre bit_cur pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   have safe_PreH10 : (FenwickIntervalsIntSafe (FenwickAddArray (a) (pos_pre) (delta_pre)) n_pre) := by
     intro lo hi hlo hhi
     exact PreH9 lo hi ⟨hlo, hhi⟩
@@ -72,16 +72,16 @@ theorem proof_of_add_safety_wit_1_split_goal_2 : add_safety_wit_1_split_goal_2 :
 theorem proof_of_add_safety_wit_1 : add_safety_wit_1 := by
   unfold add_safety_wit_1
   right
-  intro delta_pre pos_pre n_pre bit_pre bit_l a bit_cur pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bit_l a bit_pre n_pre pos_pre delta_pre bit_cur pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   split_pures
   all_goals first
-    | exact proof_of_add_safety_wit_1_split_goal_1 delta_pre pos_pre n_pre bit_pre bit_l a bit_cur pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-    | exact proof_of_add_safety_wit_1_split_goal_2 delta_pre pos_pre n_pre bit_pre bit_l a bit_cur pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+    | exact proof_of_add_safety_wit_1_split_goal_1 bit_l a bit_pre n_pre pos_pre delta_pre bit_cur pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+    | exact proof_of_add_safety_wit_1_split_goal_2 bit_l a bit_pre n_pre pos_pre delta_pre bit_cur pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
 
 
 theorem proof_of_add_entail_wit_1_split_goal_1 : add_entail_wit_1_split_goal_1 := by
   unfold add_entail_wit_1_split_goal_1
-  intro delta_pre pos_pre n_pre bit_l a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro bit_l a n_pre pos_pre delta_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   refine ⟨rfl, rfl, ?_, ?_⟩
   · intro h; exact FenwickCovers_self pos_pre (by omega)
   · intro node hn
@@ -95,19 +95,19 @@ theorem proof_of_add_entail_wit_1_split_goal_1 : add_entail_wit_1_split_goal_1 :
 theorem proof_of_add_entail_wit_1 : add_entail_wit_1 := by
   unfold add_entail_wit_1
   right
-  intro delta_pre pos_pre n_pre bit_l a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro bit_l a n_pre pos_pre delta_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
       | assumption
       | omega
-      | exact proof_of_add_entail_wit_1_split_goal_1 delta_pre pos_pre n_pre bit_l a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+      | exact proof_of_add_entail_wit_1_split_goal_1 bit_l a n_pre pos_pre delta_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
 
 
 theorem proof_of_add_entail_wit_2_split_goal_1 : add_entail_wit_2_split_goal_1 := by
   unfold add_entail_wit_2_split_goal_1
-  intro delta_pre pos_pre n_pre bit_l a bit_cur_2 pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro bit_l a n_pre pos_pre delta_pre bit_cur_2 pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   rw [PreH1]
   obtain ⟨halen, hbitlen, ha0, hnodes⟩ := PreH9
   obtain ⟨hcurlen, hcurzero, hlive, hprogress⟩ := PreH11
@@ -152,7 +152,7 @@ theorem proof_of_add_entail_wit_2_split_goal_1 : add_entail_wit_2_split_goal_1 :
 theorem proof_of_add_entail_wit_2 : add_entail_wit_2 := by
   unfold add_entail_wit_2
   right
-  intro delta_pre pos_pre n_pre bit_l a bit_cur_2 pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro bit_l a n_pre pos_pre delta_pre bit_cur_2 pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have hb : 1 ≤ retval ∧ retval ≤ pos := by
     rw [PreH1]
     exact FenwickLowbit_bounds pos (by omega)
@@ -162,12 +162,12 @@ theorem proof_of_add_entail_wit_2 : add_entail_wit_2 := by
     all_goals first
       | assumption
       | omega
-      | exact proof_of_add_entail_wit_2_split_goal_1 delta_pre pos_pre n_pre bit_l a bit_cur_2 pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_add_entail_wit_2_split_goal_1 bit_l a n_pre pos_pre delta_pre bit_cur_2 pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 
 theorem proof_of_add_return_wit_1_split_goal_1 : add_return_wit_1_split_goal_1 := by
   unfold add_return_wit_1_split_goal_1
-  intro delta_pre pos_pre n_pre bit_l a bit_cur pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bit_l a n_pre pos_pre delta_pre bit_cur pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   obtain ⟨halen, hbitlen, ha0, hnodes⟩ := PreH8
   obtain ⟨hcurlen, hcurzero, hlive, hprogress⟩ := PreH10
   refine ⟨?_, by omega, ?_, ?_⟩
@@ -189,19 +189,19 @@ theorem proof_of_add_return_wit_1_split_goal_1 : add_return_wit_1_split_goal_1 :
 theorem proof_of_add_return_wit_1 : add_return_wit_1 := by
   unfold add_return_wit_1
   right
-  intro delta_pre pos_pre n_pre bit_l a bit_cur pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro bit_l a n_pre pos_pre delta_pre bit_cur pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
       | assumption
       | omega
-      | exact proof_of_add_return_wit_1_split_goal_1 delta_pre pos_pre n_pre bit_l a bit_cur pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+      | exact proof_of_add_return_wit_1_split_goal_1 bit_l a n_pre pos_pre delta_pre bit_cur pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
 
 
 theorem proof_of_query_safety_wit_3_split_goal_1 : query_safety_wit_3_split_goal_1 := by
   unfold query_safety_wit_3_split_goal_1
-  intro pos_pre bit_pre n bit_l a sum pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro n bit_l a bit_pre pos_pre sum pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have safe_PreH10 : (FenwickIntervalsIntSafe a n) := by
     intro lo hi hlo hhi
     exact PreH10 lo hi ⟨hlo, hhi⟩
@@ -214,7 +214,7 @@ theorem proof_of_query_safety_wit_3_split_goal_1 : query_safety_wit_3_split_goal
 
 theorem proof_of_query_safety_wit_3_split_goal_2 : query_safety_wit_3_split_goal_2 := by
   unfold query_safety_wit_3_split_goal_2
-  intro pos_pre bit_pre n bit_l a sum pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro n bit_l a bit_pre pos_pre sum pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have safe_PreH10 : (FenwickIntervalsIntSafe a n) := by
     intro lo hi hlo hhi
     exact PreH10 lo hi ⟨hlo, hhi⟩
@@ -228,42 +228,42 @@ theorem proof_of_query_safety_wit_3_split_goal_2 : query_safety_wit_3_split_goal
 theorem proof_of_query_safety_wit_3 : query_safety_wit_3 := by
   unfold query_safety_wit_3
   right
-  intro pos_pre bit_pre n bit_l a sum pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro n bit_l a bit_pre pos_pre sum pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pures
   all_goals first
-    | exact proof_of_query_safety_wit_3_split_goal_1 pos_pre bit_pre n bit_l a sum pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
-    | exact proof_of_query_safety_wit_3_split_goal_2 pos_pre bit_pre n bit_l a sum pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+    | exact proof_of_query_safety_wit_3_split_goal_1 n bit_l a bit_pre pos_pre sum pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+    | exact proof_of_query_safety_wit_3_split_goal_2 n bit_l a bit_pre pos_pre sum pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 
 theorem proof_of_query_entail_wit_1_split_goal_1 : query_entail_wit_1_split_goal_1 := by
   unfold query_entail_wit_1_split_goal_1
-  intro pos_pre n bit_l a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
+  intro n bit_l a pos_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
   exact FenwickQueryState_initial a pos_pre
 
 
 theorem proof_of_query_entail_wit_1 : query_entail_wit_1 := by
   unfold query_entail_wit_1
   right
-  intro pos_pre n bit_l a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
+  intro n bit_l a pos_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
       | assumption
       | omega
-      | exact proof_of_query_entail_wit_1_split_goal_1 pos_pre n bit_l a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
+      | exact proof_of_query_entail_wit_1_split_goal_1 n bit_l a pos_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
 
 
 theorem proof_of_query_entail_wit_2_split_goal_1 : query_entail_wit_2_split_goal_1 := by
   unfold query_entail_wit_2_split_goal_1
-  intro pos_pre n bit_l a sum pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro n bit_l a pos_pre sum pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   rw [PreH1]
   exact FenwickQueryState_step a bit_l n pos_pre pos sum PreH10 (by omega) PreH12
 
 
 theorem proof_of_query_entail_wit_2_split_goal_2 : query_entail_wit_2_split_goal_2 := by
   unfold query_entail_wit_2_split_goal_2
-  intro pos_pre n bit_l a sum pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro n bit_l a pos_pre sum pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have safe_PreH13 : (FenwickIntervalsIntSafe a n) := by
     intro lo hi hlo hhi
     exact PreH11 lo hi ⟨hlo, hhi⟩
@@ -275,7 +275,7 @@ theorem proof_of_query_entail_wit_2_split_goal_2 : query_entail_wit_2_split_goal
 
 theorem proof_of_query_entail_wit_2_split_goal_3 : query_entail_wit_2_split_goal_3 := by
   unfold query_entail_wit_2_split_goal_3
-  intro pos_pre n bit_l a sum pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro n bit_l a pos_pre sum pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have safe_PreH13 : (FenwickIntervalsIntSafe a n) := by
     intro lo hi hlo hhi
     exact PreH11 lo hi ⟨hlo, hhi⟩
@@ -288,7 +288,7 @@ theorem proof_of_query_entail_wit_2_split_goal_3 : query_entail_wit_2_split_goal
 theorem proof_of_query_entail_wit_2 : query_entail_wit_2 := by
   unfold query_entail_wit_2
   right
-  intro pos_pre n bit_l a sum pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro n bit_l a pos_pre sum pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have hb : 1 ≤ retval ∧ retval ≤ pos := by
     rw [PreH1]
     exact FenwickLowbit_bounds pos (by omega)
@@ -298,14 +298,14 @@ theorem proof_of_query_entail_wit_2 : query_entail_wit_2 := by
     all_goals first
       | assumption
       | omega
-      | exact proof_of_query_entail_wit_2_split_goal_1 pos_pre n bit_l a sum pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
-      | exact proof_of_query_entail_wit_2_split_goal_2 pos_pre n bit_l a sum pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
-      | exact proof_of_query_entail_wit_2_split_goal_3 pos_pre n bit_l a sum pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+      | exact proof_of_query_entail_wit_2_split_goal_1 n bit_l a pos_pre sum pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+      | exact proof_of_query_entail_wit_2_split_goal_2 n bit_l a pos_pre sum pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+      | exact proof_of_query_entail_wit_2_split_goal_3 n bit_l a pos_pre sum pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
 
 
 theorem proof_of_query_return_wit_1_split_goal_1 : query_return_wit_1_split_goal_1 := by
   unfold query_return_wit_1_split_goal_1
-  intro pos_pre n bit_l a sum pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro n bit_l a pos_pre sum pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have he : pos = 0 := by omega
   unfold FenwickQueryState at PreH11
   rw [he, FenwickPrefixSum_zero] at PreH11
@@ -315,19 +315,19 @@ theorem proof_of_query_return_wit_1_split_goal_1 : query_return_wit_1_split_goal
 theorem proof_of_query_return_wit_1 : query_return_wit_1 := by
   unfold query_return_wit_1
   right
-  intro pos_pre n bit_l a sum pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro n bit_l a pos_pre sum pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
       | assumption
       | omega
-      | exact proof_of_query_return_wit_1_split_goal_1 pos_pre n bit_l a sum pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+      | exact proof_of_query_return_wit_1_split_goal_1 n bit_l a pos_pre sum pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
 
 theorem proof_of_add_safety_wit_2 : add_safety_wit_2 := by
   unfold add_safety_wit_2
   right
-  intro delta_pre pos_pre n_pre bit_pre bit_l a bit_cur pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro bit_l a bit_pre n_pre pos_pre delta_pre bit_cur pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have hb : 1 ≤ retval ∧ retval ≤ pos := by
     rw [PreH1]
     exact FenwickLowbit_bounds pos (by omega)
@@ -336,7 +336,7 @@ theorem proof_of_add_safety_wit_2 : add_safety_wit_2 := by
 theorem proof_of_query_safety_wit_4 : query_safety_wit_4 := by
   unfold query_safety_wit_4
   right
-  intro pos_pre bit_pre n bit_l a sum pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro n bit_l a bit_pre pos_pre sum pos retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have hb : 1 ≤ retval ∧ retval ≤ pos := by
     rw [PreH1]
     exact FenwickLowbit_bounds pos (by omega)

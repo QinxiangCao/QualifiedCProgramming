@@ -1,5 +1,3 @@
-
-
 #include "hashtbl.h"
 /*@ Import Coq Require Import SimpleC.EE.Applications_human.hashtable.hashtbl_lib */
 
@@ -634,7 +632,7 @@ void hashtbl_free_blist(struct blist *bl)
   Require key_list_for_addrs(m1, l, ks) &&
           sll(bl, l) *
           store_map(store_name, m1) *
-          store_map(store_uint, m2) 
+          store_map(store_uint, m2)
   Ensure (store_map(store_name, KP::remove_keys(m1, ks)) *
           store_map(store_uint, m2)
           )

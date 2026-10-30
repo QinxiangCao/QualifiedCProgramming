@@ -141,7 +141,7 @@ static inline void OsDeleteNodeSortLink(SortLinkList *sortList)
         store_dll(storesortedLinkNode(storeA), x, app(map(sortedLinkNodeMapping, l1), cons(Build_DL_Node(mksortedLinkNode(a,t), &sortList->sortLinkNode), map(sortedLinkNodeMapping, l2))))
     */
     LOS_ListDelete(&sortList->sortLinkNode)
-    /*@ where storeA = storesortedLinkNode(storeA), x = x, l1 = map(sortedLinkNodeMapping, l1) , l2 = map(sortedLinkNodeMapping, l2), a = mksortedLinkNode(a,t); A = sortedLinkNode(A) */
+    /*@ where {A = sortedLinkNode(A)} storeA = storesortedLinkNode(storeA), x = x, l1 = map(sortedLinkNodeMapping, l1) , l2 = map(sortedLinkNodeMapping, l2), a = mksortedLinkNode(a,t) */
     ;
     /*@
         storesortedLinkNode(storeA, &(sortList->sortLinkNode), mksortedLinkNode(a,t))

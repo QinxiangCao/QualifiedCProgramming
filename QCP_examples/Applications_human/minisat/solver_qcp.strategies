@@ -1,154 +1,5 @@
 #include "solver_qcp_def.h"
 
-// Unfold the hidden integer-vector representation on the spatial left.
-id : 2
-priority : core(2)
-left : veci_rep(?v, ?l, ?cap) at 0
-right : (store(field_addr(v, veci_t, size), I32, ?y) ||
-         veci_rep_at(v, ?target_p, l, cap) ||
-         store(field_addr(v, veci_t, cap), I32, ?y) ||
-         store(field_addr(v, veci_t, ptr), PTR, ?y)) at 1
-action : left_erase(0);
-         left_exist_add(p);
-         left_add(0 <= Zlength{Z}(l));
-         left_add(Zlength{Z}(l) <= cap);
-         left_add(0 < cap);
-         left_add(cap <= INT_MAX());
-         left_add(store(field_addr(v, veci_t, size), I32, Zlength{Z}(l)));
-         left_add(store(field_addr(v, veci_t, cap), I32, cap));
-         left_add(store(field_addr(v, veci_t, ptr), PTR, p));
-         left_add(IntArray::seg(p, 0, Zlength{Z}(l), l));
-         left_add(IntArray::undef_seg(p, Zlength{Z}(l), cap));
-
-// Refold the hidden integer-vector representation on the spatial right.
-id : 3
-priority : core(2)
-right : veci_rep(?v, ?l, ?cap) at 0
-left : (store(field_addr(v, veci_t, size), I32, ?y) ||
-        store(field_addr(v, veci_t, cap), I32, ?y) ||
-        store(field_addr(v, veci_t, ptr), PTR, ?y)) at 1
-action : right_erase(0);
-         right_exist_add(p);
-         right_add(0 <= Zlength{Z}(l));
-         right_add(Zlength{Z}(l) <= cap);
-         right_add(0 < cap);
-         right_add(cap <= INT_MAX());
-         right_add(store(field_addr(v, veci_t, size), I32, Zlength{Z}(l)));
-         right_add(store(field_addr(v, veci_t, cap), I32, cap));
-         right_add(store(field_addr(v, veci_t, ptr), PTR, p));
-         right_add(IntArray::seg(p, 0, Zlength{Z}(l), l));
-         right_add(IntArray::undef_seg(p, Zlength{Z}(l), cap));
-
-// Unfold the exposed integer-vector representation on the spatial left.
-id : 4
-priority : core(2)
-left : veci_rep_at(?v, ?p, ?l, ?cap) at 0
-right : (store(field_addr(v, veci_t, size), I32, ?y) ||
-         store(field_addr(v, veci_t, cap), I32, ?y) ||
-         store(field_addr(v, veci_t, ptr), PTR, ?y)) at 1
-action : left_erase(0);
-         left_add(0 <= Zlength{Z}(l));
-         left_add(Zlength{Z}(l) <= cap);
-         left_add(0 < cap);
-         left_add(cap <= INT_MAX());
-         left_add(store(field_addr(v, veci_t, size), I32, Zlength{Z}(l)));
-         left_add(store(field_addr(v, veci_t, cap), I32, cap));
-         left_add(store(field_addr(v, veci_t, ptr), PTR, p));
-         left_add(IntArray::seg(p, 0, Zlength{Z}(l), l));
-         left_add(IntArray::undef_seg(p, Zlength{Z}(l), cap));
-
-// Refold the exposed integer-vector representation on the spatial right.
-id : 5
-priority : core(2)
-right : veci_rep_at(?v, ?p, ?l, ?cap) at 0
-left : (store(field_addr(v, veci_t, size), I32, ?y) ||
-        store(field_addr(v, veci_t, cap), I32, ?y) ||
-        store(field_addr(v, veci_t, ptr), PTR, ?y)) at 1
-action : right_erase(0);
-         right_add(0 <= Zlength{Z}(l));
-         right_add(Zlength{Z}(l) <= cap);
-         right_add(0 < cap);
-         right_add(cap <= INT_MAX());
-         right_add(store(field_addr(v, veci_t, size), I32, Zlength{Z}(l)));
-         right_add(store(field_addr(v, veci_t, cap), I32, cap));
-         right_add(store(field_addr(v, veci_t, ptr), PTR, p));
-         right_add(IntArray::seg(p, 0, Zlength{Z}(l), l));
-         right_add(IntArray::undef_seg(p, Zlength{Z}(l), cap));
-
-// Unfold the hidden pointer-vector representation on the spatial left.
-id : 6
-priority : core(2)
-left : vecp_rep(?v, ?l, ?cap) at 0
-right : (store(field_addr(v, vecp_t, size), I32, ?y) ||
-         vecp_rep_at(v, ?target_p, l, cap) ||
-         store(field_addr(v, vecp_t, cap), I32, ?y) ||
-         store(field_addr(v, vecp_t, ptr), PTR, ?y)) at 1
-action : left_erase(0);
-         left_exist_add(p);
-         left_add(0 <= Zlength{Z}(l));
-         left_add(Zlength{Z}(l) <= cap);
-         left_add(0 < cap);
-         left_add(cap <= INT_MAX());
-         left_add(store(field_addr(v, vecp_t, size), I32, Zlength{Z}(l)));
-         left_add(store(field_addr(v, vecp_t, cap), I32, cap));
-         left_add(store(field_addr(v, vecp_t, ptr), PTR, p));
-         left_add(PtrArray::seg(p, 0, Zlength{Z}(l), l));
-         left_add(PtrArray::undef_seg(p, Zlength{Z}(l), cap));
-
-// Refold the hidden pointer-vector representation on the spatial right.
-id : 7
-priority : core(2)
-right : vecp_rep(?v, ?l, ?cap) at 0
-left : (store(field_addr(v, vecp_t, size), I32, ?y) ||
-        store(field_addr(v, vecp_t, cap), I32, ?y) ||
-        store(field_addr(v, vecp_t, ptr), PTR, ?y)) at 1
-action : right_erase(0);
-         right_exist_add(p);
-         right_add(0 <= Zlength{Z}(l));
-         right_add(Zlength{Z}(l) <= cap);
-         right_add(0 < cap);
-         right_add(cap <= INT_MAX());
-         right_add(store(field_addr(v, vecp_t, size), I32, Zlength{Z}(l)));
-         right_add(store(field_addr(v, vecp_t, cap), I32, cap));
-         right_add(store(field_addr(v, vecp_t, ptr), PTR, p));
-         right_add(PtrArray::seg(p, 0, Zlength{Z}(l), l));
-         right_add(PtrArray::undef_seg(p, Zlength{Z}(l), cap));
-
-// Unfold the exposed pointer-vector representation on the spatial left.
-id : 8
-priority : core(2)
-left : vecp_rep_at(?v, ?p, ?l, ?cap) at 0
-right : (store(field_addr(v, vecp_t, size), I32, ?y) ||
-         store(field_addr(v, vecp_t, cap), I32, ?y) ||
-         store(field_addr(v, vecp_t, ptr), PTR, ?y)) at 1
-action : left_erase(0);
-         left_add(0 <= Zlength{Z}(l));
-         left_add(Zlength{Z}(l) <= cap);
-         left_add(0 < cap);
-         left_add(cap <= INT_MAX());
-         left_add(store(field_addr(v, vecp_t, size), I32, Zlength{Z}(l)));
-         left_add(store(field_addr(v, vecp_t, cap), I32, cap));
-         left_add(store(field_addr(v, vecp_t, ptr), PTR, p));
-         left_add(PtrArray::seg(p, 0, Zlength{Z}(l), l));
-         left_add(PtrArray::undef_seg(p, Zlength{Z}(l), cap));
-
-// Refold the exposed pointer-vector representation on the spatial right.
-id : 9
-priority : core(2)
-right : vecp_rep_at(?v, ?p, ?l, ?cap) at 0
-left : (store(field_addr(v, vecp_t, size), I32, ?y) ||
-        store(field_addr(v, vecp_t, cap), I32, ?y) ||
-        store(field_addr(v, vecp_t, ptr), PTR, ?y)) at 1
-action : right_erase(0);
-         right_add(0 <= Zlength{Z}(l));
-         right_add(Zlength{Z}(l) <= cap);
-         right_add(0 < cap);
-         right_add(cap <= INT_MAX());
-         right_add(store(field_addr(v, vecp_t, size), I32, Zlength{Z}(l)));
-         right_add(store(field_addr(v, vecp_t, cap), I32, cap));
-         right_add(store(field_addr(v, vecp_t, ptr), PTR, p));
-         right_add(PtrArray::seg(p, 0, Zlength{Z}(l), l));
-         right_add(PtrArray::undef_seg(p, Zlength{Z}(l), cap));
 // Focus a readable/writable double cell from a live segment.
 id : 12
 priority : core(1)
@@ -190,7 +41,7 @@ id : 16
 priority : core(2)
 right : enqueue_state_at(?s, ?asg, ?lvl, ?n, ?cap, ?qtail,
                          ?assigns, ?levels, ?reasons, ?trail,
-                         ?lim, ?lim_cap) at 0
+                         ?lim) at 0
 left : (store(field_addr(s, solver_t, qtail), I32, ?y) ||
         store(field_addr(s, solver_t, assigns), PTR, ?y) ||
         store(field_addr(s, solver_t, levels), PTR, ?y) ||
@@ -214,14 +65,14 @@ action : right_erase(0);
          right_add(store(field_addr(s, solver_t, reasons), PTR, rsn));
          right_add(store(field_addr(s, solver_t, trail), PTR, trl));
          right_add(CharArray::seg(asg, 0, n, assigns));
-         right_add(CharArray::undef_seg(asg, n, cap));
+         right_add(solver_char_tail(asg, n, cap));
          right_add(IntArray::seg(lvl, 0, n, levels));
-         right_add(IntArray::undef_seg(lvl, n, cap));
+         right_add(solver_int_tail(lvl, n, cap));
          right_add(PtrArray::seg(rsn, 0, n, reasons));
-         right_add(PtrArray::undef_seg(rsn, n, cap));
+         right_add(solver_ptr_tail(rsn, n, cap));
          right_add(IntArray::seg(trl, 0, qtail, trail));
-         right_add(IntArray::undef_seg(trl, qtail, cap));
-         right_add(veci_rep(field_addr(s, solver_t, trail_lim), lim, lim_cap));
+         right_add(solver_int_tail(trl, qtail, cap));
+         right_add(Veci::rep(field_addr(s, solver_t, trail_lim), lim));
 
 // Heap projection changes only heap metadata, so the framed level slice can
 // be reindexed before the nested cancellation call.
@@ -229,7 +80,7 @@ id : 23
 priority : core(2)
 left : solver_levels_slice_at(?s, ?M, ?lvl) at 0
 right : solver_levels_slice_at(
-          s, msolver_heap_project(M, ?orderpos, ?order, ?order_cap), lvl) at 1
+          s, msolver_heap_project(M, ?orderpos, ?order), lvl) at 1
 action : left_erase(0);
          right_erase(1);
 
@@ -249,61 +100,25 @@ action : left_erase(1);
          left_erase(0);
          right_erase(2);
 
-// Open the header-safe count cell only when its concrete size field is needed.
+// Open solver_clauses_rep to its vector when the vector itself is needed.
 id : 33
 priority : core(2)
-left : solver_clause_count_cell(?s, ?n) at 0
-right : store(field_addr(field_addr(s, solver_t, clauses), vecp_t, size),
-              I32, ?value) at 1
+left : solver_clauses_rep(?s, ?l) at 0
+right : (Vecp::rep_ptr(field_addr(s, solver_t, clauses), ?p, ?w) ||
+         Vecp::rep(field_addr(s, solver_t, clauses), ?w)) at 1
 action : left_erase(0);
-         left_add(store(field_addr(field_addr(s, solver_t, clauses), vecp_t, size),
-                        I32, n));
+         left_add(Vecp::rep(field_addr(s, solver_t, clauses), l));
 
-// Expose a requested count cell; existing vector rules preserve the caller frame.
+// Close a requested solver_clauses_rep from its vector.
 id : 34
 priority : core(2)
-right : solver_clause_count_cell(?s, ?n) at 0
-left : (store(field_addr(field_addr(s, solver_t, clauses), vecp_t, size),
-              I32, ?value) ||
-        vecp_rep(field_addr(s, solver_t, clauses), ?words, ?cap)) at 1
+right : solver_clauses_rep(?s, ?l) at 0
+left : (Vecp::rep(field_addr(s, solver_t, clauses), ?w) ||
+        Vecp::rep_ptr(field_addr(s, solver_t, clauses), ?p, ?w)) at 1
 action : right_erase(0);
-         right_add(store(field_addr(field_addr(s, solver_t, clauses), vecp_t, size),
-                         I32, n));
-
-// vecp_resize's nested size read leaves the vector in raw field form with a
-// temporary cut expression.  Reclose only an explicitly requested prefix
-// representation under the inferred cut equality.
-id : 35
-priority : core(1)
-left : store(
-         field_addr(?raw_v, vecp_t, size), I32,
-         Zlength{Z}(sublist{Z}(0, ?actual_cut, ?words))) at 0
-       store(field_addr(raw_v, vecp_t, cap), I32, ?cap) at 1
-       store(field_addr(raw_v, vecp_t, ptr), PTR, ?p) at 2
-       PtrArray::seg(
-         p, 0, Zlength{Z}(sublist{Z}(0, actual_cut, words)),
-         sublist{Z}(0, actual_cut, words)) at 3
-       PtrArray::undef_seg(
-         p, Zlength{Z}(sublist{Z}(0, actual_cut, words)), cap) at 4
-right : vecp_rep(
-          ?closed_v, sublist{Z}(0, ?required_cut, words), cap) at 5
-check : infer(raw_v == closed_v);
-        infer(actual_cut == required_cut);
-        infer(0 <= Zlength{Z}(sublist{Z}(0, actual_cut, words)));
-        infer(Zlength{Z}(sublist{Z}(0, actual_cut, words)) <= cap);
-        infer(0 < cap);
-        infer(cap <= INT_MAX());
-action : left_erase(4);
-         left_erase(3);
-         left_erase(2);
-         left_erase(1);
-         left_erase(0);
-         right_erase(5);
+         right_add(Vecp::rep(field_addr(s, solver_t, clauses), l));
 
 // Focus the base cell of an integer segment for an UNINDEXED write (`*p = v`).
-// The shared int_array rule 7 matches only an offset-shaped address
-// (`p + i * sizeof(I32)`), so a bare base-pointer store finds no rule; this is
-// needed by the 1-UIP head overwrite `*veci_begin(learnt) = lit_neg(p)`.
 id : 36
 priority : core(1)
 left : IntArray::seg(?p, ?lo, ?hi, ?l) at 0
@@ -316,8 +131,6 @@ action : right_erase(1);
          right_add(v == l[0 - lo]);
 
 // Bare-base alias returned by a getter: require its explicit equality first.
-// This is the equality-gated store bridge used by common rule 11, with the
-// integer base-cell focus. It also handles the learned clause's 1-UIP write.
 id : 69
 priority : core(1)
 left : IntArray::seg(?p, ?lo, ?hi, ?l) at 0
@@ -330,10 +143,7 @@ action : right_erase(2);
          left_add(IntArray::missing_i(p, 0, lo, hi, l));
          right_add(v == l[0 - lo]);
 
-// int_array rule 7 matches only the `?p + ?i * sizeof(I32)` spelling.  A write
-// through a returned pointer (clause_begin(c))[1] is emitted as
-// pointer_offset, so the focus/refold pair has to be restated for it -- the
-// same reason ids 26/27 exist for the Char and Ptr arrays.
+// The shared int_array rule 7 matches only the `?p + ?i * sizeof(I32)` spelling.
 id : 37
 priority : core(1)
 left : IntArray::seg(?p, ?lo, ?hi, ?l) at 0
@@ -347,8 +157,6 @@ action : right_erase(1);
          right_add(v == l[i - lo]);
 
 // Reclose a pointer_offset integer focus after a read of the existing value.
-// This is the IntArray counterpart of rule 57 and must run before the
-// updating refold below, which intentionally materializes replace_Znth.
 id : 67
 priority : post(1)
 left : IntArray::missing_i(?p, ?i, ?lo, ?hi, ?l) at 0
@@ -378,12 +186,8 @@ action : left_erase(1);
 // clause_cmp's aliased arm (x == y) owns ONE learned object but reads it
 // through both comparator parameters, and the body is a single return
 // expression, so there is no annotation point between the reads at which to
-// re-spell the focus.  Bridge the two spellings of the same address under the
-// inferred pointer equality, the way rule 37 bridges `q` and `p`.  The
-// remainder atom gates the rule to that arm; it is a trigger only and is not
-// erased (cf. rules 3/5/7/9/16).
-// Obligation: from xp == yp, store(clause_hdr_addr(xp), I32, w) entails
-// EX v, store(clause_hdr_addr(yp), I32, v) && v == w  (witness v := w).
+// re-spell the focus.  Bridge the two spellings of the same address; the
+// remainder atom gates the rule to that arm and is not erased.
 id : 39
 priority : core(1)
 left : store(clause_hdr_addr(?xp), I32, ?w) at 0
@@ -398,38 +202,20 @@ action : left_erase(0);
 // Same bridge for the activity cell read by clause_activity in that arm.
 id : 40
 priority : core(1)
-left : store(clause_act_addr(?xp), float, ?a) at 0
+left : store(clause_act_addr(?xp, ?size), float, ?a) at 0
        learnt_sort_alias_remainder(?db, ?activities, ?xr, ?xw, ?xa) at 1
-right : store(clause_act_addr(?yp), float, ?b) at 2
+right : store(clause_act_addr(?yp, ?other_size), float, ?b) at 2
 check : infer(xp == yp);
         infer(xp == xr);
 action : left_erase(0);
          right_erase(2);
          right_add(b == a);
+         right_add(other_size == size);
 
 // `*clause_begin(c)` reads a clause's first literal through the pointer that
 // clause_begin returned.  clause_begin's Ensure is
-// `__return == clause_lits_addr(c) && emp`: it does NOT carry the heap (unlike
-// veci_begin / vecp_begin, whose Ensure re-keys the payload to `__return`), so the
-// literal array stays keyed on `clause_lits_addr(c)` while the read address is the
-// unnameable `__return`.  Rule 36 needs syntactic identity of the base; rule 37
-// bridges `infer(q == p)` only for the `pointer_offset` spelling.  Rules 41/42 are
-// the missing bare-base + infer member of that family.
-//
-// Re-keying clause_begin's Ensure to `__return` instead (the veci_begin idiom) is
-// not an option: it strengthens a Require that four other call sites cannot
-// meet (clause_simplify and solver_simplify hold the array folded inside
-// MiniSatClause::rep; solver_propagate holds it keyed on a ghost base in one
-// block and as IntArray::full in another), and it leaves the array keyed on an
-// unnameable retval that no annotation can name afterwards.
-//
-// GATING.  The focused segment must literally be a CLAUSE LITERAL ARRAY --
-// `IntArray::seg(clause_lits_addr(?cp), ...)`.  Every other integer array in this
-// development (trail, levels, order, orderpos, tagged, stack, trail_lim and every
-// veci payload) is keyed on a plain pointer or a `field_addr`, so these rules
-// cannot see them at all.  The second gate, `infer(q == clause_lits_addr(cp))`, is
-// discharged only by a `clause_begin` Ensure.  Sites reached: the three
-// `*clause_begin(...)` reads, two in solver_reducedb and one in solver_simplify.
+// `__return == clause_lits_addr(c) && emp`, so the literal array stays keyed on
+// `clause_lits_addr(c)`.
 id : 41
 priority : core(1)
 left : IntArray::seg(clause_lits_addr(?cp), ?lo, ?hi, ?l) at 0
@@ -471,8 +257,8 @@ action : right_erase(0);
          left_erase(1);
          left_add(store(field_addr(s, solver_t, root_level), I32,
                         ms_root_level(M)));
-         left_add(veci_rep(field_addr(s, solver_t, trail_lim),
-                           mt_lim(ms_core(M)), ms_lim_cap(M)));
+         left_add(Veci::rep(field_addr(s, solver_t, trail_lim),
+                           mt_lim(ms_core(M))));
 
 // Rejoin root control with the same watcher-table address.
 id : 44
@@ -480,8 +266,8 @@ priority : core(2)
 right : solver_rep_levels_wl_at(?s, ?M, ?wl, ?lvl) at 0
 left : solver_search_root_frame_at(s, M, lvl, wl) at 1
        store(field_addr(s, solver_t, root_level), I32, ms_root_level(M)) at 2
-       veci_rep(field_addr(s, solver_t, trail_lim),
-                mt_lim(ms_core(M)), ms_lim_cap(M)) at 3
+       Veci::rep(field_addr(s, solver_t, trail_lim),
+                mt_lim(ms_core(M))) at 3
 action : right_erase(0);
          left_erase(3);
          left_erase(2);
@@ -496,11 +282,11 @@ action : right_erase(0);
          left_erase(1);
          left_add(store(field_addr(s, solver_t, root_level), I32,
                         ms_root_level(M)));
-         left_add(veci_rep(field_addr(s, solver_t, trail_lim),
-                           mt_lim(ms_core(M)), ms_lim_cap(M)));
+         left_add(Veci::rep(field_addr(s, solver_t, trail_lim),
+                           mt_lim(ms_core(M))));
          left_add(store(field_addr(s, solver_t, levels), PTR, lvl));
          left_add(IntArray::seg(lvl, 0, ms_size(M), mt_levels(ms_core(M))));
-         left_add(IntArray::undef_seg(lvl, ms_size(M), ms_cap(M)));
+         left_add(solver_int_tail(lvl, ms_size(M), ms_cap(M)));
 
 // Rejoin root control and levels with the same watcher table.
 id : 46
@@ -508,11 +294,11 @@ priority : core(2)
 right : solver_rep_levels_wl_at(?s, ?M, ?wl, ?lvl) at 0
 left : solver_search_root_payload(s, M, wl) at 1
        store(field_addr(s, solver_t, root_level), I32, ms_root_level(M)) at 2
-       veci_rep(field_addr(s, solver_t, trail_lim),
-                mt_lim(ms_core(M)), ms_lim_cap(M)) at 3
+       Veci::rep(field_addr(s, solver_t, trail_lim),
+                mt_lim(ms_core(M))) at 3
        store(field_addr(s, solver_t, levels), PTR, lvl) at 4
        IntArray::seg(lvl, 0, ms_size(M), mt_levels(ms_core(M))) at 5
-       IntArray::undef_seg(lvl, ms_size(M), ms_cap(M)) at 6
+       solver_int_tail(lvl, ms_size(M), ms_cap(M)) at 6
 action : right_erase(0);
          left_erase(6);
          left_erase(5);
@@ -530,8 +316,8 @@ action : right_erase(0);
          left_erase(1);
          left_add(store(field_addr(s, solver_t, root_level), I32,
                         ms_root_level(M)));
-         left_add(veci_rep(field_addr(s, solver_t, trail_lim),
-                           mt_lim(ms_core(M)), ms_lim_cap(M)));
+         left_add(Veci::rep(field_addr(s, solver_t, trail_lim),
+                           mt_lim(ms_core(M))));
 
 // Expose conflict bookkeeping while retaining the watcher-table address.
 id : 48
@@ -543,8 +329,8 @@ action : right_erase(0);
          left_add(store(field_addr(field_addr(s, solver_t, stats), stats_t, conflicts),
                         U64, stats_conflicts(ms_stats(M))));
          left_add(store(field_addr(s, solver_t, root_level), I32, ms_root_level(M)));
-         left_add(veci_rep(field_addr(s, solver_t, trail_lim),
-                           mt_lim(ms_core(M)), ms_lim_cap(M)));
+         left_add(Veci::rep(field_addr(s, solver_t, trail_lim),
+                           mt_lim(ms_core(M))));
 
 // Expose progress inputs while preserving all cached backing pointers.
 id : 49
@@ -571,7 +357,7 @@ action : right_erase(0);
                         U64, stats_starts(ms_stats(M))));
          left_add(store(field_addr(s, solver_t, var_decay), double, ms_var_decay(M)));
          left_add(store(field_addr(s, solver_t, cla_decay), float, ms_cla_decay(M)));
-         left_add(veci_rep(field_addr(s, solver_t, model), ms_model(M), ms_model_cap(M)));
+         left_add(Veci::rep(field_addr(s, solver_t, model), ms_model(M)));
 
 // Expose the learnt vector and queue tail, retaining the watcher table.
 id : 51
@@ -581,8 +367,8 @@ left : solver_rep_levels_wl_at(s, M, wl, lvl) at 1
 action : right_erase(0);
          left_erase(1);
          left_add(store(field_addr(s, solver_t, qtail), I32, ms_qtail(M)));
-         left_add(vecp_rep(field_addr(s, solver_t, learnts),
-                           db_words(ms_learnt(M)), ms_learnt_cap(M)));
+         left_add(Vecp::rep(field_addr(s, solver_t, learnts),
+                           db_words(ms_learnt(M))));
 
 // Rejoin the learnt vector and queue tail with the same watcher table.
 id : 52
@@ -590,8 +376,8 @@ priority : core(2)
 right : solver_rep_levels_wl_at(?s, ?M, ?wl, ?lvl) at 0
 left : solver_search_reducedb_frame_at(s, M, lvl, wl) at 1
        store(field_addr(s, solver_t, qtail), I32, ms_qtail(M)) at 2
-       vecp_rep(field_addr(s, solver_t, learnts),
-                db_words(ms_learnt(M)), ms_learnt_cap(M)) at 3
+       Vecp::rep(field_addr(s, solver_t, learnts),
+                db_words(ms_learnt(M))) at 3
 action : right_erase(0);
          left_erase(3);
          left_erase(2);
@@ -635,20 +421,22 @@ action : right_erase(0);
          left_add(store(field_addr(s, solver_t, size), I32, ms_size(M)));
          left_add(store(field_addr(s, solver_t, assigns), PTR, values_ptr));
          left_add(CharArray::seg(values_ptr, 0, ms_size(M), mt_assigns(ms_core(M))));
-         left_add(CharArray::undef_seg(values_ptr, ms_size(M), ms_cap(M)));
-         left_add(veci_rep(field_addr(s, solver_t, model), ms_model(M), ms_model_cap(M)));
+         left_add(solver_char_tail(values_ptr, ms_size(M), ms_cap(M)));
+         left_add(Veci::rep(field_addr(s, solver_t, model), ms_model(M)));
 
-// Rejoin reason and level slices with the analyzer watcher-table address.
+// `solver_shape` is an opaque Coq Prop, so the
+// rule is gated to blocks whose pure list carries `solver_shape` literally
+// and whose left side holds all seven atoms at once.
 id : 56
 priority : core(2)
 right : solver_rep_analyze_at(?s, ?M, ?rsn, ?lvl, ?trl, ?tgs, ?wl) at 0
 left : solver_reason_levels_frame_at(s, M, trl, tgs, wl) at 1
        store(field_addr(s, solver_t, reasons), PTR, rsn) at 2
        PtrArray::seg(rsn, 0, ?n, ms_reason_words(M)) at 3
-       PtrArray::undef_seg(rsn, n, ms_cap(M)) at 4
+       solver_ptr_tail(rsn, n, ms_cap(M)) at 4
        store(field_addr(s, solver_t, levels), PTR, lvl) at 5
        IntArray::seg(lvl, 0, n, mt_levels(ms_core(M))) at 6
-       IntArray::undef_seg(lvl, n, ms_cap(M)) at 7
+       solver_int_tail(lvl, n, ms_cap(M)) at 7
 check : infer(solver_shape(M));
 action : right_erase(0);
          left_erase(7);
@@ -659,41 +447,11 @@ action : right_erase(0);
          left_erase(2);
          left_erase(1);
 
-// DERIVATION (N-I).
-//   C site    : analyze wit_44
-//   Statement : solver_analyze_which_implies_wit_44, a single entailment with
-//               one hypothesis binder, `PreH1 : solver_shape
-//               Mclear` -- which is exactly what the `check` reproduces.
-//   Seven left atoms: the widest pattern in the file (rule 46 has six).
-//   The obligation is provable and its proof needs a
-//   `prop_apply_p (PtrArray.seg_Zlength ...)` + `unfold solver_shape` + `lia`
-//   bridge to learn `n = ms_size M`.  The wit is engine-discharged in
-//   solver_qcp_proof_auto.v, which is what this rule achieves.
-// SCOPING.
-//   (a) `solver_rep_analyze_at` occurs in ZERO Require/Ensure (25 occurrences:
-//       6 which-implies RHS, 10 standalone assertions, 5 of them spelled
-//       `Assert`, and 9 LHS).  CLEAN.
-//   (b) none.
-//   (c) **ENGAGED -- AT-RISK.**  `check : infer(solver_shape(M))` is a
-//       conditional rule.  `infer` is semantic LIA; `solver_shape` is an
-//       Extern Coq `Prop` and is opaque to it, so the check can only succeed by
-//       the engine finding the prop in the block's PROP list.  At the target
-//       site it is there literally (`solver_shape(Mclear)`).  At the
-//       other fifteen `solver_rep_analyze_at` goal positions the left pattern's
-//       seven atoms are not simultaneously present, so the rule should not fire
-//       there -- but a half-firing conditional rule is the documented way to
-//       make `goal.v` LARGER.  If goal.v grows, revert THIS rule first.
-//   U = 16 goal positions (6 wi RHS + 10 standalone assertions), W = 1,
-//   I = 1, `W \ I` = 0.
-// OBLIGATION: solver_qcp_strategy56, PROVED to Qed.
-
-// V2.1.0 emits array-cell addresses as `pointer_offset(p, i, T)`, while the
-// shared read-only PtrArray refold rule recognizes only `p + i * sizeof(PTR)`.
+// The frontend emits array-cell addresses as `pointer_offset(p, i, T)`, while
+// the shared read-only PtrArray refold rule recognizes only
+// `p + i * sizeof(PTR)`.
 // Reclose an explicitly focused pointer cell when base and index are provably
 // equal; this is the pointer-offset analogue of the shared PtrArray rule.
-// `solver_propagate`'s watcher scan is where that shape arises: it opens
-// `PtrArray::missing_i(begin, ii, 0, Zlength(source_words), ...)` around a slot
-// spelled with `pointer_offset`.
 id : 58
 priority : post(1)
 left : PtrArray::missing_i(?p, ?i, ?lo, ?hi, ?l) at 0
@@ -706,8 +464,9 @@ action : left_erase(1);
          left_erase(0);
          left_add(PtrArray::seg(p, lo, hi, l));
 
-// V2.1.0 emits signed-byte accesses with `pointer_offset`, while the shared
-// CharArray read-only refold rule recognizes only `p + i * sizeof(I8)`.
+// The frontend emits signed-byte accesses with `pointer_offset`, while the
+// shared CharArray read-only refold rule recognizes only
+// `p + i * sizeof(I8)`.
 id : 57
 priority : post(1)
 left : CharArray::missing_i(?p, ?i, ?lo, ?hi, ?l) at 0
@@ -735,33 +494,9 @@ action : left_erase(1);
          left_add(CharArray::seg(
            p, lo, hi, replace_Znth{Z}(i - lo, v, l)));
 
-// A local assigned from `veci_begin` is read back through a fresh symbolic
-// temporary in V2.1.0.  The returned pointer equality is explicit, so cancel
-// otherwise identical integer segments under that proved base equality.
-id : 60
-priority : core(1)
-left : IntArray::seg(?p, ?lo, ?hi, ?l) at 0
-right : IntArray::seg(?q, lo, hi, l) at 1
-check : infer(p == q);
-action : left_erase(0);
-         right_erase(1);
-
-// Sort's marked result fixes the current list, while repeated getters return
-// distinct symbolic base and length values. Cancel the same list segment only
-// after checking equality of the independently matched base and both bounds.
-id : 68
-priority : core(1)
-left : PtrArray::seg(?p, ?lo, ?hi, ?l) at 0
-right : PtrArray::seg(?q, ?lo2, ?hi2, l) at 1
-check : infer(p == q);
-        infer(lo == lo2);
-        infer(hi == hi2);
-action : left_erase(0);
-         right_erase(1);
-
-// V2.1.0 may refold two read-only uses of the same pointer-array cell as two
-// nested writes of its existing value.  Normalize that exact shape only when
-// the goal asks for the original missing segment.
+// The frontend may refold two read-only uses of the same pointer-array cell
+// as two nested writes of its existing value.  Normalize that exact shape
+// only when the goal asks for the original missing segment.
 id : 61
 priority : core(1)
 left : PtrArray::missing_i(
@@ -775,24 +510,6 @@ check : infer(0 <= i);
 action : left_erase(0);
          right_erase(1);
 
-// [solver_setnvars] holds its nine field cells -- the qtail counter and the
-// eight array base pointers -- and its sixteen array/watch-list atoms folded
-// as setnvars_arrays_at at the three cuts that carry the bundle: the entry
-// which-implies, the growth-loop invariant and the initialising-loop
-// invariant.  Unfold it on the spatial left whenever one of those nine fields
-// is demanded: the growth shims take the eight array base pointers as
-// arguments -- the trail shim with s->qtail as its live-prefix bound -- and
-// the first which-implies of the loop body names
-// store(&(s->wlists), vecp *, wlc) on its left.  The invariant of the
-// initialising loop folds the bundle again at every iteration head, so the rule
-// fires once per iteration and the later cuts of that iteration see raw atoms.
-// The size bound [sz] is re-emitted verbatim so the shared undef write rules
-// (undef_uint_array id 13 and kin) see the loop counter.
-// SCOPING: solver_setnvars only; the predicate occurs in no other function.
-// ENV: every action symbol is declared in solver_qcp_def.h -- ms_cap, ms_core,
-//   ms_qtail, ms_reason_words, ms_wm, ms_wcaps, ms_activity, ms_orderpos,
-//   ms_tags, mt_assigns, mt_levels, mt_trail, wlists_rep, wlists_undef, plus
-//   the setnvars_arrays_at declaration itself.  No extra def.h edit is needed.
 id : 62
 priority : core(2)
 left : setnvars_arrays_at(?s, ?M, ?sz, ?wl, ?act, ?asg, ?opos,
@@ -817,21 +534,21 @@ action : left_erase(0);
          left_add(store(field_addr(s, solver_t, trail), PTR, trl));
          left_add(store(field_addr(s, solver_t, tags), PTR, tgs));
          left_add(DoubleArray::seg(act, 0, sz, ms_activity(M)));
-         left_add(DoubleArray::undef_seg(act, sz, ms_cap(M)));
+         left_add(solver_double_tail(act, sz, ms_cap(M)));
          left_add(CharArray::seg(asg, 0, sz, mt_assigns(ms_core(M))));
-         left_add(CharArray::undef_seg(asg, sz, ms_cap(M)));
+         left_add(solver_char_tail(asg, sz, ms_cap(M)));
          left_add(IntArray::seg(opos, 0, sz, ms_orderpos(M)));
-         left_add(IntArray::undef_seg(opos, sz, ms_cap(M)));
+         left_add(solver_int_tail(opos, sz, ms_cap(M)));
          left_add(PtrArray::seg(rsn, 0, sz, ms_reason_words(M)));
-         left_add(PtrArray::undef_seg(rsn, sz, ms_cap(M)));
+         left_add(solver_ptr_tail(rsn, sz, ms_cap(M)));
          left_add(IntArray::seg(lvl, 0, sz, mt_levels(ms_core(M))));
-         left_add(IntArray::undef_seg(lvl, sz, ms_cap(M)));
+         left_add(solver_int_tail(lvl, sz, ms_cap(M)));
          left_add(CharArray::seg(tgs, 0, sz, ms_tags(M)));
-         left_add(CharArray::undef_seg(tgs, sz, ms_cap(M)));
+         left_add(solver_char_tail(tgs, sz, ms_cap(M)));
          left_add(IntArray::seg(trl, 0, ms_qtail(M), mt_trail(ms_core(M))));
-         left_add(IntArray::undef_seg(trl, ms_qtail(M), ms_cap(M)));
-         left_add(wlists_rep(wl, sz, ms_wm(M), ms_wcaps(M)));
-         left_add(wlists_undef(wl, 2 * sz, 2 * ms_cap(M)));
+         left_add(solver_int_tail(trl, ms_qtail(M), ms_cap(M)));
+         left_add(wlists_rep(wl, sz, ms_wm(M)));
+         left_add(solver_wlists_tail(wl, 2 * sz, 2 * ms_cap(M)));
 
 // Open analyzer working cells while retaining the named watcher table in the frame.
 id : 63
@@ -847,10 +564,10 @@ right : (store(field_addr(s, solver_t, size), I32, ?y) ||
          store(field_addr(s, solver_t, tags), PTR, ?y) ||
          store(field_addr(s, solver_t, var_inc), double, ?yd) ||
          store(field_addr(s, solver_t, cla_inc), float, ?yf) ||
-         vecp_rep(field_addr(s, solver_t, learnts), ?l, ?c) ||
-         veci_rep(field_addr(s, solver_t, tagged), ?l, ?c) ||
-         veci_rep(field_addr(s, solver_t, order), ?l, ?c) ||
-         veci_rep(field_addr(s, solver_t, trail_lim), ?l, ?c) ||
+         Vecp::rep(field_addr(s, solver_t, learnts), ?l) ||
+         Veci::rep(field_addr(s, solver_t, tagged), ?l) ||
+         Veci::rep(field_addr(s, solver_t, order), ?l) ||
+         Veci::rep(field_addr(s, solver_t, trail_lim), ?l) ||
          DoubleArray::seg(act, ?lo, ?hi, ?dl) ||
          IntArray::seg(opos, ?lo, ?hi, ?l) ||
          PtrArray::seg(rsn, ?lo, ?hi, ?l) ||
@@ -876,10 +593,10 @@ action : left_erase(0);
          left_add(IntArray::seg(lvl, 0, n, mt_levels(ms_core(M))));
          left_add(IntArray::seg(trl, 0, ms_qtail(M), mt_trail(ms_core(M))));
          left_add(CharArray::seg(tgs, 0, n, ms_tags(M)));
-         left_add(vecp_rep(field_addr(s, solver_t, learnts), db_words(ms_learnt(M)), ms_learnt_cap(M)));
-         left_add(veci_rep(field_addr(s, solver_t, tagged), ms_tagged(M), ms_tagged_cap(M)));
-         left_add(veci_rep(field_addr(s, solver_t, order), ms_order(M), ms_order_cap(M)));
-         left_add(veci_rep(field_addr(s, solver_t, trail_lim), mt_lim(ms_core(M)), ms_lim_cap(M)));
+         left_add(Vecp::rep(field_addr(s, solver_t, learnts), db_words(ms_learnt(M))));
+         left_add(Veci::rep(field_addr(s, solver_t, tagged), ms_tagged(M)));
+         left_add(Veci::rep(field_addr(s, solver_t, order), ms_order(M)));
+         left_add(Veci::rep(field_addr(s, solver_t, trail_lim), mt_lim(ms_core(M))));
          left_add(store(field_addr(s, solver_t, var_inc), double, ms_var_inc(M)));
          left_add(store(field_addr(s, solver_t, cla_inc), float, ms_cla_inc(M)));
          left_add(solver_analyze_inert_at(s, M, n, act, opos, rsn, lvl, trl, tgs));
@@ -889,7 +606,7 @@ action : left_erase(0);
 id : 64
 priority : core(2)
 left : solver_cancel_open_at(?s, ?M, ?act, ?asg, ?opos, ?rsn, ?trl,
-                             ?asg_l, ?opos_l, ?rsn_l, ?ord_l, ?ord_cap, ?wl) at 0
+                             ?asg_l, ?opos_l, ?rsn_l, ?ord_l, ?wl) at 0
 right : (store(field_addr(s, solver_t, size), I32, ?y) ||
          store(field_addr(s, solver_t, qhead), I32, ?y) ||
          store(field_addr(s, solver_t, qtail), I32, ?y) ||
@@ -898,8 +615,8 @@ right : (store(field_addr(s, solver_t, size), I32, ?y) ||
          store(field_addr(s, solver_t, orderpos), PTR, ?y) ||
          store(field_addr(s, solver_t, reasons), PTR, ?y) ||
          store(field_addr(s, solver_t, trail), PTR, ?y) ||
-         veci_rep(field_addr(s, solver_t, order), ?l, ?c) ||
-         veci_rep(field_addr(s, solver_t, trail_lim), ?l, ?c) ||
+         Veci::rep(field_addr(s, solver_t, order), ?l) ||
+         Veci::rep(field_addr(s, solver_t, trail_lim), ?l) ||
          DoubleArray::seg(act, ?lo, ?hi, ?dl) ||
          CharArray::seg(asg, ?lo, ?hi, ?l) ||
          IntArray::seg(opos, ?lo, ?hi, ?l) ||
@@ -921,27 +638,14 @@ action : left_erase(0);
          left_add(PtrArray::seg(rsn, 0, ms_size(M), rsn_l));
          left_add(IntArray::seg(trl, 0, ms_qtail(M), mt_trail(ms_core(M))));
          left_add(solver_cancel_undef_tail(M, act, asg, opos, rsn, trl));
-         left_add(veci_rep(field_addr(s, solver_t, order), ord_l, ord_cap));
-         left_add(veci_rep(field_addr(s, solver_t, trail_lim), mt_lim(ms_core(M)), ms_lim_cap(M)));
+         left_add(Veci::rep(field_addr(s, solver_t, order), ord_l));
+         left_add(Veci::rep(field_addr(s, solver_t, trail_lim), mt_lim(ms_core(M))));
          left_add(solver_cancel_frame(s, M, wl));
 
 // Demand-driven unfold of the clause-removal working view.
-// `clause_remove_open_at` is `clause_remove_pre`'s spatial part with the
-// clause object lifted out: the solver cells clause_remove keeps between its
-// entry unfold and its cut after `clause_begin`.  Any right-side demand for
-// the size cell (the range asserts), the watcher table (the focus steps and
-// `solver_read_wlist`), a statistics counter (the four decrements) or the
-// reasons array opens it in place; it is re-formed only by Coq at the entry
-// cut, never on the spatial right.
-// SCOPING: the name occurs on the entry which-implies RHS and the following
-//   `Assert` inside `clause_remove` only; ZERO Require/Ensure.
-//   Left-only unfold, no check.
-// ENV: every action symbol is declared in solver_qcp_def.h (stats_rep's
-//   eleven cells are re-emitted raw, in the spelling the ambient state uses).
-// OBLIGATION: solver_qcp_strategy65 (unfold + stats_rep open + cancel).
 id : 65
 priority : core(2)
-left : clause_remove_open_at(?s, ?n, ?cap, ?wl, ?rsn, ?wm, ?caps, ?stats0, ?reasons0) at 0
+left : clause_remove_open_at(?s, ?n, ?cap, ?wl, ?rsn, ?wm, ?stats0, ?reasons0) at 0
 right : (store(field_addr(s, solver_t, size), I32, ?y) ||
          store(field_addr(s, solver_t, reasons), PTR, ?y) ||
          store(field_addr(field_addr(s, solver_t, stats), stats_t, starts), U64, ?y) ||
@@ -955,7 +659,7 @@ right : (store(field_addr(s, solver_t, size), I32, ?y) ||
          store(field_addr(field_addr(s, solver_t, stats), stats_t, learnts_literals), U64, ?y) ||
          store(field_addr(field_addr(s, solver_t, stats), stats_t, max_literals), U64, ?y) ||
          store(field_addr(field_addr(s, solver_t, stats), stats_t, tot_literals), U64, ?y) ||
-         wlists_rep(wl, ?wn, ?wmd, ?wcd) ||
+         wlists_rep(wl, ?wn, ?wmd) ||
          PtrArray::seg(rsn, ?lo, ?hi, ?l) ||
          PtrArray::undef_seg(rsn, ?lo, ?hi) ||
          store(pointer_offset(rsn, ?i, PTR), PTR, ?y)) at 1
@@ -963,9 +667,9 @@ action : left_erase(0);
          left_add(store(field_addr(s, solver_t, size), I32, n));
          left_add(store(field_addr(s, solver_t, reasons), PTR, rsn));
          left_add(PtrArray::seg(rsn, 0, n, reasons0));
-         left_add(PtrArray::undef_seg(rsn, n, cap));
+         left_add(solver_ptr_tail(rsn, n, cap));
          left_add(solver_wlists_handle(s, wl));
-         left_add(wlists_rep(wl, n, wm, caps));
+         left_add(wlists_rep(wl, n, wm));
          left_add(store(field_addr(field_addr(s, solver_t, stats), stats_t, starts),
                         U64, stats_starts(stats0)));
          left_add(store(field_addr(field_addr(s, solver_t, stats), stats_t, decisions),
@@ -990,22 +694,8 @@ action : left_erase(0);
                         U64, stats_tot_literals(stats0)));
 
 // Demand-driven unfold of the propagation working view.
-// `solver_propagate_open_at` is `solver_propagate_pre`'s spatial part with
-// the two clause databases, the binary scratch clause and the conflict
-// out-parameter lifted out: the state `solver_propagate` carries at its entry
-// unfold and at the head of its outer loop.  The loop condition reads
-// `s->qtail` and `s->qhead`, so the bundle opens at every iteration head and
-// the body's cuts see raw atoms; it is re-formed only by Coq at the loop
-// invariant.  Any right-side demand for one of its nine field cells, a live
-// or undefined array segment, the trail-limit vector, the watcher table, one
-// of the two statistics counters, or an array cell reached through the
-// cached local pointers (`values[..]`, `reasons[..]`, `levels[..]`,
-// `trail[..]`) opens it in place.
-// SCOPING: the name occurs on the entry which-implies RHS and in the outer
-//   `Inv Assert` inside `solver_propagate` only; ZERO Require/Ensure.
-//   Left-only unfold, no check.
-// ENV: every action symbol is declared in solver_qcp_def.h.
-// OBLIGATION: solver_qcp_strategy66 (unfold + cancel).
+// `solver_propagate_open_at` opens at every iteration head, so the body's
+// cuts see raw atoms; it is re-formed only by Coq at the loop invariant.
 id : 66
 priority : core(2)
 left : solver_propagate_open_at(?s, ?M, ?wl, ?asg, ?rsn, ?lvl, ?trl) at 0
@@ -1020,8 +710,8 @@ right : (store(field_addr(s, solver_t, qhead), I32, ?y) ||
          store(field_addr(s, solver_t, binary), PTR, ?y) ||
          store(field_addr(field_addr(s, solver_t, stats), stats_t, propagations), U64, ?y) ||
          store(field_addr(field_addr(s, solver_t, stats), stats_t, inspects), U64, ?y) ||
-         veci_rep(field_addr(s, solver_t, trail_lim), ?l, ?c) ||
-         wlists_rep(wl, ?wn, ?wmd, ?wcd) ||
+         Veci::rep(field_addr(s, solver_t, trail_lim), ?l) ||
+         wlists_rep(wl, ?wn, ?wmd) ||
          CharArray::seg(asg, ?lo, ?hi, ?l) ||
          CharArray::undef_seg(asg, ?lo, ?hi) ||
          PtrArray::seg(rsn, ?lo, ?hi, ?l) ||
@@ -1045,17 +735,287 @@ action : left_erase(0);
          left_add(store(field_addr(s, solver_t, trail), PTR, trl));
          left_add(store(field_addr(s, solver_t, binary), PTR, ms_binary(M)));
          left_add(CharArray::seg(asg, 0, ms_size(M), mt_assigns(ms_core(M))));
-         left_add(CharArray::undef_seg(asg, ms_size(M), ms_cap(M)));
+         left_add(solver_char_tail(asg, ms_size(M), ms_cap(M)));
          left_add(PtrArray::seg(rsn, 0, ms_size(M), ms_reason_words(M)));
-         left_add(PtrArray::undef_seg(rsn, ms_size(M), ms_cap(M)));
+         left_add(solver_ptr_tail(rsn, ms_size(M), ms_cap(M)));
          left_add(IntArray::seg(lvl, 0, ms_size(M), mt_levels(ms_core(M))));
-         left_add(IntArray::undef_seg(lvl, ms_size(M), ms_cap(M)));
+         left_add(solver_int_tail(lvl, ms_size(M), ms_cap(M)));
          left_add(IntArray::seg(trl, 0, ms_qtail(M), mt_trail(ms_core(M))));
-         left_add(IntArray::undef_seg(trl, ms_qtail(M), ms_cap(M)));
-         left_add(veci_rep(field_addr(s, solver_t, trail_lim), mt_lim(ms_core(M)), ms_lim_cap(M)));
-         left_add(wlists_rep(wl, ms_size(M), ms_wm(M), ms_wcaps(M)));
+         left_add(solver_int_tail(trl, ms_qtail(M), ms_cap(M)));
+         left_add(Veci::rep(field_addr(s, solver_t, trail_lim), mt_lim(ms_core(M))));
+         left_add(wlists_rep(wl, ms_size(M), ms_wm(M)));
          left_add(store(field_addr(field_addr(s, solver_t, stats), stats_t, propagations),
                         U64, stats_propagations(ms_stats(M))));
          left_add(store(field_addr(field_addr(s, solver_t, stats), stats_t, inspects),
                         U64, stats_inspects(ms_stats(M))));
          left_add(solver_propagate_frame(s, M));
+
+// Read root_level directly from cancellation ownership, then restore that
+// same precondition before the call. The frame is the exact separating wand.
+id : 74
+priority : core(2)
+left : solver_cancel_pre(?s, ?level, ?M, ?wl) at 0
+right : store(field_addr(s, solver_t, root_level), I32, ?value) at 1
+action : left_erase(0);
+         left_add(store(field_addr(s, solver_t, root_level), I32, ms_root_level(M)));
+         left_add(solver_cancel_root_frame(s, level, M, wl));
+
+id : 75
+priority : core(1)
+left : solver_cancel_root_frame(?s, ?level, ?M, ?wl) at 0
+       store(field_addr(s, solver_t, root_level), I32, ms_root_level(M)) at 1
+right : solver_cancel_pre(s, level, M, wl) at 2
+action : left_erase(1);
+         left_erase(0);
+         right_erase(2);
+// Read the predecessor of a cursor known to lie inside an integer segment.
+id : 72
+priority : core(0)
+left : IntArray::seg(?base, 0, ?hi, ?arr) at 0
+       (?cursor : Z == base + ?index * sizeof(I32)) at 1
+right : store(pointer_offset(cursor, -1, I32), I32, ?value) at 2
+check : infer(base < cursor);
+        infer(index <= hi);
+action : left_erase(0);
+         right_erase(2);
+         left_add(0 < index);
+         left_add(IntArray::missing_i(base, index - 1, 0, hi, arr));
+         right_add(value == arr[index - 1]);
+
+// Reassemble that segment after a read through the cursor alias.
+id : 73
+priority : post(0)
+left : IntArray::missing_i(?base, ?index - 1, 0, ?hi, ?arr) at 0
+       (?cursor : Z == base + index * sizeof(I32)) at 1
+       store(pointer_offset(cursor, -1, I32), I32, arr[index - 1]) at 2
+check : infer(0 < index);
+        infer(index <= hi);
+action : left_erase(0);
+         left_erase(2);
+         left_add(IntArray::seg(base, 0, hi, arr));
+
+// The scratch literals may be undefined before the first conflict. Re-key
+// their permissions after clause_begin returns, using its explicit equality.
+// The write matcher requires the pointer_offset spelling even for index0.
+id : 76
+priority : post(1)
+left : undef_data_at(clause_lits_addr(?cp) + sizeof(I32), I32) at 0
+       (?q == clause_lits_addr(cp)) at 1
+check : absense(clause_lits_pointer(cp, q));
+action : left_erase(0);
+         left_add(undef_data_at(pointer_offset(q, 1, I32), I32));
+
+id : 77
+priority : post(1)
+left : undef_data_at(clause_lits_addr(?cp), I32) at 0
+       (?q == clause_lits_addr(cp)) at 1
+check : absense(clause_lits_pointer(cp, q));
+action : left_erase(0);
+         left_add(undef_data_at(pointer_offset(q, 0, I32), I32));
+
+// Preserve the complete physical allocation when an outer array is exposed.
+id : 78
+priority : core(2)
+left : solver_int_tail(?p, ?lo, ?cap) at 0
+right : IntArray::undef_seg(p, lo, ?hi) at 1
+action : left_erase(0);
+         left_exist_add(physical);
+         left_add(cap <= physical);
+         left_add(physical <= INT_MAX());
+         left_add(vec_buf_ok(physical, p));
+         left_add(IntArray::undef_seg(p, lo, physical));
+
+id : 79
+priority : core(2)
+right : solver_int_tail(?p, ?lo, ?cap) at 0
+left : IntArray::undef_seg(p, lo, ?physical) at 1
+action : right_erase(0);
+         right_add(cap <= physical);
+         right_add(physical <= INT_MAX());
+         right_add(vec_buf_ok(physical, p));
+         right_add(IntArray::undef_seg(p, lo, physical));
+
+// Preserve the complete physical allocation when an outer array is exposed.
+id : 80
+priority : core(2)
+left : solver_ptr_tail(?p, ?lo, ?cap) at 0
+right : PtrArray::undef_seg(p, lo, ?hi) at 1
+action : left_erase(0);
+         left_exist_add(physical);
+         left_add(cap <= physical);
+         left_add(physical <= INT_MAX());
+         left_add(vec_buf_ok(physical, p));
+         left_add(PtrArray::undef_seg(p, lo, physical));
+
+id : 81
+priority : core(2)
+right : solver_ptr_tail(?p, ?lo, ?cap) at 0
+left : PtrArray::undef_seg(p, lo, ?physical) at 1
+action : right_erase(0);
+         right_add(cap <= physical);
+         right_add(physical <= INT_MAX());
+         right_add(vec_buf_ok(physical, p));
+         right_add(PtrArray::undef_seg(p, lo, physical));
+
+// Preserve the complete physical allocation when an outer array is exposed.
+id : 82
+priority : core(2)
+left : solver_char_tail(?p, ?lo, ?cap) at 0
+right : CharArray::undef_seg(p, lo, ?hi) at 1
+action : left_erase(0);
+         left_exist_add(physical);
+         left_add(cap <= physical);
+         left_add(physical <= INT_MAX());
+         left_add(vec_buf_ok(physical, p));
+         left_add(CharArray::undef_seg(p, lo, physical));
+
+id : 83
+priority : core(2)
+right : solver_char_tail(?p, ?lo, ?cap) at 0
+left : CharArray::undef_seg(p, lo, ?physical) at 1
+action : right_erase(0);
+         right_add(cap <= physical);
+         right_add(physical <= INT_MAX());
+         right_add(vec_buf_ok(physical, p));
+         right_add(CharArray::undef_seg(p, lo, physical));
+
+// Preserve the complete physical allocation when an outer array is exposed.
+id : 84
+priority : core(2)
+left : solver_double_tail(?p, ?lo, ?cap) at 0
+right : DoubleArray::undef_seg(p, lo, ?hi) at 1
+action : left_erase(0);
+         left_exist_add(physical);
+         left_add(cap <= physical);
+         left_add(physical <= INT_MAX());
+         left_add(vec_buf_ok(physical, p));
+         left_add(DoubleArray::undef_seg(p, lo, physical));
+
+id : 85
+priority : core(2)
+right : solver_double_tail(?p, ?lo, ?cap) at 0
+left : DoubleArray::undef_seg(p, lo, ?physical) at 1
+action : right_erase(0);
+         right_add(cap <= physical);
+         right_add(physical <= INT_MAX());
+         right_add(vec_buf_ok(physical, p));
+         right_add(DoubleArray::undef_seg(p, lo, physical));
+
+// Preserve the complete physical allocation when an outer array is exposed.
+id : 86
+priority : core(2)
+left : solver_wlists_tail(?p, ?lo, ?cap) at 0
+right : VecpArray::undef_seg(p, lo, ?hi) at 1
+action : left_erase(0);
+         left_exist_add(physical);
+         left_add(cap <= physical);
+         left_add(physical <= INT_MAX());
+         left_add(vec_buf_ok(physical, p));
+         left_add(VecpArray::undef_seg(p, lo, physical));
+
+id : 87
+priority : core(2)
+right : solver_wlists_tail(?p, ?lo, ?cap) at 0
+left : VecpArray::undef_seg(p, lo, ?physical) at 1
+action : right_erase(0);
+         right_add(cap <= physical);
+         right_add(physical <= INT_MAX());
+         right_add(vec_buf_ok(physical, p));
+         right_add(VecpArray::undef_seg(p, lo, physical));
+
+// The watch table on the left and one of its vectors, at a slot provably in range, on the right:
+// expose the table's body, a VecpArray::full of 2n vectors, for the vector rules to take the vector
+// out.
+id : 93
+priority : core(1)
+left : wlists_rep(?b, ?n, ?wm) at 0
+right : (Vecp::rep(Vecp::slot(b, ?i), ?l) ||
+         Vecp::rep_ptr(Vecp::slot(b, ?i), ?p, ?l)) at 1
+check : infer(0 <= i);
+        infer(i < 2 * n);
+action : left_erase(0);
+         left_add(Zlength{list{Z}}(wm) == 2 * n);
+         left_add(VecpArray::full(b, 2 * n, wm));
+
+// 93 with the vector named by an alias of its slot, as solver_read_wlist returns it.
+id : 94
+priority : core(1)
+right : (Vecp::rep(?w, ?l) ||
+         Vecp::rep_ptr(?w, ?p, ?l)) at 0
+left : ((w == Vecp::slot(?b, ?i)) || (Vecp::slot(?b, ?i) == w)) at 1
+       wlists_rep(b, ?n, ?wm) at 2
+check : infer(0 <= i);
+        infer(i < 2 * n);
+action : left_erase(2);
+         left_add(Zlength{list{Z}}(wm) == 2 * n);
+         left_add(VecpArray::full(b, 2 * n, wm));
+
+// Expose a cell for a write without dropping the rest of its allocation.
+id : 88
+priority : core(2)
+left : solver_int_tail(?p, ?lo, ?cap) at 0
+right : (store(p + ?i * sizeof(I32), I32, ?value) ||
+         undef_data_at(p + ?i * sizeof(I32), I32)) at 1
+check : infer(lo <= i);
+        infer(i < cap);
+action : left_erase(0);
+         left_exist_add(physical);
+         left_add(cap <= physical);
+         left_add(physical <= INT_MAX());
+         left_add(vec_buf_ok(physical, p));
+         left_add(IntArray::undef_seg(p, lo, physical));
+
+// Expose a cell for a write without dropping the rest of its allocation.
+id : 89
+priority : core(2)
+left : solver_ptr_tail(?p, ?lo, ?cap) at 0
+right : (store(p + ?i * sizeof(PTR), PTR, ?value) ||
+         undef_data_at(p + ?i * sizeof(PTR), PTR)) at 1
+check : infer(lo <= i);
+        infer(i < cap);
+action : left_erase(0);
+         left_exist_add(physical);
+         left_add(cap <= physical);
+         left_add(physical <= INT_MAX());
+         left_add(vec_buf_ok(physical, p));
+         left_add(PtrArray::undef_seg(p, lo, physical));
+
+// Expose a cell for a write without dropping the rest of its allocation.
+id : 90
+priority : core(2)
+left : solver_char_tail(?p, ?lo, ?cap) at 0
+right : (store(p + ?i * sizeof(I8), I8, ?value) ||
+         undef_data_at(p + ?i * sizeof(I8), I8)) at 1
+check : infer(lo <= i);
+        infer(i < cap);
+action : left_erase(0);
+         left_exist_add(physical);
+         left_add(cap <= physical);
+         left_add(physical <= INT_MAX());
+         left_add(vec_buf_ok(physical, p));
+         left_add(CharArray::undef_seg(p, lo, physical));
+
+id : 92
+priority : core(2)
+left : clause_new_pending_at_root(?s, ?begin, ?lvl, ?n, ?F, ?A_arr, ?A_inst,
+                                  ?M, ?words, ?c, 0, ?wl, ?root) at 0
+right : Vecp::rep(field_addr(s, solver_t, clauses), ?target_l) at 1
+action : left_erase(0);
+         left_add(n == ms_size(M));
+         left_add(clause_new_stage_ready_root(n, F, A_arr, A_inst, M, M, words, 0, root));
+         left_add(clause_allocator_fresh(M, c));
+         left_add(lit_neg_c(Znth{Z}(0, words, 0)) != lit_neg_c(Znth{Z}(1, words, 0)));
+         left_add(Vecp::rep(field_addr(s, solver_t, clauses), db_words(ms_prob(M))));
+         left_add(Vecp::rep(Vecp::slot(wl, lit_neg_c(Znth{Z}(0, words, 0))),
+           app{Z}(Znth{list{Z}}(lit_neg_c(Znth{Z}(0, words, 0)), ms_wm(M), nil{Z}),
+             cons{Z}(clause_watch_word(c, words, Znth{Z}(1, words, 0)), nil{Z}))));
+         left_add(Vecp::rep(Vecp::slot(wl, lit_neg_c(Znth{Z}(1, words, 0))),
+           app{Z}(Znth{list{Z}}(lit_neg_c(Znth{Z}(1, words, 0)), ms_wm(M), nil{Z}),
+             cons{Z}(clause_watch_word(c, words, Znth{Z}(0, words, 0)), nil{Z}))));
+         left_add(MiniSatClause::rep(c, msat_false(), words));
+         left_add(clause_db_rep(ms_prob(M)));
+         left_add(clause_new_transaction_rest_at_gen(s, wl,
+           lit_neg_c(Znth{Z}(0, words, 0)), lit_neg_c(Znth{Z}(1, words, 0)), M, lvl, 0));
+         left_add(store(field_addr(s, solver_t, size), I32, n));
+         left_add(IntArray::seg(begin, 0, Zlength{Z}(words), words));
+

@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.minimal_representation Require Import minimal_representation_goal.
 
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.minimal_representation.minimal_representation_lib.
 Local Open Scope sac.
@@ -196,7 +180,7 @@ Qed.
 Lemma proof_of_minimal_representation_entail_wit_4_1 : minimal_representation_entail_wit_4_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_minimal_representation_entail_wit_4_1_split_goal_1.
+  - Goal_apply proof_of_minimal_representation_entail_wit_4_1_split_goal_1.
 Qed.
 
 Lemma proof_of_minimal_representation_entail_wit_4_2_split_goal_1 : minimal_representation_entail_wit_4_2_split_goal_1.
@@ -210,7 +194,7 @@ Qed.
 Lemma proof_of_minimal_representation_entail_wit_4_2 : minimal_representation_entail_wit_4_2.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_minimal_representation_entail_wit_4_2_split_goal_1.
+  - Goal_apply proof_of_minimal_representation_entail_wit_4_2_split_goal_1.
 Qed.
 
 Lemma proof_of_minimal_representation_entail_wit_5_split_goal_1 : minimal_representation_entail_wit_5_split_goal_1.
@@ -229,7 +213,7 @@ Qed.
 Lemma proof_of_minimal_representation_entail_wit_5 : minimal_representation_entail_wit_5.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_minimal_representation_entail_wit_5_split_goal_1.
+  - Goal_apply proof_of_minimal_representation_entail_wit_5_split_goal_1.
 Qed.
 
 Lemma proof_of_minimal_representation_entail_wit_6_1 : minimal_representation_entail_wit_6_1.
@@ -350,7 +334,7 @@ Qed.
 Lemma proof_of_minimal_representation_entail_wit_7_1 : minimal_representation_entail_wit_7_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_minimal_representation_entail_wit_7_1_split_goal_1.
+  - Goal_apply proof_of_minimal_representation_entail_wit_7_1_split_goal_1.
 Qed.
 
 Lemma proof_of_minimal_representation_entail_wit_7_2_split_goal_1 : minimal_representation_entail_wit_7_2_split_goal_1.
@@ -363,7 +347,7 @@ Qed.
 Lemma proof_of_minimal_representation_entail_wit_7_2 : minimal_representation_entail_wit_7_2.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_minimal_representation_entail_wit_7_2_split_goal_1.
+  - Goal_apply proof_of_minimal_representation_entail_wit_7_2_split_goal_1.
 Qed.
 
 Lemma proof_of_minimal_representation_entail_wit_7_3 : minimal_representation_entail_wit_7_3.
@@ -452,9 +436,10 @@ Qed.
 
 Lemma proof_of_minimal_representation_entail_wit_10 : minimal_representation_entail_wit_10.
 Proof.
-  unfold minimal_representation_entail_wit_10. right. intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hstart : MRValidStart l best) by (unfold MRValidStart; lia).
   assert (Hk : k = n_pre) by lia. subst k.
+  rewrite (IntArray.undef_seg_empty out_pre n_pre).
   rewrite (sublist_self (MRRotation l best) n_pre) by
     (rewrite (MRRotation_Zlength__output_finalization l best Hstart); lia).
   sep_apply (IntArray.seg_to_full out_pre 0 n_pre (MRRotation l best)).

@@ -1196,7 +1196,7 @@ Proof.
         unfold p1 in Hx1. apply <- In_Zrange in Hx1.
         apply <- In_Zrange in Hx2. lia.
     + exact Happ.
-  - unfold p1. rewrite Zlength_app, Zlength_correct, rev_length,
+  - unfold p1. rewrite Zlength_app, Zlength_correct, length_rev,
       <- Zlength_correct, !Zlength_Zrange__constructive_returns by lia.
     lia.
 Qed.

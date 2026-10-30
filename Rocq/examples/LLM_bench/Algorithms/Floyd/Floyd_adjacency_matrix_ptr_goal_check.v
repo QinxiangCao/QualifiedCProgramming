@@ -3,7 +3,6 @@ From SimpleC.EE.LLM_bench.Algorithms.Floyd Require Import Floyd_adjacency_matrix
 Module VC_Correctness : VC_Correct.
   Include safeexec_strategy_proof.
   Include array2_strategy_proof.
-  Include int_array_strategy_proof.
   Include int_ptr_array2_strategy_proof.
   Include graph_matrix_strategy_proof.
   Include Floyd_adjacency_matrix_ptr_proof_auto.

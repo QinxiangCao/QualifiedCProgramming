@@ -18,7 +18,7 @@ from path_utils import fixed_path_under, path_is_link_like, run_root_from_path
 from process_adapter import run_bounded_process, tool_progress
 
 
-COQ_COMMAND_TIMEOUT_SECONDS = 15 * 60
+COQ_COMMAND_TIMEOUT_SECONDS = 30 * 60
 
 
 FIXED_LOAD_PATH_MAPPINGS: tuple[tuple[str, str, str], ...] = (
@@ -30,8 +30,11 @@ FIXED_LOAD_PATH_MAPPINGS: tuple[tuple[str, str, str], ...] = (
     ("-R", "Rocq/auxlibs", "AUXLib"),
     ("-R", "Rocq/examples", "SimpleC.EE"),
     ("-R", "Rocq/stdlib", "SimpleC.StdLib"),
+    ("-R", "Rocq/Verification", "SimpleC.Verification"),
     ("-R", "Rocq/StrategyLib", "SimpleC.StrategyLib"),
     ("-R", "Rocq/Common", "SimpleC.Common"),
+    ("-R", "Rocq/CoreLang", "SimpleC.CoreLang"),
+    ("-R", "Rocq/cdcllib", "CDCLLib"),
     ("-R", "Rocq/fixedpoints", "FP"),
     ("-R", "Rocq/MonadLib", "MonadLib"),
     ("-R", "Rocq/listlib", "ListLib"),
@@ -580,14 +583,24 @@ def failure_result(error: Exception, started: float, **context: Any) -> dict[str
             "elapsed_seconds": round(time.monotonic() - started, 6)}
 
 
-def _case_family(anchor: Path) -> tuple[Path, str, set[Path]]:
+def _case_family(
+    anchor: Path, *, root: Path | None = None, sources: Iterable[Path] = (),
+) -> tuple[Path, str, set[Path]]:
+    """The case modules: the fixed suffixes plus the split manual proofs `<case>_proof_manual_part<N>.v`
+    found in the case directory under `root` or among `sources`."""
     identity = _canonical_target_case_identity(anchor)
     if identity is None:
         raise ValueError(f"Invalid current-case anchor: {anchor}")
     directory, name = identity
     if relative_to_logical_module(anchor) is None:
         raise ValueError(f"No Rocq load path covers {anchor}")
-    return directory, name, {directory / f"{name}{suffix}" for suffix in TARGET_CASE_MODULE_SUFFIXES}
+    family = {directory / f"{name}{suffix}" for suffix in TARGET_CASE_MODULE_SUFFIXES}
+    candidates = set(sources)
+    if root is not None and (root / directory).is_dir():
+        candidates |= {directory / entry.name for entry in (root / directory).iterdir()}
+    part = re.compile(re.escape(name) + r"_proof_manual_part[0-9]+\.v")
+    family |= {path for path in candidates if path.parent == directory and part.fullmatch(path.name)}
+    return directory, name, family
 
 
 def _present_family(root: Path, family: set[Path]) -> list[Path]:
@@ -600,12 +613,28 @@ def _present_family(root: Path, family: set[Path]) -> list[Path]:
     return present
 
 
+def current_sources(graph: Mapping[Path, Sequence[Path]], family: set[Path]) -> set[Path]:
+    """Rebuild every selected module whose assumptions can change with the case."""
+    consumers: dict[Path, set[Path]] = {}
+    for source, dependencies in graph.items():
+        for dependency in dependencies:
+            consumers.setdefault(dependency, set()).add(source)
+    current = set(graph) & family
+    pending = list(current)
+    while pending:
+        for source in consumers.get(pending.pop(), ()):
+            if source not in current:
+                current.add(source)
+                pending.append(source)
+    return current
+
+
 def prepare_plan(
     backend: Any, *, root: Path, target: Path, anchor: Path,
     deadline: float, all_current: bool = False,
 ) -> dict[str, Any]:
-    """Prepare one native graph; the family alone determines current versus base."""
-    _directory, _name, family = _case_family(anchor)
+    """Prepare one native graph; rebuild the family and its selected consumers."""
+    _directory, _name, family = _case_family(anchor, root=root)
     if target not in family:
         raise ValueError(f"Dependency target is outside the current family: {target}")
     fixed_source(root, target)
@@ -642,7 +671,7 @@ def validate_plan(root: Path, backend: Any, plan: Any) -> dict[str, Any]:
         raise ValueError("Dependency plan backend differs from the current workspace")
     target = _plan_relative(plan["target"], ".vo").with_suffix(".v")
     anchor = _plan_relative(plan["case_anchor"], ".v")
-    _directory, _name, family = _case_family(anchor)
+    _directory, _name, family = _case_family(anchor, root=root)
     if target not in family or not isinstance(plan["dependencies"], dict):
         raise ValueError("Invalid dependency plan target or graph")
     graph = {}
@@ -655,11 +684,10 @@ def validate_plan(root: Path, backend: Any, plan: Any) -> dict[str, Any]:
     if set(dependency_closure(graph, set(graph) & family)) != set(graph):
         raise ValueError("Dependency plan contains sources outside the current-family closure")
     base_root = root / "_build/default" if backend.BUILD_MODE == "dune" else root
+    current = current_sources(graph, family)
     for source in graph:
         fixed_source(root, source)
-        if source not in family:
-            if set(graph[source]) & family:
-                raise ValueError(f"Base module depends on the current case: {source}")
+        if source not in current:
             fixed_source(base_root, source.with_suffix(".vo"), label="base artifact")
     return plan
 
@@ -676,11 +704,12 @@ def load_plan(root: Path, backend: Any, receipt: Mapping[str, Any] | None) -> di
 
 
 def preparation_receipt(plan: dict[str, Any], started: float, deadline: float) -> dict[str, Any]:
-    _directory, _name, family = _case_family(Path(plan["case_anchor"]))
     sources = set(plan_graph(plan))
+    _directory, _name, family = _case_family(Path(plan["case_anchor"]), sources=sources)
+    current = current_sources(plan_graph(plan), family)
     return {"status": "passed", "returncode": 0, "build_mode": plan["build_mode"],
-            "target": plan["target"], "base_artifact_count": len(sources - family),
-            "current_source_count": len(sources & family), "_plan": plan, "_deadline": deadline,
+            "target": plan["target"], "base_artifact_count": len(sources - current),
+            "current_source_count": len(current), "_plan": plan, "_deadline": deadline,
             "elapsed_seconds": round(time.monotonic() - started, 6)}
 
 
@@ -716,11 +745,14 @@ def current_graph(plan: Mapping[str, Any], texts: Mapping[Path, str]) -> dict[Pa
     return result
 
 
-def coq_argv(backend: Any, root: Path, build: Path, directory: Path, target: Path, *, debug: bool = False) -> list[str]:
-    logical = relative_to_logical_module(directory / "__marker__.v")
-    if logical is None:
-        raise ValueError(f"No logical load path for {directory}")
-    entries = [*backend.base_load_paths(root), ("-R", build / directory, logical.rsplit(".", 1)[0])]
+def coq_argv(backend: Any, root: Path, build: Path, directory: Path, target: Path, *,
+             debug: bool = False, current_directories: Iterable[Path] = ()) -> list[str]:
+    entries = list(backend.base_load_paths(root))
+    for current_directory in sorted({directory, *current_directories}, key=lambda path: (len(path.parts), path.as_posix())):
+        logical = relative_to_logical_module(current_directory / "__marker__.v")
+        if logical is None:
+            raise ValueError(f"No logical load path for {current_directory}")
+        entries.append(("-R", build / current_directory, logical.rsplit(".", 1)[0]))
     flags = [token for flag, path, logical in entries for token in (flag, str(path), logical)]
     tool = "coqtop" if debug else "coqc"
     return [backend.configured_program(root, tool), "-q", *(["-batch"] if debug else []),
@@ -735,19 +767,19 @@ def _check_context(
     layout = build_workspace_layout_error(root, build)
     if layout:
         raise ValueError(layout)
-    directory, name, family = _case_family(anchor)
+    directory, name, family = _case_family(anchor, root=root)
     if preparation is None:
         native_target = target if target in family else anchor
         plan = prepare_plan(backend, root=root, target=native_target, anchor=anchor,
                             deadline=deadline, all_current=not library_only)
     else:
         plan = load_plan(root, backend, preparation)
-        if _case_family(Path(plan["case_anchor"])) != (directory, name, family):
+        if _case_family(Path(plan["case_anchor"]), root=root) != (directory, name, family):
             raise ValueError("Dependency preparation belongs to a different current case")
     overlay_map = _normalized_overlay_map(overlays)
     if set(overlay_map) - family:
         raise ValueError("Overlay destinations must belong to the current case")
-    sources = set(plan_graph(plan)) & family
+    sources = current_sources(plan_graph(plan), family)
     build.mkdir(parents=True, exist_ok=True)
     texts, _changed = stage_current_sources(workspace_root=root, build_workspace=build,
         sources={source: overlay_map.get(source, root / source) for source in sources})
@@ -756,9 +788,11 @@ def _check_context(
 
 def _compile(backend: Any, root: Path, build: Path, directory: Path, order: Iterable[Path], deadline: float) -> list[str]:
     compiled = []
+    order = list(order)
+    directories = {source.parent for source in order}
     for source in order:
         remove_target_case_side_products(build, [source])
-        run_tool(coq_argv(backend, root, build, directory, source), cwd=build,
+        run_tool(coq_argv(backend, root, build, directory, source, current_directories=directories), cwd=build,
                  deadline=deadline, label=f"Rocq {source}")
         fixed_source(build, source.with_suffix(".vo"), label="compiled current artifact")
         compiled.append(source.as_posix())
@@ -849,7 +883,8 @@ def run_coqtop_debug(
         payload = script.read_bytes()
         # Check imports against the same prepared graph before loading the script.
         current_graph(plan, {debug_script: payload.decode("utf-8")})
-        argv = coq_argv(backend, root, build, library.parent, script, debug=True)
+        argv = coq_argv(backend, root, build, library.parent, script, debug=True,
+                        current_directories={source.parent for source in texts})
         result = run_tool(argv, cwd=build, deadline=deadline, label="Rocq debug")
         return {**context, "status": "passed", "returncode": 0, "argv": argv, "cwd": str(build),
                 "debug_script_path": str(script), "debug_script_size": len(payload),
@@ -869,7 +904,7 @@ def audit_formal_case_lib_closure(
     try:
         root = workspace_root.expanduser().absolute()
         target = _repository_relative(formal_case_lib, root, label="case library")
-        directory, name, family = _case_family(current_case_anchor)
+        directory, name, family = _case_family(current_case_anchor, root=root)
         if target != directory / f"{name}_lib.v":
             raise ValueError("Library audit target differs from the current-case identity")
         plan = prepare_plan(backend, root=root, target=target, anchor=current_case_anchor,

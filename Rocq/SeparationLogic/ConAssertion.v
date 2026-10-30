@@ -538,6 +538,8 @@ Definition has_tokens (P: TokenSet): expr :=
     Sets.equiv Q.(s_STS) Sets.empty /\
     Sets.equiv P Q.(s_token).
 
+Include IterSepconLibSig.
+
 End CSL.
 
 Definition naive_S : STS := {|
@@ -550,4 +552,3 @@ Definition naive_S : STS := {|
 Module STS_naive <: STS_def.
   Definition sts := naive_S.
 End STS_naive.
-

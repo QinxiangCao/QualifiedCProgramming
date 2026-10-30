@@ -230,7 +230,7 @@ elab_rules : command
   ArrayLib.mixed_full_merge_to_mixed_full,
   ArrayLib.undef_full_merge_to_undef_full,
   ArrayLib.full_shape_merge_to_full_shape
-] => 6423304207039358198
+] => 2966188296363905218
 
 #check ArrayLibCoreSig
 #check ArrayLibCoreSig.canonical

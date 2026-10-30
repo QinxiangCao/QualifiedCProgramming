@@ -63,6 +63,8 @@ def _publication(state: dict) -> tuple[Path, dict[str, str]]:
     record = state.get("final_apply_transaction")
     if not isinstance(record, dict) or set(record) != {"roles", "status"}:
         raise ValueError("final publication record is missing or malformed")
+    if record["status"] not in {"preparing", "applied", "rolled-back"}:
+        raise ValueError("invalid final publication status")
     roles = record["roles"]
     if not isinstance(roles, list) or roles != [role for role in FINAL_ROLES if role in roles]:
         raise ValueError("invalid final publication roles")
@@ -74,14 +76,32 @@ def _publication(state: dict) -> tuple[Path, dict[str, str]]:
 def _rollback(state: dict) -> str | None:
     try:
         backup, files = _publication(state)
-        if backup.exists():
+        if os.path.lexists(backup):
             rollback_publication(main_root=Path(state["main_root"]), target_files=files, transaction=backup)
-        elif state["final_apply_transaction"]["status"] != "preparing":
+        elif state["final_apply_transaction"]["status"] not in {"preparing", "rolled-back"}:
             raise ValueError("final publication backup is missing")
         state["final_apply_transaction"]["status"] = "rolled-back"
     except CHECK_ERRORS as exc:
         return str(exc)
     return None
+
+
+def can_retry_unstarted_publication(state: dict) -> bool:
+    """Recognize the legacy false conflict after a backup-creation failure.
+
+    A completed rollback is idempotent even when no backup was ever installed.
+    Do not reopen an applied transaction, an extant backup, or another conflict.
+    The retry still recompiles and snapshots current canonical files normally.
+    """
+    if (state.get("phase") != "final-apply" or state.get("current_blockers") != [
+            {"failure_class": "publication-conflict", "message": "final publication backup is missing"}]):
+        return False
+    try:
+        backup, _files = _publication(state)
+        return (state["final_apply_transaction"]["status"] == "rolled-back"
+                and not os.path.lexists(backup))
+    except CHECK_ERRORS:
+        return False
 
 
 def _forbidden(text: str) -> list[str]:
@@ -197,6 +217,7 @@ def final_apply(args) -> int:
             if backup.exists():
                 shutil.rmtree(backup)
             state.pop("final_apply_transaction")
+            state["current_blockers"] = []
             _save_state(Path(state["run_root"]), state)
         ctx = _context(state)
         target = state["target_files"]

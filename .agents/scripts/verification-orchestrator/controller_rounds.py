@@ -228,6 +228,9 @@ def derive_actions(state: dict) -> list[dict]:
             return _group_actions(state, task)
         return []
     if phase in {"final-apply", "final-check"}:
+        from controller_final import can_retry_unstarted_publication
+        if can_retry_unstarted_publication(state):
+            return [main_action(state, phase)]
         return [] if state["current_blockers"] else [main_action(state, phase)]
     return []
 

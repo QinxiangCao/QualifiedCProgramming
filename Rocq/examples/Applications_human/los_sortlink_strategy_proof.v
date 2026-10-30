@@ -1,9 +1,4 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.Applications_human Require Import los_sortlink_strategy_goal.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.glob_vars_and_defs.
@@ -12,7 +7,6 @@ Require Import SimpleC.EE.Applications_human.LiteOS.lib.sortlink.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.tick.
 Import DLL.
 Import SDLL.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 
@@ -111,16 +105,16 @@ Qed.
 
 Lemma los_sortlink_strategy17_correctness : los_sortlink_strategy17.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
+  simpl.
   intros.
   Exists x.
   split_pure_spatial.
   - cancel (storeA x a).
     cancel (&( x # "LOS_DL_LIST" ->ₛ "pstPrev") # Ptr |-> px).
     cancel (&( px # "LOS_DL_LIST" ->ₛ "pstNext") # Ptr |-> x).
+    fold (dllseg_shift storeA x py l0).
     cancel (dllseg_shift storeA x py l0).
-    rewrite <- derivable1_wand_sepcon_adjoint.
-    normalize.
-    cancel.
   - split_pures; dump_pre_spatial; auto.
 Qed.
 
@@ -151,8 +145,9 @@ Qed.
 
 Lemma los_sortlink_strategy16_correctness : los_sortlink_strategy16.
   pre_process_default.
-  intros.
+  cbn [poly_store poly_undef_store].
+  simpl.
   Intros x0.
-  rewrite H.
+  subst x0.
   cancel.
 Qed.

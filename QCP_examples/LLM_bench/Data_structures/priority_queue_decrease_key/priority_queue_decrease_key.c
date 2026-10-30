@@ -4,18 +4,7 @@
 
 void pqdk_sift_up(int *key, int *data, int *pos, int data_bound,
                   int n, int idx)
-/*@ With (M : partial_map) (capacity : Z)
-    Require
-      0 <= idx && idx < n &&
-      n <= capacity && capacity <= heap_capacity &&
-      store_sift_up(
-        key, data, pos, data_bound, capacity, M, n, idx
-      )
-    Ensure
-      store_heap(
-        key, data, pos, data_bound, capacity, M, n
-      )
- */
+/*@ default */
 {
   int child = idx;
   /*@ Inv Assert
@@ -100,18 +89,7 @@ void pqdk_sift_up(int *key, int *data, int *pos, int data_bound,
 
 void pqdk_sift_down(int *key, int *data, int *pos, int data_bound,
                     int n, int idx)
-/*@ With (M : partial_map) (capacity : Z)
-    Require
-      0 <= idx && idx < n &&
-      n <= capacity && capacity <= heap_capacity &&
-      store_sift_down(
-        key, data, pos, data_bound, capacity, M, n, idx
-      )
-    Ensure
-      store_heap(
-        key, data, pos, data_bound, capacity, M, n
-      )
- */
+/*@ default */
 {
   int current = idx;
   /*@ Inv Assert
@@ -236,22 +214,7 @@ void pqdk_sift_down(int *key, int *data, int *pos, int data_bound,
 
 void pqdk_push(int *key, int *data, int *pos, int *size,
                int data_bound, int data_x, int key_x)
-/*@ With (M_before : partial_map) (n capacity : Z)
-    Require
-      0 <= n && n < capacity && capacity <= heap_capacity &&
-      0 <= data_x && data_x < data_bound &&
-      partial_map_absent(M_before, data_x) &&
-      store(size, int, n) *
-      store_heap(
-        key, data, pos, data_bound, capacity, M_before, n
-      )
-    Ensure
-      store(size, int, n + 1) *
-      store_heap(
-        key, data, pos, data_bound, capacity,
-        partial_map_add(M_before, data_x, key_x), n + 1
-      )
- */
+/*@ default */
 {
   int n0 = *size;
   /*@ Assert
@@ -299,24 +262,7 @@ void pqdk_push(int *key, int *data, int *pos, int *size,
 
 void pqdk_decrease_key(int *key, int *data, int *pos, int *size,
                        int data_bound, int data_x, int key_x)
-/*@ With (M_before : partial_map) (n capacity : Z)
-    Require
-      0 <= n && n <= capacity && capacity <= heap_capacity &&
-      0 <= data_x && data_x < data_bound &&
-      partial_map_decrease_key_pre(
-        M_before, data_x, key_x
-      ) &&
-      store(size, int, n) *
-      store_heap(
-        key, data, pos, data_bound, capacity, M_before, n
-      )
-    Ensure
-      store(size, int, n) *
-      store_heap(
-        key, data, pos, data_bound, capacity,
-        partial_map_update(M_before, data_x, key_x), n
-      )
- */
+/*@ default */
 {
   /*@ Assert
       exists key_values data_values pos_values,
@@ -388,27 +334,7 @@ void pqdk_decrease_key(int *key, int *data, int *pos, int *size,
 
 void pqdk_update_or_push(int *key, int *data, int *pos, int *size,
                          int data_bound, int data_x, int key_x)
-/*@ With (M_before : partial_map) (n capacity : Z)
-    Require
-      0 <= n && n < capacity && capacity <= heap_capacity &&
-      0 <= data_x && data_x < data_bound &&
-      partial_map_update_or_add_pre(
-        M_before, data_x, key_x
-      ) &&
-      store(size, int, n) *
-      store_heap(
-        key, data, pos, data_bound, capacity, M_before, n
-      )
-    Ensure exists n_after,
-      partial_map_update_or_add_size(
-        M_before, n, n_after, data_x, key_x
-      ) &&
-      store(size, int, n_after) *
-      store_heap(
-        key, data, pos, data_bound, capacity,
-        partial_map_update_or_add(M_before, data_x, key_x), n_after
-      )
- */
+/*@ default */
 {
   /*@ Assert
       exists key_values data_values pos_values,
@@ -490,25 +416,7 @@ void pqdk_update_or_push(int *key, int *data, int *pos, int *size,
 
 void pqdk_pop(int *key, int *data, int *pos, int *size,
               int data_bound, int *data_out, int *key_out)
-/*@ With (M_before : partial_map) (n capacity : Z)
-    Require
-      1 <= n && n <= capacity && capacity <= heap_capacity &&
-      store(size, int, n) *
-      store_heap(
-        key, data, pos, data_bound, capacity, M_before, n
-      ) *
-      has_int_permission(data_out) *
-      has_int_permission(key_out)
-    Ensure exists popped,
-      *key_out == item_key(popped) &&
-      *data_out == item_data(popped) &&
-      partial_map_minimum(M_before, popped) &&
-      store(size, int, n - 1) *
-      store_heap(
-        key, data, pos, data_bound, capacity,
-        partial_map_remove(M_before, item_data(popped)), n - 1
-      )
- */
+/*@ default */
 {
   /*@ Assert
       exists key_values data_values pos_values,

@@ -970,7 +970,7 @@ elab_rules : command
   LDBL_MIN,
   field_address,
   should_be_equal
-] => 6354823823336268699
+] => 7076479317335843779
 
 /--
 error: aggregate facade left an architecture/endian parameter unresolved

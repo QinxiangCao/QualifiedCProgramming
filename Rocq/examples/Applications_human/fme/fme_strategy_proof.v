@@ -1,14 +1,8 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.Applications_human.fme Require Import fme_lib.
-From SimpleC.SL Require Import SeparationLogic.
 From SimpleC.EE.Applications_human.fme Require Import fme_strategy_goal.
 Import naive_C_Rules.
 From SimpleC.EE.Applications_human.fme Require Import fme_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 
@@ -75,8 +69,7 @@ Lemma fme_strategy16_correctness : fme_strategy16.
   pre_process_default.
   unfold coef_array.
   unfold coef_array_missing_i_rec.
-  replace (p + i * 4) with (p + i * sizeof (INT))
-    by (rewrite sizeof_int; lia).
+  unfold poly_store.
   sep_apply IntArray.missing_i_merge_to_full; try lia.
   unfold coef_Znth.
   rewrite replace_Znth_Znth by tauto.

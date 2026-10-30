@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.QCP_demos_LLM Require Import bst_delete_rec2_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 From SimpleC.EE.QCP_demos_LLM Require Import bst_lib.
 Import get_right_most.
 Import naive_C_Rules.
@@ -53,17 +38,17 @@ Qed.
 Lemma proof_of_get_pre_return_wit_2 : get_pre_return_wit_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  sep_apply_l_atomic (store_tree_zero t_pre_v_right t_right).
+  sep_apply_l_atomic (store_tree_zero t_v_right t_right).
   * dump_pre_spatial. exact PreH1.
   * Intros_p Hright.
-    Exists t_pre_v_left. Exists t_pre_v_right.
+    Exists t_v_left. Exists t_v_right.
     Exists t_left. Exists (@nil half_tree).
-    Exists t_value. Exists t_key. Exists t_pre_v.
+    Exists t_value. Exists t_key. Exists t_v.
     repeat (split_pure_spatial || split_pures).
-    + cancel (t_pre # Ptr |-> t_pre_v).
-      cancel (&(t_pre_v # "tree" ->ₛ "key") # Int |-> t_key).
-      cancel (&(t_pre_v # "tree" ->ₛ "value") # Int |-> t_value).
-      cancel (&(t_pre_v # "tree" ->ₛ "right") # Ptr |-> t_pre_v_right).
+    + cancel (t_pre # Ptr |-> t_v).
+      cancel (&(t_v # "tree" ->ₛ "key") # Int |-> t_key).
+      cancel (&(t_v # "tree" ->ₛ "value") # Int |-> t_value).
+      cancel (&(t_v # "tree" ->ₛ "right") # Ptr |-> t_v_right).
       simpl. split_pure_spatial.
       - cancel.
       - dump_pre_spatial. reflexivity.
@@ -83,20 +68,20 @@ Proof.
   destruct t_right as [| tree_l k_val v_val tree_r].
   - simpl. Intros_p Hzero. contradiction.
   - simpl. Intros pl. Intros pr.
-    Exists pr. Exists pl. Exists t_pre_v_left. Exists tree_l. Exists tree_r.
-    Exists v_val. Exists k_val. Exists t_pre_v_right. Exists t_pre_v.
+    Exists pr. Exists pl. Exists t_v_left_2. Exists tree_l. Exists tree_r.
+    Exists v_val. Exists k_val. Exists t_v_right_2. Exists t_v_3.
     repeat (split_pure_spatial || split_pures).
-    + cancel (t_pre # Ptr |-> t_pre_v).
-      cancel (&(t_pre_v # "tree" ->ₛ "right") # Ptr |-> t_pre_v_right).
-      cancel (&(t_pre_v # "tree" ->ₛ "key") # Int |-> t_key).
-      cancel (&(t_pre_v # "tree" ->ₛ "value") # Int |-> t_value).
-      cancel (&(t_pre_v # "tree" ->ₛ "left") # Ptr |-> t_pre_v_left).
-      cancel (store_tree t_pre_v_left t_left).
-      cancel (&(t_pre_v_right # "tree" ->ₛ "key") # Int |-> k_val).
-      cancel (&(t_pre_v_right # "tree" ->ₛ "value") # Int |-> v_val).
-      cancel (&(t_pre_v_right # "tree" ->ₛ "left") # Ptr |-> pl).
+    + cancel (t_pre # Ptr |-> t_v_3).
+      cancel (&(t_v_3 # "tree" ->ₛ "right") # Ptr |-> t_v_right_2).
+      cancel (&(t_v_3 # "tree" ->ₛ "key") # Int |-> t_key).
+      cancel (&(t_v_3 # "tree" ->ₛ "value") # Int |-> t_value).
+      cancel (&(t_v_3 # "tree" ->ₛ "left") # Ptr |-> t_v_left_2).
+      cancel (store_tree t_v_left_2 t_left).
+      cancel (&(t_v_right_2 # "tree" ->ₛ "key") # Int |-> k_val).
+      cancel (&(t_v_right_2 # "tree" ->ₛ "value") # Int |-> v_val).
+      cancel (&(t_v_right_2 # "tree" ->ₛ "left") # Ptr |-> pl).
       cancel (store_tree pl tree_l).
-      cancel (&(t_pre_v_right # "tree" ->ₛ "right") # Ptr |-> pr).
+      cancel (&(t_v_right_2 # "tree" ->ₛ "right") # Ptr |-> pr).
       cancel (store_tree pr tree_r).
     + dump_pre_spatial. exact PreH2.
     + dump_pre_spatial. exact PreH1.
@@ -111,13 +96,13 @@ Lemma proof_of_delete_return_wit_2 : delete_return_wit_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
   subst p tr_low_level_spec.
-  Exists b_v.
+  Exists b_v_2.
   assert (Hdel: tree_delete' x_pre (make_tree l0 p_key p_value r0)
         = make_tree (tree_delete' x_pre l0) p_key p_value r0).
   { simpl. destruct (Key.dec x_pre p_key) as [[Hlt | Hgt] | Heq]; try lia; reflexivity. }
   rewrite Hdel.
-  cancel (b_pre # Ptr |-> b_v).
-  sep_apply_l_atomic (store_tree_make_tree b_v p_key p_value b_callee_v p_right
+  cancel (b_pre # Ptr |-> b_v_2).
+  sep_apply_l_atomic (store_tree_make_tree b_v_2 p_key p_value b_v_3 p_right
     (tree_delete' x_pre l0) r0).
   - dump_pre_spatial. exact PreH3.
   - dump_pre_spatial. split; [exact PreH4 | exact PreH5].
@@ -127,11 +112,11 @@ Qed.
 Lemma proof_of_delete_return_wit_1 : delete_return_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  sep_apply_l_atomic (store_tree_zero b_pre_v_2 tr_low_level_spec).
+  sep_apply_l_atomic (store_tree_zero b_v_2 tr_low_level_spec).
   * dump_pre_spatial. exact PreH1.
   * Intros_p Htr.
     Exists 0.
-    subst b_pre_v_2 tr_low_level_spec.
+    subst b_v_2 tr_low_level_spec.
     cancel (b_pre # Ptr |-> 0).
     simpl.
     split_pure_spatial.
@@ -147,7 +132,7 @@ Proof.
   subst l0.
   assert (x_pre = p_key) by lia.
   subst x_pre.
-  Exists b_v.
+  Exists b_v_2.
   assert (Hdel:
     tree_delete' p_key
       (make_tree (make_tree l0_left p_l_k p_l_v r0_left) p_key p_value r0) =
@@ -155,11 +140,11 @@ Proof.
   { simpl. destruct (Key.dec p_key p_key) as [[Hlt | Hgt] | Heq]; try lia.
     rewrite PreH4, PreH5, PreH6, PreH7. reflexivity. }
   rewrite Hdel.
-  cancel (b_pre # Ptr |-> b_v).
-  sep_apply_l_atomic (store_ptb_store_tree (&(b_v # "tree" ->ₛ "left"))
+  cancel (b_pre # Ptr |-> b_v_2).
+  sep_apply_l_atomic (store_ptb_store_tree (&(b_v_2 # "tree" ->ₛ "left"))
     retval retval_v_left t_pt ret_left).
   Intros p_root.
-  sep_apply_l_atomic (store_tree_make_tree b_v retval_v_key retval_v_value
+  sep_apply_l_atomic (store_tree_make_tree b_v_2 retval_v_key retval_v_value
     p_root p_right (combine_tree t_pt ret_left) r0).
   - dump_pre_spatial. exact PreH10.
   - dump_pre_spatial. split; [exact PreH2 | exact PreH3].
@@ -189,13 +174,13 @@ Lemma proof_of_delete_return_wit_3 : delete_return_wit_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
   subst p tr_low_level_spec.
-  Exists b_v.
+  Exists b_v_2.
   assert (Hdel: tree_delete' x_pre (make_tree l0 p_key p_value r0)
         = make_tree l0 p_key p_value (tree_delete' x_pre r0)).
   { simpl. destruct (Key.dec x_pre p_key) as [[Hlt | Hgt] | Heq]; try lia; reflexivity. }
   rewrite Hdel.
-  cancel (b_pre # Ptr |-> b_v).
-  sep_apply_l_atomic (store_tree_make_tree b_v p_key p_value p_left b_callee_v
+  cancel (b_pre # Ptr |-> b_v_2).
+  sep_apply_l_atomic (store_tree_make_tree b_v_2 p_key p_value p_left b_v_3
     l0 (tree_delete' x_pre r0)).
   - dump_pre_spatial. exact PreH4.
   - dump_pre_spatial. split; [exact PreH5 | exact PreH6].
@@ -209,13 +194,13 @@ Proof.
   - simpl. Intros_p Hzero. contradiction.
   - simpl. Intros pl. Intros pr.
     Exists pr. Exists pl. Exists tree_l. Exists v_val. Exists tree_r. Exists k_val.
-    Exists b_pre_v.
+    Exists b_v.
     repeat (split_pure_spatial || split_pures).
-    + cancel (b_pre # Ptr |-> b_pre_v).
-      cancel (&(b_pre_v # "tree" ->ₛ "key") # Int |-> k_val).
-      cancel (&(b_pre_v # "tree" ->ₛ "value") # Int |-> v_val).
-      cancel (&(b_pre_v # "tree" ->ₛ "left") # Ptr |-> pl).
-      cancel (&(b_pre_v # "tree" ->ₛ "right") # Ptr |-> pr).
+    + cancel (b_pre # Ptr |-> b_v).
+      cancel (&(b_v # "tree" ->ₛ "key") # Int |-> k_val).
+      cancel (&(b_v # "tree" ->ₛ "value") # Int |-> v_val).
+      cancel (&(b_v # "tree" ->ₛ "left") # Ptr |-> pl).
+      cancel (&(b_v # "tree" ->ₛ "right") # Ptr |-> pr).
       cancel (store_tree pl tree_l).
       cancel (store_tree pr tree_r).
     + dump_pre_spatial. reflexivity.
@@ -264,8 +249,8 @@ Proof.
     + dump_pre_spatial. reflexivity.
 Qed.
 
-Lemma proof_of_delete_derive_high_level_spec_by_low_level_spec :
-  delete_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_delete_low_level_spec_entail_high_level_spec :
+  delete_low_level_spec_entail_high_level_spec.
 Proof.
   LLM_pre_process ltac:(int_auto).
   Intros b_pre_v.

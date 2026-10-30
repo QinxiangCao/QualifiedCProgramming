@@ -40,7 +40,7 @@ private theorem nth_property (P : Int → Prop) (l : List Int) (i : Int)
 
 theorem proof_of_multipleKnapsack_safety_wit_15 : multipleKnapsack_safety_wit_15 := by
   right
-  intro capacity_pre n_pre counts_pre values_pre weights_pre counts_l values_l weights_l tail head k pos cnt v w r i qval_l qidx_l old_l dp_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
+  intro counts_l values_l weights_l weights_pre values_pre counts_pre n_pre capacity_pre tail head k pos cnt v w r i qval_l qidx_l old_l dp_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
   have hlo := nth_property _ old_l pos PreH37 (by omega)
   have hhi := nth_property _ old_l pos PreH38 (by omega)
   split_pures <;> dump_pre_spatial
@@ -48,7 +48,7 @@ theorem proof_of_multipleKnapsack_safety_wit_15 : multipleKnapsack_safety_wit_15
 
 theorem proof_of_multipleKnapsack_safety_wit_24 : multipleKnapsack_safety_wit_24 := by
   right
-  intro capacity_pre n_pre counts_pre values_pre weights_pre counts_l values_l weights_l tail head current k pos cnt v w r i qval_l qidx_l old_l dp_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
+  intro counts_l values_l weights_l weights_pre values_pre counts_pre n_pre capacity_pre tail head current k pos cnt v w r i qval_l qidx_l old_l dp_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
   have he : head = tail := by omega
   subst head
   have heq := Znth_replace_Znth_Same 0 qval_l tail current (by omega)
@@ -57,7 +57,7 @@ theorem proof_of_multipleKnapsack_safety_wit_24 : multipleKnapsack_safety_wit_24
 
 theorem proof_of_multipleKnapsack_safety_wit_26 : multipleKnapsack_safety_wit_26 := by
   right
-  intro capacity_pre n_pre counts_pre values_pre weights_pre counts_l values_l weights_l tail head current k pos cnt v w r i qval_l qidx_l old_l dp_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
+  intro counts_l values_l weights_l weights_pre values_pre counts_pre n_pre capacity_pre tail head current k pos cnt v w r i qval_l qidx_l old_l dp_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
   have hb := PreH47.2.2.2.2.1 head (show head ≤ head ∧ head < tail by omega)
   have heq := Znth_replace_Znth_Diff 0 qval_l tail head current (by omega) (by omega) (by omega)
   split_pures <;> dump_pre_spatial
@@ -65,7 +65,7 @@ theorem proof_of_multipleKnapsack_safety_wit_26 : multipleKnapsack_safety_wit_26
 
 theorem proof_of_multipleKnapsack_entail_wit_1 : multipleKnapsack_entail_wit_1 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro counts_l values_l weights_l n_pre capacity_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
@@ -73,7 +73,7 @@ theorem proof_of_multipleKnapsack_entail_wit_1 : multipleKnapsack_entail_wit_1 :
 
 theorem proof_of_multipleKnapsack_entail_wit_2 : multipleKnapsack_entail_wit_2 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l qval0_2 qidx0_2 old0_2 j dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro counts_l values_l weights_l n_pre capacity_pre qval0_2 qidx0_2 old0_2 j dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   have hz : Forall (Eq (0 : Int)) (dp_l_2 ++ [0]) := by
     apply Forall.iff_forall_mem.mpr
     intro x hx
@@ -88,7 +88,7 @@ theorem proof_of_multipleKnapsack_entail_wit_2 : multipleKnapsack_entail_wit_2 :
 
 theorem proof_of_multipleKnapsack_entail_wit_4 : multipleKnapsack_entail_wit_4 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro counts_l values_l weights_l n_pre capacity_pre i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   have hc : MKCopyPrefixSemantics dp_l_2 old_l_2 0 := by intro c hc; omega
   split_pure_spatial
   · cancel
@@ -97,7 +97,7 @@ theorem proof_of_multipleKnapsack_entail_wit_4 : multipleKnapsack_entail_wit_4 :
 
 theorem proof_of_multipleKnapsack_entail_wit_5 : multipleKnapsack_entail_wit_5 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l j i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro counts_l values_l weights_l n_pre capacity_pre j i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   have hc : MKCopyPrefix dp_l_2 old_l_2 j capacity_pre := ⟨⟨PreH15,PreH16⟩,PreH9,PreH10,PreH18⟩
   have hs := MKCopyPrefix_extend_by_replace_Znth dp_l_2 old_l_2 j capacity_pre hc (by omega)
   split_pure_spatial
@@ -120,26 +120,19 @@ attribute [local irreducible]
 
 theorem proof_of_multipleKnapsack_entail_wit_3 : multipleKnapsack_entail_wit_3 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l qval0 qidx0 old0 j dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro counts_l values_l weights_l n_pre capacity_pre qval0 qidx0 old0 j dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   have he : j = capacity_pre + 1 := by omega
   have hz : MKZeroPrefix dp_l_2 (capacity_pre+1) := ⟨by omega, by omega, fun c hc => (nth_property _ dp_l_2 c PreH15 (by omega)).symm⟩
   have ht := MKZeroPrefix_implies_MKDPTable_zero_items weights_l values_l counts_l capacity_pre dp_l_2 PreH4 hz
   have hm : MKDPTableSemantics weights_l values_l counts_l 0 capacity_pre dp_l_2 := ht.2.2.2
-  Exists qval0 qidx0 old0 dp_l_2
   split_pure_spatial
-  · rw [he]
-    sep_apply (intArray.seg_to_full (&("dp")) 0 (capacity_pre+1) dp_l_2)
-    sep_apply (intArray.seg_to_full (&("old")) 0 (capacity_pre+1) old0)
-    sep_apply (intArray.seg_to_full (&("q_idx")) 0 (capacity_pre+1) qidx0)
-    sep_apply (intArray.seg_to_full (&("q_val")) 0 (capacity_pre+1) qval0)
-    simp only [Int.zero_mul, Int.add_zero, Int.sub_zero]
-    cancel
+  · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first | assumption | omega
 
 theorem proof_of_multipleKnapsack_entail_wit_6 : multipleKnapsack_entail_wit_6 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l j i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
+  intro counts_l values_l weights_l n_pre capacity_pre j i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24
   have he : j = capacity_pre + 1 := by omega
   have hc : MKCopyPrefix dp_l_2 old_l_2 (capacity_pre+1) capacity_pre := ⟨⟨by omega,by omega⟩,PreH9,PreH10,by simpa only [he] using PreH18⟩
   have hd : MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 := ⟨⟨PreH13,by omega⟩,PreH4,PreH9,PreH17⟩
@@ -188,7 +181,7 @@ private theorem queue_bounds (q : List Int) (head tail v k : Int)
 
 theorem proof_of_multipleKnapsack_entail_wit_7 : multipleKnapsack_entail_wit_7 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l r cnt v w i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
+  intro counts_l values_l weights_l n_pre capacity_pre r cnt v w i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38
   have hp : MKItemResiduePrefixSemantics old_l_2 dp_l_2 r w v cnt 0 capacity_pre := by
     refine ⟨?_,?_⟩
     · intro t ht; omega
@@ -209,7 +202,7 @@ theorem proof_of_multipleKnapsack_entail_wit_7 : multipleKnapsack_entail_wit_7 :
 
 theorem proof_of_multipleKnapsack_entail_wit_8 : multipleKnapsack_entail_wit_8 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l tail head k pos cnt v w r i qval_l_2 qidx_l_2 old_l dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
+  intro counts_l values_l weights_l n_pre capacity_pre tail head k pos cnt v w r i qval_l_2 qidx_l_2 old_l dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
   have hd : MKQueueDropSemantics old_l qidx_l_2 qval_l_2 head tail r w v cnt k := by
     refine ⟨PreH41.1,PreH41.2.1,PreH41.2.2.1,?_,PreH41.2.2.2.2.1⟩
     intro cand hc hk hlo hp
@@ -228,7 +221,7 @@ theorem proof_of_multipleKnapsack_entail_wit_8 : multipleKnapsack_entail_wit_8 :
 
 theorem proof_of_multipleKnapsack_entail_wit_9 : multipleKnapsack_entail_wit_9 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l tail head current k pos cnt v w r i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
+  intro counts_l values_l weights_l n_pre capacity_pre tail head current k pos cnt v w r i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
   have hs : MKQueueDropSafety old_l_2 qidx_l_2 qval_l_2 head tail r w k capacity_pre := ⟨⟨PreH16,PreH17⟩,PreH29,⟨PreH38,PreH39⟩,PreH40,by omega,PreH12,PreH13,PreH11⟩
   have hx := MKQueueDropLoopState_pop_expired_preserves_predrop old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre PreH1 PreH2 (queue_drop_pack _ _ _ _ _ _ _ _ _ _ _ hs PreH47)
   have hd : MKQueueDropSemantics old_l_2 qidx_l_2 qval_l_2 (head+1) tail r w v cnt k := hx.2.2.2.2.2.2.2.2
@@ -240,7 +233,7 @@ theorem proof_of_multipleKnapsack_entail_wit_9 : multipleKnapsack_entail_wit_9 :
 
 theorem proof_of_multipleKnapsack_entail_wit_10_1 : multipleKnapsack_entail_wit_10_1 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l tail head current k pos cnt v w r i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
+  intro counts_l values_l weights_l n_pre capacity_pre tail head current k pos cnt v w r i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
   have hs : MKQueueDropSafety old_l_2 qidx_l_2 qval_l_2 head tail r w k capacity_pre := by
     refine ⟨⟨by omega,by omega⟩,by omega,⟨by omega,by omega⟩,by omega,by omega,by assumption,by assumption,by assumption⟩
   have hd := queue_drop_pack old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre hs PreH46
@@ -255,7 +248,7 @@ theorem proof_of_multipleKnapsack_entail_wit_10_1 : multipleKnapsack_entail_wit_
 
 theorem proof_of_multipleKnapsack_entail_wit_10_2 : multipleKnapsack_entail_wit_10_2 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l tail head current k pos cnt v w r i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
+  intro counts_l values_l weights_l n_pre capacity_pre tail head current k pos cnt v w r i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
   have hs : MKQueueDropSafety old_l_2 qidx_l_2 qval_l_2 head tail r w k capacity_pre := by
     refine ⟨⟨by omega,by omega⟩,by omega,⟨by omega,by omega⟩,by omega,by omega,by assumption,by assumption,by assumption⟩
   have hd := queue_drop_pack old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre hs PreH47
@@ -281,7 +274,7 @@ private theorem scratch_cleanup (a cap : Int) (l : List Int) (hc : 0 ≤ cap+1 �
 
 theorem proof_of_multipleKnapsack_entail_wit_11 : multipleKnapsack_entail_wit_11 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l tail head current k pos cnt v w r i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
+  intro counts_l values_l weights_l n_pre capacity_pre tail head current k pos cnt v w r i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
   have hs : MKQueueDropSafety old_l_2 qidx_l_2 qval_l_2 head tail r w k capacity_pre := ⟨⟨PreH16,PreH17⟩,PreH29,⟨PreH38,PreH39⟩,PreH40,by omega,PreH12,PreH13,PreH11⟩
   have hx := MKQueuePendingState_pop_dominated_tail_preserves old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current (queue_pending_pack _ _ _ _ _ _ _ _ _ _ _ _ hs PreH47) PreH2 PreH1
   have hm : MKQueuePendingSemantics old_l_2 qidx_l_2 qval_l_2 head (tail-1) r w v cnt k current := hx.2.2.2.2.2.2.2.2
@@ -293,7 +286,7 @@ theorem proof_of_multipleKnapsack_entail_wit_11 : multipleKnapsack_entail_wit_11
 
 theorem proof_of_multipleKnapsack_entail_wit_12_1 : multipleKnapsack_entail_wit_12_1 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l tail head current k pos cnt v w r i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
+  intro counts_l values_l weights_l n_pre capacity_pre tail head current k pos cnt v w r i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54
   have hs : MKQueueDropSafety old_l_2 qidx_l_2 qval_l_2 head tail r w k capacity_pre := by
     refine ⟨⟨by omega,by omega⟩,by omega,⟨by omega,by omega⟩,by omega,by omega,by assumption,by assumption,by assumption⟩
   have hx := MKQueuePending_push_complete_outcome__g06 old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current pos PreH27 hs PreH46 PreH32 ⟨by omega,by omega⟩ (by omega) (by omega) (by intro hn; omega)
@@ -308,7 +301,7 @@ theorem proof_of_multipleKnapsack_entail_wit_12_1 : multipleKnapsack_entail_wit_
 
 theorem proof_of_multipleKnapsack_entail_wit_12_2 : multipleKnapsack_entail_wit_12_2 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l tail head current k pos cnt v w r i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
+  intro counts_l values_l weights_l n_pre capacity_pre tail head current k pos cnt v w r i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50 PreH51 PreH52 PreH53 PreH54 PreH55
   have hs : MKQueueDropSafety old_l_2 qidx_l_2 qval_l_2 head tail r w k capacity_pre := by
     refine ⟨⟨by omega,by omega⟩,by omega,⟨by omega,by omega⟩,by omega,by omega,by assumption,by assumption,by assumption⟩
   have hx := MKQueuePending_push_complete_outcome__g06 old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current pos PreH28 hs PreH47 PreH33 ⟨by omega,by omega⟩ (by omega) (by omega) (by intro hn; omega)
@@ -323,7 +316,7 @@ theorem proof_of_multipleKnapsack_entail_wit_12_2 : multipleKnapsack_entail_wit_
 
 theorem proof_of_multipleKnapsack_entail_wit_13 : multipleKnapsack_entail_wit_13 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l tail head k pos cnt v w r i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
+  intro counts_l values_l weights_l n_pre capacity_pre tail head k pos cnt v w r i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49
   have hp := MKItemResidueProgressSemantics_next_residue__g09 old_l_2 dp_l_2 r w v cnt k capacity_pre pos (by omega) PreH15 PreH27 PreH1 PreH40
   split_pure_spatial
   · cancel
@@ -332,7 +325,7 @@ theorem proof_of_multipleKnapsack_entail_wit_13 : multipleKnapsack_entail_wit_13
 
 theorem proof_of_multipleKnapsack_entail_wit_14 : multipleKnapsack_entail_wit_14 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l r cnt v w i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37
+  intro counts_l values_l weights_l n_pre capacity_pre r cnt v w i qval_l_2 qidx_l_2 old_l_2 dp_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37
   have hts : MKDPTableSafety weights_l i capacity_pre old_l_2 := ⟨⟨PreH13,by omega⟩,PreH4,PreH10⟩
   have hps : MKItemResidueProgressSafety old_l_2 dp_l_2 r w cnt capacity_pre := ⟨by omega,PreH22,PreH24,PreH25,PreH26,PreH10,PreH9⟩
   have hp := MKItemResidue_complete_table__g09 weights_l values_l counts_l i capacity_pre old_l_2 dp_l_2 r w v cnt ⟨PreH13,by omega⟩ (by omega) (by omega) PreH15 PreH16 PreH17 (fun idx hi => nth_property _ _ _ PreH32 hi) PreH1 hts PreH27 hps PreH31
@@ -344,7 +337,7 @@ theorem proof_of_multipleKnapsack_entail_wit_14 : multipleKnapsack_entail_wit_14
 
 theorem proof_of_multipleKnapsack_entail_wit_15 : multipleKnapsack_entail_wit_15 := by
   right
-  intro capacity_pre n_pre counts_l values_l weights_l i qval_l qidx_l old_l dp_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro counts_l values_l weights_l n_pre capacity_pre i qval_l qidx_l old_l dp_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   have he : i = n_pre := by omega
   have ht : MKDPTable weights_l values_l counts_l n_pre capacity_pre dp_l := ⟨⟨PreH2,by omega⟩,PreH4,PreH9,by simpa only [he] using PreH15⟩
   have ha := MKDPTable_final_capacity_implies_MultipleKnapsackAnswer weights_l values_l counts_l capacity_pre dp_l n_pre PreH6 PreH7 PreH8 PreH4 ht

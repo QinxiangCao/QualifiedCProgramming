@@ -1,12 +1,9 @@
+#define QCP_THM_APPLY_IMPLEMENTATION
 #include "ast.h"
+#undef QCP_THM_APPLY_IMPLEMENTATION
 
 term* sub_thm(term* thm, var_sub_list* lis)
-/*@ With t l
-      Require store_term(thm, t) * sll_var_sub_list(lis, l)
-      Ensure  thm == thm@pre && lis == lis@pre &&
-              sll_var_sub_list(lis, l) *
-              store_sub_thm_res(thm, __return, t, l)
-*/
+/*@ default */
 {
   if(lis == (void*) 0) return thm;
   /*@ lis != 0 &&
@@ -53,10 +50,7 @@ term* sub_thm(term* thm, var_sub_list* lis)
 // apply (apply (impl) h1) (h2)
 // 不是imply形式时返回(void*) 0
 imply_prop* separate_imply(term* t) 
-/*@ With trm
-    Require store_term(t, trm)
-    Ensure t == t@pre && store_imply_res(__return, sep_impl(trm)) * store_term(t, trm)
-*/
+/*@ default */
 {
   /*@ store_term(t, trm)
       which implies
@@ -206,7 +200,8 @@ term_list* check_list_gen(term* thm, term* target)
   ;
 
 solve_res* thm_apply(term* thm, var_sub_list* lis, term* goal) 
-/*@ With t l g X
+/*@ implementation
+    With t l g X
     Require thm != 0 &&
             safeExec(ATrue, thm_app_rel(t, l, g), X) &&
             store_term(thm, t) * 
@@ -259,9 +254,23 @@ solve_res* thm_apply(term* thm, var_sub_list* lis, term* goal)
           safeExec(ATrue, bind(check_rel(st, g), get_list), X)
       */
       res->d.list = check_list_gen(thm_ins_c, goal)
-        /*@ where(low_level_spec_aux) theo = st, targ = g, c = get_list, X = X; B = solve_res */
+        /*@ where(low_level_spec_aux) {B = solve_res} theo = st, targ = g, c = get_list, X = X */
       ; 
     }
   }
   return res;
 }
+
+solve_res* thm_apply(term* thm, var_sub_list* lis, term* goal)
+/*@ high_level_spec <= implementation
+    With t l g
+    Require store_term(thm, t) *
+            sll_var_sub_list(lis, l) *
+            store_term(goal, g)
+    Ensure exists t_after,
+           thm == thm@pre &&
+           store_term(thm, t_after) *
+           sll_var_sub_list(lis, l) *
+           store_term(goal, g) *
+           store_solve_res(__return, thm_app_result(t, l, g))
+*/;

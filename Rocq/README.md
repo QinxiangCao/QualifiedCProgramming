@@ -1,5 +1,7 @@
 # Rocq 库
 
+使用 VS Code 时，请打开仓库根目录，以使用根目录的 `_CoqProject` 配置；不要单独打开 `Rocq/`。
+
 ## 一、支持的 Coq 版本
 
 本目录使用 **Coq 8.20.1** 测试，推荐 OCaml 4.14.1。Coq 8.20.1 已属于 Rocq project，但早于命令行
@@ -9,131 +11,87 @@
 在仓库层面，Rocq/Coq 与 Lean 是两个可选证明后端。安装两者前先阅读
 [`../README.md`](../README.md#proof-backend)。
 
-## 二、安装
+## 二、环境准备
 
-- Windows：从官方
-  [Coq Platform 2025.01.0 release](https://github.com/rocq-prover/platform/releases/tag/2025.01.0)
-  安装原生 **Windows 64 bit Coq 8.20**。
-- Linux 与 macOS：在隔离的 opam switch 中安装精确版本：
+安装与 PATH 配置见对应平台文档：
+[`Windows`](../docs/windows-setup.md)、
+[`Linux`](../docs/linux-setup.md) 与
+[`macOS`](../docs/macos-setup.md)。
+
+## 三、编译方式
+
+目前推荐使用 **dune** 构建，在仓库根目录运行：
 
 ```bash
-opam init -y
-opam update
-opam switch create qcp-rocq ocaml-base-compiler.4.14.1
-eval $(opam env --switch=qcp-rocq)
-opam install coq.8.20.1
-coqc --version
+dune build -j4
 ```
 
-最后一条命令必须报告 8.20.1。Git、构建工具与 PATH 配置见平台说明：
-[`../docs/windows-setup.md`](../docs/windows-setup.md)、
-[`../docs/linux-setup.md`](../docs/linux-setup.md) 与
-[`../docs/macos-setup.md`](../docs/macos-setup.md)。
+以下内容仅介绍保留的 **legacy Make** 用法。Make 命令也从仓库根目录执行，使用 `-C Rocq`
+进入构建目录。
 
-## 三、配置入口
+### Legacy Make 要求与行为
 
-verification controller 与 Dune workflow 不读取 `Rocq/CONFIGURE` 或 `Rocq/unifysl/CONFIGURE`。
-Windows agent 应 dot-source `scripts/setup-windows-env.ps1`；该脚本通过经过版本校验的绝对 executable 与
-当前进程 PATH 让 controller、Dune 和 direct check 使用同一套 Coq 8.20.1。
+需要 **GNU Make 4.0 或更新版本**。
 
-只有人工使用本目录的 legacy Make workflow 时，Makefile 才会选择性读取大小写敏感、无扩展名的
-`CONFIGURE`。当 `coqc` 已在 PATH 中时，Linux/macOS 通常不需要该文件；否则可在 `Rocq/` 与
-`Rocq/unifysl/` 分别创建。
+- Windows 使用 GNU Make，不是 `nmake`；
+- Windows 可用 `winget install --id ezwinports.make --exact --source winget`
+安装 GNU Make 4.4.1，不要使用仍为 3.81 的 `GnuWin32.Make`;
+- macOS 自带的旧 Make 需要替换，例如使用 `gmake`）。
 
-Linux/macOS 示例：
+Make 自动发现 `.v` 文件，并按当前 dune 的 theory 范围、递归设置和排除规则选择源文件。
+目录与文件名使用 `/` 分隔，仓库内相对路径不能包含空白。Make 会把长文件列表写入参数文件，
+避免 Windows `cmd.exe` 命令行长度限制。
 
-```ini
+平台分支依据 GNU Make 的 `MAKE_HOST`：官方 `Windows32` 或 MinGW 构建使用 `cmd.exe`；
+Linux、macOS、Cygwin、MSYS 构建使用 POSIX shell。
+`MAKE_HOST` 的具体字符串不是手册规定的固定枚举；特殊定制版本可显式传入
+`USE_WINDOWS_COMMANDS=yes` 或 `USE_WINDOWS_COMMANDS=`。
+
+依赖图自动生成；新增、删除文件或修改 import 后会自动刷新，不需要先单独构建 `unifysl`，
+也不需要手动执行 `depend`。旧 `depend` / `depend-*` 命令保留为强制刷新完整依赖图的兼容入口。
+失败的依赖扫描不会覆盖已有依赖图，并会中止构建。
+
+Make 的增量编译依据文件时间戳，而不是内容摘要。在同一秒内快速改写源文件时，已有的 `.vo` 可能
+被错误判断为最新；需要强制复核时，先删除对应 `.vo` 再构建。
+
+```bash
+make -C Rocq -j4 core       # 默认目标：全部核心库
+make -C Rocq -j4 all        # 与 dune 对齐的全部 Coq 文件
+make -C Rocq -j4 examples   # 全部示例及所需依赖
+make -C Rocq list-sources   # 查看实际选中的源文件，不运行 Coq
+```
+
+`-j4` 表示最多四个 job；内存有限时减少并行数，不要使用无上界的 `make -j`。
+Make 的产物写在源文件旁，而 dune 写入 `_build`；从 Make 切换到 dune 前运行 `make -C Rocq clean`，
+避免 `.glob` 等文件与 dune 生成规则冲突。
+
+也可直接构建单个 `.vo` 或以下分组，依赖会自动补齐：
+
+```bash
+make -C Rocq -j4 examples-applications
+make -C Rocq -j4 examples-qcp-democases
+make -C Rocq -j4 examples-qcp-demo-feature-cases
+make -C Rocq -j4 examples-qcp-demo-tutorial
+make -C Rocq -j4 examples-llm-friendly-cases
+make -C Rocq -j4 examples-llm-bench
+make -C Rocq -j4 coq-record-update
+make -C Rocq -j4 tracelib
+make -C Rocq -j4 algorithms
+make -C Rocq -j4 convex-hull
+```
+
+### Legacy Make 可选配置
+
+当 `coqc` 与 `coqdep` 已在 PATH 中时，无需创建配置文件。需要指定其他安装路径时，
+可在 `Rocq/CONFIGURE` 中设置：
+
+```make
 COQBIN = /absolute/path/to/coq/bin/
 ```
 
-原生 Windows legacy Make 示例：
-
-```ini
-COQBIN = D:/path/to/Coq/bin/
-SUF = .exe
-```
-
-`COQBIN` 必须以 `/` 结尾，并指向包含 `coqc` 与 `coqdep`（Windows 为对应 `.exe`）的目录。不要为了
-Dune 或 agent workflow 创建第二套配置；它们以 `COQC_EXE`、`COQTOP_EXE`、`DUNE_REAL` 及对齐后的
-PATH 为准。
-
-## 四、编译方式
-
-verification controller 使用精确 Dune target 与 dependency snapshot；下面的 Make 命令只供人工构建
-legacy target。使用 Make 时先生成 dependency，再编译，并始终给并行参数指定上界。`-j4` 表示最多
-四个 job；内存有限时减少或省略。禁止使用不带数字的 `make -j`，因为那会请求无界并行。
-
-先构建 `Rocq/unifysl`：
-
-```bash
-make -C Rocq/unifysl depend
-make -C Rocq/unifysl -j4
-```
-
-然后在 A 与 B 中只选择一个。
-
-选项 A——只构建 core library，速度较快，不含 `Rocq/examples`：
-
-```bash
-make -C Rocq depend-core
-make -C Rocq -j4 core
-```
-
-选项 B——构建 core library 与全部 generated examples：
-
-```bash
-make -C Rocq depend
-make -C Rocq -j4 all
-```
-
-构建完成后即可按标准 Coq 8.20.1 development 使用这些库。
-
-### 细分 Make target
-
-只构建 core library：
-
-```bash
-make -C Rocq depend-core
-make -C Rocq -j4 core
-```
-
-构建全部 generated examples：
-
-```bash
-make -C Rocq depend-examples
-make -C Rocq -j4 examples
-```
-
-只构建一个 generated example subtree 时，dependency target 与 build target 必须成对使用：
-
-```bash
-make -C Rocq depend-examples-applications
-make -C Rocq -j4 examples-applications
-
-make -C Rocq depend-examples-qcp-democases
-make -C Rocq -j4 examples-qcp-democases
-
-make -C Rocq depend-examples-qcp-demo-feature-cases
-make -C Rocq -j4 examples-qcp-demo-feature-cases
-
-make -C Rocq depend-examples-qcp-demo-tutorial
-make -C Rocq -j4 examples-qcp-demo-tutorial
-
-make -C Rocq depend-examples-llm-friendly-cases
-make -C Rocq -j4 examples-llm-friendly-cases
-
-make -C Rocq depend-examples-llm-bench
-make -C Rocq -j4 examples-llm-bench
-```
-
-还可以构建下列 focused libraries：
-
-```bash
-make -C Rocq coq-record-update
-make -C Rocq tracelib
-make -C Rocq algorithms
-make -C Rocq convex-hull
-```
+Windows 路径使用 `/`，例如 `COQBIN = D:/path/to/Coq/bin/`，无需配置 `.exe` 后缀。
+`COQBIN` 必须以 `/` 结尾。也可以直接在 Make 命令行传入 `COQBIN`。
+本 Makefile 只读取 `Rocq/CONFIGURE`，无需配置 `Rocq/unifysl/CONFIGURE`；dune 不使用这些文件。
 
 ### 清理 Make 输出
 
@@ -158,7 +116,7 @@ make -C Rocq clean-deps
 make -C Rocq clean-tmp
 ```
 
-## 五、证明中可用 tactic 简介
+## 四、证明中可用 tactic 简介
 
 对于结论 `P |-- Q`，下文称 $P$ 为前置条件、$Q$ 为后置条件；“前提”指 Coq hypothesis。
 

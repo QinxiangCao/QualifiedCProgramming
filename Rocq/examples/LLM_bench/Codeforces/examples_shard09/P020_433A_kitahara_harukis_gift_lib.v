@@ -651,5 +651,5 @@ Qed.
 Lemma solver_return_bridge_of_bit__final_result :
   forall x, x = 0 \/ x = 1 -> SolverReturnBridge x x.
 Proof.
-  intros x [-> | ->]; unfold SolverReturnBridge; intuition.
+  intros x [-> | ->]; unfold SolverReturnBridge; intuition (auto with *).
 Qed.

@@ -178,5 +178,6 @@ Proof.
     discriminate.
 Qed.
 
-End SL.
+Include IterSepconLibSig.
 
+End SL.

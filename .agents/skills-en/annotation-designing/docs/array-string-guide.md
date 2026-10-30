@@ -114,3 +114,35 @@ Appropriate places for `Znth` include:
 Do not turn an invariant into a long sequence of isolated `Znth` equalities. Express “`best` is the maximum of the processed prefix” with `sublist` and `max_value_of_subset` from `MaxMinLib`. Express partition properties with `Forall`, `sublist`, and existing bound predicates first. A necessary business predicate also reuses the specified library semantics and contains no resources, input ranges, or execution-safety conditions.
 
 If a proof appears to require new foundational array/string memory semantics, first confirm that no built-in predicate already provides them. If the annotation chose the wrong predicate, repair the annotation instead.
+
+## Growable vectors
+
+A struct holding an element count, a capacity, and an element-buffer pointer is a growable vector. Describe it with the vector library, `DynVec` and `VecArray` in `Rocq/examples/Applications_human/dynvec_lib.v`, never with a predicate over its fields. The existing instances `Veci`, `Vecp`, and `VecpArray` (an array of `vecp_t`) are in `Rocq/examples/Applications_human/minisat/vec_qcp_lib.v`, for a target C that already includes `QCP_examples/Applications_human/minisat/vec_qcp.h`. That header declares the C structs `veci_t` (int elements) and `vecp_t` (pointer elements) and the operation contracts that clients see.
+
+| View | Meaning | Use |
+|---|---|---|
+| `Veci::rep(v, l)` | `v` holds `l`; buffer and capacity hidden | the default; any call that may grow the vector; inside larger struct predicates |
+| `Veci::rep_ptr(v, p, l)` | also names the buffer `p` | after `veci_begin`, walking or writing elements in place |
+| `Veci::shell(v)` | the three uninitialized fields | before `*_new`, after `*_delete` |
+
+`Vecp::` works the same way. `rep_at`, which exposes the capacity, and `header`, the struct the strategies leave while a buffer is open, never appear in annotations; annotations use `rep`, `rep_ptr`, and `shell`, which keep the capacity hidden. Contents are a `list Z` (int values or Z addresses), changed with existing list operations: push gives `rep(v, app(l, cons(x, nil)))`, an in-place write `replace_Znth(j, w, l)`, a resize `sublist(0, k, l)`. `rep` and `rep_ptr` already imply `0 <= Zlength(l) <= INT_MAX`; do not restate it. The `vec_qcp.h` push requires no length bound.
+
+For an array of `vecp_t`, write the whole table as `VecpArray::full(tbl, m, ls)` directly, with case facts such as the table length in a case predicate beside it. The table rules of `vec_qcp.strategies` handle one slot automatically: when `0 <= i < n` is provable and the code needs the `Vecp::rep`, `rep_ptr`, or a field of `Vecp::slot(tbl, i)`, of an alias `w == Vecp::slot(tbl, i)`, or of `&tbl[i]`, they take the slot out and leave `VecpArray::missing_i`, and once the slot is back as a `Vecp::rep` they fold `full` again (with `replace_Znth` if its contents changed). Write by hand the shapes these rules do not cover: two slots out at once as `VecpArray::missing2` (when the code updates two slots of one table between two folds), a slot held out across a loop as `Vecp::rep_ptr(...) * VecpArray::missing_i(tbl, i, 0, m, ls)` in the Inv Assert, and a `missing_i` that does not start at slot 0. Hand back to main a case table predicate whose body is `VecpArray.full` (the table rules need a strategy rule that opens it) and a segment that does not start at slot 0 (`vec_qcp_def.h` exports no `VecpArray::seg`). `DYNVEC.md` section 5 lists the cases with examples. Describe an uninitialized tail with `VecpArray::undef_seg`. Bound the table with a ghost expression such as `m`, not `Zlength(ls)`. `missing_i` and `missing2` are the only hole shapes.
+
+- The target C must already `#include "vec_qcp.h"`. Never copy `vec_qcp.h`, `vec_qcp_def.h`, or `vec_qcp.strategies` into a case, and do not repeat the `Extern` declarations of `vec_qcp_def.h`. When a case predicate in `formal_case_lib` mentions the vectors, import them there with `From SimpleC.EE.Applications_human.minisat Require Import vec_qcp_lib.`. Under dune, the import needs the case's dune `coq.theory` to be or list `SimpleC.EE.Applications_human` (a case under `Rocq/examples/Applications_human`); a case elsewhere hands it back to main.
+- Case-specific adaptation is allowed: a pure case predicate beside a library predicate that states case facts (for example the table length), a slot-index function, or pure index facts. Not allowed: a predicate over the size/cap/ptr cells or the buffer, an alias that only renames a library predicate, or a case copy of a library lemma.
+- Another vector struct (other struct or field names, another element type, or the program's own push/grow code) needs a new `DynVec` instance with its own strategies and verified operation unit, which main writes. Record in `agent_output.md` the struct and field names, the element type, the operations the client calls with their contracts (`shell` to `rep(v, nil)` for init, `rep(v, l)` to `rep(v, app(l, cons(x, nil)))` for push), raw `malloc`/`realloc`/`free`/`abort` calls, growth arithmetic that can overflow `int`, and the fields the client accesses directly or local vector structs whose address is taken (the new strategies need rules for both); then stop with an infrastructure blocker (workflow §7). The growth policy itself (`cap + 8`, doubling) is free, because `rep` hides the capacity.
+- A layout `DynVec` cannot express (size or capacity not C `int`, a `begin`/`end`/`cap_end` pointer triple, extra fields, an inline buffer) is a library gap. Hand it back the same way, naming the mismatch, without a case predicate over the fields.
+
+Wrong:
+
+```c
+store(&(v->size), n) * store(&(v->cap), c) * store(&(v->ptr), p) *
+IntArray::seg(p, 0, n, l) * IntArray::undef_seg(p, n, c)
+```
+
+Right:
+
+```c
+Veci::rep_ptr(v, p, l)
+```

@@ -29,11 +29,14 @@ Require Import Logic.SeparationLogic.ProofTheory.IterSepcon.
 Require Import Logic.SeparationLogic.ProofTheory.TheoryOfCancel.
 Require Import Logic.SeparationLogic.ProofTheory.TheoryOfSeparationAxioms.
 Require Import Logic.SeparationLogic.ProofTheory.Corable.
+Require Import Logic.Extensions.ProofTheory.Stable.
+Require Import Logic.Extensions.ProofTheory.Corable.
 Require Import Logic.SeparationLogic.Model.SeparationAlgebra.
 Require Import Logic.GeneralLogic.ShallowEmbedded.ModelLanguage.
 Require Import Logic.MinimumLogic.ShallowEmbedded.ModelLanguageMinimumLogic.
 Require Import Logic.PropositionalLogic.ShallowEmbedded.ModelLanguagePropositionalLogic.
 Require Import Logic.SeparationLogic.ShallowEmbedded.ModelLanguageSeparationLogic.
+Require Import Logic.Extensions.ShallowEmbedded.ModelLanguageCorableStable.
 Require Import Logic.MetaLogicInj.ShallowEmbedded.ModelLanguageMetaLogic.
 Require Import Logic.SeparationLogic.ShallowEmbedded.PredicateSeparationLogic.
 Require Import Logic.ShallowQuantifierLogic.Syntax.
@@ -43,6 +46,61 @@ Require Import Logic.ShallowQuantifierLogic.ModelConstrALL.
 
 Require Logic.LogicGenerator.ConfigLang.
 Require Import Logic.LogicGenerator.Utils. 
+
+(* Keep these corable-specific wrappers instead of inlining the generic
+   Build_*Stable constructors.  The generator scans explicit non-instance
+   arguments of constructors as rule dependencies; if [corable] is passed
+   explicitly, it is printed as an axiom even when it is derived from join. *)
+Definition Build_CorableImpStable
+           (L: Language)
+           {minL: MinimumLanguage L}
+           {Cor: Corable L}
+           (corable_impp_stable:
+              forall x y, corable x -> corable y -> corable (impp x y)):
+  ImpStable L corable :=
+  Build_ImpStable L minL corable corable_impp_stable.
+
+Definition Build_CorableAndStable
+           (L: Language)
+           {andpL: AndLanguage L}
+           {Cor: Corable L}
+           (corable_andp_stable:
+              forall x y, corable x -> corable y -> corable (andp x y)):
+  AndStable L corable :=
+  Build_AndStable L andpL corable corable_andp_stable.
+
+Definition Build_CorableOrStable
+           (L: Language)
+           {orpL: OrLanguage L}
+           {Cor: Corable L}
+           (corable_orp_stable:
+              forall x y, corable x -> corable y -> corable (orp x y)):
+  OrStable L corable :=
+  Build_OrStable L orpL corable corable_orp_stable.
+
+Definition Build_CorableFalseStable
+           (L: Language)
+           {falsepL: FalseLanguage L}
+           {Cor: Corable L}
+           (corable_falsep_stable: corable falsep):
+  FalseStable L corable :=
+  Build_FalseStable L falsepL corable corable_falsep_stable.
+
+Definition Build_CorableSeparationStable
+           (L: Language)
+           {minL: MinimumLanguage L}
+           {sepconL: SepconLanguage L}
+           {wandL: WandLanguage L}
+           (GammaP: Provable L)
+           {Cor: Corable L}
+           (corable_sepcon_stable:
+              forall x y, corable x -> corable y -> corable (sepcon x y))
+           (corable_wand_stable:
+              forall x y, corable x -> corable y -> corable (wand x y)):
+  SeparationStable L corable :=
+  Build_SeparationStable
+    L sepconL wandL corable
+    corable_sepcon_stable corable_wand_stable.
 
 Arguments exp {L} {_} (A).
 Arguments allp {L} {_} (A).
@@ -108,6 +166,7 @@ Definition how_connectives: list how_connective :=
   ; FROM_model_TO_impp
   ; FROM_model_TO_andp
   ; FROM_model_TO_orp
+  ; FROM_model_TO_falsep
   ; FROM_model_TO_coq_prop
   ; FROM_unit_TO_emp
   ; FROM_model_TO_truep
@@ -125,6 +184,7 @@ Definition how_judgements: list how_judgement :=
   ; FROM_model_TO_provable
   ; FROM_model_TO_derivable1
   ; FROM_derivable1_TO_provable
+  ; FROM_join_TO_corable
   ].
 
 Definition type_classes :=
@@ -227,7 +287,14 @@ Definition rule_classes :=
   ; equivalence_OF_emp
   ; corability_OF_basic_setting
   ; corability_OF_coq_prop
+  ; imp_stable_OF_corable
+  ; and_stable_OF_corable
+  ; or_stable_OF_corable
+  ; false_stable_OF_corable
+  ; separation_stable_OF_corable
+  ; separation_absorb_stable_OF_corable
   ; GEN_iffp_FROM_andp_impp
+  ; GEN_iffpDef_FROM_model
   ; GEN_truep_FROM_falsep_impp
   ; GEN_negp_FROM_falsep_impp
   ; GEN_orp_FROM_impp_negp
@@ -246,12 +313,20 @@ Definition rule_classes :=
   ; GEN_provable_FROM_derivable1
   ; GEN_sepcon_FROM_join
   ; join_is_SA
+  ; GEN_impp_FROM_model
+  ; GEN_provable_FROM_model
+  ; GEN_andp_FROM_model
+  ; GEN_orp_FROM_model
+  ; GEN_falsep_FROM_model
+  ; GEN_coq_prop_FROM_model
   ; GEN_emp_FROM_unit
+  ; GEN_truep_FROM_model
   ; deduction_derived_neg
   ; derivitive1_OF_exp
   ; derivitive1_OF_allp
   ; deduction_exp_and
   ; GEN_wand_FROM_model
+  ; GEN_corable_FROM_join
   ; GEN_derivable1_FROM_model
   ; GEN_exp_FROM_model
   ; GEN_all_FROM_model
@@ -279,6 +354,7 @@ Definition classes :=
 
 Definition refl_classes :=
   [ RC GEN_iffp_FROM_andp_impp
+  ; RC GEN_iffpDef_FROM_model
   ; RC GEN_truep_FROM_falsep_impp
   ; RC GEN_negp_FROM_falsep_impp
   ; RC GEN_orp_FROM_impp_negp
@@ -297,10 +373,12 @@ Definition refl_classes :=
   ; RC GEN_provable_FROM_model
   ; RC GEN_andp_FROM_model
   ; RC GEN_orp_FROM_model
+  ; RC GEN_falsep_FROM_model
   ; RC GEN_coq_prop_FROM_model
   ; RC GEN_emp_FROM_unit
   ; RC GEN_truep_FROM_model
   ; RC GEN_wand_FROM_model
+  ; RC GEN_corable_FROM_join
   ; RC GEN_derivable1_FROM_model
   ; RC GEN_exp_FROM_model
   ; RC GEN_all_FROM_model
@@ -532,6 +610,12 @@ Context {L: Language}
         {empE: EmpLogicEquiv_iffp L GammaE}
         {CorAX: Corable_withAxiomatization L GammaP Cor}
         {coq_prop_Cor: CoqPropCorable L Cor}
+        {corable_imp_stable: ImpStable L corable}
+        {corable_and_stable: AndStable L corable}
+        {corable_or_stable: OrStable L corable}
+        {corable_false_stable: FalseStable L corable}
+        {corable_separation_stable: SeparationStable L corable}
+        {corable_separation_absorb_stable: SeparationAbsorbStable L GammaP corable}
         
         (* new *)
         {M : Model}
@@ -544,6 +628,7 @@ Context {L: Language}
         {minL_modelL : MinimumLanguage Model_L}
         {andpL_modelL : AndLanguage Model_L}
         {orpL_modelL: OrLanguage Model_L}
+        {falsepL_modelL: FalseLanguage Model_L}
         {coq_prop_modelL : CoqPropLanguage Model_L}
         {sepconL_modelL: SepconLanguage Model_L}
         {GammaP_modelL : Provable Model_L}
@@ -551,9 +636,12 @@ Context {L: Language}
         {sepconAX_modelL : SepconAxiomatization Model_L GammaP_modelL}
         {empL_modelL : EmpLanguage Model_L}
         {imppDef_model : ImppDefinition_Model minL_modelL}
+        {iffpL_modelL : IffLanguage Model_L}
+        {iffpDef_model : IffpDefinition_Model iffpL_modelL}
         {provableDef_model: ProvableDefinition_Model GammaP_modelL}
         {andpDef_model : AndpDefinition_Model andpL_modelL}
         {orpDef_model : OrpDefinition_Model orpL_modelL}
+        {falsepDef_model : FalsepDefinition_Model falsepL_modelL}
         {coqpropDef_model : CoqPropDefinition_Model coq_prop_modelL}
         {truepDef_model : TrueDefinition_Model truepL_modelL}
         {empDef_unit : EmpDefinition_Unit Unit2Emp}
@@ -564,6 +652,8 @@ Context {L: Language}
         {allpD : ShallowForallDeduction L GammaD1}
         {exp_andpD : deduction_exp_and}
         {wandDef_join : WandDefinition_Join Join2Wand}
+        {Cor_modelL : Corable Model_L}
+        {corableDef_join : CorableDefinition_Join Cor_modelL}
         {GammaD1_modelL : Derivable1 Model_L}
         {derivable1Def_model : Derivable1Definition_Model GammaD1_modelL}
         {sepconD1_modelL : SepconDeduction Model_L GammaD1_modelL}
@@ -583,7 +673,7 @@ Context {L: Language}
         {bSC_subst : BasicSequentCalculus_subst L GammaD}
         {bSC_fw : BasicSequentCalculus_fw L GammaD}
         .
-        
+
 Definition types: list Name :=
   [ model
   ; expr
@@ -641,6 +731,7 @@ Definition how_connectives: list Name :=
   ; (impp, fun (x y : model -> Prop) (m : model) => (x m -> y m))
   ; (andp, fun (x y : model -> Prop) (m : model) => (x m /\ y m))
   ; (orp, fun (x y : model -> Prop) (m : model) => (x m \/ y m))
+  ; (falsep, fun (m : model) => False)
   ; (coq_prop, fun (P : Prop) (m : model) => P)
   ; (emp, fun (m : model) => is_unit m)
   ; (truep, fun (m : model) => True)
@@ -658,6 +749,7 @@ Definition how_judgements: list Name :=
   ; (provable, fun x : (model -> Prop) => forall m, x m)
   ; (derivable1, fun x y : model -> Prop => forall m, x m -> y m)
   ; (provable, fun x => derivable1 (impp x x) x)
+  ; (corable, fun x : model -> Prop => forall m1 m2 m, join m1 m2 m -> (x m1 <-> x m))
   ].
 
 Definition type_instances_build :=
@@ -739,7 +831,7 @@ Definition rule_instances_build :=
   ; (bD, Build_BasicDeduction L GammaD1 derivable1_refl derivable1_trans)
   ; (minD, Build_MinimumDeduction L minL GammaD1 derivable1s_modus_ponens derivable1s_impp_intros derivable1_impp_refl derivable1_axiom1 derivable1_axiom2)
   ; (adjD, Build_ImpAndAdjointDeduction L minL andpL GammaD1 derivable1s_impp_andp_adjoint)
-  ; (andpD, Build_AndDeduction L andpL GammaD1 derivable1s_truep_intros derivable1_andp_elim1 derivable1_andp_elim2)
+  ; (andpD, Build_AndDeduction L andpL GammaD1 derivable1s_andp_intros derivable1_andp_elim1 derivable1_andp_elim2)
   ; (orpD, Build_OrDeduction L orpL GammaD1 derivable1_orp_intros1 derivable1_orp_intros2 derivable1_orp_elim)
   ; (falsepD, Build_FalseDeduction L falsepL GammaD1 derivable1_falsep_elim)
   ; (truepD, Build_TrueDeduction L truepL GammaD1 derivable1_truep_intros)
@@ -760,7 +852,14 @@ Definition rule_instances_build :=
   ; (empE, Build_EmpLogicEquiv_iffp L sepconL empL GammaE logic_equiv_sepcon_emp)
   ; (CorAX, Build_Corable_withAxiomatization L andpL iffpL sepconL GammaP Cor corable_preserved' corable_andp_sepcon1)
   ; (coq_prop_Cor, Build_CoqPropCorable L coq_prop_L Cor corable_coq_prop)
+  ; (corable_imp_stable, Build_CorableImpStable L impp_stable)
+  ; (corable_and_stable, Build_CorableAndStable L andp_stable)
+  ; (corable_or_stable, Build_CorableOrStable L orp_stable)
+  ; (corable_false_stable, Build_CorableFalseStable L falsep_stable)
+  ; (corable_separation_stable, Build_CorableSeparationStable L GammaP sepcon_stable wand_stable)
+  ; (corable_separation_absorb_stable, CorableAxiomatization2SeparationAbsorbStable)
   ; (iffpDef, Build_IffDefinition_And_Imp L minL andpL iffpL andp_impp2iffp)
+  ; (iffpDef_model, IffpDefinition_Model iffpL_modelL)
   ; (truepDef, Build_TrueDefinition_False_Imp L minL falsepL truepL falsep_impp2truep)
   ; (negpDef, Build_NegDefinition_False_Imp L minL falsepL negpL falsep_impp2negp)
   ; (orpDef_impp_negp, Build_OrDefinition_Imp_Neg L minL negpL orpL impp_negp2orp)
@@ -779,12 +878,20 @@ Definition rule_instances_build :=
   ; (GammaPD1, Build_ProvableFromDerivable1 L minL GammaP GammaD1 __provable_derivable1)
   ; (sepconDef_join, SepconDefinition_Join Join2Sepcon )
   ; (J_SA, Build_SeparationAlgebra model J join_comm join_assoc)
+  ; (imppDef_model, ImppDefinition_Model minL_modelL)
+  ; (provableDef_model, ProvableDefinition_Model GammaP_modelL)
+  ; (andpDef_model, AndpDefinition_Model andpL_modelL)
+  ; (orpDef_model, OrpDefinition_Model orpL_modelL)
+  ; (falsepDef_model, FalsepDefinition_Model falsepL_modelL)
+  ; (coqpropDef_model, CoqPropDefinition_Model coq_prop_modelL)
   ; (empDef_unit, Unit2Emp_Normal)
+  ; (truepDef_model, TrueDefinition_Model truepL_modelL)
   ; (negpSCDerived, SequentCalculus2DeductionDerivedNeg)
   ; (expD, Build_ShallowExistsDeduction L expL GammaD1 derivable1s_exp_r derivable1s_exp_l)
   ; (allpD, Build_ShallowForallDeduction L allpL GammaD1 derivable1s_allp_r derivable1s_allp_l)
   ; (exp_andpD, ExpDeduction2ExsitsAnd)
   ; (wandDef_join, WandDefinition_Join Join2Wand)
+  ; (corableDef_join, CorableDefinition_Join Cor_modelL)
   ; (derivable1Def_model, Derivable1Definition_Model Model2Derivable1)
   ; (expDef_model, ExpDefinition_Model Model2Exp)
   ; (allpDef_model, AllpDefinition_Model Model2All)
@@ -817,6 +924,7 @@ Definition instances_build :=
 
 Definition refl_instances :=
   [ (iffpDef, AndImp2Iff_Normal)
+  ; (iffpDef_model, Model2Iffp_Normal)
   ; (truepDef, FalseImp2True_Normal)
   ; (negpDef, FalseImp2Neg_Normal)
   ; (orpDef_impp_negp, ImpNeg2Or_Normal)
@@ -835,10 +943,12 @@ Definition refl_instances :=
   ; (provableDef_model, Model2Provable_Normal) 
   ; (andpDef_model, Model2Andp_Normal)
   ; (orpDef_model, Model2Orp_Normal)
+  ; (falsepDef_model, Model2Falsep_Normal)
   ; (coqpropDef_model, Model2CoqProp_Normal)
   ; (empDef_unit, Unit2Emp_Normal)
   ; (truepDef_model, Model2Truep_Normal)
   ; (wandDef_join, Join2Wand_Normal)
+  ; (corableDef_join, Join2Corable_Normal)
   ; (derivable1Def_model, Model2Derivable1_Normal)
   ; (expDef_model, Model2Exp_Normal)
   ; (allpDef_model, Model2Allp_Normal)
@@ -846,9 +956,9 @@ Definition refl_instances :=
  
 (* Check AndImp2Iff_Normal. (* : IffDefinition_And_Imp L *)
 Check Join2Sepcon_Normal. : SepconDefinition_Join *)
-
 Definition instance_transitions :=
   [ (iffpAX, IffFromDefToAX_And_Imp)
+  ; (iffpD, IffDefinitionAndImp2IffDeduction)
   ; (truepAX, TrueFromDefToAX_False_Imp)
   ; (inegpAX, NegFromDefToAX_False_Imp)
   ; (orpAX, OrFromDefToAX_Imp_Neg)
@@ -906,6 +1016,14 @@ Definition instance_transitions :=
   ; (exp_andpD, ExpDeduction2ExsitsAnd)
   ; (sepconD, SeparationAlgebra2SepconDeduction)
   ; (wandD, SeparationAlgebra2WandDeduction)
+  ; (CorAX, CorableDefinition_Join2CorableAxiomatization)
+  ; (coq_prop_Cor, CorableDefinition_Join2CoqPropCorable)
+  ; (corable_imp_stable, CorableDefinition_Join2ImpStable)
+  ; (corable_and_stable, CorableDefinition_Join2AndStable)
+  ; (corable_or_stable, CorableDefinition_Join2OrStable)
+  ; (corable_false_stable, CorableDefinition_Join2FalseStable)
+  ; (corable_separation_stable, CorableDefinition_Join2SeparationStable)
+  ; (corable_separation_absorb_stable, CorableAxiomatization2SeparationAbsorbStable)
   ; (adjD, Model2ImpAdjoint)
   ; (andpD, Model2AndDeduction)
   ; (expD, Model2ExpDeduction)
@@ -970,8 +1088,20 @@ Definition instances :=
 Definition subst_table := 
   [ (Model_L, L)
   ; (minL_modelL, minL)
-  ; (sepconL_modelL, sepconL)
+  ; (iffpL_modelL, iffpL)
+  ; (andpL_modelL, andpL)
+  ; (orpL_modelL, orpL)
+  ; (falsepL_modelL, falsepL)
+  ; (coq_prop_modelL, coq_prop_L)
+  ; (empL_modelL, empL)
+  ; (truepL_modelL, truepL)
+  ; (GammaD1_modelL, GammaD1)
+  ; (expL_modelL, expL)
+  ; (allpL_modelL, allpL)
+  ; (AndImp2Iff, iffpL)
   ; (GammaP_modelL, GammaP)
+  ; (Cor_modelL, Cor)
+  ; (sepconL_modelL, sepconL)
   ; (sepconAX_modelL, sepconAX)
   ].
 
@@ -1248,6 +1378,10 @@ Definition primary_rules_with_dup: list Name :=
     ; provable_truep
     ; provable_andp_comm
     ; provable_andp_assoc
+    ; provable_andp_orp_distr_l
+    ; provable_andp_orp_distr_r
+    ; logic_equiv_andp_orp_distr_l
+    ; logic_equiv_andp_orp_distr_r
     ; provable_orp_comm
     ; provable_orp_assoc
     ; provable_andp_dup
@@ -1312,6 +1446,18 @@ Definition primary_rules_with_dup: list Name :=
     ; corable_sepcon_andp2
     ; corable_sepcon_andp1
     ; corable_andp_sepcon2
+    ; corable_impp
+    ; corable_andp
+    ; corable_orp
+    ; corable_iffp
+    ; corable_falsep
+    ; corable_truep
+    ; corable_sepcon
+    ; corable_wand
+    ; logic_equiv_corable_andp_sepcon1
+    ; logic_equiv_corable_sepcon_andp2
+    ; logic_equiv_corable_sepcon_andp1
+    ; logic_equiv_corable_andp_sepcon2
     ; provables_sepcon_proper_impp
     ; provables_wand_proper_impp
     ; provables_sepcon_proper_iffp
@@ -1400,8 +1546,13 @@ Definition primary_rules_with_dup: list Name :=
     ; Derivable_impp_rewrite
     ; derivable1_refl_instance
     ; derivable1_trans_instance
-    ; derivable1_sepcon_iter_sepcon1
-    ; derivable1_sepcon_iter_sepcon2
+    ; derivable1_iter_sepcon_app1
+    ; derivable1_iter_sepcon_app2
+    ; logic_equiv_iter_sepcon_nil
+    ; logic_equiv_iter_sepcon_single
+    ; logic_equiv_iter_sepcon_app
+    ; logic_equiv_iter_sepcon_cons
+    ; logic_equiv_impp_rewrite
     ].
 
 (* Check @logic_equiv_sepcon_assoc.

@@ -7,27 +7,22 @@ Use the binary for your platform:
 
 | Platform | Binary |
 | --- | --- |
-| Linux | `linux-binary/symexec` |
-| Windows | `win-binary/symexec.exe` |
-| macOS Apple Silicon | `mac-arm64-binary/symexec` |
-| macOS Intel | `mac-x86-64-binary/symexec` |
+| Linux | `bin/linux/symexec` |
+| Windows | `bin/windows/symexec.exe` |
+| macOS Apple Silicon | `bin/macos-arm64/symexec` |
+| macOS Intel | `bin/macos-x86_64/symexec` |
 
-The root example runners are convenience wrappers:
-
-- `run-example-linux.sh` and `run-example-windows.cmd` are Rocq-only and
-  refresh `.v` files under `Rocq/examples`.
-- `run-example-lean-linux.sh` and
-  `run-example-lean-windows.cmd` generate Lean artifacts for the migrated
-  Lean example set.
+To regenerate repository Rocq examples, run `python3 scripts/generate.py`;
+see [scripts/generate.py](../scripts/generate.py).
 
 ## Usage
 
 ```text
-linux-binary/symexec [options]
+bin/linux/symexec [options]
 ```
 
-On Windows, replace `linux-binary/symexec` with `.\win-binary\symexec.exe`.
-On macOS, use the matching `mac-*-binary/symexec` executable.
+On Windows, replace `bin/linux/symexec` with `.\bin\windows\symexec.exe`.
+On macOS, use the matching `bin/macos-*/symexec` executable.
 
 We also recommend following the tutorials in the
 [`tutorial/`](../tutorial/) directory for a comprehensive guide.
@@ -124,7 +119,7 @@ another rule module that is already available in the generated file's Rocq/Coq
 environment:
 
 ```bash
-linux-binary/symexec ... --CRules sll_C_Rules
+bin/linux/symexec ... --CRules sll_C_Rules
 ```
 
 This emits:
@@ -158,7 +153,7 @@ need a specific import prefix.
 For example, to generate only Lean artifacts:
 
 ```bash
-linux-binary/symexec \
+bin/linux/symexec \
   --input-file QCP_examples/path/to/example.c \
   --lean-output-dir Lean/examples/path/to/output \
   --lean-logic-path SimpleC.EE \
@@ -169,7 +164,7 @@ To generate both Rocq/Coq and Lean artifacts in one run, provide both output
 directories and omit `--no-coq-gen`:
 
 ```bash
-linux-binary/symexec \
+bin/linux/symexec \
   --input-file QCP_examples/path/to/example.c \
   --coq-output-dir Rocq/examples/path/to/output \
   --lean-output-dir Lean/examples/path/to/output

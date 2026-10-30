@@ -58,7 +58,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def push_safety_wit_1 : Prop :=
-  forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (written : (List Int)) (child : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < heap_capacity)) (PreH3 : ((0 : Int) <= child)) (PreH4 : (child <= n_pre)) (PreH5 : (PushSource written S_before n_pre x_pre)) (PreH6 : (PushLoopState written current n_pre child x_pre)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (current : (List Int)) (written : (List Int)) (child : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < heap_capacity)) (PreH3 : ((0 : Int) <= child)) (PreH4 : (child <= n_pre)) (PreH5 : (PushSource written S_before n_pre x_pre)) (PreH6 : (PushLoopState written current n_pre child x_pre)) ,
   ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
@@ -69,7 +69,7 @@ noncomputable def push_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def push_safety_wit_2 : Prop :=
-  forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (written : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written S_before n_pre x_pre)) (PreH7 : (PushLoopState written current n_pre child x_pre)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (current : (List Int)) (written : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written S_before n_pre x_pre)) (PreH7 : (PushLoopState written current n_pre child x_pre)) ,
   ((( &( "parent" ) )) # Int |->_)
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -81,7 +81,7 @@ noncomputable def push_safety_wit_2 : Prop :=
   “ (2 ≠ (0 : Int)) ”
 
 noncomputable def push_safety_wit_3 : Prop :=
-  forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (written : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written S_before n_pre x_pre)) (PreH7 : (PushLoopState written current n_pre child x_pre)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (current : (List Int)) (written : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written S_before n_pre x_pre)) (PreH7 : (PushLoopState written current n_pre child x_pre)) ,
   ((( &( "parent" ) )) # Int |->_)
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -93,7 +93,7 @@ noncomputable def push_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (child - 1)) ”
 
 noncomputable def push_safety_wit_4 : Prop :=
-  forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (written : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written S_before n_pre x_pre)) (PreH7 : (PushLoopState written current n_pre child x_pre)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (current : (List Int)) (written : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written S_before n_pre x_pre)) (PreH7 : (PushLoopState written current n_pre child x_pre)) ,
   ((( &( "parent" ) )) # Int |->_)
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -105,7 +105,7 @@ noncomputable def push_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def push_safety_wit_5 : Prop :=
-  forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (written : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written S_before n_pre x_pre)) (PreH7 : (PushLoopState written current n_pre child x_pre)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (current : (List Int)) (written : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written S_before n_pre x_pre)) (PreH7 : (PushLoopState written current n_pre child x_pre)) ,
   ((( &( "parent" ) )) # Int |->_)
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -118,7 +118,7 @@ noncomputable def push_safety_wit_5 : Prop :=
 
 noncomputable def push_entail_wit_1 : Prop :=
   (
-forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < heap_capacity)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < heap_capacity)) ,
   (((heap_pre + (n_pre * sizeof(INT)))) # Int |-> (x_pre))
   ** (store_heap heap_pre S_before n_pre)
 |--
@@ -132,7 +132,7 @@ forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) 
   &&  (intArray.full heap_pre (n_pre + 1) current)
 ) \/
 (
-forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (PreH1 : (x_pre <= INT_MAX)) (PreH2 : (x_pre >= INT_MIN)) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre < heap_capacity)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (PreH1 : (x_pre <= INT_MAX)) (PreH2 : (x_pre >= INT_MIN)) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre < heap_capacity)) ,
   (((heap_pre + (n_pre * sizeof(INT)))) # Int |-> (x_pre))
   ** (store_heap heap_pre S_before n_pre)
 |--
@@ -148,7 +148,7 @@ forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) 
 
 noncomputable def push_entail_wit_2 : Prop :=
   (
-forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current_2 : (List Int)) (written_2 : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written_2 S_before n_pre x_pre)) (PreH7 : (PushLoopState written_2 current_2 n_pre child x_pre)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (current_2 : (List Int)) (written_2 : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written_2 S_before n_pre x_pre)) (PreH7 : (PushLoopState written_2 current_2 n_pre child x_pre)) ,
   (intArray.full heap_pre (n_pre + 1) current_2)
 |--
   EX current : (List Int), EX written : (List Int),
@@ -165,7 +165,7 @@ forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) 
   &&  (intArray.full heap_pre (n_pre + 1) current)
 ) \/
 (
-forall (x_pre : Int) (n_pre : Int) (S_before : (multiset Int)) (current_2 : (List Int)) (written_2 : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written_2 S_before n_pre x_pre)) (PreH7 : (PushLoopState written_2 current_2 n_pre child x_pre)) ,
+forall (S_before : (multiset Int)) (n_pre : Int) (x_pre : Int) (current_2 : (List Int)) (written_2 : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written_2 S_before n_pre x_pre)) (PreH7 : (PushLoopState written_2 current_2 n_pre child x_pre)) ,
   TT && emp 
 |--
   EX written : (List Int),
@@ -181,7 +181,7 @@ forall (x_pre : Int) (n_pre : Int) (S_before : (multiset Int)) (current_2 : (Lis
 
 noncomputable def push_entail_wit_3 : Prop :=
   (
-forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (written_2 : (List Int)) (current_2 : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current_2 (0 : Int)) < (Znth child current_2 (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written_2 S_before n_pre x_pre)) (PreH11 : (PushLoopState written_2 current_2 n_pre child x_pre)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (written_2 : (List Int)) (current_2 : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current_2 (0 : Int)) < (Znth child current_2 (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written_2 S_before n_pre x_pre)) (PreH11 : (PushLoopState written_2 current_2 n_pre child x_pre)) ,
   (intArray.full heap_pre (n_pre + 1) (replace_Znth (child) ((Znth parent current_2 (0 : Int))) ((replace_Znth (parent) ((Znth child current_2 (0 : Int))) (current_2)))))
 |--
   EX current : (List Int), EX written : (List Int),
@@ -194,7 +194,7 @@ forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) 
   &&  (intArray.full heap_pre (n_pre + 1) current)
 ) \/
 (
-forall (x_pre : Int) (n_pre : Int) (S_before : (multiset Int)) (written_2 : (List Int)) (current_2 : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current_2 (0 : Int)) < (Znth child current_2 (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written_2 S_before n_pre x_pre)) (PreH11 : (PushLoopState written_2 current_2 n_pre child x_pre)) ,
+forall (S_before : (multiset Int)) (n_pre : Int) (x_pre : Int) (written_2 : (List Int)) (current_2 : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current_2 (0 : Int)) < (Znth child current_2 (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written_2 S_before n_pre x_pre)) (PreH11 : (PushLoopState written_2 current_2 n_pre child x_pre)) ,
   TT && emp 
 |--
   EX written : (List Int),
@@ -205,46 +205,46 @@ forall (x_pre : Int) (n_pre : Int) (S_before : (multiset Int)) (written_2 : (Lis
 
 noncomputable def push_return_wit_1 : Prop :=
   (
-forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (written : (List Int)) (child : Int) (PreH1 : (child <= (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written S_before n_pre x_pre)) (PreH7 : (PushLoopState written current n_pre child x_pre)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (current : (List Int)) (written : (List Int)) (child : Int) (PreH1 : (child <= (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written S_before n_pre x_pre)) (PreH7 : (PushLoopState written current n_pre child x_pre)) ,
   (intArray.full heap_pre (n_pre + 1) current)
 |--
   (store_heap heap_pre (multiset_insert (S_before) (x_pre)) (n_pre + 1))
 ) \/
 (
-forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (written : (List Int)) (child : Int) (PreH1 : (child <= (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written S_before n_pre x_pre)) (PreH7 : (PushLoopState written current n_pre child x_pre)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (current : (List Int)) (written : (List Int)) (child : Int) (PreH1 : (child <= (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written S_before n_pre x_pre)) (PreH7 : (PushLoopState written current n_pre child x_pre)) ,
   (intArray.full heap_pre (n_pre + 1) current)
 |--
   (store_heap heap_pre (multiset_insert (S_before) (x_pre)) (n_pre + 1))
 )
 
 noncomputable def push_return_wit_1_split_goal_spatial : Prop :=
-  forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (written : (List Int)) (child : Int) (PreH1 : (child <= (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written S_before n_pre x_pre)) (PreH7 : (PushLoopState written current n_pre child x_pre)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (current : (List Int)) (written : (List Int)) (child : Int) (PreH1 : (child <= (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child <= n_pre)) (PreH6 : (PushSource written S_before n_pre x_pre)) (PreH7 : (PushLoopState written current n_pre child x_pre)) ,
   (intArray.full heap_pre (n_pre + 1) current)
 |--
   (store_heap heap_pre (multiset_insert (S_before) (x_pre)) (n_pre + 1))
 
 noncomputable def push_return_wit_2 : Prop :=
   (
-forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current (0 : Int)) >= (Znth child current (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written S_before n_pre x_pre)) (PreH11 : (PushLoopState written current n_pre child x_pre)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current (0 : Int)) >= (Znth child current (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written S_before n_pre x_pre)) (PreH11 : (PushLoopState written current n_pre child x_pre)) ,
   (intArray.full heap_pre (n_pre + 1) current)
 |--
   (store_heap heap_pre (multiset_insert (S_before) (x_pre)) (n_pre + 1))
 ) \/
 (
-forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current (0 : Int)) >= (Znth child current (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written S_before n_pre x_pre)) (PreH11 : (PushLoopState written current n_pre child x_pre)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current (0 : Int)) >= (Znth child current (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written S_before n_pre x_pre)) (PreH11 : (PushLoopState written current n_pre child x_pre)) ,
   (intArray.full heap_pre (n_pre + 1) current)
 |--
   (store_heap heap_pre (multiset_insert (S_before) (x_pre)) (n_pre + 1))
 )
 
 noncomputable def push_return_wit_2_split_goal_spatial : Prop :=
-  forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current (0 : Int)) >= (Znth child current (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written S_before n_pre x_pre)) (PreH11 : (PushLoopState written current n_pre child x_pre)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current (0 : Int)) >= (Znth child current (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written S_before n_pre x_pre)) (PreH11 : (PushLoopState written current n_pre child x_pre)) ,
   (intArray.full heap_pre (n_pre + 1) current)
 |--
   (store_heap heap_pre (multiset_insert (S_before) (x_pre)) (n_pre + 1))
 
 noncomputable def push_partial_solve_wit_1 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < heap_capacity)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < heap_capacity)) ,
   (store_heap heap_pre S_before n_pre)
   ** (intArray.undef_seg heap_pre n_pre (n_pre + 1))
 |--
@@ -254,7 +254,7 @@ noncomputable def push_partial_solve_wit_1 : Prop :=
   ** (store_heap heap_pre S_before n_pre)
 
 noncomputable def push_partial_solve_wit_2 : Prop :=
-  forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child <= n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent <= n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : (PushSource written S_before n_pre x_pre)) (PreH10 : (PushLoopState written current n_pre child x_pre)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child <= n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent <= n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : (PushSource written S_before n_pre x_pre)) (PreH10 : (PushLoopState written current n_pre child x_pre)) ,
   (intArray.full heap_pre (n_pre + 1) current)
 |--
   “ ((0 : Int) <= n_pre) ” &&
@@ -271,7 +271,7 @@ noncomputable def push_partial_solve_wit_2 : Prop :=
   ** (intArray.missing_i heap_pre parent (0 : Int) (n_pre + 1) current)
 
 noncomputable def push_partial_solve_wit_3 : Prop :=
-  forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child <= n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent <= n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : (PushSource written S_before n_pre x_pre)) (PreH10 : (PushLoopState written current n_pre child x_pre)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre < heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child <= n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent <= n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : (PushSource written S_before n_pre x_pre)) (PreH10 : (PushLoopState written current n_pre child x_pre)) ,
   (intArray.full heap_pre (n_pre + 1) current)
 |--
   “ ((0 : Int) <= n_pre) ” &&
@@ -288,7 +288,7 @@ noncomputable def push_partial_solve_wit_3 : Prop :=
   ** (intArray.missing_i heap_pre child (0 : Int) (n_pre + 1) current)
 
 noncomputable def push_partial_solve_wit_4 : Prop :=
-  forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current (0 : Int)) < (Znth child current (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written S_before n_pre x_pre)) (PreH11 : (PushLoopState written current n_pre child x_pre)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current (0 : Int)) < (Znth child current (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written S_before n_pre x_pre)) (PreH11 : (PushLoopState written current n_pre child x_pre)) ,
   (intArray.full heap_pre (n_pre + 1) current)
 |--
   “ ((Znth parent current (0 : Int)) < (Znth child current (0 : Int))) ” &&
@@ -306,7 +306,7 @@ noncomputable def push_partial_solve_wit_4 : Prop :=
   ** (intArray.missing_i heap_pre parent (0 : Int) (n_pre + 1) current)
 
 noncomputable def push_partial_solve_wit_5 : Prop :=
-  forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current (0 : Int)) < (Znth child current (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written S_before n_pre x_pre)) (PreH11 : (PushLoopState written current n_pre child x_pre)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current (0 : Int)) < (Znth child current (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written S_before n_pre x_pre)) (PreH11 : (PushLoopState written current n_pre child x_pre)) ,
   (intArray.full heap_pre (n_pre + 1) current)
 |--
   “ ((Znth parent current (0 : Int)) < (Znth child current (0 : Int))) ” &&
@@ -324,7 +324,7 @@ noncomputable def push_partial_solve_wit_5 : Prop :=
   ** (intArray.missing_i heap_pre child (0 : Int) (n_pre + 1) current)
 
 noncomputable def push_partial_solve_wit_6 : Prop :=
-  forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current (0 : Int)) < (Znth child current (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written S_before n_pre x_pre)) (PreH11 : (PushLoopState written current n_pre child x_pre)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current (0 : Int)) < (Znth child current (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written S_before n_pre x_pre)) (PreH11 : (PushLoopState written current n_pre child x_pre)) ,
   (intArray.full heap_pre (n_pre + 1) current)
 |--
   “ ((Znth parent current (0 : Int)) < (Znth child current (0 : Int))) ” &&
@@ -342,7 +342,7 @@ noncomputable def push_partial_solve_wit_6 : Prop :=
   ** (intArray.missing_i heap_pre parent (0 : Int) (n_pre + 1) current)
 
 noncomputable def push_partial_solve_wit_7 : Prop :=
-  forall (x_pre : Int) (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current (0 : Int)) < (Znth child current (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written S_before n_pre x_pre)) (PreH11 : (PushLoopState written current n_pre child x_pre)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (x_pre : Int) (written : (List Int)) (current : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent current (0 : Int)) < (Znth child current (0 : Int)))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre < heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child <= n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (PushSource written S_before n_pre x_pre)) (PreH11 : (PushLoopState written current n_pre child x_pre)) ,
   (intArray.full heap_pre (n_pre + 1) (replace_Znth (parent) ((Znth child current (0 : Int))) (current)))
 |--
   “ ((Znth parent current (0 : Int)) < (Znth child current (0 : Int))) ” &&
@@ -360,7 +360,7 @@ noncomputable def push_partial_solve_wit_7 : Prop :=
   ** (intArray.missing_i heap_pre child (0 : Int) (n_pre + 1) (replace_Znth (parent) ((Znth child current (0 : Int))) (current)))
 
 noncomputable def build_safety_wit_1 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -370,7 +370,7 @@ noncomputable def build_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def build_safety_wit_2 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre = (0 : Int))) (PreH3 : (i = 1)) (PreH4 : ((Zlength (input)) = n_pre)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre = (0 : Int))) (PreH3 : (i = 1)) (PreH4 : ((Zlength (input)) = n_pre)) ,
   ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -379,7 +379,7 @@ noncomputable def build_safety_wit_2 : Prop :=
   “ False ”
 
 noncomputable def build_safety_wit_3 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (S_prefix : (multiset Int)) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix input i)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (S_prefix : (multiset Int)) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix input i)) ,
   (store_heap heap_pre (multiset_insert (S_prefix) (x)) (i + 1))
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -390,7 +390,7 @@ noncomputable def build_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def build_entail_wit_1 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
   (intArray.full heap_pre n_pre input)
 |--
   (“ (n_pre = (0 : Int)) ” &&
@@ -410,7 +410,7 @@ noncomputable def build_entail_wit_1 : Prop :=
 
 noncomputable def build_entail_wit_2 : Prop :=
   (
-forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (S_prefix_2 : (multiset Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix_2 input i)) ,
+forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (S_prefix_2 : (multiset Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix_2 input i)) ,
   (intArray.seg heap_pre i n_pre (sublist (i) (n_pre) (input)))
   ** (store_heap heap_pre S_prefix_2 i)
 |--
@@ -427,7 +427,7 @@ forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (S_prefix_2 : (multis
   ** (intArray.seg heap_pre (i + 1) n_pre (sublist ((i + 1)) (n_pre) (input)))
 ) \/
 (
-forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (S_prefix_2 : (multiset Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix_2 input i)) ,
+forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (S_prefix_2 : (multiset Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix_2 input i)) ,
   (intArray.seg heap_pre i n_pre (sublist (i) (n_pre) (input)))
   ** (store_heap heap_pre S_prefix_2 i)
 |--
@@ -446,7 +446,7 @@ forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (S_prefix_2 : (multis
 
 noncomputable def build_entail_wit_3 : Prop :=
   (
-forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (S_prefix_2 : (multiset Int)) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix_2 input i)) ,
+forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (S_prefix_2 : (multiset Int)) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix_2 input i)) ,
   (store_heap heap_pre (multiset_insert (S_prefix_2) (x)) (i + 1))
   ** (intArray.seg heap_pre (i + 1) n_pre (sublist ((i + 1)) (n_pre) (input)))
 |--
@@ -461,7 +461,7 @@ forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (S_prefix_2 : (multis
   ** (intArray.seg heap_pre (i + 1) n_pre (sublist ((i + 1)) (n_pre) (input)))
 ) \/
 (
-forall (n_pre : Int) (input : (List Int)) (S_prefix_2 : (multiset Int)) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix_2 input i)) ,
+forall (input : (List Int)) (n_pre : Int) (S_prefix_2 : (multiset Int)) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix_2 input i)) ,
   TT && emp 
 |--
   “ (BuildPrefixState (multiset_insert (S_prefix_2) (x)) input (i + 1)) ”
@@ -469,39 +469,39 @@ forall (n_pre : Int) (input : (List Int)) (S_prefix_2 : (multiset Int)) (i : Int
 )
 
 noncomputable def build_entail_wit_3_split_goal_1 : Prop :=
-  forall (n_pre : Int) (input : (List Int)) (S_prefix_2 : (multiset Int)) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix_2 input i)) ,
+  forall (input : (List Int)) (n_pre : Int) (S_prefix_2 : (multiset Int)) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix_2 input i)) ,
   (BuildPrefixState (multiset_insert (S_prefix_2) (x)) input (i + 1))
 
 noncomputable def build_return_wit_1 : Prop :=
   (
-forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre = (0 : Int))) (PreH3 : (i = 1)) (PreH4 : ((Zlength (input)) = n_pre)) ,
+forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre = (0 : Int))) (PreH3 : (i = 1)) (PreH4 : ((Zlength (input)) = n_pre)) ,
   (intArray.full heap_pre n_pre input)
 |--
   (store_heap heap_pre (list_to_multiset (input)) n_pre)
 ) \/
 (
-forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre = (0 : Int))) (PreH3 : (i = 1)) (PreH4 : ((Zlength (input)) = n_pre)) ,
+forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre = (0 : Int))) (PreH3 : (i = 1)) (PreH4 : ((Zlength (input)) = n_pre)) ,
   (intArray.full heap_pre n_pre input)
 |--
   (store_heap heap_pre (list_to_multiset (input)) n_pre)
 )
 
 noncomputable def build_return_wit_1_split_goal_spatial : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre = (0 : Int))) (PreH3 : (i = 1)) (PreH4 : ((Zlength (input)) = n_pre)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre = (0 : Int))) (PreH3 : (i = 1)) (PreH4 : ((Zlength (input)) = n_pre)) ,
   (intArray.full heap_pre n_pre input)
 |--
   (store_heap heap_pre (list_to_multiset (input)) n_pre)
 
 noncomputable def build_return_wit_2 : Prop :=
   (
-forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (S_prefix : (multiset Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix input i)) ,
+forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (S_prefix : (multiset Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix input i)) ,
   (store_heap heap_pre S_prefix i)
   ** (intArray.seg heap_pre i n_pre (sublist (i) (n_pre) (input)))
 |--
   (store_heap heap_pre (list_to_multiset (input)) n_pre)
 ) \/
 (
-forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (S_prefix : (multiset Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix input i)) ,
+forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (S_prefix : (multiset Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix input i)) ,
   (store_heap heap_pre S_prefix i)
   ** (intArray.seg heap_pre i n_pre (sublist (i) (n_pre) (input)))
 |--
@@ -509,14 +509,14 @@ forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (S_prefix : (multiset
 )
 
 noncomputable def build_return_wit_2_split_goal_spatial : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (S_prefix : (multiset Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix input i)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (S_prefix : (multiset Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix input i)) ,
   (store_heap heap_pre S_prefix i)
   ** (intArray.seg heap_pre i n_pre (sublist (i) (n_pre) (input)))
 |--
   (store_heap heap_pre (list_to_multiset (input)) n_pre)
 
 noncomputable def build_partial_solve_wit_1 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (S_prefix : (multiset Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix input i)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (S_prefix : (multiset Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix input i)) ,
   (store_heap heap_pre S_prefix i)
   ** (intArray.seg heap_pre i n_pre (sublist (i) (n_pre) (input)))
 |--
@@ -532,7 +532,7 @@ noncomputable def build_partial_solve_wit_1 : Prop :=
   ** (store_heap heap_pre S_prefix i)
 
 noncomputable def build_partial_solve_wit_2_pure : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (S_prefix : (multiset Int)) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix input i)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (S_prefix : (multiset Int)) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix input i)) ,
   ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -545,7 +545,7 @@ noncomputable def build_partial_solve_wit_2_pure : Prop :=
   “ (i < heap_capacity) ”
 
 noncomputable def build_partial_solve_wit_2_aux : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (S_prefix : (multiset Int)) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix input i)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (S_prefix : (multiset Int)) (i : Int) (x : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (1 <= i)) (PreH4 : (i < n_pre)) (PreH5 : (x = (Znth i input (0 : Int)))) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix input i)) ,
   (store_heap heap_pre S_prefix i)
   ** (intArray.undef_seg heap_pre i (i + 1))
   ** (intArray.seg heap_pre (i + 1) n_pre (sublist ((i + 1)) (n_pre) (input)))
@@ -566,7 +566,7 @@ noncomputable def build_partial_solve_wit_2_aux : Prop :=
 noncomputable def build_partial_solve_wit_2 : Prop := build_partial_solve_wit_2_pure -> build_partial_solve_wit_2_aux
 
 noncomputable def pop_safety_wit_1 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (heap_representation S_before before n_pre)) (PreH4 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH5 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH6 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (heap_representation S_before before n_pre)) (PreH4 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH5 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH6 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
   ((( &( "ret" ) )) # Int |->_)
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -576,7 +576,7 @@ noncomputable def pop_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def pop_safety_wit_2 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (heap_representation S_before before n_pre)) (PreH4 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH5 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH6 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (heap_representation S_before before n_pre)) (PreH4 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH5 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH6 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
   (intArray.full heap_pre n_pre before)
   ** ((( &( "ret" ) )) # Int |-> ((Znth (0 : Int) before (0 : Int))))
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
@@ -586,7 +586,7 @@ noncomputable def pop_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pop_safety_wit_3 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (PreH1 : (n_pre ≠ 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (PreH1 : (n_pre ≠ 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
   (intArray.full heap_pre n_pre before)
   ** ((( &( "ret" ) )) # Int |-> ((Znth (0 : Int) before (0 : Int))))
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
@@ -596,7 +596,7 @@ noncomputable def pop_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def pop_safety_wit_4 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (PreH1 : (n_pre ≠ 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (PreH1 : (n_pre ≠ 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
   (intArray.full heap_pre n_pre before)
   ** ((( &( "ret" ) )) # Int |-> ((Znth (0 : Int) before (0 : Int))))
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
@@ -606,7 +606,7 @@ noncomputable def pop_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (n_pre - 1)) ”
 
 noncomputable def pop_safety_wit_5 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (PreH1 : (n_pre ≠ 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (PreH1 : (n_pre ≠ 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
   (intArray.full heap_pre n_pre before)
   ** ((( &( "ret" ) )) # Int |-> ((Znth (0 : Int) before (0 : Int))))
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
@@ -616,7 +616,7 @@ noncomputable def pop_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pop_safety_wit_6 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (PreH1 : (n_pre ≠ 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (PreH1 : (n_pre ≠ 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
   ((( &( "idx" ) )) # Int |->_)
   ** (intArray.full heap_pre n_pre (replace_Znth ((0 : Int)) ((Znth (n_pre - 1) before (0 : Int))) (before)))
   ** ((( &( "ret" ) )) # Int |-> ((Znth (0 : Int) before (0 : Int))))
@@ -627,7 +627,7 @@ noncomputable def pop_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def pop_safety_wit_7 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH4 : (ret = (multiset_max (S_before)))) (PreH5 : (heap_representation S_before before n_pre)) (PreH6 : (PrefixMaximum before n_pre ret)) (PreH7 : (multiset_maximum S_before ret)) (PreH8 : ((0 : Int) <= idx)) (PreH9 : (idx < (n_pre - 1))) (PreH10 : ((0 : Int) <= ((idx * 2) + 1))) (PreH11 : (((idx * 2) + 1) <= INT_MAX)) (PreH12 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH4 : (ret = (multiset_max (S_before)))) (PreH5 : (heap_representation S_before before n_pre)) (PreH6 : (PrefixMaximum before n_pre ret)) (PreH7 : (multiset_maximum S_before ret)) (PreH8 : ((0 : Int) <= idx)) (PreH9 : (idx < (n_pre - 1))) (PreH10 : ((0 : Int) <= ((idx * 2) + 1))) (PreH11 : (((idx * 2) + 1) <= INT_MAX)) (PreH12 : (PopLoopState before current n_pre idx)) ,
   ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "ret" ) )) # Int |-> (ret))
@@ -638,7 +638,7 @@ noncomputable def pop_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= (n_pre - 1)) ”
 
 noncomputable def pop_safety_wit_8 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH4 : (ret = (multiset_max (S_before)))) (PreH5 : (heap_representation S_before before n_pre)) (PreH6 : (PrefixMaximum before n_pre ret)) (PreH7 : (multiset_maximum S_before ret)) (PreH8 : ((0 : Int) <= idx)) (PreH9 : (idx < (n_pre - 1))) (PreH10 : ((0 : Int) <= ((idx * 2) + 1))) (PreH11 : (((idx * 2) + 1) <= INT_MAX)) (PreH12 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH4 : (ret = (multiset_max (S_before)))) (PreH5 : (heap_representation S_before before n_pre)) (PreH6 : (PrefixMaximum before n_pre ret)) (PreH7 : (multiset_maximum S_before ret)) (PreH8 : ((0 : Int) <= idx)) (PreH9 : (idx < (n_pre - 1))) (PreH10 : ((0 : Int) <= ((idx * 2) + 1))) (PreH11 : (((idx * 2) + 1) <= INT_MAX)) (PreH12 : (PopLoopState before current n_pre idx)) ,
   ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "ret" ) )) # Int |-> (ret))
@@ -649,7 +649,7 @@ noncomputable def pop_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= ((idx * 2) + 1)) ”
 
 noncomputable def pop_safety_wit_9 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH4 : (ret = (multiset_max (S_before)))) (PreH5 : (heap_representation S_before before n_pre)) (PreH6 : (PrefixMaximum before n_pre ret)) (PreH7 : (multiset_maximum S_before ret)) (PreH8 : ((0 : Int) <= idx)) (PreH9 : (idx < (n_pre - 1))) (PreH10 : ((0 : Int) <= ((idx * 2) + 1))) (PreH11 : (((idx * 2) + 1) <= INT_MAX)) (PreH12 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH4 : (ret = (multiset_max (S_before)))) (PreH5 : (heap_representation S_before before n_pre)) (PreH6 : (PrefixMaximum before n_pre ret)) (PreH7 : (multiset_maximum S_before ret)) (PreH8 : ((0 : Int) <= idx)) (PreH9 : (idx < (n_pre - 1))) (PreH10 : ((0 : Int) <= ((idx * 2) + 1))) (PreH11 : (((idx * 2) + 1) <= INT_MAX)) (PreH12 : (PopLoopState before current n_pre idx)) ,
   ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "ret" ) )) # Int |-> (ret))
@@ -660,7 +660,7 @@ noncomputable def pop_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= (idx * 2)) ”
 
 noncomputable def pop_safety_wit_10 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH4 : (ret = (multiset_max (S_before)))) (PreH5 : (heap_representation S_before before n_pre)) (PreH6 : (PrefixMaximum before n_pre ret)) (PreH7 : (multiset_maximum S_before ret)) (PreH8 : ((0 : Int) <= idx)) (PreH9 : (idx < (n_pre - 1))) (PreH10 : ((0 : Int) <= ((idx * 2) + 1))) (PreH11 : (((idx * 2) + 1) <= INT_MAX)) (PreH12 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH4 : (ret = (multiset_max (S_before)))) (PreH5 : (heap_representation S_before before n_pre)) (PreH6 : (PrefixMaximum before n_pre ret)) (PreH7 : (multiset_maximum S_before ret)) (PreH8 : ((0 : Int) <= idx)) (PreH9 : (idx < (n_pre - 1))) (PreH10 : ((0 : Int) <= ((idx * 2) + 1))) (PreH11 : (((idx * 2) + 1) <= INT_MAX)) (PreH12 : (PopLoopState before current n_pre idx)) ,
   ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "ret" ) )) # Int |-> (ret))
@@ -671,7 +671,7 @@ noncomputable def pop_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def pop_safety_wit_11 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH4 : (ret = (multiset_max (S_before)))) (PreH5 : (heap_representation S_before before n_pre)) (PreH6 : (PrefixMaximum before n_pre ret)) (PreH7 : (multiset_maximum S_before ret)) (PreH8 : ((0 : Int) <= idx)) (PreH9 : (idx < (n_pre - 1))) (PreH10 : ((0 : Int) <= ((idx * 2) + 1))) (PreH11 : (((idx * 2) + 1) <= INT_MAX)) (PreH12 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH4 : (ret = (multiset_max (S_before)))) (PreH5 : (heap_representation S_before before n_pre)) (PreH6 : (PrefixMaximum before n_pre ret)) (PreH7 : (multiset_maximum S_before ret)) (PreH8 : ((0 : Int) <= idx)) (PreH9 : (idx < (n_pre - 1))) (PreH10 : ((0 : Int) <= ((idx * 2) + 1))) (PreH11 : (((idx * 2) + 1) <= INT_MAX)) (PreH12 : (PopLoopState before current n_pre idx)) ,
   ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "ret" ) )) # Int |-> (ret))
@@ -682,7 +682,7 @@ noncomputable def pop_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pop_safety_wit_12 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH4 : (ret = (multiset_max (S_before)))) (PreH5 : (heap_representation S_before before n_pre)) (PreH6 : (PrefixMaximum before n_pre ret)) (PreH7 : (multiset_maximum S_before ret)) (PreH8 : ((0 : Int) <= idx)) (PreH9 : (idx < (n_pre - 1))) (PreH10 : ((0 : Int) <= ((idx * 2) + 1))) (PreH11 : (((idx * 2) + 1) <= INT_MAX)) (PreH12 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH4 : (ret = (multiset_max (S_before)))) (PreH5 : (heap_representation S_before before n_pre)) (PreH6 : (PrefixMaximum before n_pre ret)) (PreH7 : (multiset_maximum S_before ret)) (PreH8 : ((0 : Int) <= idx)) (PreH9 : (idx < (n_pre - 1))) (PreH10 : ((0 : Int) <= ((idx * 2) + 1))) (PreH11 : (((idx * 2) + 1) <= INT_MAX)) (PreH12 : (PopLoopState before current n_pre idx)) ,
   ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "ret" ) )) # Int |-> (ret))
@@ -693,7 +693,7 @@ noncomputable def pop_safety_wit_12 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pop_safety_wit_13 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) < (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) < (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
   ((( &( "left" ) )) # Int |->_)
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -705,7 +705,7 @@ noncomputable def pop_safety_wit_13 : Prop :=
   “ ((INT_MIN) <= ((idx * 2) + 1)) ”
 
 noncomputable def pop_safety_wit_14 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) < (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) < (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
   ((( &( "left" ) )) # Int |->_)
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -717,7 +717,7 @@ noncomputable def pop_safety_wit_14 : Prop :=
   “ ((INT_MIN) <= (idx * 2)) ”
 
 noncomputable def pop_safety_wit_15 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) < (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) < (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
   ((( &( "left" ) )) # Int |->_)
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -729,7 +729,7 @@ noncomputable def pop_safety_wit_15 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def pop_safety_wit_16 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) < (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) < (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
   ((( &( "left" ) )) # Int |->_)
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -741,7 +741,7 @@ noncomputable def pop_safety_wit_16 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pop_safety_wit_17 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) < (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) < (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
   ((( &( "right" ) )) # Int |->_)
   ** ((( &( "left" ) )) # Int |-> (((idx * 2) + 1)))
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
@@ -754,7 +754,7 @@ noncomputable def pop_safety_wit_17 : Prop :=
   “ ((INT_MIN) <= (((idx * 2) + 1) + 1)) ”
 
 noncomputable def pop_safety_wit_18 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) < (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) < (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
   ((( &( "right" ) )) # Int |->_)
   ** ((( &( "left" ) )) # Int |-> (((idx * 2) + 1)))
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
@@ -767,7 +767,7 @@ noncomputable def pop_safety_wit_18 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pop_safety_wit_19 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) < (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) < (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
   ((( &( "largest" ) )) # Int |-> (((idx * 2) + 1)))
   ** ((( &( "right" ) )) # Int |-> ((((idx * 2) + 1) + 1)))
   ** ((( &( "left" ) )) # Int |-> (((idx * 2) + 1)))
@@ -781,7 +781,7 @@ noncomputable def pop_safety_wit_19 : Prop :=
   “ ((INT_MIN) <= (n_pre - 1)) ”
 
 noncomputable def pop_safety_wit_20 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) < (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) < (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
   ((( &( "largest" ) )) # Int |-> (((idx * 2) + 1)))
   ** ((( &( "right" ) )) # Int |-> ((((idx * 2) + 1) + 1)))
   ** ((( &( "left" ) )) # Int |-> (((idx * 2) + 1)))
@@ -796,7 +796,7 @@ noncomputable def pop_safety_wit_20 : Prop :=
 
 noncomputable def pop_entail_wit_1 : Prop :=
   (
-forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) ,
   (store_heap heap_pre S_before n_pre)
 |--
   EX before : (List Int),
@@ -809,7 +809,7 @@ forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (PreH1 : (1 <=
   &&  (intArray.full heap_pre n_pre before)
 ) \/
 (
-forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) ,
   (store_heap heap_pre S_before n_pre)
 |--
   EX before : (List Int),
@@ -824,7 +824,7 @@ forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (PreH1 : (1 <=
 
 noncomputable def pop_entail_wit_2 : Prop :=
   (
-forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (PreH1 : (n_pre ≠ 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (PreH1 : (n_pre ≠ 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
   (intArray.full heap_pre n_pre (replace_Znth ((0 : Int)) ((Znth (n_pre - 1) before (0 : Int))) (before)))
 |--
   EX current : (List Int), EX before_2 : (List Int),
@@ -843,7 +843,7 @@ forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (Lis
   &&  (intArray.full heap_pre n_pre current)
 ) \/
 (
-forall (n_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (PreH1 : (n_pre ≠ 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
+forall (S_before : (multiset Int)) (n_pre : Int) (before : (List Int)) (PreH1 : (n_pre ≠ 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
   TT && emp 
 |--
   EX before_2 : (List Int),
@@ -861,7 +861,7 @@ forall (n_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (PreH1 : 
 
 noncomputable def pop_entail_wit_3_1 : Prop :=
   (
-forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current_2 : (List Int)) (idx : Int) (before_2 : (List Int)) (ret : Int) (PreH1 : ((Znth ((idx * 2) + 1) current_2 (0 : Int)) < (Znth (((idx * 2) + 1) + 1) current_2 (0 : Int)))) (PreH2 : ((((idx * 2) + 1) + 1) < (n_pre - 1))) (PreH3 : (((idx * 2) + 1) < (n_pre - 1))) (PreH4 : (1 < n_pre)) (PreH5 : (n_pre <= heap_capacity)) (PreH6 : (ret = (Znth (0 : Int) before_2 (0 : Int)))) (PreH7 : (ret = (multiset_max (S_before)))) (PreH8 : (heap_representation S_before before_2 n_pre)) (PreH9 : (PrefixMaximum before_2 n_pre ret)) (PreH10 : (multiset_maximum S_before ret)) (PreH11 : ((0 : Int) <= idx)) (PreH12 : (idx < (n_pre - 1))) (PreH13 : ((0 : Int) <= ((idx * 2) + 1))) (PreH14 : (((idx * 2) + 1) <= INT_MAX)) (PreH15 : (PopLoopState before_2 current_2 n_pre idx)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current_2 : (List Int)) (idx : Int) (before_2 : (List Int)) (ret : Int) (PreH1 : ((Znth ((idx * 2) + 1) current_2 (0 : Int)) < (Znth (((idx * 2) + 1) + 1) current_2 (0 : Int)))) (PreH2 : ((((idx * 2) + 1) + 1) < (n_pre - 1))) (PreH3 : (((idx * 2) + 1) < (n_pre - 1))) (PreH4 : (1 < n_pre)) (PreH5 : (n_pre <= heap_capacity)) (PreH6 : (ret = (Znth (0 : Int) before_2 (0 : Int)))) (PreH7 : (ret = (multiset_max (S_before)))) (PreH8 : (heap_representation S_before before_2 n_pre)) (PreH9 : (PrefixMaximum before_2 n_pre ret)) (PreH10 : (multiset_maximum S_before ret)) (PreH11 : ((0 : Int) <= idx)) (PreH12 : (idx < (n_pre - 1))) (PreH13 : ((0 : Int) <= ((idx * 2) + 1))) (PreH14 : (((idx * 2) + 1) <= INT_MAX)) (PreH15 : (PopLoopState before_2 current_2 n_pre idx)) ,
   (intArray.full heap_pre n_pre current_2)
 |--
   EX current : (List Int), EX before : (List Int),
@@ -883,7 +883,7 @@ forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current_2 : (
   &&  (intArray.full heap_pre n_pre current)
 ) \/
 (
-forall (n_pre : Int) (S_before : (multiset Int)) (current_2 : (List Int)) (idx : Int) (before_2 : (List Int)) (ret : Int) (PreH1 : ((Znth ((idx * 2) + 1) current_2 (0 : Int)) < (Znth (((idx * 2) + 1) + 1) current_2 (0 : Int)))) (PreH2 : ((((idx * 2) + 1) + 1) < (n_pre - 1))) (PreH3 : (((idx * 2) + 1) < (n_pre - 1))) (PreH4 : (1 < n_pre)) (PreH5 : (n_pre <= heap_capacity)) (PreH6 : (ret = (Znth (0 : Int) before_2 (0 : Int)))) (PreH7 : (ret = (multiset_max (S_before)))) (PreH8 : (heap_representation S_before before_2 n_pre)) (PreH9 : (PrefixMaximum before_2 n_pre ret)) (PreH10 : (multiset_maximum S_before ret)) (PreH11 : ((0 : Int) <= idx)) (PreH12 : (idx < (n_pre - 1))) (PreH13 : ((0 : Int) <= ((idx * 2) + 1))) (PreH14 : (((idx * 2) + 1) <= INT_MAX)) (PreH15 : (PopLoopState before_2 current_2 n_pre idx)) ,
+forall (S_before : (multiset Int)) (n_pre : Int) (current_2 : (List Int)) (idx : Int) (before_2 : (List Int)) (ret : Int) (PreH1 : ((Znth ((idx * 2) + 1) current_2 (0 : Int)) < (Znth (((idx * 2) + 1) + 1) current_2 (0 : Int)))) (PreH2 : ((((idx * 2) + 1) + 1) < (n_pre - 1))) (PreH3 : (((idx * 2) + 1) < (n_pre - 1))) (PreH4 : (1 < n_pre)) (PreH5 : (n_pre <= heap_capacity)) (PreH6 : (ret = (Znth (0 : Int) before_2 (0 : Int)))) (PreH7 : (ret = (multiset_max (S_before)))) (PreH8 : (heap_representation S_before before_2 n_pre)) (PreH9 : (PrefixMaximum before_2 n_pre ret)) (PreH10 : (multiset_maximum S_before ret)) (PreH11 : ((0 : Int) <= idx)) (PreH12 : (idx < (n_pre - 1))) (PreH13 : ((0 : Int) <= ((idx * 2) + 1))) (PreH14 : (((idx * 2) + 1) <= INT_MAX)) (PreH15 : (PopLoopState before_2 current_2 n_pre idx)) ,
   TT && emp 
 |--
   EX before : (List Int),
@@ -898,7 +898,7 @@ forall (n_pre : Int) (S_before : (multiset Int)) (current_2 : (List Int)) (idx :
 
 noncomputable def pop_entail_wit_3_2 : Prop :=
   (
-forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current_2 : (List Int)) (idx : Int) (before_2 : (List Int)) (ret : Int) (PreH1 : ((((idx * 2) + 1) + 1) >= (n_pre - 1))) (PreH2 : (((idx * 2) + 1) < (n_pre - 1))) (PreH3 : (1 < n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : (ret = (Znth (0 : Int) before_2 (0 : Int)))) (PreH6 : (ret = (multiset_max (S_before)))) (PreH7 : (heap_representation S_before before_2 n_pre)) (PreH8 : (PrefixMaximum before_2 n_pre ret)) (PreH9 : (multiset_maximum S_before ret)) (PreH10 : ((0 : Int) <= idx)) (PreH11 : (idx < (n_pre - 1))) (PreH12 : ((0 : Int) <= ((idx * 2) + 1))) (PreH13 : (((idx * 2) + 1) <= INT_MAX)) (PreH14 : (PopLoopState before_2 current_2 n_pre idx)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current_2 : (List Int)) (idx : Int) (before_2 : (List Int)) (ret : Int) (PreH1 : ((((idx * 2) + 1) + 1) >= (n_pre - 1))) (PreH2 : (((idx * 2) + 1) < (n_pre - 1))) (PreH3 : (1 < n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : (ret = (Znth (0 : Int) before_2 (0 : Int)))) (PreH6 : (ret = (multiset_max (S_before)))) (PreH7 : (heap_representation S_before before_2 n_pre)) (PreH8 : (PrefixMaximum before_2 n_pre ret)) (PreH9 : (multiset_maximum S_before ret)) (PreH10 : ((0 : Int) <= idx)) (PreH11 : (idx < (n_pre - 1))) (PreH12 : ((0 : Int) <= ((idx * 2) + 1))) (PreH13 : (((idx * 2) + 1) <= INT_MAX)) (PreH14 : (PopLoopState before_2 current_2 n_pre idx)) ,
   (intArray.full heap_pre n_pre current_2)
 |--
   EX current : (List Int), EX before : (List Int),
@@ -920,7 +920,7 @@ forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current_2 : (
   &&  (intArray.full heap_pre n_pre current)
 ) \/
 (
-forall (n_pre : Int) (S_before : (multiset Int)) (current_2 : (List Int)) (idx : Int) (before_2 : (List Int)) (ret : Int) (PreH1 : ((((idx * 2) + 1) + 1) >= (n_pre - 1))) (PreH2 : (((idx * 2) + 1) < (n_pre - 1))) (PreH3 : (1 < n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : (ret = (Znth (0 : Int) before_2 (0 : Int)))) (PreH6 : (ret = (multiset_max (S_before)))) (PreH7 : (heap_representation S_before before_2 n_pre)) (PreH8 : (PrefixMaximum before_2 n_pre ret)) (PreH9 : (multiset_maximum S_before ret)) (PreH10 : ((0 : Int) <= idx)) (PreH11 : (idx < (n_pre - 1))) (PreH12 : ((0 : Int) <= ((idx * 2) + 1))) (PreH13 : (((idx * 2) + 1) <= INT_MAX)) (PreH14 : (PopLoopState before_2 current_2 n_pre idx)) ,
+forall (S_before : (multiset Int)) (n_pre : Int) (current_2 : (List Int)) (idx : Int) (before_2 : (List Int)) (ret : Int) (PreH1 : ((((idx * 2) + 1) + 1) >= (n_pre - 1))) (PreH2 : (((idx * 2) + 1) < (n_pre - 1))) (PreH3 : (1 < n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : (ret = (Znth (0 : Int) before_2 (0 : Int)))) (PreH6 : (ret = (multiset_max (S_before)))) (PreH7 : (heap_representation S_before before_2 n_pre)) (PreH8 : (PrefixMaximum before_2 n_pre ret)) (PreH9 : (multiset_maximum S_before ret)) (PreH10 : ((0 : Int) <= idx)) (PreH11 : (idx < (n_pre - 1))) (PreH12 : ((0 : Int) <= ((idx * 2) + 1))) (PreH13 : (((idx * 2) + 1) <= INT_MAX)) (PreH14 : (PopLoopState before_2 current_2 n_pre idx)) ,
   TT && emp 
 |--
   EX before : (List Int),
@@ -934,7 +934,7 @@ forall (n_pre : Int) (S_before : (multiset Int)) (current_2 : (List Int)) (idx :
 
 noncomputable def pop_entail_wit_3_3 : Prop :=
   (
-forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current_2 : (List Int)) (idx : Int) (before_2 : (List Int)) (ret : Int) (PreH1 : ((Znth ((idx * 2) + 1) current_2 (0 : Int)) >= (Znth (((idx * 2) + 1) + 1) current_2 (0 : Int)))) (PreH2 : ((((idx * 2) + 1) + 1) < (n_pre - 1))) (PreH3 : (((idx * 2) + 1) < (n_pre - 1))) (PreH4 : (1 < n_pre)) (PreH5 : (n_pre <= heap_capacity)) (PreH6 : (ret = (Znth (0 : Int) before_2 (0 : Int)))) (PreH7 : (ret = (multiset_max (S_before)))) (PreH8 : (heap_representation S_before before_2 n_pre)) (PreH9 : (PrefixMaximum before_2 n_pre ret)) (PreH10 : (multiset_maximum S_before ret)) (PreH11 : ((0 : Int) <= idx)) (PreH12 : (idx < (n_pre - 1))) (PreH13 : ((0 : Int) <= ((idx * 2) + 1))) (PreH14 : (((idx * 2) + 1) <= INT_MAX)) (PreH15 : (PopLoopState before_2 current_2 n_pre idx)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current_2 : (List Int)) (idx : Int) (before_2 : (List Int)) (ret : Int) (PreH1 : ((Znth ((idx * 2) + 1) current_2 (0 : Int)) >= (Znth (((idx * 2) + 1) + 1) current_2 (0 : Int)))) (PreH2 : ((((idx * 2) + 1) + 1) < (n_pre - 1))) (PreH3 : (((idx * 2) + 1) < (n_pre - 1))) (PreH4 : (1 < n_pre)) (PreH5 : (n_pre <= heap_capacity)) (PreH6 : (ret = (Znth (0 : Int) before_2 (0 : Int)))) (PreH7 : (ret = (multiset_max (S_before)))) (PreH8 : (heap_representation S_before before_2 n_pre)) (PreH9 : (PrefixMaximum before_2 n_pre ret)) (PreH10 : (multiset_maximum S_before ret)) (PreH11 : ((0 : Int) <= idx)) (PreH12 : (idx < (n_pre - 1))) (PreH13 : ((0 : Int) <= ((idx * 2) + 1))) (PreH14 : (((idx * 2) + 1) <= INT_MAX)) (PreH15 : (PopLoopState before_2 current_2 n_pre idx)) ,
   (intArray.full heap_pre n_pre current_2)
 |--
   EX current : (List Int), EX before : (List Int),
@@ -956,7 +956,7 @@ forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current_2 : (
   &&  (intArray.full heap_pre n_pre current)
 ) \/
 (
-forall (n_pre : Int) (S_before : (multiset Int)) (current_2 : (List Int)) (idx : Int) (before_2 : (List Int)) (ret : Int) (PreH1 : ((Znth ((idx * 2) + 1) current_2 (0 : Int)) >= (Znth (((idx * 2) + 1) + 1) current_2 (0 : Int)))) (PreH2 : ((((idx * 2) + 1) + 1) < (n_pre - 1))) (PreH3 : (((idx * 2) + 1) < (n_pre - 1))) (PreH4 : (1 < n_pre)) (PreH5 : (n_pre <= heap_capacity)) (PreH6 : (ret = (Znth (0 : Int) before_2 (0 : Int)))) (PreH7 : (ret = (multiset_max (S_before)))) (PreH8 : (heap_representation S_before before_2 n_pre)) (PreH9 : (PrefixMaximum before_2 n_pre ret)) (PreH10 : (multiset_maximum S_before ret)) (PreH11 : ((0 : Int) <= idx)) (PreH12 : (idx < (n_pre - 1))) (PreH13 : ((0 : Int) <= ((idx * 2) + 1))) (PreH14 : (((idx * 2) + 1) <= INT_MAX)) (PreH15 : (PopLoopState before_2 current_2 n_pre idx)) ,
+forall (S_before : (multiset Int)) (n_pre : Int) (current_2 : (List Int)) (idx : Int) (before_2 : (List Int)) (ret : Int) (PreH1 : ((Znth ((idx * 2) + 1) current_2 (0 : Int)) >= (Znth (((idx * 2) + 1) + 1) current_2 (0 : Int)))) (PreH2 : ((((idx * 2) + 1) + 1) < (n_pre - 1))) (PreH3 : (((idx * 2) + 1) < (n_pre - 1))) (PreH4 : (1 < n_pre)) (PreH5 : (n_pre <= heap_capacity)) (PreH6 : (ret = (Znth (0 : Int) before_2 (0 : Int)))) (PreH7 : (ret = (multiset_max (S_before)))) (PreH8 : (heap_representation S_before before_2 n_pre)) (PreH9 : (PrefixMaximum before_2 n_pre ret)) (PreH10 : (multiset_maximum S_before ret)) (PreH11 : ((0 : Int) <= idx)) (PreH12 : (idx < (n_pre - 1))) (PreH13 : ((0 : Int) <= ((idx * 2) + 1))) (PreH14 : (((idx * 2) + 1) <= INT_MAX)) (PreH15 : (PopLoopState before_2 current_2 n_pre idx)) ,
   TT && emp 
 |--
   EX before : (List Int),
@@ -970,7 +970,7 @@ forall (n_pre : Int) (S_before : (multiset Int)) (current_2 : (List Int)) (idx :
 
 noncomputable def pop_entail_wit_4 : Prop :=
   (
-forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before_2 : (List Int)) (current_2 : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current_2 (0 : Int)) < (Znth largest current_2 (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before_2 (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before_2 n_pre)) (PreH7 : (PrefixMaximum before_2 n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current_2 (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before_2 current_2 n_pre idx)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before_2 : (List Int)) (current_2 : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current_2 (0 : Int)) < (Znth largest current_2 (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before_2 (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before_2 n_pre)) (PreH7 : (PrefixMaximum before_2 n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current_2 (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before_2 current_2 n_pre idx)) ,
   (intArray.full heap_pre n_pre (replace_Znth (largest) ((Znth idx current_2 (0 : Int))) ((replace_Znth (idx) ((Znth largest current_2 (0 : Int))) (current_2)))))
 |--
   EX current : (List Int), EX before : (List Int),
@@ -989,7 +989,7 @@ forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before_2 : (L
   &&  (intArray.full heap_pre n_pre current)
 ) \/
 (
-forall (n_pre : Int) (S_before : (multiset Int)) (before_2 : (List Int)) (current_2 : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current_2 (0 : Int)) < (Znth largest current_2 (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before_2 (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before_2 n_pre)) (PreH7 : (PrefixMaximum before_2 n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current_2 (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before_2 current_2 n_pre idx)) ,
+forall (S_before : (multiset Int)) (n_pre : Int) (before_2 : (List Int)) (current_2 : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current_2 (0 : Int)) < (Znth largest current_2 (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before_2 (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before_2 n_pre)) (PreH7 : (PrefixMaximum before_2 n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current_2 (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before_2 current_2 n_pre idx)) ,
   TT && emp 
 |--
   EX before : (List Int),
@@ -1004,7 +1004,7 @@ forall (n_pre : Int) (S_before : (multiset Int)) (before_2 : (List Int)) (curren
 
 noncomputable def pop_return_wit_1 : Prop :=
   (
-forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) >= (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) >= (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
   (intArray.full heap_pre n_pre current)
 |--
   “ (multiset_maximum S_before ret) ”
@@ -1012,7 +1012,7 @@ forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (Li
   ** (intArray.undef_seg heap_pre (n_pre - 1) n_pre)
 ) \/
 (
-forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) >= (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) >= (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
   (intArray.full heap_pre n_pre current)
 |--
   (store_heap heap_pre (multiset_remove (S_before) (ret)) (n_pre - 1))
@@ -1020,7 +1020,7 @@ forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (Li
 )
 
 noncomputable def pop_return_wit_1_split_goal_spatial : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) >= (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : (((idx * 2) + 1) >= (n_pre - 1))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : ((0 : Int) <= ((idx * 2) + 1))) (PreH12 : (((idx * 2) + 1) <= INT_MAX)) (PreH13 : (PopLoopState before current n_pre idx)) ,
   (intArray.full heap_pre n_pre current)
 |--
   (store_heap heap_pre (multiset_remove (S_before) (ret)) (n_pre - 1))
@@ -1028,7 +1028,7 @@ noncomputable def pop_return_wit_1_split_goal_spatial : Prop :=
 
 noncomputable def pop_return_wit_2 : Prop :=
   (
-forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current (0 : Int)) >= (Znth largest current (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before current n_pre idx)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current (0 : Int)) >= (Znth largest current (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before current n_pre idx)) ,
   (intArray.full heap_pre n_pre current)
 |--
   “ (multiset_maximum S_before ret) ”
@@ -1036,7 +1036,7 @@ forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (Lis
   ** (intArray.undef_seg heap_pre (n_pre - 1) n_pre)
 ) \/
 (
-forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current (0 : Int)) >= (Znth largest current (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before current n_pre idx)) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current (0 : Int)) >= (Znth largest current (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before current n_pre idx)) ,
   (intArray.full heap_pre n_pre current)
 |--
   (store_heap heap_pre (multiset_remove (S_before) (ret)) (n_pre - 1))
@@ -1044,7 +1044,7 @@ forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (Lis
 )
 
 noncomputable def pop_return_wit_2_split_goal_spatial : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current (0 : Int)) >= (Znth largest current (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current (0 : Int)) >= (Znth largest current (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before current n_pre idx)) ,
   (intArray.full heap_pre n_pre current)
 |--
   (store_heap heap_pre (multiset_remove (S_before) (ret)) (n_pre - 1))
@@ -1052,7 +1052,7 @@ noncomputable def pop_return_wit_2_split_goal_spatial : Prop :=
 
 noncomputable def pop_return_wit_3 : Prop :=
   (
-forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (PreH1 : (n_pre = 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (PreH1 : (n_pre = 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
   (intArray.full heap_pre n_pre before)
 |--
   “ (multiset_maximum S_before (Znth (0 : Int) before (0 : Int))) ”
@@ -1060,7 +1060,7 @@ forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (Lis
   ** (intArray.undef_seg heap_pre (n_pre - 1) n_pre)
 ) \/
 (
-forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (PreH1 : (n_pre = 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
+forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (PreH1 : (n_pre = 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
   (intArray.full heap_pre n_pre before)
 |--
   (store_heap heap_pre (multiset_remove (S_before) ((Znth (0 : Int) before (0 : Int)))) (n_pre - 1))
@@ -1068,14 +1068,14 @@ forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (Lis
 )
 
 noncomputable def pop_return_wit_3_split_goal_spatial : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (PreH1 : (n_pre = 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (PreH1 : (n_pre = 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
   (intArray.full heap_pre n_pre before)
 |--
   (store_heap heap_pre (multiset_remove (S_before) ((Znth (0 : Int) before (0 : Int)))) (n_pre - 1))
   ** (intArray.undef_seg heap_pre (n_pre - 1) n_pre)
 
 noncomputable def pop_partial_solve_wit_1 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (heap_representation S_before before n_pre)) (PreH4 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH5 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH6 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (heap_representation S_before before n_pre)) (PreH4 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH5 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH6 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
   (intArray.full heap_pre n_pre before)
 |--
   “ (1 <= n_pre) ” &&
@@ -1088,7 +1088,7 @@ noncomputable def pop_partial_solve_wit_1 : Prop :=
   ** (intArray.missing_i heap_pre (0 : Int) (0 : Int) n_pre before)
 
 noncomputable def pop_partial_solve_wit_2 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (PreH1 : (n_pre ≠ 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (PreH1 : (n_pre ≠ 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
   (intArray.full heap_pre n_pre before)
 |--
   “ (n_pre ≠ 1) ” &&
@@ -1102,7 +1102,7 @@ noncomputable def pop_partial_solve_wit_2 : Prop :=
   ** (intArray.missing_i heap_pre (n_pre - 1) (0 : Int) n_pre before)
 
 noncomputable def pop_partial_solve_wit_3 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (PreH1 : (n_pre ≠ 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (PreH1 : (n_pre ≠ 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (heap_representation S_before before n_pre)) (PreH5 : (PrefixMaximum before n_pre (Znth (0 : Int) before (0 : Int)))) (PreH6 : ((Znth (0 : Int) before (0 : Int)) = (multiset_max (S_before)))) (PreH7 : (multiset_maximum S_before (Znth (0 : Int) before (0 : Int)))) ,
   (intArray.full heap_pre n_pre before)
 |--
   “ (n_pre ≠ 1) ” &&
@@ -1116,7 +1116,7 @@ noncomputable def pop_partial_solve_wit_3 : Prop :=
   ** (intArray.missing_i heap_pre (0 : Int) (0 : Int) n_pre before)
 
 noncomputable def pop_partial_solve_wit_4 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : ((((idx * 2) + 1) + 1) < (n_pre - 1))) (PreH2 : (((idx * 2) + 1) < (n_pre - 1))) (PreH3 : (1 < n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH6 : (ret = (multiset_max (S_before)))) (PreH7 : (heap_representation S_before before n_pre)) (PreH8 : (PrefixMaximum before n_pre ret)) (PreH9 : (multiset_maximum S_before ret)) (PreH10 : ((0 : Int) <= idx)) (PreH11 : (idx < (n_pre - 1))) (PreH12 : ((0 : Int) <= ((idx * 2) + 1))) (PreH13 : (((idx * 2) + 1) <= INT_MAX)) (PreH14 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : ((((idx * 2) + 1) + 1) < (n_pre - 1))) (PreH2 : (((idx * 2) + 1) < (n_pre - 1))) (PreH3 : (1 < n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH6 : (ret = (multiset_max (S_before)))) (PreH7 : (heap_representation S_before before n_pre)) (PreH8 : (PrefixMaximum before n_pre ret)) (PreH9 : (multiset_maximum S_before ret)) (PreH10 : ((0 : Int) <= idx)) (PreH11 : (idx < (n_pre - 1))) (PreH12 : ((0 : Int) <= ((idx * 2) + 1))) (PreH13 : (((idx * 2) + 1) <= INT_MAX)) (PreH14 : (PopLoopState before current n_pre idx)) ,
   (intArray.full heap_pre n_pre current)
 |--
   “ ((((idx * 2) + 1) + 1) < (n_pre - 1)) ” &&
@@ -1137,7 +1137,7 @@ noncomputable def pop_partial_solve_wit_4 : Prop :=
   ** (intArray.missing_i heap_pre ((idx * 2) + 1) (0 : Int) n_pre current)
 
 noncomputable def pop_partial_solve_wit_5 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : ((((idx * 2) + 1) + 1) < (n_pre - 1))) (PreH2 : (((idx * 2) + 1) < (n_pre - 1))) (PreH3 : (1 < n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH6 : (ret = (multiset_max (S_before)))) (PreH7 : (heap_representation S_before before n_pre)) (PreH8 : (PrefixMaximum before n_pre ret)) (PreH9 : (multiset_maximum S_before ret)) (PreH10 : ((0 : Int) <= idx)) (PreH11 : (idx < (n_pre - 1))) (PreH12 : ((0 : Int) <= ((idx * 2) + 1))) (PreH13 : (((idx * 2) + 1) <= INT_MAX)) (PreH14 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (current : (List Int)) (idx : Int) (before : (List Int)) (ret : Int) (PreH1 : ((((idx * 2) + 1) + 1) < (n_pre - 1))) (PreH2 : (((idx * 2) + 1) < (n_pre - 1))) (PreH3 : (1 < n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH6 : (ret = (multiset_max (S_before)))) (PreH7 : (heap_representation S_before before n_pre)) (PreH8 : (PrefixMaximum before n_pre ret)) (PreH9 : (multiset_maximum S_before ret)) (PreH10 : ((0 : Int) <= idx)) (PreH11 : (idx < (n_pre - 1))) (PreH12 : ((0 : Int) <= ((idx * 2) + 1))) (PreH13 : (((idx * 2) + 1) <= INT_MAX)) (PreH14 : (PopLoopState before current n_pre idx)) ,
   (intArray.full heap_pre n_pre current)
 |--
   “ ((((idx * 2) + 1) + 1) < (n_pre - 1)) ” &&
@@ -1158,7 +1158,7 @@ noncomputable def pop_partial_solve_wit_5 : Prop :=
   ** (intArray.missing_i heap_pre (((idx * 2) + 1) + 1) (0 : Int) n_pre current)
 
 noncomputable def pop_partial_solve_wit_6 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH4 : (ret = (multiset_max (S_before)))) (PreH5 : (heap_representation S_before before n_pre)) (PreH6 : (PrefixMaximum before n_pre ret)) (PreH7 : (multiset_maximum S_before ret)) (PreH8 : ((0 : Int) <= idx)) (PreH9 : (idx < (n_pre - 1))) (PreH10 : (left = ((idx * 2) + 1))) (PreH11 : (right = (left + 1))) (PreH12 : ((0 : Int) <= largest)) (PreH13 : (largest < (n_pre - 1))) (PreH14 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH15 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH4 : (ret = (multiset_max (S_before)))) (PreH5 : (heap_representation S_before before n_pre)) (PreH6 : (PrefixMaximum before n_pre ret)) (PreH7 : (multiset_maximum S_before ret)) (PreH8 : ((0 : Int) <= idx)) (PreH9 : (idx < (n_pre - 1))) (PreH10 : (left = ((idx * 2) + 1))) (PreH11 : (right = (left + 1))) (PreH12 : ((0 : Int) <= largest)) (PreH13 : (largest < (n_pre - 1))) (PreH14 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH15 : (PopLoopState before current n_pre idx)) ,
   (intArray.full heap_pre n_pre current)
 |--
   “ (1 < n_pre) ” &&
@@ -1180,7 +1180,7 @@ noncomputable def pop_partial_solve_wit_6 : Prop :=
   ** (intArray.missing_i heap_pre idx (0 : Int) n_pre current)
 
 noncomputable def pop_partial_solve_wit_7 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH4 : (ret = (multiset_max (S_before)))) (PreH5 : (heap_representation S_before before n_pre)) (PreH6 : (PrefixMaximum before n_pre ret)) (PreH7 : (multiset_maximum S_before ret)) (PreH8 : ((0 : Int) <= idx)) (PreH9 : (idx < (n_pre - 1))) (PreH10 : (left = ((idx * 2) + 1))) (PreH11 : (right = (left + 1))) (PreH12 : ((0 : Int) <= largest)) (PreH13 : (largest < (n_pre - 1))) (PreH14 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH15 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH4 : (ret = (multiset_max (S_before)))) (PreH5 : (heap_representation S_before before n_pre)) (PreH6 : (PrefixMaximum before n_pre ret)) (PreH7 : (multiset_maximum S_before ret)) (PreH8 : ((0 : Int) <= idx)) (PreH9 : (idx < (n_pre - 1))) (PreH10 : (left = ((idx * 2) + 1))) (PreH11 : (right = (left + 1))) (PreH12 : ((0 : Int) <= largest)) (PreH13 : (largest < (n_pre - 1))) (PreH14 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH15 : (PopLoopState before current n_pre idx)) ,
   (intArray.full heap_pre n_pre current)
 |--
   “ (1 < n_pre) ” &&
@@ -1202,7 +1202,7 @@ noncomputable def pop_partial_solve_wit_7 : Prop :=
   ** (intArray.missing_i heap_pre largest (0 : Int) n_pre current)
 
 noncomputable def pop_partial_solve_wit_8 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current (0 : Int)) < (Znth largest current (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current (0 : Int)) < (Znth largest current (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before current n_pre idx)) ,
   (intArray.full heap_pre n_pre current)
 |--
   “ ((Znth idx current (0 : Int)) < (Znth largest current (0 : Int))) ” &&
@@ -1225,7 +1225,7 @@ noncomputable def pop_partial_solve_wit_8 : Prop :=
   ** (intArray.missing_i heap_pre idx (0 : Int) n_pre current)
 
 noncomputable def pop_partial_solve_wit_9 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current (0 : Int)) < (Znth largest current (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current (0 : Int)) < (Znth largest current (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before current n_pre idx)) ,
   (intArray.full heap_pre n_pre current)
 |--
   “ ((Znth idx current (0 : Int)) < (Znth largest current (0 : Int))) ” &&
@@ -1248,7 +1248,7 @@ noncomputable def pop_partial_solve_wit_9 : Prop :=
   ** (intArray.missing_i heap_pre largest (0 : Int) n_pre current)
 
 noncomputable def pop_partial_solve_wit_10 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current (0 : Int)) < (Znth largest current (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current (0 : Int)) < (Znth largest current (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before current n_pre idx)) ,
   (intArray.full heap_pre n_pre current)
 |--
   “ ((Znth idx current (0 : Int)) < (Znth largest current (0 : Int))) ” &&
@@ -1271,7 +1271,7 @@ noncomputable def pop_partial_solve_wit_10 : Prop :=
   ** (intArray.missing_i heap_pre idx (0 : Int) n_pre current)
 
 noncomputable def pop_partial_solve_wit_11 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (S_before : (multiset Int)) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current (0 : Int)) < (Znth largest current (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before current n_pre idx)) ,
+  forall (S_before : (multiset Int)) (heap_pre : Int) (n_pre : Int) (before : (List Int)) (current : (List Int)) (ret : Int) (idx : Int) (left : Int) (right : Int) (largest : Int) (PreH1 : ((Znth idx current (0 : Int)) < (Znth largest current (0 : Int)))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (ret = (Znth (0 : Int) before (0 : Int)))) (PreH5 : (ret = (multiset_max (S_before)))) (PreH6 : (heap_representation S_before before n_pre)) (PreH7 : (PrefixMaximum before n_pre ret)) (PreH8 : (multiset_maximum S_before ret)) (PreH9 : ((0 : Int) <= idx)) (PreH10 : (idx < (n_pre - 1))) (PreH11 : (left = ((idx * 2) + 1))) (PreH12 : (right = (left + 1))) (PreH13 : ((0 : Int) <= largest)) (PreH14 : (largest < (n_pre - 1))) (PreH15 : (PopSelectedChild current (n_pre - 1) idx largest)) (PreH16 : (PopLoopState before current n_pre idx)) ,
   (intArray.full heap_pre n_pre (replace_Znth (idx) ((Znth largest current (0 : Int))) (current)))
 |--
   “ ((Znth idx current (0 : Int)) < (Znth largest current (0 : Int))) ” &&
@@ -1294,7 +1294,7 @@ noncomputable def pop_partial_solve_wit_11 : Prop :=
   ** (intArray.missing_i heap_pre largest (0 : Int) n_pre (replace_Znth (idx) ((Znth largest current (0 : Int))) (current)))
 
 noncomputable def heap_sort_safety_wit_1 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((multiset_size (active)) = i)) (PreH7 : ((Zlength (suffix)) = (n_pre - i))) (PreH8 : (HeapSortState input active suffix)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((multiset_size (active)) = i)) (PreH7 : ((Zlength (suffix)) = (n_pre - i))) (PreH8 : (HeapSortState input active suffix)) ,
   ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -1305,7 +1305,7 @@ noncomputable def heap_sort_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def heap_sort_safety_wit_2 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (retval : Int) (PreH1 : (multiset_maximum active retval)) (PreH2 : (i > (0 : Int))) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : ((Zlength (input)) = n_pre)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((multiset_size (active)) = i)) (PreH9 : ((Zlength (suffix)) = (n_pre - i))) (PreH10 : (HeapSortState input active suffix)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (retval : Int) (PreH1 : (multiset_maximum active retval)) (PreH2 : (i > (0 : Int))) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : ((Zlength (input)) = n_pre)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((multiset_size (active)) = i)) (PreH9 : ((Zlength (suffix)) = (n_pre - i))) (PreH10 : (HeapSortState input active suffix)) ,
   (store_heap heap_pre (multiset_remove (active) (retval)) (i - 1))
   ** (intArray.undef_seg heap_pre (i - 1) i)
   ** ((( &( "extracted" ) )) # Int |-> (retval))
@@ -1318,7 +1318,7 @@ noncomputable def heap_sort_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (i - 1)) ”
 
 noncomputable def heap_sort_safety_wit_3 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (retval : Int) (PreH1 : (multiset_maximum active retval)) (PreH2 : (i > (0 : Int))) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : ((Zlength (input)) = n_pre)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((multiset_size (active)) = i)) (PreH9 : ((Zlength (suffix)) = (n_pre - i))) (PreH10 : (HeapSortState input active suffix)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (retval : Int) (PreH1 : (multiset_maximum active retval)) (PreH2 : (i > (0 : Int))) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : ((Zlength (input)) = n_pre)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((multiset_size (active)) = i)) (PreH9 : ((Zlength (suffix)) = (n_pre - i))) (PreH10 : (HeapSortState input active suffix)) ,
   (store_heap heap_pre (multiset_remove (active) (retval)) (i - 1))
   ** (intArray.undef_seg heap_pre (i - 1) i)
   ** ((( &( "extracted" ) )) # Int |-> (retval))
@@ -1331,7 +1331,7 @@ noncomputable def heap_sort_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def heap_sort_safety_wit_4 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (retval : Int) (PreH1 : (multiset_maximum active retval)) (PreH2 : (i > (0 : Int))) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : ((Zlength (input)) = n_pre)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((multiset_size (active)) = i)) (PreH9 : ((Zlength (suffix)) = (n_pre - i))) (PreH10 : (HeapSortState input active suffix)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (retval : Int) (PreH1 : (multiset_maximum active retval)) (PreH2 : (i > (0 : Int))) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : ((Zlength (input)) = n_pre)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((multiset_size (active)) = i)) (PreH9 : ((Zlength (suffix)) = (n_pre - i))) (PreH10 : (HeapSortState input active suffix)) ,
   (((heap_pre + ((i - 1) * sizeof(INT)))) # Int |-> (retval))
   ** (store_heap heap_pre (multiset_remove (active) (retval)) (i - 1))
   ** ((( &( "extracted" ) )) # Int |-> (retval))
@@ -1345,7 +1345,7 @@ noncomputable def heap_sort_safety_wit_4 : Prop :=
 
 noncomputable def heap_sort_entail_wit_1 : Prop :=
   (
-forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
+forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
   (store_heap heap_pre (list_to_multiset (input)) n_pre)
 |--
   EX suffix : (List Int), EX active : (multiset Int),
@@ -1361,7 +1361,7 @@ forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (PreH1 : ((0 : Int) <
   ** (intArray.seg heap_pre n_pre n_pre suffix)
 ) \/
 (
-forall (n_pre : Int) (input : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
+forall (input : (List Int)) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
   TT && emp 
 |--
   “ (HeapSortState input (list_to_multiset (input)) (@List.nil Int)) ” &&
@@ -1371,20 +1371,20 @@ forall (n_pre : Int) (input : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 
 )
 
 noncomputable def heap_sort_entail_wit_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (input : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
+  forall (input : (List Int)) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
   (HeapSortState input (list_to_multiset (input)) (@List.nil Int))
 
 noncomputable def heap_sort_entail_wit_1_split_goal_2 : Prop :=
-  forall (n_pre : Int) (input : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
+  forall (input : (List Int)) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
   ((Zlength ((@List.nil Int))) = (n_pre - n_pre))
 
 noncomputable def heap_sort_entail_wit_1_split_goal_3 : Prop :=
-  forall (n_pre : Int) (input : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
+  forall (input : (List Int)) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
   ((multiset_size ((list_to_multiset (input)))) = n_pre)
 
 noncomputable def heap_sort_entail_wit_2 : Prop :=
   (
-forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (suffix_2 : (List Int)) (active_2 : (multiset Int)) (i : Int) (retval : Int) (PreH1 : (multiset_maximum active_2 retval)) (PreH2 : (i > (0 : Int))) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : ((Zlength (input)) = n_pre)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((multiset_size (active_2)) = i)) (PreH9 : ((Zlength (suffix_2)) = (n_pre - i))) (PreH10 : (HeapSortState input active_2 suffix_2)) ,
+forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (suffix_2 : (List Int)) (active_2 : (multiset Int)) (i : Int) (retval : Int) (PreH1 : (multiset_maximum active_2 retval)) (PreH2 : (i > (0 : Int))) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : ((Zlength (input)) = n_pre)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((multiset_size (active_2)) = i)) (PreH9 : ((Zlength (suffix_2)) = (n_pre - i))) (PreH10 : (HeapSortState input active_2 suffix_2)) ,
   (((heap_pre + ((i - 1) * sizeof(INT)))) # Int |-> (retval))
   ** (store_heap heap_pre (multiset_remove (active_2) (retval)) (i - 1))
   ** (intArray.seg heap_pre i n_pre suffix_2)
@@ -1402,7 +1402,7 @@ forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (suffix_2 : (List Int
   ** (intArray.seg heap_pre (i - 1) n_pre suffix)
 ) \/
 (
-forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (suffix_2 : (List Int)) (active_2 : (multiset Int)) (i : Int) (retval : Int) (PreH1 : (retval <= INT_MAX)) (PreH2 : (retval >= INT_MIN)) (PreH3 : (multiset_maximum active_2 retval)) (PreH4 : (i > (0 : Int))) (PreH5 : ((0 : Int) <= n_pre)) (PreH6 : (n_pre <= heap_capacity)) (PreH7 : ((Zlength (input)) = n_pre)) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((multiset_size (active_2)) = i)) (PreH11 : ((Zlength (suffix_2)) = (n_pre - i))) (PreH12 : (HeapSortState input active_2 suffix_2)) ,
+forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (suffix_2 : (List Int)) (active_2 : (multiset Int)) (i : Int) (retval : Int) (PreH1 : (retval <= INT_MAX)) (PreH2 : (retval >= INT_MIN)) (PreH3 : (multiset_maximum active_2 retval)) (PreH4 : (i > (0 : Int))) (PreH5 : ((0 : Int) <= n_pre)) (PreH6 : (n_pre <= heap_capacity)) (PreH7 : ((Zlength (input)) = n_pre)) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((multiset_size (active_2)) = i)) (PreH11 : ((Zlength (suffix_2)) = (n_pre - i))) (PreH12 : (HeapSortState input active_2 suffix_2)) ,
   (((heap_pre + ((i - 1) * sizeof(INT)))) # Int |-> (retval))
   ** (store_heap heap_pre (multiset_remove (active_2) (retval)) (i - 1))
   ** (intArray.seg heap_pre i n_pre suffix_2)
@@ -1422,7 +1422,7 @@ forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (suffix_2 : (List Int
 
 noncomputable def heap_sort_return_wit_1 : Prop :=
   (
-forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (PreH1 : (i <= (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : ((Zlength (input)) = n_pre)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((multiset_size (active)) = i)) (PreH8 : ((Zlength (suffix)) = (n_pre - i))) (PreH9 : (HeapSortState input active suffix)) ,
+forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (PreH1 : (i <= (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : ((Zlength (input)) = n_pre)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((multiset_size (active)) = i)) (PreH8 : ((Zlength (suffix)) = (n_pre - i))) (PreH9 : (HeapSortState input active suffix)) ,
   (store_heap heap_pre active i)
   ** (intArray.seg heap_pre i n_pre suffix)
 |--
@@ -1432,7 +1432,7 @@ forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (suffix : (List Int))
   &&  (intArray.full heap_pre n_pre output)
 ) \/
 (
-forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (PreH1 : (i <= (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : ((Zlength (input)) = n_pre)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((multiset_size (active)) = i)) (PreH8 : ((Zlength (suffix)) = (n_pre - i))) (PreH9 : (HeapSortState input active suffix)) ,
+forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (PreH1 : (i <= (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : ((Zlength (input)) = n_pre)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((multiset_size (active)) = i)) (PreH8 : ((Zlength (suffix)) = (n_pre - i))) (PreH9 : (HeapSortState input active suffix)) ,
   (store_heap heap_pre active i)
   ** (intArray.seg heap_pre i n_pre suffix)
 |--
@@ -1443,7 +1443,7 @@ forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (suffix : (List Int))
 )
 
 noncomputable def heap_sort_partial_solve_wit_1_pure : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
   ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** (intArray.full heap_pre n_pre input)
@@ -1453,7 +1453,7 @@ noncomputable def heap_sort_partial_solve_wit_1_pure : Prop :=
   “ ((Zlength (input)) = n_pre) ”
 
 noncomputable def heap_sort_partial_solve_wit_1_aux : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) ,
   (intArray.full heap_pre n_pre input)
 |--
   “ ((0 : Int) <= n_pre) ” &&
@@ -1467,7 +1467,7 @@ noncomputable def heap_sort_partial_solve_wit_1_aux : Prop :=
 noncomputable def heap_sort_partial_solve_wit_1 : Prop := heap_sort_partial_solve_wit_1_pure -> heap_sort_partial_solve_wit_1_aux
 
 noncomputable def heap_sort_partial_solve_wit_2_pure : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (PreH1 : (i > (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : ((Zlength (input)) = n_pre)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((multiset_size (active)) = i)) (PreH8 : ((Zlength (suffix)) = (n_pre - i))) (PreH9 : (HeapSortState input active suffix)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (PreH1 : (i > (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : ((Zlength (input)) = n_pre)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((multiset_size (active)) = i)) (PreH8 : ((Zlength (suffix)) = (n_pre - i))) (PreH9 : (HeapSortState input active suffix)) ,
   ((( &( "extracted" ) )) # Int |->_)
   ** ((( &( "heap" ) )) # Ptr |-> (heap_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -1479,7 +1479,7 @@ noncomputable def heap_sort_partial_solve_wit_2_pure : Prop :=
   “ (i <= heap_capacity) ”
 
 noncomputable def heap_sort_partial_solve_wit_2_aux : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (PreH1 : (i > (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : ((Zlength (input)) = n_pre)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((multiset_size (active)) = i)) (PreH8 : ((Zlength (suffix)) = (n_pre - i))) (PreH9 : (HeapSortState input active suffix)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (PreH1 : (i > (0 : Int))) (PreH2 : ((0 : Int) <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : ((Zlength (input)) = n_pre)) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((multiset_size (active)) = i)) (PreH8 : ((Zlength (suffix)) = (n_pre - i))) (PreH9 : (HeapSortState input active suffix)) ,
   (store_heap heap_pre active i)
   ** (intArray.seg heap_pre i n_pre suffix)
 |--
@@ -1500,7 +1500,7 @@ noncomputable def heap_sort_partial_solve_wit_2_aux : Prop :=
 noncomputable def heap_sort_partial_solve_wit_2 : Prop := heap_sort_partial_solve_wit_2_pure -> heap_sort_partial_solve_wit_2_aux
 
 noncomputable def heap_sort_partial_solve_wit_3 : Prop :=
-  forall (n_pre : Int) (heap_pre : Int) (input : (List Int)) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (retval : Int) (PreH1 : (multiset_maximum active retval)) (PreH2 : (i > (0 : Int))) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : ((Zlength (input)) = n_pre)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((multiset_size (active)) = i)) (PreH9 : ((Zlength (suffix)) = (n_pre - i))) (PreH10 : (HeapSortState input active suffix)) ,
+  forall (input : (List Int)) (heap_pre : Int) (n_pre : Int) (suffix : (List Int)) (active : (multiset Int)) (i : Int) (retval : Int) (PreH1 : (multiset_maximum active retval)) (PreH2 : (i > (0 : Int))) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : ((Zlength (input)) = n_pre)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((multiset_size (active)) = i)) (PreH9 : ((Zlength (suffix)) = (n_pre - i))) (PreH10 : (HeapSortState input active suffix)) ,
   (store_heap heap_pre (multiset_remove (active) (retval)) (i - 1))
   ** (intArray.undef_seg heap_pre (i - 1) i)
   ** (intArray.seg heap_pre i n_pre suffix)

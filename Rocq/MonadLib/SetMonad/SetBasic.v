@@ -345,6 +345,8 @@ End SetMonadExamples'.
 (*  [range_iter] ranges over [nat], unlike StateRel's [Z]).                                                  *)
 (*                                                                                                          *)
 
+Module SetProgNotations.
+
 Declare Scope setprog_scope.
 Delimit Scope setprog_scope with setprog.
 
@@ -388,3 +390,5 @@ Notation "'FOR' i 'FROM' lo 'TO' hi 'WITH' ' p ':=' a0 'DO' c 'END'" :=
 Notation "'BREAK' e" := (break e) (at level 50) : setprog_scope.
 Notation "'NEXT' a" := (continue a) (at level 50) : setprog_scope.
 Notation "'CONTINUE'" := (continue tt) (at level 0) : setprog_scope.
+
+End SetProgNotations.

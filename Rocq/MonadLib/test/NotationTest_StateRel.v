@@ -12,7 +12,7 @@
 Require Import Coq.ZArith.ZArith.
 Require Import SetsClass.SetsClass.
 From MonadLib.StateRelMonad Require Import StateRelBasic.
-Import Monad MonadNotation SetsNotation.
+Import Monad MonadNotation StateRelProgNotations SetsNotation.
 Local Open Scope Z_scope.
 Local Open Scope monad_scope.
 Local Open Scope prog_scope.

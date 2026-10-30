@@ -1,28 +1,12 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 Require Import glibc_slist_iter_back_2_rel_goal.
 Require Import glibc_slist_iter_back_2_rel_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 From MonadLib Require Export MonadLib.
 From MonadLib.MonadErr Require Export StateRelMonadErr.
 Export MonadNotation.
 Local Open Scope monad.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
+From AUXLib Require Import relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 From SimpleC.EE.QCP_demos_LLM Require Import sll_lib.
 Require Import glibc_slist_lib.
@@ -271,9 +255,11 @@ Proof.
       (unfold glibc_slist_clean_iter_back_2_prev_case; intros Hnode; contradiction).
     dump_pre_spatial. exact Hprev.
 Qed.
-Lemma proof_of_glibc_slist_clean_iter_back_2_derive_high_level_spec_by_low_level_spec :
-  glibc_slist_clean_iter_back_2_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_glibc_slist_clean_iter_back_2_low_level_spec_entail_high_level_spec :
+  glibc_slist_clean_iter_back_2_low_level_spec_entail_high_level_spec.
 Proof.
+  unfold glibc_slist_clean_iter_back_2_low_level_spec_entail_high_level_spec.
+  intros x l1_high_level_spec.
   LLM_pre_process ltac:(int_auto).
   Exists (MonadErr.nrm
     (glibc_slist_clean_iter_back_2_M l1_high_level_spec) tt).
@@ -287,12 +273,12 @@ Proof.
       destruct (glibc_slist_clean_iter_back_2_M_Hoare l1_high_level_spec) as [_ Herr].
       intro Herr0.
       eapply Herr; [exact H | exact Herr0].
-  - apply derivable1_wand_sepcon_adjoint.
+  - Intros_r retval.
+    apply derivable1_wand_sepcon_adjoint.
     cancel.
     Intros l2.
     Intros r.
-    Intros retval_2.
-    Exists retval_2.
+    Intros.
     destruct (@Hoare_safeexec_compose unit (list Z * Z)
                 (fun _ : unit => range l1_high_level_spec)
                 (glibc_slist_clean_iter_back_2_M l1_high_level_spec)
@@ -316,7 +302,7 @@ Proof.
     - simpl sll. Intros z. subst; contradiction.
     - simpl sll. Intros z y0.
       sep_apply (dup_store_int (&(st # "list" ->ₛ "data")) w done).
-      Intros Hdup. contradiction.
+      Intros. contradiction.
   }
   simpl (sllseg st st (@nil Z)). Intros.
   pose proof (cleanup_iter_back_sum_bounds _ _ _ _ _ PreH4) as [Hsum_lo Hsum_hi].
@@ -394,7 +380,7 @@ Proof.
     - simpl sll. Intros z. subst; contradiction.
     - simpl sll. Intros z y0.
       sep_apply (dup_store_int (&(st # "list" ->ₛ "data")) w done).
-      Intros Hdup. contradiction.
+      Intros. contradiction.
   }
   simpl (sllseg st st (@nil Z)). Intros.
   pose proof (cleanup_iter_back_sum_bounds _ _ _ _ _ PreH4) as [Hsum_lo Hsum_hi].
@@ -503,8 +489,7 @@ Proof.
       * simpl.
         Intros z y.
         sep_apply (dup_store_int (&( st # "list" ->ₛ "data")) a b).
-        Intros Hdup.
-        contradiction.
+        Intros. contradiction.
 Qed. 
 
 Lemma proof_of_glibc_slist_clean_iter_back_2_safety_wit_4 : glibc_slist_clean_iter_back_2_safety_wit_4.
@@ -518,10 +503,9 @@ Proof.
     - simpl sll. Intros z. subst; contradiction.
     - simpl sll. Intros z y0.
       sep_apply (dup_store_int (&(st # "list" ->ₛ "data")) w done).
-      Intros Hdup. contradiction.
+      Intros. contradiction.
   }
   simpl (sllseg st st (@nil Z)). Intros.
   pose proof (cleanup_iter_back_sum_bounds _ _ _ _ _ PreH3) as [Hsum_lo Hsum_hi].
   split_pures; dump_pre_spatial; int_auto.
 Qed.
-

@@ -181,6 +181,30 @@ string proof 常见步骤：展开 `store_string` / `c_string` / `string_length`
 
 需要 helper lemma 时，按 handoff 的历史路径及已有可选 proof_reuse.md，以 exact lemma/predicate 名搜索相关 sources；只复制实际需要的完整 helper closure，并统一当前 suffix。未命中时在 `group_worker_lib` 新增并证明当前 suffix helper；不要把 helper 写入 `*_proof_manual.v`，不要预先浏览或复制可能最终不用的 declaration，也不直接 import 或编辑历史库。
 
+## Vector goals 处理
+
+含 `Veci` / `Vecp` / `VecpArray` 或其他 `DynVec` instance 的 goal 用库 lemma 关闭：`DynVec` 与 `VecArray` 在 `Rocq/examples/Applications_human/dynvec_lib.v`，instance `Veci`、`Vecp`、`VecpArray` 在 `Rocq/examples/Applications_human/minisat/vec_qcp_lib.v`。不展开 `DynVec` 视图（`rep`、`rep_ptr`、`rep_at`、`header`、`shell`）或 `VecArray` 谓词（`full`、`seg`、`missing_i`、`missing2`、`undef_seg`）；别名 `VecpArray.vec_store` 与 `VecpArray.vec_undef_store` 可以展开。也不写这些 lemma 的 case 命名副本或 push 专用副本：
+
+- 弱化或命名视图：`rep_at_rep`、`rep_at_rep_ptr`、`rep_ptr_rep`、`rep_rep_ptr`、`rep_open`、`rep_ptr_open`、`rep_at_open`；上下界来自 `rep_at_bounds` / `rep_ptr_bounds` / `rep_bounds`；
+- 写入或增长后关闭：`full_to_seg` 之后对 strategies 留下的 `header` 用 `rep_intro` / `rep_ptr_intro`（struct 字段中的 vector 传其字段地址）；创建用 `rep_empty_intro` / `rep_nil_intro`；截断用 `rep_at_truncate`；
+- 单个元素：buffer 访问留下 `header * seg * undef_seg`；对 segment 使用 `IntArray` / `PtrArray` 的 `seg_split_to_missing_i` 与 `missing_i_merge_to_seg`；
+- vector 数组：`VecpArray.full_split_to_missing_i` / `missing_i_merge_to_full`（在 slot 地址处为 `full_split_to_slot` / `slot_merge_to_full`）、`missing2` 系列 lemma、`seg_single` / `full_to_seg` / `seg_merge_to_seg`、`undef_seg_unfold`；`full_Zlength`、`seg_to_full`，空表用 `full_empty` / `seg_empty` / `undef_seg_empty` 而非 `change`；用 `prop_apply_p` 取 `missing_i_Zlength` 与 `missing_i_index_range`；`slot_eq`；`unfold VecpArray.vec_store` 得到 `Vecp.rep (Vecp.slot x i) l`，从该形式回到 `vec_store` 用 `change`。table 规则在 symbolic execution 中取出单个 slot 并折回，因此之后的 VC 带 `VecpArray.full`；用 case 的折叠 lemma 关闭为 case 的表谓词；
+- `vec_buf_ok cap p`（`cap = 0 -> p = 0`）：小 goal 用 `vec_buf_solve`；大 context 中用只作用于 goal 的 `(unfold vec_buf_ok; intros; lia)`。
+
+截断的 return VC 从强制骨架到视图的完整写法（`Rocq/examples/Applications_human/minisat/vec_qcp_proof_manual.v` 中的 `proof_of_veci_resize_return_wit_1`；vector unit 自身的 body 看到三个字段 cell，所以先 `header_fold`，client VC 已带 `header`）；push 的 return VC 同样关闭，对合并后的 segment `l ++ x :: nil` 用 `rep_intro`：
+
+```coq
+LLM_pre_process ltac:(lia || int_auto).
+rewrite Zlength_sublist by lia.
+  sep_apply (Veci.header_fold v_pre p k_pre cap).
+  sep_apply (Veci.rep_at_truncate v_pre p l cap k_pre
+    ltac:(lia) ltac:(lia) ltac:(lia) ltac:(vec_buf_solve)).
+  sep_apply (Veci.rep_at_rep_ptr v_pre p (sublist 0 k_pre l) cap).
+  split_pure_spatial; [cancel | split_pures; dump_pre_spatial; lia ..].
+```
+
+库中缺少的通用 vector 事实写成一条只用库谓词表述的当前 suffix helper，并在 `group_worker_output.md` 中记为库缺口。
+
 ## 整体证明骨架
 
 常见 entailment proof：

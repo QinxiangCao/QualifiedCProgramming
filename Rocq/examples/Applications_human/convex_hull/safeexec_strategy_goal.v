@@ -1,17 +1,10 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.QCP_demos_LLM.sll_merge_rel_lib.
 Local Open Scope monad.
 From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
 
 Definition safeexec_strategy3 :=
   forall (Sigma : Type) (A : Type) (x : (@ StateRelMonad.M  Sigma A)),
@@ -59,7 +52,7 @@ Definition safeexec_strategy5 :=
     (“ (equiv c12 c22) ”) &&
     emp -*
     TT &&
-    (“ (equiv ( bind c11 c12) ( bind c21 c22)) ”) &&
+    (“ (equiv (bind c11 c12) (bind c21 c22)) ”) &&
     emp
     ).
 
@@ -76,7 +69,7 @@ Definition safeexec_strategy8 :=
     (“ (l1 = l2) ”) &&
     emp -*
     TT &&
-    (“ (equiv ( mergesortrec_loc1 l1) ( mergesortrec_loc1 l2)) ”) &&
+    (“ (equiv (mergesortrec_loc1 l1) (mergesortrec_loc1 l2)) ”) &&
     emp
     ).
 
@@ -93,7 +86,7 @@ Definition safeexec_strategy9 :=
     (“ (l1 = l2) ”) &&
     emp -*
     TT &&
-    (“ (equiv ( mergesortrec_loc2 l1) ( mergesortrec_loc2 l2)) ”) &&
+    (“ (equiv (mergesortrec_loc2 l1) (mergesortrec_loc2 l2)) ”) &&
     emp
     ).
 

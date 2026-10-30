@@ -93,6 +93,8 @@ Spec 的来源是题目描述、输入格式、输出格式和用于消除歧义
 - 成员、互异和重排：In、NoDup、Permutation；
 - 单调性：当前依赖已有的一套 increasing/decreasing 或 mono 系列；
 - 计数、求和、最值：#、sum、SumLib、min_value_of_subset、max_value_of_subset；
+- 可增长向量及其数组：DynVec、VecArray（dynvec_lib.v），C 已 include vec_qcp.h 时用其 instance Veci、Vecp、VecpArray；
+- 文字、子句、CNF 与 SAT/CDCL 状态：CDCLLib 的 literal、clause、cnf、models、cnf_sat、cnf_unsat、cdcl_view；
 - 图：valid_vpath、reachable。
 
 以下内容直接写现有表达：

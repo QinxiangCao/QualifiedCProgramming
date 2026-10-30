@@ -55,7 +55,7 @@ static int solver(const int *a, int n, const int *b, int m)
           IntArray::full(a@pre, n@pre, left) *
           IntArray::full(b@pre, m@pre, right) *
           CharArray::undef_full(
-            pointer_offset(seen, 0, sizeof(char), signed char),
+            pointer_offset(seen, 0, signed char),
             sizeof(char[1001]))
     */
     memset(seen, 0, sizeof seen);

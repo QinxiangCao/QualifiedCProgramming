@@ -1,4 +1,5 @@
 import SimpleC.SL.Assertion
+import SimpleC.SL.FunAssertion
 import SimpleC.SL.ConAssertion
 import SimpleC.SL.Array2Lib
 import SimpleC.SL.Array3Lib
@@ -30,6 +31,8 @@ export SimpleC.SL.CommonAssertion.DerivedPredSig (
   undef_store_char
   store_uchar
   undef_store_uchar
+  store_bool
+  undef_store_bool
   store_short
   undef_store_short
   store_ushort
@@ -133,6 +136,10 @@ abbrev undef_store_char (self : SeparationLogicSig) :=
   DerivedPredSigCompat.undef_store_char self
 abbrev store_uchar (self : SeparationLogicSig) :=
   DerivedPredSigCompat.store_uchar self
+abbrev store_bool (self : SeparationLogicSig) :=
+  DerivedPredSigCompat.store_bool self
+abbrev undef_store_bool (self : SeparationLogicSig) :=
+  DerivedPredSigCompat.undef_store_bool self
 abbrev undef_store_uchar (self : SeparationLogicSig) :=
   DerivedPredSigCompat.undef_store_uchar self
 abbrev store_short (self : SeparationLogicSig) :=
@@ -278,6 +285,10 @@ abbrev store_uchar_range (self : SeparationLogicSig) :=
   StoreLibSig.store_uchar_range (Arch := Arch32) self
 abbrev store_uchar_undef_store_uchar (self : SeparationLogicSig) :=
   StoreLibSig.store_uchar_undef_store_uchar (Arch := Arch32) self
+abbrev store_bool_undef_store_bool (self : SeparationLogicSig) :=
+  StoreLibSig.store_bool_undef_store_bool (Arch := Arch32) self
+abbrev valid_store_bool (self : SeparationLogicSig) :=
+  StoreLibSig.valid_store_bool (Arch := Arch32) self
 abbrev store_ushort_range (self : SeparationLogicSig) :=
   StoreLibSig.store_ushort_range (Arch := Arch32) (Endian := BigEndian) self
 abbrev store_ushort_undef_store_ushort (self : SeparationLogicSig) :=
@@ -421,6 +432,10 @@ abbrev undef_store_uchar_align (self : SeparationLogicSig) :=
   StoreLibSig.undef_store_uchar_align (Arch := Arch32) self
 abbrev store_uchar_align (self : SeparationLogicSig) :=
   StoreLibSig.store_uchar_align (Arch := Arch32) self
+abbrev undef_store_bool_align (self : SeparationLogicSig) :=
+  StoreLibSig.undef_store_bool_align (Arch := Arch32) self
+abbrev store_bool_align (self : SeparationLogicSig) :=
+  StoreLibSig.store_bool_align (Arch := Arch32) self
 abbrev undef_store_int_align4 (self : SeparationLogicSig) :=
   StoreLibSig.undef_store_int_align4 (Arch := Arch32) self
 abbrev store_int_align4 (self : SeparationLogicSig) :=
@@ -624,6 +639,9 @@ abbrev aligned_8_aligned_4 (_self : SeparationLogicSig) :=
 abbrev dup_data_at_error_prop (_self : SeparationLogicSig) : Prop :=
   SimpleC.SL.CommonAssertion.DerivedPredSig.dup_data_at_error_prop
 
+noncomputable abbrev StoreBoolAsElement (self : SeparationLogicSig) :=
+  SimpleC.SL.ArrayLib.StoreBoolAsElement
+    Arch32 BigEndian self self.derivedPredSig self.storeLibSig
 noncomputable abbrev StoreCharAsElement (self : SeparationLogicSig) :=
   SimpleC.SL.ArrayLib.StoreCharAsElement Arch32 BigEndian self self.derivedPredSig self.storeLibSig
 noncomputable abbrev StoreUCharAsElement (self : SeparationLogicSig) :=
@@ -667,6 +685,9 @@ noncomputable abbrev StoreFiniteLongDoubleAsElement (self : SeparationLogicSig) 
 noncomputable abbrev StorePtrAsElement (self : SeparationLogicSig) :=
   SimpleC.SL.ArrayLib.StorePtrAsElement Arch32 BigEndian self self.derivedPredSig self.storeLibSig
 
+noncomputable abbrev BoolArray (self : SeparationLogicSig) :=
+  SimpleC.SL.ArrayLib.BoolArray
+    Arch32 BigEndian self self.derivedPredSig self.storeLibSig
 noncomputable abbrev CharArray (self : SeparationLogicSig) :=
   SimpleC.SL.ArrayLib.CharArray Arch32 BigEndian self self.derivedPredSig self.storeLibSig
 noncomputable abbrev UCharArray (self : SeparationLogicSig) :=
@@ -710,6 +731,9 @@ noncomputable abbrev FiniteLongDoubleArray (self : SeparationLogicSig) :=
 noncomputable abbrev PtrArray (self : SeparationLogicSig) :=
   SimpleC.SL.ArrayLib.PtrArray Arch32 BigEndian self self.derivedPredSig self.storeLibSig
 
+noncomputable abbrev BoolArray2 (self : SeparationLogicSig) :=
+  SimpleC.SL.Array2Lib.Array2LibSig.BoolArray2
+    Arch32 BigEndian self self.derivedPredSig self.storeLibSig
 noncomputable abbrev CharArray2 (self : SeparationLogicSig) :=
   SimpleC.SL.Array2Lib.Array2LibSig.CharArray2
     Arch32 BigEndian self self.derivedPredSig self.storeLibSig
@@ -762,6 +786,9 @@ noncomputable abbrev PtrArray2 (self : SeparationLogicSig) :=
   SimpleC.SL.Array2Lib.Array2LibSig.PtrArray2
     Arch32 BigEndian self self.derivedPredSig self.storeLibSig
 
+noncomputable abbrev BoolArray3 (self : SeparationLogicSig) :=
+  SimpleC.SL.Array3Lib.Array3LibSig.BoolArray3
+    Arch32 BigEndian self self.derivedPredSig self.storeLibSig
 noncomputable abbrev CharArray3 (self : SeparationLogicSig) :=
   SimpleC.SL.Array3Lib.Array3LibSig.CharArray3
     Arch32 BigEndian self self.derivedPredSig self.storeLibSig
@@ -814,6 +841,9 @@ noncomputable abbrev PtrArray3 (self : SeparationLogicSig) :=
   SimpleC.SL.Array3Lib.Array3LibSig.PtrArray3
     Arch32 BigEndian self self.derivedPredSig self.storeLibSig
 
+noncomputable abbrev BoolPtrArray2 (self : SeparationLogicSig) :=
+  SimpleC.SL.PtrArray2Lib.PtrArray2LibSig.BoolPtrArray2
+    Arch32 BigEndian self self.derivedPredSig self.storeLibSig
 noncomputable abbrev CharPtrArray2 (self : SeparationLogicSig) :=
   SimpleC.SL.PtrArray2Lib.PtrArray2LibSig.CharPtrArray2
     Arch32 BigEndian self self.derivedPredSig self.storeLibSig
@@ -1045,7 +1075,18 @@ end CRules64
 
 namespace naive_C_Rules32
 
-private abbrev baseRules : SeparationLogicSig := naive_CSL.toSeparationLogicSig
+export SimpleC.SL.FunAssertion (
+  ParamSig FuncSig RetType ParamTuple FunSem FunEnv
+  Spec HoareExpr_raw HoareExpr HoareFun func_ptr_spec func_ptr_hoare
+  func_ptr_spec_mono func_ptr_spec_nonzero func_ptr_spec_nonzero'
+  HoareExpr_corable HoareFun_corable func_ptr_spec_corable func_ptr_hoare_corable
+  HoareExpr_raw_mono HoareExpr_mono HoareExpr_exists HoareExpr_forget_frame
+  frame_rule_sound HoareFun_exists safety_mono frame_property frame_properties
+  funsem_frame_properties HoareExpr_raw_frame_rule HoareExpr_of_raw
+  HoareFun_conseq HoareFun_ramification
+)
+
+private abbrev baseRules : SeparationLogicSig := SimpleC.SL.FunAssertion.SL
 private abbrev dePredSig := DerivedPredSig.canonical Arch32 BigEndian baseRules
 private abbrev storeSig := StoreAux.StoreLibSig.canonical
   Arch32 BigEndian baseRules dePredSig
@@ -1099,7 +1140,18 @@ end naive_C_Rules32
 
 namespace naive_C_Rules64
 
-private abbrev baseRules : SeparationLogicSig := naive_CSL.toSeparationLogicSig
+export SimpleC.SL.FunAssertion (
+  ParamSig FuncSig RetType ParamTuple FunSem FunEnv
+  Spec HoareExpr_raw HoareExpr HoareFun func_ptr_spec func_ptr_hoare
+  func_ptr_spec_mono func_ptr_spec_nonzero func_ptr_spec_nonzero'
+  HoareExpr_corable HoareFun_corable func_ptr_spec_corable func_ptr_hoare_corable
+  HoareExpr_raw_mono HoareExpr_mono HoareExpr_exists HoareExpr_forget_frame
+  frame_rule_sound HoareFun_exists safety_mono frame_property frame_properties
+  funsem_frame_properties HoareExpr_raw_frame_rule HoareExpr_of_raw
+  HoareFun_conseq HoareFun_ramification
+)
+
+private abbrev baseRules : SeparationLogicSig := SimpleC.SL.FunAssertion.SL
 private abbrev dePredSig := DerivedPredSig.canonical Arch64 BigEndian baseRules
 private abbrev storeSig := StoreAux.StoreLibSig.canonical
   Arch64 BigEndian baseRules dePredSig
@@ -1153,7 +1205,18 @@ end naive_C_Rules64
 
 namespace Snaive_C_Rules32
 
-private abbrev baseRules : SeparationLogicSig := naive_CSL.toSeparationLogicSig
+export SimpleC.SL.FunAssertion (
+  ParamSig FuncSig RetType ParamTuple FunSem FunEnv
+  Spec HoareExpr_raw HoareExpr HoareFun func_ptr_spec func_ptr_hoare
+  func_ptr_spec_mono func_ptr_spec_nonzero func_ptr_spec_nonzero'
+  HoareExpr_corable HoareFun_corable func_ptr_spec_corable func_ptr_hoare_corable
+  HoareExpr_raw_mono HoareExpr_mono HoareExpr_exists HoareExpr_forget_frame
+  frame_rule_sound HoareFun_exists safety_mono frame_property frame_properties
+  funsem_frame_properties HoareExpr_raw_frame_rule HoareExpr_of_raw
+  HoareFun_conseq HoareFun_ramification
+)
+
+private abbrev baseRules : SeparationLogicSig := SimpleC.SL.FunAssertion.SL
 private abbrev dePredSig := DerivedPredSig.canonical Arch32 LittleEndian baseRules
 private abbrev storeSig := StoreAux.StoreLibSig.canonical
   Arch32 LittleEndian baseRules dePredSig
@@ -1207,7 +1270,18 @@ end Snaive_C_Rules32
 
 namespace Snaive_C_Rules64
 
-private abbrev baseRules : SeparationLogicSig := naive_CSL.toSeparationLogicSig
+export SimpleC.SL.FunAssertion (
+  ParamSig FuncSig RetType ParamTuple FunSem FunEnv
+  Spec HoareExpr_raw HoareExpr HoareFun func_ptr_spec func_ptr_hoare
+  func_ptr_spec_mono func_ptr_spec_nonzero func_ptr_spec_nonzero'
+  HoareExpr_corable HoareFun_corable func_ptr_spec_corable func_ptr_hoare_corable
+  HoareExpr_raw_mono HoareExpr_mono HoareExpr_exists HoareExpr_forget_frame
+  frame_rule_sound HoareFun_exists safety_mono frame_property frame_properties
+  funsem_frame_properties HoareExpr_raw_frame_rule HoareExpr_of_raw
+  HoareFun_conseq HoareFun_ramification
+)
+
+private abbrev baseRules : SeparationLogicSig := SimpleC.SL.FunAssertion.SL
 private abbrev dePredSig := DerivedPredSig.canonical Arch64 LittleEndian baseRules
 private abbrev storeSig := StoreAux.StoreLibSig.canonical
   Arch64 LittleEndian baseRules dePredSig
@@ -1269,23 +1343,46 @@ def CRules64 : AggregateRules :=
     Arch := Arch64
     Endian := BigEndian }
 
-def naive_C_Rules32 : AggregateRules :=
+/-- The former STS model remains available under Rocq's `naiver` name. -/
+def naiver_C_Rules32 : AggregateRules :=
   { naive_CSL.toSeparationLogicSig with
     Arch := Arch32
     Endian := BigEndian }
 
-def naive_C_Rules64 : AggregateRules :=
+def naiver_C_Rules64 : AggregateRules :=
   { naive_CSL.toSeparationLogicSig with
     Arch := Arch64
     Endian := BigEndian }
 
+namespace naiver_C_Rules32
+abbrev sts := STS_naive.sts
+abbrev at_states := naive_CSL.at_states
+abbrev has_tokens := naive_CSL.has_tokens
+end naiver_C_Rules32
+
+namespace naiver_C_Rules64
+abbrev sts := STS_naive.sts
+abbrev at_states := naive_CSL.at_states
+abbrev has_tokens := naive_CSL.has_tokens
+end naiver_C_Rules64
+
+def naive_C_Rules32 : AggregateRules :=
+  { SimpleC.SL.FunAssertion.SL with
+    Arch := Arch32
+    Endian := BigEndian }
+
+def naive_C_Rules64 : AggregateRules :=
+  { SimpleC.SL.FunAssertion.SL with
+    Arch := Arch64
+    Endian := BigEndian }
+
 def Snaive_C_Rules32 : AggregateRules :=
-  { naive_CSL.toSeparationLogicSig with
+  { SimpleC.SL.FunAssertion.SL with
     Arch := Arch32
     Endian := LittleEndian }
 
 def Snaive_C_Rules64 : AggregateRules :=
-  { naive_CSL.toSeparationLogicSig with
+  { SimpleC.SL.FunAssertion.SL with
     Arch := Arch64
     Endian := LittleEndian }
 
@@ -1528,6 +1625,17 @@ abbrev store_ptr_store_uint_32 := CRules32.store_ptr_store_uint_32
 end CRules
 
 namespace naive_C_Rules
+
+export SimpleC.SL.FunAssertion (
+  ParamSig FuncSig RetType ParamTuple FunSem FunEnv
+  Spec HoareExpr_raw HoareExpr HoareFun func_ptr_spec func_ptr_hoare
+  func_ptr_spec_mono func_ptr_spec_nonzero func_ptr_spec_nonzero'
+  HoareExpr_corable HoareFun_corable func_ptr_spec_corable func_ptr_hoare_corable
+  HoareExpr_raw_mono HoareExpr_mono HoareExpr_exists HoareExpr_forget_frame
+  frame_rule_sound HoareFun_exists safety_mono frame_property frame_properties
+  funsem_frame_properties HoareExpr_raw_frame_rule HoareExpr_of_raw
+  HoareFun_conseq HoareFun_ramification
+)
 abbrev sts := STS_naive.sts
 abbrev at_states := naive_CSL.at_states
 abbrev has_tokens := naive_CSL.has_tokens
@@ -1549,6 +1657,17 @@ abbrev store_ptr_store_uint_32 := naive_C_Rules32.store_ptr_store_uint_32
 end naive_C_Rules
 
 namespace Snaive_C_Rules
+
+export SimpleC.SL.FunAssertion (
+  ParamSig FuncSig RetType ParamTuple FunSem FunEnv
+  Spec HoareExpr_raw HoareExpr HoareFun func_ptr_spec func_ptr_hoare
+  func_ptr_spec_mono func_ptr_spec_nonzero func_ptr_spec_nonzero'
+  HoareExpr_corable HoareFun_corable func_ptr_spec_corable func_ptr_hoare_corable
+  HoareExpr_raw_mono HoareExpr_mono HoareExpr_exists HoareExpr_forget_frame
+  frame_rule_sound HoareFun_exists safety_mono frame_property frame_properties
+  funsem_frame_properties HoareExpr_raw_frame_rule HoareExpr_of_raw
+  HoareFun_conseq HoareFun_ramification
+)
 abbrev sts := STS_naive.sts
 abbrev at_states := naive_CSL.at_states
 abbrev has_tokens := naive_CSL.has_tokens

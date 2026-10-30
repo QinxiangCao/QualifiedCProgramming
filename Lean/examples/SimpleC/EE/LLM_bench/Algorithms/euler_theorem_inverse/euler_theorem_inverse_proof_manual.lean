@@ -418,7 +418,7 @@ theorem proof_of_euler_phi_return_wit_3 : euler_phi_return_wit_3 := by
 
 theorem proof_of_modular_power_entail_wit_1_split_goal_1 : modular_power_entail_wit_1_split_goal_1 := by
   unfold modular_power_entail_wit_1_split_goal_1
-  intro modulus_pre exponent_pre base_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+  intro base_pre exponent_pre modulus_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
   first
   | assumption
   | omega
@@ -430,7 +430,7 @@ theorem proof_of_modular_power_entail_wit_1_split_goal_1 : modular_power_entail_
 theorem proof_of_modular_power_entail_wit_1 : modular_power_entail_wit_1 := by
   unfold modular_power_entail_wit_1
   right
-  intro modulus_pre exponent_pre base_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+  intro base_pre exponent_pre modulus_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
   have PreH1 : ((0 : Int) <= base_pre) := NewPreH1
   have PreH2 : (base_pre < modulus_pre) := NewPreH2
   have PreH3 : ((0 : Int) <= exponent_pre) := NewPreH3
@@ -443,13 +443,13 @@ theorem proof_of_modular_power_entail_wit_1 : modular_power_entail_wit_1 := by
     | assumption
     | omega
     | (solve | (simp only [Zlength_app, Zlength_cons, Zlength_nil] <;> omega))
-    | (solve | Goal_apply (proof_of_modular_power_entail_wit_1_split_goal_1 modulus_pre exponent_pre base_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5))
-    | exact (proof_of_modular_power_entail_wit_1_split_goal_1 modulus_pre exponent_pre base_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5)
+    | (solve | Goal_apply (proof_of_modular_power_entail_wit_1_split_goal_1 base_pre exponent_pre modulus_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5))
+    | exact (proof_of_modular_power_entail_wit_1_split_goal_1 base_pre exponent_pre modulus_pre NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5)
     | trivial
 
 theorem proof_of_modular_power_entail_wit_2_1_split_goal_1 : modular_power_entail_wit_2_1_split_goal_1 := by
   unfold modular_power_entail_wit_2_1_split_goal_1
-  intro modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   first
   | assumption
   | omega
@@ -469,7 +469,7 @@ theorem proof_of_modular_power_entail_wit_2_1_split_goal_1 : modular_power_entai
 
 theorem proof_of_modular_power_entail_wit_2_1_split_goal_2 : modular_power_entail_wit_2_1_split_goal_2 := by
   unfold modular_power_entail_wit_2_1_split_goal_2
-  intro modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   first
   | assumption
   | omega
@@ -488,7 +488,7 @@ theorem proof_of_modular_power_entail_wit_2_1_split_goal_2 : modular_power_entai
 
 theorem proof_of_modular_power_entail_wit_2_1_split_goal_3 : modular_power_entail_wit_2_1_split_goal_3 := by
   unfold modular_power_entail_wit_2_1_split_goal_3
-  intro modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   first
   | assumption
   | omega
@@ -507,7 +507,7 @@ theorem proof_of_modular_power_entail_wit_2_1_split_goal_3 : modular_power_entai
 
 theorem proof_of_modular_power_entail_wit_2_1_split_goal_4 : modular_power_entail_wit_2_1_split_goal_4 := by
   unfold modular_power_entail_wit_2_1_split_goal_4
-  intro modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   first
   | assumption
   | omega
@@ -526,7 +526,7 @@ theorem proof_of_modular_power_entail_wit_2_1_split_goal_4 : modular_power_entai
 
 theorem proof_of_modular_power_entail_wit_2_1_split_goal_5 : modular_power_entail_wit_2_1_split_goal_5 := by
   unfold modular_power_entail_wit_2_1_split_goal_5
-  intro modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   first
   | assumption
   | omega
@@ -545,7 +545,7 @@ theorem proof_of_modular_power_entail_wit_2_1_split_goal_5 : modular_power_entai
 
 theorem proof_of_modular_power_entail_wit_2_1_split_goal_6 : modular_power_entail_wit_2_1_split_goal_6 := by
   unfold modular_power_entail_wit_2_1_split_goal_6
-  intro modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   first
   | assumption
   | omega
@@ -565,24 +565,24 @@ theorem proof_of_modular_power_entail_wit_2_1_split_goal_6 : modular_power_entai
 theorem proof_of_modular_power_entail_wit_2_1 : modular_power_entail_wit_2_1 := by
   unfold modular_power_entail_wit_2_1
   right
-  intro modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
     | assumption
     | omega
-    | exact (proof_of_modular_power_entail_wit_2_1_split_goal_1 modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
-    | exact (proof_of_modular_power_entail_wit_2_1_split_goal_2 modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
-    | exact (proof_of_modular_power_entail_wit_2_1_split_goal_3 modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
-    | exact (proof_of_modular_power_entail_wit_2_1_split_goal_4 modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
-    | exact (proof_of_modular_power_entail_wit_2_1_split_goal_5 modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
-    | exact (proof_of_modular_power_entail_wit_2_1_split_goal_6 modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
+    | exact (proof_of_modular_power_entail_wit_2_1_split_goal_1 base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
+    | exact (proof_of_modular_power_entail_wit_2_1_split_goal_2 base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
+    | exact (proof_of_modular_power_entail_wit_2_1_split_goal_3 base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
+    | exact (proof_of_modular_power_entail_wit_2_1_split_goal_4 base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
+    | exact (proof_of_modular_power_entail_wit_2_1_split_goal_5 base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
+    | exact (proof_of_modular_power_entail_wit_2_1_split_goal_6 base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
     | trivial
 
 theorem proof_of_modular_power_entail_wit_2_2_split_goal_1 : modular_power_entail_wit_2_2_split_goal_1 := by
   unfold modular_power_entail_wit_2_2_split_goal_1
-  intro modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   first
   | assumption
   | omega
@@ -600,7 +600,7 @@ theorem proof_of_modular_power_entail_wit_2_2_split_goal_1 : modular_power_entai
 
 theorem proof_of_modular_power_entail_wit_2_2_split_goal_2 : modular_power_entail_wit_2_2_split_goal_2 := by
   unfold modular_power_entail_wit_2_2_split_goal_2
-  intro modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   first
   | assumption
   | omega
@@ -621,7 +621,7 @@ theorem proof_of_modular_power_entail_wit_2_2_split_goal_2 : modular_power_entai
 
 theorem proof_of_modular_power_entail_wit_2_2_split_goal_3 : modular_power_entail_wit_2_2_split_goal_3 := by
   unfold modular_power_entail_wit_2_2_split_goal_3
-  intro modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   first
   | assumption
   | omega
@@ -642,7 +642,7 @@ theorem proof_of_modular_power_entail_wit_2_2_split_goal_3 : modular_power_entai
 
 theorem proof_of_modular_power_entail_wit_2_2_split_goal_4 : modular_power_entail_wit_2_2_split_goal_4 := by
   unfold modular_power_entail_wit_2_2_split_goal_4
-  intro modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   first
   | assumption
   | omega
@@ -664,22 +664,22 @@ theorem proof_of_modular_power_entail_wit_2_2_split_goal_4 : modular_power_entai
 theorem proof_of_modular_power_entail_wit_2_2 : modular_power_entail_wit_2_2 := by
   unfold modular_power_entail_wit_2_2
   right
-  intro modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
+  intro base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
     | assumption
     | omega
-    | exact (proof_of_modular_power_entail_wit_2_2_split_goal_1 modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
-    | exact (proof_of_modular_power_entail_wit_2_2_split_goal_2 modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
-    | exact (proof_of_modular_power_entail_wit_2_2_split_goal_3 modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
-    | exact (proof_of_modular_power_entail_wit_2_2_split_goal_4 modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
+    | exact (proof_of_modular_power_entail_wit_2_2_split_goal_1 base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
+    | exact (proof_of_modular_power_entail_wit_2_2_split_goal_2 base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
+    | exact (proof_of_modular_power_entail_wit_2_2_split_goal_3 base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
+    | exact (proof_of_modular_power_entail_wit_2_2_split_goal_4 base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10)
     | trivial
 
 theorem proof_of_modular_power_return_wit_1_split_goal_1 : modular_power_return_wit_1_split_goal_1 := by
   unfold modular_power_return_wit_1_split_goal_1
-  intro modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
+  intro base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
   first
   | assumption
   | omega
@@ -695,33 +695,33 @@ theorem proof_of_modular_power_return_wit_1_split_goal_1 : modular_power_return_
 theorem proof_of_modular_power_return_wit_1 : modular_power_return_wit_1 := by
   unfold modular_power_return_wit_1
   right
-  intro modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
+  intro base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
     | assumption
     | omega
-    | exact (proof_of_modular_power_return_wit_1_split_goal_1 modulus_pre exponent_pre base_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9)
+    | exact (proof_of_modular_power_return_wit_1_split_goal_1 base_pre exponent_pre modulus_pre result exponent base NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9)
     | trivial
 
 theorem proof_of_euler_theorem_inverse_return_wit_1_split_goal_1 : euler_theorem_inverse_return_wit_1_split_goal_1 := by
   unfold euler_theorem_inverse_return_wit_1_split_goal_1
-  intro modulus_pre value_pre retval_2 retval NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11
+  intro value_pre modulus_pre retval_2 retval NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11
   exact (euler_totient_inverse_theorem__inverse_final_result value_pre modulus_pre retval_2 retval
     NewPreH7 NewPreH8 NewPreH9 NewPreH11 NewPreH6 NewPreH3).2
 
 theorem proof_of_euler_theorem_inverse_return_wit_1 : euler_theorem_inverse_return_wit_1 := by
   unfold euler_theorem_inverse_return_wit_1
   right
-  intro modulus_pre value_pre retval_2 retval NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11
+  intro value_pre modulus_pre retval_2 retval NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial
     all_goals first
     | assumption
     | omega
-    | exact (proof_of_euler_theorem_inverse_return_wit_1_split_goal_1 modulus_pre value_pre retval_2 retval NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11)
+    | exact (proof_of_euler_theorem_inverse_return_wit_1_split_goal_1 value_pre modulus_pre retval_2 retval NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11)
     | trivial
 
 theorem proof_of_euler_phi_entail_wit_5 : euler_phi_entail_wit_5 := by

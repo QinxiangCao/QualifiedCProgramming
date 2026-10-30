@@ -276,7 +276,7 @@ Qed.
 
 Lemma coef_array_merge: forall x n m a l,
   0 <= n < m -> 1 <= n -> x <> NULL -> 
-  store_int (x + n * sizeof(INT)) a ** coef_array_missing_i_rec x n 0 m l |-- coef_array x m (coef_replace_Znth n a l).
+  (x + n * sizeof(INT)) # Int |-> a ** coef_array_missing_i_rec x n 0 m l |-- coef_array x m (coef_replace_Znth n a l).
 Proof.
   intros.
   unfold coef_array, coef_array_missing_i_rec.

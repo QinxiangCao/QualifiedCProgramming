@@ -1,20 +1,4 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
+From SimpleC.Verification Require Import VCPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.QCP_demos_tutorial.int_pair_additional_lib.
 Local Open Scope sac.
@@ -23,8 +7,8 @@ From SimpleC.EE.QCP_demos_tutorial Require Import swap_simple5_strategy_proof.
 
 (*----- Function swap_int_pair -----*)
 
-Definition swap_int_pair_entail_wit_1 := 
-forall (p_pre: Z) (y: Z) (x: Z) ,
+Definition swap_int_pair_entail_wit_1 :=
+forall (y: Z) (x: Z) (p_pre: Z),
   ((( &( "p" ) )) # Ptr  |-> p_pre)
   **  (store_int_pair p_pre x y )
 |--
@@ -33,8 +17,8 @@ forall (p_pre: Z) (y: Z) (x: Z) ,
   **  ((( &( "p" ) )) # Ptr  |-> p_pre)
 .
 
-Definition swap_int_pair_entail_wit_2 := 
-forall (p_pre: Z) (y: Z) (x: Z) ,
+Definition swap_int_pair_entail_wit_2 :=
+forall (y: Z) (x: Z) (p_pre: Z),
   ((( &( "temp" ) )) # Int  |-> x)
   **  ((&((p_pre)  # "int_pair" ->ₛ "b")) # Int  |-> x)
   **  ((&((p_pre)  # "int_pair" ->ₛ "a")) # Int  |-> y)
@@ -45,8 +29,8 @@ forall (p_pre: Z) (y: Z) (x: Z) ,
   **  ((( &( "p" ) )) # Ptr  |-> p_pre)
 .
 
-Definition swap_int_pair_return_wit_1 := 
-forall (p_pre: Z) (y: Z) (x: Z) ,
+Definition swap_int_pair_return_wit_1 :=
+forall (y: Z) (x: Z) (p_pre: Z),
   (store_int_pair p_pre y x )
 |--
   (store_int_pair p_pre y x )
@@ -54,39 +38,39 @@ forall (p_pre: Z) (y: Z) (x: Z) ,
 
 (*----- Function swap_int_pair2 -----*)
 
-Definition swap_int_pair2_return_wit_1 := 
-forall (p_pre: Z) (y: Z) (x: Z) ,
+Definition swap_int_pair2_return_wit_1 :=
+forall (y: Z) (x: Z) (p_pre: Z),
   (store_int_pair p_pre y x )
 |--
   (store_int_pair p_pre y x )
 .
 
-Definition swap_int_pair2_partial_solve_wit_1 := 
-forall (p_pre: Z) (y: Z) (x: Z) ,
+Definition swap_int_pair2_partial_solve_wit_1 :=
+forall (y: Z) (x: Z) (p_pre: Z),
   (store_int_pair p_pre x y )
 |--
   ((&((p_pre)  # "int_pair" ->ₛ "a")) # Int  |-> x)
   **  (store_int_pair_y_only p_pre y )
 .
 
-Definition swap_int_pair2_partial_solve_wit_2 := 
-forall (p_pre: Z) (y: Z) (x: Z) ,
+Definition swap_int_pair2_partial_solve_wit_2 :=
+forall (y: Z) (x: Z) (p_pre: Z),
   (store_int_pair p_pre x y )
 |--
   ((&((p_pre)  # "int_pair" ->ₛ "b")) # Int  |-> y)
   **  (store_int_pair_x_only p_pre x )
 .
 
-Definition swap_int_pair2_partial_solve_wit_3 := 
-forall (p_pre: Z) (y: Z) (x: Z) ,
+Definition swap_int_pair2_partial_solve_wit_3 :=
+forall (y: Z) (x: Z) (p_pre: Z),
   (store_int_pair p_pre x y )
 |--
   ((&((p_pre)  # "int_pair" ->ₛ "a")) # Int  |->_)
   **  (store_int_pair_y_only p_pre y )
 .
 
-Definition swap_int_pair2_partial_solve_wit_4 := 
-forall (p_pre: Z) (y: Z) ,
+Definition swap_int_pair2_partial_solve_wit_4 :=
+forall (y: Z) (p_pre: Z),
   (store_int_pair p_pre y y )
 |--
   ((&((p_pre)  # "int_pair" ->ₛ "b")) # Int  |->_)

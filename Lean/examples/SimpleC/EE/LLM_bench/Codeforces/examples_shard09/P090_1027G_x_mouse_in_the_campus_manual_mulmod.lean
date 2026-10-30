@@ -32,32 +32,33 @@ theorem p090_mul_step (a0 b0 m a b r a' b' r' k : Int) :
   exact hs
 
 theorem proof_of_mulmod_entail_wit_1_split_goal_1 : mulmod_entail_wit_1_split_goal_1 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  rw [← PreH1, ← PreH2, ← PreH3]
   unfold MulLoopState Z.rem Z.modulo
   rw [← Int.fmod_eq_tmod_of_nonneg (by omega : 0 ≤ a_pre) (by omega : 0 ≤ modulus_pre),
     ← Int.fmod_eq_tmod_of_nonneg (by omega : 0 ≤ b_pre) (by omega : 0 ≤ modulus_pre)]
   simp only [zero_add,← Int.mul_fmod]
 
 theorem proof_of_mulmod_entail_wit_1_split_goal_2 : mulmod_entail_wit_1_split_goal_2 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   first
     | exact Int.tmod_lt_of_pos _ (by omega)
     | exact Int.tmod_nonneg _ (by omega)
 
 theorem proof_of_mulmod_entail_wit_1_split_goal_3 : mulmod_entail_wit_1_split_goal_3 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   first
     | exact Int.tmod_lt_of_pos _ (by omega)
     | exact Int.tmod_nonneg _ (by omega)
 
 theorem proof_of_mulmod_entail_wit_1_split_goal_4 : mulmod_entail_wit_1_split_goal_4 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   first
     | exact Int.tmod_lt_of_pos _ (by omega)
     | exact Int.tmod_nonneg _ (by omega)
 
 theorem proof_of_mulmod_entail_wit_1_split_goal_5 : mulmod_entail_wit_1_split_goal_5 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   first
     | exact Int.tmod_lt_of_pos _ (by omega)
     | exact Int.tmod_nonneg _ (by omega)
@@ -65,18 +66,19 @@ theorem proof_of_mulmod_entail_wit_1_split_goal_5 : mulmod_entail_wit_1_split_go
 theorem proof_of_mulmod_entail_wit_1 : mulmod_entail_wit_1 := by
   unfold mulmod_entail_wit_1
   right
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial <;> first
-    | exact proof_of_mulmod_entail_wit_1_split_goal_1 modulus_pre b_pre a_pre modulus0 b0 a0 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-    | exact proof_of_mulmod_entail_wit_1_split_goal_2 modulus_pre b_pre a_pre modulus0 b0 a0 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-    | exact proof_of_mulmod_entail_wit_1_split_goal_3 modulus_pre b_pre a_pre modulus0 b0 a0 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-    | exact proof_of_mulmod_entail_wit_1_split_goal_4 modulus_pre b_pre a_pre modulus0 b0 a0 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-    | exact proof_of_mulmod_entail_wit_1_split_goal_5 modulus_pre b_pre a_pre modulus0 b0 a0 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+    | exact proof_of_mulmod_entail_wit_1_split_goal_1 modulus0 b0 a0 a_pre b_pre modulus_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+    | exact proof_of_mulmod_entail_wit_1_split_goal_2 modulus0 b0 a0 a_pre b_pre modulus_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+    | exact proof_of_mulmod_entail_wit_1_split_goal_3 modulus0 b0 a0 a_pre b_pre modulus_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+    | exact proof_of_mulmod_entail_wit_1_split_goal_4 modulus0 b0 a0 a_pre b_pre modulus_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+    | exact proof_of_mulmod_entail_wit_1_split_goal_5 modulus0 b0 a0 a_pre b_pre modulus_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
 
 theorem proof_of_mulmod_entail_wit_2_1_split_goal_1 : mulmod_entail_wit_2_1_split_goal_1 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  rw [PreH3, PreH4, PreH5]
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -93,7 +95,7 @@ theorem proof_of_mulmod_entail_wit_2_1_split_goal_1 : mulmod_entail_wit_2_1_spli
   · nlinarith
 
 theorem proof_of_mulmod_entail_wit_2_1_split_goal_2 : mulmod_entail_wit_2_1_split_goal_2 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -105,7 +107,7 @@ theorem proof_of_mulmod_entail_wit_2_1_split_goal_2 : mulmod_entail_wit_2_1_spli
   omega
 
 theorem proof_of_mulmod_entail_wit_2_1_split_goal_3 : mulmod_entail_wit_2_1_split_goal_3 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -117,7 +119,7 @@ theorem proof_of_mulmod_entail_wit_2_1_split_goal_3 : mulmod_entail_wit_2_1_spli
   omega
 
 theorem proof_of_mulmod_entail_wit_2_1_split_goal_4 : mulmod_entail_wit_2_1_split_goal_4 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -131,17 +133,18 @@ theorem proof_of_mulmod_entail_wit_2_1_split_goal_4 : mulmod_entail_wit_2_1_spli
 theorem proof_of_mulmod_entail_wit_2_1 : mulmod_entail_wit_2_1 := by
   unfold mulmod_entail_wit_2_1
   right
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial <;> first
-    | exact proof_of_mulmod_entail_wit_2_1_split_goal_1 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-    | exact proof_of_mulmod_entail_wit_2_1_split_goal_2 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-    | exact proof_of_mulmod_entail_wit_2_1_split_goal_3 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-    | exact proof_of_mulmod_entail_wit_2_1_split_goal_4 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+    | exact proof_of_mulmod_entail_wit_2_1_split_goal_1 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+    | exact proof_of_mulmod_entail_wit_2_1_split_goal_2 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+    | exact proof_of_mulmod_entail_wit_2_1_split_goal_3 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+    | exact proof_of_mulmod_entail_wit_2_1_split_goal_4 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
 
 theorem proof_of_mulmod_entail_wit_2_2_split_goal_1 : mulmod_entail_wit_2_2_split_goal_1 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  rw [PreH3, PreH4, PreH5]
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -158,7 +161,7 @@ theorem proof_of_mulmod_entail_wit_2_2_split_goal_1 : mulmod_entail_wit_2_2_spli
   · nlinarith
 
 theorem proof_of_mulmod_entail_wit_2_2_split_goal_2 : mulmod_entail_wit_2_2_split_goal_2 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -170,7 +173,7 @@ theorem proof_of_mulmod_entail_wit_2_2_split_goal_2 : mulmod_entail_wit_2_2_spli
   omega
 
 theorem proof_of_mulmod_entail_wit_2_2_split_goal_3 : mulmod_entail_wit_2_2_split_goal_3 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -182,7 +185,7 @@ theorem proof_of_mulmod_entail_wit_2_2_split_goal_3 : mulmod_entail_wit_2_2_spli
   omega
 
 theorem proof_of_mulmod_entail_wit_2_2_split_goal_4 : mulmod_entail_wit_2_2_split_goal_4 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -196,17 +199,18 @@ theorem proof_of_mulmod_entail_wit_2_2_split_goal_4 : mulmod_entail_wit_2_2_spli
 theorem proof_of_mulmod_entail_wit_2_2 : mulmod_entail_wit_2_2 := by
   unfold mulmod_entail_wit_2_2
   right
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial <;> first
-    | exact proof_of_mulmod_entail_wit_2_2_split_goal_1 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-    | exact proof_of_mulmod_entail_wit_2_2_split_goal_2 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-    | exact proof_of_mulmod_entail_wit_2_2_split_goal_3 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-    | exact proof_of_mulmod_entail_wit_2_2_split_goal_4 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+    | exact proof_of_mulmod_entail_wit_2_2_split_goal_1 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+    | exact proof_of_mulmod_entail_wit_2_2_split_goal_2 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+    | exact proof_of_mulmod_entail_wit_2_2_split_goal_3 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+    | exact proof_of_mulmod_entail_wit_2_2_split_goal_4 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
 
 theorem proof_of_mulmod_entail_wit_2_3_split_goal_1 : mulmod_entail_wit_2_3_split_goal_1 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  rw [PreH2, PreH3, PreH4]
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -223,7 +227,7 @@ theorem proof_of_mulmod_entail_wit_2_3_split_goal_1 : mulmod_entail_wit_2_3_spli
   · nlinarith
 
 theorem proof_of_mulmod_entail_wit_2_3_split_goal_2 : mulmod_entail_wit_2_3_split_goal_2 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -235,7 +239,7 @@ theorem proof_of_mulmod_entail_wit_2_3_split_goal_2 : mulmod_entail_wit_2_3_spli
   omega
 
 theorem proof_of_mulmod_entail_wit_2_3_split_goal_3 : mulmod_entail_wit_2_3_split_goal_3 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -247,7 +251,7 @@ theorem proof_of_mulmod_entail_wit_2_3_split_goal_3 : mulmod_entail_wit_2_3_spli
   omega
 
 theorem proof_of_mulmod_entail_wit_2_3_split_goal_4 : mulmod_entail_wit_2_3_split_goal_4 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -261,17 +265,18 @@ theorem proof_of_mulmod_entail_wit_2_3_split_goal_4 : mulmod_entail_wit_2_3_spli
 theorem proof_of_mulmod_entail_wit_2_3 : mulmod_entail_wit_2_3 := by
   unfold mulmod_entail_wit_2_3
   right
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial <;> first
-    | exact proof_of_mulmod_entail_wit_2_3_split_goal_1 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    | exact proof_of_mulmod_entail_wit_2_3_split_goal_2 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    | exact proof_of_mulmod_entail_wit_2_3_split_goal_3 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    | exact proof_of_mulmod_entail_wit_2_3_split_goal_4 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_mulmod_entail_wit_2_3_split_goal_1 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_mulmod_entail_wit_2_3_split_goal_2 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_mulmod_entail_wit_2_3_split_goal_3 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_mulmod_entail_wit_2_3_split_goal_4 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
 
 theorem proof_of_mulmod_entail_wit_2_4_split_goal_1 : mulmod_entail_wit_2_4_split_goal_1 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  rw [PreH3, PreH4, PreH5]
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -288,7 +293,7 @@ theorem proof_of_mulmod_entail_wit_2_4_split_goal_1 : mulmod_entail_wit_2_4_spli
   · nlinarith
 
 theorem proof_of_mulmod_entail_wit_2_4_split_goal_2 : mulmod_entail_wit_2_4_split_goal_2 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -300,7 +305,7 @@ theorem proof_of_mulmod_entail_wit_2_4_split_goal_2 : mulmod_entail_wit_2_4_spli
   omega
 
 theorem proof_of_mulmod_entail_wit_2_4_split_goal_3 : mulmod_entail_wit_2_4_split_goal_3 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -312,7 +317,7 @@ theorem proof_of_mulmod_entail_wit_2_4_split_goal_3 : mulmod_entail_wit_2_4_spli
   omega
 
 theorem proof_of_mulmod_entail_wit_2_4_split_goal_4 : mulmod_entail_wit_2_4_split_goal_4 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -326,17 +331,18 @@ theorem proof_of_mulmod_entail_wit_2_4_split_goal_4 : mulmod_entail_wit_2_4_spli
 theorem proof_of_mulmod_entail_wit_2_4 : mulmod_entail_wit_2_4 := by
   unfold mulmod_entail_wit_2_4
   right
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial <;> first
-    | exact proof_of_mulmod_entail_wit_2_4_split_goal_1 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-    | exact proof_of_mulmod_entail_wit_2_4_split_goal_2 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-    | exact proof_of_mulmod_entail_wit_2_4_split_goal_3 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-    | exact proof_of_mulmod_entail_wit_2_4_split_goal_4 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+    | exact proof_of_mulmod_entail_wit_2_4_split_goal_1 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+    | exact proof_of_mulmod_entail_wit_2_4_split_goal_2 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+    | exact proof_of_mulmod_entail_wit_2_4_split_goal_3 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+    | exact proof_of_mulmod_entail_wit_2_4_split_goal_4 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
 
 theorem proof_of_mulmod_entail_wit_2_5_split_goal_1 : mulmod_entail_wit_2_5_split_goal_1 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  rw [PreH3, PreH4, PreH5]
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -353,7 +359,7 @@ theorem proof_of_mulmod_entail_wit_2_5_split_goal_1 : mulmod_entail_wit_2_5_spli
   · nlinarith
 
 theorem proof_of_mulmod_entail_wit_2_5_split_goal_2 : mulmod_entail_wit_2_5_split_goal_2 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -365,7 +371,7 @@ theorem proof_of_mulmod_entail_wit_2_5_split_goal_2 : mulmod_entail_wit_2_5_spli
   omega
 
 theorem proof_of_mulmod_entail_wit_2_5_split_goal_3 : mulmod_entail_wit_2_5_split_goal_3 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -377,7 +383,7 @@ theorem proof_of_mulmod_entail_wit_2_5_split_goal_3 : mulmod_entail_wit_2_5_spli
   omega
 
 theorem proof_of_mulmod_entail_wit_2_5_split_goal_4 : mulmod_entail_wit_2_5_split_goal_4 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -391,17 +397,18 @@ theorem proof_of_mulmod_entail_wit_2_5_split_goal_4 : mulmod_entail_wit_2_5_spli
 theorem proof_of_mulmod_entail_wit_2_5 : mulmod_entail_wit_2_5 := by
   unfold mulmod_entail_wit_2_5
   right
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial <;> first
-    | exact proof_of_mulmod_entail_wit_2_5_split_goal_1 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-    | exact proof_of_mulmod_entail_wit_2_5_split_goal_2 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-    | exact proof_of_mulmod_entail_wit_2_5_split_goal_3 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
-    | exact proof_of_mulmod_entail_wit_2_5_split_goal_4 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+    | exact proof_of_mulmod_entail_wit_2_5_split_goal_1 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+    | exact proof_of_mulmod_entail_wit_2_5_split_goal_2 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+    | exact proof_of_mulmod_entail_wit_2_5_split_goal_3 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+    | exact proof_of_mulmod_entail_wit_2_5_split_goal_4 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
 
 theorem proof_of_mulmod_entail_wit_2_6_split_goal_1 : mulmod_entail_wit_2_6_split_goal_1 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  rw [PreH2, PreH3, PreH4]
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -418,7 +425,7 @@ theorem proof_of_mulmod_entail_wit_2_6_split_goal_1 : mulmod_entail_wit_2_6_spli
   · nlinarith
 
 theorem proof_of_mulmod_entail_wit_2_6_split_goal_2 : mulmod_entail_wit_2_6_split_goal_2 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -430,7 +437,7 @@ theorem proof_of_mulmod_entail_wit_2_6_split_goal_2 : mulmod_entail_wit_2_6_spli
   omega
 
 theorem proof_of_mulmod_entail_wit_2_6_split_goal_3 : mulmod_entail_wit_2_6_split_goal_3 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -442,7 +449,7 @@ theorem proof_of_mulmod_entail_wit_2_6_split_goal_3 : mulmod_entail_wit_2_6_spli
   omega
 
 theorem proof_of_mulmod_entail_wit_2_6_split_goal_4 : mulmod_entail_wit_2_6_split_goal_4 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   simp only [p090_shiftl_one,p090_shiftr_one] at *
   have hw : unsigned_last_nbits (a*2) 64 = a*2 := p090_uint64 _ (by omega) (by omega)
   simp only [hw] at *
@@ -456,17 +463,18 @@ theorem proof_of_mulmod_entail_wit_2_6_split_goal_4 : mulmod_entail_wit_2_6_spli
 theorem proof_of_mulmod_entail_wit_2_6 : mulmod_entail_wit_2_6 := by
   unfold mulmod_entail_wit_2_6
   right
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial <;> first
-    | exact proof_of_mulmod_entail_wit_2_6_split_goal_1 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    | exact proof_of_mulmod_entail_wit_2_6_split_goal_2 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    | exact proof_of_mulmod_entail_wit_2_6_split_goal_3 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    | exact proof_of_mulmod_entail_wit_2_6_split_goal_4 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_mulmod_entail_wit_2_6_split_goal_1 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_mulmod_entail_wit_2_6_split_goal_2 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_mulmod_entail_wit_2_6_split_goal_3 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    | exact proof_of_mulmod_entail_wit_2_6_split_goal_4 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
 
 theorem proof_of_mulmod_return_wit_1_split_goal_1 : mulmod_return_wit_1_split_goal_1 := by
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  rw [PreH1, PreH2, PreH3]
   have hb : b = 0 := by omega
   unfold MulLoopState at PreH14
   rw [hb,mul_zero,add_zero] at PreH14
@@ -480,10 +488,10 @@ theorem proof_of_mulmod_return_wit_1_split_goal_1 : mulmod_return_wit_1_split_go
 theorem proof_of_mulmod_return_wit_1 : mulmod_return_wit_1 := by
   unfold mulmod_return_wit_1
   right
-  intro modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   split_pure_spatial
   · cancel
   · split_pures <;> dump_pre_spatial <;> first
-    | exact proof_of_mulmod_return_wit_1_split_goal_1 modulus_pre b_pre a_pre modulus0 b0 a0 r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+    | exact proof_of_mulmod_return_wit_1_split_goal_1 modulus0 b0 a0 a_pre b_pre modulus_pre r b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
 
 end SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_proof_manual

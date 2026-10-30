@@ -1,21 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import MonotonicList int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
+From AUXLib Require Import MonotonicList.
 From SimpleC.EE.LLM_bench.Algorithms.sort_point Require Import sort_point_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.sort_point.sort_point_lib.
 Local Open Scope sac.
@@ -273,7 +258,7 @@ Qed.
 Lemma proof_of_cmp_polar_values_return_wit_7 : cmp_polar_values_return_wit_7.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_cmp_polar_values_return_wit_7_split_goal_1.
+  - Goal_apply proof_of_cmp_polar_values_return_wit_7_split_goal_1.
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_8 : cmp_polar_values_return_wit_8.
@@ -1574,4 +1559,3 @@ Proof.
   LLM_pre_process ltac:(int_auto).
   all: repeat split_pures; point_ranges.
 Qed.
-

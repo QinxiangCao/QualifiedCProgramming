@@ -20,6 +20,6 @@ def VC_Correctness : SimpleC.EE.QCP_demos_LLM.generated.bst_insert_rec_goal.VC_C
   proof_of_insert_return_wit_2 := proof_of_insert_return_wit_2
   proof_of_insert_return_wit_3 := proof_of_insert_return_wit_3
   proof_of_insert_return_wit_4 := proof_of_insert_return_wit_4
-  proof_of_insert_derive_high_level_spec_by_low_level_spec := proof_of_insert_derive_high_level_spec_by_low_level_spec
+  proof_of_insert_low_level_spec_entail_high_level_spec := proof_of_insert_low_level_spec_entail_high_level_spec
 
 end SimpleC.EE.QCP_demos_LLM.generated.bst_insert_rec_goal_check

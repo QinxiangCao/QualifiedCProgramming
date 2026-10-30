@@ -115,12 +115,12 @@ void dfs2(int const root, int const u, int const n,
     */
     if (vis2[v] == 0) {
       dfs2(root, v, n, fadj_col, fadj_row, vis2, sid)
-          /*@ where(bind_spec)
+          /*@ where(bind_spec) {B = unit}
                 g = g,
                 fadj_col_l = fadj_col_l, fadj_row_l = fadj_row_l,
                 vis2_l = vis2_m, sid_l = sid_m, root_v = root_v, root0 = root0,
                 X = X,
-                f = dfs_scc_fromK(g, fadj_col_l, fadj_row_l, root, u, i + 1); B = unit */;
+                f = dfs_scc_fromK(g, fadj_col_l, fadj_row_l, root, u, i + 1) */;
     }
     i = i + 1;
   }

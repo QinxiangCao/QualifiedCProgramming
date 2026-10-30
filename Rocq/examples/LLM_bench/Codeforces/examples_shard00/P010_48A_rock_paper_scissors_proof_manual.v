@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P010_48A_rock_paper_scissors_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P010_48A_rock_paper_scissors_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.StdLib.string_lib.
 Require Import SimpleC.EE.LLM_bench.Codeforces.array2_ext_lib.
@@ -575,7 +559,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1 : solver_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (63 :: nil).
   split_pure_spatial.
   - cancel (CharArray2.mixed_full g_pre 3 16 game_mem).
@@ -600,7 +584,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_2 : solver_return_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst i.
   pose proof (PreH5 PreH2) as H2.
   pose proof (PreH10 PreH7) as H1.
@@ -620,7 +604,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_3 : solver_return_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst i.
   pose proof (PreH6 PreH3) as H2.
   pose proof (PreH11 PreH8) as H1.
@@ -640,7 +624,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_4 : solver_return_wit_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (i = 2) by lia.
   subst i.
   pose proof (PreH6 PreH3) as H2.
@@ -760,4 +744,3 @@ Proof.
   - Goal_apply proof_of_solver_partial_solve_wit_2_pure_split_goal_3.
   - Goal_apply proof_of_solver_partial_solve_wit_2_pure_split_goal_4.
 Qed. 
-

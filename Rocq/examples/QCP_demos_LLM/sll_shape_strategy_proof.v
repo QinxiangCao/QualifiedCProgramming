@@ -1,12 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.QCP_demos_LLM Require Import sll_shape_strategy_goal.
 From SimpleC.EE.QCP_demos_LLM Require Import sll_shape_lib.
 Import naive_C_Rules.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 
@@ -118,13 +113,13 @@ Qed.
 Lemma sll_shape_strategy16_correctness : sll_shape_strategy16.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   rewrite <- logic_equiv_coq_prop_or.
   Intros_p Hnz.
   split_pure_spatial.
   - cancel (&(q # "list" ->ₛ "next") # Ptr |-> z).
     Intros_r h.
     apply_sepcon_adjoint.
-    cancel.
     sep_apply_l_atomic (lseg_len1 q h z).
     + dump_pre_spatial.
       destruct Hnz as [Hnz | Hnz].
@@ -142,6 +137,7 @@ Qed.
 Lemma sll_shape_strategy8_correctness : sll_shape_strategy8.
 Proof.
   pre_process_default.
+  cbn [poly_store].
   rewrite <- logic_equiv_coq_prop_or.
   Intros_p Hnz.
   assert (Hp : p <> 0).
@@ -165,16 +161,11 @@ Proof.
     cancel (&(p # "list" ->ₛ "next") # Ptr |-> y).
     cancel (&(p # "list" ->ₛ "data") # Int |-> x).
     Intros_r q.
-    apply_sepcon_adjoint.
-    normalize.
-    Split.
-    + Left.
-      cancel.
-    + Right.
-      cancel.
-  - dump_pre_spatial.
-    left.
-    exact Hp.
+    rewrite <- derivable1_wand_sepcon_adjoint.
+    rewrite sepcon_emp_logic_equiv'.
+    reflexivity.
+  - entailer!.
+
 Qed.
 
 Lemma sll_shape_strategy9_correctness : sll_shape_strategy9.
@@ -366,6 +357,7 @@ Qed.
 Lemma sll_shape_strategy22_correctness : sll_shape_strategy22.
 Proof.
   pre_process_default.
+  cbn [poly_store].
   rewrite <- logic_equiv_coq_prop_or.
   rewrite <- logic_equiv_coq_prop_or.
   Intros_p Hpq.

@@ -58,22 +58,22 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def modular_inverse_safety_wit_1 : Prop :=
-  forall (modulus_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH2 : (((a_pre * x_callee_v) + (modulus_pre * y_callee_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (1 < modulus_pre)) (PreH4 : ((0 : Int) < a_pre)) (PreH5 : (a_pre < modulus_pre)) (PreH6 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+  forall (a_pre : Int) (modulus_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH2 : (((a_pre * x_v) + (modulus_pre * y_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (1 < modulus_pre)) (PreH4 : ((0 : Int) < a_pre)) (PreH5 : (a_pre < modulus_pre)) (PreH6 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
   ((( &( "inverse" ) )) # Int |->_)
-  ** ((( &( "x" ) )) # Int |-> (x_callee_v))
-  ** ((( &( "y" ) )) # Int |-> (y_callee_v))
+  ** ((( &( "x" ) )) # Int |-> (x_v))
+  ** ((( &( "y" ) )) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "modulus" ) )) # Int |-> (modulus_pre))
 |--
-  “ ((x_callee_v ≠ (INT_MIN)) ∨ (modulus_pre ≠ (-1))) ” &&
+  “ ((x_v ≠ (INT_MIN)) ∨ (modulus_pre ≠ (-1))) ” &&
   “ (modulus_pre ≠ (0 : Int)) ”
 
 noncomputable def modular_inverse_safety_wit_2 : Prop :=
-  forall (modulus_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH2 : (((a_pre * x_callee_v) + (modulus_pre * y_callee_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (1 < modulus_pre)) (PreH4 : ((0 : Int) < a_pre)) (PreH5 : (a_pre < modulus_pre)) (PreH6 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
-  ((( &( "inverse" ) )) # Int |-> ((Z.rem x_callee_v modulus_pre)))
-  ** ((( &( "x" ) )) # Int |-> (x_callee_v))
-  ** ((( &( "y" ) )) # Int |-> (y_callee_v))
+  forall (a_pre : Int) (modulus_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH2 : (((a_pre * x_v) + (modulus_pre * y_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (1 < modulus_pre)) (PreH4 : ((0 : Int) < a_pre)) (PreH5 : (a_pre < modulus_pre)) (PreH6 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+  ((( &( "inverse" ) )) # Int |-> ((Z.rem x_v modulus_pre)))
+  ** ((( &( "x" ) )) # Int |-> (x_v))
+  ** ((( &( "y" ) )) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "modulus" ) )) # Int |-> (modulus_pre))
@@ -82,73 +82,73 @@ noncomputable def modular_inverse_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def modular_inverse_safety_wit_3 : Prop :=
-  forall (modulus_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : ((Z.rem x_callee_v modulus_pre) < (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v) + (modulus_pre * y_callee_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
-  ((( &( "inverse" ) )) # Int |-> ((Z.rem x_callee_v modulus_pre)))
-  ** ((( &( "x" ) )) # Int |-> (x_callee_v))
-  ** ((( &( "y" ) )) # Int |-> (y_callee_v))
+  forall (a_pre : Int) (modulus_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : ((Z.rem x_v modulus_pre) < (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_v) + (modulus_pre * y_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+  ((( &( "inverse" ) )) # Int |-> ((Z.rem x_v modulus_pre)))
+  ** ((( &( "x" ) )) # Int |-> (x_v))
+  ** ((( &( "y" ) )) # Int |-> (y_v))
   ** ((( &( "g" ) )) # Int |-> (retval))
   ** ((( &( "a" ) )) # Int |-> (a_pre))
   ** ((( &( "modulus" ) )) # Int |-> (modulus_pre))
 |--
-  “ (((Z.rem x_callee_v modulus_pre) + modulus_pre) <= INT_MAX) ” &&
-  “ ((INT_MIN) <= ((Z.rem x_callee_v modulus_pre) + modulus_pre)) ”
+  “ (((Z.rem x_v modulus_pre) + modulus_pre) <= INT_MAX) ” &&
+  “ ((INT_MIN) <= ((Z.rem x_v modulus_pre) + modulus_pre)) ”
 
 noncomputable def modular_inverse_return_wit_1 : Prop :=
   (
-forall (modulus_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : ((Z.rem x_callee_v modulus_pre) < (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v) + (modulus_pre * y_callee_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+forall (a_pre : Int) (modulus_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : ((Z.rem x_v modulus_pre) < (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_v) + (modulus_pre * y_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
   TT && emp 
 |--
-  “ ((0 : Int) <= ((Z.rem x_callee_v modulus_pre) + modulus_pre)) ” &&
-  “ (((Z.rem x_callee_v modulus_pre) + modulus_pre) < modulus_pre) ” &&
-  “ (ModularInverse a_pre modulus_pre ((Z.rem x_callee_v modulus_pre) + modulus_pre)) ”
+  “ ((0 : Int) <= ((Z.rem x_v modulus_pre) + modulus_pre)) ” &&
+  “ (((Z.rem x_v modulus_pre) + modulus_pre) < modulus_pre) ” &&
+  “ (ModularInverse a_pre modulus_pre ((Z.rem x_v modulus_pre) + modulus_pre)) ”
   &&  emp
 ) \/
 (
-forall (modulus_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : ((Z.rem x_callee_v modulus_pre) < (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v) + (modulus_pre * y_callee_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+forall (a_pre : Int) (modulus_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : ((Z.rem x_v modulus_pre) < (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_v) + (modulus_pre * y_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
   TT && emp 
 |--
-  “ (ModularInverse a_pre modulus_pre ((Z.rem x_callee_v modulus_pre) + modulus_pre)) ” &&
-  “ ((0 : Int) <= ((Z.rem x_callee_v modulus_pre) + modulus_pre)) ”
+  “ (ModularInverse a_pre modulus_pre ((Z.rem x_v modulus_pre) + modulus_pre)) ” &&
+  “ ((0 : Int) <= ((Z.rem x_v modulus_pre) + modulus_pre)) ”
   &&  emp
 )
 
 noncomputable def modular_inverse_return_wit_1_split_goal_1 : Prop :=
-  forall (modulus_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : ((Z.rem x_callee_v modulus_pre) < (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v) + (modulus_pre * y_callee_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
-  (ModularInverse a_pre modulus_pre ((Z.rem x_callee_v modulus_pre) + modulus_pre))
+  forall (a_pre : Int) (modulus_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : ((Z.rem x_v modulus_pre) < (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_v) + (modulus_pre * y_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+  (ModularInverse a_pre modulus_pre ((Z.rem x_v modulus_pre) + modulus_pre))
 
 noncomputable def modular_inverse_return_wit_1_split_goal_2 : Prop :=
-  forall (modulus_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : ((Z.rem x_callee_v modulus_pre) < (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v) + (modulus_pre * y_callee_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
-  ((0 : Int) <= ((Z.rem x_callee_v modulus_pre) + modulus_pre))
+  forall (a_pre : Int) (modulus_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : ((Z.rem x_v modulus_pre) < (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_v) + (modulus_pre * y_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+  ((0 : Int) <= ((Z.rem x_v modulus_pre) + modulus_pre))
 
 noncomputable def modular_inverse_return_wit_2 : Prop :=
   (
-forall (modulus_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : ((Z.rem x_callee_v modulus_pre) >= (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v) + (modulus_pre * y_callee_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+forall (a_pre : Int) (modulus_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : ((Z.rem x_v modulus_pre) >= (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_v) + (modulus_pre * y_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
   TT && emp 
 |--
-  “ ((0 : Int) <= (Z.rem x_callee_v modulus_pre)) ” &&
-  “ ((Z.rem x_callee_v modulus_pre) < modulus_pre) ” &&
-  “ (ModularInverse a_pre modulus_pre (Z.rem x_callee_v modulus_pre)) ”
+  “ ((0 : Int) <= (Z.rem x_v modulus_pre)) ” &&
+  “ ((Z.rem x_v modulus_pre) < modulus_pre) ” &&
+  “ (ModularInverse a_pre modulus_pre (Z.rem x_v modulus_pre)) ”
   &&  emp
 ) \/
 (
-forall (modulus_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : ((Z.rem x_callee_v modulus_pre) >= (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v) + (modulus_pre * y_callee_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+forall (a_pre : Int) (modulus_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : ((Z.rem x_v modulus_pre) >= (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_v) + (modulus_pre * y_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
   TT && emp 
 |--
-  “ (ModularInverse a_pre modulus_pre (Z.rem x_callee_v modulus_pre)) ” &&
-  “ ((Z.rem x_callee_v modulus_pre) < modulus_pre) ”
+  “ (ModularInverse a_pre modulus_pre (Z.rem x_v modulus_pre)) ” &&
+  “ ((Z.rem x_v modulus_pre) < modulus_pre) ”
   &&  emp
 )
 
 noncomputable def modular_inverse_return_wit_2_split_goal_1 : Prop :=
-  forall (modulus_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : ((Z.rem x_callee_v modulus_pre) >= (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v) + (modulus_pre * y_callee_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
-  (ModularInverse a_pre modulus_pre (Z.rem x_callee_v modulus_pre))
+  forall (a_pre : Int) (modulus_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : ((Z.rem x_v modulus_pre) >= (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_v) + (modulus_pre * y_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+  (ModularInverse a_pre modulus_pre (Z.rem x_v modulus_pre))
 
 noncomputable def modular_inverse_return_wit_2_split_goal_2 : Prop :=
-  forall (modulus_pre : Int) (a_pre : Int) (y_callee_v : Int) (x_callee_v : Int) (retval : Int) (PreH1 : ((Z.rem x_callee_v modulus_pre) >= (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v) + (modulus_pre * y_callee_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
-  ((Z.rem x_callee_v modulus_pre) < modulus_pre)
+  forall (a_pre : Int) (modulus_pre : Int) (y_v : Int) (x_v : Int) (retval : Int) (PreH1 : ((Z.rem x_v modulus_pre) >= (0 : Int))) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_v) + (modulus_pre * y_v)) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : ((0 : Int) < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+  ((Z.rem x_v modulus_pre) < modulus_pre)
 
 noncomputable def modular_inverse_partial_solve_wit_1_pure : Prop :=
-  forall (modulus_pre : Int) (a_pre : Int) (PreH1 : (1 < modulus_pre)) (PreH2 : ((0 : Int) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+  forall (a_pre : Int) (modulus_pre : Int) (PreH1 : (1 < modulus_pre)) (PreH2 : ((0 : Int) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
   ((( &( "g" ) )) # Int |->_)
   ** ((( &( "y" ) )) # Int |->_)
   ** ((( &( "x" ) )) # Int |->_)
@@ -161,7 +161,7 @@ noncomputable def modular_inverse_partial_solve_wit_1_pure : Prop :=
   “ (a_pre <= INT_MAX) ”
 
 noncomputable def modular_inverse_partial_solve_wit_1_aux : Prop :=
-  forall (modulus_pre : Int) (a_pre : Int) (PreH1 : (1 < modulus_pre)) (PreH2 : ((0 : Int) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+  forall (a_pre : Int) (modulus_pre : Int) (PreH1 : (1 < modulus_pre)) (PreH2 : ((0 : Int) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
   TT && emp 
 |--
   “ (INT_MIN < a_pre) ” &&

@@ -58,7 +58,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def majorityElement_safety_wit_1 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (x : Int) (PreH1 : (IsMajorityElement x l)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) ,
+  forall (l : (List Int)) (x : Int) (nums_pre : Int) (numsSize_pre : Int) (PreH1 : (IsMajorityElement x l)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) ,
   ((( &( "vote" ) )) # Int |->_)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -68,7 +68,7 @@ noncomputable def majorityElement_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def majorityElement_safety_wit_2 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (x : Int) (PreH1 : (IsMajorityElement x l)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) ,
+  forall (l : (List Int)) (x : Int) (nums_pre : Int) (numsSize_pre : Int) (PreH1 : (IsMajorityElement x l)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) ,
   ((( &( "candidate" ) )) # Int |->_)
   ** ((( &( "vote" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
@@ -79,7 +79,7 @@ noncomputable def majorityElement_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def majorityElement_safety_wit_3 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (x : Int) (PreH1 : (IsMajorityElement x l)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) ,
+  forall (l : (List Int)) (x : Int) (nums_pre : Int) (numsSize_pre : Int) (PreH1 : (IsMajorityElement x l)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "candidate" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "vote" ) )) # Int |-> ((0 : Int)))
@@ -91,7 +91,7 @@ noncomputable def majorityElement_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def majorityElement_safety_wit_4 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (i < numsSize_pre)) (PreH2 : (l = (l1 ++ l2))) (PreH3 : (i = (Zlength (l1)))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= numsSize_pre)) (PreH6 : (1 <= numsSize_pre)) (PreH7 : (numsSize_pre <= 50000)) (PreH8 : ((0 : Int) <= vote)) (PreH9 : (vote <= i)) (PreH10 : (IsMajorityElement x l)) (PreH11 : (MajorityOnReduced x candidate vote l2)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (i < numsSize_pre)) (PreH2 : (l = (l1 ++ l2))) (PreH3 : (i = (Zlength (l1)))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= numsSize_pre)) (PreH6 : (1 <= numsSize_pre)) (PreH7 : (numsSize_pre <= 50000)) (PreH8 : ((0 : Int) <= vote)) (PreH9 : (vote <= i)) (PreH10 : (IsMajorityElement x l)) (PreH11 : (MajorityOnReduced x candidate vote l2)) ,
   ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -103,7 +103,7 @@ noncomputable def majorityElement_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def majorityElement_safety_wit_5 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (vote = (0 : Int))) (PreH2 : (i < numsSize_pre)) (PreH3 : (l = (l1 ++ l2))) (PreH4 : (i = (Zlength (l1)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= numsSize_pre)) (PreH8 : (numsSize_pre <= 50000)) (PreH9 : ((0 : Int) <= vote)) (PreH10 : (vote <= i)) (PreH11 : (IsMajorityElement x l)) (PreH12 : (MajorityOnReduced x candidate vote l2)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (vote = (0 : Int))) (PreH2 : (i < numsSize_pre)) (PreH3 : (l = (l1 ++ l2))) (PreH4 : (i = (Zlength (l1)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= numsSize_pre)) (PreH8 : (numsSize_pre <= 50000)) (PreH9 : ((0 : Int) <= vote)) (PreH10 : (vote <= i)) (PreH11 : (IsMajorityElement x l)) (PreH12 : (MajorityOnReduced x candidate vote l2)) ,
   (intArray.full nums_pre numsSize_pre l)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -115,7 +115,7 @@ noncomputable def majorityElement_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (vote + 1)) ”
 
 noncomputable def majorityElement_safety_wit_6 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (vote = (0 : Int))) (PreH2 : (i < numsSize_pre)) (PreH3 : (l = (l1 ++ l2))) (PreH4 : (i = (Zlength (l1)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= numsSize_pre)) (PreH8 : (numsSize_pre <= 50000)) (PreH9 : ((0 : Int) <= vote)) (PreH10 : (vote <= i)) (PreH11 : (IsMajorityElement x l)) (PreH12 : (MajorityOnReduced x candidate vote l2)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (vote = (0 : Int))) (PreH2 : (i < numsSize_pre)) (PreH3 : (l = (l1 ++ l2))) (PreH4 : (i = (Zlength (l1)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= numsSize_pre)) (PreH8 : (numsSize_pre <= 50000)) (PreH9 : ((0 : Int) <= vote)) (PreH10 : (vote <= i)) (PreH11 : (IsMajorityElement x l)) (PreH12 : (MajorityOnReduced x candidate vote l2)) ,
   (intArray.full nums_pre numsSize_pre l)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -127,7 +127,7 @@ noncomputable def majorityElement_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def majorityElement_safety_wit_7 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) ≠ candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x l)) (PreH13 : (MajorityOnReduced x candidate vote l2)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) ≠ candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x l)) (PreH13 : (MajorityOnReduced x candidate vote l2)) ,
   (intArray.full nums_pre numsSize_pre l)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -139,7 +139,7 @@ noncomputable def majorityElement_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= (vote + (-1))) ”
 
 noncomputable def majorityElement_safety_wit_8 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) = candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x l)) (PreH13 : (MajorityOnReduced x candidate vote l2)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) = candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x l)) (PreH13 : (MajorityOnReduced x candidate vote l2)) ,
   (intArray.full nums_pre numsSize_pre l)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -151,7 +151,7 @@ noncomputable def majorityElement_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (vote + 1)) ”
 
 noncomputable def majorityElement_safety_wit_9 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) = candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x l)) (PreH13 : (MajorityOnReduced x candidate vote l2)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) = candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x l)) (PreH13 : (MajorityOnReduced x candidate vote l2)) ,
   (intArray.full nums_pre numsSize_pre l)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -163,7 +163,7 @@ noncomputable def majorityElement_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def majorityElement_safety_wit_10 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) ≠ candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x l)) (PreH13 : (MajorityOnReduced x candidate vote l2)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) ≠ candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x l)) (PreH13 : (MajorityOnReduced x candidate vote l2)) ,
   (intArray.full nums_pre numsSize_pre l)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -174,7 +174,7 @@ noncomputable def majorityElement_safety_wit_10 : Prop :=
   “ (1 ≠ (INT_MIN)) ”
 
 noncomputable def majorityElement_safety_wit_11 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) ≠ candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x l)) (PreH13 : (MajorityOnReduced x candidate vote l2)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) ≠ candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x l)) (PreH13 : (MajorityOnReduced x candidate vote l2)) ,
   (intArray.full nums_pre numsSize_pre l)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -186,7 +186,7 @@ noncomputable def majorityElement_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def majorityElement_safety_wit_12 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (vote = (0 : Int))) (PreH2 : (i < numsSize_pre)) (PreH3 : (l = (l1 ++ l2))) (PreH4 : (i = (Zlength (l1)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= numsSize_pre)) (PreH8 : (numsSize_pre <= 50000)) (PreH9 : ((0 : Int) <= vote)) (PreH10 : (vote <= i)) (PreH11 : (IsMajorityElement x l)) (PreH12 : (MajorityOnReduced x candidate vote l2)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (vote = (0 : Int))) (PreH2 : (i < numsSize_pre)) (PreH3 : (l = (l1 ++ l2))) (PreH4 : (i = (Zlength (l1)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= numsSize_pre)) (PreH8 : (numsSize_pre <= 50000)) (PreH9 : ((0 : Int) <= vote)) (PreH10 : (vote <= i)) (PreH11 : (IsMajorityElement x l)) (PreH12 : (MajorityOnReduced x candidate vote l2)) ,
   (intArray.full nums_pre numsSize_pre l)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -198,7 +198,7 @@ noncomputable def majorityElement_safety_wit_12 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def majorityElement_safety_wit_13 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) = candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x l)) (PreH13 : (MajorityOnReduced x candidate vote l2)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) = candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x l)) (PreH13 : (MajorityOnReduced x candidate vote l2)) ,
   (intArray.full nums_pre numsSize_pre l)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -210,7 +210,7 @@ noncomputable def majorityElement_safety_wit_13 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def majorityElement_safety_wit_14 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) ≠ candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x l)) (PreH13 : (MajorityOnReduced x candidate vote l2)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) ≠ candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x l)) (PreH13 : (MajorityOnReduced x candidate vote l2)) ,
   (intArray.full nums_pre numsSize_pre l)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -223,7 +223,7 @@ noncomputable def majorityElement_safety_wit_14 : Prop :=
 
 noncomputable def majorityElement_entail_wit_1 : Prop :=
   (
-forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (x_2 : Int) (PreH1 : (IsMajorityElement x_2 l)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) ,
+forall (l : (List Int)) (x_2 : Int) (nums_pre : Int) (numsSize_pre : Int) (PreH1 : (IsMajorityElement x_2 l)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) ,
   (intArray.full nums_pre numsSize_pre l)
 |--
   EX x : Int, EX l1 : (List Int), EX l2 : (List Int),
@@ -240,7 +240,7 @@ forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (x_2 : Int) (PreH1
   &&  (intArray.full nums_pre numsSize_pre l)
 ) \/
 (
-forall (numsSize_pre : Int) (l : (List Int)) (x_2 : Int) (PreH1 : (IsMajorityElement x_2 l)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) ,
+forall (l : (List Int)) (x_2 : Int) (numsSize_pre : Int) (PreH1 : (IsMajorityElement x_2 l)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) ,
   TT && emp 
 |--
   EX x : Int, EX l1 : (List Int), EX l2 : (List Int),
@@ -257,7 +257,7 @@ forall (numsSize_pre : Int) (l : (List Int)) (x_2 : Int) (PreH1 : (IsMajorityEle
 
 noncomputable def majorityElement_entail_wit_2_1 : Prop :=
   (
-forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x_2 : Int) (vote : Int) (i : Int) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : (vote = (0 : Int))) (PreH2 : (i < numsSize_pre)) (PreH3 : (l = (l1_2 ++ l2_2))) (PreH4 : (i = (Zlength (l1_2)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= numsSize_pre)) (PreH8 : (numsSize_pre <= 50000)) (PreH9 : ((0 : Int) <= vote)) (PreH10 : (vote <= i)) (PreH11 : (IsMajorityElement x_2 l)) (PreH12 : (MajorityOnReduced x_2 candidate vote l2_2)) ,
+forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x_2 : Int) (vote : Int) (i : Int) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : (vote = (0 : Int))) (PreH2 : (i < numsSize_pre)) (PreH3 : (l = (l1_2 ++ l2_2))) (PreH4 : (i = (Zlength (l1_2)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= numsSize_pre)) (PreH8 : (numsSize_pre <= 50000)) (PreH9 : ((0 : Int) <= vote)) (PreH10 : (vote <= i)) (PreH11 : (IsMajorityElement x_2 l)) (PreH12 : (MajorityOnReduced x_2 candidate vote l2_2)) ,
   (intArray.full nums_pre numsSize_pre l)
 |--
   EX x : Int, EX l1 : (List Int), EX l2 : (List Int),
@@ -274,7 +274,7 @@ forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) 
   &&  (intArray.full nums_pre numsSize_pre l)
 ) \/
 (
-forall (numsSize_pre : Int) (l : (List Int)) (candidate : Int) (x_2 : Int) (vote : Int) (i : Int) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : (vote = (0 : Int))) (PreH2 : (i < numsSize_pre)) (PreH3 : (l = (l1_2 ++ l2_2))) (PreH4 : (i = (Zlength (l1_2)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= numsSize_pre)) (PreH8 : (numsSize_pre <= 50000)) (PreH9 : ((0 : Int) <= vote)) (PreH10 : (vote <= i)) (PreH11 : (IsMajorityElement x_2 l)) (PreH12 : (MajorityOnReduced x_2 candidate vote l2_2)) ,
+forall (l : (List Int)) (numsSize_pre : Int) (candidate : Int) (x_2 : Int) (vote : Int) (i : Int) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : (vote = (0 : Int))) (PreH2 : (i < numsSize_pre)) (PreH3 : (l = (l1_2 ++ l2_2))) (PreH4 : (i = (Zlength (l1_2)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= numsSize_pre)) (PreH8 : (numsSize_pre <= 50000)) (PreH9 : ((0 : Int) <= vote)) (PreH10 : (vote <= i)) (PreH11 : (IsMajorityElement x_2 l)) (PreH12 : (MajorityOnReduced x_2 candidate vote l2_2)) ,
   TT && emp 
 |--
   EX x : Int, EX l1 : (List Int), EX l2 : (List Int),
@@ -291,7 +291,7 @@ forall (numsSize_pre : Int) (l : (List Int)) (candidate : Int) (x_2 : Int) (vote
 
 noncomputable def majorityElement_entail_wit_2_2 : Prop :=
   (
-forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x_2 : Int) (vote : Int) (i : Int) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) = candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1_2 ++ l2_2))) (PreH5 : (i = (Zlength (l1_2)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x_2 l)) (PreH13 : (MajorityOnReduced x_2 candidate vote l2_2)) ,
+forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x_2 : Int) (vote : Int) (i : Int) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) = candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1_2 ++ l2_2))) (PreH5 : (i = (Zlength (l1_2)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x_2 l)) (PreH13 : (MajorityOnReduced x_2 candidate vote l2_2)) ,
   (intArray.full nums_pre numsSize_pre l)
 |--
   EX x : Int, EX l1 : (List Int), EX l2 : (List Int),
@@ -308,7 +308,7 @@ forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) 
   &&  (intArray.full nums_pre numsSize_pre l)
 ) \/
 (
-forall (numsSize_pre : Int) (l : (List Int)) (candidate : Int) (x_2 : Int) (vote : Int) (i : Int) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) = candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1_2 ++ l2_2))) (PreH5 : (i = (Zlength (l1_2)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x_2 l)) (PreH13 : (MajorityOnReduced x_2 candidate vote l2_2)) ,
+forall (l : (List Int)) (numsSize_pre : Int) (candidate : Int) (x_2 : Int) (vote : Int) (i : Int) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) = candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1_2 ++ l2_2))) (PreH5 : (i = (Zlength (l1_2)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x_2 l)) (PreH13 : (MajorityOnReduced x_2 candidate vote l2_2)) ,
   TT && emp 
 |--
   EX x : Int, EX l1 : (List Int), EX l2 : (List Int),
@@ -325,7 +325,7 @@ forall (numsSize_pre : Int) (l : (List Int)) (candidate : Int) (x_2 : Int) (vote
 
 noncomputable def majorityElement_entail_wit_2_3 : Prop :=
   (
-forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x_2 : Int) (vote : Int) (i : Int) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) ≠ candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1_2 ++ l2_2))) (PreH5 : (i = (Zlength (l1_2)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x_2 l)) (PreH13 : (MajorityOnReduced x_2 candidate vote l2_2)) ,
+forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x_2 : Int) (vote : Int) (i : Int) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) ≠ candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1_2 ++ l2_2))) (PreH5 : (i = (Zlength (l1_2)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x_2 l)) (PreH13 : (MajorityOnReduced x_2 candidate vote l2_2)) ,
   (intArray.full nums_pre numsSize_pre l)
 |--
   EX x : Int, EX l1 : (List Int), EX l2 : (List Int),
@@ -342,7 +342,7 @@ forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) 
   &&  (intArray.full nums_pre numsSize_pre l)
 ) \/
 (
-forall (numsSize_pre : Int) (l : (List Int)) (candidate : Int) (x_2 : Int) (vote : Int) (i : Int) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) ≠ candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1_2 ++ l2_2))) (PreH5 : (i = (Zlength (l1_2)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x_2 l)) (PreH13 : (MajorityOnReduced x_2 candidate vote l2_2)) ,
+forall (l : (List Int)) (numsSize_pre : Int) (candidate : Int) (x_2 : Int) (vote : Int) (i : Int) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : ((Znth i l (0 : Int)) ≠ candidate)) (PreH2 : (vote ≠ (0 : Int))) (PreH3 : (i < numsSize_pre)) (PreH4 : (l = (l1_2 ++ l2_2))) (PreH5 : (i = (Zlength (l1_2)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (1 <= numsSize_pre)) (PreH9 : (numsSize_pre <= 50000)) (PreH10 : ((0 : Int) <= vote)) (PreH11 : (vote <= i)) (PreH12 : (IsMajorityElement x_2 l)) (PreH13 : (MajorityOnReduced x_2 candidate vote l2_2)) ,
   TT && emp 
 |--
   EX x : Int, EX l1 : (List Int), EX l2 : (List Int),
@@ -359,14 +359,14 @@ forall (numsSize_pre : Int) (l : (List Int)) (candidate : Int) (x_2 : Int) (vote
 
 noncomputable def majorityElement_return_wit_1 : Prop :=
   (
-forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (l = (l1 ++ l2))) (PreH3 : (i = (Zlength (l1)))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= numsSize_pre)) (PreH6 : (1 <= numsSize_pre)) (PreH7 : (numsSize_pre <= 50000)) (PreH8 : ((0 : Int) <= vote)) (PreH9 : (vote <= i)) (PreH10 : (IsMajorityElement x l)) (PreH11 : (MajorityOnReduced x candidate vote l2)) ,
+forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (l = (l1 ++ l2))) (PreH3 : (i = (Zlength (l1)))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= numsSize_pre)) (PreH6 : (1 <= numsSize_pre)) (PreH7 : (numsSize_pre <= 50000)) (PreH8 : ((0 : Int) <= vote)) (PreH9 : (vote <= i)) (PreH10 : (IsMajorityElement x l)) (PreH11 : (MajorityOnReduced x candidate vote l2)) ,
   (intArray.full nums_pre numsSize_pre l)
 |--
   “ (IsMajorityElement candidate l) ”
   &&  (intArray.full nums_pre numsSize_pre l)
 ) \/
 (
-forall (numsSize_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (l = (l1 ++ l2))) (PreH3 : (i = (Zlength (l1)))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= numsSize_pre)) (PreH6 : (1 <= numsSize_pre)) (PreH7 : (numsSize_pre <= 50000)) (PreH8 : ((0 : Int) <= vote)) (PreH9 : (vote <= i)) (PreH10 : (IsMajorityElement x l)) (PreH11 : (MajorityOnReduced x candidate vote l2)) ,
+forall (l : (List Int)) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (l = (l1 ++ l2))) (PreH3 : (i = (Zlength (l1)))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= numsSize_pre)) (PreH6 : (1 <= numsSize_pre)) (PreH7 : (numsSize_pre <= 50000)) (PreH8 : ((0 : Int) <= vote)) (PreH9 : (vote <= i)) (PreH10 : (IsMajorityElement x l)) (PreH11 : (MajorityOnReduced x candidate vote l2)) ,
   TT && emp 
 |--
   “ (IsMajorityElement candidate l) ”
@@ -374,11 +374,11 @@ forall (numsSize_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote :
 )
 
 noncomputable def majorityElement_return_wit_1_split_goal_1 : Prop :=
-  forall (numsSize_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (l = (l1 ++ l2))) (PreH3 : (i = (Zlength (l1)))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= numsSize_pre)) (PreH6 : (1 <= numsSize_pre)) (PreH7 : (numsSize_pre <= 50000)) (PreH8 : ((0 : Int) <= vote)) (PreH9 : (vote <= i)) (PreH10 : (IsMajorityElement x l)) (PreH11 : (MajorityOnReduced x candidate vote l2)) ,
+  forall (l : (List Int)) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (l = (l1 ++ l2))) (PreH3 : (i = (Zlength (l1)))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= numsSize_pre)) (PreH6 : (1 <= numsSize_pre)) (PreH7 : (numsSize_pre <= 50000)) (PreH8 : ((0 : Int) <= vote)) (PreH9 : (vote <= i)) (PreH10 : (IsMajorityElement x l)) (PreH11 : (MajorityOnReduced x candidate vote l2)) ,
   (IsMajorityElement candidate l)
 
 noncomputable def majorityElement_partial_solve_wit_1 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (vote = (0 : Int))) (PreH2 : (i < numsSize_pre)) (PreH3 : (l = (l1 ++ l2))) (PreH4 : (i = (Zlength (l1)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= numsSize_pre)) (PreH8 : (numsSize_pre <= 50000)) (PreH9 : ((0 : Int) <= vote)) (PreH10 : (vote <= i)) (PreH11 : (IsMajorityElement x l)) (PreH12 : (MajorityOnReduced x candidate vote l2)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (vote = (0 : Int))) (PreH2 : (i < numsSize_pre)) (PreH3 : (l = (l1 ++ l2))) (PreH4 : (i = (Zlength (l1)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= numsSize_pre)) (PreH8 : (numsSize_pre <= 50000)) (PreH9 : ((0 : Int) <= vote)) (PreH10 : (vote <= i)) (PreH11 : (IsMajorityElement x l)) (PreH12 : (MajorityOnReduced x candidate vote l2)) ,
   (intArray.full nums_pre numsSize_pre l)
 |--
   “ (vote = (0 : Int)) ” &&
@@ -397,7 +397,7 @@ noncomputable def majorityElement_partial_solve_wit_1 : Prop :=
   ** (intArray.missing_i nums_pre i (0 : Int) numsSize_pre l)
 
 noncomputable def majorityElement_partial_solve_wit_2 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (vote = (0 : Int))) (PreH2 : (i < numsSize_pre)) (PreH3 : (l = (l1 ++ l2))) (PreH4 : (i = (Zlength (l1)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= numsSize_pre)) (PreH8 : (numsSize_pre <= 50000)) (PreH9 : ((0 : Int) <= vote)) (PreH10 : (vote <= i)) (PreH11 : (IsMajorityElement x l)) (PreH12 : (MajorityOnReduced x candidate vote l2)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (vote = (0 : Int))) (PreH2 : (i < numsSize_pre)) (PreH3 : (l = (l1 ++ l2))) (PreH4 : (i = (Zlength (l1)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= numsSize_pre)) (PreH8 : (numsSize_pre <= 50000)) (PreH9 : ((0 : Int) <= vote)) (PreH10 : (vote <= i)) (PreH11 : (IsMajorityElement x l)) (PreH12 : (MajorityOnReduced x candidate vote l2)) ,
   (intArray.full nums_pre numsSize_pre l)
 |--
   “ (vote = (0 : Int)) ” &&
@@ -416,7 +416,7 @@ noncomputable def majorityElement_partial_solve_wit_2 : Prop :=
   ** (intArray.missing_i nums_pre i (0 : Int) numsSize_pre l)
 
 noncomputable def majorityElement_partial_solve_wit_3 : Prop :=
-  forall (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (vote ≠ (0 : Int))) (PreH2 : (i < numsSize_pre)) (PreH3 : (l = (l1 ++ l2))) (PreH4 : (i = (Zlength (l1)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= numsSize_pre)) (PreH8 : (numsSize_pre <= 50000)) (PreH9 : ((0 : Int) <= vote)) (PreH10 : (vote <= i)) (PreH11 : (IsMajorityElement x l)) (PreH12 : (MajorityOnReduced x candidate vote l2)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (candidate : Int) (x : Int) (vote : Int) (i : Int) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (vote ≠ (0 : Int))) (PreH2 : (i < numsSize_pre)) (PreH3 : (l = (l1 ++ l2))) (PreH4 : (i = (Zlength (l1)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= numsSize_pre)) (PreH8 : (numsSize_pre <= 50000)) (PreH9 : ((0 : Int) <= vote)) (PreH10 : (vote <= i)) (PreH11 : (IsMajorityElement x l)) (PreH12 : (MajorityOnReduced x candidate vote l2)) ,
   (intArray.full nums_pre numsSize_pre l)
 |--
   “ (vote ≠ (0 : Int)) ” &&

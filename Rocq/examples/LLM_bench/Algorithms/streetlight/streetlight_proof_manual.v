@@ -1,21 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.streetlight Require Import streetlight_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.streetlight.streetlight_lib.
 Local Open Scope sac.
@@ -500,7 +484,7 @@ all: try solve [street_extrema_solve]. Qed.
 
 Lemma proof_of_solve_entail_wit_4_split_goal_1 : solve_entail_wit_4_split_goal_1.
 Proof.
-  unfold solve_entail_wit_4_split_goal_1; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite Zlength_app, Zlength_cons, Zlength_nil; lia.
 all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
 all: try solve [street_extrema_solve]. Qed.
@@ -528,7 +512,7 @@ all: try solve [street_extrema_solve]. Qed.
 
 Lemma proof_of_solve_entail_wit_4_split_goal_3 : solve_entail_wit_4_split_goal_3.
 Proof.
-  unfold solve_entail_wit_4_split_goal_3; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   all: pose proof PreH15 as LegacyPreH15.
   all: pose proof PreH16 as LegacyPreH16.
   all: pose proof PreH19 as LegacyPreH19.
@@ -545,7 +529,7 @@ all: try solve [street_extrema_solve]. Qed.
 
 Lemma proof_of_solve_entail_wit_4_split_goal_4 : solve_entail_wit_4_split_goal_4.
 Proof.
-  unfold solve_entail_wit_4_split_goal_4; intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   all: pose proof PreH15 as LegacyPreH15.
   all: pose proof PreH16 as LegacyPreH16.
   all: pose proof PreH19 as LegacyPreH19.
@@ -562,12 +546,12 @@ all: try solve [street_extrema_solve]. Qed.
 
 Lemma proof_of_solve_entail_wit_4 : solve_entail_wit_4.
 Proof.
-  unfold solve_entail_wit_4; right; intros.
-  split_pure_spatial.
-  - entailer!.
-  - split_pures; dump_pre_spatial; first [ exact (proof_of_solve_entail_wit_4_split_goal_1 c_pre n_pre power_l pos_l prefix_l_2 i start inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20) | exact (proof_of_solve_entail_wit_4_split_goal_2 c_pre n_pre power_l pos_l prefix_l_2 i start inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20) | exact (proof_of_solve_entail_wit_4_split_goal_3 c_pre n_pre power_l pos_l prefix_l_2 i start inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20) | exact (proof_of_solve_entail_wit_4_split_goal_4 c_pre n_pre power_l pos_l prefix_l_2 i start inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20) ].
-all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
-all: try solve [street_extrema_solve]. Qed.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_entail_wit_4_split_goal_1.
+  - Goal_apply proof_of_solve_entail_wit_4_split_goal_2.
+  - Goal_apply proof_of_solve_entail_wit_4_split_goal_3.
+  - Goal_apply proof_of_solve_entail_wit_4_split_goal_4.
+Qed.
 
 Lemma proof_of_solve_entail_wit_5 : solve_entail_wit_5.
 Proof.
@@ -747,12 +731,11 @@ all: try solve [street_extrema_solve]. Qed.
 
 Lemma proof_of_solve_entail_wit_6 : solve_entail_wit_6.
 Proof.
-  unfold solve_entail_wit_6; right; intros.
-  split_pure_spatial.
-  - entailer!.
-  - split_pures; dump_pre_spatial; first [ exact (proof_of_solve_entail_wit_6_split_goal_1 c_pre n_pre power_l pos_l right_table_2 left_table_2 row prefix_l_2 total start inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29) | exact (proof_of_solve_entail_wit_6_split_goal_2 c_pre n_pre power_l pos_l right_table_2 left_table_2 row prefix_l_2 total start inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29) | exact (proof_of_solve_entail_wit_6_split_goal_3 c_pre n_pre power_l pos_l right_table_2 left_table_2 row prefix_l_2 total start inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29) ].
-all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
-all: try solve [street_extrema_solve]. Qed.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_entail_wit_6_split_goal_1.
+  - Goal_apply proof_of_solve_entail_wit_6_split_goal_2.
+  - Goal_apply proof_of_solve_entail_wit_6_split_goal_3.
+Qed.
 
 Lemma proof_of_solve_entail_wit_7 : solve_entail_wit_7.
 Proof.
@@ -817,17 +800,18 @@ Proof.
       (replace_Znth col 2147483647
         (Znth row right_table_2 __default__List_Z)))
     in Hright_table_merge.
+  rewrite sizeof_int.
   sep_apply Hright_table_merge.
   pose proof (IntArray.missing_i_merge_to_full
     ((&("dp_l")) + row * n_pre * sizeof (INT)) col n_pre 2147483647
     (Znth row left_table_2 __default__List_Z) ltac:(lia))
     as Hleft_row_merge.
   simpl in Hleft_row_merge.
+  rewrite sizeof_int in Hleft_row_merge.
   assert (Hleft_addr :
-    (&("dp_l")) + row * n_pre * sizeof (INT) + col * sizeof (INT) =
-    (&("dp_l")) + (row * n_pre + col) * sizeof (INT)) by lia.
+    (&("dp_l")) + row * n_pre * 4 + col * 4 =
+    (&("dp_l")) + (row * n_pre + col) * 4) by lia.
   rewrite <- Hleft_addr.
-  rewrite sizeof_int.
   sep_apply Hleft_row_merge.
   pose proof (IntArray2.missing_i_merge_to_full
     (&("dp_l")) row n_pre n_pre left_table_2
@@ -919,12 +903,11 @@ all: try solve [street_extrema_solve]. Qed.
 
 Lemma proof_of_solve_entail_wit_8 : solve_entail_wit_8.
 Proof.
-  unfold solve_entail_wit_8; right; intros.
-  split_pure_spatial.
-  - entailer!.
-  - split_pures; dump_pre_spatial; first [ exact (proof_of_solve_entail_wit_8_split_goal_1 c_pre n_pre power_l pos_l right_table_2 left_table_2 col row prefix_l_2 total start inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31) | exact (proof_of_solve_entail_wit_8_split_goal_2 c_pre n_pre power_l pos_l right_table_2 left_table_2 col row prefix_l_2 total start inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31) | exact (proof_of_solve_entail_wit_8_split_goal_3 c_pre n_pre power_l pos_l right_table_2 left_table_2 col row prefix_l_2 total start inf PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31) ].
-all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
-all: try solve [street_extrema_solve]. Qed.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_entail_wit_8_split_goal_1.
+  - Goal_apply proof_of_solve_entail_wit_8_split_goal_2.
+  - Goal_apply proof_of_solve_entail_wit_8_split_goal_3.
+Qed.
 
 Lemma proof_of_solve_entail_wit_9 : solve_entail_wit_9.
 Proof.
@@ -1004,17 +987,18 @@ Proof.
       (replace_Znth start 0
         (Znth start right_table_2 __default__List_Z)))
     in Hright_table_merge.
+  rewrite sizeof_int.
   sep_apply Hright_table_merge.
   pose proof (IntArray.missing_i_merge_to_full
     ((&("dp_l")) + start * n_pre * sizeof (INT)) start n_pre 0
     (Znth start left_table_2 __default__List_Z) ltac:(lia))
     as Hleft_row_merge.
   simpl in Hleft_row_merge.
+  rewrite sizeof_int in Hleft_row_merge.
   assert (Hleft_addr :
-    (&("dp_l")) + start * n_pre * sizeof (INT) + start * sizeof (INT) =
-    (&("dp_l")) + (start * n_pre + start) * sizeof (INT)) by lia.
+    (&("dp_l")) + start * n_pre * 4 + start * 4 =
+    (&("dp_l")) + (start * n_pre + start) * 4) by lia.
   rewrite <- Hleft_addr.
-  rewrite sizeof_int.
   sep_apply Hleft_row_merge.
   pose proof (IntArray2.missing_i_merge_to_full
     (&("dp_l")) start n_pre n_pre left_table_2
@@ -1120,36 +1104,24 @@ all: try solve [street_extrema_solve]. Qed.
 
 Lemma proof_of_solve_entail_wit_10_1_split_goal_5 : solve_entail_wit_10_1_split_goal_5.
 Proof.
-  unfold solve_entail_wit_10_1_split_goal_5; intros.
-  try street_extrema_bounds.
-  try (LLM_pre_process ltac:(lia || int_auto)).
-  all: try street_pack.
-  all: try street_public_goal.
-  all: try street_shape_goal.
-  all: try (split_pures; dump_pre_spatial; lia).
-all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
-all: try solve [street_extrema_solve]. Qed.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+Qed.
 
 Lemma proof_of_solve_entail_wit_10_1_split_goal_6 : solve_entail_wit_10_1_split_goal_6.
 Proof.
-  unfold solve_entail_wit_10_1_split_goal_6; intros.
-  try street_extrema_bounds.
-  try (LLM_pre_process ltac:(lia || int_auto)).
-  all: try street_pack.
-  all: try street_public_goal.
-  all: try street_shape_goal.
-  all: try (split_pures; dump_pre_spatial; lia).
-all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
-all: try solve [street_extrema_solve]. Qed.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+Qed.
 
 Lemma proof_of_solve_entail_wit_10_1 : solve_entail_wit_10_1.
 Proof.
-  unfold solve_entail_wit_10_1; right; intros.
-  split_pure_spatial.
-  - entailer!.
-  - split_pures; dump_pre_spatial; first [ exact (proof_of_solve_entail_wit_10_1_split_goal_1 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_1_split_goal_2 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_1_split_goal_3 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_1_split_goal_4 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_1_split_goal_5 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_1_split_goal_6 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) ].
-all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
-all: try solve [street_extrema_solve]. Qed.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_entail_wit_10_1_split_goal_1.
+  - Goal_apply proof_of_solve_entail_wit_10_1_split_goal_2.
+  - Goal_apply proof_of_solve_entail_wit_10_1_split_goal_3.
+  - Goal_apply proof_of_solve_entail_wit_10_1_split_goal_4.
+  - Goal_apply proof_of_solve_entail_wit_10_1_split_goal_5.
+  - Goal_apply proof_of_solve_entail_wit_10_1_split_goal_6.
+Qed.
 
 Lemma proof_of_solve_entail_wit_10_2_split_goal_1 : solve_entail_wit_10_2_split_goal_1.
 Proof.
@@ -1234,36 +1206,24 @@ all: try solve [street_extrema_solve]. Qed.
 
 Lemma proof_of_solve_entail_wit_10_2_split_goal_5 : solve_entail_wit_10_2_split_goal_5.
 Proof.
-  unfold solve_entail_wit_10_2_split_goal_5; intros.
-  try street_extrema_bounds.
-  try (LLM_pre_process ltac:(lia || int_auto)).
-  all: try street_pack.
-  all: try street_public_goal.
-  all: try street_shape_goal.
-  all: try (split_pures; dump_pre_spatial; lia).
-all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
-all: try solve [street_extrema_solve]. Qed.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+Qed.
 
 Lemma proof_of_solve_entail_wit_10_2_split_goal_6 : solve_entail_wit_10_2_split_goal_6.
 Proof.
-  unfold solve_entail_wit_10_2_split_goal_6; intros.
-  try street_extrema_bounds.
-  try (LLM_pre_process ltac:(lia || int_auto)).
-  all: try street_pack.
-  all: try street_public_goal.
-  all: try street_shape_goal.
-  all: try (split_pures; dump_pre_spatial; lia).
-all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
-all: try solve [street_extrema_solve]. Qed.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+Qed.
 
 Lemma proof_of_solve_entail_wit_10_2 : solve_entail_wit_10_2.
 Proof.
-  unfold solve_entail_wit_10_2; right; intros.
-  split_pure_spatial.
-  - entailer!.
-  - split_pures; dump_pre_spatial; first [ exact (proof_of_solve_entail_wit_10_2_split_goal_1 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_2_split_goal_2 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_2_split_goal_3 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_2_split_goal_4 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_2_split_goal_5 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_2_split_goal_6 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) ].
-all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
-all: try solve [street_extrema_solve]. Qed.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_entail_wit_10_2_split_goal_1.
+  - Goal_apply proof_of_solve_entail_wit_10_2_split_goal_2.
+  - Goal_apply proof_of_solve_entail_wit_10_2_split_goal_3.
+  - Goal_apply proof_of_solve_entail_wit_10_2_split_goal_4.
+  - Goal_apply proof_of_solve_entail_wit_10_2_split_goal_5.
+  - Goal_apply proof_of_solve_entail_wit_10_2_split_goal_6.
+Qed.
 
 Lemma proof_of_solve_entail_wit_10_3_split_goal_1 : solve_entail_wit_10_3_split_goal_1.
 Proof.
@@ -1348,36 +1308,24 @@ all: try solve [street_extrema_solve]. Qed.
 
 Lemma proof_of_solve_entail_wit_10_3_split_goal_5 : solve_entail_wit_10_3_split_goal_5.
 Proof.
-  unfold solve_entail_wit_10_3_split_goal_5; intros.
-  try street_extrema_bounds.
-  try (LLM_pre_process ltac:(lia || int_auto)).
-  all: try street_pack.
-  all: try street_public_goal.
-  all: try street_shape_goal.
-  all: try (split_pures; dump_pre_spatial; lia).
-all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
-all: try solve [street_extrema_solve]. Qed.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+Qed.
 
 Lemma proof_of_solve_entail_wit_10_3_split_goal_6 : solve_entail_wit_10_3_split_goal_6.
 Proof.
-  unfold solve_entail_wit_10_3_split_goal_6; intros.
-  try street_extrema_bounds.
-  try (LLM_pre_process ltac:(lia || int_auto)).
-  all: try street_pack.
-  all: try street_public_goal.
-  all: try street_shape_goal.
-  all: try (split_pures; dump_pre_spatial; lia).
-all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
-all: try solve [street_extrema_solve]. Qed.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+Qed.
 
 Lemma proof_of_solve_entail_wit_10_3 : solve_entail_wit_10_3.
 Proof.
-  unfold solve_entail_wit_10_3; right; intros.
-  split_pure_spatial.
-  - entailer!.
-  - split_pures; dump_pre_spatial; first [ exact (proof_of_solve_entail_wit_10_3_split_goal_1 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_3_split_goal_2 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_3_split_goal_3 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_3_split_goal_4 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_3_split_goal_5 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_3_split_goal_6 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) ].
-all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
-all: try solve [street_extrema_solve]. Qed.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_entail_wit_10_3_split_goal_1.
+  - Goal_apply proof_of_solve_entail_wit_10_3_split_goal_2.
+  - Goal_apply proof_of_solve_entail_wit_10_3_split_goal_3.
+  - Goal_apply proof_of_solve_entail_wit_10_3_split_goal_4.
+  - Goal_apply proof_of_solve_entail_wit_10_3_split_goal_5.
+  - Goal_apply proof_of_solve_entail_wit_10_3_split_goal_6.
+Qed.
 
 Lemma proof_of_solve_entail_wit_10_4_split_goal_1 : solve_entail_wit_10_4_split_goal_1.
 Proof.
@@ -1462,36 +1410,24 @@ all: try solve [street_extrema_solve]. Qed.
 
 Lemma proof_of_solve_entail_wit_10_4_split_goal_5 : solve_entail_wit_10_4_split_goal_5.
 Proof.
-  unfold solve_entail_wit_10_4_split_goal_5; intros.
-  try street_extrema_bounds.
-  try (LLM_pre_process ltac:(lia || int_auto)).
-  all: try street_pack.
-  all: try street_public_goal.
-  all: try street_shape_goal.
-  all: try (split_pures; dump_pre_spatial; lia).
-all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
-all: try solve [street_extrema_solve]. Qed.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+Qed.
 
 Lemma proof_of_solve_entail_wit_10_4_split_goal_6 : solve_entail_wit_10_4_split_goal_6.
 Proof.
-  unfold solve_entail_wit_10_4_split_goal_6; intros.
-  try street_extrema_bounds.
-  try (LLM_pre_process ltac:(lia || int_auto)).
-  all: try street_pack.
-  all: try street_public_goal.
-  all: try street_shape_goal.
-  all: try (split_pures; dump_pre_spatial; lia).
-all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
-all: try solve [street_extrema_solve]. Qed.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+Qed.
 
 Lemma proof_of_solve_entail_wit_10_4 : solve_entail_wit_10_4.
 Proof.
-  unfold solve_entail_wit_10_4; right; intros.
-  split_pure_spatial.
-  - entailer!.
-  - split_pures; dump_pre_spatial; first [ exact (proof_of_solve_entail_wit_10_4_split_goal_1 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_4_split_goal_2 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_4_split_goal_3 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_4_split_goal_4 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_4_split_goal_5 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) | exact (proof_of_solve_entail_wit_10_4_split_goal_6 c_pre n_pre power_l pos_l right_table_2 left_table_2 len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34) ].
-all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
-all: try solve [street_extrema_solve]. Qed.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_entail_wit_10_4_split_goal_1.
+  - Goal_apply proof_of_solve_entail_wit_10_4_split_goal_2.
+  - Goal_apply proof_of_solve_entail_wit_10_4_split_goal_3.
+  - Goal_apply proof_of_solve_entail_wit_10_4_split_goal_4.
+  - Goal_apply proof_of_solve_entail_wit_10_4_split_goal_5.
+  - Goal_apply proof_of_solve_entail_wit_10_4_split_goal_6.
+Qed.
 
 Lemma proof_of_solve_entail_wit_11 : solve_entail_wit_11.
 Proof.
@@ -2504,6 +2440,7 @@ Proof.
       ((&("dp_l")) + left * n_pre * 4) n_pre updated_row)
     in Htable_merge.
   fold updated_row.
+  rewrite sizeof_int.
   sep_apply Htable_merge; try lia.
   cancel (IntArray.full pos_pre n_pre pos_l).
   cancel (IntArray.full power_pre n_pre power_l).
@@ -4056,22 +3993,28 @@ all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.
 all: try solve [street_extrema_solve]. Qed.
 
 Lemma proof_of_solve_entail_wit_24_split_goal_2 : solve_entail_wit_24_split_goal_2.
-Proof. unfold solve_entail_wit_24_split_goal_2; intros. apply PreH31; lia. Qed.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  apply PreH31; lia. Qed.
 
 Lemma proof_of_solve_entail_wit_24_split_goal_3 : solve_entail_wit_24_split_goal_3.
-Proof. unfold solve_entail_wit_24_split_goal_3; intros. apply PreH30; lia. Qed.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  apply PreH30; lia. Qed.
 
 Lemma proof_of_solve_entail_wit_24_split_goal_4 : solve_entail_wit_24_split_goal_4.
-Proof. unfold solve_entail_wit_24_split_goal_4; intros. apply PreH25; lia. Qed.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+Qed.
 
 Lemma proof_of_solve_entail_wit_24 : solve_entail_wit_24.
 Proof.
-  unfold solve_entail_wit_24; right; intros.
-  split_pure_spatial.
-  - entailer!.
-  - split_pures; dump_pre_spatial; first [ exact (proof_of_solve_entail_wit_24_split_goal_1 c_pre n_pre power_l pos_l right_table_2 left_table_2 left last_left first_left len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38) | exact (proof_of_solve_entail_wit_24_split_goal_2 c_pre n_pre power_l pos_l right_table_2 left_table_2 left last_left first_left len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38) | exact (proof_of_solve_entail_wit_24_split_goal_3 c_pre n_pre power_l pos_l right_table_2 left_table_2 left last_left first_left len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38) | exact (proof_of_solve_entail_wit_24_split_goal_4 c_pre n_pre power_l pos_l right_table_2 left_table_2 left last_left first_left len prefix_l_2 total start inf __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38) ].
-all: try (lazymatch goal with |- _ |-- ?R => lazymatch R with context [IntArray.undef_seg _ _ _] => scratch_cancel end end).
-all: try solve [street_extrema_solve]. Qed.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_entail_wit_24_split_goal_1.
+  - Goal_apply proof_of_solve_entail_wit_24_split_goal_2.
+  - Goal_apply proof_of_solve_entail_wit_24_split_goal_3.
+  - Goal_apply proof_of_solve_entail_wit_24_split_goal_4.
+Qed.
 
 Lemma proof_of_solve_entail_wit_25 : solve_entail_wit_25.
 Proof.

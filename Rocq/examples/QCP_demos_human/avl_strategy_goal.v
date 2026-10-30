@@ -1,14 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.QCP_demos_human.avl_shape.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
 
 Definition avl_strategy0 :=
   forall (p : Z) (tr0 : tree),
@@ -71,7 +64,7 @@ Definition avl_strategy25 :=
     |--
     (
     TT &&
-    (“ (Z.ge x 0) ”) &&
+    (“ (x >= 0) ”) &&
     emp **
     ((poly_store FET_uchar p x))
     ) ** (
@@ -89,7 +82,7 @@ Definition avl_strategy26 :=
     |--
     (
     TT &&
-    (“ (Z.le x 255) ”) &&
+    (“ (x <= 255) ”) &&
     emp **
     ((poly_store FET_uchar p x))
     ) ** (
@@ -152,7 +145,7 @@ Definition avl_strategy1 :=
       (
       TT &&
       (“ (p <> 0) ”) &&
-      (“ (tr = ( make_tree tr1 tr2)) ”) &&
+      (“ (tr = (make_tree tr1 tr2)) ”) &&
       emp **
       ((single_tree_node p k v h l r)) **
       ((store_tree l tr1)) **
@@ -177,7 +170,7 @@ Definition avl_strategy2 :=
     ) ** (
     ALL (tr : tree) (tr1 : tree) (tr2 : tree) (l : Z) (v : Z) (h : Z) (k : Z) (r : Z),
       TT &&
-      (“ (tr = ( make_tree tr1 tr2)) ”) &&
+      (“ (tr = (make_tree tr1 tr2)) ”) &&
       emp **
       ((single_tree_node p k v h l r)) **
       ((store_tree l tr1)) **
@@ -197,7 +190,7 @@ Definition avl_strategy3 :=
     (
     TT &&
     (“ (p = 0) ”) &&
-    (“ (tr = ( empty)) ”) &&
+    (“ (tr = (empty)) ”) &&
     emp
     ) ** (
     TT &&
@@ -219,7 +212,7 @@ Definition avl_strategy4 :=
     ) ** (
     ALL (tr : tree),
       TT &&
-      (“ (tr = ( empty)) ”) &&
+      (“ (tr = (empty)) ”) &&
       emp -*
       TT &&
       emp **
@@ -311,7 +304,7 @@ Definition avl_strategy16 :=
     ) ** (
     ALL (tr : tree) (tr1 : tree) (tr2 : tree) (l : Z) (v : Z) (h : Z) (k : Z) (r : Z),
       TT &&
-      (“ (tr = ( make_tree tr1 tr2)) ”) &&
+      (“ (tr = (make_tree tr1 tr2)) ”) &&
       emp **
       ((single_tree_node p k v h l r)) **
       ((store_tree l tr1)) **
@@ -331,7 +324,7 @@ Definition avl_strategy17 :=
   ) ** (
   ALL (tr : tree),
     TT &&
-    (“ (tr = ( empty)) ”) &&
+    (“ (tr = (empty)) ”) &&
     emp -*
     TT &&
     emp **

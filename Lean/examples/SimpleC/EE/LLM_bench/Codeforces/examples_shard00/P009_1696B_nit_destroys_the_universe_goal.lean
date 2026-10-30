@@ -59,7 +59,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def solver_safety_wit_1 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (PreH1 : (n_pre = (Zlength (input)))) (PreH2 : (1 <= (Zlength (input)))) (PreH3 : ((Zlength (input)) <= 100000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (input)))) -> (((0 : Int) <= (Znth i input (0 : Int))) ∧ ((Znth i input (0 : Int)) <= 1000000000)))) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (PreH1 : (n_pre = (Zlength (input)))) (PreH2 : (1 <= (Zlength (input)))) (PreH3 : ((Zlength (input)) <= 100000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (input)))) -> (((0 : Int) <= (Znth i input (0 : Int))) ∧ ((Znth i input (0 : Int)) <= 1000000000)))) ,
   ((( &( "inside" ) )) # Int |->_)
   ** ((( &( "runs" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
@@ -71,7 +71,7 @@ noncomputable def solver_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_2 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (PreH1 : (n_pre = (Zlength (input)))) (PreH2 : (1 <= (Zlength (input)))) (PreH3 : ((Zlength (input)) <= 100000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (input)))) -> (((0 : Int) <= (Znth i input (0 : Int))) ∧ ((Znth i input (0 : Int)) <= 1000000000)))) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (PreH1 : (n_pre = (Zlength (input)))) (PreH2 : (1 <= (Zlength (input)))) (PreH3 : ((Zlength (input)) <= 100000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (input)))) -> (((0 : Int) <= (Znth i input (0 : Int))) ∧ ((Znth i input (0 : Int)) <= 1000000000)))) ,
   ((( &( "runs" ) )) # Int |->_)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -82,7 +82,7 @@ noncomputable def solver_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_3 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (PreH1 : (n_pre = (Zlength (input)))) (PreH2 : (1 <= (Zlength (input)))) (PreH3 : ((Zlength (input)) <= 100000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (input)))) -> (((0 : Int) <= (Znth i input (0 : Int))) ∧ ((Znth i input (0 : Int)) <= 1000000000)))) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (PreH1 : (n_pre = (Zlength (input)))) (PreH2 : (1 <= (Zlength (input)))) (PreH3 : ((Zlength (input)) <= 100000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (input)))) -> (((0 : Int) <= (Znth i input (0 : Int))) ∧ ((Znth i input (0 : Int)) <= 1000000000)))) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "inside" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "runs" ) )) # Int |-> ((0 : Int)))
@@ -95,7 +95,7 @@ noncomputable def solver_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_4 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre = (Zlength (input)))) (PreH3 : (1 <= (Zlength (input)))) (PreH4 : ((Zlength (input)) <= 100000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((0 : Int) <= runs)) (PreH9 : (runs <= i)) (PreH10 : ((0 : Int) <= inside)) (PreH11 : (inside <= 1)) (PreH12 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre = (Zlength (input)))) (PreH3 : (1 <= (Zlength (input)))) (PreH4 : ((Zlength (input)) <= 100000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((0 : Int) <= runs)) (PreH9 : (runs <= i)) (PreH10 : ((0 : Int) <= inside)) (PreH11 : (inside <= 1)) (PreH12 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -108,7 +108,7 @@ noncomputable def solver_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_5 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : (inside = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : (inside = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -121,7 +121,7 @@ noncomputable def solver_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (runs + 1)) ”
 
 noncomputable def solver_safety_wit_6 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : (inside = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : (inside = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -134,7 +134,7 @@ noncomputable def solver_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_7 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : (inside = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : (inside = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -147,7 +147,7 @@ noncomputable def solver_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_8 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : (i < n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : (i < n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -160,7 +160,7 @@ noncomputable def solver_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_9 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : (inside ≠ (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : (inside ≠ (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -173,7 +173,7 @@ noncomputable def solver_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_10 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : (inside = (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : (inside = (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -185,7 +185,7 @@ noncomputable def solver_safety_wit_10 : Prop :=
   “ False ”
 
 noncomputable def solver_safety_wit_11 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -197,7 +197,7 @@ noncomputable def solver_safety_wit_11 : Prop :=
   “ False ”
 
 noncomputable def solver_safety_wit_12 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : (inside ≠ (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : (inside ≠ (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -209,7 +209,7 @@ noncomputable def solver_safety_wit_12 : Prop :=
   “ False ”
 
 noncomputable def solver_safety_wit_13 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -222,7 +222,7 @@ noncomputable def solver_safety_wit_13 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_14 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -235,7 +235,7 @@ noncomputable def solver_safety_wit_14 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solver_safety_wit_15 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : (inside = (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : (inside = (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -248,7 +248,7 @@ noncomputable def solver_safety_wit_15 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solver_safety_wit_16 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : (inside ≠ (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : (inside ≠ (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -261,7 +261,7 @@ noncomputable def solver_safety_wit_16 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solver_safety_wit_17 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre = (Zlength (input)))) (PreH3 : (1 <= (Zlength (input)))) (PreH4 : ((Zlength (input)) <= 100000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((0 : Int) <= runs)) (PreH9 : (runs <= i)) (PreH10 : ((0 : Int) <= inside)) (PreH11 : (inside <= 1)) (PreH12 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre = (Zlength (input)))) (PreH3 : (1 <= (Zlength (input)))) (PreH4 : ((Zlength (input)) <= 100000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((0 : Int) <= runs)) (PreH9 : (runs <= i)) (PreH10 : ((0 : Int) <= inside)) (PreH11 : (inside <= 1)) (PreH12 : (ScanState input i runs inside)) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "runs" ) )) # Int |-> (runs))
@@ -273,7 +273,7 @@ noncomputable def solver_safety_wit_17 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def solver_safety_wit_18 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : (runs > 2)) (PreH2 : (i >= n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : (runs > 2)) (PreH2 : (i >= n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
   ((( &( "a" ) )) # Ptr |-> (a_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "runs" ) )) # Int |-> (runs))
@@ -286,7 +286,7 @@ noncomputable def solver_safety_wit_18 : Prop :=
 
 noncomputable def solver_entail_wit_1 : Prop :=
   (
-forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (PreH1 : (n_pre = (Zlength (input)))) (PreH2 : (1 <= (Zlength (input)))) (PreH3 : ((Zlength (input)) <= 100000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (input)))) -> (((0 : Int) <= (Znth i input (0 : Int))) ∧ ((Znth i input (0 : Int)) <= 1000000000)))) ,
+forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (PreH1 : (n_pre = (Zlength (input)))) (PreH2 : (1 <= (Zlength (input)))) (PreH3 : ((Zlength (input)) <= 100000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (input)))) -> (((0 : Int) <= (Znth i input (0 : Int))) ∧ ((Znth i input (0 : Int)) <= 1000000000)))) ,
   (intArray.full a_pre n_pre input)
   ** (intArray.undef_seg a_pre n_pre 200005)
 |--
@@ -305,7 +305,7 @@ forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (PreH1 : (n_pre = (Zleng
   ** (intArray.undef_seg a_pre n_pre 200005)
 ) \/
 (
-forall (n_pre : Int) (input : (List Int)) (PreH1 : (n_pre = (Zlength (input)))) (PreH2 : (1 <= (Zlength (input)))) (PreH3 : ((Zlength (input)) <= 100000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (input)))) -> (((0 : Int) <= (Znth i input (0 : Int))) ∧ ((Znth i input (0 : Int)) <= 1000000000)))) ,
+forall (input : (List Int)) (n_pre : Int) (PreH1 : (n_pre = (Zlength (input)))) (PreH2 : (1 <= (Zlength (input)))) (PreH3 : ((Zlength (input)) <= 100000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (input)))) -> (((0 : Int) <= (Znth i input (0 : Int))) ∧ ((Znth i input (0 : Int)) <= 1000000000)))) ,
   TT && emp 
 |--
   “ (ScanState input (0 : Int) (0 : Int) (0 : Int)) ” &&
@@ -314,16 +314,16 @@ forall (n_pre : Int) (input : (List Int)) (PreH1 : (n_pre = (Zlength (input)))) 
 )
 
 noncomputable def solver_entail_wit_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (input : (List Int)) (PreH1 : (n_pre = (Zlength (input)))) (PreH2 : (1 <= (Zlength (input)))) (PreH3 : ((Zlength (input)) <= 100000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (input)))) -> (((0 : Int) <= (Znth i input (0 : Int))) ∧ ((Znth i input (0 : Int)) <= 1000000000)))) ,
+  forall (input : (List Int)) (n_pre : Int) (PreH1 : (n_pre = (Zlength (input)))) (PreH2 : (1 <= (Zlength (input)))) (PreH3 : ((Zlength (input)) <= 100000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (input)))) -> (((0 : Int) <= (Znth i input (0 : Int))) ∧ ((Znth i input (0 : Int)) <= 1000000000)))) ,
   (ScanState input (0 : Int) (0 : Int) (0 : Int))
 
 noncomputable def solver_entail_wit_1_split_goal_2 : Prop :=
-  forall (n_pre : Int) (input : (List Int)) (PreH1 : (n_pre = (Zlength (input)))) (PreH2 : (1 <= (Zlength (input)))) (PreH3 : ((Zlength (input)) <= 100000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (input)))) -> (((0 : Int) <= (Znth i input (0 : Int))) ∧ ((Znth i input (0 : Int)) <= 1000000000)))) ,
+  forall (input : (List Int)) (n_pre : Int) (PreH1 : (n_pre = (Zlength (input)))) (PreH2 : (1 <= (Zlength (input)))) (PreH3 : ((Zlength (input)) <= 100000)) (PreH4 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (input)))) -> (((0 : Int) <= (Znth i input (0 : Int))) ∧ ((Znth i input (0 : Int)) <= 1000000000)))) ,
   forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))
 
 noncomputable def solver_entail_wit_2_1 : Prop :=
   (
-forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
+forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** (intArray.undef_seg a_pre n_pre 200005)
 |--
@@ -342,7 +342,7 @@ forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : I
   ** (intArray.undef_seg a_pre n_pre 200005)
 ) \/
 (
-forall (n_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
+forall (input : (List Int)) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
   TT && emp 
 |--
   “ (ScanState input (i + 1) runs (0 : Int)) ”
@@ -350,12 +350,12 @@ forall (n_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) 
 )
 
 noncomputable def solver_entail_wit_2_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
   (ScanState input (i + 1) runs (0 : Int))
 
 noncomputable def solver_entail_wit_2_2 : Prop :=
   (
-forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : (inside = (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
+forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : (inside = (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** (intArray.undef_seg a_pre n_pre 200005)
 |--
@@ -374,7 +374,7 @@ forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : I
   ** (intArray.undef_seg a_pre n_pre 200005)
 ) \/
 (
-forall (n_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : (inside = (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
+forall (input : (List Int)) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : (inside = (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
   TT && emp 
 |--
   “ (ScanState input (i + 1) (runs + 1) 1) ”
@@ -382,12 +382,12 @@ forall (n_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) 
 )
 
 noncomputable def solver_entail_wit_2_2_split_goal_1 : Prop :=
-  forall (n_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : (inside = (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : (inside = (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
   (ScanState input (i + 1) (runs + 1) 1)
 
 noncomputable def solver_entail_wit_2_3 : Prop :=
   (
-forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : (inside ≠ (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
+forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : (inside ≠ (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** (intArray.undef_seg a_pre n_pre 200005)
 |--
@@ -406,7 +406,7 @@ forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : I
   ** (intArray.undef_seg a_pre n_pre 200005)
 ) \/
 (
-forall (n_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : (inside ≠ (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
+forall (input : (List Int)) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : (inside ≠ (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
   TT && emp 
 |--
   “ (ScanState input (i + 1) runs inside) ”
@@ -414,12 +414,12 @@ forall (n_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) 
 )
 
 noncomputable def solver_entail_wit_2_3_split_goal_1 : Prop :=
-  forall (n_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : (inside ≠ (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH2 : (inside ≠ (0 : Int))) (PreH3 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH4 : (i < n_pre)) (PreH5 : (n_pre = (Zlength (input)))) (PreH6 : (1 <= (Zlength (input)))) (PreH7 : ((Zlength (input)) <= 100000)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH9 : ((0 : Int) <= i)) (PreH10 : (i <= n_pre)) (PreH11 : ((0 : Int) <= runs)) (PreH12 : (runs <= i)) (PreH13 : ((0 : Int) <= inside)) (PreH14 : (inside <= 1)) (PreH15 : (ScanState input i runs inside)) ,
   (ScanState input (i + 1) runs inside)
 
 noncomputable def solver_return_wit_1 : Prop :=
   (
-forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : (runs > 2)) (PreH2 : (i >= n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
+forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : (runs > 2)) (PreH2 : (i >= n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** (intArray.undef_seg a_pre n_pre 200005)
 |--
@@ -428,7 +428,7 @@ forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : I
   ** (intArray.undef_seg a_pre n_pre 200005)
 ) \/
 (
-forall (n_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : (runs > 2)) (PreH2 : (i >= n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
+forall (input : (List Int)) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : (runs > 2)) (PreH2 : (i >= n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
   TT && emp 
 |--
   “ (Spec input 2) ”
@@ -436,12 +436,12 @@ forall (n_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) 
 )
 
 noncomputable def solver_return_wit_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : (runs > 2)) (PreH2 : (i >= n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : (runs > 2)) (PreH2 : (i >= n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
   (Spec input 2)
 
 noncomputable def solver_return_wit_2 : Prop :=
   (
-forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : (runs <= 2)) (PreH2 : (i >= n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
+forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : (runs <= 2)) (PreH2 : (i >= n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** (intArray.undef_seg a_pre n_pre 200005)
 |--
@@ -450,7 +450,7 @@ forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : I
   ** (intArray.undef_seg a_pre n_pre 200005)
 ) \/
 (
-forall (n_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : (runs <= 2)) (PreH2 : (i >= n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
+forall (input : (List Int)) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : (runs <= 2)) (PreH2 : (i >= n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
   TT && emp 
 |--
   “ (Spec input runs) ”
@@ -458,11 +458,11 @@ forall (n_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) 
 )
 
 noncomputable def solver_return_wit_2_split_goal_1 : Prop :=
-  forall (n_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : (runs <= 2)) (PreH2 : (i >= n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : (runs <= 2)) (PreH2 : (i >= n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
   (Spec input runs)
 
 noncomputable def solver_partial_solve_wit_1 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre = (Zlength (input)))) (PreH3 : (1 <= (Zlength (input)))) (PreH4 : ((Zlength (input)) <= 100000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((0 : Int) <= runs)) (PreH9 : (runs <= i)) (PreH10 : ((0 : Int) <= inside)) (PreH11 : (inside <= 1)) (PreH12 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre = (Zlength (input)))) (PreH3 : (1 <= (Zlength (input)))) (PreH4 : ((Zlength (input)) <= 100000)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : ((0 : Int) <= runs)) (PreH9 : (runs <= i)) (PreH10 : ((0 : Int) <= inside)) (PreH11 : (inside <= 1)) (PreH12 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** (intArray.undef_seg a_pre n_pre 200005)
 |--
@@ -483,7 +483,7 @@ noncomputable def solver_partial_solve_wit_1 : Prop :=
   ** (intArray.undef_seg a_pre n_pre 200005)
 
 noncomputable def solver_partial_solve_wit_2 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : (inside = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : (inside = (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** (intArray.undef_seg a_pre n_pre 200005)
 |--
@@ -506,7 +506,7 @@ noncomputable def solver_partial_solve_wit_2 : Prop :=
   ** (intArray.undef_seg a_pre n_pre 200005)
 
 noncomputable def solver_partial_solve_wit_3 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : (i < n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : ((Znth i input (0 : Int)) = (0 : Int))) (PreH2 : (i < n_pre)) (PreH3 : (n_pre = (Zlength (input)))) (PreH4 : (1 <= (Zlength (input)))) (PreH5 : ((Zlength (input)) <= 100000)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : ((0 : Int) <= runs)) (PreH10 : (runs <= i)) (PreH11 : ((0 : Int) <= inside)) (PreH12 : (inside <= 1)) (PreH13 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** (intArray.undef_seg a_pre n_pre 200005)
 |--
@@ -528,7 +528,7 @@ noncomputable def solver_partial_solve_wit_3 : Prop :=
   ** (intArray.undef_seg a_pre n_pre 200005)
 
 noncomputable def solver_partial_solve_wit_4 : Prop :=
-  forall (n_pre : Int) (a_pre : Int) (input : (List Int)) (inside : Int) (runs : Int) (i : Int) (PreH1 : (inside ≠ (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
+  forall (input : (List Int)) (a_pre : Int) (n_pre : Int) (inside : Int) (runs : Int) (i : Int) (PreH1 : (inside ≠ (0 : Int))) (PreH2 : ((Znth i input (0 : Int)) ≠ (0 : Int))) (PreH3 : (i < n_pre)) (PreH4 : (n_pre = (Zlength (input)))) (PreH5 : (1 <= (Zlength (input)))) (PreH6 : ((Zlength (input)) <= 100000)) (PreH7 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (input)))) -> (((0 : Int) <= (Znth k input (0 : Int))) ∧ ((Znth k input (0 : Int)) <= 1000000000)))) (PreH8 : ((0 : Int) <= i)) (PreH9 : (i <= n_pre)) (PreH10 : ((0 : Int) <= runs)) (PreH11 : (runs <= i)) (PreH12 : ((0 : Int) <= inside)) (PreH13 : (inside <= 1)) (PreH14 : (ScanState input i runs inside)) ,
   (intArray.full a_pre n_pre input)
   ** (intArray.undef_seg a_pre n_pre 200005)
 |--

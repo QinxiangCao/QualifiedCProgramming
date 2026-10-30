@@ -200,7 +200,7 @@ Import-RegisteredPathEntries
 $repoRootPath = (Resolve-Path -LiteralPath $RepoRoot).Path
 $useDune = Test-Path -LiteralPath (Join-Path $repoRootPath "_build") -PathType Container
 $buildMode = if ($useDune) { "dune" } else { "makefile" }
-$winBinaryDir = Join-Path $repoRootPath "win-binary"
+$winBinaryDir = Join-Path $repoRootPath "bin/windows"
 $duneShim = Join-Path $repoRootPath "dune.cmd"
 $fakeOcamlc = Join-Path $repoRootPath "tools\windows\fake-ocaml\bin\ocamlc.exe"
 $fakeMakeConfig = Join-Path $repoRootPath "tools\windows\fake-ocaml\lib\ocaml\Makefile.config"

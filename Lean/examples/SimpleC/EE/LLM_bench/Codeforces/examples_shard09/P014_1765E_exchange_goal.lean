@@ -59,7 +59,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def solver_safety_wit_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (n_pre : Int) (PreH1 : (a_pre > b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
+  forall (n_pre : Int) (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre > b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
   ((( &( "n" ) )) # Int64 |-> (n_pre))
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -68,7 +68,7 @@ noncomputable def solver_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def solver_safety_wit_2 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (n_pre : Int) (PreH1 : (a_pre <= b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
+  forall (n_pre : Int) (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre <= b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
   ((( &( "n" ) )) # Int64 |-> (n_pre))
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -77,7 +77,7 @@ noncomputable def solver_safety_wit_2 : Prop :=
   “ (a_pre ≠ (0 : Int)) ”
 
 noncomputable def solver_safety_wit_3 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (n_pre : Int) (PreH1 : (a_pre <= b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
+  forall (n_pre : Int) (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre <= b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
   ((( &( "n" ) )) # Int64 |-> (n_pre))
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -86,7 +86,7 @@ noncomputable def solver_safety_wit_3 : Prop :=
   “ ((-9223372036854775808) <= ((n_pre + a_pre) - 1)) ”
 
 noncomputable def solver_safety_wit_4 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (n_pre : Int) (PreH1 : (a_pre <= b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
+  forall (n_pre : Int) (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre <= b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
   ((( &( "n" ) )) # Int64 |-> (n_pre))
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -95,7 +95,7 @@ noncomputable def solver_safety_wit_4 : Prop :=
   “ ((-9223372036854775808) <= (n_pre + a_pre)) ”
 
 noncomputable def solver_safety_wit_5 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (n_pre : Int) (PreH1 : (a_pre <= b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
+  forall (n_pre : Int) (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre <= b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
   ((( &( "n" ) )) # Int64 |-> (n_pre))
   ** ((( &( "a" ) )) # Int64 |-> (a_pre))
   ** ((( &( "b" ) )) # Int64 |-> (b_pre))
@@ -105,14 +105,14 @@ noncomputable def solver_safety_wit_5 : Prop :=
 
 noncomputable def solver_return_wit_1 : Prop :=
   (
-forall (b_pre : Int) (a_pre : Int) (n_pre : Int) (PreH1 : (a_pre <= b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
+forall (n_pre : Int) (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre <= b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
   TT && emp 
 |--
   “ (Spec n_pre a_pre b_pre (Z.quot ((n_pre + a_pre) - 1) a_pre)) ”
   &&  emp
 ) \/
 (
-forall (b_pre : Int) (a_pre : Int) (n_pre : Int) (PreH1 : (a_pre <= b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
+forall (n_pre : Int) (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre <= b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
   TT && emp 
 |--
   “ (Spec n_pre a_pre b_pre (Z.quot ((n_pre + a_pre) - 1) a_pre)) ”
@@ -120,19 +120,19 @@ forall (b_pre : Int) (a_pre : Int) (n_pre : Int) (PreH1 : (a_pre <= b_pre)) (Pre
 )
 
 noncomputable def solver_return_wit_1_split_goal_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (n_pre : Int) (PreH1 : (a_pre <= b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
+  forall (n_pre : Int) (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre <= b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
   (Spec n_pre a_pre b_pre (Z.quot ((n_pre + a_pre) - 1) a_pre))
 
 noncomputable def solver_return_wit_2 : Prop :=
   (
-forall (b_pre : Int) (a_pre : Int) (n_pre : Int) (PreH1 : (a_pre > b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
+forall (n_pre : Int) (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre > b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
   TT && emp 
 |--
   “ (Spec n_pre a_pre b_pre 1) ”
   &&  emp
 ) \/
 (
-forall (b_pre : Int) (a_pre : Int) (n_pre : Int) (PreH1 : (a_pre > b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
+forall (n_pre : Int) (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre > b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
   TT && emp 
 |--
   “ (Spec n_pre a_pre b_pre 1) ”
@@ -140,7 +140,7 @@ forall (b_pre : Int) (a_pre : Int) (n_pre : Int) (PreH1 : (a_pre > b_pre)) (PreH
 )
 
 noncomputable def solver_return_wit_2_split_goal_1 : Prop :=
-  forall (b_pre : Int) (a_pre : Int) (n_pre : Int) (PreH1 : (a_pre > b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
+  forall (n_pre : Int) (a_pre : Int) (b_pre : Int) (PreH1 : (a_pre > b_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 10000000)) (PreH4 : (1 <= a_pre)) (PreH5 : (a_pre <= 50)) (PreH6 : (1 <= b_pre)) (PreH7 : (b_pre <= 50)) ,
   (Spec n_pre a_pre b_pre 1)
 
 

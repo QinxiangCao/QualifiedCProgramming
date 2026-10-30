@@ -1,21 +1,14 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
 
 Definition array2_char_strategy1 :=
   forall (j : Z) (m : Z) (i : Z) (n : Z) (__default_app1_Z : (@list Z)) (p : Z) (rows : (@list (@list Z))),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
-    (“ (Z.le 0 j) ”) &&
-    (“ (Z.lt j m) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
+    (“ (0 <= j) ”) &&
+    (“ (j < m) ”) &&
     emp **
     ((CharArray2.full p n m rows))
     |--
@@ -23,7 +16,7 @@ Definition array2_char_strategy1 :=
     TT &&
     emp **
     ((CharArray2.missing_i p i 0 n m rows)) **
-    ((CharArray.missing_i (Z.add p (Z.mul (Z.mul i m) (@sizeof_front_end_type FET_char))) j 0 m (Znth i rows __default_app1_Z)))
+    ((CharArray.missing_i (p + ((i * m) * sizeof(CHAR))) j 0 m (Znth i rows __default_app1_Z)))
     ) ** (
     ALL (v : Z),
       TT &&
@@ -31,16 +24,16 @@ Definition array2_char_strategy1 :=
       emp -*
       TT &&
       emp **
-      ((poly_store FET_char (Z.add (Z.add p (Z.mul (Z.mul i m) (@sizeof_front_end_type FET_char))) (Z.mul j (@sizeof_front_end_type FET_char))) v))
+      ((poly_store FET_char ((p + ((i * m) * sizeof(CHAR))) + (j * sizeof(CHAR))) v))
       ).
 
 Definition array2_char_strategy6 :=
   forall (j : Z) (m : Z) (i : Z) (n : Z) (__default_app1_Z : (@list Z)) (p : Z) (rows : (@list (@list Z))),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
-    (“ (Z.le 0 j) ”) &&
-    (“ (Z.lt j m) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
+    (“ (0 <= j) ”) &&
+    (“ (j < m) ”) &&
     emp **
     ((CharArray2.full p n m rows))
     |--
@@ -48,7 +41,7 @@ Definition array2_char_strategy6 :=
     TT &&
     emp **
     ((CharArray2.missing_i p i 0 n m rows)) **
-    ((CharArray.missing_i (Z.add p (Z.mul (Z.mul i m) (@sizeof_front_end_type FET_char))) j 0 m (Znth i rows __default_app1_Z)))
+    ((CharArray.missing_i (p + ((i * m) * sizeof(CHAR))) j 0 m (Znth i rows __default_app1_Z)))
     ) ** (
     ALL (v : Z),
       TT &&
@@ -56,16 +49,16 @@ Definition array2_char_strategy6 :=
       emp -*
       TT &&
       emp **
-      ((poly_store FET_char (Z.add p (Z.mul (Z.add (Z.mul i m) j) (@sizeof_front_end_type FET_char))) v))
+      ((poly_store FET_char (p + (((i * m) + j) * sizeof(CHAR))) v))
       ).
 
 Definition array2_char_strategy7 :=
   forall (w : Z) (m : Z) (n : Z) (i : Z) (j : Z) (__default_app1_Z : (@list Z)) (p : Z) (rows : (@list (@list Z))),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
-    (“ (Z.le 0 j) ”) &&
-    (“ (Z.lt j m) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
+    (“ (0 <= j) ”) &&
+    (“ (j < m) ”) &&
     (“ (w = m) ”) &&
     emp **
     ((CharArray2.full p n m rows))
@@ -74,7 +67,7 @@ Definition array2_char_strategy7 :=
     TT &&
     emp **
     ((CharArray2.missing_i p i 0 n m rows)) **
-    ((CharArray.missing_i (Z.add p (Z.mul i (Z.mul (@sizeof_front_end_type FET_char) w))) j 0 m (Znth i rows __default_app1_Z)))
+    ((CharArray.missing_i (p + (i * (w * sizeof(CHAR)))) j 0 m (Znth i rows __default_app1_Z)))
     ) ** (
     ALL (v : Z),
       TT &&
@@ -82,7 +75,7 @@ Definition array2_char_strategy7 :=
       emp -*
       TT &&
       emp **
-      ((poly_store FET_char (Z.add (Z.add p (Z.mul i (Z.mul (@sizeof_front_end_type FET_char) w))) (Z.mul j (@sizeof_front_end_type FET_char))) v))
+      ((poly_store FET_char ((p + (i * (w * sizeof(CHAR)))) + (j * sizeof(CHAR))) v))
       ).
 
 Definition array2_char_strategy4 :=
@@ -124,11 +117,11 @@ Definition array2_char_strategy5 :=
 Definition array2_char_strategy2 :=
   forall (i : Z) (n : Z) (m : Z) (p : Z) (__default_app1_Z : (@list Z)) (rows : (@list (@list Z))),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     emp **
     ((CharArray2.missing_i p i 0 n m rows)) **
-    ((CharArray.full (Z.add p (Z.mul (Z.mul i m) (@sizeof_front_end_type FET_char))) m (Znth i rows __default_app1_Z)))
+    ((CharArray.full (p + ((i * m) * sizeof(CHAR))) m (Znth i rows __default_app1_Z)))
     |--
     (
     TT &&
@@ -144,12 +137,12 @@ Definition array2_char_strategy2 :=
 Definition array2_char_strategy8 :=
   forall (w : Z) (m : Z) (n : Z) (i : Z) (p : Z) (__default_app1_Z : (@list Z)) (rows : (@list (@list Z))),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     (“ (w = m) ”) &&
     emp **
     ((CharArray2.missing_i p i 0 n m rows)) **
-    ((CharArray.full (Z.add p (Z.mul i (Z.mul (@sizeof_front_end_type FET_char) w))) m (Znth i rows __default_app1_Z)))
+    ((CharArray.full (p + (i * (w * sizeof(CHAR)))) m (Znth i rows __default_app1_Z)))
     |--
     (
     TT &&
@@ -165,11 +158,11 @@ Definition array2_char_strategy8 :=
 Definition array2_char_strategy9 :=
   forall (i : Z) (n : Z) (m : Z) (p : Z) (__default_app1_Z : (@list Z)) (rows : (@list (@list Z))),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     emp **
     ((CharArray2.missing_i p i 0 n m rows)) **
-    ((CharArray.full (Z.add p (Z.mul (Z.mul i m) (@sizeof_front_end_type FET_char))) m (Znth i rows __default_app1_Z)))
+    ((CharArray.full (p + ((i * m) * sizeof(CHAR))) m (Znth i rows __default_app1_Z)))
     |--
     (
     TT &&

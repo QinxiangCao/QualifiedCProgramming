@@ -1,0 +1,175 @@
+// qcp-builtin: builtin/common.strategies
+// Generated from the tool; do not edit.
+
+id : 0
+priority : core(0)
+left : (?x : ?__builtin_A == x) at 0
+action : left_erase(0);
+
+id : 1
+priority : core(0)
+right : (?x : ?__builtin_A == x) at 0
+action : right_erase(0);
+
+id : 3
+priority : core(1)
+right : exists x, (x : ?__builtin_A == ?y : ?__builtin_A) || (?y == x) at 0
+action : instantiate(x -> y);
+
+id : 6
+priority : core(0)
+left : data_at(?p : Z, ?ty, ?x : front_end_type_value(ty)) at 0
+right : data_at(p, ty, ?y : front_end_type_value(ty)) at 1
+check : absense(should_be_equal{front_end_type_value(ty)}(x, y));
+action : right_add(x == y);
+         left_add(should_be_equal{front_end_type_value(ty)}(x, y));
+
+id : 7
+priority : core(3)
+left : data_at(?p : Z, ?ty, ?x : front_end_type_value(ty)) at 0
+right : data_at(p, ty, x) at 1
+action : left_erase(0);
+         right_erase(1);
+
+id : 8
+priority : core(3)
+left : data_at(?p : Z, ?ty, ?x : front_end_type_value(ty)) at 0
+right : data_at(p, ty, ?y : front_end_type_value(ty)) at 1
+        (x == y) at 2
+action : left_erase(0);
+         right_erase(1);
+
+id : 9
+priority : core(3)
+left : data_at(?p : Z, ?ty, ?x : front_end_type_value(ty)) at 0
+right : undef_data_at(p, ty) at 1
+action : left_erase(0);
+         right_erase(1);
+
+id : 10
+priority : core(3)
+left : undef_data_at(?p : Z, ?ty) at 0
+right : undef_data_at(p, ty) at 1
+action : left_erase(0);
+         right_erase(1);
+
+id : 11
+priority : core(4)
+left : data_at(?p, ?ty, ?x) at 0
+       (p == ?q) || (?q == p) at 1
+right : data_at(q, ty, ?y) at 2
+action : left_erase(0);
+         right_erase(2);
+         right_add(x == y);
+
+id : 12
+priority : Tagcancel(1)
+left : should_be_equal{?__builtin_A}(?a, ?b) at 0
+action : left_erase(0);
+
+id : 13
+priority : Tagcancel(1)
+right : should_be_equal{?__builtin_A}(?a, ?b) at 0
+action : right_erase(0);
+
+id : 14
+priority : core(199)
+right : undef_data_at(?p : Z, ?ty) at 0
+action : right_erase(0);
+         right_exist_add(x : front_end_type_value(ty));
+         right_add(data_at(p, ty, x));
+
+id : 15
+priority : core(1)
+left : data_at(?p : Z, ?ty, ?x : front_end_type_value(ty)) at 0
+       data_at(p, ?ty1, ?y : front_end_type_value(ty1)) at 1
+check : absense(dup_data_at_error_prop());
+action : right_add(dup_data_at_error(p));
+         left_add(dup_data_at_error_prop());
+
+id : 16
+priority : core(1)
+left : data_at(?p : Z, ?ty, ?x : front_end_type_value(ty)) at 0
+       undef_data_at(p, ?ty1) at 1
+check : absense(dup_data_at_error_prop());
+action : right_add(dup_data_at_error(p));
+         left_add(dup_data_at_error_prop());
+
+id : 17
+priority : core(1)
+left : undef_data_at(?p : Z, ?ty) at 0
+       undef_data_at(p, ?ty1) at 1
+check : absense(dup_data_at_error_prop());
+action : right_add(dup_data_at_error(p));
+         left_add(dup_data_at_error_prop());
+
+id : 18
+priority : Tagcancel(1)
+left : dup_data_at_error_prop() at 0
+action : left_erase(0);
+
+id : 19
+priority : local(0)
+left : data_at(?p : Z, I32, ?x : Z) at 0
+check : absense(x >= INT_MIN());
+action : left_add(x >= INT_MIN());
+
+id : 20
+priority : local(0)
+left : data_at(?p : Z, I32, ?x : Z) at 0
+check : absense(x <= INT_MAX());
+action : left_add(x <= INT_MAX());
+
+id : 21
+priority : local(0)
+left : data_at(?p : Z, U32, ?x : Z) at 0
+check : absense(x >= 0);
+action : left_add(x >= 0);
+
+id : 22
+priority : local(0)
+left : data_at(?p : Z, U32, ?x : Z) at 0
+check : absense(x <= UINT_MAX());
+action : left_add(x <= UINT_MAX());
+
+id : 36
+priority : local(0)
+left : data_at(?p : Z, I64, ?x : Z) at 0
+check : absense(x >= INT64_MIN());
+action : left_add(x >= INT64_MIN());
+
+id : 37
+priority : local(0)
+left : data_at(?p : Z, I64, ?x : Z) at 0
+check : absense(x <= INT64_MAX());
+action : left_add(x <= INT64_MAX());
+
+id : 38
+priority : local(0)
+left : data_at(?p : Z, U64, ?x : Z) at 0
+check : absense(x >= 0);
+action : left_add(x >= 0);
+
+id : 39
+priority : local(0)
+left : data_at(?p : Z, U64, ?x : Z) at 0
+check : absense(x <= UINT64_MAX());
+action : left_add(x <= UINT64_MAX());
+
+id : 46
+priority : local(0)
+left : data_at(?p : Z, BOOL, ?x : Z) at 0
+check : absense(x >= 0);
+action : left_add(x >= 0);
+
+id : 47
+priority : local(0)
+left : data_at(?p : Z, BOOL, ?x : Z) at 0
+check : absense(x <= 1);
+action : left_add(x <= 1);
+
+id : 23
+priority : core(4)
+right : unsigned_last_nbits(?x, ?n) >= 0 at 0
+check : infer(n > 0);
+action : right_erase(0);

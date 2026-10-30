@@ -635,14 +635,14 @@ void kosaraju(int n, int *fadj_col, int *fadj_row, int *sid)
           IntArray::full(vis2, n, vis2_zero)
       */
       dfs1(u, n, radj_col, radj_row, vis1, fin, &timer)
-          /*@ where(bind_spec)
+          /*@ where(bind_spec) {B = unit}
                 g = g,
                 radj_col_l = radj_col_l, radj_row_l = radj_row_l,
                 vis1_l = vis1_m, fin_l = fin_m, timer_v = timer,
                 X = result_state(pre_dfs1_sequence_initial(g, radj_col_l, radj_row_l,
                                                            vis1_zero, fin_l0, n),
                                  dfs_finish_schedule(g, 0, n)),
-                f = dfs_finish_scheduleK(g, u + 1, n - u - 1); B = unit */;
+                f = dfs_finish_scheduleK(g, u + 1, n - u - 1) */;
       /*@ Assert
           exists vis1_m_ fin_m_ timer_,
             safeExec(pre_dfs1_sequence(g, radj_col_l, radj_row_l, vis1_m_, fin_m_, timer_),

@@ -697,8 +697,8 @@ Proof.
   intros low high Hrange.
   transitivity (#(fun z : Z => low <= z < high /\ True)).
   - eapply set_card_bijection__terminal_correctness with (f := fun z : Z => z).
-    + intuition.
-    + intros y Hy. exists y. intuition.
+    + intuition (auto with *).
+    + intros y Hy. exists y. intuition (auto with *).
     + intros x y Hx Hy Hxy. exact Hxy.
   - rewrite set_card_Z_as_sum__terminal_correctness.
     destruct (prop_dec True) as [_ | Hfalse]; [|contradiction].

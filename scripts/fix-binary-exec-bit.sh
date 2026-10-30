@@ -2,10 +2,10 @@
 set -eu
 
 binary_dirs='
-linux-binary
-mac-arm64-binary
-mac-x86-64-binary
-win-binary
+bin/linux
+bin/macos-arm64
+bin/macos-x86_64
+bin/windows
 '
 
 repo_root=$(git rev-parse --show-toplevel)
@@ -15,7 +15,7 @@ mark_executable() {
   path=$1
 
   case "$path" in
-    linux-binary/*|mac-arm64-binary/*|mac-x86-64-binary/*|win-binary/*) ;;
+    bin/linux/*|bin/macos-arm64/*|bin/macos-x86_64/*|bin/windows/*) ;;
     *) return 0 ;;
   esac
 

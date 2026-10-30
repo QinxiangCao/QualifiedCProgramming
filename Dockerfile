@@ -7,17 +7,12 @@ WORKDIR /home/coq/qcp
 # Copy project files and adjust permissions
 COPY . /home/coq/qcp
 USER root
-RUN chown -R coq:coq /home/coq/qcp && chmod -R u+w /home/coq/qcp && chmod +x /home/coq/qcp/linux-binary/*
+RUN chown -R coq:coq /home/coq/qcp && chmod -R u+w /home/coq/qcp && chmod +x /home/coq/qcp/bin/linux/*
 USER coq
-
-# Set up CONFIGURE files
-RUN echo -e "COQBIN=\nSUF=" > /home/coq/qcp/Rocq/CONFIGURE && \
-    echo -e "COQBIN=\nSUF=" > /home/coq/qcp/Rocq/unifysl/CONFIGURE
 
 # Build Rocq Library
 ARG MAKE_JOBS=5
-RUN cd /home/coq/qcp/Rocq/unifysl && make depend && make -j${MAKE_JOBS} && \
-    cd .. && make depend && make -j${MAKE_JOBS} && make _CoqProject
+RUN make -C Rocq -j${MAKE_JOBS} core
 
 # Default command (open shell)
 CMD ["/bin/bash"]

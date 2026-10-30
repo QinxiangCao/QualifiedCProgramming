@@ -155,7 +155,7 @@ forall (v : Int) ,
 
 noncomputable def veci_delete_return_wit_1 : Prop :=
   (
-forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(INT) cap)) ,
+forall (xs : (List Int)) (v_pre : Int) (cap : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(INT) cap)) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -163,7 +163,7 @@ forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (v_pre �
   (veci_shell v_pre)
 ) \/
 (
-forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(INT) cap)) ,
+forall (xs : (List Int)) (v_pre : Int) (cap : Int) (buf : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(INT) cap)) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -172,7 +172,7 @@ forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (cap <= 
 )
 
 noncomputable def veci_delete_return_wit_1_split_goal_spatial : Prop :=
-  forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(INT) cap)) ,
+  forall (xs : (List Int)) (v_pre : Int) (cap : Int) (buf : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(INT) cap)) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -180,13 +180,13 @@ noncomputable def veci_delete_return_wit_1_split_goal_spatial : Prop :=
   (veci_shell v_pre)
 
 noncomputable def veci_delete_partial_solve_wit_1 : Prop :=
-  forall (v_pre : Int) (xs : (List Int)) ,
+  forall (xs : (List Int)) (v_pre : Int) ,
   (store_veci v_pre xs)
 |--
   (store_veci v_pre xs)
 
 noncomputable def veci_delete_partial_solve_wit_2_pure : Prop :=
-  forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(INT) cap)) ,
+  forall (xs : (List Int)) (v_pre : Int) (cap : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(INT) cap)) ,
   ((( &( "v" ) )) # Ptr |-> (v_pre))
   ** ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (cap))
@@ -198,7 +198,7 @@ noncomputable def veci_delete_partial_solve_wit_2_pure : Prop :=
   “ ((Zlength (xs)) <= cap) ”
 
 noncomputable def veci_delete_partial_solve_wit_2_aux : Prop :=
-  forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(INT) cap)) ,
+  forall (xs : (List Int)) (v_pre : Int) (cap : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(INT) cap)) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -262,7 +262,7 @@ forall (xs : (List Int)) (v : Int) ,
 
 noncomputable def veci_begin_return_wit_1 : Prop :=
   (
-forall (v_pre : Int) (xs : (List Int)) (cap_2 : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap_2)) (PreH5 : (4 <= cap_2)) (PreH6 : (cap_2 <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(INT) cap_2)) ,
+forall (xs : (List Int)) (v_pre : Int) (cap_2 : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap_2)) (PreH5 : (4 <= cap_2)) (PreH6 : (cap_2 <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(INT) cap_2)) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (cap_2))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -273,7 +273,7 @@ forall (v_pre : Int) (xs : (List Int)) (cap_2 : Int) (buf : Int) (PreH1 : (v_pre
   (veci_raw v_pre buf cap xs)
 ) \/
 (
-forall (v_pre : Int) (xs : (List Int)) (cap_2 : Int) (buf : Int) (PreH1 : (cap_2 <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap_2 >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap_2)) (PreH9 : (4 <= cap_2)) (PreH10 : (cap_2 <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(INT) cap_2)) ,
+forall (xs : (List Int)) (v_pre : Int) (cap_2 : Int) (buf : Int) (PreH1 : (cap_2 <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap_2 >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap_2)) (PreH9 : (4 <= cap_2)) (PreH10 : (cap_2 <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(INT) cap_2)) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (cap_2))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -285,7 +285,7 @@ forall (v_pre : Int) (xs : (List Int)) (cap_2 : Int) (buf : Int) (PreH1 : (cap_2
 )
 
 noncomputable def veci_begin_partial_solve_wit_1 : Prop :=
-  forall (v_pre : Int) (xs : (List Int)) ,
+  forall (xs : (List Int)) (v_pre : Int) ,
   (store_veci v_pre xs)
 |--
   (store_veci v_pre xs)
@@ -330,7 +330,7 @@ forall (xs : (List Int)) (v : Int) ,
 
 noncomputable def veci_size_return_wit_1 : Prop :=
   (
-forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(INT) cap)) ,
+forall (xs : (List Int)) (v_pre : Int) (cap : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(INT) cap)) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -341,7 +341,7 @@ forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (v_pre �
   &&  (store_veci v_pre xs)
 ) \/
 (
-forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(INT) cap)) ,
+forall (xs : (List Int)) (v_pre : Int) (cap : Int) (buf : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(INT) cap)) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -352,7 +352,7 @@ forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (cap <= 
 )
 
 noncomputable def veci_size_return_wit_1_split_goal_spatial : Prop :=
-  forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(INT) cap)) ,
+  forall (xs : (List Int)) (v_pre : Int) (cap : Int) (buf : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(INT) cap)) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -362,7 +362,7 @@ noncomputable def veci_size_return_wit_1_split_goal_spatial : Prop :=
   (store_veci v_pre xs)
 
 noncomputable def veci_size_partial_solve_wit_1 : Prop :=
-  forall (v_pre : Int) (xs : (List Int)) ,
+  forall (xs : (List Int)) (v_pre : Int) ,
   (store_veci v_pre xs)
 |--
   (store_veci v_pre xs)
@@ -407,7 +407,7 @@ forall (xs : (List Int)) (v : Int) ,
 
 noncomputable def veci_resize_return_wit_1 : Prop :=
   (
-forall (k_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(INT) cap)) (PreH8 : ((0 : Int) <= k_pre)) (PreH9 : (k_pre <= (Zlength (xs)))) ,
+forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (k_pre : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(INT) cap)) (PreH8 : ((0 : Int) <= k_pre)) (PreH9 : (k_pre <= (Zlength (xs)))) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> (k_pre))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -417,7 +417,7 @@ forall (k_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (Pr
   (veci_raw v_pre buf cap (sublist ((0 : Int)) (k_pre) (xs)))
 ) \/
 (
-forall (k_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : (cap <= INT_MAX)) (PreH2 : (k_pre <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : (k_pre >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(INT) cap)) (PreH12 : ((0 : Int) <= k_pre)) (PreH13 : (k_pre <= (Zlength (xs)))) ,
+forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (k_pre : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : (k_pre <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : (k_pre >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(INT) cap)) (PreH12 : ((0 : Int) <= k_pre)) (PreH13 : (k_pre <= (Zlength (xs)))) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> (k_pre))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -428,7 +428,7 @@ forall (k_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (Pr
 )
 
 noncomputable def veci_resize_return_wit_1_split_goal_spatial : Prop :=
-  forall (k_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : (cap <= INT_MAX)) (PreH2 : (k_pre <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : (k_pre >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(INT) cap)) (PreH12 : ((0 : Int) <= k_pre)) (PreH13 : (k_pre <= (Zlength (xs)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (k_pre : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : (k_pre <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : (k_pre >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(INT) cap)) (PreH12 : ((0 : Int) <= k_pre)) (PreH13 : (k_pre <= (Zlength (xs)))) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> (k_pre))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -438,7 +438,7 @@ noncomputable def veci_resize_return_wit_1_split_goal_spatial : Prop :=
   (veci_raw v_pre buf cap (sublist ((0 : Int)) (k_pre) (xs)))
 
 noncomputable def veci_resize_partial_solve_wit_1 : Prop :=
-  forall (k_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((0 : Int) <= k_pre)) (PreH2 : (k_pre <= (Zlength (xs)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (k_pre : Int) (PreH1 : ((0 : Int) <= k_pre)) (PreH2 : (k_pre <= (Zlength (xs)))) ,
   (veci_raw v_pre buf cap xs)
 |--
   “ ((0 : Int) <= k_pre) ” &&
@@ -534,7 +534,7 @@ noncomputable def veci_resize_which_implies_wit_1_split_goal_spatial : Prop :=
   ** (intArray.undef_seg buf (Zlength (xs)) cap)
 
 noncomputable def veci_push_safety_wit_1 : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
   ((( &( "newsize" ) )) # Int |->_)
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
   ** ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
@@ -548,7 +548,7 @@ noncomputable def veci_push_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= ((cap * 2) + 1)) ”
 
 noncomputable def veci_push_safety_wit_2 : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
   ((( &( "newsize" ) )) # Int |->_)
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
   ** ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
@@ -562,7 +562,7 @@ noncomputable def veci_push_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (cap * 2)) ”
 
 noncomputable def veci_push_safety_wit_3 : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
   ((( &( "newsize" ) )) # Int |->_)
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
   ** ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
@@ -576,7 +576,7 @@ noncomputable def veci_push_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def veci_push_safety_wit_4 : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
   ((( &( "newsize" ) )) # Int |->_)
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
   ** ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
@@ -590,7 +590,7 @@ noncomputable def veci_push_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def veci_push_safety_wit_5 : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (curbuf : Int) (curcap : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf ≠ (0 : Int))) (PreH3 : (4 <= curcap)) (PreH4 : (curcap <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(INT) curcap)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (curbuf : Int) (curcap : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf ≠ (0 : Int))) (PreH3 : (4 <= curcap)) (PreH4 : (curcap <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(INT) curcap)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
   (intArray.full curbuf ((Zlength (xs)) + 1) (xs ++ (e_pre :: (@List.nil Int))))
   ** (intArray.undef_seg curbuf ((Zlength (xs)) + 1) curcap)
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
@@ -603,7 +603,7 @@ noncomputable def veci_push_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= ((Zlength (xs)) + 1)) ”
 
 noncomputable def veci_push_entail_wit_1_1 : Prop :=
-  forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : (vec_alloc_ok sizeof(INT) ((cap * 2) + 1))) (PreH3 : ((Zlength (xs)) = cap)) (PreH4 : (v_pre ≠ (0 : Int))) (PreH5 : (buf ≠ (0 : Int))) (PreH6 : ((0 : Int) <= (Zlength (xs)))) (PreH7 : ((Zlength (xs)) <= cap)) (PreH8 : (4 <= cap)) (PreH9 : (cap <= INT_MAX)) (PreH10 : (vec_alloc_ok sizeof(INT) cap)) (PreH11 : ((Zlength (xs)) <= cap)) (PreH12 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : (vec_alloc_ok sizeof(INT) ((cap * 2) + 1))) (PreH3 : ((Zlength (xs)) = cap)) (PreH4 : (v_pre ≠ (0 : Int))) (PreH5 : (buf ≠ (0 : Int))) (PreH6 : ((0 : Int) <= (Zlength (xs)))) (PreH7 : ((Zlength (xs)) <= cap)) (PreH8 : (4 <= cap)) (PreH9 : (cap <= INT_MAX)) (PreH10 : (vec_alloc_ok sizeof(INT) cap)) (PreH11 : ((Zlength (xs)) <= cap)) (PreH12 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
   (intArray.full retval (Zlength (xs)) xs)
   ** (intArray.undef_seg retval (Zlength (xs)) ((cap * 2) + 1))
   ** ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
@@ -628,7 +628,7 @@ noncomputable def veci_push_entail_wit_1_1 : Prop :=
 
 noncomputable def veci_push_entail_wit_1_2 : Prop :=
   (
-forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) ≠ cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
+forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (PreH1 : ((Zlength (xs)) ≠ cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -652,7 +652,7 @@ forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlengt
   ** (intArray.undef_seg curbuf (Zlength (xs)) curcap)
 ) \/
 (
-forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) ≠ cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
+forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (PreH1 : ((Zlength (xs)) ≠ cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
   TT && emp 
 |--
   “ (((Zlength (xs)) < cap) -> ((buf = buf) ∧ (cap = cap))) ” &&
@@ -661,15 +661,15 @@ forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlengt
 )
 
 noncomputable def veci_push_entail_wit_1_2_split_goal_1 : Prop :=
-  forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) ≠ cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (PreH1 : ((Zlength (xs)) ≠ cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
   (((Zlength (xs)) < cap) -> ((buf = buf) ∧ (cap = cap)))
 
 noncomputable def veci_push_entail_wit_1_2_split_goal_2 : Prop :=
-  forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) ≠ cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (PreH1 : ((Zlength (xs)) ≠ cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
   ((Zlength (xs)) < cap)
 
 noncomputable def veci_push_return_wit_1 : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (curbuf : Int) (curcap : Int) (curbuf_2 : Int) (curcap_2 : Int) (PreH1 : (vec_push_result (Zlength (xs)) buf cap curbuf_2 curcap_2)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (curbuf ≠ (0 : Int))) (PreH4 : (4 <= curcap)) (PreH5 : (curcap <= INT_MAX)) (PreH6 : (vec_alloc_ok sizeof(INT) curcap)) (PreH7 : ((Zlength (xs)) <= cap)) (PreH8 : ((Zlength (xs)) < curcap)) (PreH9 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH10 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (curbuf : Int) (curcap : Int) (curbuf_2 : Int) (curcap_2 : Int) (PreH1 : (vec_push_result (Zlength (xs)) buf cap curbuf_2 curcap_2)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (curbuf ≠ (0 : Int))) (PreH4 : (4 <= curcap)) (PreH5 : (curcap <= INT_MAX)) (PreH6 : (vec_alloc_ok sizeof(INT) curcap)) (PreH7 : ((Zlength (xs)) <= cap)) (PreH8 : ((Zlength (xs)) < curcap)) (PreH9 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH10 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
   (veci_raw v_pre curbuf_2 curcap_2 (xs ++ (e_pre :: (@List.nil Int))))
 |--
   EX buf2 : Int, EX cap2 : Int,
@@ -677,7 +677,7 @@ noncomputable def veci_push_return_wit_1 : Prop :=
   &&  (veci_raw v_pre buf2 cap2 (xs ++ (e_pre :: (@List.nil Int))))
 
 noncomputable def veci_push_partial_solve_wit_1 : Prop :=
-  forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) <= cap)) (PreH2 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (PreH1 : ((Zlength (xs)) <= cap)) (PreH2 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
   (veci_raw v_pre buf cap xs)
 |--
   “ ((Zlength (xs)) <= cap) ” &&
@@ -686,7 +686,7 @@ noncomputable def veci_push_partial_solve_wit_1 : Prop :=
 
 noncomputable def veci_push_partial_solve_wit_2_pure : Prop :=
   (
-forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
+forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
   ((( &( "newsize" ) )) # Int |-> (((cap * 2) + 1)))
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
   ** ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
@@ -704,7 +704,7 @@ forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (Pr
   “ (vec_alloc_ok sizeof(INT) ((cap * 2) + 1)) ”
 ) \/
 (
-forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : (e_pre <= INT_MAX)) (PreH2 : (cap <= INT_MAX)) (PreH3 : ((Zlength (xs)) <= INT_MAX)) (PreH4 : (((cap * 2) + 1) <= INT_MAX)) (PreH5 : (e_pre >= INT_MIN)) (PreH6 : (cap >= INT_MIN)) (PreH7 : ((Zlength (xs)) >= INT_MIN)) (PreH8 : (((cap * 2) + 1) >= INT_MIN)) (PreH9 : ((Zlength (xs)) = cap)) (PreH10 : (v_pre ≠ (0 : Int))) (PreH11 : (buf ≠ (0 : Int))) (PreH12 : ((0 : Int) <= (Zlength (xs)))) (PreH13 : ((Zlength (xs)) <= cap)) (PreH14 : (4 <= cap)) (PreH15 : (cap <= INT_MAX)) (PreH16 : (vec_alloc_ok sizeof(INT) cap)) (PreH17 : ((Zlength (xs)) <= cap)) (PreH18 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
+forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (PreH1 : (e_pre <= INT_MAX)) (PreH2 : (cap <= INT_MAX)) (PreH3 : ((Zlength (xs)) <= INT_MAX)) (PreH4 : (((cap * 2) + 1) <= INT_MAX)) (PreH5 : (e_pre >= INT_MIN)) (PreH6 : (cap >= INT_MIN)) (PreH7 : ((Zlength (xs)) >= INT_MIN)) (PreH8 : (((cap * 2) + 1) >= INT_MIN)) (PreH9 : ((Zlength (xs)) = cap)) (PreH10 : (v_pre ≠ (0 : Int))) (PreH11 : (buf ≠ (0 : Int))) (PreH12 : ((0 : Int) <= (Zlength (xs)))) (PreH13 : ((Zlength (xs)) <= cap)) (PreH14 : (4 <= cap)) (PreH15 : (cap <= INT_MAX)) (PreH16 : (vec_alloc_ok sizeof(INT) cap)) (PreH17 : ((Zlength (xs)) <= cap)) (PreH18 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
   ((( &( "newsize" ) )) # Int |-> (((cap * 2) + 1)))
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
   ** ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
@@ -717,7 +717,7 @@ forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (Pr
 )
 
 noncomputable def veci_push_partial_solve_wit_2_pure_split_goal_1 : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : (e_pre <= INT_MAX)) (PreH2 : (cap <= INT_MAX)) (PreH3 : ((Zlength (xs)) <= INT_MAX)) (PreH4 : (((cap * 2) + 1) <= INT_MAX)) (PreH5 : (e_pre >= INT_MIN)) (PreH6 : (cap >= INT_MIN)) (PreH7 : ((Zlength (xs)) >= INT_MIN)) (PreH8 : (((cap * 2) + 1) >= INT_MIN)) (PreH9 : ((Zlength (xs)) = cap)) (PreH10 : (v_pre ≠ (0 : Int))) (PreH11 : (buf ≠ (0 : Int))) (PreH12 : ((0 : Int) <= (Zlength (xs)))) (PreH13 : ((Zlength (xs)) <= cap)) (PreH14 : (4 <= cap)) (PreH15 : (cap <= INT_MAX)) (PreH16 : (vec_alloc_ok sizeof(INT) cap)) (PreH17 : ((Zlength (xs)) <= cap)) (PreH18 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (PreH1 : (e_pre <= INT_MAX)) (PreH2 : (cap <= INT_MAX)) (PreH3 : ((Zlength (xs)) <= INT_MAX)) (PreH4 : (((cap * 2) + 1) <= INT_MAX)) (PreH5 : (e_pre >= INT_MIN)) (PreH6 : (cap >= INT_MIN)) (PreH7 : ((Zlength (xs)) >= INT_MIN)) (PreH8 : (((cap * 2) + 1) >= INT_MIN)) (PreH9 : ((Zlength (xs)) = cap)) (PreH10 : (v_pre ≠ (0 : Int))) (PreH11 : (buf ≠ (0 : Int))) (PreH12 : ((0 : Int) <= (Zlength (xs)))) (PreH13 : ((Zlength (xs)) <= cap)) (PreH14 : (4 <= cap)) (PreH15 : (cap <= INT_MAX)) (PreH16 : (vec_alloc_ok sizeof(INT) cap)) (PreH17 : ((Zlength (xs)) <= cap)) (PreH18 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
   ((( &( "newsize" ) )) # Int |-> (((cap * 2) + 1)))
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
   ** ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
@@ -729,7 +729,7 @@ noncomputable def veci_push_partial_solve_wit_2_pure_split_goal_1 : Prop :=
   “ (vec_alloc_ok sizeof(INT) ((cap * 2) + 1)) ”
 
 noncomputable def veci_push_partial_solve_wit_2_aux : Prop :=
-  forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(INT) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(INT) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(INT)) <= UINT_MAX)))) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -761,7 +761,7 @@ noncomputable def veci_push_partial_solve_wit_2_aux : Prop :=
 noncomputable def veci_push_partial_solve_wit_2 : Prop := veci_push_partial_solve_wit_2_pure -> veci_push_partial_solve_wit_2_aux
 
 noncomputable def veci_push_partial_solve_wit_3 : Prop :=
-  forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (curbuf : Int) (curcap : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf ≠ (0 : Int))) (PreH3 : (4 <= curcap)) (PreH4 : (curcap <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(INT) curcap)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (curbuf : Int) (curcap : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf ≠ (0 : Int))) (PreH3 : (4 <= curcap)) (PreH4 : (curcap <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(INT) curcap)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (curcap))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (curbuf))
@@ -785,7 +785,7 @@ noncomputable def veci_push_partial_solve_wit_3 : Prop :=
   ** (intArray.full curbuf (Zlength (xs)) xs)
 
 noncomputable def veci_push_partial_solve_wit_4_pure : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (curbuf : Int) (curcap : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf ≠ (0 : Int))) (PreH3 : (4 <= curcap)) (PreH4 : (curcap <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(INT) curcap)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (curbuf : Int) (curcap : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf ≠ (0 : Int))) (PreH3 : (4 <= curcap)) (PreH4 : (curcap <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(INT) curcap)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
   (intArray.full curbuf ((Zlength (xs)) + 1) (xs ++ (e_pre :: (@List.nil Int))))
   ** (intArray.undef_seg curbuf ((Zlength (xs)) + 1) curcap)
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
@@ -805,7 +805,7 @@ noncomputable def veci_push_partial_solve_wit_4_pure : Prop :=
   “ (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1))) ”
 
 noncomputable def veci_push_partial_solve_wit_4_aux : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (curbuf : Int) (curcap : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf ≠ (0 : Int))) (PreH3 : (4 <= curcap)) (PreH4 : (curcap <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(INT) curcap)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (curbuf : Int) (curcap : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf ≠ (0 : Int))) (PreH3 : (4 <= curcap)) (PreH4 : (curcap <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(INT) curcap)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
   (intArray.full curbuf ((Zlength (xs)) + 1) (xs ++ (e_pre :: (@List.nil Int))))
   ** (intArray.undef_seg curbuf ((Zlength (xs)) + 1) curcap)
   ** ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> (((Zlength (xs)) + 1)))
@@ -928,7 +928,7 @@ noncomputable def veci_push_which_implies_wit_1_split_goal_spatial : Prop :=
 
 noncomputable def veci_push_which_implies_wit_2 : Prop :=
   (
-forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (curcap_2 : Int) (curbuf_2 : Int) (e : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf_2 ≠ (0 : Int))) (PreH3 : (4 <= curcap_2)) (PreH4 : (curcap_2 <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(INT) curcap_2)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap_2)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf_2 = buf) ∧ (curcap_2 = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap_2 = ((2 * cap) + 1)))) ,
+forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (curcap_2 : Int) (curbuf_2 : Int) (e : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf_2 ≠ (0 : Int))) (PreH3 : (4 <= curcap_2)) (PreH4 : (curcap_2 <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(INT) curcap_2)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap_2)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf_2 = buf) ∧ (curcap_2 = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap_2 = ((2 * cap) + 1)))) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> (((Zlength (xs)) + 1)))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (curcap_2))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (curbuf_2))
@@ -940,7 +940,7 @@ forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (curcap_2 : Int) 
   &&  (veci_raw v_pre curbuf curcap (xs ++ (e :: (@List.nil Int))))
 ) \/
 (
-forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (curcap_2 : Int) (curbuf_2 : Int) (e : Int) (PreH1 : (curcap_2 <= INT_MAX)) (PreH2 : (((Zlength (xs)) + 1) <= INT_MAX)) (PreH3 : (curcap_2 >= INT_MIN)) (PreH4 : (((Zlength (xs)) + 1) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (curbuf_2 ≠ (0 : Int))) (PreH7 : (4 <= curcap_2)) (PreH8 : (curcap_2 <= INT_MAX)) (PreH9 : (vec_alloc_ok sizeof(INT) curcap_2)) (PreH10 : ((Zlength (xs)) <= cap)) (PreH11 : ((Zlength (xs)) < curcap_2)) (PreH12 : (((Zlength (xs)) < cap) -> ((curbuf_2 = buf) ∧ (curcap_2 = cap)))) (PreH13 : (((Zlength (xs)) = cap) -> (curcap_2 = ((2 * cap) + 1)))) ,
+forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (curcap_2 : Int) (curbuf_2 : Int) (e : Int) (PreH1 : (curcap_2 <= INT_MAX)) (PreH2 : (((Zlength (xs)) + 1) <= INT_MAX)) (PreH3 : (curcap_2 >= INT_MIN)) (PreH4 : (((Zlength (xs)) + 1) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (curbuf_2 ≠ (0 : Int))) (PreH7 : (4 <= curcap_2)) (PreH8 : (curcap_2 <= INT_MAX)) (PreH9 : (vec_alloc_ok sizeof(INT) curcap_2)) (PreH10 : ((Zlength (xs)) <= cap)) (PreH11 : ((Zlength (xs)) < curcap_2)) (PreH12 : (((Zlength (xs)) < cap) -> ((curbuf_2 = buf) ∧ (curcap_2 = cap)))) (PreH13 : (((Zlength (xs)) = cap) -> (curcap_2 = ((2 * cap) + 1)))) ,
   ((&((v_pre # "veci_t")  ->ₛ "size")) # Int |-> (((Zlength (xs)) + 1)))
   ** ((&((v_pre # "veci_t")  ->ₛ "cap")) # Int |-> (curcap_2))
   ** ((&((v_pre # "veci_t")  ->ₛ "ptr")) # Ptr |-> (curbuf_2))
@@ -1050,7 +1050,7 @@ forall (v : Int) ,
 
 noncomputable def vecp_delete_return_wit_1 : Prop :=
   (
-forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(PTR) cap)) ,
+forall (xs : (List Int)) (v_pre : Int) (cap : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(PTR) cap)) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -1058,7 +1058,7 @@ forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (v_pre �
   (vecp_shell v_pre)
 ) \/
 (
-forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(PTR) cap)) ,
+forall (xs : (List Int)) (v_pre : Int) (cap : Int) (buf : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(PTR) cap)) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -1067,7 +1067,7 @@ forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (cap <= 
 )
 
 noncomputable def vecp_delete_return_wit_1_split_goal_spatial : Prop :=
-  forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(PTR) cap)) ,
+  forall (xs : (List Int)) (v_pre : Int) (cap : Int) (buf : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(PTR) cap)) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -1075,13 +1075,13 @@ noncomputable def vecp_delete_return_wit_1_split_goal_spatial : Prop :=
   (vecp_shell v_pre)
 
 noncomputable def vecp_delete_partial_solve_wit_1 : Prop :=
-  forall (v_pre : Int) (xs : (List Int)) ,
+  forall (xs : (List Int)) (v_pre : Int) ,
   (store_vecp v_pre xs)
 |--
   (store_vecp v_pre xs)
 
 noncomputable def vecp_delete_partial_solve_wit_2_pure : Prop :=
-  forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(PTR) cap)) ,
+  forall (xs : (List Int)) (v_pre : Int) (cap : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(PTR) cap)) ,
   ((( &( "v" ) )) # Ptr |-> (v_pre))
   ** ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (cap))
@@ -1093,7 +1093,7 @@ noncomputable def vecp_delete_partial_solve_wit_2_pure : Prop :=
   “ ((Zlength (xs)) <= cap) ”
 
 noncomputable def vecp_delete_partial_solve_wit_2_aux : Prop :=
-  forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(PTR) cap)) ,
+  forall (xs : (List Int)) (v_pre : Int) (cap : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(PTR) cap)) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -1157,7 +1157,7 @@ forall (xs : (List Int)) (v : Int) ,
 
 noncomputable def vecp_begin_return_wit_1 : Prop :=
   (
-forall (v_pre : Int) (xs : (List Int)) (cap_2 : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap_2)) (PreH5 : (4 <= cap_2)) (PreH6 : (cap_2 <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(PTR) cap_2)) ,
+forall (xs : (List Int)) (v_pre : Int) (cap_2 : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap_2)) (PreH5 : (4 <= cap_2)) (PreH6 : (cap_2 <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(PTR) cap_2)) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (cap_2))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -1168,7 +1168,7 @@ forall (v_pre : Int) (xs : (List Int)) (cap_2 : Int) (buf : Int) (PreH1 : (v_pre
   (vecp_raw v_pre buf cap xs)
 ) \/
 (
-forall (v_pre : Int) (xs : (List Int)) (cap_2 : Int) (buf : Int) (PreH1 : (cap_2 <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap_2 >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap_2)) (PreH9 : (4 <= cap_2)) (PreH10 : (cap_2 <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(PTR) cap_2)) ,
+forall (xs : (List Int)) (v_pre : Int) (cap_2 : Int) (buf : Int) (PreH1 : (cap_2 <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap_2 >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap_2)) (PreH9 : (4 <= cap_2)) (PreH10 : (cap_2 <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(PTR) cap_2)) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (cap_2))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -1180,7 +1180,7 @@ forall (v_pre : Int) (xs : (List Int)) (cap_2 : Int) (buf : Int) (PreH1 : (cap_2
 )
 
 noncomputable def vecp_begin_partial_solve_wit_1 : Prop :=
-  forall (v_pre : Int) (xs : (List Int)) ,
+  forall (xs : (List Int)) (v_pre : Int) ,
   (store_vecp v_pre xs)
 |--
   (store_vecp v_pre xs)
@@ -1225,7 +1225,7 @@ forall (xs : (List Int)) (v : Int) ,
 
 noncomputable def vecp_size_return_wit_1 : Prop :=
   (
-forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(PTR) cap)) ,
+forall (xs : (List Int)) (v_pre : Int) (cap : Int) (buf : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(PTR) cap)) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -1236,7 +1236,7 @@ forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (v_pre �
   &&  (store_vecp v_pre xs)
 ) \/
 (
-forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(PTR) cap)) ,
+forall (xs : (List Int)) (v_pre : Int) (cap : Int) (buf : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(PTR) cap)) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -1247,7 +1247,7 @@ forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (cap <= 
 )
 
 noncomputable def vecp_size_return_wit_1_split_goal_spatial : Prop :=
-  forall (v_pre : Int) (xs : (List Int)) (cap : Int) (buf : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(PTR) cap)) ,
+  forall (xs : (List Int)) (v_pre : Int) (cap : Int) (buf : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : ((Zlength (xs)) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(PTR) cap)) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -1257,7 +1257,7 @@ noncomputable def vecp_size_return_wit_1_split_goal_spatial : Prop :=
   (store_vecp v_pre xs)
 
 noncomputable def vecp_size_partial_solve_wit_1 : Prop :=
-  forall (v_pre : Int) (xs : (List Int)) ,
+  forall (xs : (List Int)) (v_pre : Int) ,
   (store_vecp v_pre xs)
 |--
   (store_vecp v_pre xs)
@@ -1302,7 +1302,7 @@ forall (xs : (List Int)) (v : Int) ,
 
 noncomputable def vecp_resize_return_wit_1 : Prop :=
   (
-forall (k_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(PTR) cap)) (PreH8 : ((0 : Int) <= k_pre)) (PreH9 : (k_pre <= (Zlength (xs)))) ,
+forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (k_pre : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (buf ≠ (0 : Int))) (PreH3 : ((0 : Int) <= (Zlength (xs)))) (PreH4 : ((Zlength (xs)) <= cap)) (PreH5 : (4 <= cap)) (PreH6 : (cap <= INT_MAX)) (PreH7 : (vec_alloc_ok sizeof(PTR) cap)) (PreH8 : ((0 : Int) <= k_pre)) (PreH9 : (k_pre <= (Zlength (xs)))) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> (k_pre))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -1312,7 +1312,7 @@ forall (k_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (Pr
   (vecp_raw v_pre buf cap (sublist ((0 : Int)) (k_pre) (xs)))
 ) \/
 (
-forall (k_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : (cap <= INT_MAX)) (PreH2 : (k_pre <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : (k_pre >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(PTR) cap)) (PreH12 : ((0 : Int) <= k_pre)) (PreH13 : (k_pre <= (Zlength (xs)))) ,
+forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (k_pre : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : (k_pre <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : (k_pre >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(PTR) cap)) (PreH12 : ((0 : Int) <= k_pre)) (PreH13 : (k_pre <= (Zlength (xs)))) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> (k_pre))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -1323,7 +1323,7 @@ forall (k_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (Pr
 )
 
 noncomputable def vecp_resize_return_wit_1_split_goal_spatial : Prop :=
-  forall (k_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : (cap <= INT_MAX)) (PreH2 : (k_pre <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : (k_pre >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(PTR) cap)) (PreH12 : ((0 : Int) <= k_pre)) (PreH13 : (k_pre <= (Zlength (xs)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (k_pre : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : (k_pre <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : (k_pre >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (buf ≠ (0 : Int))) (PreH7 : ((0 : Int) <= (Zlength (xs)))) (PreH8 : ((Zlength (xs)) <= cap)) (PreH9 : (4 <= cap)) (PreH10 : (cap <= INT_MAX)) (PreH11 : (vec_alloc_ok sizeof(PTR) cap)) (PreH12 : ((0 : Int) <= k_pre)) (PreH13 : (k_pre <= (Zlength (xs)))) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> (k_pre))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -1333,7 +1333,7 @@ noncomputable def vecp_resize_return_wit_1_split_goal_spatial : Prop :=
   (vecp_raw v_pre buf cap (sublist ((0 : Int)) (k_pre) (xs)))
 
 noncomputable def vecp_resize_partial_solve_wit_1 : Prop :=
-  forall (k_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((0 : Int) <= k_pre)) (PreH2 : (k_pre <= (Zlength (xs)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (k_pre : Int) (PreH1 : ((0 : Int) <= k_pre)) (PreH2 : (k_pre <= (Zlength (xs)))) ,
   (vecp_raw v_pre buf cap xs)
 |--
   “ ((0 : Int) <= k_pre) ” &&
@@ -1429,7 +1429,7 @@ noncomputable def vecp_resize_which_implies_wit_1_split_goal_spatial : Prop :=
   ** (ptrArray.undef_seg buf (Zlength (xs)) cap)
 
 noncomputable def vecp_push_safety_wit_1 : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
   ((( &( "newsize" ) )) # Int |->_)
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
   ** ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
@@ -1443,7 +1443,7 @@ noncomputable def vecp_push_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= ((cap * 2) + 1)) ”
 
 noncomputable def vecp_push_safety_wit_2 : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
   ((( &( "newsize" ) )) # Int |->_)
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
   ** ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
@@ -1457,7 +1457,7 @@ noncomputable def vecp_push_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (cap * 2)) ”
 
 noncomputable def vecp_push_safety_wit_3 : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
   ((( &( "newsize" ) )) # Int |->_)
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
   ** ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
@@ -1471,7 +1471,7 @@ noncomputable def vecp_push_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def vecp_push_safety_wit_4 : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
   ((( &( "newsize" ) )) # Int |->_)
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
   ** ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
@@ -1485,7 +1485,7 @@ noncomputable def vecp_push_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def vecp_push_safety_wit_5 : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (curbuf : Int) (curcap : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf ≠ (0 : Int))) (PreH3 : (4 <= curcap)) (PreH4 : (curcap <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(PTR) curcap)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (curbuf : Int) (curcap : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf ≠ (0 : Int))) (PreH3 : (4 <= curcap)) (PreH4 : (curcap <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(PTR) curcap)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
   (ptrArray.full curbuf ((Zlength (xs)) + 1) (xs ++ (e_pre :: (@List.nil Int))))
   ** (ptrArray.undef_seg curbuf ((Zlength (xs)) + 1) curcap)
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
@@ -1498,7 +1498,7 @@ noncomputable def vecp_push_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= ((Zlength (xs)) + 1)) ”
 
 noncomputable def vecp_push_entail_wit_1_1 : Prop :=
-  forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : (vec_alloc_ok sizeof(PTR) ((cap * 2) + 1))) (PreH3 : ((Zlength (xs)) = cap)) (PreH4 : (v_pre ≠ (0 : Int))) (PreH5 : (buf ≠ (0 : Int))) (PreH6 : ((0 : Int) <= (Zlength (xs)))) (PreH7 : ((Zlength (xs)) <= cap)) (PreH8 : (4 <= cap)) (PreH9 : (cap <= INT_MAX)) (PreH10 : (vec_alloc_ok sizeof(PTR) cap)) (PreH11 : ((Zlength (xs)) <= cap)) (PreH12 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (retval : Int) (PreH1 : (retval ≠ (0 : Int))) (PreH2 : (vec_alloc_ok sizeof(PTR) ((cap * 2) + 1))) (PreH3 : ((Zlength (xs)) = cap)) (PreH4 : (v_pre ≠ (0 : Int))) (PreH5 : (buf ≠ (0 : Int))) (PreH6 : ((0 : Int) <= (Zlength (xs)))) (PreH7 : ((Zlength (xs)) <= cap)) (PreH8 : (4 <= cap)) (PreH9 : (cap <= INT_MAX)) (PreH10 : (vec_alloc_ok sizeof(PTR) cap)) (PreH11 : ((Zlength (xs)) <= cap)) (PreH12 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
   (ptrArray.full retval (Zlength (xs)) xs)
   ** (ptrArray.undef_seg retval (Zlength (xs)) ((cap * 2) + 1))
   ** ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
@@ -1523,7 +1523,7 @@ noncomputable def vecp_push_entail_wit_1_1 : Prop :=
 
 noncomputable def vecp_push_entail_wit_1_2 : Prop :=
   (
-forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) ≠ cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
+forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (PreH1 : ((Zlength (xs)) ≠ cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -1547,7 +1547,7 @@ forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlengt
   ** (ptrArray.undef_seg curbuf (Zlength (xs)) curcap)
 ) \/
 (
-forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) ≠ cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
+forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (PreH1 : ((Zlength (xs)) ≠ cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
   TT && emp 
 |--
   “ (((Zlength (xs)) < cap) -> ((buf = buf) ∧ (cap = cap))) ” &&
@@ -1556,15 +1556,15 @@ forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlengt
 )
 
 noncomputable def vecp_push_entail_wit_1_2_split_goal_1 : Prop :=
-  forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) ≠ cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (PreH1 : ((Zlength (xs)) ≠ cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
   (((Zlength (xs)) < cap) -> ((buf = buf) ∧ (cap = cap)))
 
 noncomputable def vecp_push_entail_wit_1_2_split_goal_2 : Prop :=
-  forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) ≠ cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (PreH1 : ((Zlength (xs)) ≠ cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
   ((Zlength (xs)) < cap)
 
 noncomputable def vecp_push_return_wit_1 : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (curbuf : Int) (curcap : Int) (curbuf_2 : Int) (curcap_2 : Int) (PreH1 : (vec_push_result (Zlength (xs)) buf cap curbuf_2 curcap_2)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (curbuf ≠ (0 : Int))) (PreH4 : (4 <= curcap)) (PreH5 : (curcap <= INT_MAX)) (PreH6 : (vec_alloc_ok sizeof(PTR) curcap)) (PreH7 : ((Zlength (xs)) <= cap)) (PreH8 : ((Zlength (xs)) < curcap)) (PreH9 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH10 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (curbuf : Int) (curcap : Int) (curbuf_2 : Int) (curcap_2 : Int) (PreH1 : (vec_push_result (Zlength (xs)) buf cap curbuf_2 curcap_2)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (curbuf ≠ (0 : Int))) (PreH4 : (4 <= curcap)) (PreH5 : (curcap <= INT_MAX)) (PreH6 : (vec_alloc_ok sizeof(PTR) curcap)) (PreH7 : ((Zlength (xs)) <= cap)) (PreH8 : ((Zlength (xs)) < curcap)) (PreH9 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH10 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
   (vecp_raw v_pre curbuf_2 curcap_2 (xs ++ (e_pre :: (@List.nil Int))))
 |--
   EX buf2 : Int, EX cap2 : Int,
@@ -1572,7 +1572,7 @@ noncomputable def vecp_push_return_wit_1 : Prop :=
   &&  (vecp_raw v_pre buf2 cap2 (xs ++ (e_pre :: (@List.nil Int))))
 
 noncomputable def vecp_push_partial_solve_wit_1 : Prop :=
-  forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) <= cap)) (PreH2 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (PreH1 : ((Zlength (xs)) <= cap)) (PreH2 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
   (vecp_raw v_pre buf cap xs)
 |--
   “ ((Zlength (xs)) <= cap) ” &&
@@ -1581,7 +1581,7 @@ noncomputable def vecp_push_partial_solve_wit_1 : Prop :=
 
 noncomputable def vecp_push_partial_solve_wit_2_pure : Prop :=
   (
-forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
+forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
   ((( &( "newsize" ) )) # Int |-> (((cap * 2) + 1)))
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
   ** ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
@@ -1599,7 +1599,7 @@ forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (Pr
   “ (vec_alloc_ok sizeof(PTR) ((cap * 2) + 1)) ”
 ) \/
 (
-forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (((cap * 2) + 1) <= INT_MAX)) (PreH4 : (cap >= INT_MIN)) (PreH5 : ((Zlength (xs)) >= INT_MIN)) (PreH6 : (((cap * 2) + 1) >= INT_MIN)) (PreH7 : ((Zlength (xs)) = cap)) (PreH8 : (v_pre ≠ (0 : Int))) (PreH9 : (buf ≠ (0 : Int))) (PreH10 : ((0 : Int) <= (Zlength (xs)))) (PreH11 : ((Zlength (xs)) <= cap)) (PreH12 : (4 <= cap)) (PreH13 : (cap <= INT_MAX)) (PreH14 : (vec_alloc_ok sizeof(PTR) cap)) (PreH15 : ((Zlength (xs)) <= cap)) (PreH16 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
+forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (((cap * 2) + 1) <= INT_MAX)) (PreH4 : (cap >= INT_MIN)) (PreH5 : ((Zlength (xs)) >= INT_MIN)) (PreH6 : (((cap * 2) + 1) >= INT_MIN)) (PreH7 : ((Zlength (xs)) = cap)) (PreH8 : (v_pre ≠ (0 : Int))) (PreH9 : (buf ≠ (0 : Int))) (PreH10 : ((0 : Int) <= (Zlength (xs)))) (PreH11 : ((Zlength (xs)) <= cap)) (PreH12 : (4 <= cap)) (PreH13 : (cap <= INT_MAX)) (PreH14 : (vec_alloc_ok sizeof(PTR) cap)) (PreH15 : ((Zlength (xs)) <= cap)) (PreH16 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
   ((( &( "newsize" ) )) # Int |-> (((cap * 2) + 1)))
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
   ** ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
@@ -1612,7 +1612,7 @@ forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (Pr
 )
 
 noncomputable def vecp_push_partial_solve_wit_2_pure_split_goal_1 : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (((cap * 2) + 1) <= INT_MAX)) (PreH4 : (cap >= INT_MIN)) (PreH5 : ((Zlength (xs)) >= INT_MIN)) (PreH6 : (((cap * 2) + 1) >= INT_MIN)) (PreH7 : ((Zlength (xs)) = cap)) (PreH8 : (v_pre ≠ (0 : Int))) (PreH9 : (buf ≠ (0 : Int))) (PreH10 : ((0 : Int) <= (Zlength (xs)))) (PreH11 : ((Zlength (xs)) <= cap)) (PreH12 : (4 <= cap)) (PreH13 : (cap <= INT_MAX)) (PreH14 : (vec_alloc_ok sizeof(PTR) cap)) (PreH15 : ((Zlength (xs)) <= cap)) (PreH16 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (PreH1 : (cap <= INT_MAX)) (PreH2 : ((Zlength (xs)) <= INT_MAX)) (PreH3 : (((cap * 2) + 1) <= INT_MAX)) (PreH4 : (cap >= INT_MIN)) (PreH5 : ((Zlength (xs)) >= INT_MIN)) (PreH6 : (((cap * 2) + 1) >= INT_MIN)) (PreH7 : ((Zlength (xs)) = cap)) (PreH8 : (v_pre ≠ (0 : Int))) (PreH9 : (buf ≠ (0 : Int))) (PreH10 : ((0 : Int) <= (Zlength (xs)))) (PreH11 : ((Zlength (xs)) <= cap)) (PreH12 : (4 <= cap)) (PreH13 : (cap <= INT_MAX)) (PreH14 : (vec_alloc_ok sizeof(PTR) cap)) (PreH15 : ((Zlength (xs)) <= cap)) (PreH16 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
   ((( &( "newsize" ) )) # Int |-> (((cap * 2) + 1)))
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
   ** ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
@@ -1624,7 +1624,7 @@ noncomputable def vecp_push_partial_solve_wit_2_pure_split_goal_1 : Prop :=
   “ (vec_alloc_ok sizeof(PTR) ((cap * 2) + 1)) ”
 
 noncomputable def vecp_push_partial_solve_wit_2_aux : Prop :=
-  forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (PreH1 : ((Zlength (xs)) = cap)) (PreH2 : (v_pre ≠ (0 : Int))) (PreH3 : (buf ≠ (0 : Int))) (PreH4 : ((0 : Int) <= (Zlength (xs)))) (PreH5 : ((Zlength (xs)) <= cap)) (PreH6 : (4 <= cap)) (PreH7 : (cap <= INT_MAX)) (PreH8 : (vec_alloc_ok sizeof(PTR) cap)) (PreH9 : ((Zlength (xs)) <= cap)) (PreH10 : (((Zlength (xs)) = cap) -> (((vec_growth_ok sizeof(PTR) cap) ∧ (cap <= 1073741823)) ∧ ((((2 * cap) + 1) * sizeof(PTR)) <= UINT_MAX)))) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (cap))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (buf))
@@ -1656,7 +1656,7 @@ noncomputable def vecp_push_partial_solve_wit_2_aux : Prop :=
 noncomputable def vecp_push_partial_solve_wit_2 : Prop := vecp_push_partial_solve_wit_2_pure -> vecp_push_partial_solve_wit_2_aux
 
 noncomputable def vecp_push_partial_solve_wit_3 : Prop :=
-  forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (curbuf : Int) (curcap : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf ≠ (0 : Int))) (PreH3 : (4 <= curcap)) (PreH4 : (curcap <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(PTR) curcap)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (curbuf : Int) (curcap : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf ≠ (0 : Int))) (PreH3 : (4 <= curcap)) (PreH4 : (curcap <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(PTR) curcap)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> ((Zlength (xs))))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (curcap))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (curbuf))
@@ -1680,7 +1680,7 @@ noncomputable def vecp_push_partial_solve_wit_3 : Prop :=
   ** (ptrArray.full curbuf (Zlength (xs)) xs)
 
 noncomputable def vecp_push_partial_solve_wit_4_pure : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (curbuf : Int) (curcap : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf ≠ (0 : Int))) (PreH3 : (4 <= curcap)) (PreH4 : (curcap <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(PTR) curcap)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (curbuf : Int) (curcap : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf ≠ (0 : Int))) (PreH3 : (4 <= curcap)) (PreH4 : (curcap <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(PTR) curcap)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
   (ptrArray.full curbuf ((Zlength (xs)) + 1) (xs ++ (e_pre :: (@List.nil Int))))
   ** (ptrArray.undef_seg curbuf ((Zlength (xs)) + 1) curcap)
   ** ((( &( "v" ) )) # Ptr |-> (v_pre))
@@ -1700,7 +1700,7 @@ noncomputable def vecp_push_partial_solve_wit_4_pure : Prop :=
   “ (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1))) ”
 
 noncomputable def vecp_push_partial_solve_wit_4_aux : Prop :=
-  forall (e_pre : Int) (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (curbuf : Int) (curcap : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf ≠ (0 : Int))) (PreH3 : (4 <= curcap)) (PreH4 : (curcap <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(PTR) curcap)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
+  forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (e_pre : Int) (curbuf : Int) (curcap : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf ≠ (0 : Int))) (PreH3 : (4 <= curcap)) (PreH4 : (curcap <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(PTR) curcap)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf = buf) ∧ (curcap = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap = ((2 * cap) + 1)))) ,
   (ptrArray.full curbuf ((Zlength (xs)) + 1) (xs ++ (e_pre :: (@List.nil Int))))
   ** (ptrArray.undef_seg curbuf ((Zlength (xs)) + 1) curcap)
   ** ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> (((Zlength (xs)) + 1)))
@@ -1823,7 +1823,7 @@ noncomputable def vecp_push_which_implies_wit_1_split_goal_spatial : Prop :=
 
 noncomputable def vecp_push_which_implies_wit_2 : Prop :=
   (
-forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (curcap_2 : Int) (curbuf_2 : Int) (e : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf_2 ≠ (0 : Int))) (PreH3 : (4 <= curcap_2)) (PreH4 : (curcap_2 <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(PTR) curcap_2)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap_2)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf_2 = buf) ∧ (curcap_2 = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap_2 = ((2 * cap) + 1)))) ,
+forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (curcap_2 : Int) (curbuf_2 : Int) (e : Int) (PreH1 : (v_pre ≠ (0 : Int))) (PreH2 : (curbuf_2 ≠ (0 : Int))) (PreH3 : (4 <= curcap_2)) (PreH4 : (curcap_2 <= INT_MAX)) (PreH5 : (vec_alloc_ok sizeof(PTR) curcap_2)) (PreH6 : ((Zlength (xs)) <= cap)) (PreH7 : ((Zlength (xs)) < curcap_2)) (PreH8 : (((Zlength (xs)) < cap) -> ((curbuf_2 = buf) ∧ (curcap_2 = cap)))) (PreH9 : (((Zlength (xs)) = cap) -> (curcap_2 = ((2 * cap) + 1)))) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> (((Zlength (xs)) + 1)))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (curcap_2))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (curbuf_2))
@@ -1835,7 +1835,7 @@ forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (curcap_2 : Int) 
   &&  (vecp_raw v_pre curbuf curcap (xs ++ (e :: (@List.nil Int))))
 ) \/
 (
-forall (v_pre : Int) (cap : Int) (buf : Int) (xs : (List Int)) (curcap_2 : Int) (curbuf_2 : Int) (e : Int) (PreH1 : (curcap_2 <= INT_MAX)) (PreH2 : (((Zlength (xs)) + 1) <= INT_MAX)) (PreH3 : (curcap_2 >= INT_MIN)) (PreH4 : (((Zlength (xs)) + 1) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (curbuf_2 ≠ (0 : Int))) (PreH7 : (4 <= curcap_2)) (PreH8 : (curcap_2 <= INT_MAX)) (PreH9 : (vec_alloc_ok sizeof(PTR) curcap_2)) (PreH10 : ((Zlength (xs)) <= cap)) (PreH11 : ((Zlength (xs)) < curcap_2)) (PreH12 : (((Zlength (xs)) < cap) -> ((curbuf_2 = buf) ∧ (curcap_2 = cap)))) (PreH13 : (((Zlength (xs)) = cap) -> (curcap_2 = ((2 * cap) + 1)))) ,
+forall (cap : Int) (buf : Int) (xs : (List Int)) (v_pre : Int) (curcap_2 : Int) (curbuf_2 : Int) (e : Int) (PreH1 : (curcap_2 <= INT_MAX)) (PreH2 : (((Zlength (xs)) + 1) <= INT_MAX)) (PreH3 : (curcap_2 >= INT_MIN)) (PreH4 : (((Zlength (xs)) + 1) >= INT_MIN)) (PreH5 : (v_pre ≠ (0 : Int))) (PreH6 : (curbuf_2 ≠ (0 : Int))) (PreH7 : (4 <= curcap_2)) (PreH8 : (curcap_2 <= INT_MAX)) (PreH9 : (vec_alloc_ok sizeof(PTR) curcap_2)) (PreH10 : ((Zlength (xs)) <= cap)) (PreH11 : ((Zlength (xs)) < curcap_2)) (PreH12 : (((Zlength (xs)) < cap) -> ((curbuf_2 = buf) ∧ (curcap_2 = cap)))) (PreH13 : (((Zlength (xs)) = cap) -> (curcap_2 = ((2 * cap) + 1)))) ,
   ((&((v_pre # "vecp_t")  ->ₛ "size")) # Int |-> (((Zlength (xs)) + 1)))
   ** ((&((v_pre # "vecp_t")  ->ₛ "cap")) # Int |-> (curcap_2))
   ** ((&((v_pre # "vecp_t")  ->ₛ "ptr")) # Ptr |-> (curbuf_2))

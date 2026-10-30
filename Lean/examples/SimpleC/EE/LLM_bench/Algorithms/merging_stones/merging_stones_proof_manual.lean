@@ -209,7 +209,7 @@ private theorem stone_shape (rows : List (List Int)) (n : Int) (hlen : Zlength r
 theorem proof_of_mergingStones_entail_wit_3 : mergingStones_entail_wit_3 := by
   unfold mergingStones_entail_wit_3
   right
-  intro n stones flat k hmax hmin hk hk0 hkn hn hnmax hstones hb hu
+  intro stones n flat k hmax hmin hk hk0 hkn hn hnmax hstones hb hu
   have he : k = n*n := by omega
   rw [he]
   sep_apply (intArray.seg_to_full (&("dp")) 0 (n*n) flat)
@@ -262,7 +262,7 @@ theorem proof_of_mergingStones_entail_wit_3 : mergingStones_entail_wit_3 := by
 theorem proof_of_mergingStones_entail_wit_4 : mergingStones_entail_wit_4 := by
   unfold mergingStones_entail_wit_4
   left
-  intro n stones_addr stones pre i table hi hn hnmax hb hu hrows hi0 hin hp
+  intro stones stones_addr n pre i table hi hn hnmax hb hu hrows hi0 hin hp
   prop_apply (intArray.full_Zlength stones_addr n stones)
   Intros_p hstones
   prop_apply (intArray.seg_Zlength (&("prefix")) 0 (i+1+1)
@@ -280,7 +280,7 @@ theorem proof_of_mergingStones_entail_wit_4 : mergingStones_entail_wit_4 := by
 theorem proof_of_mergingStones_entail_wit_5 : mergingStones_entail_wit_5 := by
   unfold mergingStones_entail_wit_5
   right
-  intro n stones pre i table hi hn hnmax hb hu hrows hi0 hin hp
+  intro stones n pre i table hi hn hnmax hb hu hrows hi0 hin hp
   have he : i = n := by omega
   have hdone : StonePrefixDone stones pre n := by simpa only [he] using hp
   have hzero : StoneZeroRows table 0 := by
@@ -293,7 +293,7 @@ theorem proof_of_mergingStones_entail_wit_5 : mergingStones_entail_wit_5 := by
 theorem proof_of_mergingStones_entail_wit_6 : mergingStones_entail_wit_6 := by
   unfold mergingStones_entail_wit_6
   right
-  intro n stones row pre table hr hn hnmax hb hu hrows hp hr0 hrn hz
+  intro stones n row pre table hr hn hnmax hb hu hrows hp hr0 hrn hz
   split_pure_spatial
   · cancel
   · dump_pre_spatial
@@ -367,7 +367,7 @@ private theorem prefix_interval_bounds (stones pre : List Int) (n lo hi : Int)
 theorem proof_of_mergingStones_entail_wit_7 : mergingStones_entail_wit_7 := by
   unfold mergingStones_entail_wit_7
   left
-  intro n stones_addr stones col row pre table d hc hn hnmax hb hu hmap hp hr0 hrn hc0 hcn hz
+  intro stones stones_addr n col row pre table d hc hn hnmax hb hu hmap hp hr0 hrn hc0 hcn hz
   prop_apply (array2.missing_i_Zlength (&("dp")) row 0 n n table)
   Intros_p htable
   simp only [Int.sub_zero] at htable
@@ -386,7 +386,7 @@ theorem proof_of_mergingStones_entail_wit_7 : mergingStones_entail_wit_7 := by
 theorem proof_of_mergingStones_entail_wit_8 : mergingStones_entail_wit_8 := by
   unfold mergingStones_entail_wit_8
   left
-  intro n stones_addr stones col row pre table hc hn hnmax hb hu hmap hp hr0 hrn hc0 hcn hz
+  intro stones stones_addr n col row pre table hc hn hnmax hb hu hmap hp hr0 hrn hc0 hcn hz
   prop_apply (array2.full_Zlength (&("dp")) n n table)
   Intros_p htable
   have hs := stone_shape table n htable hmap
@@ -408,7 +408,7 @@ theorem proof_of_mergingStones_entail_wit_8 : mergingStones_entail_wit_8 := by
 theorem proof_of_mergingStones_entail_wit_9 : mergingStones_entail_wit_9 := by
   unfold mergingStones_entail_wit_9
   left
-  intro n stones_addr stones row pre table hr hn hnmax hb hu hmap hp hr0 hrn hz
+  intro stones stones_addr n row pre table hr hn hnmax hb hu hmap hp hr0 hrn hz
   prop_apply (intArray.full_Zlength stones_addr n stones)
   Intros_p hstones
   prop_apply (array2.full_Zlength (&("dp")) n n table)
@@ -427,7 +427,7 @@ theorem proof_of_mergingStones_entail_wit_9 : mergingStones_entail_wit_9 := by
 theorem proof_of_mergingStones_entail_wit_10 : mergingStones_entail_wit_10 := by
   unfold mergingStones_entail_wit_10
   right
-  intro n stones len pre table hl hn hnmax hb hu hmap hp hl0 hln hd
+  intro stones n len pre table hl hn hnmax hb hu hmap hp hl0 hln hd
   split_pure_spatial
   · cancel
   · dump_pre_spatial
@@ -438,7 +438,7 @@ theorem proof_of_mergingStones_entail_wit_10 : mergingStones_entail_wit_10 := by
 theorem proof_of_mergingStones_entail_wit_11 : mergingStones_entail_wit_11 := by
   unfold mergingStones_entail_wit_11
   left
-  intro n stones_addr stones left len pre table hfit hn hnmax hb hu hmap hp hlen hln hl hlnext hprogress
+  intro stones stones_addr n left len pre table hfit hn hnmax hb hu hmap hp hlen hln hl hlnext hprogress
   prop_apply (intArray.full_Zlength stones_addr n stones)
   Intros_p hstones
   have hm := stone_mass stones n hstones hb hu
@@ -474,7 +474,7 @@ private theorem split_progress_current (stones : List Int) (table : List (List I
 theorem proof_of_mergingStones_entail_wit_12 : mergingStones_entail_wit_12 := by
   unfold mergingStones_entail_wit_12
   right
-  intro n stones best interval_sum split right left len pre table d hmax hmin hk hn hnmax hb hu hmap hp hlen hln hl hfit hr hls hsr hsum hsum0 hsummax hbest0 hbestmax hprogress
+  intro stones n best interval_sum split right left len pre table d hmax hmin hk hn hnmax hb hu hmap hp hlen hln hl hfit hr hls hsr hsum hsum0 hsummax hbest0 hbestmax hprogress
   Exists table
   sep_apply (restore_cell (&("dp")) n left split table d ⟨hl, by omega⟩ ⟨by omega, by omega⟩)
   split_pure_spatial
@@ -484,7 +484,7 @@ theorem proof_of_mergingStones_entail_wit_12 : mergingStones_entail_wit_12 := by
 theorem proof_of_mergingStones_entail_wit_13_1 : mergingStones_entail_wit_13_1 := by
   unfold mergingStones_entail_wit_13_1
   left
-  intro n stones_addr stones pre table len left right split interval_sum best left_value d hcompare hn hnmax hb hu hmap hp hlen hln hl hfit hr hls hsr hsum hsum0 hsummax hbest0 hbestmax hprogress hk hleft_value
+  intro stones stones_addr n pre table len left right split interval_sum best left_value d hcompare hn hnmax hb hu hmap hp hlen hln hl hfit hr hls hsr hsum hsum0 hsummax hbest0 hbestmax hprogress hk hleft_value
   prop_apply (intArray.full_Zlength stones_addr n stones)
   Intros_p hstones
   prop_apply (array2.missing_i_Zlength (&("dp")) (split+1) 0 n n table)
@@ -510,7 +510,7 @@ theorem proof_of_mergingStones_entail_wit_13_1 : mergingStones_entail_wit_13_1 :
 theorem proof_of_mergingStones_entail_wit_13_2 : mergingStones_entail_wit_13_2 := by
   unfold mergingStones_entail_wit_13_2
   left
-  intro n stones_addr stones pre table len left right split interval_sum best left_value d hcompare hn hnmax hb hu hmap hp hlen hln hl hfit hr hls hsr hsum hsum0 hsummax hbest0 hbestmax hprogress hk hleft_value
+  intro stones stones_addr n pre table len left right split interval_sum best left_value d hcompare hn hnmax hb hu hmap hp hlen hln hl hfit hr hls hsr hsum hsum0 hsummax hbest0 hbestmax hprogress hk hleft_value
   prop_apply (intArray.full_Zlength stones_addr n stones)
   Intros_p hstones
   prop_apply (array2.missing_i_Zlength (&("dp")) (split+1) 0 n n table)
@@ -536,7 +536,7 @@ theorem proof_of_mergingStones_entail_wit_13_2 : mergingStones_entail_wit_13_2 :
 theorem proof_of_mergingStones_entail_wit_15 : mergingStones_entail_wit_15 := by
   unfold mergingStones_entail_wit_15
   right
-  intro n stones left len pre table hleft hn hnmax hb hu hmap hp hlen hln hl hlnext hprogress
+  intro stones n left len pre table hleft hn hnmax hb hu hmap hp hlen hln hl hlnext hprogress
   split_pure_spatial
   · cancel
   · dump_pre_spatial
@@ -550,7 +550,7 @@ theorem proof_of_mergingStones_entail_wit_15 : mergingStones_entail_wit_15 := by
 theorem proof_of_mergingStones_entail_wit_14 : mergingStones_entail_wit_14 := by
   unfold mergingStones_entail_wit_14
   left
-  intro n stones_addr stones best interval_sum split right left len pre table d hk hn hnmax hb hu hmap hp hlen hln hl hfit hr hls hsr hsum hsum0 hsummax hbest0 hbestmax hprogress
+  intro stones stones_addr n best interval_sum split right left len pre table d hk hn hnmax hb hu hmap hp hlen hln hl hfit hr hls hsr hsum hsum0 hsummax hbest0 hbestmax hprogress
   prop_apply (intArray.full_Zlength stones_addr n stones)
   Intros_p hstones
   prop_apply (array2.missing_i_Zlength (&("dp")) left 0 n n table)
@@ -584,7 +584,7 @@ theorem proof_of_mergingStones_entail_wit_14 : mergingStones_entail_wit_14 := by
 theorem proof_of_mergingStones_entail_wit_16 : mergingStones_entail_wit_16 := by
   unfold mergingStones_entail_wit_16
   left
-  intro n stones_addr stones len pre table d hlen hn hnmax hb hu hmap hp hlen0 hln hdone
+  intro stones stones_addr n len pre table d hlen hn hnmax hb hu hmap hp hlen0 hln hdone
   prop_apply (intArray.full_Zlength stones_addr n stones)
   Intros_p hstones
   prop_apply (array2.missing_i_Zlength (&("dp")) 0 0 n n table)
@@ -612,7 +612,7 @@ theorem proof_of_mergingStones_entail_wit_16 : mergingStones_entail_wit_16 := by
 theorem proof_of_mergingStones_safety_wit_10 : mergingStones_safety_wit_10 := by
   unfold mergingStones_safety_wit_10
   left
-  intro n stones_addr stones pre i table hi hn hnmax hb hu hmap hi0 hin hp
+  intro stones stones_addr n pre i table hi hn hnmax hb hu hmap hi0 hin hp
   prop_apply (intArray.full_Zlength stones_addr n stones)
   Intros_p hstones
   have hm := stone_mass stones n hstones hb hu
@@ -624,7 +624,7 @@ theorem proof_of_mergingStones_safety_wit_10 : mergingStones_safety_wit_10 := by
 theorem proof_of_mergingStones_safety_wit_25 : mergingStones_safety_wit_25 := by
   unfold mergingStones_safety_wit_25
   left
-  intro n stones_addr stones left len pre table hfit hn hnmax hb hu hmap hp hlen hln hl hlnext hprogress
+  intro stones stones_addr n left len pre table hfit hn hnmax hb hu hmap hp hlen hln hl hlnext hprogress
   prop_apply (intArray.full_Zlength stones_addr n stones)
   Intros_p hstones
   have hm := stone_mass stones n hstones hb hu
@@ -634,7 +634,7 @@ theorem proof_of_mergingStones_safety_wit_25 : mergingStones_safety_wit_25 := by
 theorem proof_of_mergingStones_safety_wit_35 : mergingStones_safety_wit_35 := by
   unfold mergingStones_safety_wit_35
   left
-  intro n stones_addr stones pre table len left right split interval_sum best left_value d hn hnmax hb hu hmap hp hlen hln hl hfit hr hls hsr hsum hsum0 hsummax hbest0 hbestmax hprogress hk hleft_value
+  intro stones stones_addr n pre table len left right split interval_sum best left_value d hn hnmax hb hu hmap hp hlen hln hl hfit hr hls hsr hsum hsum0 hsummax hbest0 hbestmax hprogress hk hleft_value
   prop_apply (intArray.full_Zlength stones_addr n stones)
   Intros_p hstones
   prop_apply (array2.missing_i_Zlength (&("dp")) (split+1) 0 n n table)
@@ -651,7 +651,7 @@ theorem proof_of_mergingStones_safety_wit_35 : mergingStones_safety_wit_35 := by
 theorem proof_of_mergingStones_safety_wit_36 : mergingStones_safety_wit_36 := by
   unfold mergingStones_safety_wit_36
   left
-  intro n stones_addr stones pre table len left right split interval_sum best left_value d hn hnmax hb hu hmap hp hlen hln hl hfit hr hls hsr hsum hsum0 hsummax hbest0 hbestmax hprogress hk hleft_value
+  intro stones stones_addr n pre table len left right split interval_sum best left_value d hn hnmax hb hu hmap hp hlen hln hl hfit hr hls hsr hsum hsum0 hsummax hbest0 hbestmax hprogress hk hleft_value
   prop_apply (intArray.full_Zlength stones_addr n stones)
   Intros_p hstones
   prop_apply (array2.missing_i_Zlength (&("dp")) (split+1) 0 n n table)

@@ -1,14 +1,8 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
+From SimpleC.Verification Require Import StrategyPrelude.
 From AUXLib Require Import ListLib.
-From SimpleC.SL Require Import SeparationLogic.
 From SimpleC.EE.QCP_demos_LLM Require Import graph_matrix_strategy_goal.
 Require Import SimpleC.EE.QCP_demos_LLM.graph_matrix_lib.
 Import naive_C_Rules.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 
@@ -22,6 +16,7 @@ Qed.
 Lemma graph_matrix_strategy2_correctness : graph_matrix_strategy2.
 Proof.
   LLM_pre_process ltac:(lia || nia).
+  cbn [poly_store poly_undef_store].
   subst size.
   sep_apply (@GraphMatrixFlat.store_graph_elim n model0 p rows).
   Intros_p Hmodel.
@@ -75,6 +70,7 @@ Qed.
 Lemma graph_matrix_strategy4_correctness : graph_matrix_strategy4.
 Proof.
   LLM_pre_process ltac:(lia || nia).
+  cbn [poly_store poly_undef_store].
   subst w.
   sep_apply (@GraphMatrixFlat.store_graph_elim size model0 p rows).
   Intros_p Hmodel.
@@ -97,19 +93,7 @@ Proof.
     dump_pre_spatial.
     exact Hmodel.
   }
-  assert (Hsize_bytes:
-    match size with
-    | 0 => 0
-    | Z.pos y => Z.pos (xO (xO y))
-    | Z.neg y => Z.neg (xO (xO y))
-    end = size * sizeof (INT)).
-  { rewrite sizeof_int. destruct size; lia. }
-  rewrite Hsize_bytes.
-  replace (p + i * (size * sizeof (INT)))
-    with (p + i * size * sizeof (INT)) by lia.
-  replace (p + i * size * sizeof (INT) + j * 4) with
-    (p + i * size * sizeof (INT) + j * sizeof (INT))
-    by (rewrite sizeof_int; lia).
+  rewrite !Z.mul_assoc.
   cancel (IntArray.missing_i
     (p + i * size * sizeof (INT))
     j 0 size (Znth i rows __default_app1_Z)).
@@ -135,6 +119,7 @@ Qed.
 Lemma graph_matrix_strategy7_correctness : graph_matrix_strategy7.
 Proof.
   LLM_pre_process ltac:(lia || nia).
+  cbn [poly_store poly_undef_store].
   sep_apply (@GraphMatrixPtr.store_graph_elim size model0 p rows).
   Intros_p Hmodel.
   prop_apply (IntPtrArray2.full_Zlength p size rows).
@@ -161,7 +146,6 @@ Proof.
       apply_sepcon_adjoint.
       Intros_p Hval.
       subst v.
-      fold_arch.
       cancel.
     + dump_pre_spatial.
       exact Hmodel.
@@ -170,6 +154,7 @@ Qed.
 Lemma graph_matrix_strategy8_correctness : graph_matrix_strategy8.
 Proof.
   LLM_pre_process ltac:(lia || nia).
+  cbn [poly_store poly_undef_store].
   subst read_ptr.
   unfold GraphMatrixPtr.row_rep.
   Intros_p Hmodel.
@@ -182,9 +167,7 @@ Proof.
       (Znth i rows __default_app1_Z) 0).
   - dump_pre_spatial.
     lia.
-  - change (sizeof (PTR)) with ptr_size_Z.
-    fold_arch.
-    normalize.
+  - normalize.
     split_pure_spatial.
     + cancel (IntArray.missing_i row_ptr j 0
         (Zlength (Znth i rows __default_app1_Z))
@@ -195,9 +178,6 @@ Proof.
       apply_sepcon_adjoint.
       Intros_p Hval.
       subst v.
-      fold_arch.
-      replace (row_ptr + j * 4) with
-        (row_ptr + j * sizeof (INT)) by (rewrite sizeof_int; lia).
       cancel.
     + dump_pre_spatial.
       exact Hmodel.
@@ -206,13 +186,12 @@ Qed.
 Lemma graph_matrix_strategy9_correctness : graph_matrix_strategy9.
 Proof.
   LLM_pre_process ltac:(lia || nia).
+  cbn [poly_store poly_undef_store].
   unfold GraphMatrixPtr.row_rep.
   Intros_p Hmodel.
   prop_apply (GraphMatrixPtr.missing_i_rows_Zlength p size i row_ptr rows).
   Intros.
   rewrite (Znth_indep rows i nil __default_app1_Z) by lia.
-  change (sizeof (PTR)) with ptr_size_Z.
-  fold_arch.
   normalize.
   split_pure_spatial.
   + cancel (IntArray.full row_ptr
@@ -223,7 +202,6 @@ Proof.
     apply_sepcon_adjoint.
     Intros_p Hval.
     subst v.
-    fold_arch.
     cancel.
   + dump_pre_spatial.
     exact Hmodel.
@@ -232,13 +210,12 @@ Qed.
 Lemma graph_matrix_strategy10_correctness : graph_matrix_strategy10.
 Proof.
   LLM_pre_process ltac:(lia || nia).
+  cbn [poly_store poly_undef_store].
   prop_apply (GraphMatrixPtr.missing_i_rows_Zlength
     p size i row_ptr rows).
   Intros.
   unfold GraphMatrixPtr.row_rep.
   rewrite (Znth_indep rows i nil __default_app1_Z) by lia.
-  change (sizeof (PTR)) with ptr_size_Z.
-  fold_arch.
   normalize.
   split_pure_spatial.
   + cancel (IntArray.full row_ptr

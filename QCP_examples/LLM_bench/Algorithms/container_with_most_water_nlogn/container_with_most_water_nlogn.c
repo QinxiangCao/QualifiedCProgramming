@@ -290,13 +290,13 @@ int maxAreaNLogN(
       WorkspacePrefixNLogN(l, buffer0_h, buffer0_i, heightSize@pre) &&
       Forall(Z::le(0), l) && Forall(Z::ge(10000), l) &&
       IntArray::full(height, heightSize@pre, l) *
-      IntArray::full(pointer_offset(workHeight, 0, sizeof(int), int), heightSize@pre, work0_h) *
+      IntArray::full(pointer_offset(workHeight, 0, int), heightSize@pre, work0_h) *
       IntArray::undef_seg(workHeight, heightSize@pre, 100000) *
-      IntArray::full(pointer_offset(workIndex, 0, sizeof(int), int), heightSize@pre, work0_i) *
+      IntArray::full(pointer_offset(workIndex, 0, int), heightSize@pre, work0_i) *
       IntArray::undef_seg(workIndex, heightSize@pre, 100000) *
-      IntArray::full(pointer_offset(bufferHeight, 0, sizeof(int), int), heightSize@pre, buffer0_h) *
+      IntArray::full(pointer_offset(bufferHeight, 0, int), heightSize@pre, buffer0_h) *
       IntArray::undef_seg(bufferHeight, heightSize@pre, 100000) *
-      IntArray::full(pointer_offset(bufferIndex, 0, sizeof(int), int), heightSize@pre, buffer0_i) *
+      IntArray::full(pointer_offset(bufferIndex, 0, int), heightSize@pre, buffer0_i) *
       IntArray::undef_seg(bufferIndex, heightSize@pre, 100000)
      */
 

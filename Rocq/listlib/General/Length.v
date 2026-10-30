@@ -31,6 +31,14 @@ Proof.
   lia.
 Qed.
 
+Lemma Zlength_map : forall {B : Type} (f : A -> B) (l : list A),
+  Zlength (map f l) = Zlength l.
+Proof.
+  intros.
+  rewrite !Zlength_correct, length_map.
+  reflexivity.
+Qed.
+
 
 Lemma Zlength_app_cons: forall (l: list A) a,
   Zlength (l ++ (a :: nil)) = Zlength l + 1.
@@ -73,6 +81,17 @@ Proof.
   intros.
   unfold Znth.
   apply nth_indep.
+  rewrite Zlength_correct in H.
+  lia.
+Qed.
+
+Lemma Znth_map : forall {B : Type} (f : A -> B) (l : list A) i d d',
+  0 <= i < Zlength l ->
+  Znth i (map f l) d' = f (Znth i l d).
+Proof.
+  intros B f l i d0 d' H.
+  unfold Znth.
+  apply nth_map.
   rewrite Zlength_correct in H.
   lia.
 Qed.
@@ -696,3 +715,80 @@ Proof.
 Qed.
 
 End Length.
+
+Lemma Zlength_combine : forall {A B : Type} (l1 : list A) (l2 : list B),
+  Zlength (combine l1 l2) = Z.min (Zlength l1) (Zlength l2).
+Proof.
+  intros.
+  rewrite !Zlength_correct.
+  rewrite length_combine.
+  rewrite Nat2Z.inj_min.
+  reflexivity.
+Qed.
+
+Lemma Znth_combine : forall {A B : Type} i (l1 : list A) (l2 : list B) d1 d2,
+  0 <= i < Zlength l1 ->
+  0 <= i < Zlength l2 ->
+  Znth i (combine l1 l2) (d1, d2) = (Znth i l1 d1, Znth i l2 d2).
+Proof.
+  intros A B i l1.
+  revert i; induction l1 as [|a l1 IHl1]; intros.
+  - rewrite Zlength_correct in H. simpl in H. lia.
+  - destruct l2 as [|b l2].
+    + rewrite Zlength_correct in H0. simpl in H0. lia.
+    + simpl.
+      destruct (Z_le_lt_eq_dec 0 i ltac:(lia)) as [Hi | Hi].
+      * rewrite (Znth_cons (d1, d2) i (a, b) (combine l1 l2)) by lia.
+        rewrite (Znth_cons d1 i a l1) by lia.
+        rewrite (Znth_cons d2 i b l2) by lia.
+        apply IHl1.
+        -- rewrite Zlength_correct in *. simpl in *. lia.
+        -- rewrite Zlength_correct in *. simpl in *. lia.
+      * subst i.
+        rewrite (Znth0_cons (d1, d2) (a, b) (combine l1 l2)).
+        rewrite (Znth0_cons d1 a l1).
+        rewrite (Znth0_cons d2 b l2).
+        reflexivity.
+Qed.
+
+Lemma replace_Znth_combine_l : forall {A B : Type} i (l1 : list A) (l2 : list B) v d2,
+  replace_Znth i (v, Znth i l2 d2) (combine l1 l2) =
+  combine (replace_Znth i v l1) l2.
+Proof.
+  intros A B i l1 l2 v d2.
+  unfold replace_Znth, Znth.
+  set (n := Z.to_nat i).
+  clearbody n. clear i.
+  revert l1 l2.
+  induction n; intros [|a l1] [|b l2]; simpl; auto.
+  f_equal.
+  apply IHn.
+Qed.
+
+Lemma replace_Znth_combine_r : forall {A B : Type} i (l1 : list A) (l2 : list B) d1 v,
+  replace_Znth i (Znth i l1 d1, v) (combine l1 l2) =
+  combine l1 (replace_Znth i v l2).
+Proof.
+  intros A B i l1 l2 d1 v.
+  unfold replace_Znth, Znth.
+  set (n := Z.to_nat i).
+  clearbody n. clear i.
+  revert l1 l2.
+  induction n; intros [|a l1] [|b l2]; simpl; auto.
+  f_equal.
+  apply IHn.
+Qed.
+
+Lemma replace_Znth_combine : forall {A B : Type} i (l1 : list A) (l2 : list B) v1 v2,
+  replace_Znth i (v1, v2) (combine l1 l2) =
+  combine (replace_Znth i v1 l1) (replace_Znth i v2 l2).
+Proof.
+  intros A B i l1 l2 v1 v2.
+  unfold replace_Znth.
+  set (n := Z.to_nat i).
+  clearbody n. clear i.
+  revert l1 l2.
+  induction n; intros [|a l1] [|b l2]; simpl; auto.
+  f_equal.
+  apply IHn.
+Qed.

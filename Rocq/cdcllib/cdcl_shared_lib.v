@@ -175,8 +175,8 @@ Definition reasons_entailed (F : cnf) (a : cdcl_view) : Prop :=
 Definition db_entailed (F : cnf) (a : cdcl_view) : Prop :=
   forall c, In c (installed_clauses a) -> entails_clause F c.
 
-(* No antecedent clause mentions a variable twice, so the counting lemmas of
-   sat_shared_lib.v apply to it. *)
+(* In every antecedent clause, a variable determines its literal
+   ([clause_var_injective]). *)
 Definition reasons_var_injective (a : cdcl_view) : Prop :=
   forall x c, reason_of a x = Some c -> clause_var_injective c.
 
@@ -204,8 +204,7 @@ Definition assigns_one
      assignment_rank new y = assignment_rank old y) /\
   installed_clauses new = installed_clauses old.
 
-(** [new] is [old] restricted to decision level [target].
-    Original: new is old restricted to dl target *)
+(** [new] is [old] restricted to decision level [target]. *)
 Definition restrict_above_level
     (old new : cdcl_view) (target : Z) : Prop :=
   current_level new = target /\

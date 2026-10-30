@@ -18,10 +18,10 @@ trap cleanup EXIT
 while IFS='|' read -r tool source relative_output stem; do
   [[ -z "$tool" || "$tool" == \#* ]] && continue
   stem="${stem%$'\r'}"
-  case "$scope:$source" in
-    qcp-demos-llm:QCP_examples/LLM_bench/*|llm-bench:QCP_examples/QCP_demos_LLM/*) continue ;;
+  case "$scope:$relative_output" in
+    qcp-demos-llm:SimpleC/EE/LLM_bench/*|llm-bench:SimpleC/EE/QCP_demos_LLM/*) continue ;;
   esac
-  binary="linux-binary/$tool"
+  binary="bin/linux/$tool"
   [[ -x "$binary" ]] || { echo "Missing executable: $binary" >&2; exit 2; }
   [[ -f "$source" ]] || { echo "Missing input: $source" >&2; exit 2; }
   source_dir="${source%/*}/"
@@ -29,6 +29,7 @@ while IFS='|' read -r tool source relative_output stem; do
   source_namespace="SimpleC.EE.${source_namespace%/}"
   source_namespace="${source_namespace//\//.}"
   output_namespace="${relative_output//\//.}"
+  [[ "$source" == QCP_examples/* ]] || source_namespace="$output_namespace"
   name_args=()
   if [[ "$tool" == symexec && "${source##*/}" != "$stem.${source##*.}" ]]; then
     name_args=("--input-file-name=$stem.${source##*.}")
@@ -37,6 +38,7 @@ while IFS='|' read -r tool source relative_output stem; do
   "$binary" \
     "-I$source_dir" -slp "$source_dir" "$source_namespace" \
     -slp QCP_examples/LLM_bench/ SimpleC.EE.LLM_bench \
+    -IQCP_examples/verification/ -slp QCP_examples/verification/ SimpleC.Verification \
     -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM \
     -IQCP_examples/LLM_bench/Codeforces/ \
     -IQCP_examples/stdlib/ -slp QCP_examples/stdlib/ SimpleC.stdlib \

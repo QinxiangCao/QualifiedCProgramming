@@ -1,0 +1,932 @@
+// Strategies of the vectors of vec_qcp.h: Veci (int elements) and Vecp (pointer elements), both
+// instances of DynVec (dynvec_lib.v, vec_qcp_lib.v).  Nothing here mentions the solver: a program
+// that includes vec_qcp.h gets these rules and their proofs (vec_qcp_strategy_proof.v).
+//
+// Opening a vector for a field access (only the vector unit's own bodies make one) yields its three
+// fields; opening it for a buffer access yields Veci::header / Vecp::header, which keeps the fields
+// packed.  Both also yield the element segment, the undefined tail and the facts
+// 0 <= |l| <= cap <= INT_MAX and vec_buf_ok(cap, p) (a vector without capacity stores NULL);
+// closing asks for the same facts.
+//
+// A table of Vecp vectors (VecpArray) gives out one vector at a time and takes it back (rules
+// 401-409 and 411-416); rules 60 and 68 cancel IntArray / PtrArray segments whose bases are
+// provably equal (rule 68 also matches the bounds up to provable equality).
+
+#include "vec_qcp_def.h"
+
+// Veci::rep on the left and a field on the right: open it.
+id : 2
+priority : core(2)
+left : Veci::rep(?v, ?l) at 0
+right : (store(field_addr(v, veci_t, size), I32, ?y) ||
+         store(field_addr(v, veci_t, cap), I32, ?y) ||
+         store(field_addr(v, veci_t, ptr), PTR, ?y)) at 1
+action : left_erase(0);
+         left_exist_add(p);
+         left_exist_add(cap);
+         left_add(0 <= Zlength{Z}(l));
+         left_add(Zlength{Z}(l) <= cap);
+         left_add(cap <= INT_MAX());
+         left_add(vec_buf_ok(cap, p));
+         left_add(store(field_addr(v, veci_t, size), I32, Zlength{Z}(l)));
+         left_add(store(field_addr(v, veci_t, cap), I32, cap));
+         left_add(store(field_addr(v, veci_t, ptr), PTR, p));
+         left_add(IntArray::seg(p, 0, Zlength{Z}(l), l));
+         left_add(IntArray::undef_seg(p, Zlength{Z}(l), cap));
+
+// Veci::rep on the right and the fields on the left: close it.
+id : 5
+priority : core(2)
+right : Veci::rep(?v, ?l) at 0
+left : (store(field_addr(v, veci_t, size), I32, ?y) ||
+         store(field_addr(v, veci_t, cap), I32, ?y) ||
+         store(field_addr(v, veci_t, ptr), PTR, ?y)) at 1
+action : right_erase(0);
+         right_exist_add(p);
+         right_exist_add(cap);
+         right_add(0 <= Zlength{Z}(l));
+         right_add(Zlength{Z}(l) <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, p));
+         right_add(store(field_addr(v, veci_t, size), I32, Zlength{Z}(l)));
+         right_add(store(field_addr(v, veci_t, cap), I32, cap));
+         right_add(store(field_addr(v, veci_t, ptr), PTR, p));
+         right_add(IntArray::seg(p, 0, Zlength{Z}(l), l));
+         right_add(IntArray::undef_seg(p, Zlength{Z}(l), cap));
+
+// Veci::shell on the left and a field on the right: expose the three fields.
+id : 7
+priority : core(2)
+left : Veci::shell(?v) at 0
+right : (store(field_addr(v, veci_t, size), I32, ?y) ||
+         undef_data_at(field_addr(v, veci_t, size), I32) ||
+         store(field_addr(v, veci_t, cap), I32, ?y) ||
+         undef_data_at(field_addr(v, veci_t, cap), I32) ||
+         store(field_addr(v, veci_t, ptr), PTR, ?y) ||
+         undef_data_at(field_addr(v, veci_t, ptr), PTR)) at 1
+action : left_erase(0);
+         left_add(undef_data_at(field_addr(v, veci_t, size), I32));
+         left_add(undef_data_at(field_addr(v, veci_t, cap), I32));
+         left_add(undef_data_at(field_addr(v, veci_t, ptr), PTR));
+
+// Veci::shell on the right and a field on the left: collect the three fields.
+id : 8
+priority : core(2)
+right : Veci::shell(?v) at 0
+left : (store(field_addr(v, veci_t, size), I32, ?y) ||
+         undef_data_at(field_addr(v, veci_t, size), I32) ||
+         store(field_addr(v, veci_t, cap), I32, ?y) ||
+         undef_data_at(field_addr(v, veci_t, cap), I32) ||
+         store(field_addr(v, veci_t, ptr), PTR, ?y) ||
+         undef_data_at(field_addr(v, veci_t, ptr), PTR)) at 1
+action : right_erase(0);
+         right_add(undef_data_at(field_addr(v, veci_t, size), I32));
+         right_add(undef_data_at(field_addr(v, veci_t, cap), I32));
+         right_add(undef_data_at(field_addr(v, veci_t, ptr), PTR));
+
+// Vecp::rep on the left and a field on the right: open it.
+id : 102
+priority : core(2)
+left : Vecp::rep(?v, ?l) at 0
+right : (store(field_addr(v, vecp_t, size), I32, ?y) ||
+         store(field_addr(v, vecp_t, cap), I32, ?y) ||
+         store(field_addr(v, vecp_t, ptr), PTR, ?y)) at 1
+action : left_erase(0);
+         left_exist_add(p);
+         left_exist_add(cap);
+         left_add(0 <= Zlength{Z}(l));
+         left_add(Zlength{Z}(l) <= cap);
+         left_add(cap <= INT_MAX());
+         left_add(vec_buf_ok(cap, p));
+         left_add(store(field_addr(v, vecp_t, size), I32, Zlength{Z}(l)));
+         left_add(store(field_addr(v, vecp_t, cap), I32, cap));
+         left_add(store(field_addr(v, vecp_t, ptr), PTR, p));
+         left_add(PtrArray::seg(p, 0, Zlength{Z}(l), l));
+         left_add(PtrArray::undef_seg(p, Zlength{Z}(l), cap));
+
+// Vecp::rep on the right and the fields on the left: close it.
+id : 105
+priority : core(2)
+right : Vecp::rep(?v, ?l) at 0
+left : (store(field_addr(v, vecp_t, size), I32, ?y) ||
+         store(field_addr(v, vecp_t, cap), I32, ?y) ||
+         store(field_addr(v, vecp_t, ptr), PTR, ?y)) at 1
+action : right_erase(0);
+         right_exist_add(p);
+         right_exist_add(cap);
+         right_add(0 <= Zlength{Z}(l));
+         right_add(Zlength{Z}(l) <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, p));
+         right_add(store(field_addr(v, vecp_t, size), I32, Zlength{Z}(l)));
+         right_add(store(field_addr(v, vecp_t, cap), I32, cap));
+         right_add(store(field_addr(v, vecp_t, ptr), PTR, p));
+         right_add(PtrArray::seg(p, 0, Zlength{Z}(l), l));
+         right_add(PtrArray::undef_seg(p, Zlength{Z}(l), cap));
+
+// Vecp::rep of a table slot on the right, and the same slot held under an alias on the left.
+id : 116
+priority : core(2)
+right : Vecp::rep(Vecp::slot(?base, ?j), ?l) at 0
+left : Vecp::rep(?w, ?k) at 1
+       ((w == Vecp::slot(base, ?i)) || (Vecp::slot(base, ?i) == w)) at 2
+check : infer(i == j);
+action : right_erase(0);
+         left_erase(1);
+         right_add(k == l);
+
+// Vecp::rep of a table slot on the right and the slot opened under an alias on the left: close it.
+id : 95
+priority : core(2)
+right : Vecp::rep(Vecp::slot(?base, ?index), ?l) at 0
+left : ((?read_index == index) || (index == ?read_index)) at 1
+       ((?requested == Vecp::slot(base, read_index)) ||
+        (Vecp::slot(base, read_index) == ?requested)) at 2
+       Vecp::header(requested, ?q, ?n, ?cap) at 3
+action : right_erase(0);
+         left_erase(3);
+         right_add(n == Zlength{Z}(l));
+         right_add(0 <= Zlength{Z}(l));
+         right_add(Zlength{Z}(l) <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, q));
+         right_add(PtrArray::seg(q, 0, Zlength{Z}(l), l));
+         right_add(PtrArray::undef_seg(q, Zlength{Z}(l), cap));
+
+// Vecp::shell on the left and a field on the right: expose the three fields.
+id : 107
+priority : core(2)
+left : Vecp::shell(?v) at 0
+right : (store(field_addr(v, vecp_t, size), I32, ?y) ||
+         undef_data_at(field_addr(v, vecp_t, size), I32) ||
+         store(field_addr(v, vecp_t, cap), I32, ?y) ||
+         undef_data_at(field_addr(v, vecp_t, cap), I32) ||
+         store(field_addr(v, vecp_t, ptr), PTR, ?y) ||
+         undef_data_at(field_addr(v, vecp_t, ptr), PTR)) at 1
+action : left_erase(0);
+         left_add(undef_data_at(field_addr(v, vecp_t, size), I32));
+         left_add(undef_data_at(field_addr(v, vecp_t, cap), I32));
+         left_add(undef_data_at(field_addr(v, vecp_t, ptr), PTR));
+
+// Vecp::shell on the right and a field on the left: collect the three fields.
+id : 108
+priority : core(2)
+right : Vecp::shell(?v) at 0
+left : (store(field_addr(v, vecp_t, size), I32, ?y) ||
+         undef_data_at(field_addr(v, vecp_t, size), I32) ||
+         store(field_addr(v, vecp_t, cap), I32, ?y) ||
+         undef_data_at(field_addr(v, vecp_t, cap), I32) ||
+         store(field_addr(v, vecp_t, ptr), PTR, ?y) ||
+         undef_data_at(field_addr(v, vecp_t, ptr), PTR)) at 1
+action : right_erase(0);
+         right_add(undef_data_at(field_addr(v, vecp_t, size), I32));
+         right_add(undef_data_at(field_addr(v, vecp_t, cap), I32));
+         right_add(undef_data_at(field_addr(v, vecp_t, ptr), PTR));
+
+// QCP names an uninitialized local veci_t UndefStructPredveci_t: the same cells as Veci::shell.
+id : 9
+priority : core(2)
+left : UndefStructPredveci_t(?v) at 0
+right : Veci::shell(v) at 1
+action : left_erase(0);
+         right_erase(1);
+
+id : 10
+priority : core(2)
+right : UndefStructPredveci_t(?v) at 0
+left : Veci::shell(v) at 1
+action : right_erase(0);
+         left_erase(1);
+
+// QCP names an uninitialized local vecp_t UndefStructPredvecp_t: the same cells as Vecp::shell.
+id : 109
+priority : core(2)
+left : UndefStructPredvecp_t(?v) at 0
+right : Vecp::shell(v) at 1
+action : left_erase(0);
+         right_erase(1);
+
+id : 110
+priority : core(2)
+right : UndefStructPredvecp_t(?v) at 0
+left : Vecp::shell(v) at 1
+action : right_erase(0);
+         left_erase(1);
+
+// vecp_resize's nested size read leaves the vector in raw field form with a
+// temporary cut expression.  Reclose only an explicitly requested prefix
+// representation under the inferred cut equality.
+id : 35
+priority : core(1)
+left : store(
+         field_addr(?raw_v, vecp_t, size), I32,
+         Zlength{Z}(sublist{Z}(0, ?actual_cut, ?words))) at 0
+       store(field_addr(raw_v, vecp_t, cap), I32, ?cap) at 1
+       store(field_addr(raw_v, vecp_t, ptr), PTR, ?p) at 2
+       PtrArray::seg(
+         p, 0, Zlength{Z}(sublist{Z}(0, actual_cut, words)),
+         sublist{Z}(0, actual_cut, words)) at 3
+       PtrArray::undef_seg(
+         p, Zlength{Z}(sublist{Z}(0, actual_cut, words)), cap) at 4
+right : Vecp::rep(
+          ?closed_v, sublist{Z}(0, ?required_cut, words)) at 5
+check : infer(raw_v == closed_v);
+        infer(actual_cut == required_cut);
+        infer(0 <= Zlength{Z}(sublist{Z}(0, actual_cut, words)));
+        infer(Zlength{Z}(sublist{Z}(0, actual_cut, words)) <= cap);
+        infer(cap <= INT_MAX());
+action : left_erase(4);
+         left_erase(3);
+         left_erase(2);
+         left_erase(1);
+         left_erase(0);
+         right_erase(5);
+         right_add(vec_buf_ok(cap, p));
+
+// Answer a requested vector bound while preserving the representation.
+id : 70
+priority : core(0)
+left : Veci::rep(?v, ?l) at 0
+right : (0 <= Zlength{Z}(l) || Zlength{Z}(l) <= INT_MAX()) at 1
+action : right_erase(1);
+
+id : 71
+priority : core(0)
+left : Vecp::rep(?v, ?l) at 0
+right : (0 <= Zlength{Z}(l) || Zlength{Z}(l) <= INT_MAX()) at 1
+action : right_erase(1);
+
+// Veci::rep_ptr on the left and a field on the right: open it.
+id : 201
+priority : core(2)
+left : Veci::rep_ptr(?v, ?p, ?l) at 0
+right : (store(field_addr(v, veci_t, size), I32, ?y) ||
+         store(field_addr(v, veci_t, cap), I32, ?y) ||
+         store(field_addr(v, veci_t, ptr), PTR, ?y)) at 1
+action : left_erase(0);
+         left_exist_add(cap);
+         left_add(0 <= Zlength{Z}(l));
+         left_add(Zlength{Z}(l) <= cap);
+         left_add(cap <= INT_MAX());
+         left_add(vec_buf_ok(cap, p));
+         left_add(store(field_addr(v, veci_t, size), I32, Zlength{Z}(l)));
+         left_add(store(field_addr(v, veci_t, cap), I32, cap));
+         left_add(store(field_addr(v, veci_t, ptr), PTR, p));
+         left_add(IntArray::seg(p, 0, Zlength{Z}(l), l));
+         left_add(IntArray::undef_seg(p, Zlength{Z}(l), cap));
+
+// Veci::rep_ptr on the left and a cell (indexed or the base) or segment of its buffer on the right: open it
+// to its header, element segment and undefined tail.
+id : 202
+priority : core(2)
+left : Veci::rep_ptr(?v, ?p, ?l) at 0
+right : (store(?q + ?i * sizeof(I32), I32, ?y) ||
+         undef_data_at(?q + ?i * sizeof(I32), I32) ||
+         store(pointer_offset(?q, ?i, I32), I32, ?y) ||
+         undef_data_at(pointer_offset(?q, ?i, I32), I32) ||
+         IntArray::seg(?q, ?lo, ?hi, ?ll) ||
+         IntArray::undef_seg(?q, ?lo, ?hi) ||
+         store(?q, I32, ?y) ||
+         undef_data_at(?q, I32)) at 1
+check : infer(q == p);
+action : left_erase(0);
+         left_exist_add(cap);
+         left_add(0 <= Zlength{Z}(l));
+         left_add(Zlength{Z}(l) <= cap);
+         left_add(cap <= INT_MAX());
+         left_add(vec_buf_ok(cap, p));
+         left_add(Veci::header(v, p, Zlength{Z}(l), cap));
+         left_add(IntArray::seg(p, 0, Zlength{Z}(l), l));
+         left_add(IntArray::undef_seg(p, Zlength{Z}(l), cap));
+
+// Veci::rep_ptr on the right and the fields on the left: close it.
+id : 203
+priority : core(2)
+right : Veci::rep_ptr(?v, ?p, ?l) at 0
+left : (store(field_addr(v, veci_t, size), I32, ?y) ||
+         store(field_addr(v, veci_t, cap), I32, ?y) ||
+         store(field_addr(v, veci_t, ptr), PTR, ?y)) at 1
+action : right_erase(0);
+         right_exist_add(cap);
+         right_add(0 <= Zlength{Z}(l));
+         right_add(Zlength{Z}(l) <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, p));
+         right_add(store(field_addr(v, veci_t, size), I32, Zlength{Z}(l)));
+         right_add(store(field_addr(v, veci_t, cap), I32, cap));
+         right_add(store(field_addr(v, veci_t, ptr), PTR, p));
+         right_add(IntArray::seg(p, 0, Zlength{Z}(l), l));
+         right_add(IntArray::undef_seg(p, Zlength{Z}(l), cap));
+
+id : 205
+priority : core(2)
+right : Veci::rep_ptr(?v, ?p, ?l) at 0
+left : Veci::rep_ptr(?w, ?q, ?k) at 1
+check : infer(w == v);
+action : right_erase(0);
+         left_erase(1);
+         right_add(q == p);
+         right_add(k == l);
+
+// Veci::rep on the right and Veci::rep_ptr of a provably equal vector on the left: hide the buffer.
+id : 206
+priority : core(2)
+right : Veci::rep(?v, ?l) at 0
+left : Veci::rep_ptr(?w, ?q, ?k) at 1
+check : infer(w == v);
+action : right_erase(0);
+         left_erase(1);
+         right_add(k == l);
+
+// Veci::rep on the left and Veci::rep_ptr of the same vector on the right: name its buffer.
+id : 207
+priority : core(1)
+left : Veci::rep(?v, ?l) at 0
+right : Veci::rep_ptr(v, ?target_p, ?target_l) at 1
+action : left_erase(0);
+         left_exist_add(p);
+         left_add(Veci::rep_ptr(v, p, l));
+
+// Answer a requested vector bound while preserving the representation.
+id : 208
+priority : core(0)
+left : Veci::rep_ptr(?v, ?p, ?l) at 0
+right : (0 <= Zlength{Z}(l) || Zlength{Z}(l) <= INT_MAX()) at 1
+action : right_erase(1);
+
+// Vecp::rep_ptr on the left and a field on the right: open it.
+id : 301
+priority : core(2)
+left : Vecp::rep_ptr(?v, ?p, ?l) at 0
+right : (store(field_addr(v, vecp_t, size), I32, ?y) ||
+         store(field_addr(v, vecp_t, cap), I32, ?y) ||
+         store(field_addr(v, vecp_t, ptr), PTR, ?y)) at 1
+action : left_erase(0);
+         left_exist_add(cap);
+         left_add(0 <= Zlength{Z}(l));
+         left_add(Zlength{Z}(l) <= cap);
+         left_add(cap <= INT_MAX());
+         left_add(vec_buf_ok(cap, p));
+         left_add(store(field_addr(v, vecp_t, size), I32, Zlength{Z}(l)));
+         left_add(store(field_addr(v, vecp_t, cap), I32, cap));
+         left_add(store(field_addr(v, vecp_t, ptr), PTR, p));
+         left_add(PtrArray::seg(p, 0, Zlength{Z}(l), l));
+         left_add(PtrArray::undef_seg(p, Zlength{Z}(l), cap));
+
+// Vecp::rep_ptr on the left and a cell (indexed or the base) or segment of its buffer on the right: open it
+// to its header, element segment and undefined tail.
+id : 302
+priority : core(2)
+left : Vecp::rep_ptr(?v, ?p, ?l) at 0
+right : (store(?q + ?i * sizeof(PTR), PTR, ?y) ||
+         undef_data_at(?q + ?i * sizeof(PTR), PTR) ||
+         store(pointer_offset(?q, ?i, PTR), PTR, ?y) ||
+         undef_data_at(pointer_offset(?q, ?i, PTR), PTR) ||
+         PtrArray::seg(?q, ?lo, ?hi, ?ll) ||
+         PtrArray::undef_seg(?q, ?lo, ?hi) ||
+         store(?q, PTR, ?y) ||
+         undef_data_at(?q, PTR)) at 1
+check : infer(q == p);
+action : left_erase(0);
+         left_exist_add(cap);
+         left_add(0 <= Zlength{Z}(l));
+         left_add(Zlength{Z}(l) <= cap);
+         left_add(cap <= INT_MAX());
+         left_add(vec_buf_ok(cap, p));
+         left_add(Vecp::header(v, p, Zlength{Z}(l), cap));
+         left_add(PtrArray::seg(p, 0, Zlength{Z}(l), l));
+         left_add(PtrArray::undef_seg(p, Zlength{Z}(l), cap));
+
+// Vecp::rep_ptr on the right and the fields on the left: close it.
+id : 303
+priority : core(2)
+right : Vecp::rep_ptr(?v, ?p, ?l) at 0
+left : (store(field_addr(v, vecp_t, size), I32, ?y) ||
+         store(field_addr(v, vecp_t, cap), I32, ?y) ||
+         store(field_addr(v, vecp_t, ptr), PTR, ?y)) at 1
+action : right_erase(0);
+         right_exist_add(cap);
+         right_add(0 <= Zlength{Z}(l));
+         right_add(Zlength{Z}(l) <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, p));
+         right_add(store(field_addr(v, vecp_t, size), I32, Zlength{Z}(l)));
+         right_add(store(field_addr(v, vecp_t, cap), I32, cap));
+         right_add(store(field_addr(v, vecp_t, ptr), PTR, p));
+         right_add(PtrArray::seg(p, 0, Zlength{Z}(l), l));
+         right_add(PtrArray::undef_seg(p, Zlength{Z}(l), cap));
+
+id : 305
+priority : core(2)
+right : Vecp::rep_ptr(?v, ?p, ?l) at 0
+left : Vecp::rep_ptr(?w, ?q, ?k) at 1
+check : infer(w == v);
+action : right_erase(0);
+         left_erase(1);
+         right_add(q == p);
+         right_add(k == l);
+
+// Vecp::rep on the right and Vecp::rep_ptr of a provably equal vector on the left: hide the buffer.
+id : 306
+priority : core(2)
+right : Vecp::rep(?v, ?l) at 0
+left : Vecp::rep_ptr(?w, ?q, ?k) at 1
+check : infer(w == v);
+action : right_erase(0);
+         left_erase(1);
+         right_add(k == l);
+
+// Vecp::rep on the left and Vecp::rep_ptr of the same vector on the right: name its buffer.
+id : 307
+priority : core(1)
+left : Vecp::rep(?v, ?l) at 0
+right : Vecp::rep_ptr(v, ?target_p, ?target_l) at 1
+action : left_erase(0);
+         left_exist_add(p);
+         left_add(Vecp::rep_ptr(v, p, l));
+
+// Answer a requested vector bound while preserving the representation.
+id : 308
+priority : core(0)
+left : Vecp::rep_ptr(?v, ?p, ?l) at 0
+right : (0 <= Zlength{Z}(l) || Zlength{Z}(l) <= INT_MAX()) at 1
+action : right_erase(1);
+
+// Veci::rep_ptr on the right and the opened fields on the left, with its element segment and its
+// undefined tail keyed on the size-cell value n (after an in-place element write the list changed but the
+// length expression did not): close it, asking n == Zlength(l), the bounds and the buffer validity.
+id : 209
+priority : core(1)
+right : Veci::rep_ptr(?v, ?p, ?l) at 0
+left : store(field_addr(v, veci_t, size), I32, ?n) at 1
+       store(field_addr(v, veci_t, cap), I32, ?cap) at 2
+       store(field_addr(v, veci_t, ptr), PTR, ?q) at 3
+       IntArray::seg(q, 0, n, ?k) at 4
+       IntArray::undef_seg(q, n, cap) at 5
+action : right_erase(0);
+         left_erase(5);
+         left_erase(4);
+         left_erase(3);
+         left_erase(2);
+         left_erase(1);
+         right_add(q == p);
+         right_add(k == l);
+         right_add(n == Zlength{Z}(l));
+         right_add(0 <= n);
+         right_add(n <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, q));
+
+// Veci::rep_ptr on the right and the opened fields on the left, with its elements as a full array and its
+// undefined tail keyed on the size-cell value n (after an in-place element write the list changed but the
+// length expression did not): close it, asking n == Zlength(l), the bounds and the buffer validity.
+id : 210
+priority : core(1)
+right : Veci::rep_ptr(?v, ?p, ?l) at 0
+left : store(field_addr(v, veci_t, size), I32, ?n) at 1
+       store(field_addr(v, veci_t, cap), I32, ?cap) at 2
+       store(field_addr(v, veci_t, ptr), PTR, ?q) at 3
+       IntArray::full(q, n, ?k) at 4
+       IntArray::undef_seg(q, n, cap) at 5
+action : right_erase(0);
+         left_erase(5);
+         left_erase(4);
+         left_erase(3);
+         left_erase(2);
+         left_erase(1);
+         right_add(q == p);
+         right_add(k == l);
+         right_add(n == Zlength{Z}(l));
+         right_add(0 <= n);
+         right_add(n <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, q));
+
+// Vecp::rep_ptr on the right and the opened fields on the left, with its element segment and its
+// undefined tail keyed on the size-cell value n (after an in-place element write the list changed but the
+// length expression did not): close it, asking n == Zlength(l), the bounds and the buffer validity.
+id : 309
+priority : core(1)
+right : Vecp::rep_ptr(?v, ?p, ?l) at 0
+left : store(field_addr(v, vecp_t, size), I32, ?n) at 1
+       store(field_addr(v, vecp_t, cap), I32, ?cap) at 2
+       store(field_addr(v, vecp_t, ptr), PTR, ?q) at 3
+       PtrArray::seg(q, 0, n, ?k) at 4
+       PtrArray::undef_seg(q, n, cap) at 5
+action : right_erase(0);
+         left_erase(5);
+         left_erase(4);
+         left_erase(3);
+         left_erase(2);
+         left_erase(1);
+         right_add(q == p);
+         right_add(k == l);
+         right_add(n == Zlength{Z}(l));
+         right_add(0 <= n);
+         right_add(n <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, q));
+
+// Vecp::rep_ptr on the right and the opened fields on the left, with its elements as a full array and its
+// undefined tail keyed on the size-cell value n (after an in-place element write the list changed but the
+// length expression did not): close it, asking n == Zlength(l), the bounds and the buffer validity.
+id : 310
+priority : core(1)
+right : Vecp::rep_ptr(?v, ?p, ?l) at 0
+left : store(field_addr(v, vecp_t, size), I32, ?n) at 1
+       store(field_addr(v, vecp_t, cap), I32, ?cap) at 2
+       store(field_addr(v, vecp_t, ptr), PTR, ?q) at 3
+       PtrArray::full(q, n, ?k) at 4
+       PtrArray::undef_seg(q, n, cap) at 5
+action : right_erase(0);
+         left_erase(5);
+         left_erase(4);
+         left_erase(3);
+         left_erase(2);
+         left_erase(1);
+         right_add(q == p);
+         right_add(k == l);
+         right_add(n == Zlength{Z}(l));
+         right_add(0 <= n);
+         right_add(n <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, q));
+
+// Veci::rep_ptr on the left and the full element array of its buffer on the right: open it to its header and
+// undefined tail and hand the element array over.
+id : 211
+priority : core(2)
+left : Veci::rep_ptr(?v, ?p, ?l) at 0
+right : IntArray::full(?q, ?n, l) at 1
+check : infer(q == p);
+        infer(n == Zlength{Z}(l));
+action : left_erase(0);
+         right_erase(1);
+         left_exist_add(cap);
+         left_add(0 <= Zlength{Z}(l));
+         left_add(Zlength{Z}(l) <= cap);
+         left_add(cap <= INT_MAX());
+         left_add(vec_buf_ok(cap, p));
+         left_add(Veci::header(v, p, Zlength{Z}(l), cap));
+         left_add(IntArray::undef_seg(p, Zlength{Z}(l), cap));
+
+// Veci::rep_ptr on the right and an opened header on the left, with its element segment and undefined tail
+// keyed on the length n the header holds: close it, asking n == Zlength(l), the bounds and the buffer validity.
+id : 212
+priority : core(1)
+right : Veci::rep_ptr(?v, ?p, ?l) at 0
+left : Veci::header(v, ?q, ?n, ?cap) at 1
+       IntArray::seg(q, 0, n, ?k) at 2
+       IntArray::undef_seg(q, n, cap) at 3
+action : right_erase(0);
+         left_erase(3);
+         left_erase(2);
+         left_erase(1);
+         right_add(q == p);
+         right_add(k == l);
+         right_add(n == Zlength{Z}(l));
+         right_add(0 <= n);
+         right_add(n <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, q));
+
+// The same with the elements as a full array.
+id : 213
+priority : core(1)
+right : Veci::rep_ptr(?v, ?p, ?l) at 0
+left : Veci::header(v, ?q, ?n, ?cap) at 1
+       IntArray::full(q, n, ?k) at 2
+       IntArray::undef_seg(q, n, cap) at 3
+action : right_erase(0);
+         left_erase(3);
+         left_erase(2);
+         left_erase(1);
+         right_add(q == p);
+         right_add(k == l);
+         right_add(n == Zlength{Z}(l));
+         right_add(0 <= n);
+         right_add(n <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, q));
+
+// Veci::rep_ptr on the right and an opened header on the left: close it; the element segment and the
+// undefined tail are left to match.
+id : 214
+priority : core(2)
+right : Veci::rep_ptr(?v, ?p, ?l) at 0
+left : Veci::header(v, ?q, ?n, ?cap) at 1
+action : right_erase(0);
+         left_erase(1);
+         right_add(q == p);
+         right_add(n == Zlength{Z}(l));
+         right_add(0 <= Zlength{Z}(l));
+         right_add(Zlength{Z}(l) <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, p));
+         right_add(IntArray::seg(p, 0, Zlength{Z}(l), l));
+         right_add(IntArray::undef_seg(p, Zlength{Z}(l), cap));
+
+// Veci::rep on the right and an opened header on the left: close it.
+id : 215
+priority : core(2)
+right : Veci::rep(?v, ?l) at 0
+left : Veci::header(v, ?q, ?n, ?cap) at 1
+action : right_erase(0);
+         left_erase(1);
+         right_add(n == Zlength{Z}(l));
+         right_add(0 <= Zlength{Z}(l));
+         right_add(Zlength{Z}(l) <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, q));
+         right_add(IntArray::seg(q, 0, Zlength{Z}(l), l));
+         right_add(IntArray::undef_seg(q, Zlength{Z}(l), cap));
+
+// Vecp::rep_ptr on the left and the full element array of its buffer on the right: open it to its header and
+// undefined tail and hand the element array over.
+id : 311
+priority : core(2)
+left : Vecp::rep_ptr(?v, ?p, ?l) at 0
+right : PtrArray::full(?q, ?n, l) at 1
+check : infer(q == p);
+        infer(n == Zlength{Z}(l));
+action : left_erase(0);
+         right_erase(1);
+         left_exist_add(cap);
+         left_add(0 <= Zlength{Z}(l));
+         left_add(Zlength{Z}(l) <= cap);
+         left_add(cap <= INT_MAX());
+         left_add(vec_buf_ok(cap, p));
+         left_add(Vecp::header(v, p, Zlength{Z}(l), cap));
+         left_add(PtrArray::undef_seg(p, Zlength{Z}(l), cap));
+
+// Vecp::rep_ptr on the right and an opened header on the left, with its element segment and undefined tail
+// keyed on the length n the header holds: close it, asking n == Zlength(l), the bounds and the buffer validity.
+id : 312
+priority : core(1)
+right : Vecp::rep_ptr(?v, ?p, ?l) at 0
+left : Vecp::header(v, ?q, ?n, ?cap) at 1
+       PtrArray::seg(q, 0, n, ?k) at 2
+       PtrArray::undef_seg(q, n, cap) at 3
+action : right_erase(0);
+         left_erase(3);
+         left_erase(2);
+         left_erase(1);
+         right_add(q == p);
+         right_add(k == l);
+         right_add(n == Zlength{Z}(l));
+         right_add(0 <= n);
+         right_add(n <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, q));
+
+// The same with the elements as a full array.
+id : 313
+priority : core(1)
+right : Vecp::rep_ptr(?v, ?p, ?l) at 0
+left : Vecp::header(v, ?q, ?n, ?cap) at 1
+       PtrArray::full(q, n, ?k) at 2
+       PtrArray::undef_seg(q, n, cap) at 3
+action : right_erase(0);
+         left_erase(3);
+         left_erase(2);
+         left_erase(1);
+         right_add(q == p);
+         right_add(k == l);
+         right_add(n == Zlength{Z}(l));
+         right_add(0 <= n);
+         right_add(n <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, q));
+
+// Vecp::rep_ptr on the right and an opened header on the left: close it; the element segment and the
+// undefined tail are left to match.
+id : 314
+priority : core(2)
+right : Vecp::rep_ptr(?v, ?p, ?l) at 0
+left : Vecp::header(v, ?q, ?n, ?cap) at 1
+action : right_erase(0);
+         left_erase(1);
+         right_add(q == p);
+         right_add(n == Zlength{Z}(l));
+         right_add(0 <= Zlength{Z}(l));
+         right_add(Zlength{Z}(l) <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, p));
+         right_add(PtrArray::seg(p, 0, Zlength{Z}(l), l));
+         right_add(PtrArray::undef_seg(p, Zlength{Z}(l), cap));
+
+// Vecp::rep on the right and an opened header on the left: close it.
+id : 315
+priority : core(2)
+right : Vecp::rep(?v, ?l) at 0
+left : Vecp::header(v, ?q, ?n, ?cap) at 1
+action : right_erase(0);
+         left_erase(1);
+         right_add(n == Zlength{Z}(l));
+         right_add(0 <= Zlength{Z}(l));
+         right_add(Zlength{Z}(l) <= cap);
+         right_add(cap <= INT_MAX());
+         right_add(vec_buf_ok(cap, q));
+         right_add(PtrArray::seg(q, 0, Zlength{Z}(l), l));
+         right_add(PtrArray::undef_seg(q, Zlength{Z}(l), cap));
+
+// A table of vectors VecpArray::full(b, n, ls) holds slot i at Vecp::slot(b, i) as a Vecp::rep with
+// contents Znth(i, ls, nil).  A slot is named in three ways: Vecp::slot(b, i); an alias w with
+// w == Vecp::slot(b, i), as returned by a getter; and the C address &b[i], which the frontend writes
+// pointer_offset(b, i, struct vecp_t) and which equals Vecp::slot(b, i) (slot_eq).  Asking for one
+// slot takes it out and leaves the table as VecpArray::missing_i; when the slot is back as a
+// Vecp::rep the table refolds, with replace_Znth when its contents changed.
+
+// VecpArray::full on the left and the rep of one of its slots on the right: take the slot out.
+id : 401
+priority : core(1)
+left : VecpArray::full(?b, ?n, ?ls) at 0
+right : Vecp::rep(Vecp::slot(b, ?i), ?l) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : right_erase(1);
+         left_erase(0);
+         left_add(VecpArray::missing_i(b, i, 0, n, ls));
+         right_add(l == Znth{list{Z}}(i, ls, nil{Z}));
+
+// VecpArray::full on the left and the buffer or a field of one of its slots on the right: take the
+// slot out as its rep, for the vector rules to open.
+id : 402
+priority : core(1)
+left : VecpArray::full(?b, ?n, ?ls) at 0
+right : (Vecp::rep_ptr(Vecp::slot(b, ?i), ?p, ?l) ||
+         store(field_addr(Vecp::slot(b, ?i), vecp_t, size), I32, ?y) ||
+         store(field_addr(Vecp::slot(b, ?i), vecp_t, cap), I32, ?y) ||
+         store(field_addr(Vecp::slot(b, ?i), vecp_t, ptr), PTR, ?y)) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(0);
+         left_add(VecpArray::missing_i(b, i, 0, n, ls));
+         left_add(Vecp::rep(Vecp::slot(b, i), Znth{list{Z}}(i, ls, nil{Z})));
+
+// 401 with the slot named by an alias.
+id : 403
+priority : core(1)
+right : Vecp::rep(?w, ?l) at 0
+left : ((w == Vecp::slot(?b, ?i)) || (Vecp::slot(?b, ?i) == w)) at 1
+       VecpArray::full(b, ?n, ?ls) at 2
+check : infer(0 <= i);
+        infer(i < n);
+action : right_erase(0);
+         left_erase(2);
+         left_add(VecpArray::missing_i(b, i, 0, n, ls));
+         right_add(l == Znth{list{Z}}(i, ls, nil{Z}));
+
+// 402 with the slot named by an alias; the slot comes out under the alias.
+id : 404
+priority : core(1)
+right : (Vecp::rep_ptr(?w, ?p, ?l) ||
+         store(field_addr(?w, vecp_t, size), I32, ?y) ||
+         store(field_addr(?w, vecp_t, cap), I32, ?y) ||
+         store(field_addr(?w, vecp_t, ptr), PTR, ?y)) at 0
+left : ((w == Vecp::slot(?b, ?i)) || (Vecp::slot(?b, ?i) == w)) at 1
+       VecpArray::full(b, ?n, ?ls) at 2
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(2);
+         left_add(VecpArray::missing_i(b, i, 0, n, ls));
+         left_add(Vecp::rep(w, Znth{list{Z}}(i, ls, nil{Z})));
+
+// 401 with the slot named by its C address &b[i].
+id : 405
+priority : core(1)
+left : VecpArray::full(?b, ?n, ?ls) at 0
+right : Vecp::rep(pointer_offset(b, ?i, struct vecp_t), ?l) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : right_erase(1);
+         left_erase(0);
+         left_add(VecpArray::missing_i(b, i, 0, n, ls));
+         right_add(l == Znth{list{Z}}(i, ls, nil{Z}));
+
+// 402 with the slot named by its C address &b[i]; the slot comes out under that address.
+id : 406
+priority : core(1)
+left : VecpArray::full(?b, ?n, ?ls) at 0
+right : (Vecp::rep_ptr(pointer_offset(b, ?i, struct vecp_t), ?p, ?l) ||
+         store(field_addr(pointer_offset(b, ?i, struct vecp_t), vecp_t, size), I32, ?y) ||
+         store(field_addr(pointer_offset(b, ?i, struct vecp_t), vecp_t, cap), I32, ?y) ||
+         store(field_addr(pointer_offset(b, ?i, struct vecp_t), vecp_t, ptr), PTR, ?y)) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(0);
+         left_add(VecpArray::missing_i(b, i, 0, n, ls));
+         left_add(Vecp::rep(pointer_offset(b, i, struct vecp_t), Znth{list{Z}}(i, ls, nil{Z})));
+
+// VecpArray::full on the left and the table missing one slot on the right: take that slot out.
+id : 407
+priority : core(1)
+left : VecpArray::full(?b, ?n, ?ls) at 0
+right : VecpArray::missing_i(b, ?i, 0, ?m, ?ms) at 1
+check : infer(m == n);
+        infer(0 <= i);
+        infer(i < n);
+action : right_erase(1);
+         left_erase(0);
+         left_add(Vecp::rep(Vecp::slot(b, i), Znth{list{Z}}(i, ls, nil{Z})));
+         right_add(ms == ls);
+
+// VecpArray::full on both sides at the same base and a provably equal length: the contents are equal.
+id : 408
+priority : core(1)
+left : VecpArray::full(?b, ?n, ?l1) at 0
+right : VecpArray::full(b, ?m, ?l2) at 1
+check : infer(m == n);
+action : right_erase(1);
+         left_erase(0);
+         right_add(l1 == l2);
+
+// VecpArray::missing_i on both sides at the same base and a provably equal slot and bounds: the
+// contents are equal.
+id : 409
+priority : core(1)
+left : VecpArray::missing_i(?b, ?i, ?lo, ?hi, ?l1) at 0
+right : VecpArray::missing_i(b, ?j, ?lo2, ?hi2, ?l2) at 1
+check : infer(j == i);
+        infer(lo2 == lo);
+        infer(hi2 == hi);
+action : right_erase(1);
+         left_erase(0);
+         right_add(l1 == l2);
+
+// The slot is back with its contents unchanged: refold the table.
+id : 411
+priority : post(1)
+left : VecpArray::missing_i(?b, ?i, 0, ?n, ?ls) at 0
+       Vecp::rep(Vecp::slot(b, i), Znth{list{Z}}(i, ls, nil{Z})) at 1
+action : left_erase(1);
+         left_erase(0);
+         left_add(VecpArray::full(b, n, ls));
+
+// The slot is back with contents l: refold the table with l at slot i.
+id : 412
+priority : post(3)
+left : VecpArray::missing_i(?b, ?i, 0, ?n, ?ls) at 0
+       Vecp::rep(Vecp::slot(b, i), ?l) at 1
+action : left_erase(1);
+         left_erase(0);
+         left_add(VecpArray::full(b, n, replace_Znth{list{Z}}(i, l, ls)));
+
+// 411 with the slot under an alias.
+id : 413
+priority : post(1)
+left : VecpArray::missing_i(?b, ?i, 0, ?n, ?ls) at 0
+       Vecp::rep(?w, Znth{list{Z}}(i, ls, nil{Z})) at 1
+       ((w == Vecp::slot(b, i)) || (Vecp::slot(b, i) == w)) at 2
+action : left_erase(1);
+         left_erase(0);
+         left_add(VecpArray::full(b, n, ls));
+
+// 412 with the slot under an alias.
+id : 414
+priority : post(3)
+left : VecpArray::missing_i(?b, ?i, 0, ?n, ?ls) at 0
+       Vecp::rep(?w, ?l) at 1
+       ((w == Vecp::slot(b, i)) || (Vecp::slot(b, i) == w)) at 2
+action : left_erase(1);
+         left_erase(0);
+         left_add(VecpArray::full(b, n, replace_Znth{list{Z}}(i, l, ls)));
+
+// 411 with the slot under its C address &b[i].
+id : 415
+priority : post(1)
+left : VecpArray::missing_i(?b, ?i, 0, ?n, ?ls) at 0
+       Vecp::rep(pointer_offset(b, i, struct vecp_t), Znth{list{Z}}(i, ls, nil{Z})) at 1
+action : left_erase(1);
+         left_erase(0);
+         left_add(VecpArray::full(b, n, ls));
+
+// 412 with the slot under its C address &b[i].
+id : 416
+priority : post(3)
+left : VecpArray::missing_i(?b, ?i, 0, ?n, ?ls) at 0
+       Vecp::rep(pointer_offset(b, i, struct vecp_t), ?l) at 1
+action : left_erase(1);
+         left_erase(0);
+         left_add(VecpArray::full(b, n, replace_Znth{list{Z}}(i, l, ls)));
+
+// IntArray::seg on both sides with the same bounds and contents and provably equal bases: cancel
+// them.
+id : 60
+priority : core(1)
+left : IntArray::seg(?p, ?lo, ?hi, ?l) at 0
+right : IntArray::seg(?q, lo, hi, l) at 1
+check : infer(p == q);
+action : left_erase(0);
+         right_erase(1);
+
+// The PtrArray::seg twin, with the bounds also matched up to provable equality.
+id : 68
+priority : core(1)
+left : PtrArray::seg(?p, ?lo, ?hi, ?l) at 0
+right : PtrArray::seg(?q, ?lo2, ?hi2, l) at 1
+check : infer(p == q);
+        infer(lo == lo2);
+        infer(hi == hi2);
+action : left_erase(0);
+         right_erase(1);

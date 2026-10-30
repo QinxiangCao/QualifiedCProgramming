@@ -49,7 +49,7 @@ private theorem cells_frame_to_full (bi bj vi vj : Int) (R S : naive_C_Rules.exp
 
 theorem proof_of_feasible_safety_wit_1_split_goal_1 : feasible_safety_wit_1_split_goal_1 := by
   unfold feasible_safety_wit_1_split_goal_1
-  intro bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   dump_pre_spatial
   have h0 : 0≤m_pre := by omega
   have h8 : m_pre≤8 := by omega
@@ -57,7 +57,7 @@ theorem proof_of_feasible_safety_wit_1_split_goal_1 : feasible_safety_wit_1_spli
 
 theorem proof_of_feasible_safety_wit_1_split_goal_2 : feasible_safety_wit_1_split_goal_2 := by
   unfold feasible_safety_wit_1_split_goal_2
-  intro bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   dump_pre_spatial
   have h0 : 0≤m_pre := by omega
   have h8 : m_pre≤8 := by omega
@@ -66,14 +66,14 @@ theorem proof_of_feasible_safety_wit_1_split_goal_2 : feasible_safety_wit_1_spli
 theorem proof_of_feasible_safety_wit_1 : feasible_safety_wit_1 := by
   unfold feasible_safety_wit_1
   right
-  intro bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   split_pures
-  · exact proof_of_feasible_safety_wit_1_split_goal_1 bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
-  · exact proof_of_feasible_safety_wit_1_split_goal_2 bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  · exact proof_of_feasible_safety_wit_1_split_goal_1 old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  · exact proof_of_feasible_safety_wit_1_split_goal_2 old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
 
 theorem proof_of_feasible_safety_wit_2_split_goal_1 : feasible_safety_wit_2_split_goal_1 := by
   unfold feasible_safety_wit_2_split_goal_1
-  intro bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   dump_pre_spatial
   have h0 : 0≤m_pre := by omega
   have h8 : m_pre≤8 := by omega
@@ -81,7 +81,7 @@ theorem proof_of_feasible_safety_wit_2_split_goal_1 : feasible_safety_wit_2_spli
 
 theorem proof_of_feasible_safety_wit_2_split_goal_2 : feasible_safety_wit_2_split_goal_2 := by
   unfold feasible_safety_wit_2_split_goal_2
-  intro bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   dump_pre_spatial
   have h0 : 0≤m_pre := by omega
   have h8 : m_pre≤8 := by omega
@@ -89,29 +89,29 @@ theorem proof_of_feasible_safety_wit_2_split_goal_2 : feasible_safety_wit_2_spli
 
 theorem proof_of_feasible_safety_wit_2_split_goal_3 : feasible_safety_wit_2_split_goal_3 := by
   unfold feasible_safety_wit_2_split_goal_3
-  intro bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   dump_pre_spatial
   omega
 
 theorem proof_of_feasible_safety_wit_2_split_goal_4 : feasible_safety_wit_2_split_goal_4 := by
   unfold feasible_safety_wit_2_split_goal_4
-  intro bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   dump_pre_spatial
   omega
 
 theorem proof_of_feasible_safety_wit_2 : feasible_safety_wit_2 := by
   unfold feasible_safety_wit_2
   right
-  intro bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   split_pures
-  · exact proof_of_feasible_safety_wit_2_split_goal_1 bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
-  · exact proof_of_feasible_safety_wit_2_split_goal_2 bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
-  · exact proof_of_feasible_safety_wit_2_split_goal_3 bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
-  · exact proof_of_feasible_safety_wit_2_split_goal_4 bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  · exact proof_of_feasible_safety_wit_2_split_goal_1 old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  · exact proof_of_feasible_safety_wit_2_split_goal_2 old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  · exact proof_of_feasible_safety_wit_2_split_goal_3 old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  · exact proof_of_feasible_safety_wit_2_split_goal_4 old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
 
 theorem proof_of_feasible_safety_wit_14_split_goal_1 : feasible_safety_wit_14_split_goal_1 := by
   unfold feasible_safety_wit_14_split_goal_1
-  intro bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   dump_pre_spatial
   have h0 : 0≤j := by omega
   have h8 : j≤8 := by omega
@@ -119,7 +119,7 @@ theorem proof_of_feasible_safety_wit_14_split_goal_1 : feasible_safety_wit_14_sp
 
 theorem proof_of_feasible_safety_wit_14_split_goal_2 : feasible_safety_wit_14_split_goal_2 := by
   unfold feasible_safety_wit_14_split_goal_2
-  intro bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   dump_pre_spatial
   have h0 : 0≤j := by omega
   have h8 : j≤8 := by omega
@@ -127,25 +127,25 @@ theorem proof_of_feasible_safety_wit_14_split_goal_2 : feasible_safety_wit_14_sp
 
 theorem proof_of_feasible_safety_wit_14_split_goal_3 : feasible_safety_wit_14_split_goal_3 := by
   unfold feasible_safety_wit_14_split_goal_3
-  intro bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   dump_pre_spatial
   omega
 
 theorem proof_of_feasible_safety_wit_14_split_goal_4 : feasible_safety_wit_14_split_goal_4 := by
   unfold feasible_safety_wit_14_split_goal_4
-  intro bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   dump_pre_spatial
   omega
 
 theorem proof_of_feasible_safety_wit_14 : feasible_safety_wit_14 := by
   unfold feasible_safety_wit_14
   right
-  intro bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   split_pures
-  · exact proof_of_feasible_safety_wit_14_split_goal_1 bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
-  · exact proof_of_feasible_safety_wit_14_split_goal_2 bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
-  · exact proof_of_feasible_safety_wit_14_split_goal_3 bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
-  · exact proof_of_feasible_safety_wit_14_split_goal_4 bj_pre bi_pre rep_pre x_pre m_pre n_pre a_pre old_bj old_bi rows reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  · exact proof_of_feasible_safety_wit_14_split_goal_1 old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  · exact proof_of_feasible_safety_wit_14_split_goal_2 old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  · exact proof_of_feasible_safety_wit_14_split_goal_3 old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  · exact proof_of_feasible_safety_wit_14_split_goal_4 old_bj old_bi rows a_pre n_pre m_pre x_pre rep_pre bi_pre bj_pre reps mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
 
 theorem proof_of_feasible_entail_wit_1 : feasible_entail_wit_1 := by
   unfold feasible_entail_wit_1
@@ -153,31 +153,31 @@ theorem proof_of_feasible_entail_wit_1 : feasible_entail_wit_1 := by
 
 theorem proof_of_feasible_entail_wit_2_split_goal_1 : feasible_entail_wit_2_split_goal_1 := by
   unfold feasible_entail_wit_2_split_goal_1
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   rw [Zlength_replace_Znth]
   omega
 
 theorem proof_of_feasible_entail_wit_2 : feasible_entail_wit_2 := by
   unfold feasible_entail_wit_2
   right
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact proof_of_feasible_entail_wit_2_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_2_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
+      | exact proof_of_feasible_entail_wit_2_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_2_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
 
 theorem proof_of_feasible_entail_wit_3_split_goal_1 : feasible_entail_wit_3_split_goal_1 := by
   unfold feasible_entail_wit_3_split_goal_1
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   intro q hq
   have h:=PreH19 q (by omega)
   omega
 
 theorem proof_of_feasible_entail_wit_3_split_goal_2 : feasible_entail_wit_3_split_goal_2 := by
   unfold feasible_entail_wit_3_split_goal_2
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   rw [shift_one m_pre (by omega)] at PreH13
   intro mask hm
   refine Or.inl ⟨?_,fun row hr=>by omega⟩
@@ -187,50 +187,50 @@ theorem proof_of_feasible_entail_wit_3_split_goal_2 : feasible_entail_wit_3_spli
 theorem proof_of_feasible_entail_wit_3 : feasible_entail_wit_3 := by
   unfold feasible_entail_wit_3
   right
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact proof_of_feasible_entail_wit_3_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_3_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
-      | exact proof_of_feasible_entail_wit_3_split_goal_2 x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_3_split_goal_2 x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
+      | exact proof_of_feasible_entail_wit_3_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_3_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
+      | exact proof_of_feasible_entail_wit_3_split_goal_2 old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_3_split_goal_2 old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
 
 theorem proof_of_feasible_entail_wit_4_split_goal_1 : feasible_entail_wit_4_split_goal_1 := by
   unfold feasible_entail_wit_4_split_goal_1
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   intro q hq
   exact PreH20 q (by omega)
 
 theorem proof_of_feasible_entail_wit_4_split_goal_2 : feasible_entail_wit_4_split_goal_2 := by
   unfold feasible_entail_wit_4_split_goal_2
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   exact ⟨by change 0≤(0:Int) ∧ 0<1; omega,fun c hc=>by omega⟩
 
 theorem proof_of_feasible_entail_wit_4_split_goal_3 : feasible_entail_wit_4_split_goal_3 := by
   unfold feasible_entail_wit_4_split_goal_3
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   nlinarith
 
 theorem proof_of_feasible_entail_wit_4 : feasible_entail_wit_4 := by
   unfold feasible_entail_wit_4
   right
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact proof_of_feasible_entail_wit_4_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_4_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
-      | exact proof_of_feasible_entail_wit_4_split_goal_2 x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_4_split_goal_2 x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
-      | exact proof_of_feasible_entail_wit_4_split_goal_3 x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_4_split_goal_3 x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
+      | exact proof_of_feasible_entail_wit_4_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_4_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
+      | exact proof_of_feasible_entail_wit_4_split_goal_2 old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_4_split_goal_2 old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
+      | exact proof_of_feasible_entail_wit_4_split_goal_3 old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_4_split_goal_3 old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
 
 theorem proof_of_feasible_entail_wit_5_1_split_goal_1 : feasible_entail_wit_5_1_split_goal_1 := by
   unfold feasible_entail_wit_5_1_split_goal_1
-  intro x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   dump_pre_spatial
   rw [signed_shift j (by omega)]
   rw [Znth_indep rows i __default__List_Z [] (by omega)] at PreH3
@@ -238,7 +238,7 @@ theorem proof_of_feasible_entail_wit_5_1_split_goal_1 : feasible_entail_wit_5_1_
 
 theorem proof_of_feasible_entail_wit_5_1_split_goal_2 : feasible_entail_wit_5_1_split_goal_2 := by
   unfold feasible_entail_wit_5_1_split_goal_2
-  intro x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   dump_pre_spatial
   rw [signed_shift j (by omega)]
   rw [Znth_indep rows i __default__List_Z [] (by omega)] at PreH3
@@ -250,7 +250,7 @@ theorem proof_of_feasible_entail_wit_5_1_split_goal_2 : feasible_entail_wit_5_1_
 
 theorem proof_of_feasible_entail_wit_5_1_split_goal_3 : feasible_entail_wit_5_1_split_goal_3 := by
   unfold feasible_entail_wit_5_1_split_goal_3
-  intro x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   dump_pre_spatial
   rw [signed_shift j (by omega)]
   rw [Znth_indep rows i __default__List_Z [] (by omega)] at PreH3
@@ -258,7 +258,7 @@ theorem proof_of_feasible_entail_wit_5_1_split_goal_3 : feasible_entail_wit_5_1_
 
 theorem proof_of_feasible_entail_wit_5_1_split_goal_4 : feasible_entail_wit_5_1_split_goal_4 := by
   unfold feasible_entail_wit_5_1_split_goal_4
-  intro x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   dump_pre_spatial
   nlinarith
 
@@ -269,30 +269,30 @@ theorem proof_of_feasible_entail_wit_5_1_split_goal_spatial : feasible_entail_wi
 theorem proof_of_feasible_entail_wit_5_1 : feasible_entail_wit_5_1 := by
   unfold feasible_entail_wit_5_1
   right
-  intro x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   split_pure_spatial
-  · exact proof_of_feasible_entail_wit_5_1_split_goal_spatial x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  · exact proof_of_feasible_entail_wit_5_1_split_goal_spatial old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   · split_pures
     all_goals first
-      | exact proof_of_feasible_entail_wit_5_1_split_goal_1 x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_5_1_split_goal_1 x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
-      | exact proof_of_feasible_entail_wit_5_1_split_goal_2 x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_5_1_split_goal_2 x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
-      | exact proof_of_feasible_entail_wit_5_1_split_goal_3 x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_5_1_split_goal_3 x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
-      | exact proof_of_feasible_entail_wit_5_1_split_goal_4 x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_5_1_split_goal_4 x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
+      | exact proof_of_feasible_entail_wit_5_1_split_goal_1 old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_5_1_split_goal_1 old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
+      | exact proof_of_feasible_entail_wit_5_1_split_goal_2 old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_5_1_split_goal_2 old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
+      | exact proof_of_feasible_entail_wit_5_1_split_goal_3 old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_5_1_split_goal_3 old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
+      | exact proof_of_feasible_entail_wit_5_1_split_goal_4 old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_5_1_split_goal_4 old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
 
 theorem proof_of_feasible_entail_wit_5_2_split_goal_1 : feasible_entail_wit_5_2_split_goal_1 := by
   unfold feasible_entail_wit_5_2_split_goal_1
-  intro x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   dump_pre_spatial
   rw [Znth_indep rows i __default__List_Z [] (by omega)] at PreH3
   exact row_mask_clear_next__row_mask_step rows x_pre i j mask (by omega) PreH29 PreH3
 
 theorem proof_of_feasible_entail_wit_5_2_split_goal_2 : feasible_entail_wit_5_2_split_goal_2 := by
   unfold feasible_entail_wit_5_2_split_goal_2
-  intro x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   dump_pre_spatial
   nlinarith
 
@@ -303,19 +303,19 @@ theorem proof_of_feasible_entail_wit_5_2_split_goal_spatial : feasible_entail_wi
 theorem proof_of_feasible_entail_wit_5_2 : feasible_entail_wit_5_2 := by
   unfold feasible_entail_wit_5_2
   right
-  intro x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   split_pure_spatial
-  · exact proof_of_feasible_entail_wit_5_2_split_goal_spatial x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  · exact proof_of_feasible_entail_wit_5_2_split_goal_spatial old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   · split_pures
     all_goals first
-      | exact proof_of_feasible_entail_wit_5_2_split_goal_1 x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_5_2_split_goal_1 x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
-      | exact proof_of_feasible_entail_wit_5_2_split_goal_2 x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_5_2_split_goal_2 x_pre m_pre n_pre a_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
+      | exact proof_of_feasible_entail_wit_5_2_split_goal_1 old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_5_2_split_goal_1 old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
+      | exact proof_of_feasible_entail_wit_5_2_split_goal_2 old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_5_2_split_goal_2 old_bj old_bi rows a_pre n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30)
 
 theorem proof_of_feasible_entail_wit_6_1_split_goal_1 : feasible_entail_wit_6_1_split_goal_1 := by
   unfold feasible_entail_wit_6_1_split_goal_1
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   intro q hq
   by_cases he:q=mask
   · subst q
@@ -327,7 +327,7 @@ theorem proof_of_feasible_entail_wit_6_1_split_goal_1 : feasible_entail_wit_6_1_
 
 theorem proof_of_feasible_entail_wit_6_1_split_goal_2 : feasible_entail_wit_6_1_split_goal_2 := by
   unfold feasible_entail_wit_6_1_split_goal_2
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   rw [shift_one m_pre (by omega)] at PreH14
   apply representative_insert__representative_update rows x_pre m_pre i reps_2 mask (by omega) (by omega) (by omega) (by omega) PreH26
   · rw [Znth_indep reps_2 mask (-1) 0 (by omega)]
@@ -338,35 +338,35 @@ theorem proof_of_feasible_entail_wit_6_1_split_goal_2 : feasible_entail_wit_6_1_
 
 theorem proof_of_feasible_entail_wit_6_1_split_goal_3 : feasible_entail_wit_6_1_split_goal_3 := by
   unfold feasible_entail_wit_6_1_split_goal_3
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   rw [Zlength_replace_Znth]
   exact PreH25
 
 theorem proof_of_feasible_entail_wit_6_1 : feasible_entail_wit_6_1 := by
   unfold feasible_entail_wit_6_1
   right
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact proof_of_feasible_entail_wit_6_1_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_6_1_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28)
-      | exact proof_of_feasible_entail_wit_6_1_split_goal_2 x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_6_1_split_goal_2 x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28)
-      | exact proof_of_feasible_entail_wit_6_1_split_goal_3 x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_6_1_split_goal_3 x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28)
+      | exact proof_of_feasible_entail_wit_6_1_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_6_1_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28)
+      | exact proof_of_feasible_entail_wit_6_1_split_goal_2 old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_6_1_split_goal_2 old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28)
+      | exact proof_of_feasible_entail_wit_6_1_split_goal_3 old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_6_1_split_goal_3 old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28)
 
 theorem proof_of_feasible_entail_wit_6_2_split_goal_1 : feasible_entail_wit_6_2_split_goal_1 := by
   unfold feasible_entail_wit_6_2_split_goal_1
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   intro q hq
   have h:=PreH28 q hq
   omega
 
 theorem proof_of_feasible_entail_wit_6_2_split_goal_2 : feasible_entail_wit_6_2_split_goal_2 := by
   unfold feasible_entail_wit_6_2_split_goal_2
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   rw [shift_one m_pre (by omega)] at PreH14
   apply representative_skip__representative_update rows x_pre m_pre i reps_2 mask (by omega) (by omega) PreH26
   · rw [Znth_indep reps_2 mask (-1) 0 (by omega)]; omega
@@ -376,32 +376,32 @@ theorem proof_of_feasible_entail_wit_6_2_split_goal_2 : feasible_entail_wit_6_2_
 theorem proof_of_feasible_entail_wit_6_2 : feasible_entail_wit_6_2 := by
   unfold feasible_entail_wit_6_2
   right
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact proof_of_feasible_entail_wit_6_2_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_6_2_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28)
-      | exact proof_of_feasible_entail_wit_6_2_split_goal_2 x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_6_2_split_goal_2 x_pre m_pre n_pre old_bj old_bi rows reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28)
+      | exact proof_of_feasible_entail_wit_6_2_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_6_2_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28)
+      | exact proof_of_feasible_entail_wit_6_2_split_goal_2 old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_6_2_split_goal_2 old_bj old_bi rows n_pre m_pre x_pre reps_2 mask j i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28)
 
 theorem proof_of_feasible_entail_wit_7_split_goal_1 : feasible_entail_wit_7_split_goal_1 := by
   unfold feasible_entail_wit_7_split_goal_1
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   intro q hq
   have h:=PreH20 q hq
   omega
 
 theorem proof_of_feasible_entail_wit_7_split_goal_2 : feasible_entail_wit_7_split_goal_2 := by
   unfold feasible_entail_wit_7_split_goal_2
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   intro s u hs hu hb hsr hur
   rcases hb with hb|hb <;> omega
 
 theorem proof_of_feasible_entail_wit_7_split_goal_3 : feasible_entail_wit_7_split_goal_3 := by
   unfold feasible_entail_wit_7_split_goal_3
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   have he:i=n_pre := by omega
   rw [←he]
   exact PreH19
@@ -409,61 +409,61 @@ theorem proof_of_feasible_entail_wit_7_split_goal_3 : feasible_entail_wit_7_spli
 theorem proof_of_feasible_entail_wit_7 : feasible_entail_wit_7 := by
   unfold feasible_entail_wit_7
   right
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact proof_of_feasible_entail_wit_7_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_7_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
-      | exact proof_of_feasible_entail_wit_7_split_goal_2 x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_7_split_goal_2 x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
-      | exact proof_of_feasible_entail_wit_7_split_goal_3 x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_7_split_goal_3 x_pre m_pre n_pre old_bj old_bi rows reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
+      | exact proof_of_feasible_entail_wit_7_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_7_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
+      | exact proof_of_feasible_entail_wit_7_split_goal_2 old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_7_split_goal_2 old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
+      | exact proof_of_feasible_entail_wit_7_split_goal_3 old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_7_split_goal_3 old_bj old_bi rows n_pre m_pre x_pre reps_2 i full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
 
 theorem proof_of_feasible_entail_wit_8_split_goal_1 : feasible_entail_wit_8_split_goal_1 := by
   unfold feasible_entail_wit_8_split_goal_1
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   exact PreH22
 
 theorem proof_of_feasible_entail_wit_8 : feasible_entail_wit_8 := by
   unfold feasible_entail_wit_8
   right
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact proof_of_feasible_entail_wit_8_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_8_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+      | exact proof_of_feasible_entail_wit_8_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_8_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
 
 theorem proof_of_feasible_entail_wit_9_1_split_goal_1 : feasible_entail_wit_9_1_split_goal_1 := by
   unfold feasible_entail_wit_9_1_split_goal_1
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   exact PreH25
 
 theorem proof_of_feasible_entail_wit_9_1_split_goal_2 : feasible_entail_wit_9_1_split_goal_2 := by
   unfold feasible_entail_wit_9_1_split_goal_2
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   rw [←PreH13]
   exact no_cover_outer_missing__cover_search reps_2 full s u PreH24 (Or.inl (by omega))
 
 theorem proof_of_feasible_entail_wit_9_1 : feasible_entail_wit_9_1 := by
   unfold feasible_entail_wit_9_1
   right
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact proof_of_feasible_entail_wit_9_1_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_9_1_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25)
-      | exact proof_of_feasible_entail_wit_9_1_split_goal_2 x_pre m_pre n_pre old_bj old_bi rows reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_9_1_split_goal_2 x_pre m_pre n_pre old_bj old_bi rows reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25)
+      | exact proof_of_feasible_entail_wit_9_1_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_9_1_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25)
+      | exact proof_of_feasible_entail_wit_9_1_split_goal_2 old_bj old_bi rows n_pre m_pre x_pre reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_9_1_split_goal_2 old_bj old_bi rows n_pre m_pre x_pre reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25)
 
 theorem proof_of_feasible_entail_wit_9_2_split_goal_1 : feasible_entail_wit_9_2_split_goal_1 := by
   unfold feasible_entail_wit_9_2_split_goal_1
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   rw [←PreH14]
   apply no_cover_outer_missing__cover_search reps_2 full s 0 PreH21
   right
@@ -473,17 +473,17 @@ theorem proof_of_feasible_entail_wit_9_2_split_goal_1 : feasible_entail_wit_9_2_
 theorem proof_of_feasible_entail_wit_9_2 : feasible_entail_wit_9_2 := by
   unfold feasible_entail_wit_9_2
   right
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact proof_of_feasible_entail_wit_9_2_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_9_2_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+      | exact proof_of_feasible_entail_wit_9_2_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_9_2_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
 
 theorem proof_of_feasible_entail_wit_10_1_split_goal_1 : feasible_entail_wit_10_1_split_goal_1 := by
   unfold feasible_entail_wit_10_1_split_goal_1
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   rw [←PreH14]
   apply no_cover_inner_missing__cover_search reps_2 full s u PreH25
   rw [Znth_indep reps_2 u (-1) 0 (by omega)]
@@ -492,34 +492,34 @@ theorem proof_of_feasible_entail_wit_10_1_split_goal_1 : feasible_entail_wit_10_
 theorem proof_of_feasible_entail_wit_10_1 : feasible_entail_wit_10_1 := by
   unfold feasible_entail_wit_10_1
   right
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact proof_of_feasible_entail_wit_10_1_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_10_1_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26)
+      | exact proof_of_feasible_entail_wit_10_1_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_10_1_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26)
 
 theorem proof_of_feasible_entail_wit_10_2_split_goal_1 : feasible_entail_wit_10_2_split_goal_1 := by
   unfold feasible_entail_wit_10_2_split_goal_1
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   rw [←PreH15]
   exact no_cover_inner_noncover__cover_search reps_2 full s u PreH26 PreH1
 
 theorem proof_of_feasible_entail_wit_10_2 : feasible_entail_wit_10_2 := by
   unfold feasible_entail_wit_10_2
   right
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact proof_of_feasible_entail_wit_10_2_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
-      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_10_2_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+      | exact proof_of_feasible_entail_wit_10_2_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+      | (dump_pre_spatial; exact proof_of_feasible_entail_wit_10_2_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
 
 theorem proof_of_feasible_return_wit_1_split_goal_1 : feasible_return_wit_1_split_goal_1 := by
   unfold feasible_return_wit_1_split_goal_1
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   apply completed_no_cover_excludes_feasible__feasible_outcomes rows x_pre m_pre n_pre reps_2 s full (by omega) PreH9
   · rw [Znth_indep rows 0 [] __default__List_Z (by omega)]; exact PreH10
   · exact PreH13
@@ -530,18 +530,18 @@ theorem proof_of_feasible_return_wit_1_split_goal_1 : feasible_return_wit_1_spli
 theorem proof_of_feasible_return_wit_1 : feasible_return_wit_1 := by
   unfold feasible_return_wit_1
   right
-  intro x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact proof_of_feasible_return_wit_1_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
-      | (dump_pre_spatial; exact proof_of_feasible_return_wit_1_split_goal_1 x_pre m_pre n_pre old_bj old_bi rows reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21)
+      | exact proof_of_feasible_return_wit_1_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+      | (dump_pre_spatial; exact proof_of_feasible_return_wit_1_split_goal_1 old_bj old_bi rows n_pre m_pre x_pre reps_2 s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21)
 
 theorem proof_of_feasible_return_wit_2 : feasible_return_wit_2 := by
   unfold feasible_return_wit_2
   right
-  intro bj_pre bi_pre x_pre m_pre n_pre old_bj old_bi rows reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
+  intro old_bj old_bi rows n_pre m_pre x_pre bi_pre bj_pre reps_2 u s full __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31
   have hfull := PreH19
   rw [shift_one m_pre (by omega)] at hfull
   have hsidx : 0≤s ∧ s<Zlength reps_2 := by omega
@@ -572,7 +572,7 @@ theorem proof_of_feasible_which_implies_wit_1 : feasible_which_implies_wit_1 := 
 
 theorem proof_of_solver_safety_wit_4_split_goal_1 : solver_safety_wit_4_split_goal_1 := by
   unfold solver_safety_wit_4_split_goal_1
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   dump_pre_spatial
   have hp := half_positive__solver_semantics (hi-lo+1) (by omega)
   have hl := half_less_than_input__solver_semantics (hi-lo+1) (by omega)
@@ -581,7 +581,7 @@ theorem proof_of_solver_safety_wit_4_split_goal_1 : solver_safety_wit_4_split_go
 
 theorem proof_of_solver_safety_wit_4_split_goal_2 : solver_safety_wit_4_split_goal_2 := by
   unfold solver_safety_wit_4_split_goal_2
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   dump_pre_spatial
   have hp := half_positive__solver_semantics (hi-lo+1) (by omega)
   have hl := half_less_than_input__solver_semantics (hi-lo+1) (by omega)
@@ -591,14 +591,14 @@ theorem proof_of_solver_safety_wit_4_split_goal_2 : solver_safety_wit_4_split_go
 theorem proof_of_solver_safety_wit_4 : solver_safety_wit_4 := by
   unfold solver_safety_wit_4
   right
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   split_pures
-  · exact proof_of_solver_safety_wit_4_split_goal_1 bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-  · exact proof_of_solver_safety_wit_4_split_goal_2 bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  · exact proof_of_solver_safety_wit_4_split_goal_1 rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  · exact proof_of_solver_safety_wit_4_split_goal_2 rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
 
 theorem proof_of_solver_safety_wit_12_split_goal_1 : solver_safety_wit_12_split_goal_1 := by
   unfold solver_safety_wit_12_split_goal_1
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   dump_pre_spatial
   have hp := half_positive__solver_semantics (hi-lo+1) (by omega)
   have hl := half_less_than_input__solver_semantics (hi-lo+1) (by omega)
@@ -607,7 +607,7 @@ theorem proof_of_solver_safety_wit_12_split_goal_1 : solver_safety_wit_12_split_
 
 theorem proof_of_solver_safety_wit_12_split_goal_2 : solver_safety_wit_12_split_goal_2 := by
   unfold solver_safety_wit_12_split_goal_2
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   dump_pre_spatial
   have hp := half_positive__solver_semantics (hi-lo+1) (by omega)
   have hl := half_less_than_input__solver_semantics (hi-lo+1) (by omega)
@@ -617,15 +617,15 @@ theorem proof_of_solver_safety_wit_12_split_goal_2 : solver_safety_wit_12_split_
 theorem proof_of_solver_safety_wit_12 : solver_safety_wit_12 := by
   unfold solver_safety_wit_12
   right
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   split_pures
-  · exact proof_of_solver_safety_wit_12_split_goal_1 bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
-  · exact proof_of_solver_safety_wit_12_split_goal_2 bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  · exact proof_of_solver_safety_wit_12_split_goal_1 rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  · exact proof_of_solver_safety_wit_12_split_goal_2 rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
 
 theorem proof_of_solver_entail_wit_1 : solver_entail_wit_1 := by
   unfold solver_entail_wit_1
   right
-  intro bj_pre bi_pre rep_pre m_pre n_pre rows __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro rows n_pre m_pre rep_pre bi_pre bj_pre __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   have hm := PreH6 0 (by omega)
   have he := matrix_entries_bounded_from_flat__solver_semantics rows n_pre m_pre __default__List_Z PreH3 (by omega) PreH8 PreH9 PreH7
   have hp := pair_at_least_zero__solver_semantics rows PreH3 he (by omega)
@@ -642,7 +642,7 @@ theorem proof_of_solver_entail_wit_1 : solver_entail_wit_1 := by
 theorem proof_of_solver_entail_wit_4_1 : solver_entail_wit_4_1 := by
   unfold solver_entail_wit_4_1
   right
-  intro bj_pre bi_pre rep_pre m_pre n_pre rows cur_j_2 cur_i_2 hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro rows n_pre m_pre rep_pre bi_pre bj_pre cur_j_2 cur_i_2 hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have he := matrix_entries_bounded_from_flat__solver_semantics rows n_pre m_pre __default__List_Z PreH11 (by omega) PreH16 PreH17 PreH18
   rcases PreH26 with ⟨best,ho,hb,hcur⟩
   have hmid := (feasible_threshold_optimal_bound__solver_semantics rows best (lo+Z.quot (hi-lo+1) 2) PreH11 he ho).1 ⟨i,j,PreH7⟩
@@ -661,7 +661,7 @@ theorem proof_of_solver_entail_wit_4_1 : solver_entail_wit_4_1 := by
 theorem proof_of_solver_entail_wit_4_2 : solver_entail_wit_4_2 := by
   unfold solver_entail_wit_4_2
   right
-  intro rep_pre m_pre n_pre rows cur_j_2 cur_i_2 hi lo cj_cells ci_cells reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro rows n_pre m_pre rep_pre cur_j_2 cur_i_2 hi lo cj_cells ci_cells reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have he := matrix_entries_bounded_from_flat__solver_semantics rows n_pre m_pre __default__List_Z PreH7 (by omega) PreH12 PreH13 PreH14
   rcases PreH22 with ⟨best,ho,hb,hcur⟩
   have hmid := (feasible_threshold_optimal_bound__solver_semantics rows best (lo+Z.quot (hi-lo+1) 2) PreH7 he ho).2 PreH3
@@ -678,7 +678,7 @@ theorem proof_of_solver_entail_wit_4_2 : solver_entail_wit_4_2 := by
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   unfold solver_return_wit_1
   right
-  intro rep_pre m_pre n_pre rows cur_j cur_i hi lo bj_cells bi_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro rows n_pre m_pre rep_pre cur_j cur_i hi lo bj_cells bi_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have he := matrix_entries_bounded_from_flat__solver_semantics rows n_pre m_pre __default__List_Z PreH8 (by omega) PreH13 PreH14 PreH15
   rcases PreH23 with ⟨best,ho,hb,hcur⟩
   have hbest : best=0 := by omega
@@ -693,14 +693,14 @@ theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
 theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
   unfold solver_return_wit_2
   right
-  intro bj_pre bi_pre rep_pre m_pre n_pre rows cur_j cur_i hi lo bj_cells bi_cells reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro rows n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo bj_cells bi_cells reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have he := matrix_entries_bounded_from_flat__solver_semantics rows n_pre m_pre __default__List_Z PreH8 (by omega) PreH13 PreH14 PreH15
   exact False.elim (PreH3 ⟨0,0,pair_at_least_zero__solver_semantics rows PreH8 he (by omega)⟩)
 
 theorem proof_of_solver_return_wit_3 : solver_return_wit_3 := by
   unfold solver_return_wit_3
   right
-  intro m_pre n_pre rows cur_j cur_i hi lo __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro rows n_pre m_pre cur_j cur_i hi lo __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   have he := matrix_entries_bounded_from_flat__solver_semantics rows n_pre m_pre __default__List_Z PreH3 (by omega) PreH8 PreH9 PreH10
   rcases PreH18 with ⟨best,ho,hb,hcur⟩
   have hbest : best=lo := by omega
@@ -714,7 +714,7 @@ theorem proof_of_solver_return_wit_3 : solver_return_wit_3 := by
 
 theorem proof_of_solver_partial_solve_wit_3_pure_split_goal_1 : solver_partial_solve_wit_3_pure_split_goal_1 := by
   unfold solver_partial_solve_wit_3_pure_split_goal_1
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   dump_pre_spatial
   have hp := half_positive__solver_semantics (hi-lo+1) (by omega)
   have hl := half_less_than_input__solver_semantics (hi-lo+1) (by omega)
@@ -722,7 +722,7 @@ theorem proof_of_solver_partial_solve_wit_3_pure_split_goal_1 : solver_partial_s
 
 theorem proof_of_solver_partial_solve_wit_3_pure_split_goal_2 : solver_partial_solve_wit_3_pure_split_goal_2 := by
   unfold solver_partial_solve_wit_3_pure_split_goal_2
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   dump_pre_spatial
   have hp := half_positive__solver_semantics (hi-lo+1) (by omega)
   have hl := half_less_than_input__solver_semantics (hi-lo+1) (by omega)
@@ -730,7 +730,7 @@ theorem proof_of_solver_partial_solve_wit_3_pure_split_goal_2 : solver_partial_s
 
 theorem proof_of_solver_partial_solve_wit_3_pure_split_goal_3 : solver_partial_solve_wit_3_pure_split_goal_3 := by
   unfold solver_partial_solve_wit_3_pure_split_goal_3
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   dump_pre_spatial
   have hp := half_positive__solver_semantics (hi-lo+1) (by omega)
   have hl := half_less_than_input__solver_semantics (hi-lo+1) (by omega)
@@ -739,36 +739,36 @@ theorem proof_of_solver_partial_solve_wit_3_pure_split_goal_3 : solver_partial_s
 theorem proof_of_solver_partial_solve_wit_3_pure : solver_partial_solve_wit_3_pure := by
   unfold solver_partial_solve_wit_3_pure
   right
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
   split_pures
-  · exact proof_of_solver_partial_solve_wit_3_pure_split_goal_1 bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
-  · exact proof_of_solver_partial_solve_wit_3_pure_split_goal_2 bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
-  · exact proof_of_solver_partial_solve_wit_3_pure_split_goal_3 bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  · exact proof_of_solver_partial_solve_wit_3_pure_split_goal_1 rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  · exact proof_of_solver_partial_solve_wit_3_pure_split_goal_2 rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
+  · exact proof_of_solver_partial_solve_wit_3_pure_split_goal_3 rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
 
 theorem proof_of_solver_partial_solve_wit_4_pure_split_goal_1 : solver_partial_solve_wit_4_pure_split_goal_1 := by
   unfold solver_partial_solve_wit_4_pure_split_goal_1
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
   dump_pre_spatial
   try simp only [Zlength_cons,Zlength_nil]
   first | assumption | omega | nlinarith
 
 theorem proof_of_solver_partial_solve_wit_4_pure_split_goal_2 : solver_partial_solve_wit_4_pure_split_goal_2 := by
   unfold solver_partial_solve_wit_4_pure_split_goal_2
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
   dump_pre_spatial
   try simp only [Zlength_cons,Zlength_nil]
   first | assumption | omega | nlinarith
 
 theorem proof_of_solver_partial_solve_wit_4_pure_split_goal_3 : solver_partial_solve_wit_4_pure_split_goal_3 := by
   unfold solver_partial_solve_wit_4_pure_split_goal_3
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
   dump_pre_spatial
   try simp only [Zlength_cons,Zlength_nil]
   first | assumption | omega | nlinarith
 
 theorem proof_of_solver_partial_solve_wit_4_pure_split_goal_4 : solver_partial_solve_wit_4_pure_split_goal_4 := by
   unfold solver_partial_solve_wit_4_pure_split_goal_4
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
   dump_pre_spatial
   try simp only [Zlength_cons,Zlength_nil]
   first | assumption | omega | nlinarith
@@ -776,16 +776,16 @@ theorem proof_of_solver_partial_solve_wit_4_pure_split_goal_4 : solver_partial_s
 theorem proof_of_solver_partial_solve_wit_4_pure : solver_partial_solve_wit_4_pure := by
   unfold solver_partial_solve_wit_4_pure
   right
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
   split_pures
-  · exact proof_of_solver_partial_solve_wit_4_pure_split_goal_1 bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
-  · exact proof_of_solver_partial_solve_wit_4_pure_split_goal_2 bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
-  · exact proof_of_solver_partial_solve_wit_4_pure_split_goal_3 bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
-  · exact proof_of_solver_partial_solve_wit_4_pure_split_goal_4 bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
+  · exact proof_of_solver_partial_solve_wit_4_pure_split_goal_1 rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
+  · exact proof_of_solver_partial_solve_wit_4_pure_split_goal_2 rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
+  · exact proof_of_solver_partial_solve_wit_4_pure_split_goal_3 rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
+  · exact proof_of_solver_partial_solve_wit_4_pure_split_goal_4 rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo cj_cells ci_cells i j reps retval __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
 
 theorem proof_of_solver_partial_solve_wit_7_pure_split_goal_1 : solver_partial_solve_wit_7_pure_split_goal_1 := by
   unfold solver_partial_solve_wit_7_pure_split_goal_1
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo bj_cells bi_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo bj_cells bi_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   dump_pre_spatial
   try simp only [Zlength_cons,Zlength_nil]
   first | assumption | omega | nlinarith
@@ -793,9 +793,9 @@ theorem proof_of_solver_partial_solve_wit_7_pure_split_goal_1 : solver_partial_s
 theorem proof_of_solver_partial_solve_wit_7_pure : solver_partial_solve_wit_7_pure := by
   unfold solver_partial_solve_wit_7_pure
   right
-  intro bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo bj_cells bi_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  intro rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo bj_cells bi_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
   split_pures
-  · exact proof_of_solver_partial_solve_wit_7_pure_split_goal_1 bj_pre bi_pre rep_pre m_pre n_pre a_pre rows cur_j cur_i hi lo bj_cells bi_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
+  · exact proof_of_solver_partial_solve_wit_7_pure_split_goal_1 rows a_pre n_pre m_pre rep_pre bi_pre bj_pre cur_j cur_i hi lo bj_cells bi_cells __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28
 
 theorem proof_of_solver_which_implies_wit_1 : solver_which_implies_wit_1 := by
   unfold solver_which_implies_wit_1

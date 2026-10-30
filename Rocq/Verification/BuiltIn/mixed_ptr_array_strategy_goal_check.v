@@ -1,0 +1,5 @@
+From SimpleC.Verification.BuiltIn Require Import mixed_ptr_array_strategy_goal mixed_ptr_array_strategy_proof.
+
+Module mixed_ptr_array_Strategy_Correctness : mixed_ptr_array_Strategy_Correct.
+  Include mixed_ptr_array_strategy_proof.
+End mixed_ptr_array_Strategy_Correctness.

@@ -58,7 +58,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def pqdk_sift_up_safety_wit_1 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= child)) (PreH4 : (child < n_pre)) (PreH5 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= child)) (PreH4 : (child < n_pre)) (PreH5 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -76,7 +76,7 @@ noncomputable def pqdk_sift_up_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def pqdk_sift_up_safety_wit_2 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   ((( &( "parent" ) )) # Int |->_)
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
@@ -95,7 +95,7 @@ noncomputable def pqdk_sift_up_safety_wit_2 : Prop :=
   “ (2 ≠ (0 : Int)) ”
 
 noncomputable def pqdk_sift_up_safety_wit_3 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   ((( &( "parent" ) )) # Int |->_)
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
@@ -114,7 +114,7 @@ noncomputable def pqdk_sift_up_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (child - 1)) ”
 
 noncomputable def pqdk_sift_up_safety_wit_4 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   ((( &( "parent" ) )) # Int |->_)
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
@@ -133,7 +133,7 @@ noncomputable def pqdk_sift_up_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pqdk_sift_up_safety_wit_5 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   ((( &( "parent" ) )) # Int |->_)
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
@@ -153,7 +153,7 @@ noncomputable def pqdk_sift_up_safety_wit_5 : Prop :=
 
 noncomputable def pqdk_sift_up_entail_wit_1 : Prop :=
   (
-forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (PreH1 : ((0 : Int) <= idx_pre)) (PreH2 : (idx_pre < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (PreH1 : ((0 : Int) <= idx_pre)) (PreH2 : (idx_pre < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) ,
   (store_sift_up key_pre data_pre pos_pre data_bound_pre capacity M n_pre idx_pre)
 |--
   EX key_values : (List Int), EX data_values : (List Int), EX pos_values : (List Int),
@@ -169,7 +169,7 @@ forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (dat
   ** (intArray.full pos_pre data_bound_pre pos_values)
 ) \/
 (
-forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (PreH1 : ((0 : Int) <= idx_pre)) (PreH2 : (idx_pre < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (PreH1 : ((0 : Int) <= idx_pre)) (PreH2 : (idx_pre < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) ,
   (store_sift_up key_pre data_pre pos_pre data_bound_pre capacity M n_pre idx_pre)
 |--
   EX key_values : (List Int), EX data_values : (List Int), EX pos_values : (List Int),
@@ -187,7 +187,7 @@ forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (dat
 
 noncomputable def pqdk_sift_up_entail_wit_2 : Prop :=
   (
-forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
   (intArray.full key_pre n_pre key_values_2)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values_2)
@@ -211,7 +211,7 @@ forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (ke
   ** (intArray.full pos_pre data_bound_pre pos_values)
 ) \/
 (
-forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
+forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
   TT && emp 
 |--
   “ ((Z.quot (child - 1) 2) = (heap_parent (child))) ” &&
@@ -222,24 +222,24 @@ forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (
 )
 
 noncomputable def pqdk_sift_up_entail_wit_2_split_goal_1 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
   ((Z.quot (child - 1) 2) = (heap_parent (child)))
 
 noncomputable def pqdk_sift_up_entail_wit_2_split_goal_2 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
   ((Z.quot (child - 1) 2) < n_pre)
 
 noncomputable def pqdk_sift_up_entail_wit_2_split_goal_3 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
   ((Z.quot (child - 1) 2) < child)
 
 noncomputable def pqdk_sift_up_entail_wit_2_split_goal_4 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (PreH1 : (child > (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
   ((0 : Int) <= (Z.quot (child - 1) 2))
 
 noncomputable def pqdk_sift_up_entail_wit_3 : Prop :=
   (
-forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values_2 data_bound_pre n_pre child)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values_2 data_bound_pre n_pre child)) ,
   (intArray.full data_pre n_pre data_values)
   ** (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
@@ -270,7 +270,7 @@ forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (ke
   ** (intArray.full pos_pre data_bound_pre pos_values)
 ) \/
 (
-forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values_2 data_bound_pre n_pre child)) ,
+forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values_2 data_bound_pre n_pre child)) ,
   TT && emp 
 |--
   “ ((Znth child data_values (0 : Int)) < data_bound_pre) ” &&
@@ -281,24 +281,24 @@ forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (
 )
 
 noncomputable def pqdk_sift_up_entail_wit_3_split_goal_1 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values_2 data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values_2 data_bound_pre n_pre child)) ,
   ((Znth child data_values (0 : Int)) < data_bound_pre)
 
 noncomputable def pqdk_sift_up_entail_wit_3_split_goal_2 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values_2 data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values_2 data_bound_pre n_pre child)) ,
   ((0 : Int) <= (Znth child data_values (0 : Int)))
 
 noncomputable def pqdk_sift_up_entail_wit_3_split_goal_3 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values_2 data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values_2 data_bound_pre n_pre child)) ,
   ((Znth parent data_values (0 : Int)) < data_bound_pre)
 
 noncomputable def pqdk_sift_up_entail_wit_3_split_goal_4 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values_2 data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values_2 data_bound_pre n_pre child)) ,
   ((0 : Int) <= (Znth parent data_values (0 : Int)))
 
 noncomputable def pqdk_sift_up_entail_wit_4 : Prop :=
   (
-forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values_2 (0 : Int)) > (Znth child key_values_2 (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values_2 (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values_2 (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values_2 (0 : Int)))) (PreH13 : ((Znth parent data_values_2 (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values_2 (0 : Int)))) (PreH15 : ((Znth child data_values_2 (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values_2 (0 : Int)) > (Znth child key_values_2 (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values_2 (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values_2 (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values_2 (0 : Int)))) (PreH13 : ((Znth parent data_values_2 (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values_2 (0 : Int)))) (PreH15 : ((Znth child data_values_2 (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
   (intArray.full data_pre n_pre (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 (0 : Int))) (data_values_2)))))
   ** (intArray.full key_pre n_pre (replace_Znth (child) (tmp_key) ((replace_Znth (parent) ((Znth child key_values_2 (0 : Int))) (key_values_2)))))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth child data_values_2 (0 : Int))) (parent) ((replace_Znth ((Znth parent data_values_2 (0 : Int))) (child) (pos_values_2)))))
@@ -318,7 +318,7 @@ forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (ke
   ** (intArray.full pos_pre data_bound_pre pos_values)
 ) \/
 (
-forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values_2 (0 : Int)) > (Znth child key_values_2 (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values_2 (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values_2 (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values_2 (0 : Int)))) (PreH13 : ((Znth parent data_values_2 (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values_2 (0 : Int)))) (PreH15 : ((Znth child data_values_2 (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
+forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values_2 (0 : Int)) > (Znth child key_values_2 (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values_2 (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values_2 (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values_2 (0 : Int)))) (PreH13 : ((Znth parent data_values_2 (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values_2 (0 : Int)))) (PreH15 : ((Znth child data_values_2 (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
   TT && emp 
 |--
   “ (SiftUpState M (replace_Znth (child) (tmp_key) ((replace_Znth (parent) ((Znth child key_values_2 (0 : Int))) (key_values_2)))) (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 (0 : Int))) (data_values_2)))) (replace_Znth ((Znth child data_values_2 (0 : Int))) (parent) ((replace_Znth (tmp_data) (child) (pos_values_2)))) data_bound_pre n_pre parent) ”
@@ -326,12 +326,12 @@ forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (
 )
 
 noncomputable def pqdk_sift_up_entail_wit_4_split_goal_1 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values_2 (0 : Int)) > (Znth child key_values_2 (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values_2 (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values_2 (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values_2 (0 : Int)))) (PreH13 : ((Znth parent data_values_2 (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values_2 (0 : Int)))) (PreH15 : ((Znth child data_values_2 (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values_2 (0 : Int)) > (Znth child key_values_2 (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values_2 (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values_2 (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values_2 (0 : Int)))) (PreH13 : ((Znth parent data_values_2 (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values_2 (0 : Int)))) (PreH15 : ((Znth child data_values_2 (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child)) ,
   (SiftUpState M (replace_Znth (child) (tmp_key) ((replace_Znth (parent) ((Znth child key_values_2 (0 : Int))) (key_values_2)))) (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 (0 : Int))) (data_values_2)))) (replace_Znth ((Znth child data_values_2 (0 : Int))) (parent) ((replace_Znth (tmp_data) (child) (pos_values_2)))) data_bound_pre n_pre parent)
 
 noncomputable def pqdk_sift_up_return_wit_1 : Prop :=
   (
-forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (PreH1 : (child <= (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (PreH1 : (child <= (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -341,7 +341,7 @@ forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (ke
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity M n_pre)
 ) \/
 (
-forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (PreH1 : (child <= (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (PreH1 : (child <= (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -352,7 +352,7 @@ forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (ke
 )
 
 noncomputable def pqdk_sift_up_return_wit_1_split_goal_spatial : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (PreH1 : (child <= (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (PreH1 : (child <= (0 : Int))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= child)) (PreH5 : (child < n_pre)) (PreH6 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -363,7 +363,7 @@ noncomputable def pqdk_sift_up_return_wit_1_split_goal_spatial : Prop :=
 
 noncomputable def pqdk_sift_up_return_wit_2 : Prop :=
   (
-forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) <= (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) <= (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -373,7 +373,7 @@ forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (ke
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity M n_pre)
 ) \/
 (
-forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) <= (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) <= (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -384,7 +384,7 @@ forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (ke
 )
 
 noncomputable def pqdk_sift_up_return_wit_2_split_goal_spatial : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) <= (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) <= (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -394,7 +394,7 @@ noncomputable def pqdk_sift_up_return_wit_2_split_goal_spatial : Prop :=
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity M n_pre)
 
 noncomputable def pqdk_sift_up_partial_solve_wit_1 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -418,7 +418,7 @@ noncomputable def pqdk_sift_up_partial_solve_wit_1 : Prop :=
   ** (intArray.full pos_pre data_bound_pre pos_values)
 
 noncomputable def pqdk_sift_up_partial_solve_wit_2 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -442,7 +442,7 @@ noncomputable def pqdk_sift_up_partial_solve_wit_2 : Prop :=
   ** (intArray.full pos_pre data_bound_pre pos_values)
 
 noncomputable def pqdk_sift_up_partial_solve_wit_3 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -467,7 +467,7 @@ noncomputable def pqdk_sift_up_partial_solve_wit_3 : Prop :=
   ** (intArray.full pos_pre data_bound_pre pos_values)
 
 noncomputable def pqdk_sift_up_partial_solve_wit_4 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (PreH1 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) < child)) (PreH5 : (child < n_pre)) (PreH6 : ((0 : Int) <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent < n_pre)) (PreH9 : (parent = (heap_parent (child)))) (PreH10 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -492,7 +492,7 @@ noncomputable def pqdk_sift_up_partial_solve_wit_4 : Prop :=
   ** (intArray.full pos_pre data_bound_pre pos_values)
 
 noncomputable def pqdk_sift_up_partial_solve_wit_5 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -523,7 +523,7 @@ noncomputable def pqdk_sift_up_partial_solve_wit_5 : Prop :=
   ** (intArray.full pos_pre data_bound_pre pos_values)
 
 noncomputable def pqdk_sift_up_partial_solve_wit_6 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full data_pre n_pre data_values)
   ** (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
@@ -554,7 +554,7 @@ noncomputable def pqdk_sift_up_partial_solve_wit_6 : Prop :=
   ** (intArray.undef_seg data_pre n_pre capacity)
 
 noncomputable def pqdk_sift_up_partial_solve_wit_7 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth parent data_values (0 : Int))) (child) (pos_values)))
   ** (intArray.full data_pre n_pre data_values)
   ** (intArray.full key_pre n_pre key_values)
@@ -585,7 +585,7 @@ noncomputable def pqdk_sift_up_partial_solve_wit_7 : Prop :=
   ** (intArray.undef_seg data_pre n_pre capacity)
 
 noncomputable def pqdk_sift_up_partial_solve_wit_8 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full data_pre n_pre data_values)
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth parent data_values (0 : Int))) (child) (pos_values)))
   ** (intArray.full key_pre n_pre key_values)
@@ -616,7 +616,7 @@ noncomputable def pqdk_sift_up_partial_solve_wit_8 : Prop :=
   ** (intArray.undef_seg data_pre n_pre capacity)
 
 noncomputable def pqdk_sift_up_partial_solve_wit_9 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth child data_values (0 : Int))) (parent) ((replace_Znth ((Znth parent data_values (0 : Int))) (child) (pos_values)))))
   ** (intArray.full data_pre n_pre data_values)
   ** (intArray.full key_pre n_pre key_values)
@@ -647,7 +647,7 @@ noncomputable def pqdk_sift_up_partial_solve_wit_9 : Prop :=
   ** (intArray.undef_seg data_pre n_pre capacity)
 
 noncomputable def pqdk_sift_up_partial_solve_wit_10 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth child data_values (0 : Int))) (parent) ((replace_Znth ((Znth parent data_values (0 : Int))) (child) (pos_values)))))
   ** (intArray.full data_pre n_pre data_values)
@@ -678,7 +678,7 @@ noncomputable def pqdk_sift_up_partial_solve_wit_10 : Prop :=
   ** (intArray.undef_seg data_pre n_pre capacity)
 
 noncomputable def pqdk_sift_up_partial_solve_wit_11 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full key_pre n_pre (replace_Znth (parent) ((Znth child key_values (0 : Int))) (key_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth child data_values (0 : Int))) (parent) ((replace_Znth ((Znth parent data_values (0 : Int))) (child) (pos_values)))))
   ** (intArray.full data_pre n_pre data_values)
@@ -709,7 +709,7 @@ noncomputable def pqdk_sift_up_partial_solve_wit_11 : Prop :=
   ** (intArray.undef_seg data_pre n_pre capacity)
 
 noncomputable def pqdk_sift_up_partial_solve_wit_12 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full data_pre n_pre data_values)
   ** (intArray.full key_pre n_pre (replace_Znth (parent) ((Znth child key_values (0 : Int))) (key_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth child data_values (0 : Int))) (parent) ((replace_Znth ((Znth parent data_values (0 : Int))) (child) (pos_values)))))
@@ -740,7 +740,7 @@ noncomputable def pqdk_sift_up_partial_solve_wit_12 : Prop :=
   ** (intArray.undef_seg data_pre n_pre capacity)
 
 noncomputable def pqdk_sift_up_partial_solve_wit_13 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full data_pre n_pre (replace_Znth (parent) ((Znth child data_values (0 : Int))) (data_values)))
   ** (intArray.full key_pre n_pre (replace_Znth (parent) ((Znth child key_values (0 : Int))) (key_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth child data_values (0 : Int))) (parent) ((replace_Znth ((Znth parent data_values (0 : Int))) (child) (pos_values)))))
@@ -771,7 +771,7 @@ noncomputable def pqdk_sift_up_partial_solve_wit_13 : Prop :=
   ** (intArray.undef_seg data_pre n_pre capacity)
 
 noncomputable def pqdk_sift_up_partial_solve_wit_14 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (child : Int) (parent : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) < child)) (PreH4 : (child < n_pre)) (PreH5 : ((0 : Int) <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values (0 : Int)) > (Znth child key_values (0 : Int)))) (PreH10 : (tmp_key = (Znth parent key_values (0 : Int)))) (PreH11 : (tmp_data = (Znth parent data_values (0 : Int)))) (PreH12 : ((0 : Int) <= (Znth parent data_values (0 : Int)))) (PreH13 : ((Znth parent data_values (0 : Int)) < data_bound_pre)) (PreH14 : ((0 : Int) <= (Znth child data_values (0 : Int)))) (PreH15 : ((Znth child data_values (0 : Int)) < data_bound_pre)) (PreH16 : (SiftUpState M key_values data_values pos_values data_bound_pre n_pre child)) ,
   (intArray.full key_pre n_pre (replace_Znth (child) (tmp_key) ((replace_Znth (parent) ((Znth child key_values (0 : Int))) (key_values)))))
   ** (intArray.full data_pre n_pre (replace_Znth (parent) ((Znth child data_values (0 : Int))) (data_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth child data_values (0 : Int))) (parent) ((replace_Znth ((Znth parent data_values (0 : Int))) (child) (pos_values)))))
@@ -803,7 +803,7 @@ noncomputable def pqdk_sift_up_partial_solve_wit_14 : Prop :=
 
 noncomputable def pqdk_sift_down_safety_wit_1 : Prop :=
   (
-forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -821,7 +821,7 @@ forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (dat
   “ ((INT_MIN) <= ((current * 2) + 1)) ”
 ) \/
 (
-forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -840,7 +840,7 @@ forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (dat
 )
 
 noncomputable def pqdk_sift_down_safety_wit_1_split_goal_1 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -857,7 +857,7 @@ noncomputable def pqdk_sift_down_safety_wit_1_split_goal_1 : Prop :=
   “ (((current * 2) + 1) <= INT_MAX) ”
 
 noncomputable def pqdk_sift_down_safety_wit_1_split_goal_2 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -875,7 +875,7 @@ noncomputable def pqdk_sift_down_safety_wit_1_split_goal_2 : Prop :=
 
 noncomputable def pqdk_sift_down_safety_wit_2 : Prop :=
   (
-forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -893,7 +893,7 @@ forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (dat
   “ ((INT_MIN) <= (current * 2)) ”
 ) \/
 (
-forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -912,7 +912,7 @@ forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (dat
 )
 
 noncomputable def pqdk_sift_down_safety_wit_2_split_goal_1 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -929,7 +929,7 @@ noncomputable def pqdk_sift_down_safety_wit_2_split_goal_1 : Prop :=
   “ ((current * 2) <= INT_MAX) ”
 
 noncomputable def pqdk_sift_down_safety_wit_2_split_goal_2 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -946,7 +946,7 @@ noncomputable def pqdk_sift_down_safety_wit_2_split_goal_2 : Prop :=
   “ ((INT_MIN) <= (current * 2)) ”
 
 noncomputable def pqdk_sift_down_safety_wit_3 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -964,7 +964,7 @@ noncomputable def pqdk_sift_down_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def pqdk_sift_down_safety_wit_4 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -982,7 +982,7 @@ noncomputable def pqdk_sift_down_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pqdk_sift_down_safety_wit_5 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   ((( &( "left" ) )) # Int |->_)
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
@@ -1001,7 +1001,7 @@ noncomputable def pqdk_sift_down_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= ((current * 2) + 1)) ”
 
 noncomputable def pqdk_sift_down_safety_wit_6 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   ((( &( "left" ) )) # Int |->_)
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
@@ -1020,7 +1020,7 @@ noncomputable def pqdk_sift_down_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (current * 2)) ”
 
 noncomputable def pqdk_sift_down_safety_wit_7 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   ((( &( "left" ) )) # Int |->_)
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
@@ -1039,7 +1039,7 @@ noncomputable def pqdk_sift_down_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def pqdk_sift_down_safety_wit_8 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   ((( &( "left" ) )) # Int |->_)
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
@@ -1058,7 +1058,7 @@ noncomputable def pqdk_sift_down_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pqdk_sift_down_safety_wit_9 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   ((( &( "right" ) )) # Int |->_)
   ** ((( &( "left" ) )) # Int |-> (((current * 2) + 1)))
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
@@ -1078,7 +1078,7 @@ noncomputable def pqdk_sift_down_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= (((current * 2) + 1) + 1)) ”
 
 noncomputable def pqdk_sift_down_safety_wit_10 : Prop :=
-  forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   ((( &( "right" ) )) # Int |->_)
   ** ((( &( "left" ) )) # Int |-> (((current * 2) + 1)))
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
@@ -1099,7 +1099,7 @@ noncomputable def pqdk_sift_down_safety_wit_10 : Prop :=
 
 noncomputable def pqdk_sift_down_entail_wit_1 : Prop :=
   (
-forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (PreH1 : ((0 : Int) <= idx_pre)) (PreH2 : (idx_pre < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (PreH1 : ((0 : Int) <= idx_pre)) (PreH2 : (idx_pre < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) ,
   (store_sift_down key_pre data_pre pos_pre data_bound_pre capacity M n_pre idx_pre)
 |--
   EX key_values : (List Int), EX data_values : (List Int), EX pos_values : (List Int),
@@ -1115,7 +1115,7 @@ forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (dat
   ** (intArray.full pos_pre data_bound_pre pos_values)
 ) \/
 (
-forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (PreH1 : ((0 : Int) <= idx_pre)) (PreH2 : (idx_pre < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (idx_pre : Int) (PreH1 : ((0 : Int) <= idx_pre)) (PreH2 : (idx_pre < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) ,
   (store_sift_down key_pre data_pre pos_pre data_bound_pre capacity M n_pre idx_pre)
 |--
   EX key_values : (List Int), EX data_values : (List Int), EX pos_values : (List Int),
@@ -1132,7 +1132,7 @@ forall (idx_pre : Int) (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (dat
 )
 
 noncomputable def pqdk_sift_down_entail_wit_2 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values_2)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values_2)
@@ -1159,7 +1159,7 @@ noncomputable def pqdk_sift_down_entail_wit_2 : Prop :=
 
 noncomputable def pqdk_sift_down_entail_wit_3_1 : Prop :=
   (
-forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth right key_values_2 (0 : Int)) < (Znth left key_values_2 (0 : Int)))) (PreH2 : (right < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= current)) (PreH6 : (current < n_pre)) (PreH7 : (left = ((current * 2) + 1))) (PreH8 : (right = (left + 1))) (PreH9 : (smallest = left)) (PreH10 : ((0 : Int) <= left)) (PreH11 : (left < n_pre)) (PreH12 : ((0 : Int) <= right)) (PreH13 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth right key_values_2 (0 : Int)) < (Znth left key_values_2 (0 : Int)))) (PreH2 : (right < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= current)) (PreH6 : (current < n_pre)) (PreH7 : (left = ((current * 2) + 1))) (PreH8 : (right = (left + 1))) (PreH9 : (smallest = left)) (PreH10 : ((0 : Int) <= left)) (PreH11 : (left < n_pre)) (PreH12 : ((0 : Int) <= right)) (PreH13 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values_2)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values_2)
@@ -1184,7 +1184,7 @@ forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (ke
   ** (intArray.full pos_pre data_bound_pre pos_values)
 ) \/
 (
-forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth right key_values_2 (0 : Int)) < (Znth left key_values_2 (0 : Int)))) (PreH2 : (right < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= current)) (PreH6 : (current < n_pre)) (PreH7 : (left = ((current * 2) + 1))) (PreH8 : (right = (left + 1))) (PreH9 : (smallest = left)) (PreH10 : ((0 : Int) <= left)) (PreH11 : (left < n_pre)) (PreH12 : ((0 : Int) <= right)) (PreH13 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth right key_values_2 (0 : Int)) < (Znth left key_values_2 (0 : Int)))) (PreH2 : (right < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= current)) (PreH6 : (current < n_pre)) (PreH7 : (left = ((current * 2) + 1))) (PreH8 : (right = (left + 1))) (PreH9 : (smallest = left)) (PreH10 : ((0 : Int) <= left)) (PreH11 : (left < n_pre)) (PreH12 : ((0 : Int) <= right)) (PreH13 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
   TT && emp 
 |--
   “ (SelectedChild key_values_2 n_pre current (left + 1)) ”
@@ -1192,12 +1192,12 @@ forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (
 )
 
 noncomputable def pqdk_sift_down_entail_wit_3_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth right key_values_2 (0 : Int)) < (Znth left key_values_2 (0 : Int)))) (PreH2 : (right < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= current)) (PreH6 : (current < n_pre)) (PreH7 : (left = ((current * 2) + 1))) (PreH8 : (right = (left + 1))) (PreH9 : (smallest = left)) (PreH10 : ((0 : Int) <= left)) (PreH11 : (left < n_pre)) (PreH12 : ((0 : Int) <= right)) (PreH13 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth right key_values_2 (0 : Int)) < (Znth left key_values_2 (0 : Int)))) (PreH2 : (right < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= current)) (PreH6 : (current < n_pre)) (PreH7 : (left = ((current * 2) + 1))) (PreH8 : (right = (left + 1))) (PreH9 : (smallest = left)) (PreH10 : ((0 : Int) <= left)) (PreH11 : (left < n_pre)) (PreH12 : ((0 : Int) <= right)) (PreH13 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
   (SelectedChild key_values_2 n_pre current (left + 1))
 
 noncomputable def pqdk_sift_down_entail_wit_3_2 : Prop :=
   (
-forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : (right >= n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : (smallest = left)) (PreH9 : ((0 : Int) <= left)) (PreH10 : (left < n_pre)) (PreH11 : ((0 : Int) <= right)) (PreH12 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : (right >= n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : (smallest = left)) (PreH9 : ((0 : Int) <= left)) (PreH10 : (left < n_pre)) (PreH11 : ((0 : Int) <= right)) (PreH12 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values_2)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values_2)
@@ -1222,7 +1222,7 @@ forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (ke
   ** (intArray.full pos_pre data_bound_pre pos_values)
 ) \/
 (
-forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : (right >= n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : (smallest = left)) (PreH9 : ((0 : Int) <= left)) (PreH10 : (left < n_pre)) (PreH11 : ((0 : Int) <= right)) (PreH12 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : (right >= n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : (smallest = left)) (PreH9 : ((0 : Int) <= left)) (PreH10 : (left < n_pre)) (PreH11 : ((0 : Int) <= right)) (PreH12 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
   TT && emp 
 |--
   “ (SelectedChild key_values_2 n_pre current left) ”
@@ -1230,12 +1230,12 @@ forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (
 )
 
 noncomputable def pqdk_sift_down_entail_wit_3_2_split_goal_1 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : (right >= n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : (smallest = left)) (PreH9 : ((0 : Int) <= left)) (PreH10 : (left < n_pre)) (PreH11 : ((0 : Int) <= right)) (PreH12 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : (right >= n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : (smallest = left)) (PreH9 : ((0 : Int) <= left)) (PreH10 : (left < n_pre)) (PreH11 : ((0 : Int) <= right)) (PreH12 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
   (SelectedChild key_values_2 n_pre current left)
 
 noncomputable def pqdk_sift_down_entail_wit_3_3 : Prop :=
   (
-forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth right key_values_2 (0 : Int)) >= (Znth left key_values_2 (0 : Int)))) (PreH2 : (right < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= current)) (PreH6 : (current < n_pre)) (PreH7 : (left = ((current * 2) + 1))) (PreH8 : (right = (left + 1))) (PreH9 : (smallest = left)) (PreH10 : ((0 : Int) <= left)) (PreH11 : (left < n_pre)) (PreH12 : ((0 : Int) <= right)) (PreH13 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth right key_values_2 (0 : Int)) >= (Znth left key_values_2 (0 : Int)))) (PreH2 : (right < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= current)) (PreH6 : (current < n_pre)) (PreH7 : (left = ((current * 2) + 1))) (PreH8 : (right = (left + 1))) (PreH9 : (smallest = left)) (PreH10 : ((0 : Int) <= left)) (PreH11 : (left < n_pre)) (PreH12 : ((0 : Int) <= right)) (PreH13 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values_2)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values_2)
@@ -1260,7 +1260,7 @@ forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (ke
   ** (intArray.full pos_pre data_bound_pre pos_values)
 ) \/
 (
-forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth right key_values_2 (0 : Int)) >= (Znth left key_values_2 (0 : Int)))) (PreH2 : (right < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= current)) (PreH6 : (current < n_pre)) (PreH7 : (left = ((current * 2) + 1))) (PreH8 : (right = (left + 1))) (PreH9 : (smallest = left)) (PreH10 : ((0 : Int) <= left)) (PreH11 : (left < n_pre)) (PreH12 : ((0 : Int) <= right)) (PreH13 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth right key_values_2 (0 : Int)) >= (Znth left key_values_2 (0 : Int)))) (PreH2 : (right < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= current)) (PreH6 : (current < n_pre)) (PreH7 : (left = ((current * 2) + 1))) (PreH8 : (right = (left + 1))) (PreH9 : (smallest = left)) (PreH10 : ((0 : Int) <= left)) (PreH11 : (left < n_pre)) (PreH12 : ((0 : Int) <= right)) (PreH13 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
   TT && emp 
 |--
   “ (SelectedChild key_values_2 n_pre current left) ”
@@ -1268,12 +1268,12 @@ forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (
 )
 
 noncomputable def pqdk_sift_down_entail_wit_3_3_split_goal_1 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth right key_values_2 (0 : Int)) >= (Znth left key_values_2 (0 : Int)))) (PreH2 : (right < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= current)) (PreH6 : (current < n_pre)) (PreH7 : (left = ((current * 2) + 1))) (PreH8 : (right = (left + 1))) (PreH9 : (smallest = left)) (PreH10 : ((0 : Int) <= left)) (PreH11 : (left < n_pre)) (PreH12 : ((0 : Int) <= right)) (PreH13 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth right key_values_2 (0 : Int)) >= (Znth left key_values_2 (0 : Int)))) (PreH2 : (right < n_pre)) (PreH3 : (n_pre <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= current)) (PreH6 : (current < n_pre)) (PreH7 : (left = ((current * 2) + 1))) (PreH8 : (right = (left + 1))) (PreH9 : (smallest = left)) (PreH10 : ((0 : Int) <= left)) (PreH11 : (left < n_pre)) (PreH12 : ((0 : Int) <= right)) (PreH13 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
   (SelectedChild key_values_2 n_pre current left)
 
 noncomputable def pqdk_sift_down_entail_wit_4 : Prop :=
   (
-forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values_2 data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values_2 data_bound_pre n_pre current)) ,
   (intArray.full data_pre n_pre data_values)
   ** (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
@@ -1309,7 +1309,7 @@ forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (ke
   ** (intArray.full pos_pre data_bound_pre pos_values)
 ) \/
 (
-forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values_2 data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values_2 data_bound_pre n_pre current)) ,
   TT && emp 
 |--
   “ ((Znth smallest data_values (0 : Int)) < data_bound_pre) ” &&
@@ -1322,32 +1322,32 @@ forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (
 )
 
 noncomputable def pqdk_sift_down_entail_wit_4_split_goal_1 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values_2 data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values_2 data_bound_pre n_pre current)) ,
   ((Znth smallest data_values (0 : Int)) < data_bound_pre)
 
 noncomputable def pqdk_sift_down_entail_wit_4_split_goal_2 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values_2 data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values_2 data_bound_pre n_pre current)) ,
   ((0 : Int) <= (Znth smallest data_values (0 : Int)))
 
 noncomputable def pqdk_sift_down_entail_wit_4_split_goal_3 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values_2 data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values_2 data_bound_pre n_pre current)) ,
   ((Znth current data_values (0 : Int)) < data_bound_pre)
 
 noncomputable def pqdk_sift_down_entail_wit_4_split_goal_4 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values_2 data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values_2 data_bound_pre n_pre current)) ,
   ((0 : Int) <= (Znth current data_values (0 : Int)))
 
 noncomputable def pqdk_sift_down_entail_wit_4_split_goal_5 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values_2 data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values_2 data_bound_pre n_pre current)) ,
   (current < smallest)
 
 noncomputable def pqdk_sift_down_entail_wit_4_split_goal_6 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values_2 data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values_2 data_bound_pre n_pre current)) ,
   (((current * 2) + 1) < n_pre)
 
 noncomputable def pqdk_sift_down_entail_wit_5 : Prop :=
   (
-forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 (0 : Int)) > (Znth smallest key_values_2 (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values_2 (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values_2 (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values_2 (0 : Int)))) (PreH17 : ((Znth current data_values_2 (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values_2 (0 : Int)))) (PreH19 : ((Znth smallest data_values_2 (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest)) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 (0 : Int)) > (Znth smallest key_values_2 (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values_2 (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values_2 (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values_2 (0 : Int)))) (PreH17 : ((Znth current data_values_2 (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values_2 (0 : Int)))) (PreH19 : ((Znth smallest data_values_2 (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest)) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
   (intArray.full data_pre n_pre (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 (0 : Int))) (data_values_2)))))
   ** (intArray.full key_pre n_pre (replace_Znth (smallest) (tmp_key) ((replace_Znth (current) ((Znth smallest key_values_2 (0 : Int))) (key_values_2)))))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth smallest data_values_2 (0 : Int))) (current) ((replace_Znth ((Znth current data_values_2 (0 : Int))) (smallest) (pos_values_2)))))
@@ -1367,7 +1367,7 @@ forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (ke
   ** (intArray.full pos_pre data_bound_pre pos_values)
 ) \/
 (
-forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 (0 : Int)) > (Znth smallest key_values_2 (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values_2 (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values_2 (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values_2 (0 : Int)))) (PreH17 : ((Znth current data_values_2 (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values_2 (0 : Int)))) (PreH19 : ((Znth smallest data_values_2 (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest)) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 (0 : Int)) > (Znth smallest key_values_2 (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values_2 (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values_2 (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values_2 (0 : Int)))) (PreH17 : ((Znth current data_values_2 (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values_2 (0 : Int)))) (PreH19 : ((Znth smallest data_values_2 (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest)) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
   TT && emp 
 |--
   “ (SiftDownState M (replace_Znth (smallest) (tmp_key) ((replace_Znth (current) ((Znth smallest key_values_2 (0 : Int))) (key_values_2)))) (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 (0 : Int))) (data_values_2)))) (replace_Znth ((Znth smallest data_values_2 (0 : Int))) (current) ((replace_Znth (tmp_data) (smallest) (pos_values_2)))) data_bound_pre n_pre smallest) ”
@@ -1375,12 +1375,12 @@ forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (
 )
 
 noncomputable def pqdk_sift_down_entail_wit_5_split_goal_1 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (capacity : Int) (M : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 (0 : Int)) > (Znth smallest key_values_2 (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values_2 (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values_2 (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values_2 (0 : Int)))) (PreH17 : ((Znth current data_values_2 (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values_2 (0 : Int)))) (PreH19 : ((Znth smallest data_values_2 (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest)) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (data_bound_pre : Int) (n_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 (0 : Int)) > (Znth smallest key_values_2 (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values_2 (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values_2 (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values_2 (0 : Int)))) (PreH17 : ((Znth current data_values_2 (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values_2 (0 : Int)))) (PreH19 : ((Znth smallest data_values_2 (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest)) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current)) ,
   (SiftDownState M (replace_Znth (smallest) (tmp_key) ((replace_Znth (current) ((Znth smallest key_values_2 (0 : Int))) (key_values_2)))) (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 (0 : Int))) (data_values_2)))) (replace_Znth ((Znth smallest data_values_2 (0 : Int))) (current) ((replace_Znth (tmp_data) (smallest) (pos_values_2)))) data_bound_pre n_pre smallest)
 
 noncomputable def pqdk_sift_down_return_wit_1 : Prop :=
   (
-forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) >= n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) >= n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -1390,7 +1390,7 @@ forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (ke
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity M n_pre)
 ) \/
 (
-forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) >= n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) >= n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -1401,7 +1401,7 @@ forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (ke
 )
 
 noncomputable def pqdk_sift_down_return_wit_1_split_goal_spatial : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) >= n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (PreH1 : (((current * 2) + 1) >= n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -1412,7 +1412,7 @@ noncomputable def pqdk_sift_down_return_wit_1_split_goal_spatial : Prop :=
 
 noncomputable def pqdk_sift_down_return_wit_2 : Prop :=
   (
-forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) <= (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) <= (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -1422,7 +1422,7 @@ forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (ke
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity M n_pre)
 ) \/
 (
-forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) <= (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) <= (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -1433,7 +1433,7 @@ forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (ke
 )
 
 noncomputable def pqdk_sift_down_return_wit_2_split_goal_spatial : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) <= (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) <= (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -1443,7 +1443,7 @@ noncomputable def pqdk_sift_down_return_wit_2_split_goal_spatial : Prop :=
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity M n_pre)
 
 noncomputable def pqdk_sift_down_partial_solve_wit_1 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : (right < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : (smallest = left)) (PreH9 : ((0 : Int) <= left)) (PreH10 : (left < n_pre)) (PreH11 : ((0 : Int) <= right)) (PreH12 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : (right < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : (smallest = left)) (PreH9 : ((0 : Int) <= left)) (PreH10 : (left < n_pre)) (PreH11 : ((0 : Int) <= right)) (PreH12 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -1470,7 +1470,7 @@ noncomputable def pqdk_sift_down_partial_solve_wit_1 : Prop :=
   ** (intArray.full pos_pre data_bound_pre pos_values)
 
 noncomputable def pqdk_sift_down_partial_solve_wit_2 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : (right < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : (smallest = left)) (PreH9 : ((0 : Int) <= left)) (PreH10 : (left < n_pre)) (PreH11 : ((0 : Int) <= right)) (PreH12 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : (right < n_pre)) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : (smallest = left)) (PreH9 : ((0 : Int) <= left)) (PreH10 : (left < n_pre)) (PreH11 : ((0 : Int) <= right)) (PreH12 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -1497,7 +1497,7 @@ noncomputable def pqdk_sift_down_partial_solve_wit_2 : Prop :=
   ** (intArray.full pos_pre data_bound_pre pos_values)
 
 noncomputable def pqdk_sift_down_partial_solve_wit_3 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= smallest)) (PreH8 : (smallest < n_pre)) (PreH9 : (SelectedChild key_values n_pre current smallest)) (PreH10 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= smallest)) (PreH8 : (smallest < n_pre)) (PreH9 : (SelectedChild key_values n_pre current smallest)) (PreH10 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -1522,7 +1522,7 @@ noncomputable def pqdk_sift_down_partial_solve_wit_3 : Prop :=
   ** (intArray.full pos_pre data_bound_pre pos_values)
 
 noncomputable def pqdk_sift_down_partial_solve_wit_4 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= smallest)) (PreH8 : (smallest < n_pre)) (PreH9 : (SelectedChild key_values n_pre current smallest)) (PreH10 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= smallest)) (PreH8 : (smallest < n_pre)) (PreH9 : (SelectedChild key_values n_pre current smallest)) (PreH10 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -1547,7 +1547,7 @@ noncomputable def pqdk_sift_down_partial_solve_wit_4 : Prop :=
   ** (intArray.full pos_pre data_bound_pre pos_values)
 
 noncomputable def pqdk_sift_down_partial_solve_wit_5 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -1573,7 +1573,7 @@ noncomputable def pqdk_sift_down_partial_solve_wit_5 : Prop :=
   ** (intArray.full pos_pre data_bound_pre pos_values)
 
 noncomputable def pqdk_sift_down_partial_solve_wit_6 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (PreH1 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH2 : (n_pre <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= current)) (PreH5 : (current < n_pre)) (PreH6 : (left = ((current * 2) + 1))) (PreH7 : (right = (left + 1))) (PreH8 : ((0 : Int) <= smallest)) (PreH9 : (smallest < n_pre)) (PreH10 : (SelectedChild key_values n_pre current smallest)) (PreH11 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -1599,7 +1599,7 @@ noncomputable def pqdk_sift_down_partial_solve_wit_6 : Prop :=
   ** (intArray.full pos_pre data_bound_pre pos_values)
 
 noncomputable def pqdk_sift_down_partial_solve_wit_7 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
   ** (intArray.full data_pre n_pre data_values)
@@ -1635,7 +1635,7 @@ noncomputable def pqdk_sift_down_partial_solve_wit_7 : Prop :=
   ** (intArray.full pos_pre data_bound_pre pos_values)
 
 noncomputable def pqdk_sift_down_partial_solve_wit_8 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full data_pre n_pre data_values)
   ** (intArray.full key_pre n_pre key_values)
   ** (intArray.undef_seg key_pre n_pre capacity)
@@ -1671,7 +1671,7 @@ noncomputable def pqdk_sift_down_partial_solve_wit_8 : Prop :=
   ** (intArray.undef_seg data_pre n_pre capacity)
 
 noncomputable def pqdk_sift_down_partial_solve_wit_9 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth current data_values (0 : Int))) (smallest) (pos_values)))
   ** (intArray.full data_pre n_pre data_values)
   ** (intArray.full key_pre n_pre key_values)
@@ -1707,7 +1707,7 @@ noncomputable def pqdk_sift_down_partial_solve_wit_9 : Prop :=
   ** (intArray.undef_seg data_pre n_pre capacity)
 
 noncomputable def pqdk_sift_down_partial_solve_wit_10 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full data_pre n_pre data_values)
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth current data_values (0 : Int))) (smallest) (pos_values)))
   ** (intArray.full key_pre n_pre key_values)
@@ -1743,7 +1743,7 @@ noncomputable def pqdk_sift_down_partial_solve_wit_10 : Prop :=
   ** (intArray.undef_seg data_pre n_pre capacity)
 
 noncomputable def pqdk_sift_down_partial_solve_wit_11 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth smallest data_values (0 : Int))) (current) ((replace_Znth ((Znth current data_values (0 : Int))) (smallest) (pos_values)))))
   ** (intArray.full data_pre n_pre data_values)
   ** (intArray.full key_pre n_pre key_values)
@@ -1779,7 +1779,7 @@ noncomputable def pqdk_sift_down_partial_solve_wit_11 : Prop :=
   ** (intArray.undef_seg data_pre n_pre capacity)
 
 noncomputable def pqdk_sift_down_partial_solve_wit_12 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre key_values)
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth smallest data_values (0 : Int))) (current) ((replace_Znth ((Znth current data_values (0 : Int))) (smallest) (pos_values)))))
   ** (intArray.full data_pre n_pre data_values)
@@ -1815,7 +1815,7 @@ noncomputable def pqdk_sift_down_partial_solve_wit_12 : Prop :=
   ** (intArray.undef_seg data_pre n_pre capacity)
 
 noncomputable def pqdk_sift_down_partial_solve_wit_13 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre (replace_Znth (current) ((Znth smallest key_values (0 : Int))) (key_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth smallest data_values (0 : Int))) (current) ((replace_Znth ((Znth current data_values (0 : Int))) (smallest) (pos_values)))))
   ** (intArray.full data_pre n_pre data_values)
@@ -1851,7 +1851,7 @@ noncomputable def pqdk_sift_down_partial_solve_wit_13 : Prop :=
   ** (intArray.undef_seg data_pre n_pre capacity)
 
 noncomputable def pqdk_sift_down_partial_solve_wit_14 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full data_pre n_pre data_values)
   ** (intArray.full key_pre n_pre (replace_Znth (current) ((Znth smallest key_values (0 : Int))) (key_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth smallest data_values (0 : Int))) (current) ((replace_Znth ((Znth current data_values (0 : Int))) (smallest) (pos_values)))))
@@ -1887,7 +1887,7 @@ noncomputable def pqdk_sift_down_partial_solve_wit_14 : Prop :=
   ** (intArray.undef_seg data_pre n_pre capacity)
 
 noncomputable def pqdk_sift_down_partial_solve_wit_15 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full data_pre n_pre (replace_Znth (current) ((Znth smallest data_values (0 : Int))) (data_values)))
   ** (intArray.full key_pre n_pre (replace_Znth (current) ((Znth smallest key_values (0 : Int))) (key_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth smallest data_values (0 : Int))) (current) ((replace_Znth ((Znth current data_values (0 : Int))) (smallest) (pos_values)))))
@@ -1923,7 +1923,7 @@ noncomputable def pqdk_sift_down_partial_solve_wit_15 : Prop :=
   ** (intArray.undef_seg data_pre n_pre capacity)
 
 noncomputable def pqdk_sift_down_partial_solve_wit_16 : Prop :=
-  forall (n_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (M : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
+  forall (capacity : Int) (M : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (n_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (current : Int) (left : Int) (right : Int) (smallest : Int) (tmp_key : Int) (tmp_data : Int) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : ((0 : Int) <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2) + 1))) (PreH6 : (right = (left + 1))) (PreH7 : ((0 : Int) <= left)) (PreH8 : (left < n_pre)) (PreH9 : ((0 : Int) <= right)) (PreH10 : ((0 : Int) <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values (0 : Int)) > (Znth smallest key_values (0 : Int)))) (PreH14 : (tmp_key = (Znth current key_values (0 : Int)))) (PreH15 : (tmp_data = (Znth current data_values (0 : Int)))) (PreH16 : ((0 : Int) <= (Znth current data_values (0 : Int)))) (PreH17 : ((Znth current data_values (0 : Int)) < data_bound_pre)) (PreH18 : ((0 : Int) <= (Znth smallest data_values (0 : Int)))) (PreH19 : ((Znth smallest data_values (0 : Int)) < data_bound_pre)) (PreH20 : (SelectedChild key_values n_pre current smallest)) (PreH21 : (SiftDownState M key_values data_values pos_values data_bound_pre n_pre current)) ,
   (intArray.full key_pre n_pre (replace_Znth (smallest) (tmp_key) ((replace_Znth (current) ((Znth smallest key_values (0 : Int))) (key_values)))))
   ** (intArray.full data_pre n_pre (replace_Znth (current) ((Znth smallest data_values (0 : Int))) (data_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth smallest data_values (0 : Int))) (current) ((replace_Znth ((Znth current data_values (0 : Int))) (smallest) (pos_values)))))
@@ -1960,7 +1960,7 @@ noncomputable def pqdk_sift_down_partial_solve_wit_16 : Prop :=
 
 noncomputable def pqdk_push_safety_wit_1 : Prop :=
   (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth (data_x_pre) (n) (pos_values)))
   ** (intArray.full data_pre (n + 1) (data_values ++ (data_x_pre :: (@List.nil Int))))
   ** (intArray.undef_seg data_pre (n + 1) capacity)
@@ -1980,7 +1980,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : I
   “ ((INT_MIN) <= (n + 1)) ”
 ) \/
 (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth (data_x_pre) (n) (pos_values)))
   ** (intArray.full data_pre (n + 1) (data_values ++ (data_x_pre :: (@List.nil Int))))
   ** (intArray.undef_seg data_pre (n + 1) capacity)
@@ -2001,7 +2001,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : I
 )
 
 noncomputable def pqdk_push_safety_wit_1_split_goal_1 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth (data_x_pre) (n) (pos_values)))
   ** (intArray.full data_pre (n + 1) (data_values ++ (data_x_pre :: (@List.nil Int))))
   ** (intArray.undef_seg data_pre (n + 1) capacity)
@@ -2020,7 +2020,7 @@ noncomputable def pqdk_push_safety_wit_1_split_goal_1 : Prop :=
   “ ((n + 1) <= INT_MAX) ”
 
 noncomputable def pqdk_push_safety_wit_1_split_goal_2 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth (data_x_pre) (n) (pos_values)))
   ** (intArray.full data_pre (n + 1) (data_values ++ (data_x_pre :: (@List.nil Int))))
   ** (intArray.undef_seg data_pre (n + 1) capacity)
@@ -2039,7 +2039,7 @@ noncomputable def pqdk_push_safety_wit_1_split_goal_2 : Prop :=
   “ ((INT_MIN) <= (n + 1)) ”
 
 noncomputable def pqdk_push_safety_wit_2 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth (data_x_pre) (n) (pos_values)))
   ** (intArray.full data_pre (n + 1) (data_values ++ (data_x_pre :: (@List.nil Int))))
   ** (intArray.undef_seg data_pre (n + 1) capacity)
@@ -2059,7 +2059,7 @@ noncomputable def pqdk_push_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pqdk_push_safety_wit_3 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -2075,7 +2075,7 @@ noncomputable def pqdk_push_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (n + 1)) ”
 
 noncomputable def pqdk_push_safety_wit_4 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -2092,7 +2092,7 @@ noncomputable def pqdk_push_safety_wit_4 : Prop :=
 
 noncomputable def pqdk_push_entail_wit_1 : Prop :=
   (
-forall (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) ,
   ((size_pre) # Int |-> (n))
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity M_before n)
 |--
@@ -2112,7 +2112,7 @@ forall (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int
   ** (intArray.full pos_pre data_bound_pre pos_values)
 ) \/
 (
-forall (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) ,
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity M_before n)
 |--
   EX key_values : (List Int), EX data_values : (List Int), EX pos_values : (List Int),
@@ -2132,7 +2132,7 @@ forall (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int
 
 noncomputable def pqdk_push_entail_wit_2 : Prop :=
   (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth (data_x_pre) (n) (pos_values)))
   ** (intArray.full data_pre (n + 1) (data_values ++ (data_x_pre :: (@List.nil Int))))
   ** (intArray.undef_seg data_pre (n + 1) capacity)
@@ -2147,7 +2147,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : I
   ** (store_sift_up key_pre data_pre pos_pre data_bound_pre capacity (partial_map_add (M_before) (data_x_pre) (key_x_pre)) (n + 1) n)
 ) \/
 (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth (data_x_pre) (n) (pos_values)))
   ** (intArray.full data_pre (n + 1) (data_values ++ (data_x_pre :: (@List.nil Int))))
   ** (intArray.undef_seg data_pre (n + 1) capacity)
@@ -2158,7 +2158,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : In
 )
 
 noncomputable def pqdk_push_entail_wit_2_split_goal_spatial : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth (data_x_pre) (n) (pos_values)))
   ** (intArray.full data_pre (n + 1) (data_values ++ (data_x_pre :: (@List.nil Int))))
   ** (intArray.undef_seg data_pre (n + 1) capacity)
@@ -2168,7 +2168,7 @@ noncomputable def pqdk_push_entail_wit_2_split_goal_spatial : Prop :=
   (store_sift_up key_pre data_pre pos_pre data_bound_pre capacity (partial_map_add (M_before) (data_x_pre) (key_x_pre)) (n + 1) n)
 
 noncomputable def pqdk_push_return_wit_1 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) ,
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_add (M_before) (data_x_pre) (key_x_pre)) (n + 1))
   ** ((size_pre) # Int |-> ((n + 1)))
 |--
@@ -2176,7 +2176,7 @@ noncomputable def pqdk_push_return_wit_1 : Prop :=
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_add (M_before) (data_x_pre) (key_x_pre)) (n + 1))
 
 noncomputable def pqdk_push_partial_solve_wit_1 : Prop :=
-  forall (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   ((size_pre) # Int |-> (n))
   ** (intArray.full key_pre n key_values)
   ** (intArray.undef_seg key_pre n capacity)
@@ -2200,7 +2200,7 @@ noncomputable def pqdk_push_partial_solve_wit_1 : Prop :=
   ** (intArray.full pos_pre data_bound_pre pos_values)
 
 noncomputable def pqdk_push_partial_solve_wit_2 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full key_pre (n + 1) (key_values ++ (key_x_pre :: (@List.nil Int))))
   ** (intArray.undef_seg key_pre (n + 1) capacity)
   ** ((size_pre) # Int |-> (n))
@@ -2224,7 +2224,7 @@ noncomputable def pqdk_push_partial_solve_wit_2 : Prop :=
   ** (intArray.full pos_pre data_bound_pre pos_values)
 
 noncomputable def pqdk_push_partial_solve_wit_3 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full data_pre (n + 1) (data_values ++ (data_x_pre :: (@List.nil Int))))
   ** (intArray.undef_seg data_pre (n + 1) capacity)
   ** (intArray.full key_pre (n + 1) (key_values ++ (key_x_pre :: (@List.nil Int))))
@@ -2248,7 +2248,7 @@ noncomputable def pqdk_push_partial_solve_wit_3 : Prop :=
   ** ((size_pre) # Int |-> (n))
 
 noncomputable def pqdk_push_partial_solve_wit_4_pure : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -2266,7 +2266,7 @@ noncomputable def pqdk_push_partial_solve_wit_4_pure : Prop :=
   “ (capacity <= heap_capacity) ”
 
 noncomputable def pqdk_push_partial_solve_wit_4_aux : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) ,
   ((size_pre) # Int |-> ((n + 1)))
   ** (store_sift_up key_pre data_pre pos_pre data_bound_pre capacity (partial_map_add (M_before) (data_x_pre) (key_x_pre)) (n + 1) n)
 |--
@@ -2284,7 +2284,7 @@ noncomputable def pqdk_push_partial_solve_wit_4 : Prop := pqdk_push_partial_solv
 
 noncomputable def pqdk_decrease_key_entail_wit_1 : Prop :=
   (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) ,
   ((size_pre) # Int |-> (n))
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity M_before n)
 |--
@@ -2304,7 +2304,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : I
   ** (intArray.full pos_pre data_bound_pre pos_values)
 ) \/
 (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) ,
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity M_before n)
 |--
   EX key_values : (List Int), EX data_values : (List Int), EX pos_values : (List Int),
@@ -2324,7 +2324,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : In
 
 noncomputable def pqdk_decrease_key_entail_wit_2 : Prop :=
   (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_representation M_before key_values_2 data_values_2 pos_values data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_representation M_before key_values_2 data_values_2 pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre pos_values)
   ** ((size_pre) # Int |-> (n))
   ** (intArray.full key_pre n key_values_2)
@@ -2349,7 +2349,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : I
   ** (intArray.full pos_pre data_bound_pre pos_values_2)
 ) \/
 (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_representation M_before key_values_2 data_values_2 pos_values data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_representation M_before key_values_2 data_values_2 pos_values data_bound_pre n)) ,
   TT && emp 
 |--
   “ (heap_index_of M_before data_values_2 pos_values data_x_pre (Znth data_x_pre pos_values (0 : Int))) ” &&
@@ -2359,20 +2359,20 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (capacity : I
 )
 
 noncomputable def pqdk_decrease_key_entail_wit_2_split_goal_1 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_representation M_before key_values_2 data_values_2 pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_representation M_before key_values_2 data_values_2 pos_values data_bound_pre n)) ,
   (heap_index_of M_before data_values_2 pos_values data_x_pre (Znth data_x_pre pos_values (0 : Int)))
 
 noncomputable def pqdk_decrease_key_entail_wit_2_split_goal_2 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_representation M_before key_values_2 data_values_2 pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_representation M_before key_values_2 data_values_2 pos_values data_bound_pre n)) ,
   ((Znth data_x_pre pos_values (0 : Int)) < n)
 
 noncomputable def pqdk_decrease_key_entail_wit_2_split_goal_3 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_representation M_before key_values_2 data_values_2 pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_representation M_before key_values_2 data_values_2 pos_values data_bound_pre n)) ,
   ((0 : Int) <= (Znth data_x_pre pos_values (0 : Int)))
 
 noncomputable def pqdk_decrease_key_entail_wit_3 : Prop :=
   (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= idx)) (PreH5 : (idx < n)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_index_of M_before data_values pos_values data_x_pre idx)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= idx)) (PreH5 : (idx < n)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_index_of M_before data_values pos_values data_x_pre idx)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full key_pre n (replace_Znth (idx) (key_x_pre) (key_values)))
   ** ((size_pre) # Int |-> (n))
   ** (intArray.undef_seg key_pre n capacity)
@@ -2389,7 +2389,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : I
   ** (store_sift_up key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update (M_before) (data_x_pre) (key_x_pre)) n idx)
 ) \/
 (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= idx)) (PreH5 : (idx < n)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_index_of M_before data_values pos_values data_x_pre idx)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= idx)) (PreH5 : (idx < n)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_index_of M_before data_values pos_values data_x_pre idx)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full key_pre n (replace_Znth (idx) (key_x_pre) (key_values)))
   ** (intArray.undef_seg key_pre n capacity)
   ** (intArray.full data_pre n data_values)
@@ -2400,7 +2400,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : In
 )
 
 noncomputable def pqdk_decrease_key_entail_wit_3_split_goal_spatial : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= idx)) (PreH5 : (idx < n)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_index_of M_before data_values pos_values data_x_pre idx)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= idx)) (PreH5 : (idx < n)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_index_of M_before data_values pos_values data_x_pre idx)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full key_pre n (replace_Znth (idx) (key_x_pre) (key_values)))
   ** (intArray.undef_seg key_pre n capacity)
   ** (intArray.full data_pre n data_values)
@@ -2410,7 +2410,7 @@ noncomputable def pqdk_decrease_key_entail_wit_3_split_goal_spatial : Prop :=
   (store_sift_up key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update (M_before) (data_x_pre) (key_x_pre)) n idx)
 
 noncomputable def pqdk_decrease_key_return_wit_1 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= idx)) (PreH5 : (idx < n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= idx)) (PreH5 : (idx < n)) ,
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update (M_before) (data_x_pre) (key_x_pre)) n)
   ** ((size_pre) # Int |-> (n))
 |--
@@ -2418,7 +2418,7 @@ noncomputable def pqdk_decrease_key_return_wit_1 : Prop :=
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update (M_before) (data_x_pre) (key_x_pre)) n)
 
 noncomputable def pqdk_decrease_key_partial_solve_wit_1 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   ((size_pre) # Int |-> (n))
   ** (intArray.full key_pre n key_values)
   ** (intArray.undef_seg key_pre n capacity)
@@ -2442,7 +2442,7 @@ noncomputable def pqdk_decrease_key_partial_solve_wit_1 : Prop :=
   ** (intArray.undef_seg data_pre n capacity)
 
 noncomputable def pqdk_decrease_key_partial_solve_wit_2 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= idx)) (PreH5 : (idx < n)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_index_of M_before data_values pos_values data_x_pre idx)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= idx)) (PreH5 : (idx < n)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_index_of M_before data_values pos_values data_x_pre idx)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   ((size_pre) # Int |-> (n))
   ** (intArray.full key_pre n key_values)
   ** (intArray.undef_seg key_pre n capacity)
@@ -2467,7 +2467,7 @@ noncomputable def pqdk_decrease_key_partial_solve_wit_2 : Prop :=
   ** (intArray.full pos_pre data_bound_pre pos_values)
 
 noncomputable def pqdk_decrease_key_partial_solve_wit_3_pure : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= idx)) (PreH5 : (idx < n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= idx)) (PreH5 : (idx < n)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -2486,7 +2486,7 @@ noncomputable def pqdk_decrease_key_partial_solve_wit_3_pure : Prop :=
   “ (capacity <= heap_capacity) ”
 
 noncomputable def pqdk_decrease_key_partial_solve_wit_3_aux : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= idx)) (PreH5 : (idx < n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= idx)) (PreH5 : (idx < n)) ,
   ((size_pre) # Int |-> (n))
   ** (store_sift_up key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update (M_before) (data_x_pre) (key_x_pre)) n idx)
 |--
@@ -2505,7 +2505,7 @@ noncomputable def pqdk_decrease_key_partial_solve_wit_3_aux : Prop :=
 noncomputable def pqdk_decrease_key_partial_solve_wit_3 : Prop := pqdk_decrease_key_partial_solve_wit_3_pure -> pqdk_decrease_key_partial_solve_wit_3_aux
 
 noncomputable def pqdk_update_or_push_safety_wit_1 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre pos_values)
   ** ((( &( "idx" ) )) # Int |-> ((Znth data_x_pre pos_values (0 : Int))))
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
@@ -2526,7 +2526,7 @@ noncomputable def pqdk_update_or_push_safety_wit_1 : Prop :=
 
 noncomputable def pqdk_update_or_push_entail_wit_1 : Prop :=
   (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) ,
   ((size_pre) # Int |-> (n))
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity M_before n)
 |--
@@ -2546,7 +2546,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : I
   ** (intArray.full pos_pre data_bound_pre pos_values)
 ) \/
 (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) ,
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity M_before n)
 |--
   EX key_values : (List Int), EX data_values : (List Int), EX pos_values : (List Int),
@@ -2566,7 +2566,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : In
 
 noncomputable def pqdk_update_or_push_entail_wit_2 : Prop :=
   (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((Znth data_x_pre pos_values (0 : Int)) < (0 : Int))) (PreH2 : ((0 : Int) <= n)) (PreH3 : (n < capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= data_x_pre)) (PreH6 : (data_x_pre < data_bound_pre)) (PreH7 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((Znth data_x_pre pos_values (0 : Int)) < (0 : Int))) (PreH2 : ((0 : Int) <= n)) (PreH3 : (n < capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= data_x_pre)) (PreH6 : (data_x_pre < data_bound_pre)) (PreH7 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre pos_values)
   ** ((size_pre) # Int |-> (n))
   ** (intArray.full key_pre n key_values)
@@ -2584,7 +2584,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : I
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity M_before n)
 ) \/
 (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((Znth data_x_pre pos_values (0 : Int)) < (0 : Int))) (PreH2 : ((0 : Int) <= n)) (PreH3 : (n < capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= data_x_pre)) (PreH6 : (data_x_pre < data_bound_pre)) (PreH7 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((Znth data_x_pre pos_values (0 : Int)) < (0 : Int))) (PreH2 : ((0 : Int) <= n)) (PreH3 : (n < capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= data_x_pre)) (PreH6 : (data_x_pre < data_bound_pre)) (PreH7 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre pos_values)
   ** (intArray.full key_pre n key_values)
   ** (intArray.undef_seg key_pre n capacity)
@@ -2596,7 +2596,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : In
 )
 
 noncomputable def pqdk_update_or_push_entail_wit_2_split_goal_1 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((Znth data_x_pre pos_values (0 : Int)) < (0 : Int))) (PreH2 : ((0 : Int) <= n)) (PreH3 : (n < capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= data_x_pre)) (PreH6 : (data_x_pre < data_bound_pre)) (PreH7 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((Znth data_x_pre pos_values (0 : Int)) < (0 : Int))) (PreH2 : ((0 : Int) <= n)) (PreH3 : (n < capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= data_x_pre)) (PreH6 : (data_x_pre < data_bound_pre)) (PreH7 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre pos_values)
   ** (intArray.full key_pre n key_values)
   ** (intArray.undef_seg key_pre n capacity)
@@ -2606,7 +2606,7 @@ noncomputable def pqdk_update_or_push_entail_wit_2_split_goal_1 : Prop :=
   “ (partial_map_absent M_before data_x_pre) ”
 
 noncomputable def pqdk_update_or_push_entail_wit_2_split_goal_spatial : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((Znth data_x_pre pos_values (0 : Int)) < (0 : Int))) (PreH2 : ((0 : Int) <= n)) (PreH3 : (n < capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= data_x_pre)) (PreH6 : (data_x_pre < data_bound_pre)) (PreH7 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((Znth data_x_pre pos_values (0 : Int)) < (0 : Int))) (PreH2 : ((0 : Int) <= n)) (PreH3 : (n < capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= data_x_pre)) (PreH6 : (data_x_pre < data_bound_pre)) (PreH7 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre pos_values)
   ** (intArray.full key_pre n key_values)
   ** (intArray.undef_seg key_pre n capacity)
@@ -2617,7 +2617,7 @@ noncomputable def pqdk_update_or_push_entail_wit_2_split_goal_spatial : Prop :=
 
 noncomputable def pqdk_update_or_push_entail_wit_3 : Prop :=
   (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((Znth data_x_pre pos_values (0 : Int)) >= (0 : Int))) (PreH2 : ((0 : Int) <= n)) (PreH3 : (n < capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= data_x_pre)) (PreH6 : (data_x_pre < data_bound_pre)) (PreH7 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((Znth data_x_pre pos_values (0 : Int)) >= (0 : Int))) (PreH2 : ((0 : Int) <= n)) (PreH3 : (n < capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= data_x_pre)) (PreH6 : (data_x_pre < data_bound_pre)) (PreH7 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre pos_values)
   ** ((size_pre) # Int |-> (n))
   ** (intArray.full key_pre n key_values)
@@ -2635,7 +2635,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : I
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity M_before n)
 ) \/
 (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((Znth data_x_pre pos_values (0 : Int)) >= (0 : Int))) (PreH2 : ((0 : Int) <= n)) (PreH3 : (n < capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= data_x_pre)) (PreH6 : (data_x_pre < data_bound_pre)) (PreH7 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((Znth data_x_pre pos_values (0 : Int)) >= (0 : Int))) (PreH2 : ((0 : Int) <= n)) (PreH3 : (n < capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= data_x_pre)) (PreH6 : (data_x_pre < data_bound_pre)) (PreH7 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre pos_values)
   ** (intArray.full key_pre n key_values)
   ** (intArray.undef_seg key_pre n capacity)
@@ -2647,7 +2647,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : In
 )
 
 noncomputable def pqdk_update_or_push_entail_wit_3_split_goal_1 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((Znth data_x_pre pos_values (0 : Int)) >= (0 : Int))) (PreH2 : ((0 : Int) <= n)) (PreH3 : (n < capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= data_x_pre)) (PreH6 : (data_x_pre < data_bound_pre)) (PreH7 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((Znth data_x_pre pos_values (0 : Int)) >= (0 : Int))) (PreH2 : ((0 : Int) <= n)) (PreH3 : (n < capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= data_x_pre)) (PreH6 : (data_x_pre < data_bound_pre)) (PreH7 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre pos_values)
   ** (intArray.full key_pre n key_values)
   ** (intArray.undef_seg key_pre n capacity)
@@ -2657,7 +2657,7 @@ noncomputable def pqdk_update_or_push_entail_wit_3_split_goal_1 : Prop :=
   “ (partial_map_decrease_key_pre M_before data_x_pre key_x_pre) ”
 
 noncomputable def pqdk_update_or_push_entail_wit_3_split_goal_spatial : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((Znth data_x_pre pos_values (0 : Int)) >= (0 : Int))) (PreH2 : ((0 : Int) <= n)) (PreH3 : (n < capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= data_x_pre)) (PreH6 : (data_x_pre < data_bound_pre)) (PreH7 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((Znth data_x_pre pos_values (0 : Int)) >= (0 : Int))) (PreH2 : ((0 : Int) <= n)) (PreH3 : (n < capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : ((0 : Int) <= data_x_pre)) (PreH6 : (data_x_pre < data_bound_pre)) (PreH7 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre pos_values)
   ** (intArray.full key_pre n key_values)
   ** (intArray.undef_seg key_pre n capacity)
@@ -2668,7 +2668,7 @@ noncomputable def pqdk_update_or_push_entail_wit_3_split_goal_spatial : Prop :=
 
 noncomputable def pqdk_update_or_push_entail_wit_4_1 : Prop :=
   (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) ,
   ((size_pre) # Int |-> ((n + 1)))
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_add (M_before) (data_x_pre) (key_x_pre)) (n + 1))
 |--
@@ -2678,7 +2678,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : I
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update_or_add (M_before) (data_x_pre) (key_x_pre)) n_after)
 ) \/
 (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) ,
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_add (M_before) (data_x_pre) (key_x_pre)) (n + 1))
 |--
   “ (partial_map_update_or_add_size M_before n (n + 1) data_x_pre key_x_pre) ”
@@ -2686,20 +2686,20 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : In
 )
 
 noncomputable def pqdk_update_or_push_entail_wit_4_1_split_goal_1 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) ,
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_add (M_before) (data_x_pre) (key_x_pre)) (n + 1))
 |--
   “ (partial_map_update_or_add_size M_before n (n + 1) data_x_pre key_x_pre) ”
 
 noncomputable def pqdk_update_or_push_entail_wit_4_1_split_goal_spatial : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) ,
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_add (M_before) (data_x_pre) (key_x_pre)) (n + 1))
 |--
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update_or_add (M_before) (data_x_pre) (key_x_pre)) (n + 1))
 
 noncomputable def pqdk_update_or_push_entail_wit_4_2 : Prop :=
   (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) ,
   ((size_pre) # Int |-> (n))
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update (M_before) (data_x_pre) (key_x_pre)) n)
 |--
@@ -2709,7 +2709,7 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : I
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update_or_add (M_before) (data_x_pre) (key_x_pre)) n_after)
 ) \/
 (
-forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) ,
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update (M_before) (data_x_pre) (key_x_pre)) n)
 |--
   “ (partial_map_update_or_add_size M_before n n data_x_pre key_x_pre) ”
@@ -2717,19 +2717,19 @@ forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : In
 )
 
 noncomputable def pqdk_update_or_push_entail_wit_4_2_split_goal_1 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) ,
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update (M_before) (data_x_pre) (key_x_pre)) n)
 |--
   “ (partial_map_update_or_add_size M_before n n data_x_pre key_x_pre) ”
 
 noncomputable def pqdk_update_or_push_entail_wit_4_2_split_goal_spatial : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) ,
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update (M_before) (data_x_pre) (key_x_pre)) n)
 |--
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update_or_add (M_before) (data_x_pre) (key_x_pre)) n)
 
 noncomputable def pqdk_update_or_push_return_wit_1 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (n_after_2 : Int) (PreH1 : (partial_map_update_or_add_size M_before n n_after_2 data_x_pre key_x_pre)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (n_after_2 : Int) (PreH1 : (partial_map_update_or_add_size M_before n n_after_2 data_x_pre key_x_pre)) ,
   ((size_pre) # Int |-> (n_after_2))
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update_or_add (M_before) (data_x_pre) (key_x_pre)) n_after_2)
 |--
@@ -2739,7 +2739,7 @@ noncomputable def pqdk_update_or_push_return_wit_1 : Prop :=
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update_or_add (M_before) (data_x_pre) (key_x_pre)) n_after)
 
 noncomputable def pqdk_update_or_push_partial_solve_wit_1 : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_update_or_add_pre M_before data_x_pre key_x_pre)) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   ((size_pre) # Int |-> (n))
   ** (intArray.full key_pre n key_values)
   ** (intArray.undef_seg key_pre n capacity)
@@ -2763,7 +2763,7 @@ noncomputable def pqdk_update_or_push_partial_solve_wit_1 : Prop :=
   ** (intArray.undef_seg data_pre n capacity)
 
 noncomputable def pqdk_update_or_push_partial_solve_wit_2_pure : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -2783,7 +2783,7 @@ noncomputable def pqdk_update_or_push_partial_solve_wit_2_pure : Prop :=
   “ (partial_map_absent M_before data_x_pre) ”
 
 noncomputable def pqdk_update_or_push_partial_solve_wit_2_aux : Prop :=
-  forall (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre)) ,
   ((size_pre) # Int |-> (n))
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity M_before n)
 |--
@@ -2805,7 +2805,7 @@ noncomputable def pqdk_update_or_push_partial_solve_wit_2_aux : Prop :=
 noncomputable def pqdk_update_or_push_partial_solve_wit_2 : Prop := pqdk_update_or_push_partial_solve_wit_2_pure -> pqdk_update_or_push_partial_solve_wit_2_aux
 
 noncomputable def pqdk_update_or_push_partial_solve_wit_3_pure : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (idx : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -2825,7 +2825,7 @@ noncomputable def pqdk_update_or_push_partial_solve_wit_3_pure : Prop :=
   “ (partial_map_decrease_key_pre M_before data_x_pre key_x_pre) ”
 
 noncomputable def pqdk_update_or_push_partial_solve_wit_3_aux : Prop :=
-  forall (key_x_pre : Int) (data_x_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_x_pre : Int) (key_x_pre : Int) (PreH1 : ((0 : Int) <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : ((0 : Int) <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre)) ,
   ((size_pre) # Int |-> (n))
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity M_before n)
 |--
@@ -2847,7 +2847,7 @@ noncomputable def pqdk_update_or_push_partial_solve_wit_3_aux : Prop :=
 noncomputable def pqdk_update_or_push_partial_solve_wit_3 : Prop := pqdk_update_or_push_partial_solve_wit_3_pure -> pqdk_update_or_push_partial_solve_wit_3_aux
 
 noncomputable def pqdk_pop_safety_wit_1 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   ((( &( "result_key" ) )) # Int |->_)
   ** ((( &( "n0" ) )) # Int |-> (n))
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
@@ -2870,7 +2870,7 @@ noncomputable def pqdk_pop_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def pqdk_pop_safety_wit_2 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   ((( &( "result_data" ) )) # Int |->_)
   ** (intArray.full key_pre n key_values)
   ** ((( &( "result_key" ) )) # Int |-> ((Znth (0 : Int) key_values (0 : Int))))
@@ -2894,7 +2894,7 @@ noncomputable def pqdk_pop_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def pqdk_pop_safety_wit_3 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (result_key = (Znth (0 : Int) key_values (0 : Int)))) (PreH2 : (result_data = (Znth (0 : Int) data_values (0 : Int)))) (PreH3 : (1 <= n)) (PreH4 : (n <= capacity)) (PreH5 : (capacity <= heap_capacity)) (PreH6 : ((0 : Int) <= result_data)) (PreH7 : (result_data < data_bound_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (result_key = (Znth (0 : Int) key_values (0 : Int)))) (PreH2 : (result_data = (Znth (0 : Int) data_values (0 : Int)))) (PreH3 : (1 <= n)) (PreH4 : (n <= capacity)) (PreH5 : (capacity <= heap_capacity)) (PreH6 : ((0 : Int) <= result_data)) (PreH7 : (result_data < data_bound_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -2917,7 +2917,7 @@ noncomputable def pqdk_pop_safety_wit_3 : Prop :=
   “ (1 ≠ (INT_MIN)) ”
 
 noncomputable def pqdk_pop_safety_wit_4 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (result_key = (Znth (0 : Int) key_values (0 : Int)))) (PreH2 : (result_data = (Znth (0 : Int) data_values (0 : Int)))) (PreH3 : (1 <= n)) (PreH4 : (n <= capacity)) (PreH5 : (capacity <= heap_capacity)) (PreH6 : ((0 : Int) <= result_data)) (PreH7 : (result_data < data_bound_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (result_key = (Znth (0 : Int) key_values (0 : Int)))) (PreH2 : (result_data = (Znth (0 : Int) data_values (0 : Int)))) (PreH3 : (1 <= n)) (PreH4 : (n <= capacity)) (PreH5 : (capacity <= heap_capacity)) (PreH6 : ((0 : Int) <= result_data)) (PreH7 : (result_data < data_bound_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -2941,7 +2941,7 @@ noncomputable def pqdk_pop_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pqdk_pop_safety_wit_5 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (result_key = (Znth (0 : Int) key_values (0 : Int)))) (PreH2 : (result_data = (Znth (0 : Int) data_values (0 : Int)))) (PreH3 : (1 <= n)) (PreH4 : (n <= capacity)) (PreH5 : (capacity <= heap_capacity)) (PreH6 : ((0 : Int) <= result_data)) (PreH7 : (result_data < data_bound_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (result_key = (Znth (0 : Int) key_values (0 : Int)))) (PreH2 : (result_data = (Znth (0 : Int) data_values (0 : Int)))) (PreH3 : (1 <= n)) (PreH4 : (n <= capacity)) (PreH5 : (capacity <= heap_capacity)) (PreH6 : ((0 : Int) <= result_data)) (PreH7 : (result_data < data_bound_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth (result_data) ((-1)) (pos_values)))
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
@@ -2965,7 +2965,7 @@ noncomputable def pqdk_pop_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pqdk_pop_safety_wit_6 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (n = 1)) (PreH2 : (result_key = (Znth (0 : Int) key_values (0 : Int)))) (PreH3 : (result_data = (Znth (0 : Int) data_values (0 : Int)))) (PreH4 : (1 <= n)) (PreH5 : (n <= capacity)) (PreH6 : (capacity <= heap_capacity)) (PreH7 : ((0 : Int) <= result_data)) (PreH8 : (result_data < data_bound_pre)) (PreH9 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (n = 1)) (PreH2 : (result_key = (Znth (0 : Int) key_values (0 : Int)))) (PreH3 : (result_data = (Znth (0 : Int) data_values (0 : Int)))) (PreH4 : (1 <= n)) (PreH5 : (n <= capacity)) (PreH6 : (capacity <= heap_capacity)) (PreH7 : ((0 : Int) <= result_data)) (PreH8 : (result_data < data_bound_pre)) (PreH9 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth (result_data) ((-1)) (pos_values)))
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
@@ -2989,7 +2989,7 @@ noncomputable def pqdk_pop_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def pqdk_pop_safety_wit_7 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -3013,7 +3013,7 @@ noncomputable def pqdk_pop_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= (n - 1)) ”
 
 noncomputable def pqdk_pop_safety_wit_8 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -3037,7 +3037,7 @@ noncomputable def pqdk_pop_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pqdk_pop_safety_wit_9 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   (intArray.full data_pre n data_values)
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
@@ -3061,7 +3061,7 @@ noncomputable def pqdk_pop_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def pqdk_pop_safety_wit_10 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1) data_values (0 : Int))) ((0 : Int)) (pos_values)))
   ** (intArray.full data_pre n data_values)
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
@@ -3085,7 +3085,7 @@ noncomputable def pqdk_pop_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def pqdk_pop_safety_wit_11 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1) data_values (0 : Int))) ((0 : Int)) (pos_values)))
   ** (intArray.full data_pre n data_values)
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
@@ -3109,7 +3109,7 @@ noncomputable def pqdk_pop_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= (n - 1)) ”
 
 noncomputable def pqdk_pop_safety_wit_12 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1) data_values (0 : Int))) ((0 : Int)) (pos_values)))
   ** (intArray.full data_pre n data_values)
   ** ((( &( "key" ) )) # Ptr |-> (key_pre))
@@ -3133,7 +3133,7 @@ noncomputable def pqdk_pop_safety_wit_12 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pqdk_pop_safety_wit_13 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   (intArray.full key_pre n (replace_Znth ((0 : Int)) ((Znth (n - 1) key_values (0 : Int))) (key_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1) data_values (0 : Int))) ((0 : Int)) (pos_values)))
   ** (intArray.full data_pre n data_values)
@@ -3157,7 +3157,7 @@ noncomputable def pqdk_pop_safety_wit_13 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def pqdk_pop_safety_wit_14 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   (intArray.full key_pre n (replace_Znth ((0 : Int)) ((Znth (n - 1) key_values (0 : Int))) (key_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1) data_values (0 : Int))) ((0 : Int)) (pos_values)))
   ** (intArray.full data_pre n data_values)
@@ -3181,7 +3181,7 @@ noncomputable def pqdk_pop_safety_wit_14 : Prop :=
   “ ((INT_MIN) <= (n - 1)) ”
 
 noncomputable def pqdk_pop_safety_wit_15 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   (intArray.full key_pre n (replace_Znth ((0 : Int)) ((Znth (n - 1) key_values (0 : Int))) (key_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1) data_values (0 : Int))) ((0 : Int)) (pos_values)))
   ** (intArray.full data_pre n data_values)
@@ -3205,7 +3205,7 @@ noncomputable def pqdk_pop_safety_wit_15 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pqdk_pop_safety_wit_16 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   (intArray.full data_pre n (replace_Znth ((0 : Int)) ((Znth (n - 1) data_values (0 : Int))) (data_values)))
   ** (intArray.full key_pre n (replace_Znth ((0 : Int)) ((Znth (n - 1) key_values (0 : Int))) (key_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1) data_values (0 : Int))) ((0 : Int)) (pos_values)))
@@ -3229,7 +3229,7 @@ noncomputable def pqdk_pop_safety_wit_16 : Prop :=
   “ ((INT_MIN) <= (n - 1)) ”
 
 noncomputable def pqdk_pop_safety_wit_17 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   (intArray.full data_pre n (replace_Znth ((0 : Int)) ((Znth (n - 1) data_values (0 : Int))) (data_values)))
   ** (intArray.full key_pre n (replace_Znth ((0 : Int)) ((Znth (n - 1) key_values (0 : Int))) (key_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1) data_values (0 : Int))) ((0 : Int)) (pos_values)))
@@ -3253,7 +3253,7 @@ noncomputable def pqdk_pop_safety_wit_17 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pqdk_pop_safety_wit_18 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : ((0 : Int) < (n - 1))) (PreH3 : ((n - 1) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : (partial_map_minimum M_before popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : ((0 : Int) < (n - 1))) (PreH3 : ((n - 1) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : (partial_map_minimum M_before popped)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -3273,7 +3273,7 @@ noncomputable def pqdk_pop_safety_wit_18 : Prop :=
   “ ((INT_MIN) <= (n - 1)) ”
 
 noncomputable def pqdk_pop_safety_wit_19 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : ((0 : Int) < (n - 1))) (PreH3 : ((n - 1) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : (partial_map_minimum M_before popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : ((0 : Int) < (n - 1))) (PreH3 : ((n - 1) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : (partial_map_minimum M_before popped)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -3293,7 +3293,7 @@ noncomputable def pqdk_pop_safety_wit_19 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def pqdk_pop_safety_wit_20 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : ((0 : Int) < (n - 1))) (PreH3 : ((n - 1) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : (partial_map_minimum M_before popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : ((0 : Int) < (n - 1))) (PreH3 : ((n - 1) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : (partial_map_minimum M_before popped)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -3314,7 +3314,7 @@ noncomputable def pqdk_pop_safety_wit_20 : Prop :=
 
 noncomputable def pqdk_pop_entail_wit_1 : Prop :=
   (
-forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) ,
   ((size_pre) # Int |-> (n))
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity M_before n)
   ** ((data_out_pre) # Int |->_)
@@ -3335,7 +3335,7 @@ forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre
   ** ((key_out_pre) # Int |->_)
 ) \/
 (
-forall (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) ,
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity M_before n)
 |--
   EX key_values : (List Int), EX data_values : (List Int), EX pos_values : (List Int),
@@ -3352,7 +3352,7 @@ forall (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (
 
 noncomputable def pqdk_pop_entail_wit_2 : Prop :=
   (
-forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (heap_representation M_before key_values data_values pos_values_2 data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (heap_representation M_before key_values data_values pos_values_2 data_bound_pre n)) ,
   (intArray.full data_pre n data_values)
   ** (intArray.full key_pre n key_values)
   ** ((size_pre) # Int |-> (n))
@@ -3381,7 +3381,7 @@ forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre
   ** ((key_out_pre) # Int |-> ((Znth (0 : Int) key_values (0 : Int))))
 ) \/
 (
-forall (data_bound_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (heap_representation M_before key_values data_values pos_values_2 data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (data_bound_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (heap_representation M_before key_values data_values pos_values_2 data_bound_pre n)) ,
   TT && emp 
 |--
   “ ((Znth (0 : Int) data_values (0 : Int)) < data_bound_pre) ” &&
@@ -3390,16 +3390,16 @@ forall (data_bound_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map
 )
 
 noncomputable def pqdk_pop_entail_wit_2_split_goal_1 : Prop :=
-  forall (data_bound_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (heap_representation M_before key_values data_values pos_values_2 data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (data_bound_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (heap_representation M_before key_values data_values pos_values_2 data_bound_pre n)) ,
   ((Znth (0 : Int) data_values (0 : Int)) < data_bound_pre)
 
 noncomputable def pqdk_pop_entail_wit_2_split_goal_2 : Prop :=
-  forall (data_bound_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (heap_representation M_before key_values data_values pos_values_2 data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (data_bound_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values_2 : (List Int)) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (heap_representation M_before key_values data_values pos_values_2 data_bound_pre n)) ,
   ((0 : Int) <= (Znth (0 : Int) data_values (0 : Int)))
 
 noncomputable def pqdk_pop_entail_wit_3 : Prop :=
   (
-forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (n ≠ 1)) (PreH2 : (result_key = (Znth (0 : Int) key_values_2 (0 : Int)))) (PreH3 : (result_data = (Znth (0 : Int) data_values_2 (0 : Int)))) (PreH4 : (1 <= n)) (PreH5 : (n <= capacity)) (PreH6 : (capacity <= heap_capacity)) (PreH7 : ((0 : Int) <= result_data)) (PreH8 : (result_data < data_bound_pre)) (PreH9 : (heap_representation M_before key_values_2 data_values_2 pos_values_2 data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (n ≠ 1)) (PreH2 : (result_key = (Znth (0 : Int) key_values_2 (0 : Int)))) (PreH3 : (result_data = (Znth (0 : Int) data_values_2 (0 : Int)))) (PreH4 : (1 <= n)) (PreH5 : (n <= capacity)) (PreH6 : (capacity <= heap_capacity)) (PreH7 : ((0 : Int) <= result_data)) (PreH8 : (result_data < data_bound_pre)) (PreH9 : (heap_representation M_before key_values_2 data_values_2 pos_values_2 data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth (result_data) ((-1)) (pos_values_2)))
   ** ((size_pre) # Int |-> (n))
   ** (intArray.full key_pre n key_values_2)
@@ -3431,7 +3431,7 @@ forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre
   ** ((key_out_pre) # Int |-> (result_key))
 ) \/
 (
-forall (data_bound_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (n ≠ 1)) (PreH2 : (result_key = (Znth (0 : Int) key_values_2 (0 : Int)))) (PreH3 : (result_data = (Znth (0 : Int) data_values_2 (0 : Int)))) (PreH4 : (1 <= n)) (PreH5 : (n <= capacity)) (PreH6 : (capacity <= heap_capacity)) (PreH7 : ((0 : Int) <= result_data)) (PreH8 : (result_data < data_bound_pre)) (PreH9 : (heap_representation M_before key_values_2 data_values_2 pos_values_2 data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (data_bound_pre : Int) (key_values_2 : (List Int)) (data_values_2 : (List Int)) (pos_values_2 : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (n ≠ 1)) (PreH2 : (result_key = (Znth (0 : Int) key_values_2 (0 : Int)))) (PreH3 : (result_data = (Znth (0 : Int) data_values_2 (0 : Int)))) (PreH4 : (1 <= n)) (PreH5 : (n <= capacity)) (PreH6 : (capacity <= heap_capacity)) (PreH7 : ((0 : Int) <= result_data)) (PreH8 : (result_data < data_bound_pre)) (PreH9 : (heap_representation M_before key_values_2 data_values_2 pos_values_2 data_bound_pre n)) ,
   TT && emp 
 |--
   EX popped : (Int × Int),
@@ -3448,7 +3448,7 @@ forall (data_bound_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map
 
 noncomputable def pqdk_pop_entail_wit_4 : Prop :=
   (
-forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped_2 : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped_2)))) (PreH6 : (result_data = (item_data (popped_2)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped_2)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped_2 : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped_2)))) (PreH6 : (result_data = (item_data (popped_2)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped_2)) ,
   (intArray.full data_pre n (replace_Znth ((0 : Int)) ((Znth (n - 1) data_values (0 : Int))) (data_values)))
   ** (intArray.full key_pre n (replace_Znth ((0 : Int)) ((Znth (n - 1) key_values (0 : Int))) (key_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1) data_values (0 : Int))) ((0 : Int)) (pos_values)))
@@ -3472,7 +3472,7 @@ forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre
   ** ((key_out_pre) # Int |-> (result_key))
 ) \/
 (
-forall (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped_2 : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped_2)))) (PreH6 : (result_data = (item_data (popped_2)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped_2)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (popped_2 : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped_2)))) (PreH6 : (result_data = (item_data (popped_2)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped_2)) ,
   (intArray.full data_pre n (replace_Znth ((0 : Int)) ((Znth (n - 1) data_values (0 : Int))) (data_values)))
   ** (intArray.full key_pre n (replace_Znth ((0 : Int)) ((Znth (n - 1) key_values (0 : Int))) (key_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1) data_values (0 : Int))) ((0 : Int)) (pos_values)))
@@ -3492,7 +3492,7 @@ forall (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (
 
 noncomputable def pqdk_pop_return_wit_1 : Prop :=
   (
-forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (n = 1)) (PreH2 : (result_key = (Znth (0 : Int) key_values (0 : Int)))) (PreH3 : (result_data = (Znth (0 : Int) data_values (0 : Int)))) (PreH4 : (1 <= n)) (PreH5 : (n <= capacity)) (PreH6 : (capacity <= heap_capacity)) (PreH7 : ((0 : Int) <= result_data)) (PreH8 : (result_data < data_bound_pre)) (PreH9 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (n = 1)) (PreH2 : (result_key = (Znth (0 : Int) key_values (0 : Int)))) (PreH3 : (result_data = (Znth (0 : Int) data_values (0 : Int)))) (PreH4 : (1 <= n)) (PreH5 : (n <= capacity)) (PreH6 : (capacity <= heap_capacity)) (PreH7 : ((0 : Int) <= result_data)) (PreH8 : (result_data < data_bound_pre)) (PreH9 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth (result_data) ((-1)) (pos_values)))
   ** ((size_pre) # Int |-> ((0 : Int)))
   ** (intArray.full key_pre n key_values)
@@ -3502,17 +3502,17 @@ forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre
   ** ((data_out_pre) # Int |-> (result_data))
   ** ((key_out_pre) # Int |-> (result_key))
 |--
-  EX data_out_pre_v : Int, EX popped : (Int × Int), EX key_out_pre_v : Int,
-  “ (key_out_pre_v = (item_key (popped))) ” &&
-  “ (data_out_pre_v = (item_data (popped))) ” &&
+  EX data_out_v : Int, EX popped : (Int × Int), EX key_out_v : Int,
+  “ (key_out_v = (item_key (popped))) ” &&
+  “ (data_out_v = (item_data (popped))) ” &&
   “ (partial_map_minimum M_before popped) ”
-  &&  ((key_out_pre) # Int |-> (key_out_pre_v))
-  ** ((data_out_pre) # Int |-> (data_out_pre_v))
+  &&  ((key_out_pre) # Int |-> (key_out_v))
+  ** ((data_out_pre) # Int |-> (data_out_v))
   ** ((size_pre) # Int |-> ((n - 1)))
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_remove (M_before) ((item_data (popped)))) (n - 1))
 ) \/
 (
-forall (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (n = 1)) (PreH2 : (result_key = (Znth (0 : Int) key_values (0 : Int)))) (PreH3 : (result_data = (Znth (0 : Int) data_values (0 : Int)))) (PreH4 : (1 <= n)) (PreH5 : (n <= capacity)) (PreH6 : (capacity <= heap_capacity)) (PreH7 : ((0 : Int) <= result_data)) (PreH8 : (result_data < data_bound_pre)) (PreH9 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (data_bound_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (n = 1)) (PreH2 : (result_key = (Znth (0 : Int) key_values (0 : Int)))) (PreH3 : (result_data = (Znth (0 : Int) data_values (0 : Int)))) (PreH4 : (1 <= n)) (PreH5 : (n <= capacity)) (PreH6 : (capacity <= heap_capacity)) (PreH7 : ((0 : Int) <= result_data)) (PreH8 : (result_data < data_bound_pre)) (PreH9 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth (result_data) ((-1)) (pos_values)))
   ** (intArray.full key_pre n key_values)
   ** (intArray.undef_seg key_pre n capacity)
@@ -3530,23 +3530,23 @@ forall (data_bound_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (
 )
 
 noncomputable def pqdk_pop_return_wit_2 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped_2 : (Int × Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : ((0 : Int) < (n - 1))) (PreH3 : ((n - 1) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped_2)))) (PreH6 : (result_data = (item_data (popped_2)))) (PreH7 : (partial_map_minimum M_before popped_2)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped_2 : (Int × Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : ((0 : Int) < (n - 1))) (PreH3 : ((n - 1) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped_2)))) (PreH6 : (result_data = (item_data (popped_2)))) (PreH7 : (partial_map_minimum M_before popped_2)) ,
   (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_remove (M_before) ((item_data (popped_2)))) (n - 1))
   ** ((size_pre) # Int |-> ((n - 1)))
   ** ((data_out_pre) # Int |-> (result_data))
   ** ((key_out_pre) # Int |-> (result_key))
 |--
-  EX data_out_pre_v : Int, EX popped : (Int × Int), EX key_out_pre_v : Int,
-  “ (key_out_pre_v = (item_key (popped))) ” &&
-  “ (data_out_pre_v = (item_data (popped))) ” &&
+  EX data_out_v : Int, EX popped : (Int × Int), EX key_out_v : Int,
+  “ (key_out_v = (item_key (popped))) ” &&
+  “ (data_out_v = (item_data (popped))) ” &&
   “ (partial_map_minimum M_before popped) ”
-  &&  ((key_out_pre) # Int |-> (key_out_pre_v))
-  ** ((data_out_pre) # Int |-> (data_out_pre_v))
+  &&  ((key_out_pre) # Int |-> (key_out_v))
+  ** ((data_out_pre) # Int |-> (data_out_v))
   ** ((size_pre) # Int |-> ((n - 1)))
   ** (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_remove (M_before) ((item_data (popped)))) (n - 1))
 
 noncomputable def pqdk_pop_partial_solve_wit_1 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   ((size_pre) # Int |-> (n))
   ** (intArray.full key_pre n key_values)
   ** (intArray.undef_seg key_pre n capacity)
@@ -3571,7 +3571,7 @@ noncomputable def pqdk_pop_partial_solve_wit_1 : Prop :=
   ** ((key_out_pre) # Int |->_)
 
 noncomputable def pqdk_pop_partial_solve_wit_2 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (PreH1 : (1 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   (intArray.full key_pre n key_values)
   ** ((size_pre) # Int |-> (n))
   ** (intArray.undef_seg key_pre n capacity)
@@ -3596,7 +3596,7 @@ noncomputable def pqdk_pop_partial_solve_wit_2 : Prop :=
   ** ((key_out_pre) # Int |->_)
 
 noncomputable def pqdk_pop_partial_solve_wit_3 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (result_key = (Znth (0 : Int) key_values (0 : Int)))) (PreH2 : (result_data = (Znth (0 : Int) data_values (0 : Int)))) (PreH3 : (1 <= n)) (PreH4 : (n <= capacity)) (PreH5 : (capacity <= heap_capacity)) (PreH6 : ((0 : Int) <= result_data)) (PreH7 : (result_data < data_bound_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (result_key = (Znth (0 : Int) key_values (0 : Int)))) (PreH2 : (result_data = (Znth (0 : Int) data_values (0 : Int)))) (PreH3 : (1 <= n)) (PreH4 : (n <= capacity)) (PreH5 : (capacity <= heap_capacity)) (PreH6 : ((0 : Int) <= result_data)) (PreH7 : (result_data < data_bound_pre)) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n)) ,
   ((size_pre) # Int |-> (n))
   ** (intArray.full key_pre n key_values)
   ** (intArray.undef_seg key_pre n capacity)
@@ -3625,7 +3625,7 @@ noncomputable def pqdk_pop_partial_solve_wit_3 : Prop :=
   ** ((key_out_pre) # Int |-> (result_key))
 
 noncomputable def pqdk_pop_partial_solve_wit_4 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   ((size_pre) # Int |-> (n))
   ** (intArray.full key_pre n key_values)
   ** (intArray.undef_seg key_pre n capacity)
@@ -3657,7 +3657,7 @@ noncomputable def pqdk_pop_partial_solve_wit_4 : Prop :=
   ** ((key_out_pre) # Int |-> (result_key))
 
 noncomputable def pqdk_pop_partial_solve_wit_5 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   (intArray.full data_pre n data_values)
   ** ((size_pre) # Int |-> (n))
   ** (intArray.full key_pre n key_values)
@@ -3689,7 +3689,7 @@ noncomputable def pqdk_pop_partial_solve_wit_5 : Prop :=
   ** ((key_out_pre) # Int |-> (result_key))
 
 noncomputable def pqdk_pop_partial_solve_wit_6 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1) data_values (0 : Int))) ((0 : Int)) (pos_values)))
   ** (intArray.full data_pre n data_values)
   ** ((size_pre) # Int |-> (n))
@@ -3721,7 +3721,7 @@ noncomputable def pqdk_pop_partial_solve_wit_6 : Prop :=
   ** ((key_out_pre) # Int |-> (result_key))
 
 noncomputable def pqdk_pop_partial_solve_wit_7 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   (intArray.full key_pre n key_values)
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1) data_values (0 : Int))) ((0 : Int)) (pos_values)))
   ** (intArray.full data_pre n data_values)
@@ -3753,7 +3753,7 @@ noncomputable def pqdk_pop_partial_solve_wit_7 : Prop :=
   ** ((key_out_pre) # Int |-> (result_key))
 
 noncomputable def pqdk_pop_partial_solve_wit_8 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   (intArray.full key_pre n (replace_Znth ((0 : Int)) ((Znth (n - 1) key_values (0 : Int))) (key_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1) data_values (0 : Int))) ((0 : Int)) (pos_values)))
   ** (intArray.full data_pre n data_values)
@@ -3785,7 +3785,7 @@ noncomputable def pqdk_pop_partial_solve_wit_8 : Prop :=
   ** ((key_out_pre) # Int |-> (result_key))
 
 noncomputable def pqdk_pop_partial_solve_wit_9 : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (key_values : (List Int)) (data_values : (List Int)) (pos_values : (List Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : ((0 : Int) <= (n - 1))) (PreH8 : ((n - 1) < n)) (PreH9 : ((0 : Int) <= (Znth (n - 1) data_values (0 : Int)))) (PreH10 : ((Znth (n - 1) data_values (0 : Int)) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped)) ,
   (intArray.full data_pre n data_values)
   ** (intArray.full key_pre n (replace_Znth ((0 : Int)) ((Znth (n - 1) key_values (0 : Int))) (key_values)))
   ** (intArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1) data_values (0 : Int))) ((0 : Int)) (pos_values)))
@@ -3817,7 +3817,7 @@ noncomputable def pqdk_pop_partial_solve_wit_9 : Prop :=
   ** ((key_out_pre) # Int |-> (result_key))
 
 noncomputable def pqdk_pop_partial_solve_wit_10_pure : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : ((0 : Int) < (n - 1))) (PreH3 : ((n - 1) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : (partial_map_minimum M_before popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : ((0 : Int) < (n - 1))) (PreH3 : ((n - 1) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : (partial_map_minimum M_before popped)) ,
   ((( &( "key" ) )) # Ptr |-> (key_pre))
   ** ((( &( "data" ) )) # Ptr |-> (data_pre))
   ** ((( &( "pos" ) )) # Ptr |-> (pos_pre))
@@ -3839,7 +3839,7 @@ noncomputable def pqdk_pop_partial_solve_wit_10_pure : Prop :=
   “ (capacity <= heap_capacity) ”
 
 noncomputable def pqdk_pop_partial_solve_wit_10_aux : Prop :=
-  forall (key_out_pre : Int) (data_out_pre : Int) (data_bound_pre : Int) (size_pre : Int) (pos_pre : Int) (data_pre : Int) (key_pre : Int) (capacity : Int) (n : Int) (M_before : partial_map) (popped : (Int × Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : ((0 : Int) < (n - 1))) (PreH3 : ((n - 1) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : (partial_map_minimum M_before popped)) ,
+  forall (capacity : Int) (n : Int) (M_before : partial_map) (key_pre : Int) (data_pre : Int) (pos_pre : Int) (size_pre : Int) (data_bound_pre : Int) (data_out_pre : Int) (key_out_pre : Int) (popped : (Int × Int)) (result_key : Int) (result_data : Int) (PreH1 : (1 < n)) (PreH2 : ((0 : Int) < (n - 1))) (PreH3 : ((n - 1) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : (partial_map_minimum M_before popped)) ,
   ((size_pre) # Int |-> ((n - 1)))
   ** (store_sift_down key_pre data_pre pos_pre data_bound_pre capacity (partial_map_remove (M_before) ((item_data (popped)))) (n - 1) (0 : Int))
   ** ((data_out_pre) # Int |-> (result_data))

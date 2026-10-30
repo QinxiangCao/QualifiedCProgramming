@@ -1,22 +1,4 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
-From SimpleC.EE.Applications_human.CDCL Require Import CDCL_qcp_goal.
-From SimpleC.EE.Applications_human.CDCL Require Import CDCL_qcp_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
+From SimpleC.Verification Require Import VCPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.CDCL.CDCL_qcp_lib.
 Local Open Scope sac.
@@ -150,8 +132,6 @@ Ltac decide_rows_prelude row_table j live row_ptr snap :=
     row_table j live row_ptr (snap_rows snap)
     (Znth j (snap_rows snap) nil)) as Hmerge;
   unfold StorePtrAsElement.storeA in Hmerge;
-  try rewrite sizeof_ptr;
-  fold_arch;
   change (IntPtrArray2.ElemArray.full row_ptr
     (Zlength (Znth j (snap_rows snap) nil))
     (Znth j (snap_rows snap) nil)) with
@@ -283,7 +263,7 @@ Ltac solve_bcp_scan_step_false bval new_state i_3 cur_unassigned_2 cur_true_2 s_
     cur_true_2 s_cl_data_5 s_v_data_5 b_2 value_cell_2 new_snap_2 ranks1_2
     (replace_Znth i_3 new_state cur_states_2) (i_3 + 1);
   unfold bcp_clause_scan, bcp_ready;
-  try poly_store_unfold; asrt_simpl_pure; sepcon_assoc_change;
+  asrt_simpl_pure; sepcon_assoc_change;
   andp_cancel; try simpl_entail; (* retained inside the multi-goal helper *)
   [ derive_bcp_advance_false bval new_state b_2 value_cell_2 new_snap_2 snap bcpvar logical_dl unitcl i_3 current_state cur_states_2 F n live original_count ranks ranks1_2 cur_true_2 cur_unassigned_2 cap;
     try rewrite IntArray.seg_shape_empty;
@@ -292,8 +272,6 @@ Ltac solve_bcp_scan_step_false bval new_state i_3 cur_unassigned_2 cur_true_2 s_
       row_table live i_3 row_ptr (snap_rows snap) ltac:(lia)) as Hmerge;
     unfold installed_row_focus_rep in Hmerge;
     unfold StorePtrAsElement.storeA in Hmerge;
-    try rewrite sizeof_ptr;
-    fold_arch;
     sep_apply Hmerge;
     unfold installed_rows_capacity_rep;
     cancel (PtrArray.undef_seg row_table live cap);
@@ -374,7 +352,7 @@ Ltac solve_bcp_scan_step_same bval cur_unassigned_2 cur_true_2 s_cl_data_5 s_v_d
   Exists cur_unassigned_2 cur_true_2 s_cl_data_5 s_v_data_5 b_2
     value_cell_2 new_snap_2 ranks1_2 cur_states_2 (i_3 + 1);
   unfold bcp_clause_scan, bcp_ready;
-  try poly_store_unfold; asrt_simpl_pure; sepcon_assoc_change;
+  asrt_simpl_pure; sepcon_assoc_change;
   andp_cancel; try simpl_entail; (* retained inside the multi-goal helper *)
   [ derive_bcp_advance_same bval b_2 value_cell_2 new_snap_2 snap bcpvar logical_dl unitcl i_3 cur_states_2 F n live original_count ranks ranks1_2 cur_true_2 cur_unassigned_2 cap;
     try rewrite IntArray.seg_shape_empty;
@@ -383,8 +361,6 @@ Ltac solve_bcp_scan_step_same bval cur_unassigned_2 cur_true_2 s_cl_data_5 s_v_d
       row_table live i_3 row_ptr (snap_rows snap) ltac:(lia)) as Hmerge;
     unfold installed_row_focus_rep in Hmerge;
     unfold StorePtrAsElement.storeA in Hmerge;
-    try rewrite sizeof_ptr;
-    fold_arch;
     sep_apply Hmerge;
     unfold installed_rows_capacity_rep;
     cancel (PtrArray.undef_seg row_table live cap);
@@ -654,8 +630,6 @@ Ltac backtrack_row_merge row_table j live row_ptr current_snap_2 :=
     row_table j live row_ptr (snap_rows current_snap_2)
     (Znth j (snap_rows current_snap_2) (@nil Z))) as Hmerge_b;
   unfold StorePtrAsElement.storeA in Hmerge_b;
-  try rewrite sizeof_ptr;
-  fold_arch;
   change (IntPtrArray2.ElemArray.full row_ptr
     (Zlength (Znth j (snap_rows current_snap_2) (@nil Z)))
     (Znth j (snap_rows current_snap_2) (@nil Z))) with

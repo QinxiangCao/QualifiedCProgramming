@@ -1,12 +1,7 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.QCP_demos_human Require Import sll_shape_strategy_goal.
 From SimpleC.EE.QCP_demos_human Require Import sll_shape_lib.
 Import naive_C_Rules.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 
@@ -72,6 +67,7 @@ Qed.
 Lemma sll_shape_strategy16_correctness : sll_shape_strategy16.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   rewrite <- (logic_equiv_coq_prop_or (q <> 0) (0 <> q)).
   Intros. entailer!.
   pre_process_default.
@@ -83,15 +79,19 @@ Qed.
 Lemma sll_shape_strategy8_correctness : sll_shape_strategy8.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   rewrite <- (logic_equiv_coq_prop_or (p <> 0) (0 <> p)).
   Intros. 
   assert (p <> 0) by (destruct H; auto). 
   sep_apply (listrep_nonzero p) ; auto.
   Intros y a.
-  Exists a y. entailer!.
+  Exists a y.
+  entailer!.
   rewrite <- (logic_equiv_coq_prop_or (p <> 0) (0 <> p)).
   entailer!.
-  pre_process_default.
+  Intros_r q.
+  rewrite <- derivable1_wand_sepcon_adjoint.
+  entailer!.
 Qed.
 
 Lemma sll_shape_strategy9_correctness : sll_shape_strategy9.

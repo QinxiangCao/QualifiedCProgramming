@@ -181,6 +181,30 @@ A typical string proof unfolds `store_string`, `c_string`, or `string_length`, h
 
 When a helper lemma is needed, first review proof_reuse.md and search the listed historical sources by exact lemma/predicate name. Copy only a declaration actually used by this proof with its required helper closure, current-suffix renames, and official imports. If none matches, add and prove a current-suffix helper in `group_worker_lib`. Never put helpers in `*_proof_manual.v`, pre-browse or copy candidates that may remain unused, or import/edit historical candidate libraries directly.
 
+## Vector goals
+
+Goals with `Veci` / `Vecp` / `VecpArray` or another `DynVec` instance close with library lemmas: `DynVec` and `VecArray` in `Rocq/examples/Applications_human/dynvec_lib.v`, the instances `Veci`, `Vecp`, and `VecpArray` in `Rocq/examples/Applications_human/minisat/vec_qcp_lib.v`. Never unfold the `DynVec` views (`rep`, `rep_ptr`, `rep_at`, `header`, `shell`) or the `VecArray` predicates (`full`, `seg`, `missing_i`, `missing2`, `undef_seg`); the aliases `VecpArray.vec_store` and `VecpArray.vec_undef_store` may be unfolded. Do not write case-named or push-specific copies of these lemmas:
+
+- weaken or name views: `rep_at_rep`, `rep_at_rep_ptr`, `rep_ptr_rep`, `rep_rep_ptr`, `rep_open`, `rep_ptr_open`, `rep_at_open`; bounds from `rep_at_bounds` / `rep_ptr_bounds` / `rep_bounds`;
+- close after a write or growth: `rep_intro` / `rep_ptr_intro` on the `header` the strategies left, after `full_to_seg` (a vector in a struct field is passed by its field address); creation `rep_empty_intro` / `rep_nil_intro`; truncation `rep_at_truncate`;
+- one element: a buffer access leaves `header * seg * undef_seg`; use the `IntArray` / `PtrArray` lemmas `seg_split_to_missing_i` and `missing_i_merge_to_seg` on the segment;
+- arrays of vectors: `VecpArray.full_split_to_missing_i` / `missing_i_merge_to_full` (at a slot's address `full_split_to_slot` / `slot_merge_to_full`), the `missing2` lemmas, `seg_single` / `full_to_seg` / `seg_merge_to_seg`, `undef_seg_unfold`; `full_Zlength`, `seg_to_full`, and for an empty table `full_empty` / `seg_empty` / `undef_seg_empty` instead of a `change`; `missing_i_Zlength` and `missing_i_index_range` through `prop_apply_p`; `slot_eq`; `unfold VecpArray.vec_store` gives `Vecp.rep (Vecp.slot x i) l`, and `change` reaches `vec_store` from that form. The table rules take one slot out and fold it back during symbolic execution, so VCs after them carry `VecpArray.full`; close it into the case's table predicate with the case's fold lemma;
+- `vec_buf_ok cap p` (`cap = 0 -> p = 0`): `vec_buf_solve` in small goals; in big contexts the goal-local `(unfold vec_buf_ok; intros; lia)`.
+
+A truncation return VC, from the required skeleton to the view (`proof_of_veci_resize_return_wit_1` in `Rocq/examples/Applications_human/minisat/vec_qcp_proof_manual.v`; the vector unit's own bodies see the three field cells, so `header_fold` comes first, while client VCs already carry `header`); a push return VC closes the same way with `rep_intro` on the merged segment `l ++ x :: nil`:
+
+```coq
+LLM_pre_process ltac:(lia || int_auto).
+rewrite Zlength_sublist by lia.
+  sep_apply (Veci.header_fold v_pre p k_pre cap).
+  sep_apply (Veci.rep_at_truncate v_pre p l cap k_pre
+    ltac:(lia) ltac:(lia) ltac:(lia) ltac:(vec_buf_solve)).
+  sep_apply (Veci.rep_at_rep_ptr v_pre p (sublist 0 k_pre l) cap).
+  split_pure_spatial; [cancel | split_pures; dump_pre_spatial; lia ..].
+```
+
+A generic vector fact the library lacks is one current-suffix helper stated over library predicates only, recorded as a library gap in `group_worker_output.md`.
+
 ## Whole-proof skeleton
 
 A common entailment proof is:

@@ -1,29 +1,13 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P038_1365C_rotation_matching_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P038_1365C_rotation_matching_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P038_1365C_rotation_matching_lib.
 Local Open Scope sac.
 
 Lemma proof_of_solver_safety_wit_3_split_goal_1 : solver_safety_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   unfold PositionTable in PreH9, PreH10.
   destruct PreH9 as [_ [_ [_ Hpa]]].
@@ -35,7 +19,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_3_split_goal_2 : solver_safety_wit_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   unfold PositionTable in PreH9, PreH10.
   destruct PreH9 as [_ [_ [_ Hpa]]].
@@ -54,7 +38,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_6_split_goal_1 : solver_safety_wit_6_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold RotationTallyPrefix in PreH13.
   destruct PreH13 as [_ [_ Hall]].
   specialize (Hall shift ltac:(lia)) as [_ Hbound].
@@ -64,7 +48,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_6_split_goal_2 : solver_safety_wit_6_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold RotationTallyPrefix in PreH13.
   destruct PreH13 as [_ [_ Hall]].
   specialize (Hall shift ltac:(lia)) as [_ Hbound].
@@ -81,47 +65,47 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace n_pre with (n_pre - 1 + 1) at 1 by lia.
   rewrite (IntArray.undef_full_unfold cnt_pre (n_pre - 1) (@nil Z)) by lia.
   replace (cnt_pre + 0 * sizeof(INT)) with cnt_pre by lia.
   sep_apply_l_atomic (valid_undef_store_int cnt_pre).
   Intros_p Hvalid.
   dump_pre_spatial.
-  unfold isvalidptr_int in Hvalid.
+  unfold valid_object in Hvalid.
   tauto.
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_3 : solver_entail_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_4 : solver_entail_wit_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_spatial : solver_entail_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hcell : forall p,
     p # Int |->_ |-- UCharArray.undef_full p 4).
   {
     intros p.
-    unfold undef_store_int, UCharArray.undef_full, store_undef_array.
+    unfold UCharArray.undef_full, store_undef_array.
     simpl.
-    Intros_p Hvalid.
-    unfold store_4byte_noninit, undef_store_uchar, isvalidptr_char.
-    normalize.
+    rewrite undef_store_int_undef_store_char.
+    Intros.
+    replace undef_store_uchar with undef_store_char by reflexivity.
     split_pure_spatial.
     - replace (p + 0) with p by lia. cancel.
-    - split_pures; dump_pre_spatial; unfold isvalidptr_int in Hvalid; lia.
+    - dump_pre_spatial. lia.
   }
   assert (Harray : forall p (k : nat),
     IntArray.undef_full p (Z.of_nat k) |--
@@ -172,7 +156,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   unfold Pre in PreH2.
   destruct PreH2 as [Ha Hb].
@@ -186,7 +170,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_2 : solver_entail_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   unfold Pre in PreH2.
   destruct PreH2 as [Ha Hb].
@@ -200,17 +184,17 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_3 : solver_entail_wit_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_4 : solver_entail_wit_2_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_solver_entail_wit_2_split_goal_spatial : solver_entail_wit_2_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hblock : forall p,
     aligned_4 p ->
     UCharArray.full p 4 (repeat 0 4%nat) |--
@@ -224,17 +208,17 @@ Proof.
     replace (p + 0) with p by lia.
     rewrite store_int_store_char.
     Exists 0 0 0 0.
-    unfold store_char, store_uchar.
     normalize.
     split_pure_spatial.
     - Intros_p H4. Intros_p Hnil.
-      Intros_p Hp0. Intros_p Hp1. Intros_p Hp2. Intros_p Hp3.
-      cancel (store_byte p 0).
-      cancel (store_byte (p + 1) 0).
-      cancel (store_byte (p + 2) 0).
-      cancel (store_byte (p + 3) 0).
+      sep_apply (store_uchar_cast p 0).
+      sep_apply (store_uchar_cast (p + 1) 0).
+      sep_apply (store_uchar_cast (p + 2) 0).
+      sep_apply (store_uchar_cast (p + 3) 0).
+      replace (signed_last_nbits 0 8) with 0 by
+        (rewrite signed_last_nbits_eq; lia).
+      cancel.
     - Intros_p H4'. Intros_p Hnil'.
-      Intros_p Hp0'. Intros_p Hp1'. Intros_p Hp2'. Intros_p Hp3'.
       split_pures.
       all: dump_pre_spatial.
       all: try (unfold merge_int; reflexivity).
@@ -323,7 +307,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold RotationTallyPrefix.
   split.
   - unfold repeat_Z. rewrite Zlength_correct, repeat_length. lia.
@@ -344,7 +328,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_1_split_goal_1 : solver_entail_wit_4_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PositionTable in PreH10, PreH11.
   destruct PreH10 as [_ [_ [_ Hpa]]].
   destruct PreH11 as [_ [_ [_ Hpb]]].
@@ -357,7 +341,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_1_split_goal_2 : solver_entail_wit_4_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PositionTable in PreH10, PreH11.
   destruct PreH10 as [_ [_ [_ Hpa]]].
   destruct PreH11 as [_ [_ [_ Hpb]]].
@@ -375,7 +359,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_2_split_goal_1 : solver_entail_wit_4_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PositionTable in PreH10, PreH11.
   destruct PreH10 as [_ [_ [_ Hpa]]].
   destruct PreH11 as [_ [_ [_ Hpb]]].
@@ -391,7 +375,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_4_2_split_goal_2 : solver_entail_wit_4_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold PositionTable in PreH10, PreH11.
   destruct PreH10 as [_ [_ [_ Hpa]]].
   destruct PreH11 as [_ [_ [_ Hpb]]].
@@ -409,7 +393,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_5_split_goal_1 : solver_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply rotation_tally_prefix_step__tally_transitions; eauto; lia.
 Qed.
 
@@ -421,7 +405,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_split_goal_1 : solver_entail_wit_6_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold RotationTallyPrefix in PreH11.
   destruct PreH11 as [Hlen _].
   unfold CountPrefixMaximum.
@@ -434,7 +418,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_6_split_goal_2 : solver_entail_wit_6_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (v = n_pre + 1) by lia.
   subst v.
   exact PreH11.
@@ -449,7 +433,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_1_split_goal_1 : solver_entail_wit_7_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold RotationTallyPrefix in PreH12.
   destruct PreH12 as [Hlen _].
   eapply count_prefix_max_step_gt__tally_transitions; eauto; lia.
@@ -463,7 +447,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_7_2_split_goal_1 : solver_entail_wit_7_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold RotationTallyPrefix in PreH12.
   destruct PreH12 as [Hlen [_ Hall]].
   specialize (Hall s ltac:(lia)) as [_ Hnonneg].
@@ -478,7 +462,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   unfold PositionTable in PreH9, PreH10.
   destruct PreH9 as [_ [_ [Ha _]]].
@@ -491,7 +475,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1_split_goal_2 : solver_return_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   unfold PositionTable in PreH10.
   tauto.
@@ -499,7 +483,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1_split_goal_3 : solver_return_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   unfold PositionTable in PreH9.
   tauto.
@@ -507,7 +491,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1_split_goal_4 : solver_return_wit_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
   assert (s = n_pre) by lia.
   subst s.
@@ -518,7 +502,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1_split_goal_spatial : solver_return_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   sep_apply_l_atomic (IntArray.full_to_full_shape cnt_pre n_pre counts).
   cancel.
 Qed.

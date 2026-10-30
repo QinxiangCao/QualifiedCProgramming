@@ -59,7 +59,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def rod_cutting_safety_wit_1 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (price_l)) = (n_pre + 1))) (PreH4 : ((Znth (0 : Int) price_l (0 : Int)) = (0 : Int))) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (price_l)) = (n_pre + 1))) (PreH4 : ((Znth (0 : Int) price_l (0 : Int)) = (0 : Int))) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) ,
   ((( &( "j" ) )) # Int |->_)
   ** (intArray.undef_full ( &( "revenue" ) ) 1001)
   ** ((( &( "price" ) )) # Ptr |-> (price_pre))
@@ -70,7 +70,7 @@ noncomputable def rod_cutting_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def rod_cutting_safety_wit_2 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (price_l)) = (n_pre + 1))) (PreH4 : ((Znth (0 : Int) price_l (0 : Int)) = (0 : Int))) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (price_l)) = (n_pre + 1))) (PreH4 : ((Znth (0 : Int) price_l (0 : Int)) = (0 : Int))) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) ,
   ((( &( "j" ) )) # Int |->_)
   ** (intArray.undef_full ( &( "revenue" ) ) 1001)
   ** ((( &( "price" ) )) # Ptr |-> (price_pre))
@@ -81,7 +81,7 @@ noncomputable def rod_cutting_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def rod_cutting_safety_wit_3 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (price_l)) = (n_pre + 1))) (PreH4 : ((Znth (0 : Int) price_l (0 : Int)) = (0 : Int))) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (price_l)) = (n_pre + 1))) (PreH4 : ((Znth (0 : Int) price_l (0 : Int)) = (0 : Int))) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) ,
   (((( &( "revenue" ) ) + ((0 : Int) * sizeof(INT)))) # Int |-> ((0 : Int)))
   ** (intArray.undef_seg ( &( "revenue" ) ) 1 1001)
   ** ((( &( "j" ) )) # Int |->_)
@@ -93,7 +93,7 @@ noncomputable def rod_cutting_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def rod_cutting_safety_wit_4 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (j : Int) (PreH1 : (j <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l j)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l : (List Int)) (j : Int) (PreH1 : (j <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l j)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   ((( &( "best" ) )) # Int |->_)
   ** ((( &( "price" ) )) # Ptr |-> (price_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -106,7 +106,7 @@ noncomputable def rod_cutting_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def rod_cutting_safety_wit_5 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (j : Int) (PreH1 : (j <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l j)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l : (List Int)) (j : Int) (PreH1 : (j <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l j)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "best" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "price" ) )) # Ptr |-> (price_pre))
@@ -121,7 +121,7 @@ noncomputable def rod_cutting_safety_wit_5 : Prop :=
 
 noncomputable def rod_cutting_safety_wit_6 : Prop :=
   (
-forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i <= j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i <= j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l)
   ** (intArray.full price_pre (n_pre + 1) price_l)
   ** ((( &( "candidate" ) )) # Int |->_)
@@ -136,7 +136,7 @@ forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List
   “ ((INT_MIN) <= ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l (0 : Int)))) ”
 ) \/
 (
-forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i <= j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i <= j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l)
   ** (intArray.full price_pre (n_pre + 1) price_l)
   ** ((( &( "candidate" ) )) # Int |->_)
@@ -152,7 +152,7 @@ forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List
 )
 
 noncomputable def rod_cutting_safety_wit_6_split_goal_1 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i <= j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i <= j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l)
   ** (intArray.full price_pre (n_pre + 1) price_l)
   ** ((( &( "candidate" ) )) # Int |->_)
@@ -166,7 +166,7 @@ noncomputable def rod_cutting_safety_wit_6_split_goal_1 : Prop :=
   “ (((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l (0 : Int))) <= INT_MAX) ”
 
 noncomputable def rod_cutting_safety_wit_6_split_goal_2 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i <= j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i <= j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l)
   ** (intArray.full price_pre (n_pre + 1) price_l)
   ** ((( &( "candidate" ) )) # Int |->_)
@@ -180,7 +180,7 @@ noncomputable def rod_cutting_safety_wit_6_split_goal_2 : Prop :=
   “ ((INT_MIN) <= ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l (0 : Int)))) ”
 
 noncomputable def rod_cutting_safety_wit_7 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i <= j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i <= j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   (intArray.full price_pre (n_pre + 1) price_l)
   ** ((( &( "candidate" ) )) # Int |->_)
   ** ((( &( "price" ) )) # Ptr |-> (price_pre))
@@ -195,7 +195,7 @@ noncomputable def rod_cutting_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= (j - i)) ”
 
 noncomputable def rod_cutting_safety_wit_8 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best < ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l j)) (PreH13 : (RodCutScanBest price_l revenue_l j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best < ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l j)) (PreH13 : (RodCutScanBest price_l revenue_l j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l)
   ** (intArray.full price_pre (n_pre + 1) price_l)
   ** ((( &( "price" ) )) # Ptr |-> (price_pre))
@@ -209,7 +209,7 @@ noncomputable def rod_cutting_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def rod_cutting_safety_wit_9 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best >= ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l j)) (PreH13 : (RodCutScanBest price_l revenue_l j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best >= ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l j)) (PreH13 : (RodCutScanBest price_l revenue_l j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l)
   ** (intArray.full price_pre (n_pre + 1) price_l)
   ** ((( &( "price" ) )) # Ptr |-> (price_pre))
@@ -223,7 +223,7 @@ noncomputable def rod_cutting_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def rod_cutting_safety_wit_10 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i > j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i > j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   (intArray.seg ( &( "revenue" ) ) (0 : Int) (j + 1) (revenue_l ++ (best :: (@List.nil Int))))
   ** (intArray.undef_seg ( &( "revenue" ) ) (j + 1) 1001)
   ** ((( &( "price" ) )) # Ptr |-> (price_pre))
@@ -236,7 +236,7 @@ noncomputable def rod_cutting_safety_wit_10 : Prop :=
 
 noncomputable def rod_cutting_entail_wit_1 : Prop :=
   (
-forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (price_l)) = (n_pre + 1))) (PreH4 : ((Znth (0 : Int) price_l (0 : Int)) = (0 : Int))) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) ,
+forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (price_l)) = (n_pre + 1))) (PreH4 : ((Znth (0 : Int) price_l (0 : Int)) = (0 : Int))) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) ,
   (((( &( "revenue" ) ) + ((0 : Int) * sizeof(INT)))) # Int |-> ((0 : Int)))
   ** (intArray.undef_seg ( &( "revenue" ) ) 1 1001)
   ** (intArray.full price_pre (n_pre + 1) price_l)
@@ -254,7 +254,7 @@ forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (PreH1 : ((0 : Int
   ** (intArray.undef_seg ( &( "revenue" ) ) 1 1001)
 ) \/
 (
-forall (n_pre : Int) (price_l : (List Int)) (PreH1 : ((0 : Int) <= INT_MAX)) (PreH2 : ((0 : Int) >= INT_MIN)) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : ((Zlength (price_l)) = (n_pre + 1))) (PreH6 : ((Znth (0 : Int) price_l (0 : Int)) = (0 : Int))) (PreH7 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH8 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) ,
+forall (price_l : (List Int)) (n_pre : Int) (PreH1 : ((0 : Int) <= INT_MAX)) (PreH2 : ((0 : Int) >= INT_MIN)) (PreH3 : ((0 : Int) <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : ((Zlength (price_l)) = (n_pre + 1))) (PreH6 : ((Znth (0 : Int) price_l (0 : Int)) = (0 : Int))) (PreH7 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH8 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) ,
   (((( &( "revenue" ) ) + ((0 : Int) * sizeof(INT)))) # Int |-> ((0 : Int)))
 |--
   EX revenue_l : (List Int),
@@ -270,7 +270,7 @@ forall (n_pre : Int) (price_l : (List Int)) (PreH1 : ((0 : Int) <= INT_MAX)) (Pr
 
 noncomputable def rod_cutting_entail_wit_2 : Prop :=
   (
-forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (j : Int) (PreH1 : (j <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH8 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < j)) -> (((0 : Int) <= (Znth k_2 revenue_l_2 (0 : Int))) ∧ ((Znth k_2 revenue_l_2 (0 : Int)) <= (k_2 * 1000000))))) ,
+forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l_2 : (List Int)) (j : Int) (PreH1 : (j <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH8 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < j)) -> (((0 : Int) <= (Znth k_2 revenue_l_2 (0 : Int))) ∧ ((Znth k_2 revenue_l_2 (0 : Int)) <= (k_2 * 1000000))))) ,
   (intArray.full price_pre (n_pre + 1) price_l)
   ** (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l_2)
   ** (intArray.undef_seg ( &( "revenue" ) ) j 1001)
@@ -293,7 +293,7 @@ forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l_2 : (Li
   ** (intArray.undef_seg ( &( "revenue" ) ) j 1001)
 ) \/
 (
-forall (n_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (j : Int) (PreH1 : (j <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH8 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < j)) -> (((0 : Int) <= (Znth k_2 revenue_l_2 (0 : Int))) ∧ ((Znth k_2 revenue_l_2 (0 : Int)) <= (k_2 * 1000000))))) ,
+forall (price_l : (List Int)) (n_pre : Int) (revenue_l_2 : (List Int)) (j : Int) (PreH1 : (j <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH8 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < j)) -> (((0 : Int) <= (Znth k_2 revenue_l_2 (0 : Int))) ∧ ((Znth k_2 revenue_l_2 (0 : Int)) <= (k_2 * 1000000))))) ,
   TT && emp 
 |--
   “ forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l_2 (0 : Int))) ∧ ((Znth k revenue_l_2 (0 : Int)) <= (k * 1000000)))) ” &&
@@ -302,16 +302,16 @@ forall (n_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (j : Int)
 )
 
 noncomputable def rod_cutting_entail_wit_2_split_goal_1 : Prop :=
-  forall (n_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (j : Int) (PreH1 : (j <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH8 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < j)) -> (((0 : Int) <= (Znth k_2 revenue_l_2 (0 : Int))) ∧ ((Znth k_2 revenue_l_2 (0 : Int)) <= (k_2 * 1000000))))) ,
+  forall (price_l : (List Int)) (n_pre : Int) (revenue_l_2 : (List Int)) (j : Int) (PreH1 : (j <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH8 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < j)) -> (((0 : Int) <= (Znth k_2 revenue_l_2 (0 : Int))) ∧ ((Znth k_2 revenue_l_2 (0 : Int)) <= (k_2 * 1000000))))) ,
   forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l_2 (0 : Int))) ∧ ((Znth k revenue_l_2 (0 : Int)) <= (k * 1000000))))
 
 noncomputable def rod_cutting_entail_wit_2_split_goal_2 : Prop :=
-  forall (n_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (j : Int) (PreH1 : (j <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH8 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < j)) -> (((0 : Int) <= (Znth k_2 revenue_l_2 (0 : Int))) ∧ ((Znth k_2 revenue_l_2 (0 : Int)) <= (k_2 * 1000000))))) ,
+  forall (price_l : (List Int)) (n_pre : Int) (revenue_l_2 : (List Int)) (j : Int) (PreH1 : (j <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH8 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < j)) -> (((0 : Int) <= (Znth k_2 revenue_l_2 (0 : Int))) ∧ ((Znth k_2 revenue_l_2 (0 : Int)) <= (k_2 * 1000000))))) ,
   (RodCutScanBest price_l revenue_l_2 j 1 (0 : Int))
 
 noncomputable def rod_cutting_entail_wit_3_1 : Prop :=
   (
-forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best < ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH13 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l_2 (0 : Int))) ∧ ((Znth k revenue_l_2 (0 : Int)) <= (k * 1000000))))) ,
+forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best < ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH13 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l_2 (0 : Int))) ∧ ((Znth k revenue_l_2 (0 : Int)) <= (k * 1000000))))) ,
   (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l_2)
   ** (intArray.full price_pre (n_pre + 1) price_l)
   ** (intArray.undef_seg ( &( "revenue" ) ) j 1001)
@@ -334,7 +334,7 @@ forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l_2 : (Li
   ** (intArray.undef_seg ( &( "revenue" ) ) j 1001)
 ) \/
 (
-forall (n_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best < ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH13 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l_2 (0 : Int))) ∧ ((Znth k revenue_l_2 (0 : Int)) <= (k * 1000000))))) ,
+forall (price_l : (List Int)) (n_pre : Int) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best < ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH13 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l_2 (0 : Int))) ∧ ((Znth k revenue_l_2 (0 : Int)) <= (k * 1000000))))) ,
   TT && emp 
 |--
   “ (RodCutScanBest price_l revenue_l_2 j (i + 1) ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int)))) ” &&
@@ -343,16 +343,16 @@ forall (n_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (best : I
 )
 
 noncomputable def rod_cutting_entail_wit_3_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best < ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH13 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l_2 (0 : Int))) ∧ ((Znth k revenue_l_2 (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (n_pre : Int) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best < ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH13 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l_2 (0 : Int))) ∧ ((Znth k revenue_l_2 (0 : Int)) <= (k * 1000000))))) ,
   (RodCutScanBest price_l revenue_l_2 j (i + 1) ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int))))
 
 noncomputable def rod_cutting_entail_wit_3_1_split_goal_2 : Prop :=
-  forall (n_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best < ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH13 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l_2 (0 : Int))) ∧ ((Znth k revenue_l_2 (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (n_pre : Int) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best < ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH13 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l_2 (0 : Int))) ∧ ((Znth k revenue_l_2 (0 : Int)) <= (k * 1000000))))) ,
   (((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int))) <= (j * 1000000))
 
 noncomputable def rod_cutting_entail_wit_3_2 : Prop :=
   (
-forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best >= ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH13 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l_2 (0 : Int))) ∧ ((Znth k revenue_l_2 (0 : Int)) <= (k * 1000000))))) ,
+forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best >= ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH13 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l_2 (0 : Int))) ∧ ((Znth k revenue_l_2 (0 : Int)) <= (k * 1000000))))) ,
   (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l_2)
   ** (intArray.full price_pre (n_pre + 1) price_l)
   ** (intArray.undef_seg ( &( "revenue" ) ) j 1001)
@@ -375,7 +375,7 @@ forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l_2 : (Li
   ** (intArray.undef_seg ( &( "revenue" ) ) j 1001)
 ) \/
 (
-forall (n_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best >= ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH13 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l_2 (0 : Int))) ∧ ((Znth k revenue_l_2 (0 : Int)) <= (k * 1000000))))) ,
+forall (price_l : (List Int)) (n_pre : Int) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best >= ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH13 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l_2 (0 : Int))) ∧ ((Znth k revenue_l_2 (0 : Int)) <= (k * 1000000))))) ,
   TT && emp 
 |--
   “ (RodCutScanBest price_l revenue_l_2 j (i + 1) best) ”
@@ -383,12 +383,12 @@ forall (n_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (best : I
 )
 
 noncomputable def rod_cutting_entail_wit_3_2_split_goal_1 : Prop :=
-  forall (n_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best >= ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH13 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l_2 (0 : Int))) ∧ ((Znth k revenue_l_2 (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (n_pre : Int) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (best >= ((Znth i price_l (0 : Int)) + (Znth ((j - i) - (0 : Int)) revenue_l_2 (0 : Int))))) (PreH2 : (i <= j)) (PreH3 : (n_pre <= 1000)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH5 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH6 : (1 <= j)) (PreH7 : (j <= n_pre)) (PreH8 : (1 <= i)) (PreH9 : (i <= (j + 1))) (PreH10 : ((0 : Int) <= best)) (PreH11 : (best <= (j * 1000000))) (PreH12 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH13 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH14 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l_2 (0 : Int))) ∧ ((Znth k revenue_l_2 (0 : Int)) <= (k * 1000000))))) ,
   (RodCutScanBest price_l revenue_l_2 j (i + 1) best)
 
 noncomputable def rod_cutting_entail_wit_4 : Prop :=
   (
-forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i > j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH12 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH13 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < j)) -> (((0 : Int) <= (Znth k_2 revenue_l_2 (0 : Int))) ∧ ((Znth k_2 revenue_l_2 (0 : Int)) <= (k_2 * 1000000))))) ,
+forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i > j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH12 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH13 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < j)) -> (((0 : Int) <= (Znth k_2 revenue_l_2 (0 : Int))) ∧ ((Znth k_2 revenue_l_2 (0 : Int)) <= (k_2 * 1000000))))) ,
   (intArray.seg ( &( "revenue" ) ) (0 : Int) (j + 1) (revenue_l_2 ++ (best :: (@List.nil Int))))
   ** (intArray.undef_seg ( &( "revenue" ) ) (j + 1) 1001)
   ** (intArray.full price_pre (n_pre + 1) price_l)
@@ -406,7 +406,7 @@ forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l_2 : (Li
   ** (intArray.undef_seg ( &( "revenue" ) ) (j + 1) 1001)
 ) \/
 (
-forall (n_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i > j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH12 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH13 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < j)) -> (((0 : Int) <= (Znth k_2 revenue_l_2 (0 : Int))) ∧ ((Znth k_2 revenue_l_2 (0 : Int)) <= (k_2 * 1000000))))) ,
+forall (price_l : (List Int)) (n_pre : Int) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i > j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH12 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH13 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < j)) -> (((0 : Int) <= (Znth k_2 revenue_l_2 (0 : Int))) ∧ ((Znth k_2 revenue_l_2 (0 : Int)) <= (k_2 * 1000000))))) ,
   TT && emp 
 |--
   “ forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (j + 1))) -> (((0 : Int) <= (Znth k (revenue_l_2 ++ (best :: (@List.nil Int))) (0 : Int))) ∧ ((Znth k (revenue_l_2 ++ (best :: (@List.nil Int))) (0 : Int)) <= (k * 1000000)))) ” &&
@@ -415,16 +415,16 @@ forall (n_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (best : I
 )
 
 noncomputable def rod_cutting_entail_wit_4_split_goal_1 : Prop :=
-  forall (n_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i > j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH12 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH13 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < j)) -> (((0 : Int) <= (Znth k_2 revenue_l_2 (0 : Int))) ∧ ((Znth k_2 revenue_l_2 (0 : Int)) <= (k_2 * 1000000))))) ,
+  forall (price_l : (List Int)) (n_pre : Int) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i > j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH12 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH13 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < j)) -> (((0 : Int) <= (Znth k_2 revenue_l_2 (0 : Int))) ∧ ((Znth k_2 revenue_l_2 (0 : Int)) <= (k_2 * 1000000))))) ,
   forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (j + 1))) -> (((0 : Int) <= (Znth k (revenue_l_2 ++ (best :: (@List.nil Int))) (0 : Int))) ∧ ((Znth k (revenue_l_2 ++ (best :: (@List.nil Int))) (0 : Int)) <= (k * 1000000))))
 
 noncomputable def rod_cutting_entail_wit_4_split_goal_2 : Prop :=
-  forall (n_pre : Int) (price_l : (List Int)) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i > j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH12 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH13 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < j)) -> (((0 : Int) <= (Znth k_2 revenue_l_2 (0 : Int))) ∧ ((Znth k_2 revenue_l_2 (0 : Int)) <= (k_2 * 1000000))))) ,
+  forall (price_l : (List Int)) (n_pre : Int) (revenue_l_2 : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i > j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l_2 j)) (PreH12 : (RodCutScanBest price_l revenue_l_2 j i best)) (PreH13 : forall (k_2 : Int) , ((((0 : Int) <= k_2) ∧ (k_2 < j)) -> (((0 : Int) <= (Znth k_2 revenue_l_2 (0 : Int))) ∧ ((Znth k_2 revenue_l_2 (0 : Int)) <= (k_2 * 1000000))))) ,
   (RodCutRevenueTable price_l (revenue_l_2 ++ (best :: (@List.nil Int))) (j + 1))
 
 noncomputable def rod_cutting_entail_wit_5 : Prop :=
   (
-forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (j : Int) (PreH1 : (j > n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l j)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l : (List Int)) (j : Int) (PreH1 : (j > n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l j)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l)
   ** (intArray.full price_pre (n_pre + 1) price_l)
   ** (intArray.undef_seg ( &( "revenue" ) ) j 1001)
@@ -435,7 +435,7 @@ forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List
   ** (intArray.undef_full ( &( "revenue" ) ) 1001)
 ) \/
 (
-forall (n_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (j : Int) (PreH1 : (j > n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l j)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+forall (price_l : (List Int)) (n_pre : Int) (revenue_l : (List Int)) (j : Int) (PreH1 : (j > n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l j)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l)
   ** (intArray.undef_seg ( &( "revenue" ) ) j 1001)
 |--
@@ -444,28 +444,28 @@ forall (n_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (j : Int) (
 )
 
 noncomputable def rod_cutting_entail_wit_5_split_goal_1 : Prop :=
-  forall (n_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (j : Int) (PreH1 : (j > n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l j)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (n_pre : Int) (revenue_l : (List Int)) (j : Int) (PreH1 : (j > n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l j)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l)
   ** (intArray.undef_seg ( &( "revenue" ) ) j 1001)
 |--
   “ (RodCutOptimalRevenue price_l n_pre (Znth (n_pre - (0 : Int)) revenue_l (0 : Int))) ”
 
 noncomputable def rod_cutting_entail_wit_5_split_goal_spatial : Prop :=
-  forall (n_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (j : Int) (PreH1 : (j > n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l j)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (n_pre : Int) (revenue_l : (List Int)) (j : Int) (PreH1 : (j > n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l j)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l)
   ** (intArray.undef_seg ( &( "revenue" ) ) j 1001)
 |--
   (intArray.undef_full ( &( "revenue" ) ) 1001)
 
 noncomputable def rod_cutting_return_wit_1 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (j : Int) (result : Int) (PreH1 : (j = (n_pre + 1))) (PreH2 : (RodCutOptimalRevenue price_l n_pre result)) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (j : Int) (result : Int) (PreH1 : (j = (n_pre + 1))) (PreH2 : (RodCutOptimalRevenue price_l n_pre result)) ,
   (intArray.full price_pre (n_pre + 1) price_l)
 |--
   “ (RodCutOptimalRevenue price_l n_pre result) ”
   &&  (intArray.full price_pre (n_pre + 1) price_l)
 
 noncomputable def rod_cutting_partial_solve_wit_1 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (price_l)) = (n_pre + 1))) (PreH4 : ((Znth (0 : Int) price_l (0 : Int)) = (0 : Int))) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : ((Zlength (price_l)) = (n_pre + 1))) (PreH4 : ((Znth (0 : Int) price_l (0 : Int)) = (0 : Int))) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH6 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) ,
   (intArray.undef_full ( &( "revenue" ) ) 1001)
   ** (intArray.full price_pre (n_pre + 1) price_l)
 |--
@@ -480,7 +480,7 @@ noncomputable def rod_cutting_partial_solve_wit_1 : Prop :=
   ** (intArray.full price_pre (n_pre + 1) price_l)
 
 noncomputable def rod_cutting_partial_solve_wit_2 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i <= j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i <= j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   (intArray.full price_pre (n_pre + 1) price_l)
   ** (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l)
   ** (intArray.undef_seg ( &( "revenue" ) ) j 1001)
@@ -504,7 +504,7 @@ noncomputable def rod_cutting_partial_solve_wit_2 : Prop :=
   ** (intArray.undef_seg ( &( "revenue" ) ) j 1001)
 
 noncomputable def rod_cutting_partial_solve_wit_3 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i <= j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i <= j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   (intArray.full price_pre (n_pre + 1) price_l)
   ** (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l)
   ** (intArray.undef_seg ( &( "revenue" ) ) j 1001)
@@ -528,7 +528,7 @@ noncomputable def rod_cutting_partial_solve_wit_3 : Prop :=
   ** (intArray.undef_seg ( &( "revenue" ) ) j 1001)
 
 noncomputable def rod_cutting_partial_solve_wit_4 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i > j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l : (List Int)) (best : Int) (i : Int) (j : Int) (PreH1 : (i > j)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= n_pre)) (PreH7 : (1 <= i)) (PreH8 : (i <= (j + 1))) (PreH9 : ((0 : Int) <= best)) (PreH10 : (best <= (j * 1000000))) (PreH11 : (RodCutRevenueTable price_l revenue_l j)) (PreH12 : (RodCutScanBest price_l revenue_l j i best)) (PreH13 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   (intArray.full price_pre (n_pre + 1) price_l)
   ** (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l)
   ** (intArray.undef_seg ( &( "revenue" ) ) j 1001)
@@ -552,7 +552,7 @@ noncomputable def rod_cutting_partial_solve_wit_4 : Prop :=
   ** (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l)
 
 noncomputable def rod_cutting_partial_solve_wit_5 : Prop :=
-  forall (n_pre : Int) (price_pre : Int) (price_l : (List Int)) (revenue_l : (List Int)) (j : Int) (PreH1 : (j > n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l j)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
+  forall (price_l : (List Int)) (price_pre : Int) (n_pre : Int) (revenue_l : (List Int)) (j : Int) (PreH1 : (j > n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (Forall ((LE.le (α := Int)) ((0 : Int))) price_l)) (PreH4 : (Forall ((GE.ge (α := Int)) (1000000)) price_l)) (PreH5 : (1 <= j)) (PreH6 : (j <= (n_pre + 1))) (PreH7 : (RodCutRevenueTable price_l revenue_l j)) (PreH8 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < j)) -> (((0 : Int) <= (Znth k revenue_l (0 : Int))) ∧ ((Znth k revenue_l (0 : Int)) <= (k * 1000000))))) ,
   (intArray.full price_pre (n_pre + 1) price_l)
   ** (intArray.seg ( &( "revenue" ) ) (0 : Int) j revenue_l)
   ** (intArray.undef_seg ( &( "revenue" ) ) j 1001)

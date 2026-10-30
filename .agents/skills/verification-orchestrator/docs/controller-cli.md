@@ -29,7 +29,7 @@ init-run --case <formal-stem> --target-c-file <C-path>
 | `--spec-hint` / `--preferred-hidden-property` / `--forbidden-pattern` / `--reference-case-hint` | 可重复的 owner 提示 |
 | `--timestamp <YYYYMMDDhhmmss>` | 可选的 14 位 run 时间标识 |
 
-## 当前 18 个命令
+## 当前 19 个命令
 
 | 命令 | 除 `--run` 外的参数 | 作用 |
 |---|---|---|
@@ -38,6 +38,7 @@ init-run --case <formal-stem> --target-c-file <C-path>
 | `claim-attempt` | `--next-action --owner` | 领取当前 owner action，返回 handoff 与 finalize invocation |
 | `finalize-delivery` | `--attempt --owner` | 记录 owner 已停止，直接完成该角色全部接纳检查 |
 | `retry-round` | `--phase annotation\|vc-checking --reason --previous-attempt` | 执行当前 action 指定的重试 |
+| `retry-parent` | `--round --reason` | 基础设施问题修复后，显式恢复原 proving round 的整文件检查 |
 | `unfreeze` | `--round` | 用户批准后解除当前 annotation 的 spec baseline 约束 |
 | `dune-build` | 无 | 当前 native backend 准备依赖，再进入 VC checking 或空 proving |
 | `vc-proving-preparing` | `--round` | 创建当前 group copies 和 handoffs |
@@ -59,6 +60,10 @@ init-run --case <formal-stem> --target-c-file <C-path>
 ## 使用约定
 
 执行 controller 返回的 invocation，不从这张表自行推断当前允许的阶段。
+例外是用户明确要求在基础设施问题修复后重跑 parent：main 可显式调用 `retry-parent`，说明修复原因。
+它仅允许当前 VC review 因 infrastructure 阻塞、来源为该 parent 失败、所有原 groups 已 accepted、
+当前输入未漂移且没有运行中 owner 或已发布候选的任务。它保留复核和旧诊断，只重新派生
+`vc-proving-verify`；不接纳证明、不绕过合并、完整编译或 final-check，也不自动循环重试。
 Owner action 先 claim；main 在 owner 停止写入后 finalize。`returned` 可重做 finalize 继续中断的
 接纳；可修错误回到同 owner 的 prepared action。
 

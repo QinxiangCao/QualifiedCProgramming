@@ -1,0 +1,309 @@
+From SimpleC.Verification Require Import VCPrelude.
+From SimpleC.EE.Applications_human.gmp.minigmp Require Import mpn_lshift_goal.
+Import naive_C_Rules.
+Require Import SimpleC.EE.Applications_human.gmp.minigmp.gmp_lib.
+Local Open Scope sac.
+
+Lemma proof_of_mpn_lshift_safety_wit_1_shifted : mpn_lshift_safety_wit_1_shifted.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_2_nonalias : mpn_lshift_safety_wit_2_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_3_inplace : mpn_lshift_safety_wit_3_inplace.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_4_off_zero : mpn_lshift_safety_wit_4_off_zero.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_5_off_pos : mpn_lshift_safety_wit_5_off_pos.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_6_nonalias : mpn_lshift_safety_wit_6_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_7_nonalias : mpn_lshift_safety_wit_7_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_8_inplace : mpn_lshift_safety_wit_8_inplace.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_9_inplace : mpn_lshift_safety_wit_9_inplace.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_10_off_zero : mpn_lshift_safety_wit_10_off_zero.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_11_off_zero : mpn_lshift_safety_wit_11_off_zero.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_12_off_pos : mpn_lshift_safety_wit_12_off_pos.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_13_off_pos : mpn_lshift_safety_wit_13_off_pos.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_14_nonalias : mpn_lshift_safety_wit_14_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_15_inplace : mpn_lshift_safety_wit_15_inplace.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_16_off_zero : mpn_lshift_safety_wit_16_off_zero.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_17_off_pos : mpn_lshift_safety_wit_17_off_pos.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_18_nonalias : mpn_lshift_safety_wit_18_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_19_inplace : mpn_lshift_safety_wit_19_inplace.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_20_off_zero : mpn_lshift_safety_wit_20_off_zero.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_21_off_pos : mpn_lshift_safety_wit_21_off_pos.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_22_nonalias_inv : mpn_lshift_safety_wit_22_nonalias_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_23_inplace_inv : mpn_lshift_safety_wit_23_inplace_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_24_off_zero_inv : mpn_lshift_safety_wit_24_off_zero_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_25_off_pos_inv : mpn_lshift_safety_wit_25_off_pos_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_26_nonalias_inv : mpn_lshift_safety_wit_26_nonalias_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_27_nonalias_inv : mpn_lshift_safety_wit_27_nonalias_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_28_inplace_inv : mpn_lshift_safety_wit_28_inplace_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_29_inplace_inv : mpn_lshift_safety_wit_29_inplace_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_30_off_zero_inv : mpn_lshift_safety_wit_30_off_zero_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_31_off_zero_inv : mpn_lshift_safety_wit_31_off_zero_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_32_off_pos_inv : mpn_lshift_safety_wit_32_off_pos_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_33_off_pos_inv : mpn_lshift_safety_wit_33_off_pos_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_34_off_pos_inv : mpn_lshift_safety_wit_34_off_pos_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_35_off_zero_inv : mpn_lshift_safety_wit_35_off_zero_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_36_inplace_inv : mpn_lshift_safety_wit_36_inplace_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_37_nonalias_inv : mpn_lshift_safety_wit_37_nonalias_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_38_nonalias_inv : mpn_lshift_safety_wit_38_nonalias_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_39_inplace_inv : mpn_lshift_safety_wit_39_inplace_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_40_off_zero_inv : mpn_lshift_safety_wit_40_off_zero_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_41_off_pos_inv : mpn_lshift_safety_wit_41_off_pos_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_42_nonalias_inv : mpn_lshift_safety_wit_42_nonalias_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_43_inplace_inv : mpn_lshift_safety_wit_43_inplace_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_44_off_zero_inv : mpn_lshift_safety_wit_44_off_zero_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_45_off_pos_inv : mpn_lshift_safety_wit_45_off_pos_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_46_nonalias_inv : mpn_lshift_safety_wit_46_nonalias_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_47_inplace_inv : mpn_lshift_safety_wit_47_inplace_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_48_off_zero_inv : mpn_lshift_safety_wit_48_off_zero_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_49_off_pos_inv : mpn_lshift_safety_wit_49_off_pos_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_50_nonalias_inv : mpn_lshift_safety_wit_50_nonalias_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_51_inplace_inv : mpn_lshift_safety_wit_51_inplace_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_52_off_zero_inv : mpn_lshift_safety_wit_52_off_zero_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_safety_wit_53_off_pos_inv : mpn_lshift_safety_wit_53_off_pos_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_entail_wit_1_nonalias : mpn_lshift_entail_wit_1_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_entail_wit_2_inplace : mpn_lshift_entail_wit_2_inplace.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_entail_wit_7_nonalias_inv : mpn_lshift_entail_wit_7_nonalias_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_entail_wit_8_inplace_inv : mpn_lshift_entail_wit_8_inplace_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_entail_wit_9_off_zero_inv : mpn_lshift_entail_wit_9_off_zero_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_entail_wit_10_off_pos_inv : mpn_lshift_entail_wit_10_off_pos_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_1_shifted : mpn_lshift_partial_solve_wit_1_shifted.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_2_nonalias : mpn_lshift_partial_solve_wit_2_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_3_inplace : mpn_lshift_partial_solve_wit_3_inplace.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_4_off_zero : mpn_lshift_partial_solve_wit_4_off_zero.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_5_off_pos : mpn_lshift_partial_solve_wit_5_off_pos.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_6_nonalias_pure : mpn_lshift_partial_solve_wit_6_nonalias_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_6_nonalias : mpn_lshift_partial_solve_wit_6_nonalias.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_7_inplace_pure : mpn_lshift_partial_solve_wit_7_inplace_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_7_inplace : mpn_lshift_partial_solve_wit_7_inplace.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_8_nonalias_inv : mpn_lshift_partial_solve_wit_8_nonalias_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_9_inplace_inv : mpn_lshift_partial_solve_wit_9_inplace_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_10_off_zero_inv : mpn_lshift_partial_solve_wit_10_off_zero_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_11_off_pos_inv : mpn_lshift_partial_solve_wit_11_off_pos_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_12_nonalias_inv_pure : mpn_lshift_partial_solve_wit_12_nonalias_inv_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_12_nonalias_inv : mpn_lshift_partial_solve_wit_12_nonalias_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_13_inplace_inv_pure : mpn_lshift_partial_solve_wit_13_inplace_inv_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_13_inplace_inv : mpn_lshift_partial_solve_wit_13_inplace_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_14_off_zero_inv_pure : mpn_lshift_partial_solve_wit_14_off_zero_inv_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_14_off_zero_inv : mpn_lshift_partial_solve_wit_14_off_zero_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_15_off_pos_inv_pure : mpn_lshift_partial_solve_wit_15_off_pos_inv_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_15_off_pos_inv : mpn_lshift_partial_solve_wit_15_off_pos_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_16_nonalias_inv : mpn_lshift_partial_solve_wit_16_nonalias_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_17_inplace_inv : mpn_lshift_partial_solve_wit_17_inplace_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_18_off_zero_inv : mpn_lshift_partial_solve_wit_18_off_zero_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_19_off_pos_inv : mpn_lshift_partial_solve_wit_19_off_pos_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_20_nonalias_inv_pure : mpn_lshift_partial_solve_wit_20_nonalias_inv_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_20_nonalias_inv : mpn_lshift_partial_solve_wit_20_nonalias_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_21_inplace_inv_pure : mpn_lshift_partial_solve_wit_21_inplace_inv_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_21_inplace_inv : mpn_lshift_partial_solve_wit_21_inplace_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_22_off_zero_inv_pure : mpn_lshift_partial_solve_wit_22_off_zero_inv_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_22_off_zero_inv : mpn_lshift_partial_solve_wit_22_off_zero_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_23_off_pos_inv_pure : mpn_lshift_partial_solve_wit_23_off_pos_inv_pure.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_23_off_pos_inv : mpn_lshift_partial_solve_wit_23_off_pos_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_24_nonalias_inv : mpn_lshift_partial_solve_wit_24_nonalias_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_25_inplace_inv : mpn_lshift_partial_solve_wit_25_inplace_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_26_off_zero_inv : mpn_lshift_partial_solve_wit_26_off_zero_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_partial_solve_wit_27_off_pos_inv : mpn_lshift_partial_solve_wit_27_off_pos_inv.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_which_implies_wit_2 : mpn_lshift_which_implies_wit_2.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_which_implies_wit_4 : mpn_lshift_which_implies_wit_4.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_which_implies_wit_8 : mpn_lshift_which_implies_wit_8.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_which_implies_wit_9 : mpn_lshift_which_implies_wit_9.
+Proof. Admitted.
+
+Lemma proof_of_mpn_lshift_which_implies_wit_10 : mpn_lshift_which_implies_wit_10.
+Proof. Admitted.
+

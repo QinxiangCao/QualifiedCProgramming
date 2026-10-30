@@ -37,4 +37,3 @@ Qed.
   
 End CoqPropD1FromModel.
 
-

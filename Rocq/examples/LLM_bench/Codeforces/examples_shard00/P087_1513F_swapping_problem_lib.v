@@ -1190,9 +1190,9 @@ Lemma store_segment_shift__overlap_directed_scan_step :
 Proof.
   intros x off idx [sl sr].
   unfold store_segment; simpl.
-  replace (x + off * sizeof_alias_type "<anonymous struct>" +
-    idx * sizeof_alias_type "<anonymous struct>")
-    with (x + (idx + off) * sizeof_alias_type "<anonymous struct>") by ring.
+  replace (x + off * sizeof ("<anonymous struct>") +
+    idx * sizeof ("<anonymous struct>"))
+    with (x + (idx + off) * sizeof ("<anonymous struct>")) by ring.
   reflexivity.
 Qed.
 Lemma store_segment_fold__overlap_directed_scan_step :

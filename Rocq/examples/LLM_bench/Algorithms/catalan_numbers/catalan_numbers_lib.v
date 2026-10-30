@@ -615,7 +615,7 @@ Proof.
     (nodup (list_eq_dec Z.eq_dec) (StackOutputEnumeration n))).
   rewrite Henum, nodup_fixed_point by exact Hnd.
   assert (Hlength : Zlength (map (StackWordOutput n) (StackSequenceSet n)) =
-    Zlength (StackSequenceSet n)) by (rewrite !Zlength_correct, map_length; reflexivity).
+    Zlength (StackSequenceSet n)) by (rewrite !Zlength_correct, length_map; reflexivity).
   rewrite <- Hlength in Hcount.
   rewrite Hcount. clear Hcount Hn Henum Hnd Hlength.
   induction (map (StackWordOutput n) (StackSequenceSet n)) as [| output outputs IH]; [reflexivity |].

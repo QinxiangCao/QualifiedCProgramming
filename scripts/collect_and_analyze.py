@@ -12,12 +12,11 @@ import os
 import json
 import platform
 import re
-import runpy
+import generation_tasks
 import sys
 import subprocess
 import time
 from collections import OrderedDict
-import shlex
 import datetime
 import csv
 import shutil
@@ -36,6 +35,11 @@ CASE_ROOT_PREFIXES = (
     'QCP_demos_LLM',
 )
 
+# Contract-only diagnostic fixtures are not formal verification cases.
+DIAGNOSTIC_C_INPUTS = {
+    'Applications_human/typeinfer_rc/post_transport.c',
+}
+
 
 def qcp_binary(is_strategy=False):
     """Return the platform-native QCP driver, allowing an explicit override."""
@@ -46,18 +50,18 @@ def qcp_binary(is_strategy=False):
 
     name = 'StrategyCheck' if is_strategy else 'symexec'
     if sys.platform == 'win32':
-        return os.path.join('win-binary', name + '.exe')
+        return os.path.join('bin', 'windows', name + '.exe')
     if sys.platform == 'darwin':
         machine = platform.machine().lower()
         if machine in ('arm64', 'aarch64'):
-            binary_dir = 'mac-arm64-binary'
+            binary_dir = 'macos-arm64'
         elif machine in ('x86_64', 'amd64'):
-            binary_dir = 'mac-x86-64-binary'
+            binary_dir = 'macos-x86_64'
         else:
             raise RuntimeError(f'Unsupported macOS architecture for QCP binaries: {machine or "<unknown>"}')
-        return os.path.join(binary_dir, name)
+        return os.path.join('bin', binary_dir, name)
     if sys.platform.startswith('linux'):
-        return os.path.join('linux-binary', name)
+        return os.path.join('bin', 'linux', name)
     raise RuntimeError(f'Unsupported platform for QCP binaries: {sys.platform}')
 
 
@@ -93,6 +97,8 @@ def collect_lists(base=BASE_DIR):
     for root, dirs, files in os.walk(base):
         for fn in files:
             rel = os.path.relpath(os.path.join(root, fn), base).replace(os.sep, '/')
+            if rel in DIAGNOSTIC_C_INPUTS:
+                continue
             if fn.endswith('.c'):
                 examples.append(rel)
             elif fn.endswith('.strategies'):
@@ -412,34 +418,11 @@ def get_category_for(path, base, categories_map=None):
     return 'uncategorized'
 
 
-def parse_run_example_script(script_path='run-example-linux.sh'):
-    """Parse run-example-linux.sh and return a mapping input_file -> command_list
-    Only looks for lines containing '--input-file' and uses shlex.split to parse the command.
-    """
-    mapping = {}
-    if not os.path.isfile(script_path):
-        return mapping
-    with open(script_path, 'r', encoding='utf-8', errors='ignore') as f:
-        content = f.read()
-    # split by ';' to get logical commands (script uses ; to separate commands)
-    cmds = [c.strip() for c in content.split(';') if c.strip()]
-    for cmd in cmds:
-        if '--input-file' not in cmd:
-            continue
-        # normalize whitespace and newlines then shlex split
-        norm = ' '.join(cmd.split())
-        parts = shlex.split(norm)
-        input_val = None
-        for i, tok in enumerate(parts):
-            if tok.startswith('--input-file='):
-                input_val = tok.split('=', 1)[1]
-                break
-            if tok == '--input-file' and i + 1 < len(parts):
-                input_val = parts[i + 1]
-                break
-        if input_val:
-            mapping[input_val] = parts
-    return mapping
+def load_example_commands():
+    """Reuse typed task discovery and command construction."""
+    return {str(task.source): generation_tasks.command(task)[0]
+            for task in generation_tasks.discover()
+            if isinstance(task, (generation_tasks.ProgramVC, generation_tasks.StrategyVC))}
 
 
 def run_separationlogic_make_timing(sep_dir='Rocq', logs_dir='logs'):
@@ -672,8 +655,7 @@ def run_gen_backup_for_example(full_cmd, logs_dir='logs', label='gen'):
 
 
 def analyze_lists(base, examples, strategies, categories_map=None):
-    # try to parse run-example-linux.sh to get full command templates per input file
-    run_example_map = parse_run_example_script('run-example-linux.sh')
+    example_commands = load_example_commands()
     # allow using an existing logs directory instead of running make
     use_existing = os.environ.get('USE_EXISTING_LOG_DIR')
     if use_existing and os.path.isdir(use_existing):
@@ -705,8 +687,8 @@ def analyze_lists(base, examples, strategies, categories_map=None):
         # symbolic execution time for this example
         inp = os.path.join('QCP_examples', p)
         full_cmd = None
-        if inp in run_example_map:
-            full_cmd = run_example_map[inp]
+        if inp in example_commands:
+            full_cmd = example_commands[inp]
         sym_time = run_and_time_input(inp, is_strategy=False, full_cmd=full_cmd, log_prefix=p.replace('/', '_'), logs_dir=run_logs)
         stats['symbolic_time'] = sym_time if sym_time is not None else -1
         examples_stats.append(stats)
@@ -733,7 +715,7 @@ def analyze_lists(base, examples, strategies, categories_map=None):
 
         # attempt to run generator to create backup if we have full command
         inp = os.path.join('QCP_examples', e['path'])
-        full_cmd = run_example_map.get(inp)
+        full_cmd = example_commands.get(inp)
         if not skip_make:
             # attempt to run generator to create backup if we have full command
             if full_cmd:
@@ -787,8 +769,8 @@ def analyze_lists(base, examples, strategies, categories_map=None):
     for s in strategies_stats:
         inp = os.path.join('QCP_examples', s['path'])
         full_cmd = None
-        if inp in run_example_map:
-            full_cmd = run_example_map[inp]
+        if inp in example_commands:
+            full_cmd = example_commands[inp]
         t = run_and_time_input(inp, is_strategy=True, full_cmd=full_cmd, log_prefix=s['path'].replace('/', '_'), logs_dir=run_logs)
         s['symbolic_time'] = t if t is not None else -1
 

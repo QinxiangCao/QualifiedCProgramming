@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.Applications_human.hashtable Require Import hashtbl_goal.
 From SimpleC.EE.Applications_human.hashtable Require Import hashtbl_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.hashtable.hashtbl_lib.
 Local Open Scope sac.
@@ -62,7 +46,6 @@ Proof.
     unfold NULL in *.
     Exists dl_prev top_2 0 h_bucks lh_2 l (@nil addr)
       0 (@nil addr) b (@nil addr) (@nil addr) m1_node_2.
-    change (sizeof(PTR)) with ptr_size_Z.
     simpl sllbseg.
     simpl sll.
     simpl dll.
@@ -118,7 +101,6 @@ Proof.
       (Znth (retval % 211) lh_2 0 :: bucket_tail)
       b (Znth (retval % 211) lh_2 0 :: bucket_tail)
       (@nil addr) m1_node_2.
-    change (sizeof(PTR)) with ptr_size_Z.
     simpl sllbseg.
     simpl sll.
     normalize.
@@ -177,7 +159,7 @@ Proof.
   rewrite PreH6 in PreH25.
   sep_apply_l_atomic
     (sllbseg_snoc__findref_traversal
-      (h_pre_bucks_2 + ind * sizeof(PTR))
+      (h_bucks_2 + ind * sizeof(PTR))
       it itv_2 l_prev_2 PreH3 PreH14).
   sep_apply_l_atomic
     (dll_cons_from_fields__remove_entails
@@ -198,11 +180,10 @@ Proof.
         top_2 dl_prev (dl_up_2 ++ itv_2 :: dl_downres)).
     Intros_p Hloop.
     unfold NULL in *.
-    Exists dl_prev top_2 0 h_pre_bucks_2 lh_2
+    Exists dl_prev top_2 0 h_bucks_2 lh_2
       (dl_up_2 ++ itv_2 :: dl_downres) (@nil addr)
       buck_2 l0_2 bucket_map_2 (@nil addr)
       (l_prev_2 ++ itv_2 :: nil) m1_node_2.
-    change (sizeof(PTR)) with ptr_size_Z.
     simpl sll.
     simpl dll.
     split_pure_spatial.
@@ -210,7 +191,7 @@ Proof.
       repeat cancel.
       cancel
         (&(h_pre # "hashtbl" ->ₛ "bucks") # Ptr
-          |-> h_pre_bucks_2).
+          |-> h_bucks_2).
       repeat cancel.
       unfold derivable1; auto.
     + split_pures.
@@ -251,11 +232,10 @@ Proof.
       (dllseg_dll_loop_invariants__remove_entails
         top_2 b_next dl_prev dl_up (b_next :: dl_tail)).
     Intros_p Hloop.
-    Exists dl_prev top_2 b_next h_pre_bucks_2 lh_2
+    Exists dl_prev top_2 b_next h_bucks_2 lh_2
       dl_up (b_next :: dl_tail) buck_2 l0_2 bucket_map_2
       (b_next :: next_tail) (l_prev_2 ++ itv_2 :: nil)
       m1_node_2.
-    change (sizeof(PTR)) with ptr_size_Z.
     simpl sll.
     normalize.
     Exists next_next.
@@ -309,11 +289,11 @@ Proof.
     exists l_prev.
     exact PreH9. }
   set (Rbefore :=
-    &(h_pre # "hashtbl" ->ₛ "bucks") # Ptr |-> h_pre_bucks).
+    &(h_pre # "hashtbl" ->ₛ "bucks") # Ptr |-> h_bucks).
   set (Rmid := store_map_missing_i store_sll bucket_map ind).
   set (Rtail :=
     store_string key_pre k **
-    (PtrArray.missing_i h_pre_bucks ind 0 211 lh **
+    (PtrArray.missing_i h_bucks ind 0 211 lh **
      (store_map store_name m1_node **
       (&(h_pre # "hashtbl" ->ₛ "top") # Ptr |-> top **
        (dllseg top 0 0 dl_prev dl_up **
@@ -325,12 +305,12 @@ Proof.
         (Rbefore **
          (it # Ptr |-> 0 **
           (Rmid **
-           (sllbseg (h_pre_bucks + ind * sizeof(PTR)) it l_prev **
+           (sllbseg (h_bucks + ind * sizeof(PTR)) it l_prev **
             (sll 0 (@nil addr) ** Rtail)))) |-- Q)
   end.
   rewrite
     (sllbseg_sll_framed__remove_absent
-      (h_pre_bucks + ind * sizeof(PTR)) it l_prev 0 (@nil addr)
+      (h_bucks + ind * sizeof(PTR)) it l_prev 0 (@nil addr)
       Rbefore Rmid Rtail).
   Intros p0.
   unfold Rbefore, Rmid, Rtail.
@@ -366,7 +346,7 @@ Proof.
   split_pure_spatial.
   - unfold store_hash_skeleton.
     Exists m1_node (dl_up ++ nil)%list
-      (replace_Znth ind p0 lh) top h_pre_bucks bucket_map'.
+      (replace_Znth ind p0 lh) top h_bucks bucket_map'.
     split_pure_spatial.
     + sep_apply_l_atomic
         (dllseg_dll__remove_absent
@@ -374,7 +354,7 @@ Proof.
       rewrite app_nil_r.
       sep_apply_r_atomic
         (PtrArray.missing_i_merge_to_full
-          h_pre_bucks ind NBUCK p0 lh Hind).
+          h_bucks ind NBUCK p0 lh Hind).
       sep_apply_r_atomic
         (store_map_merge
           store_sll ind (p0, l_prev) bucket_map' Hb_new).
@@ -382,7 +362,6 @@ Proof.
       unfold store_sll.
       rewrite !app_nil_r.
       unfold NBUCK, NULL.
-      change (sizeof(PTR)) with ptr_size_Z.
       repeat cancel.
     + split_pures.
       * dump_pre_spatial.
@@ -459,7 +438,7 @@ Proof.
   Intros_p Hinjective.
   sep_apply_l_atomic
     (sllbseg_unlink__remove_success_returns
-      (h_pre_bucks + ind * sizeof(PTR)) it l_prev b_next l_resres).
+      (h_bucks + ind * sizeof(PTR)) it l_prev b_next l_resres).
   Intros bucket_head.
   sep_apply_l_atomic
     (dll_cons__remove_success_returns
@@ -529,11 +508,11 @@ Proof.
     symmetry.
     apply KP.remove_map_diff.
     congruence. }
-  change (h_pre_bucks + ind * sizeof(PTR))
-    with (h_pre_bucks + ind * ptr_size_Z).
+  change (h_bucks + ind * sizeof(PTR))
+    with (h_bucks + ind * (sizeof(PTR))).
   sep_apply_l_atomic
     (PtrArray.missing_i_merge_to_full
-      h_pre_bucks ind 211 bucket_head lh Hind).
+      h_bucks ind 211 bucket_head lh Hind).
   change (sll bucket_head (l_prev ++ l_resres))
     with (store_sll ind (bucket_head, (l_prev ++ l_resres)%list)).
   sep_apply
@@ -568,17 +547,17 @@ Proof.
   Exists (KP.remove_map m1_node k)
     (dl_up_prefix ++ dl_prev :: b_down :: dl_down_tail)
     (replace_Znth ind bucket_head lh)
-    top h_pre_bucks b_new.
+    top h_bucks b_new.
   split_pure_spatial.
   - unfold NULL, NBUCK.
     cancel (&(h_pre # "hashtbl" ->ₛ "top") # Ptr |-> top).
     cancel
       (dll top 0
         (dl_up_prefix ++ dl_prev :: b_down :: dl_down_tail)).
-    cancel (&(h_pre # "hashtbl" ->ₛ "bucks") # Ptr |-> h_pre_bucks).
+    cancel (&(h_pre # "hashtbl" ->ₛ "bucks") # Ptr |-> h_bucks).
     apply
       (remove_return_spatial_reorder__remove_success_returns
-        removed_pre key_pre itv key_addr val dl_prev b_down h_pre_bucks
+        removed_pre key_pre itv key_addr val dl_prev b_down h_bucks
         k (PV.remove_map m2 (&(itv # "blist" ->ₛ "val")))
         (KP.remove_map m1_node k) b_new
         (replace_Znth ind bucket_head lh)).
@@ -665,7 +644,7 @@ Proof.
   Intros_p Hinjective.
   sep_apply_l_atomic
     (sllbseg_unlink__remove_success_returns
-      (h_pre_bucks + ind * sizeof(PTR)) it l_prev b_next l_resres).
+      (h_bucks + ind * sizeof(PTR)) it l_prev b_next l_resres).
   Intros bucket_head.
   rewrite Hup.
   sep_apply_l_atomic
@@ -732,11 +711,11 @@ Proof.
     symmetry.
     apply KP.remove_map_diff.
     congruence. }
-  change (h_pre_bucks + ind * sizeof(PTR))
-    with (h_pre_bucks + ind * ptr_size_Z).
+  change (h_bucks + ind * sizeof(PTR))
+    with (h_bucks + ind * (sizeof(PTR))).
   sep_apply_l_atomic
     (PtrArray.missing_i_merge_to_full
-      h_pre_bucks ind 211 bucket_head lh Hind).
+      h_bucks ind 211 bucket_head lh Hind).
   change (sll bucket_head (l_prev ++ l_resres))
     with (store_sll ind (bucket_head, (l_prev ++ l_resres)%list)).
   sep_apply
@@ -771,15 +750,15 @@ Proof.
   Exists (KP.remove_map m1_node k)
     (b_down :: dl_down_tail)
     (replace_Znth ind bucket_head lh)
-    b_down h_pre_bucks b_new.
+    b_down h_bucks b_new.
   split_pure_spatial.
   - unfold NULL, NBUCK.
     cancel (&(h_pre # "hashtbl" ->ₛ "top") # Ptr |-> b_down).
     cancel (dll b_down 0 (b_down :: dl_down_tail)).
-    cancel (&(h_pre # "hashtbl" ->ₛ "bucks") # Ptr |-> h_pre_bucks).
+    cancel (&(h_pre # "hashtbl" ->ₛ "bucks") # Ptr |-> h_bucks).
     apply
       (remove_return_spatial_reorder__remove_success_returns
-        removed_pre key_pre itv key_addr val 0 b_down h_pre_bucks
+        removed_pre key_pre itv key_addr val 0 b_down h_bucks
         k (PV.remove_map m2 (&(itv # "blist" ->ₛ "val")))
         (KP.remove_map m1_node k) b_new
         (replace_Znth ind bucket_head lh)).
@@ -838,7 +817,7 @@ Proof.
   Intros_p Hinjective.
   sep_apply_l_atomic
     (sllbseg_unlink__remove_success_returns
-      (h_pre_bucks + ind * sizeof(PTR)) it l_prev b_next l_resres).
+      (h_bucks + ind * sizeof(PTR)) it l_prev b_next l_resres).
   Intros bucket_head.
   rewrite Hup, PreH1, PreH2.
   sep_apply_l_atomic
@@ -905,11 +884,11 @@ Proof.
     symmetry.
     apply KP.remove_map_diff.
     congruence. }
-  change (h_pre_bucks + ind * sizeof(PTR))
-    with (h_pre_bucks + ind * ptr_size_Z).
+  change (h_bucks + ind * sizeof(PTR))
+    with (h_bucks + ind * (sizeof(PTR))).
   sep_apply_l_atomic
     (PtrArray.missing_i_merge_to_full
-      h_pre_bucks ind 211 bucket_head lh Hind).
+      h_bucks ind 211 bucket_head lh Hind).
   change (sll bucket_head (l_prev ++ l_resres))
     with (store_sll ind (bucket_head, (l_prev ++ l_resres)%list)).
   sep_apply
@@ -943,15 +922,15 @@ Proof.
   unfold store_hash_skeleton.
   Exists (KP.remove_map m1_node k) nil
     (replace_Znth ind bucket_head lh)
-    0 h_pre_bucks b_new.
+    0 h_bucks b_new.
   split_pure_spatial.
   - unfold NULL, NBUCK.
     cancel (&(h_pre # "hashtbl" ->ₛ "top") # Ptr |-> 0).
     cancel (dll 0 0 nil).
-    cancel (&(h_pre # "hashtbl" ->ₛ "bucks") # Ptr |-> h_pre_bucks).
+    cancel (&(h_pre # "hashtbl" ->ₛ "bucks") # Ptr |-> h_bucks).
     apply
       (remove_return_terminal_spatial_reorder__remove_success_returns
-        removed_pre key_pre itv key_addr val 0 0 h_pre_bucks
+        removed_pre key_pre itv key_addr val 0 0 h_bucks
         k (PV.remove_map m2 (&(itv # "blist" ->ₛ "val")))
         (KP.remove_map m1_node k) b_new
         (replace_Znth ind bucket_head lh)).
@@ -1026,7 +1005,7 @@ Proof.
   Intros_p Hinjective.
   sep_apply_l_atomic
     (rebuild_removed_node_spatial__remove_success_returns
-      h_pre_bucks ind lh bucket_map it l_prev b_next l_resres Hind).
+      h_bucks ind lh bucket_map it l_prev b_next l_resres Hind).
   Intros bucket_head.
   set (b_new :=
     fun j => if Z.eq_dec j ind
@@ -1039,7 +1018,7 @@ Proof.
   Intros_p Hdlempty.
   set (P :=
     store_string key_pre k **
-    (&(h_pre # "hashtbl" ->ₛ "bucks") # Ptr |-> h_pre_bucks **
+    (&(h_pre # "hashtbl" ->ₛ "bucks") # Ptr |-> h_bucks **
      (&(itv # "blist" ->ₛ "val") # UInt |-> val **
       (store_map_missing_i store_uint m2
          (&(itv # "blist" ->ₛ "val")) **
@@ -1052,7 +1031,7 @@ Proof.
   etransitivity.
   - apply
       (dllseg_singleton_four_frames__remove_success_returns
-      (PtrArray.full h_pre_bucks 211
+      (PtrArray.full h_bucks 211
         (replace_Znth ind bucket_head lh))
       (store_map store_sll
         (fun j => if Z.eq_dec j ind
@@ -1075,7 +1054,7 @@ Proof.
   etransitivity.
   { apply
       (expose_removed_down_with_dll__remove_success_returns
-        (PtrArray.full h_pre_bucks 211
+        (PtrArray.full h_bucks 211
           (replace_Znth ind bucket_head lh))
         (store_map store_sll
           (fun j => if Z.eq_dec j ind
@@ -1084,7 +1063,7 @@ Proof.
         (store_map_missing_i store_name m1_node k)
         (store_name k itv)
         (store_string key_pre k)
-        (&(h_pre # "hashtbl" ->ₛ "bucks") # Ptr |-> h_pre_bucks)
+        (&(h_pre # "hashtbl" ->ₛ "bucks") # Ptr |-> h_bucks)
         (&(itv # "blist" ->ₛ "val") # UInt |-> val)
         (store_map_missing_i store_uint m2
           (&(itv # "blist" ->ₛ "val")))
@@ -1137,15 +1116,15 @@ Proof.
   Exists (KP.remove_map m1_node k)
     (dl_up_prefix ++ dl_prev :: nil)
     (replace_Znth ind bucket_head lh)
-    top h_pre_bucks b_new.
+    top h_bucks b_new.
   split_pure_spatial.
   + unfold NULL, NBUCK.
     repeat cancel.
     unfold P2, b_new, store_name.
     cancel (&(h_pre # "hashtbl" ->ₛ "top") # Ptr |-> top).
     cancel (dll top 0 (dl_up_prefix ++ dl_prev :: nil)).
-    cancel (&(h_pre # "hashtbl" ->ₛ "bucks") # Ptr |-> h_pre_bucks).
-    cancel (PtrArray.full h_pre_bucks 211
+    cancel (&(h_pre # "hashtbl" ->ₛ "bucks") # Ptr |-> h_bucks).
+    cancel (PtrArray.full h_bucks 211
       (replace_Znth ind bucket_head lh)).
     cancel (store_map store_sll
       (fun j => if Z.eq_dec j ind
@@ -1178,24 +1157,26 @@ Qed.
 
 Lemma proof_of_hashtbl_remove_partial_solve_wit_3_pure_split_goal_1 : hashtbl_remove_partial_solve_wit_3_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply derivable1s_coq_prop_r.
-  unfold current_bucket_suffix.
-  split.
-  - exact PreH15.
-  - exists buck.
-    rewrite PreH12 in PreH11.
-    exact PreH11.
-Qed.
+Abort.
 
 Lemma proof_of_hashtbl_remove_partial_solve_wit_3_pure : hashtbl_remove_partial_solve_wit_3_pure.
 Proof.
-  aggressive_pre_process.
-  Goal_apply
-    (proof_of_hashtbl_remove_partial_solve_wit_3_pure_split_goal_1_adapter__remove_search
-      removed_pre key_pre h_pre k m2 dl_prev top itv it h_pre_bucks
-      lh dl_up dl_down buck l0 bucket_map ind l_res l_prev m1_node
-      PreH15 PreH11 PreH12).
+  LLM_pre_process ltac:(lia || int_auto).
+  split_pures.
+  - dump_pre_spatial. exact PreH1.
+  - dump_pre_spatial. exact PreH15.
+  - dump_pre_spatial. exact PreH2.
+  - dump_pre_spatial. exact PreH3.
+  - dump_pre_spatial. exact PreH4.
+  - dump_pre_spatial. exact PreH5.
+  - dump_pre_spatial. exact PreH14.
+  - dump_pre_spatial.
+    unfold current_bucket_suffix.
+    split.
+    + exact PreH13.
+    + exists buck.
+      rewrite PreH10 in PreH9.
+      exact PreH9.
 Qed.
 
 Lemma proof_of_hashtbl_remove_partial_solve_wit_5_pure_split_goal_1 : hashtbl_remove_partial_solve_wit_5_pure_split_goal_1.

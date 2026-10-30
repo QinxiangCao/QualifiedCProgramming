@@ -37,7 +37,7 @@ Module NaiveRule.
   Axiom derivable1_orp_intros1 : (forall x y : expr, derivable1 x (orp x y)) .
   Axiom derivable1_orp_intros2 : (forall x y : expr, derivable1 y (orp x y)) .
   Axiom derivable1_orp_elim : (forall x y z : expr, derivable1 x z -> derivable1 y z -> derivable1 (orp x y) z) .
-  Axiom derivable1s_truep_intros : (forall x y z : expr, derivable1 x y -> derivable1 x z -> derivable1 x (andp y z)) .
+  Axiom derivable1s_andp_intros : (forall x y z : expr, derivable1 x y -> derivable1 x z -> derivable1 x (andp y z)) .
   Axiom derivable1_andp_elim1 : (forall x y : expr, derivable1 (andp x y) x) .
   Axiom derivable1_andp_elim2 : (forall x y : expr, derivable1 (andp x y) y) .
 

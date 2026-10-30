@@ -58,7 +58,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def id_safety_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 7)) (PreH3 : ((0 : Int) <= x_pre)) (PreH4 : (x_pre <= n_pre)) (PreH5 : ((0 : Int) <= y_pre)) (PreH6 : (y_pre <= (n_pre + 1))) ,
+  forall (n_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 7)) (PreH3 : ((0 : Int) <= x_pre)) (PreH4 : (x_pre <= n_pre)) (PreH5 : ((0 : Int) <= y_pre)) (PreH6 : (y_pre <= (n_pre + 1))) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -67,7 +67,7 @@ noncomputable def id_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= ((x_pre * (n_pre + 1)) + y_pre)) ”
 
 noncomputable def id_safety_wit_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 7)) (PreH3 : ((0 : Int) <= x_pre)) (PreH4 : (x_pre <= n_pre)) (PreH5 : ((0 : Int) <= y_pre)) (PreH6 : (y_pre <= (n_pre + 1))) ,
+  forall (n_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 7)) (PreH3 : ((0 : Int) <= x_pre)) (PreH4 : (x_pre <= n_pre)) (PreH5 : ((0 : Int) <= y_pre)) (PreH6 : (y_pre <= (n_pre + 1))) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -76,7 +76,7 @@ noncomputable def id_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (x_pre * (n_pre + 1))) ”
 
 noncomputable def id_safety_wit_3 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 7)) (PreH3 : ((0 : Int) <= x_pre)) (PreH4 : (x_pre <= n_pre)) (PreH5 : ((0 : Int) <= y_pre)) (PreH6 : (y_pre <= (n_pre + 1))) ,
+  forall (n_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 7)) (PreH3 : ((0 : Int) <= x_pre)) (PreH4 : (x_pre <= n_pre)) (PreH5 : ((0 : Int) <= y_pre)) (PreH6 : (y_pre <= (n_pre + 1))) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -85,7 +85,7 @@ noncomputable def id_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (n_pre + 1)) ”
 
 noncomputable def id_safety_wit_4 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 7)) (PreH3 : ((0 : Int) <= x_pre)) (PreH4 : (x_pre <= n_pre)) (PreH5 : ((0 : Int) <= y_pre)) (PreH6 : (y_pre <= (n_pre + 1))) ,
+  forall (n_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 7)) (PreH3 : ((0 : Int) <= x_pre)) (PreH4 : (x_pre <= n_pre)) (PreH5 : ((0 : Int) <= y_pre)) (PreH6 : (y_pre <= (n_pre + 1))) ,
   ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
@@ -94,7 +94,7 @@ noncomputable def id_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def id_return_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 7)) (PreH3 : ((0 : Int) <= x_pre)) (PreH4 : (x_pre <= n_pre)) (PreH5 : ((0 : Int) <= y_pre)) (PreH6 : (y_pre <= (n_pre + 1))) ,
+  forall (n_pre : Int) (x_pre : Int) (y_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 7)) (PreH3 : ((0 : Int) <= x_pre)) (PreH4 : (x_pre <= n_pre)) (PreH5 : ((0 : Int) <= y_pre)) (PreH6 : (y_pre <= (n_pre + 1))) ,
   TT && emp 
 |--
   “ (((x_pre * (n_pre + 1)) + y_pre) = ((x_pre * (n_pre + 1)) + y_pre)) ”

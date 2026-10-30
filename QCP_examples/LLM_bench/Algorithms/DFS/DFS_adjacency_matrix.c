@@ -209,10 +209,9 @@ void dfs_adjacency_matrix(int *matrix, int vertex_count,
              */
             /*@ Given call_visited_set */
             dfs_adjacency_matrix(matrix, vertex_count, visited, neighbor)
-              /*@ where (bind_spec)
+              /*@ where (bind_spec) {B = unit}
                     g = g, rows = rows, visited_set = call_visited_set,
-                    c = DFSAdjacencyMatrix::dfs_continue(g, vertex), X = X;
-                    B = unit */;
+                    c = DFSAdjacencyMatrix::dfs_continue(g, vertex), X = X */;
         }
 
         /*@ Assert

@@ -41,7 +41,7 @@ struct list *glibc_slist_clean_copy(struct list *src)
         }
 
         /*@ exists lprefix lrest ldst v, safeExec(ATrue, bind(list_append_raw_M(ldst, cons(v, nil)), residual_prog_in_glibc_slist_clean_copy_M_call_1(lprefix, v, lrest)), X) && src == src@pre && node != 0 && node -> data == v && copy != 0 && sllseg(src@pre, node, lprefix) * sll(node -> next, lrest) * sll(dst, ldst) * sll(copy, cons(v, nil)) */
-        dst = list_append_raw(dst, copy) /*@ where(low_level_spec_aux) X = X; B = (list Z * list Z) */;
+        dst = list_append_raw(dst, copy) /*@ where(low_level_spec_aux) {B = (list Z * list Z)} X = X */;
         node = node->next;
     }
     return dst;

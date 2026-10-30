@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.Applications_human.fme Require Import fme_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 Import naive_C_Rules.
 From SimpleC.EE.Applications_human.fme Require Import fme_lib.
 Import naive_C_Rules.
@@ -1367,7 +1352,7 @@ Qed.
 Lemma proof_of_lia_deduction_return_wit_1 : lia_deduction_return_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists BP0_4 p2_3 l2_2.
+  Exists BP0_pre p2_3 l2_2.
   split_pure_spatial.
   - sep_apply InequList_seg_append_list; try (unfold NULL; lia).
     subst l2_2 l22.

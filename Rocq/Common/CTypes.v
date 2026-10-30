@@ -152,22 +152,13 @@ Definition int_size_bytes (i: IntSize) : nat :=
   end.
 
 Definition max_int (s: Signedness) (i: IntSize): Z :=
-  match s, i with
-  | Signed, I8 => 2^7 - 1
-  | Unsigned, I8 => 2^8 - 1
-  | Signed, I16 => 2^15 - 1
-  | Unsigned, I16 => 2^16 - 1
-  | Signed, I32 => 2^31 - 1
-  | Unsigned, I32 => 2^32 - 1
-  | Signed, I64 => 2^63 - 1
-  | Unsigned, I64 => 2^64 - 1
+  match s with
+  | Signed => 2 ^ (int_width_Z i - 1) - 1
+  | Unsigned => 2 ^ (int_width_Z i) - 1
   end.
 
 Definition min_int (s: Signedness) (i: IntSize): Z :=
-  match s, i with
-  | Signed, I8 => - 2^7
-  | Signed, I16 => - 2^15
-  | Signed, I32 => - 2^31
-  | Signed, I64 => - 2^63
-  | Unsigned, _ => 0
+  match s with
+  | Signed => - (2 ^ (int_width_Z i - 1))
+  | Unsigned => 0
   end.

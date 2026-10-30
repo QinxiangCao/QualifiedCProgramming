@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P018_1382B_sequential_nim_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P018_1382B_sequential_nim_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P018_1382B_sequential_nim_lib.
 Local Open Scope sac.
@@ -66,7 +50,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1 : solver_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hnotfirst : ~ FirstWins piles).
   {
     intros [k [Hleading Hwinner]].
@@ -105,7 +89,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_2 : solver_return_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Heven : Z.even c = true).
   {
     apply even_of_nonnegative_rem_zero__return_semantics; assumption.
@@ -136,7 +120,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_3 : solver_return_wit_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Heven : Z.even n_pre = true).
   {
     apply even_of_nonnegative_rem_not_one__return_semantics; [lia | exact PreH1].
@@ -175,7 +159,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_4 : solver_return_wit_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hodd : Z.even n_pre = false).
   {
     apply odd_of_nonnegative_rem_nonzero__return_semantics; [lia | lia].

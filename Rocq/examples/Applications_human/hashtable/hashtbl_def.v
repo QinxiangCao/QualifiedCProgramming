@@ -66,15 +66,11 @@ Proof.
   sep_apply undef_store_ptr_align.
   sep_apply undef_store_ptr_align.
   sep_apply store_align4_to_store_align.
-  sep_apply (store_align_merge ptr_size_Z (4 * 1)).
-  sep_apply (store_align_merge (ptr_size_Z + 4 * 1) ptr_size_Z).
-  sep_apply (store_align_merge ((ptr_size_Z + 4 * 1) + ptr_size_Z) ptr_size_Z).
-  sep_apply (store_align_merge (((ptr_size_Z + 4 * 1) + ptr_size_Z) + ptr_size_Z) ptr_size_Z).
-  rewrite !sizeof_ptr.
-  rewrite sizeof_uint.
-  unfold ptr_size_Z.
-  simpl.
-  cancel.
+  sep_apply (store_align_merge (sizeof(PTR)) (4 * 1)).
+  sep_apply (store_align_merge ((sizeof(PTR)) + 4 * 1) (sizeof(PTR))).
+  sep_apply (store_align_merge (((sizeof(PTR)) + 4 * 1) + (sizeof(PTR))) (sizeof(PTR))).
+  sep_apply (store_align_merge ((((sizeof(PTR)) + 4 * 1) + (sizeof(PTR))) + (sizeof(PTR))) (sizeof(PTR))).
+  reflexivity.
 Qed.
 
 Lemma store_Predblist_to_align : forall x v,
@@ -135,16 +131,6 @@ Module StoreStructblistAsElement <: ELEMENT_STORE.
     unfold undefstoreA, sizeA.
     sep_apply undefstore_Predblist_to_align.
     cancel.
-  Qed.
-
-  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
-  Proof.
-    unfold sizeA.
-    rewrite !sizeof_ptr.
-    rewrite sizeof_uint.
-    unfold_arch.
-    change Int.max_unsigned with 4294967295.
-    lia.
   Qed.
 
 End StoreStructblistAsElement.

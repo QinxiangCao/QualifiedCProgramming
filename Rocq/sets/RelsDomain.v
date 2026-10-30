@@ -1519,6 +1519,11 @@ Ltac add_MarkerWrapper_rec T :=
       let T1 := context G [S] in
       let T2 := ADD_MARKER_WRAPPER_TAC T1 in
       constr:(T2)
+  | context G [@Rels.test ?R ?S ?_RELS] =>
+      let S := constr:(MarkerWrapper1 (@Rels.test R S) _RELS) in
+      let T1 := context G [S] in
+      let T2 := ADD_MARKER_WRAPPER_TAC T1 in
+      constr:(T2)
   | context G [@Rels.concat ?R ?S ?T ?_RELS] =>
       let S := constr:(MarkerWrapper2 (@Rels.concat R S T) _RELS) in
       let T1 := context G [S] in
@@ -2549,7 +2554,7 @@ Module StreamConn.
 
 Import List ListConn Streams.
 
-(* Search Stream list. *)
+Search Stream list.
 
 Definition stream_app {A: Type} (l1: list A) (l2: Stream A): Stream A :=
   (fix app (l1: list A): Stream A :=

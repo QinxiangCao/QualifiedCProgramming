@@ -221,6 +221,38 @@ Check (fun (step : Z -> Z -> Prop) =>
 
 它包含零步的 identity 与任意有限步；固定次数的 relation composition 不能替代该闭包。图路径语义仍复用类型匹配的 `valid_vpath` / `reachable`，不与标准库同名闭包接口混淆。
 
+### CDCLLib 谓词
+
+literal、clause、CNF、valuation 与 SAT/UNSAT 判定必须使用 CDCLLib（`Rocq/cdcllib`，logical root `CDCLLib`），不另定义 literal 类型、clause 类型、满足关系或 `satisfiable`。`formal_case_lib` 用 Export 导入，使 generated files 也能看到这些名称。dune 模式下，该导入要求 case 的 dune `coq.theory` 列出 `CDCLLib`（如 `Rocq/examples/Applications_human/dune`）；其他 theory 中的 case 把它交回 main。CDCLLib 只在局部打开 `Z_scope` 并导入 ListLib，用到 `Znth` 或 `Zlength` 的 case lib 需自行导入并打开：
+
+```coq
+From CDCLLib Require Export sat_shared_lib.   (* cdcl_shared_lib 另含求解器状态 cdcl_view *)
+```
+
+常用名称：`literal`（`Pos x | Neg x`，变量从 0 开始，`literal_wf n`）、`clause := list literal`、`cnf := list clause`、`valuation := Z -> bool`、`partial_valuation := Z -> option bool`、`clause_satisfied rho c`、`models rho F`、`cnf_wf n F`、`cnf_sat n F` 与 `cnf_unsat n F`（只量化限定在 `[0, n)` 内的 valuation）、`entails_clause F c`、表示 assumption 的 `cnf_with_units F A`、单变量更新 `sat_function_update`，以及逐 clause 计数器 `clause_true_count` / `clause_unassigned_count` / `clause_false` / `clause_unit`。没有 `clause_wf`，写 `Forall (literal_wf n) c`。求解器状态映射到 `cdcl_view`；更强的 case invariant 写成共享谓词 `/\` 具名局部条件。
+
+C 编码属于 case。在 `formal_case_lib` 中定义一个从 C word 或 row 到 `literal` / `clause` 的 decoder（去掉 padding，把从 1 开始的变量移到从 0 开始），每个 C primitive 配一条 lemma，其他谓词只经由它到达库语义。在解码后的输入上写一次 `cnf_wf(n, F)`，不重述原始范围。`clause` 与 `cnf` 声明为不透明类型，clause list 在 decoder 内构造；annotation 文本不对 `cnf` 使用 `cons` / `app`：
+
+```c
+/*@ Extern Coq
+      (literal :: *)
+      (clause :: *)
+      (cnf :: *)
+      (valuation :: *)
+      (clause_satisfied : valuation -> clause -> Prop)
+      (models : valuation -> cnf -> Prop)
+      (cnf_unsat : Z -> cnf -> Prop)
+ */
+```
+
+判定直接针对输入 `F` 表述，在 Ensure 中把返回码与判定配对。Ensure 中的判定本身就是 workflow §2 的 `Spec`；另起的名字须在 `models` / `cnf_sat` / `cnf_unsat` 之外有语义增量（知识规则 §3.1）：
+
+```c
+__return == 0 && cnf_unsat(n, F)
+```
+
+带 assumption `A` 时，UNSAT 写作 `cnf_unsat(n, cnf_with_units(F, A))`。循环进度在解码后的前缀上使用同样的名称，例如前 `k` 个 clause 写 `models(rho, dec_cnf(k, ...))`，其中 `dec_cnf` 是 case decoder。CDCLLib 没有通用 formula 类型或 Tseitin 变换：formula 及其到 `valuation` 的求值定义在 `formal_case_lib`，并表述 equisatisfiability 或 model 对应关系，而不是重放算法的 Fixpoint。CDCLLib 缺少的通用 lemma 在 `formal_case_lib` 中只用 CDCLLib 名称证明，并在 `agent_output.md` 中记为库缺口；不编辑 CDCLLib 本身。
+
 ## 设计新谓词与不变量
 
 已有谓词不足时，应把新谓词设计成紧凑的数学关系，而不是可执行的 list 程序。

@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.catalan_numbers Require Import catalan_numbers_goal.
 From SimpleC.EE.LLM_bench.Algorithms.catalan_numbers Require Import catalan_numbers_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.catalan_numbers.catalan_numbers_lib.
 Local Open Scope sac.
@@ -92,7 +76,9 @@ Proof.
 Qed.
 
 Lemma proof_of_solve_entail_wit_3_split_goal_1 : solve_entail_wit_3_split_goal_1.
-Proof. unfold solve_entail_wit_3_split_goal_1. intros. apply PreH11. assumption. Qed.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  apply PreH11. assumption. Qed.
 Lemma proof_of_solve_entail_wit_3_split_goal_2 : solve_entail_wit_3_split_goal_2.
 Proof. LLM_pre_process ltac:(lia || int_auto); auto. Qed.
 Lemma proof_of_solve_entail_wit_3_split_goal_3 : solve_entail_wit_3_split_goal_3.
@@ -111,7 +97,9 @@ Proof.
 Qed.
 
 Lemma proof_of_solve_entail_wit_4_split_goal_1 : solve_entail_wit_4_split_goal_1.
-Proof. unfold solve_entail_wit_4_split_goal_1. intros. apply PreH11. assumption. Qed.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  apply PreH11. assumption. Qed.
 Lemma proof_of_solve_entail_wit_4_split_goal_2 : solve_entail_wit_4_split_goal_2.
 Proof. LLM_pre_process ltac:(lia || int_auto); auto. Qed.
 Lemma proof_of_solve_entail_wit_4_split_goal_3 : solve_entail_wit_4_split_goal_3.
@@ -264,10 +252,7 @@ Proof.
 Qed.
 Lemma proof_of_solve_entail_wit_8 : solve_entail_wit_8.
 Proof.
-  unfold solve_entail_wit_8; left; intros. subst retval. rewrite Z.add_0_r.
-  sep_apply (IntArray.full_to_undef_full (&("f")) ((n_pre + 1) * (n_pre + 1)) table).
-  sep_apply (IntArray.undef_full_to_undef_seg (&("f")) ((n_pre + 1) * (n_pre + 1))).
-  sep_apply (IntArray.undef_seg_merge_to_undef_full (&("f")) 0 ((n_pre + 1) * (n_pre + 1)) 64 ltac:(nia)).
-  replace ((&("f")) + 0 * sizeof (INT)) with (&("f")) by lia.
-  replace (64 - 0) with 64 by lia. entailer!.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_entail_wit_8_split_goal_spatial.
+  - Goal_apply proof_of_solve_entail_wit_8_split_goal_1.
 Qed.

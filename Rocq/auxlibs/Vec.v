@@ -38,6 +38,8 @@ Notation "(+++)" := vapp (only parsing) : vector_scope.
 Notation "( v +++.)" := (vapp v) (only parsing) : vector_scope.
 Notation "(.+++ w )" := (fun v => vapp v w) (only parsing) : vector_scope.
 
+Notation "v '[@' p ']'" := (Vector.nth v p) (at level 1) : vector_scope.
+
 (** Similar to [fin], we provide an inversion principle that keeps the length
 fixed. We define a tactic [inv_vec v] to perform case analysis on [v], using
 this inversion principle. *)
@@ -213,6 +215,11 @@ Section Bool.
     - destruct (f a) eqn:Hfa; simpl; auto.
   Qed.
 
+  Fixpoint vforall (P: A -> Prop) {n} (l: vec A n) : Prop :=
+    match l with
+    | vnil => True
+    | x ::: tl => P x /\ vforall P tl
+    end.
 
   Fixpoint find {n} (l: vec A n) : option A :=
     match l with
@@ -246,15 +253,29 @@ End Bool.
 
 
 (* Transparent version of Vector.nth_map *)
-Lemma nth_map {A B} (f : A -> B) {n} (v : vec A n) (i : Fin.t n) :
+(* Lemma nth_map {A B} (f : A -> B) {n} (v : vec A n) (i : Fin.t n) :
   Vector.nth (Vector.map f v) i = f (Vector.nth v i).
 Proof.
-  induction v as [|a n v IH]; simpl; auto.
-  - exfalso. apply (Fin.case0 (fun _ => False) i).
-  - revert n i v IH.
-    match goal with
-    | |- forall n i, @?P n i => apply (Fin.caseS P)
-    end; simpl.
-    + reflexivity.
-    + intros. apply IH.
+  induction i as [n|n i IHi].
+  - revert n v; refine (@caseS _ _ _); now simpl.
+  - revert n v i IHi; refine (@caseS _  _ _); now simpl.
+Qed. *)
+
+(* Transparent version of [Vector.nth_map], defined as fixpoint to make it easier
+to read when reasoning about equality of equations involving nth_map. *)
+Fixpoint nth_map {A B} (f : A -> B) {n} (v : vec A n) (i : Fin.t n) :
+  Vector.nth (Vector.map f v) i = f (Vector.nth v i).
+Proof.
+  destruct i as [n|n i].
+  - revert n v; refine (@caseS _ _ _); now simpl.
+  - revert n v i; refine (@caseS _  _ _); now simpl.
+Defined.
+
+(* Transparent version of Vector.map_map *)
+Fixpoint map_map {A B C} (f: A -> B) (g: B -> C) {n} (v : Vector.t A n)
+    : Vector.map g (Vector.map f v) = Vector.map (fun x => g (f x)) v.
+Proof.
+  destruct v.
+  - reflexivity.
+  - simpl. rewrite map_map. reflexivity.
 Defined.

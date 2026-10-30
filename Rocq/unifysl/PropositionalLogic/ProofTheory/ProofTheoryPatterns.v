@@ -453,20 +453,46 @@ Proof.
   apply (@P.prodp_falsep _ _ _ _ _ _ impp_andp_Adjoint _ _ _ _ andp_Comm x).
 Qed.
 
-Lemma andp_orp_distr_l: forall x y z: expr,
+Lemma provable_andp_orp_distr_l: forall x y z: expr,
   |-- (x || y) && z <--> (x && z) || (y && z).
 Proof.
   intros.
-  pose proof @P.prodp_orp_distr_l.
   apply (@P.prodp_orp_distr_l _ _ _ _ _ _ _ _ impp_andp_Adjoint _ _ x y z).
 Qed.
 
-Lemma andp_orp_distr_r: forall x y z: expr,
+Lemma provable_andp_orp_distr_r: forall x y z: expr,
   |-- x && (y || z) <--> (x && y) || (x && z).
 Proof.
   intros.
   apply (@P.prodp_orp_distr_r _ _ _ _ _ _ _ _ impp_andp_Adjoint _ _ andp_Comm x y z).
 Qed.
+
+Section DistributionLogicEquiv.
+
+Context {GammaD1: Derivable1 L}
+        {GammaE: LogicEquiv L}
+        {GammaD1P: Derivable1FromProvable L Gamma GammaD1}
+        {GammaED1: EquivDerivable1 L GammaD1 GammaE}.
+
+Lemma logic_equiv_andp_orp_distr_l: forall x y z: expr,
+  (x || y) && z --||-- (x && z) || (y && z).
+Proof.
+  intros.
+  apply __logic_equiv_derivable1; split; apply __derivable1_provable.
+  - apply provables_iffp_elim1, provable_andp_orp_distr_l.
+  - apply provables_iffp_elim2, provable_andp_orp_distr_l.
+Qed.
+
+Lemma logic_equiv_andp_orp_distr_r: forall x y z: expr,
+  x && (y || z) --||-- (x && y) || (x && z).
+Proof.
+  intros.
+  apply __logic_equiv_derivable1; split; apply __derivable1_provable.
+  - apply provables_iffp_elim1, provable_andp_orp_distr_r.
+  - apply provables_iffp_elim2, provable_andp_orp_distr_r.
+Qed.
+
+End DistributionLogicEquiv.
 
 Context {iter_andp_L: IterAndLanguage L}
         {iter_andp_AXL: IterAndAxiomatization_left L Gamma}.
@@ -665,7 +691,7 @@ Proof.
   pose proof Adjoint2Mono as Mono.
   intros.
   apply __logic_equiv_derivable1; split.
-  + apply derivable1s_truep_intros.
+  + apply derivable1s_andp_intros.
     - apply funcp_mono.
       * apply derivable1_orp_intros1.
       * reflexivity.
@@ -687,13 +713,13 @@ Lemma funcp_andp_distr_r
 Proof.
   intros.
   apply __logic_equiv_derivable1; split.
-  + apply derivable1s_truep_intros.
+  + apply derivable1s_andp_intros.
     - apply funcp_mono2.
       apply derivable1_andp_elim1.
     - apply funcp_mono2.
       apply derivable1_andp_elim2.
   + apply adjoint.
-    apply derivable1s_truep_intros; apply adjoint.
+    apply derivable1s_andp_intros; apply adjoint.
     - apply derivable1_andp_elim1.
     - apply derivable1_andp_elim2.
 Qed.

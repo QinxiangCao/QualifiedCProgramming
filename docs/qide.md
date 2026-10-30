@@ -15,7 +15,7 @@ Windows:
 
 ```json
 {
-  "qide.lspBinPath": "D:/absolute/path/to/qcp-binary-democases/win-binary/lsp.exe",
+  "qide.lspBinPath": "D:/absolute/path/to/qcp-binary-democases/bin/windows/lsp.exe",
   "qide.lspArg": ""
 }
 ```
@@ -24,7 +24,7 @@ Linux:
 
 ```json
 {
-  "qide.lspBinPath": "/absolute/path/to/qcp-binary-democases/linux-binary/lsp",
+  "qide.lspBinPath": "/absolute/path/to/qcp-binary-democases/bin/linux/lsp",
   "qide.lspArg": ""
 }
 ```
@@ -33,7 +33,7 @@ macOS Apple Silicon:
 
 ```json
 {
-  "qide.lspBinPath": "/absolute/path/to/qcp-binary-democases/mac-arm64-binary/lsp",
+  "qide.lspBinPath": "/absolute/path/to/qcp-binary-democases/bin/macos-arm64/lsp",
   "qide.lspArg": ""
 }
 ```
@@ -42,7 +42,7 @@ macOS Intel:
 
 ```json
 {
-  "qide.lspBinPath": "/absolute/path/to/qcp-binary-democases/mac-x86-64-binary/lsp",
+  "qide.lspBinPath": "/absolute/path/to/qcp-binary-democases/bin/macos-x86_64/lsp",
   "qide.lspArg": ""
 }
 ```

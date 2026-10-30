@@ -27,7 +27,7 @@ theorem proof_of_insert_return_wit_1 : SimpleC.EE.QCP_demos_LLM.generated.bst_fp
 theorem proof_of_insert_return_wit_2 : SimpleC.EE.QCP_demos_LLM.generated.bst_fp_insert_goal.insert_return_wit_2 := by
   sorry
 
-theorem proof_of_insert_derive_high_level_spec_by_low_level_spec : SimpleC.EE.QCP_demos_LLM.generated.bst_fp_insert_goal.insert_derive_high_level_spec_by_low_level_spec := by
+theorem proof_of_insert_low_level_spec_entail_high_level_spec : SimpleC.EE.QCP_demos_LLM.generated.bst_fp_insert_goal.insert_low_level_spec_entail_high_level_spec := by
   sorry
 
 

@@ -109,7 +109,7 @@ private theorem cell_properties (x v : Int) :
 theorem proof_of_longest_common_sequence_entail_wit_1 : longest_common_sequence_entail_wit_1 := by
   unfold longest_common_sequence_entail_wit_1
   right
-  intro n_pre ys xs PreH1 PreH2 PreH3 PreH4
+  intro ys xs n_pre PreH1 PreH2 PreH3 PreH4
   let table_pre : Int := &("table")
   have hp := lcsn_column_progress_zero__column_init_update n_pre PreH1
   have hsq := row_bounds n_pre 0 PreH1 ⟨by omega,by omega⟩
@@ -133,14 +133,14 @@ theorem proof_of_longest_common_sequence_entail_wit_1 : longest_common_sequence_
 
 theorem proof_of_longest_common_sequence_entail_wit_2_split_goal_1 : longest_common_sequence_entail_wit_2_split_goal_1 := by
   unfold longest_common_sequence_entail_wit_2_split_goal_1
-  intro n_pre ys xs mixed_table table_l i stride PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 fresh24 fresh25
+  intro ys xs n_pre mixed_table table_l i stride PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 fresh24 fresh25
   have h := cell_bounds n_pre i 0 (by omega) ⟨by omega,by omega⟩ ⟨by omega,by omega⟩
   omega
 
 theorem proof_of_longest_common_sequence_entail_wit_2 : longest_common_sequence_entail_wit_2 := by
   unfold longest_common_sequence_entail_wit_2
   right
-  intro n_pre ys xs mixed_table table_l i stride PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 fresh24 fresh25
+  intro ys xs n_pre mixed_table table_l i stride PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 fresh24 fresh25
   have h := cell_bounds n_pre i 0 (by omega) ⟨by omega,by omega⟩ ⟨by omega,by omega⟩
   aggressive_pre_process
   all_goals try dump_pre_spatial
@@ -149,7 +149,7 @@ theorem proof_of_longest_common_sequence_entail_wit_2 : longest_common_sequence_
 theorem proof_of_longest_common_sequence_entail_wit_3 : longest_common_sequence_entail_wit_3 := by
   unfold longest_common_sequence_entail_wit_3
   right
-  intro n_pre ys xs mixed_table_2 table_l_2 i stride PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 fresh22 fresh23
+  intro ys xs n_pre mixed_table_2 table_l_2 i stride PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 fresh22 fresh23
   have hp := lcsn_column_write_progress__column_init_update mixed_table_2 table_l_2 n_pre i stride PreH6 PreH7 ⟨PreH11,PreH5⟩ PreH15
   have hr := row_bounds n_pre (i+1) PreH7 ⟨by omega,by omega⟩
   Exists (replace_Znth (stride*i) (0 : Int) table_l_2)
@@ -165,7 +165,7 @@ theorem proof_of_longest_common_sequence_entail_wit_3 : longest_common_sequence_
 theorem proof_of_longest_common_sequence_entail_wit_4 : longest_common_sequence_entail_wit_4 := by
   unfold longest_common_sequence_entail_wit_4
   right
-  intro n_pre ys xs mixed_table_2 table_l_2 i stride PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 fresh18 fresh19
+  intro ys xs n_pre mixed_table_2 table_l_2 i stride PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 fresh18 fresh19
   have he : i = n_pre+1 := by omega
   have hp := lcsn_column_complete_boundary_start__boundary_phase mixed_table_2 table_l_2 n_pre PreH3 (by simpa [he] using PreH11)
   Exists table_l_2
@@ -180,7 +180,7 @@ theorem proof_of_longest_common_sequence_entail_wit_4 : longest_common_sequence_
 theorem proof_of_longest_common_sequence_entail_wit_6 : longest_common_sequence_entail_wit_6 := by
   unfold longest_common_sequence_entail_wit_6
   right
-  intro n_pre ys xs mixed_table_2 table_l_2 j stride PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh16 fresh17
+  intro ys xs n_pre mixed_table_2 table_l_2 j stride PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh16 fresh17
   have he : j = n_pre+1 := by omega
   have hp := lcsn_boundaries_complete_rows_start__row_phase_entry xs ys mixed_table_2 table_l_2 n_pre (by simpa [he] using PreH9)
   have hr := row_bounds n_pre 1 PreH3 ⟨by omega,by omega⟩
@@ -196,7 +196,7 @@ theorem proof_of_longest_common_sequence_entail_wit_6 : longest_common_sequence_
 theorem proof_of_longest_common_sequence_entail_wit_7 : longest_common_sequence_entail_wit_7 := by
   unfold longest_common_sequence_entail_wit_7
   right
-  intro n_pre ys xs mixed_table_2 table_l_2 i stride PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 fresh18 fresh19
+  intro ys xs n_pre mixed_table_2 table_l_2 i stride PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 fresh18 fresh19
   have hp := lcsn_rows_start_row__row_phase_entry xs ys mixed_table_2 table_l_2 n_pre i PreH1 PreH11
   have hr := cell_bounds n_pre i 1 PreH3 ⟨by omega,PreH1⟩ ⟨by omega,by omega⟩
   Exists table_l_2
@@ -210,26 +210,26 @@ theorem proof_of_longest_common_sequence_entail_wit_7 : longest_common_sequence_
 
 theorem proof_of_longest_common_sequence_entail_wit_8_split_goal_1 : longest_common_sequence_entail_wit_8_split_goal_1 := by
   unfold longest_common_sequence_entail_wit_8_split_goal_1
-  intro n_pre ys xs j i stride mixed_table table_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 fresh29 fresh30
+  intro ys xs n_pre j i stride mixed_table table_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 fresh29 fresh30
   have h := cell_bounds n_pre (i - 1) (j) (by omega) ⟨by omega,by omega⟩ ⟨by omega,by omega⟩
   omega
 
 theorem proof_of_longest_common_sequence_entail_wit_8_split_goal_2 : longest_common_sequence_entail_wit_8_split_goal_2 := by
   unfold longest_common_sequence_entail_wit_8_split_goal_2
-  intro n_pre ys xs j i stride mixed_table table_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 fresh29 fresh30
+  intro ys xs n_pre j i stride mixed_table table_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 fresh29 fresh30
   have h := cell_bounds n_pre (i - 1) (j - 1) (by omega) ⟨by omega,by omega⟩ ⟨by omega,by omega⟩
   omega
 
 theorem proof_of_longest_common_sequence_entail_wit_8_split_goal_3 : longest_common_sequence_entail_wit_8_split_goal_3 := by
   unfold longest_common_sequence_entail_wit_8_split_goal_3
-  intro n_pre ys xs j i stride mixed_table table_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 fresh29 fresh30
+  intro ys xs n_pre j i stride mixed_table table_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 fresh29 fresh30
   have h := cell_bounds n_pre (i) (j) (by omega) ⟨by omega,by omega⟩ ⟨by omega,by omega⟩
   omega
 
 theorem proof_of_longest_common_sequence_entail_wit_8 : longest_common_sequence_entail_wit_8 := by
   unfold longest_common_sequence_entail_wit_8
   right
-  intro n_pre ys xs j i stride mixed_table table_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 fresh29 fresh30
+  intro ys xs n_pre j i stride mixed_table table_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 fresh29 fresh30
   have h1 := cell_bounds n_pre (i - 1) (j) (by omega) ⟨by omega,by omega⟩ ⟨by omega,by omega⟩
   have h2 := cell_bounds n_pre (i - 1) (j - 1) (by omega) ⟨by omega,by omega⟩ ⟨by omega,by omega⟩
   have h3 := cell_bounds n_pre (i) (j) (by omega) ⟨by omega,by omega⟩ ⟨by omega,by omega⟩
@@ -240,7 +240,7 @@ theorem proof_of_longest_common_sequence_entail_wit_8 : longest_common_sequence_
 theorem proof_of_longest_common_sequence_entail_wit_9_1 : longest_common_sequence_entail_wit_9_1 := by
   unfold longest_common_sequence_entail_wit_9_1
   right
-  intro n_pre ys xs j i stride mixed_table_2 table_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh17 fresh18 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 fresh51 fresh52
+  intro ys xs n_pre j i stride mixed_table_2 table_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 fresh17 fresh18 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 fresh51 fresh52
   let table_pre : Int := &("table")
   subst stride
   rw [PreH33] at PreH1 PreH2 PreH3 PreH4 ⊢
@@ -273,7 +273,7 @@ theorem proof_of_longest_common_sequence_entail_wit_9_1 : longest_common_sequenc
 theorem proof_of_longest_common_sequence_entail_wit_9_2 : longest_common_sequence_entail_wit_9_2 := by
   unfold longest_common_sequence_entail_wit_9_2
   right
-  intro n_pre ys xs j i stride mixed_table_2 table_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 fresh18 fresh19 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 fresh51 fresh52
+  intro ys xs n_pre j i stride mixed_table_2 table_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 fresh18 fresh19 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 fresh51 fresh52
   let table_pre : Int := &("table")
   subst stride
   rw [PreH33] at PreH1 PreH2 PreH3 PreH4 PreH5 ⊢
@@ -317,7 +317,7 @@ theorem proof_of_longest_common_sequence_entail_wit_9_2 : longest_common_sequenc
 theorem proof_of_longest_common_sequence_entail_wit_9_3 : longest_common_sequence_entail_wit_9_3 := by
   unfold longest_common_sequence_entail_wit_9_3
   right
-  intro n_pre ys xs j i stride mixed_table_2 table_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 fresh18 fresh19 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 fresh51 fresh52
+  intro ys xs n_pre j i stride mixed_table_2 table_l_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 fresh18 fresh19 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41 fresh51 fresh52
   let table_pre : Int := &("table")
   subst stride
   rw [PreH33] at PreH1 PreH2 PreH3 PreH4 PreH5 ⊢
@@ -361,7 +361,7 @@ theorem proof_of_longest_common_sequence_entail_wit_9_3 : longest_common_sequenc
 theorem proof_of_longest_common_sequence_entail_wit_11 : longest_common_sequence_entail_wit_11 := by
   unfold longest_common_sequence_entail_wit_11
   right
-  intro n_pre ys xs mixed_table_2 table_l_2 j i stride PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 fresh21 fresh22
+  intro ys xs n_pre mixed_table_2 table_l_2 j i stride PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 fresh21 fresh22
   have hp := lcsn_row_finish_progress__equal_write_and_row_exit xs ys mixed_table_2 table_l_2 n_pre i j PreH3 ⟨PreH7,PreH8⟩ ⟨PreH1,PreH10⟩ PreH13
   have hr := row_bounds n_pre (i+1) PreH3 ⟨by omega,by omega⟩
   Exists table_l_2
@@ -376,7 +376,7 @@ theorem proof_of_longest_common_sequence_entail_wit_11 : longest_common_sequence
 theorem proof_of_longest_common_sequence_entail_wit_12 : longest_common_sequence_entail_wit_12 := by
   unfold longest_common_sequence_entail_wit_12
   right
-  intro n_pre ys xs mixed_table_2 table_l_2 i stride PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 fresh18 fresh19
+  intro ys xs n_pre mixed_table_2 table_l_2 i stride PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 fresh18 fresh19
   let table_pre : Int := &("table")
   subst stride
   have hi := cell_bounds n_pre n_pre n_pre PreH3 ⟨by omega,by omega⟩ ⟨by omega,by omega⟩
@@ -434,7 +434,7 @@ theorem proof_of_longest_common_sequence_entail_wit_13 : longest_common_sequence
 theorem proof_of_longest_common_sequence_which_implies_wit_1 : longest_common_sequence_which_implies_wit_1 := by
   unfold longest_common_sequence_which_implies_wit_1
   right
-  intro n_pre ys xs fresh3 fresh4 i j PreH1 PreH2 PreH3 PreH4 fresh11 fresh12 fresh13
+  intro ys xs n_pre fresh3 fresh4 i j PreH1 PreH2 PreH3 PreH4 fresh11 fresh12 fresh13
   let table : Int := &("table")
   let mixed_table_2 := fresh3
   let table_l_2 := fresh4
@@ -478,7 +478,7 @@ theorem proof_of_longest_common_sequence_which_implies_wit_1 : longest_common_se
 theorem proof_of_longest_common_sequence_which_implies_wit_2 : longest_common_sequence_which_implies_wit_2 := by
   unfold longest_common_sequence_which_implies_wit_2
   right
-  intro n_pre ys xs fresh3 fresh4 i j PreH1 PreH2 PreH3 PreH4 fresh11 fresh12 fresh13
+  intro ys xs n_pre fresh3 fresh4 i j PreH1 PreH2 PreH3 PreH4 fresh11 fresh12 fresh13
   let table : Int := &("table")
   let mixed_table_2 := fresh3
   let table_l_2 := fresh4

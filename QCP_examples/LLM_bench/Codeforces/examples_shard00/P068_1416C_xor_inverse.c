@@ -85,19 +85,13 @@ static void solve(int l, int r, int bit)
             IntArray::mixed_full(tmp_p, n_total, scratch) *
             Int64Array2::full(cost, bit, 2,
                               sublist(0, bit, current_costs)) *
-            store(pointer_offset(pointer_offset(cost, bit,
-                                                sizeof(long long[2]),
-                                                long long[2]),
-                                 0, sizeof(long long), long long),
+            store(pointer_offset(pointer_offset(cost, bit, long long[2]),
+                                 0, long long),
                   long long, current_costs[bit][0]) *
-            store(pointer_offset(pointer_offset(cost, bit,
-                                                sizeof(long long[2]),
-                                                long long[2]),
-                                 1, sizeof(long long), long long),
+            store(pointer_offset(pointer_offset(cost, bit, long long[2]),
+                                 1, long long),
                   long long, current_costs[bit][1]) *
-            Int64Array2::full(pointer_offset(cost, bit + 1,
-                                             sizeof(long long[2]),
-                                             long long[2]),
+            Int64Array2::full(pointer_offset(cost, bit + 1, long long[2]),
                               30 - bit - 1, 2,
                               sublist(bit + 1, 30, current_costs))
     */
@@ -264,7 +258,7 @@ static void solve(int l, int r, int bit)
                 PartitionCopyBack(before, current, partitioned, l, r, i) &&
                 store(&a, int *, a_p) * store(&tmp, int *, tmp_p) *
                 IntArray::full(a_p, Zlength(current), current) *
-                store(pointer_offset(tmp_p, i, sizeof(int), int),
+                store(pointer_offset(tmp_p, i, int),
                       int, partitioned[i - l]) *
                 IntArray::mixed_missing_i(tmp_p, i, 0,
                                           Zlength(current), scratch_current) *
@@ -444,9 +438,7 @@ static void solver(const int *input, int n, long long *out_inv,
             IntArray::full(a_p, n@pre, input_values) *
             IntArray::mixed_full(tmp_p, n@pre, tmp_cells) *
             Int64Array2::full(cost, b, 2, zero_rows) *
-            Int64Array2::undef_full(pointer_offset(cost, b,
-                                                   sizeof(long long[2]),
-                                                   long long[2]),
+            Int64Array2::undef_full(pointer_offset(cost, b, long long[2]),
                                     30 - b, 2) *
             store(&a, int *, a_p) * store(&tmp, int *, tmp_p) *
             undef_data_at(out_inv@pre) * undef_data_at(out_x@pre)
@@ -473,13 +465,12 @@ static void solver(const int *input, int n, long long *out_inv,
                 IntArray::mixed_full(tmp_p, n@pre, tmp_cells) *
                 Int64Array2::full(cost, b, 2, zero_rows) *
                 undef_data_at(pointer_offset(pointer_offset(
-                                cost, b, sizeof(long long[2]), long long[2]),
-                                0, sizeof(long long), long long)) *
+                                cost, b, long long[2]),
+                                0, long long)) *
                 undef_data_at(pointer_offset(pointer_offset(
-                                cost, b, sizeof(long long[2]), long long[2]),
-                                1, sizeof(long long), long long)) *
+                                cost, b, long long[2]),
+                                1, long long)) *
                 Int64Array2::undef_full(pointer_offset(cost, b + 1,
-                                                       sizeof(long long[2]),
                                                        long long[2]),
                                         30 - b - 1, 2) *
                 store(&a, int *, a_p) * store(&tmp, int *, tmp_p) *
@@ -556,17 +547,13 @@ static void solver(const int *input, int n, long long *out_inv,
                 IntArray::mixed_full(tmp_p, n@pre, tmp_cells) *
                 Int64Array2::full(cost, b, 2,
                                   sublist(0, b, costs)) *
-                store(pointer_offset(pointer_offset(
-                        cost, b, sizeof(long long[2]), long long[2]),
-                        0, sizeof(long long), long long),
+                store(pointer_offset(pointer_offset(cost, b, long long[2]),
+                        0, long long),
                       long long, costs[b][0]) *
-                store(pointer_offset(pointer_offset(
-                        cost, b, sizeof(long long[2]), long long[2]),
-                        1, sizeof(long long), long long),
+                store(pointer_offset(pointer_offset(cost, b, long long[2]),
+                        1, long long),
                       long long, costs[b][1]) *
-                Int64Array2::full(pointer_offset(cost, b + 1,
-                                                 sizeof(long long[2]),
-                                                 long long[2]),
+                Int64Array2::full(pointer_offset(cost, b + 1, long long[2]),
                                   30 - b - 1, 2,
                                   sublist(b + 1, 30, costs)) *
                 store(&a, int *, a_p) * store(&tmp, int *, tmp_p) *

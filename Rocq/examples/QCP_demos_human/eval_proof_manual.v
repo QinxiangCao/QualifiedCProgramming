@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.QCP_demos_human Require Import eval_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.QCP_demos_human.eval_lib.
 Local Open Scope sac.
@@ -100,8 +85,11 @@ Qed.
 Lemma proof_of_eval_safety_wit_32 : eval_safety_wit_32.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  destruct e0; simpl in *; Intro_any; try lia.
-  Intro_any. lia.
+  destruct e0; cbn [store_expr_aux].
+  - Intros_p Htag. lia.
+  - Intros_p Htag. lia.
+  - Intros p'. lia.
+  - Intros p1 p2. lia.
 Qed.
 
 Lemma proof_of_eval_return_wit_1 : eval_return_wit_1.

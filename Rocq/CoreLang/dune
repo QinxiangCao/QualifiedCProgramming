@@ -1,0 +1,4 @@
+(coq.theory
+ (name SimpleC.CoreLang)
+ (theories AUXLib SimpleC.Common))
+

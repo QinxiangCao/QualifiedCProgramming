@@ -180,7 +180,7 @@ private theorem charArray_snoc_split (ptr i v : Int) (l : List Int) (hi : 0≤i)
 
 theorem proof_of_solver_safety_wit_6_split_goal_1 : solver_safety_wit_6_split_goal_1 := by
   unfold solver_safety_wit_6_split_goal_1
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values okpre_values old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values okpre_values old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   dump_pre_spatial
   have hv := PreH4 (i-1) ⟨by omega,by omega⟩
   have hb := PreH10 (i-1) ⟨by omega,by omega⟩
@@ -192,7 +192,7 @@ theorem proof_of_solver_safety_wit_6_split_goal_1 : solver_safety_wit_6_split_go
 
 theorem proof_of_solver_safety_wit_6_split_goal_2 : solver_safety_wit_6_split_goal_2 := by
   unfold solver_safety_wit_6_split_goal_2
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values okpre_values old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values okpre_values old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   dump_pre_spatial
   have hv := PreH4 (i-1) ⟨by omega,by omega⟩
   have hb := PreH10 (i-1) ⟨by omega,by omega⟩
@@ -205,15 +205,15 @@ theorem proof_of_solver_safety_wit_6_split_goal_2 : solver_safety_wit_6_split_go
 theorem proof_of_solver_safety_wit_6 : solver_safety_wit_6 := by
   unfold solver_safety_wit_6
   right
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values okpre_values old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values okpre_values old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   split_pures
   all_goals first
-    | first | exact (proof_of_solver_safety_wit_6_split_goal_1 oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values okpre_values old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10) | (dump_pre_spatial; exact (proof_of_solver_safety_wit_6_split_goal_1 oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values okpre_values old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10))
-    | first | exact (proof_of_solver_safety_wit_6_split_goal_2 oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values okpre_values old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10) | (dump_pre_spatial; exact (proof_of_solver_safety_wit_6_split_goal_2 oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values okpre_values old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10))
+    | first | exact (proof_of_solver_safety_wit_6_split_goal_1 values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values okpre_values old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10) | (dump_pre_spatial; exact (proof_of_solver_safety_wit_6_split_goal_1 values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values okpre_values old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10))
+    | first | exact (proof_of_solver_safety_wit_6_split_goal_2 values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values okpre_values old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10) | (dump_pre_spatial; exact (proof_of_solver_safety_wit_6_split_goal_2 values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values okpre_values old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10))
 
 theorem proof_of_solver_safety_wit_22_split_goal_1 : solver_safety_wit_22_split_goal_1 := by
   unfold solver_safety_wit_22_split_goal_1
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values okpre_values suf_values oksuf_values suf_prefix oksuf_prefix i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values okpre_values suf_values oksuf_values suf_prefix oksuf_prefix i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   dump_pre_spatial
   have hv := PreH4 (i-1) ⟨by omega,by omega⟩
   have hb := PreH16 0 ⟨by omega,by omega⟩
@@ -224,7 +224,7 @@ theorem proof_of_solver_safety_wit_22_split_goal_1 : solver_safety_wit_22_split_
 
 theorem proof_of_solver_safety_wit_22_split_goal_2 : solver_safety_wit_22_split_goal_2 := by
   unfold solver_safety_wit_22_split_goal_2
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values okpre_values suf_values oksuf_values suf_prefix oksuf_prefix i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values okpre_values suf_values oksuf_values suf_prefix oksuf_prefix i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   dump_pre_spatial
   have hv := PreH4 (i-1) ⟨by omega,by omega⟩
   have hb := PreH16 0 ⟨by omega,by omega⟩
@@ -236,15 +236,15 @@ theorem proof_of_solver_safety_wit_22_split_goal_2 : solver_safety_wit_22_split_
 theorem proof_of_solver_safety_wit_22 : solver_safety_wit_22 := by
   unfold solver_safety_wit_22
   right
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values okpre_values suf_values oksuf_values suf_prefix oksuf_prefix i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values okpre_values suf_values oksuf_values suf_prefix oksuf_prefix i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   split_pures
   all_goals first
-    | first | exact (proof_of_solver_safety_wit_22_split_goal_1 oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values okpre_values suf_values oksuf_values suf_prefix oksuf_prefix i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16) | (dump_pre_spatial; exact (proof_of_solver_safety_wit_22_split_goal_1 oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values okpre_values suf_values oksuf_values suf_prefix oksuf_prefix i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-    | first | exact (proof_of_solver_safety_wit_22_split_goal_2 oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values okpre_values suf_values oksuf_values suf_prefix oksuf_prefix i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16) | (dump_pre_spatial; exact (proof_of_solver_safety_wit_22_split_goal_2 oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values okpre_values suf_values oksuf_values suf_prefix oksuf_prefix i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+    | first | exact (proof_of_solver_safety_wit_22_split_goal_1 values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values okpre_values suf_values oksuf_values suf_prefix oksuf_prefix i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16) | (dump_pre_spatial; exact (proof_of_solver_safety_wit_22_split_goal_1 values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values okpre_values suf_values oksuf_values suf_prefix oksuf_prefix i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+    | first | exact (proof_of_solver_safety_wit_22_split_goal_2 values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values okpre_values suf_values oksuf_values suf_prefix oksuf_prefix i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16) | (dump_pre_spatial; exact (proof_of_solver_safety_wit_22_split_goal_2 values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values okpre_values suf_values oksuf_values suf_prefix oksuf_prefix i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
 
 theorem proof_of_solver_safety_wit_38_split_goal_1 : solver_safety_wit_38_split_goal_1 := by
   unfold solver_safety_wit_38_split_goal_1
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   dump_pre_spatial
   have hv := PreH7 i ⟨by omega,by omega⟩
   have hb := PreH17 (i-1) ⟨by omega,by omega⟩
@@ -255,7 +255,7 @@ theorem proof_of_solver_safety_wit_38_split_goal_1 : solver_safety_wit_38_split_
 
 theorem proof_of_solver_safety_wit_38_split_goal_2 : solver_safety_wit_38_split_goal_2 := by
   unfold solver_safety_wit_38_split_goal_2
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   dump_pre_spatial
   have hv := PreH7 i ⟨by omega,by omega⟩
   have hb := PreH17 (i-1) ⟨by omega,by omega⟩
@@ -267,15 +267,15 @@ theorem proof_of_solver_safety_wit_38_split_goal_2 : solver_safety_wit_38_split_
 theorem proof_of_solver_safety_wit_38 : solver_safety_wit_38 := by
   unfold solver_safety_wit_38
   right
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   split_pures
   all_goals first
-    | first | exact (proof_of_solver_safety_wit_38_split_goal_1 oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18) | (dump_pre_spatial; exact (proof_of_solver_safety_wit_38_split_goal_1 oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
-    | first | exact (proof_of_solver_safety_wit_38_split_goal_2 oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18) | (dump_pre_spatial; exact (proof_of_solver_safety_wit_38_split_goal_2 oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
+    | first | exact (proof_of_solver_safety_wit_38_split_goal_1 values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18) | (dump_pre_spatial; exact (proof_of_solver_safety_wit_38_split_goal_1 values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
+    | first | exact (proof_of_solver_safety_wit_38_split_goal_2 values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18) | (dump_pre_spatial; exact (proof_of_solver_safety_wit_38_split_goal_2 values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
 
 theorem proof_of_solver_safety_wit_44_split_goal_1 : solver_safety_wit_44_split_goal_1 := by
   unfold solver_safety_wit_44_split_goal_1
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   dump_pre_spatial
   have hv1 := PreH8 (i-1) ⟨by omega,by omega⟩
   have hv2 := PreH8 i ⟨by omega,by omega⟩
@@ -287,7 +287,7 @@ theorem proof_of_solver_safety_wit_44_split_goal_1 : solver_safety_wit_44_split_
 
 theorem proof_of_solver_safety_wit_44_split_goal_2 : solver_safety_wit_44_split_goal_2 := by
   unfold solver_safety_wit_44_split_goal_2
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   dump_pre_spatial
   have hv1 := PreH8 (i-1) ⟨by omega,by omega⟩
   have hv2 := PreH8 i ⟨by omega,by omega⟩
@@ -300,16 +300,16 @@ theorem proof_of_solver_safety_wit_44_split_goal_2 : solver_safety_wit_44_split_
 theorem proof_of_solver_safety_wit_44 : solver_safety_wit_44 := by
   unfold solver_safety_wit_44
   right
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   split_pures
   all_goals first
-    | first | exact (proof_of_solver_safety_wit_44_split_goal_1 oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19) | (dump_pre_spatial; exact (proof_of_solver_safety_wit_44_split_goal_1 oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
-    | first | exact (proof_of_solver_safety_wit_44_split_goal_2 oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19) | (dump_pre_spatial; exact (proof_of_solver_safety_wit_44_split_goal_2 oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
+    | first | exact (proof_of_solver_safety_wit_44_split_goal_1 values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19) | (dump_pre_spatial; exact (proof_of_solver_safety_wit_44_split_goal_1 values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
+    | first | exact (proof_of_solver_safety_wit_44_split_goal_2 values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19) | (dump_pre_spatial; exact (proof_of_solver_safety_wit_44_split_goal_2 values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
 
 theorem proof_of_solver_entail_wit_2 : solver_entail_wit_2 := by
   unfold solver_entail_wit_2
   left
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values PreH1 PreH2 PreH3 PreH4
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre PreH1 PreH2 PreH3 PreH4
   
   refine Automation.exp_right_rule (CRules := naive_C_Rules) ([1] : List Int) ?_
   refine Automation.exp_right_rule (CRules := naive_C_Rules) ([0] : List Int) ?_
@@ -326,21 +326,21 @@ theorem proof_of_solver_entail_wit_2 : solver_entail_wit_2 := by
 
 theorem proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1 := by
   unfold solver_entail_wit_3_split_goal_1
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre values okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro values n_pre pre_pre suf_pre okpre_pre oksuf_pre okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   dump_pre_spatial
   intro k hk
   exact PreH11 k hk
 
 theorem proof_of_solver_entail_wit_3_split_goal_2 : solver_entail_wit_3_split_goal_2 := by
   unfold solver_entail_wit_3_split_goal_2
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre values okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro values n_pre pre_pre suf_pre okpre_pre oksuf_pre okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   dump_pre_spatial
   intro k hk
   exact PreH5 k hk
 
 theorem proof_of_solver_entail_wit_3_split_goal_spatial : solver_entail_wit_3_split_goal_spatial := by
   unfold solver_entail_wit_3_split_goal_spatial
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre values okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro values n_pre pre_pre suf_pre okpre_pre oksuf_pre okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   sep_apply (int64Array_head_missing pre_pre i (n_pre+1) (by omega))
   sep_apply (charArray_head_missing okpre_pre i (n_pre+1) (by omega))
   cancel
@@ -348,18 +348,18 @@ theorem proof_of_solver_entail_wit_3_split_goal_spatial : solver_entail_wit_3_sp
 theorem proof_of_solver_entail_wit_3 : solver_entail_wit_3 := by
   unfold solver_entail_wit_3
   right
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre values okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro values n_pre pre_pre suf_pre okpre_pre oksuf_pre okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   split_pure_spatial
-  · exact proof_of_solver_entail_wit_3_split_goal_spatial oksuf_pre okpre_pre suf_pre pre_pre n_pre values okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  · exact proof_of_solver_entail_wit_3_split_goal_spatial values n_pre pre_pre suf_pre okpre_pre oksuf_pre okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   · split_pures
     all_goals first
-      | first | exact (proof_of_solver_entail_wit_3_split_goal_1 oksuf_pre okpre_pre suf_pre pre_pre n_pre values okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11) | (dump_pre_spatial; exact (proof_of_solver_entail_wit_3_split_goal_1 oksuf_pre okpre_pre suf_pre pre_pre n_pre values okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11))
-      | first | exact (proof_of_solver_entail_wit_3_split_goal_2 oksuf_pre okpre_pre suf_pre pre_pre n_pre values okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11) | (dump_pre_spatial; exact (proof_of_solver_entail_wit_3_split_goal_2 oksuf_pre okpre_pre suf_pre pre_pre n_pre values okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11))
+      | first | exact (proof_of_solver_entail_wit_3_split_goal_1 values n_pre pre_pre suf_pre okpre_pre oksuf_pre okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11) | (dump_pre_spatial; exact (proof_of_solver_entail_wit_3_split_goal_1 values n_pre pre_pre suf_pre okpre_pre oksuf_pre okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11))
+      | first | exact (proof_of_solver_entail_wit_3_split_goal_2 values n_pre pre_pre suf_pre okpre_pre oksuf_pre okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11) | (dump_pre_spatial; exact (proof_of_solver_entail_wit_3_split_goal_2 values n_pre pre_pre suf_pre okpre_pre oksuf_pre okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11))
 
 theorem proof_of_solver_entail_wit_4_1 : solver_entail_wit_4_1 := by
   unfold solver_entail_wit_4_1
   left
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values_2 okpre_values_2 old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values_2 okpre_values_2 old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have hc := Znth_cons 0 i 0 values (by omega)
   have hp := app_left pre_values_2 [old_pre_i] (i-1) ⟨by omega,by omega⟩
   have hf := app_left okpre_values_2 [old_okpre_i] (i-1) ⟨by omega,by omega⟩
@@ -394,7 +394,7 @@ theorem proof_of_solver_entail_wit_4_1 : solver_entail_wit_4_1 := by
 theorem proof_of_solver_entail_wit_4_2 : solver_entail_wit_4_2 := by
   unfold solver_entail_wit_4_2
   left
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values_2 okpre_values_2 old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values_2 okpre_values_2 old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have hc := Znth_cons 0 i 0 values (by omega)
   have hp := app_left pre_values_2 [old_pre_i] (i-1) ⟨by omega,by omega⟩
   have hf := app_left okpre_values_2 [old_okpre_i] (i-1) ⟨by omega,by omega⟩
@@ -431,7 +431,7 @@ theorem proof_of_solver_entail_wit_4_2 : solver_entail_wit_4_2 := by
 theorem proof_of_solver_entail_wit_4_3 : solver_entail_wit_4_3 := by
   unfold solver_entail_wit_4_3
   left
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values_2 okpre_values_2 old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values_2 okpre_values_2 old_pre_i old_okpre_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have hc := Znth_cons 0 i 0 values (by omega)
   have hp := app_left pre_values_2 [old_pre_i] (i-1) ⟨by omega,by omega⟩
   have hf := app_left okpre_values_2 [old_okpre_i] (i-1) ⟨by omega,by omega⟩
@@ -468,7 +468,7 @@ theorem proof_of_solver_entail_wit_4_3 : solver_entail_wit_4_3 := by
 theorem proof_of_solver_entail_wit_5 : solver_entail_wit_5 := by
   unfold solver_entail_wit_5
   left
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have hi : i=n_pre+1 := by omega
   rw [hi] at *
   sep_apply (int64Array.seg_shape_empty pre_pre (n_pre+1))
@@ -495,7 +495,7 @@ theorem proof_of_solver_entail_wit_5 : solver_entail_wit_5 := by
 theorem proof_of_solver_entail_wit_6 : solver_entail_wit_6 := by
   unfold solver_entail_wit_6
   left
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values_2 okpre_values_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values_2 okpre_values_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   have hs := suffix_residual_state_terminal_init__suffix_setup values
   have hn : Zlength values=n_pre := by omega
   rw [hn] at hs
@@ -520,7 +520,7 @@ theorem proof_of_solver_entail_wit_6 : solver_entail_wit_6 := by
 theorem proof_of_solver_entail_wit_7 : solver_entail_wit_7 := by
   unfold solver_entail_wit_7
   left
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15
   sep_apply (int64Array_materialize suf_pre 0 (i+1) (by omega))
   Intros suf_prefix
   sep_apply (charArray_materialize oksuf_pre 0 (i+1) (by omega))
@@ -542,7 +542,7 @@ theorem proof_of_solver_entail_wit_7 : solver_entail_wit_7 := by
 theorem proof_of_solver_entail_wit_8 : solver_entail_wit_8 := by
   unfold solver_entail_wit_8
   left
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values_2 okpre_values_2 suf_values_2 oksuf_values_2 suf_prefix oksuf_prefix_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values_2 okpre_values_2 suf_values_2 oksuf_values_2 suf_prefix oksuf_prefix_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have hi : 0≤i := by omega
   have hh := leading_last suf_prefix i hi PreH11
   let leading := sublist 0 i suf_prefix
@@ -574,7 +574,7 @@ theorem proof_of_solver_entail_wit_8 : solver_entail_wit_8 := by
 
 theorem proof_of_solver_entail_wit_9_1 : solver_entail_wit_9_1 := by
   unfold solver_entail_wit_9_1
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values_2 okpre_values_2 suf_values_2 oksuf_values_2 suf_leading_2 oksuf_prefix new_suf_i_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values_2 okpre_values_2 suf_values_2 oksuf_values_2 suf_leading_2 oksuf_prefix new_suf_i_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   have hh := leading_last oksuf_prefix i (by omega) PreH13
   let leading := sublist 0 i oksuf_prefix
   have hr : replace_Znth i 0 oksuf_prefix=leading++[0] := by
@@ -604,7 +604,7 @@ theorem proof_of_solver_entail_wit_9_1 : solver_entail_wit_9_1 := by
 
 theorem proof_of_solver_entail_wit_9_2 : solver_entail_wit_9_2 := by
   unfold solver_entail_wit_9_2
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values_2 okpre_values_2 suf_values_2 oksuf_values_2 suf_leading_2 oksuf_prefix new_suf_i_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values_2 okpre_values_2 suf_values_2 oksuf_values_2 suf_leading_2 oksuf_prefix new_suf_i_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   have hh := leading_last oksuf_prefix i (by omega) PreH14
   let leading := sublist 0 i oksuf_prefix
   have hr : replace_Znth i 1 oksuf_prefix=leading++[1] := by
@@ -636,7 +636,7 @@ theorem proof_of_solver_entail_wit_9_2 : solver_entail_wit_9_2 := by
 
 theorem proof_of_solver_entail_wit_9_3 : solver_entail_wit_9_3 := by
   unfold solver_entail_wit_9_3
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values_2 okpre_values_2 suf_values_2 oksuf_values_2 suf_leading_2 oksuf_prefix new_suf_i_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values_2 okpre_values_2 suf_values_2 oksuf_values_2 suf_leading_2 oksuf_prefix new_suf_i_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   have hh := leading_last oksuf_prefix i (by omega) PreH14
   let leading := sublist 0 i oksuf_prefix
   have hr : replace_Znth i 0 oksuf_prefix=leading++[0] := by
@@ -668,7 +668,7 @@ theorem proof_of_solver_entail_wit_9_3 : solver_entail_wit_9_3 := by
 theorem proof_of_solver_entail_wit_10_1 : solver_entail_wit_10_1 := by
   unfold solver_entail_wit_10_1
   left
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values_2 okpre_values_2 suf_values_2 oksuf_values_2 suf_leading oksuf_leading new_suf_i new_oksuf_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values_2 okpre_values_2 suf_values_2 oksuf_values_2 suf_leading oksuf_leading new_suf_i new_oksuf_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hs : SuffixResidualState values i (new_suf_i::suf_values_2) (new_oksuf_i::oksuf_values_2) := by
     apply suffix_residual_prepend_core__suffix_step values i suf_values_2 oksuf_values_2 new_suf_i new_oksuf_i
     all_goals first | assumption | omega | exact Or.inl PreH16 | exact ⟨by assumption,by assumption⟩
@@ -695,7 +695,7 @@ theorem proof_of_solver_entail_wit_10_1 : solver_entail_wit_10_1 := by
 theorem proof_of_solver_entail_wit_10_2 : solver_entail_wit_10_2 := by
   unfold solver_entail_wit_10_2
   left
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values pre_values_2 okpre_values_2 suf_values_2 oksuf_values_2 suf_leading oksuf_leading new_suf_i new_oksuf_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre pre_values_2 okpre_values_2 suf_values_2 oksuf_values_2 suf_leading oksuf_leading new_suf_i new_oksuf_i i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hs : SuffixResidualState values i (new_suf_i::suf_values_2) (new_oksuf_i::oksuf_values_2) := by
     apply suffix_residual_prepend_core__suffix_step values i suf_values_2 oksuf_values_2 new_suf_i new_oksuf_i
     all_goals first | assumption | omega | exact Or.inr PreH16 | exact ⟨by assumption,by assumption⟩
@@ -722,7 +722,7 @@ theorem proof_of_solver_entail_wit_10_2 : solver_entail_wit_10_2 := by
 theorem proof_of_solver_entail_wit_11_1 : solver_entail_wit_11_1 := by
   unfold solver_entail_wit_11_1
   left
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have hi : i=0 := by omega
   subst i
   try simp only [Int.zero_add,Int.sub_zero] at *
@@ -747,7 +747,7 @@ theorem proof_of_solver_entail_wit_11_1 : solver_entail_wit_11_1 := by
 theorem proof_of_solver_entail_wit_11_2 : solver_entail_wit_11_2 := by
   unfold solver_entail_wit_11_2
   left
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre a_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro values a_pre n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have hi : i=0 := by omega
   subst i
   try simp only [Int.zero_add,Int.sub_zero] at *
@@ -771,7 +771,7 @@ theorem proof_of_solver_entail_wit_11_2 : solver_entail_wit_11_2 := by
 
 theorem proof_of_solver_entail_wit_12_1_split_goal_1 : solver_entail_wit_12_1_split_goal_1 := by
   unfold solver_entail_wit_12_1_split_goal_1
-  intro n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   apply checked_swap_prefix_step values pre_values_2 suf_values_2 okpre_values_2 oksuf_values_2 i PreH19
   intro h
   rcases h with ⟨hp,hf,hx,hy,he⟩
@@ -783,16 +783,16 @@ theorem proof_of_solver_entail_wit_12_1_split_goal_1 : solver_entail_wit_12_1_sp
 theorem proof_of_solver_entail_wit_12_1 : solver_entail_wit_12_1 := by
   unfold solver_entail_wit_12_1
   right
-  intro n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | first | exact (proof_of_solver_entail_wit_12_1_split_goal_1 n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21) | (dump_pre_spatial; exact (proof_of_solver_entail_wit_12_1_split_goal_1 n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21))
+      | first | exact (proof_of_solver_entail_wit_12_1_split_goal_1 values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21) | (dump_pre_spatial; exact (proof_of_solver_entail_wit_12_1_split_goal_1 values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21))
 
 theorem proof_of_solver_entail_wit_12_2_split_goal_1 : solver_entail_wit_12_2_split_goal_1 := by
   unfold solver_entail_wit_12_2_split_goal_1
-  intro n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   apply checked_swap_prefix_step values pre_values_2 suf_values_2 okpre_values_2 oksuf_values_2 i PreH15
   intro h
   rcases h with ⟨hp,hf,hx,hy,he⟩
@@ -804,16 +804,16 @@ theorem proof_of_solver_entail_wit_12_2_split_goal_1 : solver_entail_wit_12_2_sp
 theorem proof_of_solver_entail_wit_12_2 : solver_entail_wit_12_2 := by
   unfold solver_entail_wit_12_2
   right
-  intro n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | first | exact (proof_of_solver_entail_wit_12_2_split_goal_1 n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17) | (dump_pre_spatial; exact (proof_of_solver_entail_wit_12_2_split_goal_1 n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17))
+      | first | exact (proof_of_solver_entail_wit_12_2_split_goal_1 values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17) | (dump_pre_spatial; exact (proof_of_solver_entail_wit_12_2_split_goal_1 values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17))
 
 theorem proof_of_solver_entail_wit_12_3_split_goal_1 : solver_entail_wit_12_3_split_goal_1 := by
   unfold solver_entail_wit_12_3_split_goal_1
-  intro n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   apply checked_swap_prefix_step values pre_values_2 suf_values_2 okpre_values_2 oksuf_values_2 i PreH16
   intro h
   rcases h with ⟨hp,hf,hx,hy,he⟩
@@ -825,16 +825,16 @@ theorem proof_of_solver_entail_wit_12_3_split_goal_1 : solver_entail_wit_12_3_sp
 theorem proof_of_solver_entail_wit_12_3 : solver_entail_wit_12_3 := by
   unfold solver_entail_wit_12_3
   right
-  intro n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | first | exact (proof_of_solver_entail_wit_12_3_split_goal_1 n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18) | (dump_pre_spatial; exact (proof_of_solver_entail_wit_12_3_split_goal_1 n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
+      | first | exact (proof_of_solver_entail_wit_12_3_split_goal_1 values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18) | (dump_pre_spatial; exact (proof_of_solver_entail_wit_12_3_split_goal_1 values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18))
 
 theorem proof_of_solver_entail_wit_12_4_split_goal_1 : solver_entail_wit_12_4_split_goal_1 := by
   unfold solver_entail_wit_12_4_split_goal_1
-  intro n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   apply checked_swap_prefix_step values pre_values_2 suf_values_2 okpre_values_2 oksuf_values_2 i PreH17
   intro h
   rcases h with ⟨hp,hf,hx,hy,he⟩
@@ -846,16 +846,16 @@ theorem proof_of_solver_entail_wit_12_4_split_goal_1 : solver_entail_wit_12_4_sp
 theorem proof_of_solver_entail_wit_12_4 : solver_entail_wit_12_4 := by
   unfold solver_entail_wit_12_4
   right
-  intro n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | first | exact (proof_of_solver_entail_wit_12_4_split_goal_1 n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19) | (dump_pre_spatial; exact (proof_of_solver_entail_wit_12_4_split_goal_1 n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
+      | first | exact (proof_of_solver_entail_wit_12_4_split_goal_1 values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19) | (dump_pre_spatial; exact (proof_of_solver_entail_wit_12_4_split_goal_1 values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
 
 theorem proof_of_solver_entail_wit_12_5_split_goal_1 : solver_entail_wit_12_5_split_goal_1 := by
   unfold solver_entail_wit_12_5_split_goal_1
-  intro n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   apply checked_swap_prefix_step values pre_values_2 suf_values_2 okpre_values_2 oksuf_values_2 i PreH18
   intro h
   rcases h with ⟨hp,hf,hx,hy,he⟩
@@ -867,16 +867,16 @@ theorem proof_of_solver_entail_wit_12_5_split_goal_1 : solver_entail_wit_12_5_sp
 theorem proof_of_solver_entail_wit_12_5 : solver_entail_wit_12_5 := by
   unfold solver_entail_wit_12_5
   right
-  intro n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | first | exact (proof_of_solver_entail_wit_12_5_split_goal_1 n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20) | (dump_pre_spatial; exact (proof_of_solver_entail_wit_12_5_split_goal_1 n_pre values oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20))
+      | first | exact (proof_of_solver_entail_wit_12_5_split_goal_1 values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20) | (dump_pre_spatial; exact (proof_of_solver_entail_wit_12_5_split_goal_1 values n_pre oksuf_values_2 suf_values_2 okpre_values_2 pre_values_2 i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20))
 
 theorem proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1 := by
   unfold solver_return_wit_1_split_goal_1
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   dump_pre_spatial
   right
   refine ⟨rfl,?_⟩
@@ -888,7 +888,7 @@ theorem proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_go
 
 theorem proof_of_solver_return_wit_1_split_goal_spatial : solver_return_wit_1_split_goal_spatial := by
   unfold solver_return_wit_1_split_goal_spatial
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   sep_apply (int64Array.full_to_full_shape pre_pre (n_pre+1) pre_values)
   sep_apply (charArray.full_to_full_shape okpre_pre (n_pre+1) okpre_values)
   sep_apply (int64Array.seg_to_seg_shape suf_pre 1 (n_pre+2) suf_values)
@@ -903,16 +903,16 @@ theorem proof_of_solver_return_wit_1_split_goal_spatial : solver_return_wit_1_sp
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   unfold solver_return_wit_1
   right
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   split_pure_spatial
-  · exact proof_of_solver_return_wit_1_split_goal_spatial oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  · exact proof_of_solver_return_wit_1_split_goal_spatial values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   · split_pures
     all_goals first
-      | first | exact (proof_of_solver_return_wit_1_split_goal_1 oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16) | (dump_pre_spatial; exact (proof_of_solver_return_wit_1_split_goal_1 oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+      | first | exact (proof_of_solver_return_wit_1_split_goal_1 values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16) | (dump_pre_spatial; exact (proof_of_solver_return_wit_1_split_goal_1 values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
 
 theorem proof_of_solver_return_wit_2_split_goal_1 : solver_return_wit_2_split_goal_1 := by
   unfold solver_return_wit_2_split_goal_1
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   dump_pre_spatial
   have hp : Znth (i-1) okpre_values 0 = 1 := by
     have hb := prefix_residual_flag_boolean values pre_values okpre_values (i-1) PreH17 ⟨by omega,by omega⟩
@@ -932,7 +932,7 @@ theorem proof_of_solver_return_wit_2_split_goal_1 : solver_return_wit_2_split_go
 
 theorem proof_of_solver_return_wit_2_split_goal_spatial : solver_return_wit_2_split_goal_spatial := by
   unfold solver_return_wit_2_split_goal_spatial
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   sep_apply (int64Array.full_to_full_shape pre_pre (n_pre+1) pre_values)
   sep_apply (charArray.full_to_full_shape okpre_pre (n_pre+1) okpre_values)
   sep_apply (int64Array.seg_to_seg_shape suf_pre 1 (n_pre+2) suf_values)
@@ -947,16 +947,16 @@ theorem proof_of_solver_return_wit_2_split_goal_spatial : solver_return_wit_2_sp
 theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
   unfold solver_return_wit_2
   right
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  intro values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   split_pure_spatial
-  · exact proof_of_solver_return_wit_2_split_goal_spatial oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
+  · exact proof_of_solver_return_wit_2_split_goal_spatial values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
   · split_pures
     all_goals first
-      | first | exact (proof_of_solver_return_wit_2_split_goal_1 oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21) | (dump_pre_spatial; exact (proof_of_solver_return_wit_2_split_goal_1 oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21))
+      | first | exact (proof_of_solver_return_wit_2_split_goal_1 values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21) | (dump_pre_spatial; exact (proof_of_solver_return_wit_2_split_goal_1 values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21))
 
 theorem proof_of_solver_return_wit_3_split_goal_1 : solver_return_wit_3_split_goal_1 := by
   unfold solver_return_wit_3_split_goal_1
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   dump_pre_spatial
   have hi : i=0 := by omega
   have hp : Znth n_pre okpre_values 0=1 := by
@@ -973,7 +973,7 @@ theorem proof_of_solver_return_wit_3_split_goal_1 : solver_return_wit_3_split_go
 
 theorem proof_of_solver_return_wit_3_split_goal_spatial : solver_return_wit_3_split_goal_spatial := by
   unfold solver_return_wit_3_split_goal_spatial
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have hi : i=0 := by omega
   rw [hi]
   simp only [Int.zero_add]
@@ -991,11 +991,11 @@ theorem proof_of_solver_return_wit_3_split_goal_spatial : solver_return_wit_3_sp
 theorem proof_of_solver_return_wit_3 : solver_return_wit_3 := by
   unfold solver_return_wit_3
   right
-  intro oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   split_pure_spatial
-  · exact proof_of_solver_return_wit_3_split_goal_spatial oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  · exact proof_of_solver_return_wit_3_split_goal_spatial values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   · split_pures
     all_goals first
-      | first | exact (proof_of_solver_return_wit_3_split_goal_1 oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17) | (dump_pre_spatial; exact (proof_of_solver_return_wit_3_split_goal_1 oksuf_pre okpre_pre suf_pre pre_pre n_pre values oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17))
+      | first | exact (proof_of_solver_return_wit_3_split_goal_1 values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17) | (dump_pre_spatial; exact (proof_of_solver_return_wit_3_split_goal_1 values n_pre pre_pre suf_pre okpre_pre oksuf_pre oksuf_values suf_values okpre_values pre_values i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17))
 
 end SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_proof_manual

@@ -1,62 +1,46 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P091_1063D_candies_for_children_goal.
 From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P091_1063D_candies_for_children_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P091_1063D_candies_for_children_lib.
 Local Open Scope sac.
 
 Lemma proof_of_maxll_return_wit_1_split_goal_1 : maxll_return_wit_1_split_goal_1.
-Proof. LLM_pre_process ltac:(lia || nia || int_auto).
+Proof. LLM_pre_process ltac:(lia || int_auto).
 unfold MaxResult. rewrite Z.max_l by lia. reflexivity. Qed.
 
 Lemma proof_of_maxll_return_wit_1 : maxll_return_wit_1.
 Proof. aggressive_pre_process. Goal_apply proof_of_maxll_return_wit_1_split_goal_1. Qed.
 
 Lemma proof_of_maxll_return_wit_2_split_goal_1 : maxll_return_wit_2_split_goal_1.
-Proof. LLM_pre_process ltac:(lia || nia || int_auto).
+Proof. LLM_pre_process ltac:(lia || int_auto).
 unfold MaxResult. rewrite Z.max_r by lia. reflexivity. Qed.
 
 Lemma proof_of_maxll_return_wit_2 : maxll_return_wit_2.
 Proof. aggressive_pre_process. Goal_apply proof_of_maxll_return_wit_2_split_goal_1. Qed.
 
 Lemma proof_of_minll_return_wit_1_split_goal_1 : minll_return_wit_1_split_goal_1.
-Proof. LLM_pre_process ltac:(lia || nia || int_auto).
+Proof. LLM_pre_process ltac:(lia || int_auto).
 unfold MinResult. rewrite Z.min_l by lia. reflexivity. Qed.
 
 Lemma proof_of_minll_return_wit_1 : minll_return_wit_1.
 Proof. aggressive_pre_process. Goal_apply proof_of_minll_return_wit_1_split_goal_1. Qed.
 
 Lemma proof_of_minll_return_wit_2_split_goal_1 : minll_return_wit_2_split_goal_1.
-Proof. LLM_pre_process ltac:(lia || nia || int_auto).
+Proof. LLM_pre_process ltac:(lia || int_auto).
 unfold MinResult. rewrite Z.min_r by lia. reflexivity. Qed.
 
 Lemma proof_of_minll_return_wit_2 : minll_return_wit_2.
 Proof. aggressive_pre_process. Goal_apply proof_of_minll_return_wit_2_split_goal_1. Qed.
 
 Lemma proof_of_ceildiv_return_wit_1_split_goal_1 : ceildiv_return_wit_1_split_goal_1.
-Proof. LLM_pre_process ltac:(lia || nia || int_auto).
+Proof. LLM_pre_process ltac:(lia || int_auto).
 rewrite Z.quot_div_nonneg by lia.
 pose proof (Z.div_mod (a_pre + b_pre - 1) b_pre ltac:(lia)).
 pose proof (Z.mod_pos_bound (a_pre + b_pre - 1) b_pre ltac:(lia)). nia. Qed.
 
 Lemma proof_of_ceildiv_return_wit_1_split_goal_2 : ceildiv_return_wit_1_split_goal_2.
-Proof. LLM_pre_process ltac:(lia || nia || int_auto).
+Proof. LLM_pre_process ltac:(lia || int_auto).
 rewrite Z.quot_div_nonneg by lia.
 pose proof (Z.div_mod (a_pre + b_pre - 1) b_pre ltac:(lia)).
 pose proof (Z.mod_pos_bound (a_pre + b_pre - 1) b_pre ltac:(lia)). nia. Qed.
@@ -68,7 +52,7 @@ Proof. aggressive_pre_process.
 Qed.
 
 Lemma proof_of_ceildiv_return_wit_2_split_goal_1 : ceildiv_return_wit_2_split_goal_1.
-Proof. LLM_pre_process ltac:(lia || nia || int_auto).
+Proof. LLM_pre_process ltac:(lia || int_auto).
 replace a_pre with (- (- a_pre)) at 2 by lia.
 rewrite Z.quot_opp_l by lia.
 rewrite Z.quot_div_nonneg by lia.
@@ -76,7 +60,7 @@ pose proof (Z.div_mod (- a_pre) b_pre ltac:(lia)).
 pose proof (Z.mod_pos_bound (- a_pre) b_pre ltac:(lia)). nia. Qed.
 
 Lemma proof_of_ceildiv_return_wit_2_split_goal_2 : ceildiv_return_wit_2_split_goal_2.
-Proof. LLM_pre_process ltac:(lia || nia || int_auto).
+Proof. LLM_pre_process ltac:(lia || int_auto).
 replace a_pre with (- (- a_pre)) at 1 by lia.
 rewrite Z.quot_opp_l by lia.
 rewrite Z.quot_div_nonneg by lia.
@@ -91,7 +75,7 @@ Qed.
 
 Lemma proof_of_check_entail_wit_1_1_split_goal_1 : check_entail_wit_1_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hadd : add_pre = 1) by lia.
   subst add_pre.
   assert (Hqpos : 0 < q_pre) by lia.
@@ -167,7 +151,7 @@ Qed.
 
 Lemma proof_of_check_entail_wit_1_1_split_goal_2 : check_entail_wit_1_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold MinResult in PreH1, PreH8.
   subst retval_2; subst retval_3.
   eapply Z.le_trans; [apply Z.le_min_l | apply Z.le_min_l].
@@ -175,7 +159,7 @@ Qed.
 
 Lemma proof_of_check_entail_wit_1_1_split_goal_3 : check_entail_wit_1_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold MaxResult in PreH2, PreH5.
   subst retval; subst retval_5.
   eapply Z.le_trans; [apply Z.le_max_l | apply Z.le_max_l].
@@ -191,7 +175,7 @@ Qed.
 
 Lemma proof_of_check_entail_wit_1_2_split_goal_1 : check_entail_wit_1_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst add_pre.
   assert (Hqpos : 0 < q_pre) by lia.
   unfold MinResult in PreH1, PreH8.
@@ -266,7 +250,7 @@ Qed.
 
 Lemma proof_of_check_entail_wit_1_2_split_goal_2 : check_entail_wit_1_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold MinResult in PreH1, PreH8.
   subst retval_2; subst retval_3.
   eapply Z.le_trans; [apply Z.le_min_l | apply Z.le_min_l].
@@ -274,7 +258,7 @@ Qed.
 
 Lemma proof_of_check_entail_wit_1_2_split_goal_3 : check_entail_wit_1_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold MaxResult in PreH2, PreH5.
   subst retval; subst retval_5.
   eapply Z.le_trans; [apply Z.le_max_l | apply Z.le_max_l].
@@ -290,7 +274,7 @@ Qed.
 
 Lemma proof_of_check_entail_wit_1_3_split_goal_1 : check_entail_wit_1_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst add_pre; subst q_pre.
   unfold MinResult in PreH1.
   unfold MaxResult in PreH2.
@@ -321,7 +305,7 @@ Qed.
 
 Lemma proof_of_check_entail_wit_1_3_split_goal_2 : check_entail_wit_1_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold MinResult in PreH1.
   subst retval_2.
   apply Z.le_min_l.
@@ -329,7 +313,7 @@ Qed.
 
 Lemma proof_of_check_entail_wit_1_3_split_goal_3 : check_entail_wit_1_3_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold MaxResult in PreH2.
   subst retval.
   apply Z.le_max_l.
@@ -345,7 +329,7 @@ Qed.
 
 Lemma proof_of_check_entail_wit_1_4_split_goal_1 : check_entail_wit_1_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (add_pre = 1) by lia.
   subst add_pre; subst q_pre.
   unfold MinResult in PreH1.
@@ -377,7 +361,7 @@ Qed.
 
 Lemma proof_of_check_entail_wit_1_4_split_goal_2 : check_entail_wit_1_4_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold MinResult in PreH1.
   subst retval_2.
   apply Z.le_min_l.
@@ -385,7 +369,7 @@ Qed.
 
 Lemma proof_of_check_entail_wit_1_4_split_goal_3 : check_entail_wit_1_4_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold MaxResult in PreH2.
   subst retval.
   apply Z.le_max_l.
@@ -401,7 +385,7 @@ Qed.
 
 Lemma proof_of_check_return_wit_1_split_goal_1 : check_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst.
   eapply candy_search_block_skip_infeasible__check_qzero_returns; eauto; left; lia.
 Qed.
@@ -414,7 +398,7 @@ Qed.
 
 Lemma proof_of_check_return_wit_2_split_goal_1 : check_return_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst.
   eapply candy_search_block_skip_infeasible__check_qzero_returns; eauto; left; lia.
 Qed.
@@ -427,7 +411,7 @@ Qed.
 
 Lemma proof_of_check_return_wit_3_split_goal_1 : check_return_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst.
   eapply candy_search_block_skip_infeasible__check_qzero_returns; eauto; right; lia.
 Qed.
@@ -440,7 +424,7 @@ Qed.
 
 Lemma proof_of_check_return_wit_4_split_goal_1 : check_return_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst.
   eapply candy_search_block_skip_infeasible__check_qzero_returns; eauto; right; lia.
 Qed.
@@ -453,7 +437,7 @@ Qed.
 
 Lemma proof_of_check_return_wit_5_split_goal_1 : check_return_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply candy_search_block_phase_update__check_block_updates; eauto; lia.
 Qed.
 
@@ -465,7 +449,7 @@ Qed.
 
 Lemma proof_of_check_return_wit_6_split_goal_1 : check_return_wit_6_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply candy_phase_preserve__check_block_updates; eauto.
   intros num Hr Hc.
   match goal with H : CandyFeasibleInterval _ _ _ _ _ _ _ _ _ |- _ =>
@@ -481,7 +465,7 @@ Qed.
 
 Lemma proof_of_check_return_wit_7_split_goal_1 : check_return_wit_7_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   eapply candy_phase_preserve__check_block_updates; eauto.
   intros num Hr Hc.
   match goal with H : CandyFeasibleInterval _ _ _ _ _ _ _ _ _ |- _ =>
@@ -497,13 +481,13 @@ Qed.
 
 Lemma proof_of_check_partial_solve_wit_1_pure_split_goal_1 : check_partial_solve_wit_1_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial. apply Z.quot_le_lower_bound; lia.
 Qed.
 
 Lemma proof_of_check_partial_solve_wit_1_pure_split_goal_2 : check_partial_solve_wit_1_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial. apply Z.quot_le_upper_bound; lia.
 Qed.
 
@@ -516,25 +500,25 @@ Qed.
 
 Lemma proof_of_check_partial_solve_wit_2_pure_split_goal_1 : check_partial_solve_wit_2_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial. apply Z.quot_le_lower_bound; lia.
 Qed.
 
 Lemma proof_of_check_partial_solve_wit_2_pure_split_goal_2 : check_partial_solve_wit_2_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial. apply Z.quot_le_upper_bound; lia.
 Qed.
 
 Lemma proof_of_check_partial_solve_wit_2_pure_split_goal_3 : check_partial_solve_wit_2_pure_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial. apply Z.quot_le_upper_bound; lia.
 Qed.
 
 Lemma proof_of_check_partial_solve_wit_2_pure_split_goal_4 : check_partial_solve_wit_2_pure_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial. apply Z.quot_le_lower_bound; lia.
 Qed.
 
@@ -767,7 +751,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_5_split_goal_1 : solver_safety_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (Z.rem_bound_pos ((r_pre - l_pre) + n_pre) n_pre ltac:(lia) ltac:(lia)).
   cancel.
   dump_pre_spatial.
@@ -776,7 +760,7 @@ Qed.
 
 Lemma proof_of_solver_safety_wit_5_split_goal_2 : solver_safety_wit_5_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (Z.rem_bound_pos ((r_pre - l_pre) + n_pre) n_pre ltac:(lia) ltac:(lia)).
   cancel.
   dump_pre_spatial.
@@ -792,7 +776,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_1 : solver_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold CandySearchPrefix, MaxMin.max_value_of_subset_with_default.
   right.
   split; [| reflexivity].
@@ -803,14 +787,14 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_2 : solver_entail_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (Z.rem_bound_pos ((r_pre - l_pre) + n_pre) n_pre ltac:(lia) ltac:(lia)).
   lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_1_split_goal_3 : solver_entail_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (Z.rem_bound_pos ((r_pre - l_pre) + n_pre) n_pre ltac:(lia) ltac:(lia)).
   lia.
 Qed.
@@ -825,7 +809,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_1_split_goal_1 : solver_entail_wit_2_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite <- PreH4.
   apply candy_prefix_to_phase0_block__solver_quotient_routes.
   exact PreH20.
@@ -833,7 +817,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_1_split_goal_2 : solver_entail_wit_2_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst z.
   rewrite Z.quot_div_nonneg in PreH2 by lia.
   assert (Hqnonneg : 0 <= (k_pre - 1) / cur) by
@@ -855,14 +839,14 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_1_split_goal_3 : solver_entail_wit_2_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.quot_div_nonneg by lia.
   apply Z.div_le_upper_bound; nia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_2_1_split_goal_4 : solver_entail_wit_2_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.quot_div_nonneg by lia.
   apply Z.div_pos; lia.
 Qed.
@@ -878,7 +862,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_2_split_goal_1 : solver_entail_wit_2_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite <- PreH4.
   apply candy_prefix_to_phase0_block__solver_quotient_routes.
   exact PreH20.
@@ -886,7 +870,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_2_split_goal_2 : solver_entail_wit_2_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst z.
   rewrite Z.quot_div_nonneg in PreH2 by lia.
   assert (Hqnonneg : 0 <= (k_pre - 1) / cur) by
@@ -907,21 +891,21 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_2_split_goal_3 : solver_entail_wit_2_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.quot_div_nonneg by lia.
   apply Z.div_le_upper_bound; nia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_2_2_split_goal_4 : solver_entail_wit_2_2_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite Z.quot_div_nonneg by lia.
   apply Z.div_pos; lia.
 Qed.
 
 Lemma proof_of_solver_entail_wit_2_2_split_goal_5 : solver_entail_wit_2_2_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst z.
   rewrite Z.quot_div_nonneg in PreH2 by lia.
   assert (Hqnonneg : 0 <= (k_pre - 1) / cur) by
@@ -948,7 +932,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_3_split_goal_1 : solver_entail_wit_2_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite <- PreH4.
   apply candy_prefix_to_phase0_block__solver_quotient_routes.
   exact PreH20.
@@ -956,7 +940,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_2_3_split_goal_2 : solver_entail_wit_2_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst z.
   rewrite Z.quot_div_nonneg in PreH2 by lia.
   rewrite Z.quot_div_nonneg by lia.
@@ -973,7 +957,7 @@ Qed.
 
 Lemma proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst x.
   eapply candy_phase2_block_to_prefix__solver_init_close; eauto.
 Qed.
@@ -986,7 +970,7 @@ Qed.
 
 Lemma proof_of_solver_return_wit_1_split_goal_1 : solver_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst R.
   eapply candy_max_transport__solver_final_semantics.
   - lia.

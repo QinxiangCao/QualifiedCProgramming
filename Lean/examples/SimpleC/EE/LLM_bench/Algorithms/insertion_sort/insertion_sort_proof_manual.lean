@@ -17,7 +17,7 @@ open insertion_sort_lib
 theorem proof_of_sortArray_entail_wit_1 : sortArray_entail_wit_1 := by
   unfold sortArray_entail_wit_1
   right
-  intro numsSize_pre l PreH1 PreH2 PreH3
+  intro l numsSize_pre PreH1 PreH2 PreH3
   cases l with
   | nil => simp [Zlength] at PreH1; omega
   | cons z tail =>
@@ -35,7 +35,7 @@ theorem proof_of_sortArray_entail_wit_1 : sortArray_entail_wit_1 := by
 theorem proof_of_sortArray_entail_wit_2 : sortArray_entail_wit_2 := by
   unfold sortArray_entail_wit_2
   right
-  intro numsSize_pre l i l0_2 l3 l1_2 l2_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro l numsSize_pre i l0_2 l3 l1_2 l2_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have hlen : Zlength l1_2 = Zlength l0_2 := congrArg (fun n : Nat => (n : Int)) PreH10.length_eq
   cases l2_2 with
   | nil => simp only [List.append_nil] at PreH4; have := PreH6; rw [PreH4] at this; omega
@@ -55,7 +55,7 @@ theorem proof_of_sortArray_entail_wit_2 : sortArray_entail_wit_2 := by
 theorem proof_of_sortArray_entail_wit_3 : sortArray_entail_wit_3 := by
   unfold sortArray_entail_wit_3
   right
-  intro numsSize_pre l j l5_2 l2_2 l3_2 l0_2 i l1_2 key l4_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro l numsSize_pre j l5_2 l2_2 l3_2 l0_2 i l1_2 key l4_2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   obtain ⟨pfx, z, heq⟩ := Sorting.exists_snoc_of_pos l2_2 (by omega)
   subst l2_2
   have hj : j = Zlength pfx := by simp only [Zlength_app, Zlength_cons, Zlength_nil] at PreH15; omega
@@ -84,7 +84,7 @@ theorem proof_of_sortArray_entail_wit_3 : sortArray_entail_wit_3 := by
 theorem proof_of_sortArray_entail_wit_4_2 : sortArray_entail_wit_4_2 := by
   unfold sortArray_entail_wit_4_2
   right
-  intro numsSize_pre l j l5 l2_2 l3_2 l0_2 i l1_2 key l4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
+  intro l numsSize_pre j l5 l2_2 l3_2 l0_2 i l1_2 key l4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18
   obtain ⟨pfx, z, heq⟩ := Sorting.exists_snoc_of_pos l2_2 (by omega)
   subst l2_2
   have hj : j = Zlength pfx := by simp only [Zlength_app, Zlength_cons, Zlength_nil] at PreH15; omega
@@ -117,7 +117,7 @@ theorem proof_of_sortArray_entail_wit_4_2 : sortArray_entail_wit_4_2 := by
 theorem proof_of_sortArray_entail_wit_4_1 : sortArray_entail_wit_4_1 := by
   unfold sortArray_entail_wit_4_1
   right
-  intro numsSize_pre l j l5 l2_2 l3_2 l0_2 i l1_2 key l4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+  intro l numsSize_pre j l5 l2_2 l3_2 l0_2 i l1_2 key l4 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
   have hj : j+1 = 0 := by omega
   have hn : l2_2 = [] := by
     have : Zlength l2_2 = 0 := by omega
@@ -144,7 +144,7 @@ theorem proof_of_sortArray_entail_wit_4_1 : sortArray_entail_wit_4_1 := by
 theorem proof_of_sortArray_return_wit_1 : sortArray_return_wit_1 := by
   unfold sortArray_return_wit_1
   right
-  intro numsSize_pre l i l0 l3 l1_2 l2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
+  intro l numsSize_pre i l0 l3 l1_2 l2 PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11
   have hn : l2 = [] := by
     have heq : Zlength l2 = 0 := by
       rw [PreH4, Zlength_app] at PreH6

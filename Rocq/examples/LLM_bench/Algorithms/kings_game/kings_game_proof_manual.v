@@ -1,21 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.kings_game Require Import kings_game_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.kings_game.kings_game_lib.
 Local Open Scope sac.
@@ -170,16 +154,16 @@ Qed.
 Lemma proof_of_kings_game_entail_wit_2 : kings_game_entail_wit_2.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_kings_game_entail_wit_2_split_goal_1.
+  - Goal_apply proof_of_kings_game_entail_wit_2_split_goal_1.
 Qed. 
 
 Lemma proof_of_kings_game_entail_wit_3 : kings_game_entail_wit_3.
 Proof.
-  right.
-  intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (ReusePreH11 : (MinisterHandsBound input )).
   { apply (proj2 (minister_hands_explicit _)); repeat split; assumption. }
   replace k with (2 * n_pre) in * by lia.
+  rewrite (IntArray.undef_seg_empty ans_pre (2 * n_pre)).
   Exists input_flat input.
   split_pure_spatial.
   - rewrite sublist_self by lia.
@@ -339,4 +323,3 @@ Proof.
       * eapply bubble_outer_final_sorted__greedy_optimum; eauto.
       * exact PreH22.
 Qed. 
-

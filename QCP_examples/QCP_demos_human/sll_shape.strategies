@@ -35,12 +35,12 @@ id : 8
 priority : core(6)
 left : listrep(?p : Z) at 0
        (p != NULL || NULL != p) at 1
-right : (store(field_addr(p, list, data), I32, ?q : Z) || store(field_addr(p, list, next), PTR(struct list), ?q : Z)) at 2
+right : (store(field_addr(p, list, data), I32, ?q : Z) || store(field_addr(p, list, next), PTR, ?q : Z)) at 2
 action : left_erase(0);
          left_exist_add(x : Z);
          left_exist_add(y : Z);
          left_add(store(field_addr(p, list, data), I32, x));
-         left_add(store(field_addr(p, list, next), PTR(struct list), y));
+         left_add(store(field_addr(p, list, next), PTR, y));
          left_add(listrep(y));
  
 id : 9
@@ -51,7 +51,7 @@ action : right_erase(1);
          right_exist_add(x : Z);
          right_exist_add(y : Z);
          right_add(store(field_addr(p, list, data), I32, x));
-         right_add(store(field_addr(p, list, next), PTR(struct list), y));
+         right_add(store(field_addr(p, list, next), PTR, y));
          right_add(listrep(y));
 
 id : 10
@@ -64,14 +64,14 @@ action: left_erase(0);
 
 id : 11
 priority : core(4)
-left : (store(field_addr(?p, list, data), I32, ?q : Z) || store(field_addr(?p, list, next), PTR(struct list), ?q : Z)) at 0
+left : (store(field_addr(?p, list, data), I32, ?q : Z) || store(field_addr(?p, list, next), PTR, ?q : Z)) at 0
        (p != NULL || NULL != p) at 1
 right : listrep(p) at 2
 action : right_erase(2);
          right_exist_add(x : Z);
          right_exist_add(y : Z);
          right_add(store(field_addr(p, list, data), I32, x));
-         right_add(store(field_addr(p, list, next), PTR(struct list), y));
+         right_add(store(field_addr(p, list, next), PTR, y));
          right_add(listrep(y));
 
 id : 14
@@ -83,13 +83,13 @@ action : right_erase(0);
 id : 15
 priority : core(0)
 right : lseg(?p : Z, p) at 0
-        (store(field_addr(p, list, data), I32, ?q : Z) || store(field_addr(p, list, next), PTR(struct list), ?q : Z)) at 1
+        (store(field_addr(p, list, data), I32, ?q : Z) || store(field_addr(p, list, next), PTR, ?q : Z)) at 1
 action : right_erase(0);
 
 id : 16
 priority : core(3)
 left : lseg(?p : Z, ?q) at 0
-        store(field_addr(q, list, next), PTR(struct list), ?z : Z) at 1
+        store(field_addr(q, list, next), PTR, ?z : Z) at 1
         (q != NULL || NULL != q) at 2
 right : lseg(p, z) at 3
 action : left_erase(0);
@@ -100,14 +100,14 @@ action : left_erase(0);
 
 id : 17
 priority : core(4)
-left : store(field_addr(?p, list, next), PTR(struct list), ?q : Z) at 0
+left : store(field_addr(?p, list, next), PTR, ?q : Z) at 0
        (p != NULL || NULL != p) at 1
 right : lseg(p, ?z) at 2
 action : right_erase(2);
          right_exist_add(x : Z);
          right_exist_add(y : Z);
          right_add(store(field_addr(p, list, data), I32, x));
-         right_add(store(field_addr(p, list, next), PTR(struct list), y));
+         right_add(store(field_addr(p, list, next), PTR, y));
          right_add(lseg(y, z));
 
 id : 18

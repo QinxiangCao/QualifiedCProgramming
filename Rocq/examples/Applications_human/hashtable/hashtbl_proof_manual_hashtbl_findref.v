@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.Applications_human.hashtable Require Import hashtbl_goal.
 From SimpleC.EE.Applications_human.hashtable Require Import hashtbl_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.hashtable.hashtbl_lib.
 Local Open Scope sac.
@@ -50,8 +34,7 @@ Proof.
   simpl app.
   simpl sllbseg.
   split_pure_spatial.
-  - change (sizeof(PTR)) with ptr_size_Z.
-    normalize; repeat cancel.
+  - normalize; repeat cancel.
   - split_pures.
     all: dump_pre_spatial.
     all: try assumption.
@@ -141,7 +124,6 @@ Proof.
     (sllbseg_slot_null__findref_results
       (h_bucks + ind * sizeof(PTR)) i l_prev).
   Intros bucket_head.
-  change (sizeof(PTR)) with ptr_size_Z.
   sep_apply_l_atomic
     (PtrArray.missing_i_merge_to_full
       h_bucks ind 211 bucket_head lh ltac:(lia)).
@@ -487,9 +469,7 @@ Proof.
     subst i.
     subst i_v.
     split_pure_spatial.
-    + change (sizeof(PTR)) with ptr_size_Z.
-      change Arch32.ptr_size_Z with ptr_size_Z.
-      normalize.
+    + normalize.
       repeat cancel.
     + split_pures.
       * dump_pre_spatial.
@@ -506,9 +486,7 @@ Proof.
     Intros_p Hhead_nonnull.
     Exists head l_prevres.
     split_pure_spatial.
-    + change (sizeof(PTR)) with ptr_size_Z.
-      change Arch32.ptr_size_Z with ptr_size_Z.
-      normalize.
+    + normalize.
       repeat cancel.
     + split_pures.
       * dump_pre_spatial.

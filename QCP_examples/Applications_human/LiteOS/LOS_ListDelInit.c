@@ -156,5 +156,5 @@ static inline void LOS_ListDelInit(LOS_DL_LIST *list)
 {
     list->pstNext->pstPrev = list->pstPrev;
     list->pstPrev->pstNext = list->pstNext;
-    LOS_ListInit(list) /*@ where storeA1 = storeA; A = A*/;
+    LOS_ListInit(list) /*@ where {A = A} storeA1 = storeA */;
 }

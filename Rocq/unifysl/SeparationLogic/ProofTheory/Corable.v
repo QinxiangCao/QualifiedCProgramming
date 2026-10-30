@@ -1,5 +1,6 @@
 Require Import Logic.lib.Coqlib.
 Require Import Logic.GeneralLogic.Base.
+Require Import Logic.GeneralLogic.ProofTheory.BasicLogicEquiv.
 Require Import Logic.MinimumLogic.Syntax.
 Require Import Logic.PropositionalLogic.Syntax.
 Require Import Logic.MetaLogicInj.Syntax.
@@ -36,22 +37,6 @@ Class Corable_withAxiomatization
     |-- x <--> y -> corable x -> corable y;
   corable_andp_sepcon1: forall x y z,
     corable x -> |-- (x && y) * z <--> x && (y * z);
-}.
-
-Class MinimumCorable
-      (L: Language)
-      {minL: MinimumLanguage L}
-      (Cor: Corable L) := {
-  corable_impp: forall x y,
-    corable x -> corable y -> corable (x --> y);
-}.
-
-Class SepconCorable
-      (L: Language)
-      {sepconL: SepconLanguage L}
-      (Cor: Corable L) := {
-  corable_sepcon: forall x y,
-    corable x -> corable y -> corable (x * y);
 }.
 
 Class CoqPropCorable
@@ -100,6 +85,67 @@ Proof.
   intros.
   rewrite (provable_andp_comm Q).
   apply corable_andp_sepcon1; auto.
+Qed.
+
+Context {GammaD1: Derivable1 L}
+        {GammaD1P: Derivable1FromProvable L Gamma GammaD1}
+        {GammaE: LogicEquiv L}
+        {GammaED1: EquivDerivable1 L GammaD1 GammaE}.
+
+Lemma logic_equiv_corable_andp_sepcon1: forall P Q R,
+  corable P -> (P && Q) * R --||-- P && (Q * R).
+Proof.
+  intros.
+  apply __logic_equiv_derivable1.
+  split.
+  - rewrite __derivable1_provable.
+    apply provables_iffp_elim1.
+    apply corable_andp_sepcon1; auto.
+  - rewrite __derivable1_provable.
+    apply provables_iffp_elim2.
+    apply corable_andp_sepcon1; auto.
+Qed.
+
+Lemma logic_equiv_corable_sepcon_andp2: forall P Q R,
+  corable P -> Q * (R && P) --||-- P && (Q * R).
+Proof.
+  intros.
+  apply __logic_equiv_derivable1.
+  split.
+  - rewrite __derivable1_provable.
+    apply provables_iffp_elim1.
+    apply corable_sepcon_andp2; auto.
+  - rewrite __derivable1_provable.
+    apply provables_iffp_elim2.
+    apply corable_sepcon_andp2; auto.
+Qed.
+
+Lemma logic_equiv_corable_sepcon_andp1: forall P Q R,
+  corable P -> Q * (P && R) --||-- P && (Q * R).
+Proof.
+  intros.
+  apply __logic_equiv_derivable1.
+  split.
+  - rewrite __derivable1_provable.
+    apply provables_iffp_elim1.
+    apply corable_sepcon_andp1; auto.
+  - rewrite __derivable1_provable.
+    apply provables_iffp_elim2.
+    apply corable_sepcon_andp1; auto.
+Qed.
+
+Lemma logic_equiv_corable_andp_sepcon2: forall P Q R,
+  corable P -> (Q && P) * R --||-- P && (Q * R).
+Proof.
+  intros.
+  apply __logic_equiv_derivable1.
+  split.
+  - rewrite __derivable1_provable.
+    apply provables_iffp_elim1.
+    apply corable_andp_sepcon2; auto.
+  - rewrite __derivable1_provable.
+    apply provables_iffp_elim2.
+    apply corable_andp_sepcon2; auto.
 Qed.
 
 Context {coq_prop_L: CoqPropLanguage L}

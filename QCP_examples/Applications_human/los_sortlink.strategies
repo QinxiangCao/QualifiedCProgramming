@@ -74,16 +74,16 @@ priority : core(4)
 left : dllseg_shift{?A}(?storeA, ?px, ?py, cons{DL_Node{A}}(Build_DL_Node{A}(?a, ?x), ?l0)) at 0
 action : left_erase(0);
          left_add(storeA(x, a));
-         left_add(store(field_addr(x, LOS_DL_LIST, pstPrev), PTR(struct LOS_DL_LIST), px));
-         left_add(store(field_addr(px, LOS_DL_LIST, pstNext), PTR(struct LOS_DL_LIST), x));
+         left_add(store(field_addr(x, LOS_DL_LIST, pstPrev), PTR, px));
+         left_add(store(field_addr(px, LOS_DL_LIST, pstNext), PTR, x));
          left_add(dllseg_shift{A}(storeA, x, py, l0));
 
 id : 17
 priority : post(1)
 left : dllseg_shift{?A}(?storeA, ?x, ?py, ?l0) at 0
        storeA(x, ?a) at 1
-       store(field_addr(x, LOS_DL_LIST, pstPrev), PTR(struct LOS_DL_LIST), ?px) at 2
-       store(field_addr(px, LOS_DL_LIST, pstNext), PTR(struct LOS_DL_LIST), x) at 3
+       store(field_addr(x, LOS_DL_LIST, pstPrev), PTR, ?px) at 2
+       store(field_addr(px, LOS_DL_LIST, pstNext), PTR, x) at 3
 action : left_erase(0);
          left_erase(1);
          left_erase(2);
@@ -119,8 +119,8 @@ action: right_erase(0);
 id : 21
 priority : core(1)
 left:   field_addr(?rt, SortLinkList, sortLinkNode) == ?h at 0
-        store(field_addr(field_addr(rt, SortLinkList, sortLinkNode), LOS_DL_LIST, pstNext), PTR(struct LOS_DL_LIST), ?px) at 1
-right:  store(field_addr(h, LOS_DL_LIST, pstNext), PTR(struct LOS_DL_LIST), ?v) at 2
+        store(field_addr(field_addr(rt, SortLinkList, sortLinkNode), LOS_DL_LIST, pstNext), PTR, ?px) at 1
+right:  store(field_addr(h, LOS_DL_LIST, pstNext), PTR, ?v) at 2
 action: left_erase(0);
         left_erase(1);
         right_erase(2);
@@ -131,8 +131,8 @@ action: left_erase(0);
 
 id : 22
 priority : core(1)
-left:   store(?sa, PTR(struct SortLinkAttribute), ?sp) at 0
-        store(?la, PTR(struct SortLinkList), ?re) at 1
+left:   store(?sa, PTR, ?sp) at 0
+        store(?la, PTR, ?re) at 1
         dllseg_shift_rev{sortedLinkNode{?A}}(storesortedLinkNode{A}(?storeA), ?h, field_addr(sp, SortLinkAttribute, sortLink), ?l) at 2
 right:  dllseg_shift_rev{sortedLinkNode{A}}(storesortedLinkNode{A}(storeA), field_addr(re, SortLinkList, sortLinkNode), field_addr(sp, SortLinkAttribute, sortLink), l) at 3
 action: right_add(h == field_addr(re, SortLinkList, sortLinkNode));

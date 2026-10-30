@@ -506,10 +506,10 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
         /*@ Given rows1 lens1 flat1 */
         if (pivot > low) {
             quicksort_numbers(numbers, lengths, count, number_width,
-                              low, pivot - 1) /*@ where rows = rows1, lens = lens1, flat = flat1 @mark left_sort */;
-            /*@ Given rows2 from rows1 of left_sort
-                      lens2 from lens1 of left_sort
-                      flat2 from flat1 of left_sort */
+                              low, pivot - 1) /*@ where rows = rows1, lens = lens1, flat = flat1 */;
+            /*@ Given rows2 from rows1
+                      lens2 from lens1
+                      flat2 from flat1 */
             if (pivot < high) {
                 quicksort_numbers(numbers, lengths, count, number_width,
                                   pivot + 1, high) /*@ where rows = rows2, lens = lens2, flat = flat2 */;

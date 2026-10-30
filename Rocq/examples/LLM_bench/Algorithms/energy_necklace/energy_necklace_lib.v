@@ -1,7 +1,7 @@
 Require Import Coq.Lists.List.
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.micromega.Lia.
-Require Import AUXLib.ListLib.
+Require Import AUXLib.ListLib AUXLib.MonotonicList.
 From MaxMinLib Require Import MaxMin Interface.
 
 Import ListNotations.
@@ -14,10 +14,6 @@ Definition EnergyValsDuplicated (beads vals : list Z) (n : Z) : Prop :=
   Zlength vals = 2 * n /\
   (forall i, 0 <= i < n -> Znth i vals 0 = Znth i beads 0) /\
   (forall i, 0 <= i < n -> Znth (n + i) vals 0 = Znth i beads 0).
-
-Definition EnergyLabelsBounded (beads : list Z) (n : Z) : Prop :=
-  Zlength beads = n /\
-  forall i, 0 <= i < n -> 1 <= Znth i beads 0 <= 1000.
 
 Inductive EnergyIntervalPlan (vals : list Z) : Z -> Z -> Z -> Prop :=
   | EnergyIntervalPlan_single :
@@ -62,38 +58,19 @@ Definition EnergyNecklaceAnswer
 Definition EnergyCellIndex (width left right : Z) : Z :=
   left * width + right.
 
-Definition EnergyZeroTable (dp : list Z) (total width : Z) : Prop :=
-  0 <= total /\
-  width = total /\
-  Zlength dp = total * width /\
-  forall idx, 0 <= idx < total * width -> Znth idx dp 0 = 0.
+Definition EnergyLengthsComplete (vals dp : list Z) (width len : Z) : Prop :=
+  forall l left right idx,
+    1 <= l < len -> right = left + l - 1 ->
+    idx = EnergyCellIndex width left right -> 0 <= left ->
+    left + l < Zlength vals ->
+    EnergyIntervalBest vals left right (Znth idx dp 0).
 
-Definition EnergyLenDone
-    (vals dp : list Z) (total width len : Z) : Prop :=
-  0 <= total /\
-  width = total /\
-  Zlength vals = total /\
-  Zlength dp = total * width /\
-  1 <= len /\
-  (forall l left right idx,
-     1 <= l < len ->
-     right = left + l - 1 ->
-     idx = EnergyCellIndex width left right ->
-     0 <= left ->
-     left + l < Zlength vals ->
-     EnergyIntervalBest vals left right (Znth idx dp 0)).
-
-Definition EnergyLeftProgress
-    (vals dp : list Z) (total width len left : Z) : Prop :=
-  EnergyLenDone vals dp total width len /\
-  2 <= len /\
-  0 <= left /\
-  (forall done_left right idx,
-     0 <= done_left < left ->
-     right = done_left + len - 1 ->
-     idx = EnergyCellIndex width done_left right ->
-     done_left + len < Zlength vals ->
-     EnergyIntervalBest vals done_left right (Znth idx dp 0)).
+Definition EnergyLeftComplete (vals dp : list Z) (width len left : Z) : Prop :=
+  forall done_left right idx,
+    0 <= done_left < left -> right = done_left + len - 1 ->
+    idx = EnergyCellIndex width done_left right ->
+    done_left + len < Zlength vals ->
+    EnergyIntervalBest vals done_left right (Znth idx dp 0).
 
 Definition EnergySplitCandidate
     (vals dp : list Z) (width left right split candidate : Z) : Prop :=
@@ -104,25 +81,12 @@ Definition EnergySplitCandidate
     Znth (EnergyCellIndex width (split + 1) right) dp 0 +
     Znth left vals 0 * Znth (split + 1) vals 0 * Znth (right + 1) vals 0.
 
-Definition EnergySplitProgress
-    (vals dp : list Z) (total width len left split best : Z) : Prop :=
-  EnergyLeftProgress vals dp total width len left /\
-  let right := left + len - 1 in
-  2 <= len /\
-  0 <= left /\
-  left + len <= total /\
-  right = left + len - 1 /\
-  left <= split <= right /\
-  0 <= best <= 2100000000 /\
-  ((split = left /\ best = 0) \/
-   (left < split /\
-    max_value_of_subset Z.le
-      (fun candidate =>
-         exists k,
-           left <= k < split /\
-           EnergySplitCandidate vals dp width left right k candidate)
-      (fun candidate => candidate)
-      best)).
+Definition EnergySplitBest (vals dp : list Z) (width len left split best : Z) : Prop :=
+  (split = left /\ best = 0) \/
+  (left < split /\ max_value_of_subset Z.le
+    (fun candidate => exists k, left <= k < split /\
+      EnergySplitCandidate vals dp width left (left + len - 1) k candidate)
+    (fun candidate => candidate) best).
 
 Definition EnergyUpdatedCell
     (vals old_dp new_dp : list Z) (width left right value : Z) : Prop :=
@@ -130,22 +94,12 @@ Definition EnergyUpdatedCell
   new_dp = replace_Znth (EnergyCellIndex width left right) value old_dp /\
   EnergyIntervalBest vals left right value.
 
-Definition EnergyAnswerProgress
-    (beads vals dp : list Z) (n total width start answer : Z) : Prop :=
-  EnergyValsDuplicated beads vals n /\
-  Zlength dp = total * width /\
-  width = total /\
-  0 <= start <= n /\
-  0 <= answer <= 2100000000 /\
-  ((start = 0 /\ answer = 0) \/
-   (0 < start /\
-    max_value_of_subset Z.le
-      (fun value =>
-         exists s,
-           0 <= s < start /\
-           EnergyIntervalBest vals s (s + n - 1) value)
-      (fun value => value)
-      answer)).
+Definition EnergyAnswerBest (vals : list Z) (n start answer : Z) : Prop :=
+  (start = 0 /\ answer = 0) \/
+  (0 < start /\ max_value_of_subset Z.le
+    (fun value => exists s, 0 <= s < start /\
+      EnergyIntervalBest vals s (s + n - 1) value)
+    (fun value => value) answer).
 
 Definition EnergySplitArithmeticBounded
     (vals dp : list Z) (width left right split bound : Z) : Prop :=
@@ -171,7 +125,8 @@ Definition EnergyComputationBounded
      right = left + len - 1 ->
      left <= split < right ->
      Zlength dp = total * width ->
-     EnergyLenDone vals dp total width len ->
+     (0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= len /\
+       EnergyLengthsComplete vals dp width len) ->
      EnergySplitArithmeticBounded vals dp width left right split bound) /\
   (forall vals left right answer,
      EnergyValsDuplicated beads vals n ->
@@ -187,22 +142,23 @@ Definition EnergyComputationBounded
      width = total ->
      0 <= start < n ->
      Zlength dp = total * width ->
-     EnergyLenDone vals dp total width (n + 1) ->
+     (0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= (n + 1) /\
+       EnergyLengthsComplete vals dp width (n + 1)) ->
      0 <= Znth (EnergyCellIndex width start (start + n - 1)) dp 0 <= bound).
 
 Require Import Coq.micromega.Psatz.
 Lemma EnergyValsDuplicated_label_bound__arithmetic_safety_bounds :
   forall beads vals n i,
     EnergyValsDuplicated beads vals n ->
-    EnergyLabelsBounded beads n ->
+    (Zlength beads = n /\ Forall (fun value : Z => 1 <= value <= 1000) beads) ->
     0 <= i < 2 * n ->
     1 <= Znth i vals 0 <= 1000.
 Proof.
   intros beads vals n i Hdup Hlabels Hi.
   unfold EnergyValsDuplicated in Hdup.
-  unfold EnergyLabelsBounded in Hlabels.
   destruct Hdup as [Hn [_ [_ [Hfirst Hsecond]]]].
-  destruct Hlabels as [_ Hbounded].
+  destruct Hlabels as [Hlabels_len Hbounded].
+  rewrite (Forall_Znth _ 0 beads), Hlabels_len in Hbounded.
   destruct (Z_lt_ge_dec i n) as [Hi_lt | Hi_ge].
   - rewrite Hfirst by lia.
     apply Hbounded; lia.
@@ -211,7 +167,7 @@ Proof.
     apply Hbounded; lia.
 Qed.
 Lemma EnergySplitArithmeticBounded_from_progress__arithmetic_safety_bounds :
-  forall beads vals dp n total width len left right split best bound,
+  forall beads vals (dp : list Z) n total width len left right split best bound,
     EnergyComputationBounded beads n bound ->
     EnergyValsDuplicated beads vals n ->
     total = 2 * n ->
@@ -221,16 +177,20 @@ Lemma EnergySplitArithmeticBounded_from_progress__arithmetic_safety_bounds :
     right = left + len - 1 ->
     left <= split < right ->
     Zlength dp = total * width ->
-    EnergySplitProgress vals dp total width len left split best ->
+    (((0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= len /\
+      EnergyLengthsComplete vals dp width len) /\ 2 <= len /\ 0 <= left /\ EnergyLeftComplete vals dp width
+      len left) /\ 2 <= len /\ 0 <= left /\ left + len <= total /\ (left + len - 1) = left + len - 1 /\ left
+      <= split <= (left + len - 1) /\ 0 <= best <= 2100000000 /\ EnergySplitBest vals dp width len left split
+      best) ->
     EnergySplitArithmeticBounded vals dp width left right split bound.
 Proof.
   intros beads vals dp n total width len left right split best bound
     Hbounded Hdup Htotal Hwidth Hlen Hleft Hright Hsplit Hdp Hprogress.
   unfold EnergyComputationBounded in Hbounded.
   destruct Hbounded as [_ [Hsplit_bound _]].
-  unfold EnergySplitProgress in Hprogress.
+  unfold EnergySplitBest in Hprogress.
   destruct Hprogress as [Hleft_progress _].
-  unfold EnergyLeftProgress in Hleft_progress.
+  unfold EnergyLeftComplete in Hleft_progress.
   destruct Hleft_progress as [Hlen_done _].
   eapply Hsplit_bound; eauto.
 Qed.
@@ -251,19 +211,20 @@ Qed.
 Lemma EnergyZeroTable_len_done_2__prefix_table_bootstrap :
   forall vals dp total width,
     Zlength vals = total ->
-    EnergyZeroTable dp total width ->
-    EnergyLenDone vals dp total width 2.
+    (0 <= total /\ width = total /\ Zlength dp = total * width /\ Forall (eq 0) dp) ->
+    (0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= 2 /\
+      EnergyLengthsComplete vals dp width 2).
 Proof.
   intros vals dp total width Hvals Hzero.
-  unfold EnergyZeroTable in Hzero.
   destruct Hzero as [Htotal [Hwidth [Hdp Hpoint]]].
-  unfold EnergyLenDone.
+  rewrite (Forall_Znth _ 0 dp), Hdp in Hpoint.
+  unfold EnergyLengthsComplete.
   repeat split; try lia; auto.
   intros l left right idx Hl Hright Hidx Hleft Hrange.
   assert (Hl1 : l = 1) by lia.
   subst l right idx.
   replace (left + 1 - 1) with left by lia.
-  rewrite Hpoint.
+  rewrite <- Hpoint.
   - apply EnergyIntervalBest_single_zero__prefix_table_bootstrap; lia.
   - unfold EnergyCellIndex.
     nia.
@@ -276,18 +237,16 @@ Lemma EnergyZeroTable_from_prefix__prefix_table_bootstrap :
     i <= total * width ->
     Zlength dp = i ->
     (forall k, 0 <= k < i -> Znth k dp 0 = 0) ->
-    EnergyZeroTable dp total width.
+    (0 <= total /\ width = total /\ Zlength dp = total * width /\ Forall (eq 0) dp).
 Proof.
   intros dp total width i Htotal Hwidth Hge Hle Hlen Hpoint.
-  unfold EnergyZeroTable.
   repeat split.
   - exact Htotal.
   - exact Hwidth.
   - rewrite Hlen.
     lia.
-  - intros idx Hidx.
-    apply Hpoint.
-    lia.
+  - apply (proj2 (Forall_Znth _ 0 dp)). intros idx Hidx.
+    symmetry. apply Hpoint. lia.
 Qed.
 Lemma EnergySplitCandidate_ext_eq__dp_interval_progress :
   forall vals dp width left right split candidate1 candidate2,
@@ -303,16 +262,24 @@ Lemma EnergySplitProgress_step_keep__dp_interval_progress :
   forall vals dp total width len left right split best candidate,
     right = left + len - 1 ->
     left <= split < right ->
-    EnergySplitProgress vals dp total width len left split best ->
+    (((0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= len /\
+      EnergyLengthsComplete vals dp width len) /\ 2 <= len /\ 0 <= left /\ EnergyLeftComplete vals dp width
+      len left) /\ 2 <= len /\ 0 <= left /\ left + len <= total /\ (left + len - 1) = left + len - 1 /\ left
+      <= split <= (left + len - 1) /\ 0 <= best <= 2100000000 /\ EnergySplitBest vals dp width len left split
+      best) ->
     EnergySplitCandidate vals dp width left right split candidate ->
     0 <= candidate ->
     candidate <= best ->
-    EnergySplitProgress vals dp total width len left (split + 1) best.
+    (((0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= len /\
+      EnergyLengthsComplete vals dp width len) /\ 2 <= len /\ 0 <= left /\ EnergyLeftComplete vals dp width
+      len left) /\ 2 <= len /\ 0 <= left /\ left + len <= total /\ (left + len - 1) = left + len - 1 /\ left
+      <= (split + 1) <= (left + len - 1) /\ 0 <= best <= 2100000000 /\ EnergySplitBest vals dp width len left
+      (split + 1) best).
 Proof.
   intros vals dp total width len left right split best candidate
          Hright Hsplit_range Hprog Hcand Hcand_nonneg Hcand_le.
   subst right.
-  unfold EnergySplitProgress in *.
+  unfold EnergySplitBest in *.
   destruct Hprog as
     (Hleft_prog & Hlen2 & Hleft0 & Hleft_total & Hright_old &
      Hsplit_old & Hbest_bounds & Hcase).
@@ -361,16 +328,24 @@ Lemma EnergySplitProgress_step_take__dp_interval_progress :
   forall vals dp total width len left right split best candidate,
     right = left + len - 1 ->
     left <= split < right ->
-    EnergySplitProgress vals dp total width len left split best ->
+    (((0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= len /\
+      EnergyLengthsComplete vals dp width len) /\ 2 <= len /\ 0 <= left /\ EnergyLeftComplete vals dp width
+      len left) /\ 2 <= len /\ 0 <= left /\ left + len <= total /\ (left + len - 1) = left + len - 1 /\ left
+      <= split <= (left + len - 1) /\ 0 <= best <= 2100000000 /\ EnergySplitBest vals dp width len left split
+      best) ->
     EnergySplitCandidate vals dp width left right split candidate ->
     0 <= candidate <= 2100000000 ->
     best < candidate ->
-    EnergySplitProgress vals dp total width len left (split + 1) candidate.
+    (((0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= len /\
+      EnergyLengthsComplete vals dp width len) /\ 2 <= len /\ 0 <= left /\ EnergyLeftComplete vals dp width
+      len left) /\ 2 <= len /\ 0 <= left /\ left + len <= total /\ (left + len - 1) = left + len - 1 /\ left
+      <= (split + 1) <= (left + len - 1) /\ 0 <= candidate <= 2100000000 /\ EnergySplitBest vals dp width len
+      left (split + 1) candidate).
 Proof.
   intros vals dp total width len left right split best candidate
          Hright Hsplit_range Hprog Hcand Hcand_bound Hbest_lt.
   subst right.
-  unfold EnergySplitProgress in *.
+  unfold EnergySplitBest in *.
   destruct Hprog as
     (Hleft_prog & Hlen2 & Hleft0 & Hleft_total & Hright_old &
      Hsplit_old & Hbest_bounds & Hcase).
@@ -413,7 +388,8 @@ Proof.
 Qed.
 Lemma EnergySplitCandidate_plan__dp_interval_progress :
   forall vals dp total width len left right split candidate,
-    EnergyLenDone vals dp total width len ->
+    (0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= len /\
+      EnergyLengthsComplete vals dp width len) ->
     right = left + len - 1 ->
     0 <= left ->
     left <= split < right ->
@@ -423,7 +399,7 @@ Lemma EnergySplitCandidate_plan__dp_interval_progress :
 Proof.
   intros vals dp total width len left right split candidate
          Hdone Hright Hleft_nonneg Hsplit Hright_bound Hcand.
-  unfold EnergyLenDone in Hdone.
+  unfold EnergyLengthsComplete in Hdone.
   destruct Hdone as
     (Htotal_nonneg & Hwidth & Hvals_len & Hdp_len & Hlen_pos & Hdone).
   unfold EnergySplitCandidate, EnergyCellIndex in Hcand.
@@ -469,13 +445,17 @@ Lemma EnergySplitProgress_finish_interval_best__dp_interval_progress :
     right = left + len - 1 ->
     split >= right ->
     right + 1 < Zlength vals ->
-    EnergySplitProgress vals dp total width len left split best ->
+    (((0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= len /\
+      EnergyLengthsComplete vals dp width len) /\ 2 <= len /\ 0 <= left /\ EnergyLeftComplete vals dp width
+      len left) /\ 2 <= len /\ 0 <= left /\ left + len <= total /\ (left + len - 1) = left + len - 1 /\ left
+      <= split <= (left + len - 1) /\ 0 <= best <= 2100000000 /\ EnergySplitBest vals dp width len left split
+      best) ->
     EnergyIntervalBest vals left right best.
 Proof.
   intros vals dp total width len left right split best
          Hright Hsplit_ge Hright_bound Hprog.
   subst right.
-  unfold EnergySplitProgress in Hprog.
+  unfold EnergySplitBest in Hprog.
   destruct Hprog as
     (Hleft_prog & Hlen2 & Hleft0 & Hleft_total & Hright_eq &
      Hsplit_bounds & Hbest_bounds & Hcase).
@@ -483,9 +463,10 @@ Proof.
   subst split.
   destruct Hcase as [[Hleft_right Hbest_zero] | [_ Hmax]].
   { lia. }
-  assert (Hdone_full : EnergyLenDone vals dp total width len)
-    by (unfold EnergyLeftProgress in Hleft_prog; tauto).
-  unfold EnergyLeftProgress, EnergyLenDone in Hleft_prog.
+  assert (Hdone_full : (0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1
+    <= len /\ EnergyLengthsComplete vals dp width len))
+    by (unfold EnergyLeftComplete in Hleft_prog; tauto).
+  unfold EnergyLeftComplete, EnergyLengthsComplete in Hleft_prog.
   destruct Hleft_prog as
     ((Htotal_nonneg & Hwidth & Hvals_len & Hdp_len & Hlen_pos & Hdone) &
      _ & _ & _).
@@ -573,14 +554,15 @@ Lemma EnergyLenDone_replace_current__dp_interval_progress :
     right = left + len - 1 ->
     0 <= left ->
     left < total - len ->
-    EnergyLenDone vals dp total width len ->
-    EnergyLenDone vals
-      (replace_Znth (EnergyCellIndex width left right) best dp)
-      total width len.
+    (0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= len /\
+      EnergyLengthsComplete vals dp width len) ->
+    (0 <= total /\ width = total /\ Zlength vals = total /\ Zlength (replace_Znth (EnergyCellIndex width left
+      right) best dp) = total * width /\ 1 <= len /\ EnergyLengthsComplete vals (replace_Znth (EnergyCellIndex
+      width left right) best dp) width len).
 Proof.
   intros vals dp total width len left right best
          Hright Hleft Hleft_bound Hdone.
-  unfold EnergyLenDone in *.
+  unfold EnergyLengthsComplete in *.
   destruct Hdone as
     (Htotal_nonneg & Hwidth & Hvals_len & Hdp_len & Hlen_pos & Hdone).
   repeat split; try assumption; try lia.
@@ -605,21 +587,26 @@ Lemma EnergyLeftProgress_step_update__dp_interval_progress :
     right = left + len - 1 ->
     0 <= left ->
     left < total - len ->
-    EnergySplitProgress vals dp total width len left right best ->
+    (((0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= len /\
+      EnergyLengthsComplete vals dp width len) /\ 2 <= len /\ 0 <= left /\ EnergyLeftComplete vals dp width
+      len left) /\ 2 <= len /\ 0 <= left /\ left + len <= total /\ (left + len - 1) = left + len - 1 /\ left
+      <= right <= (left + len - 1) /\ 0 <= best <= 2100000000 /\ EnergySplitBest vals dp width len left right
+      best) ->
     EnergyIntervalBest vals left right best ->
-    EnergyLeftProgress vals
-      (replace_Znth (EnergyCellIndex width left right) best dp)
-      total width len (left + 1).
+    ((0 <= total /\ width = total /\ Zlength vals = total /\ Zlength (replace_Znth (EnergyCellIndex width left
+      right) best dp) = total * width /\ 1 <= len /\ EnergyLengthsComplete vals (replace_Znth (EnergyCellIndex
+      width left right) best dp) width len) /\ 2 <= len /\ 0 <= (left + 1) /\ EnergyLeftComplete vals
+      (replace_Znth (EnergyCellIndex width left right) best dp) width len (left + 1)).
 Proof.
   intros vals dp total width len left right best
          Hright Hleft Hleft_bound Hprog Hbest.
-  unfold EnergySplitProgress in Hprog.
+  unfold EnergySplitBest in Hprog.
   destruct Hprog as
     (Hleft_prog & Hlen2 & Hleft0 & Hleft_total & Hright_eq &
      Hsplit_bounds & Hbest_bounds & Hcase).
-  unfold EnergyLeftProgress in Hleft_prog.
+  unfold EnergyLeftComplete in Hleft_prog.
   destruct Hleft_prog as (Hdone & Hlen2_old & Hleft0_old & Hprev).
-  unfold EnergyLeftProgress.
+  unfold EnergyLeftComplete.
   split.
   - eapply (EnergyLenDone_replace_current__dp_interval_progress
               vals dp total width len left right best);
@@ -638,7 +625,7 @@ Proof.
           rewrite H.
           rewrite Znth_replace_Znth_Same;
             [ exact Hbest
-            | unfold EnergyLenDone in Hdone;
+            | unfold EnergyLengthsComplete in Hdone;
               destruct Hdone as
                 (_ & Hwidth & Hvals_len & Hdp_len & _ & _);
               rewrite Hdp_len;
@@ -647,19 +634,19 @@ Proof.
           specialize (Hprev done_left right0 idx ltac:(lia) Hright0 Hidx Hbound).
           rewrite Znth_replace_Znth_Diff;
             [ exact Hprev
-            | unfold EnergyLenDone in Hdone;
+            | unfold EnergyLengthsComplete in Hdone;
               destruct Hdone as
                 (_ & Hwidth & Hvals_len & Hdp_len & _ & _);
               rewrite Hdp_len;
               unfold EnergyCellIndex; nia
-            | unfold EnergyLenDone in Hdone;
+            | unfold EnergyLengthsComplete in Hdone;
               destruct Hdone as
                 (_ & Hwidth & Hvals_len & Hdp_len & _ & _);
               rewrite Hdp_len;
               unfold EnergyCellIndex in Hidx; nia
             | intro Heq;
               rewrite Hidx in Heq;
-              unfold EnergyLenDone in Hdone;
+              unfold EnergyLengthsComplete in Hdone;
               destruct Hdone as
                 (_ & Hwidth & Hvals_len & Hdp_len & _ & _);
               pose proof
@@ -673,17 +660,20 @@ Lemma EnergyLeftProgress_finish_len__dp_interval_progress :
   forall vals dp total width len left,
     left >= total - len ->
     left <= total - len ->
-    EnergyLeftProgress vals dp total width len left ->
-    EnergyLenDone vals dp total width (len + 1).
+    ((0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= len /\
+      EnergyLengthsComplete vals dp width len) /\ 2 <= len /\ 0 <= left /\ EnergyLeftComplete vals dp width
+      len left) ->
+    (0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= (len + 1) /\
+      EnergyLengthsComplete vals dp width (len + 1)).
 Proof.
   intros vals dp total width len left Hleft_ge Hleft_le Hprog.
   assert (Hleft_eq : left = total - len) by lia.
-  unfold EnergyLeftProgress in Hprog.
+  unfold EnergyLeftComplete in Hprog.
   destruct Hprog as (Hdone_len & Hlen2 & Hleft0 & Hprev).
-  unfold EnergyLenDone in Hdone_len.
+  unfold EnergyLengthsComplete in Hdone_len.
   destruct Hdone_len as
     (Htotal_nonneg & Hwidth & Hvals_len & Hdp_len & Hlen_pos & Hdone).
-  unfold EnergyLenDone.
+  unfold EnergyLengthsComplete.
   repeat split; try assumption; try lia.
   intros l left0 right idx Hl Hright Hidx Hleft0' Hbound.
   destruct (Z_lt_ge_dec l len) as [Hl_old|Hl_new].
@@ -693,20 +683,23 @@ Proof.
     apply (Hprev left0 right idx); try assumption; try lia.
 Qed.
 Lemma EnergyAnswerProgress_answer_bounds__answer_loop :
-  forall beads vals dp n total width start answer,
-    EnergyAnswerProgress beads vals dp n total width start answer ->
+  forall beads vals (dp : list Z) n total width start answer,
+    (EnergyValsDuplicated beads vals n /\ Zlength dp = total * width /\ width = total /\ 0 <= start <= n /\ 0
+      <= answer <= 2100000000 /\ EnergyAnswerBest vals n start answer) ->
     0 <= answer <= 2100000000.
 Proof.
   intros.
-  unfold EnergyAnswerProgress in H.
+  unfold EnergyAnswerBest in H.
   tauto.
 Qed.
 Lemma EnergyLenDone_to_answer_len__answer_loop :
   forall vals dp total width len n,
     len > n ->
     len <= n + 1 ->
-    EnergyLenDone vals dp total width len ->
-    EnergyLenDone vals dp total width (n + 1).
+    (0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= len /\
+      EnergyLengthsComplete vals dp width len) ->
+    (0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= (n + 1) /\
+      EnergyLengthsComplete vals dp width (n + 1)).
 Proof.
   intros.
   replace (n + 1) with len by lia.
@@ -718,12 +711,13 @@ Lemma EnergyLenDone_rotation_cell_best__answer_loop :
     total = 2 * n ->
     width = total ->
     0 <= start < n ->
-    EnergyLenDone vals dp total width (n + 1) ->
+    (0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= (n + 1) /\
+      EnergyLengthsComplete vals dp width (n + 1)) ->
     EnergyIntervalBest vals start (start + n - 1)
       (Znth (EnergyCellIndex width start (start + n - 1)) dp 0).
 Proof.
   intros vals dp total width n start Hn Htotal Hwidth Hstart Hdone.
-  unfold EnergyLenDone in Hdone.
+  unfold EnergyLengthsComplete in Hdone.
   destruct Hdone as [_ [_ [Hvals_len [_ [_ Hdone]]]]].
   eapply Hdone with
     (l := n) (left := start) (right := start + n - 1)
@@ -731,14 +725,15 @@ Proof.
     try reflexivity; try lia.
 Qed.
 Lemma EnergyAnswerCellBounded__answer_loop :
-  forall beads vals dp n total width start,
+  forall beads vals (dp : list Z) n total width start,
     EnergyComputationBounded beads n 2100000000 ->
     EnergyValsDuplicated beads vals n ->
     total = 2 * n ->
     width = total ->
     0 <= start < n ->
     Zlength dp = total * width ->
-    EnergyLenDone vals dp total width (n + 1) ->
+    (0 <= total /\ width = total /\ Zlength vals = total /\ Zlength dp = total * width /\ 1 <= (n + 1) /\
+      EnergyLengthsComplete vals dp width (n + 1)) ->
     0 <= Znth (EnergyCellIndex width start (start + n - 1)) dp 0 <= 2100000000.
 Proof.
   intros beads vals dp n total width start Hbounded Hvals Htotal Hwidth Hstart Hdp Hdone.
@@ -778,17 +773,19 @@ Proof.
     rewrite Hsecond1, Hsecond2; lia.
 Qed.
 Lemma EnergyAnswerProgress_step_keep__answer_loop :
-  forall beads vals dp n total width start answer value,
-    EnergyAnswerProgress beads vals dp n total width start answer ->
+  forall beads vals (dp : list Z) n total width start answer value,
+    (EnergyValsDuplicated beads vals n /\ Zlength dp = total * width /\ width = total /\ 0 <= start <= n /\ 0
+      <= answer <= 2100000000 /\ EnergyAnswerBest vals n start answer) ->
     0 <= start < n ->
     EnergyIntervalBest vals start (start + n - 1) value ->
     0 <= value ->
     value <= answer ->
-    EnergyAnswerProgress beads vals dp n total width (start + 1) answer.
+    (EnergyValsDuplicated beads vals n /\ Zlength dp = total * width /\ width = total /\ 0 <= (start + 1) <= n
+      /\ 0 <= answer <= 2100000000 /\ EnergyAnswerBest vals n (start + 1) answer).
 Proof.
   intros beads vals dp n total width start answer value
     Hprogress Hstart Hbest Hvalue_nonneg Hvalue_le.
-  unfold EnergyAnswerProgress in *.
+  unfold EnergyAnswerBest in *.
   destruct Hprogress as [Hvals [Hdp [Hwidth [Hstart_progress [Hanswer Hcase]]]]].
   split; [exact Hvals|].
   split; [exact Hdp|].
@@ -836,17 +833,19 @@ Proof.
     + exact Ha_eq.
 Qed.
 Lemma EnergyAnswerProgress_step_update__answer_loop :
-  forall beads vals dp n total width start answer value,
-    EnergyAnswerProgress beads vals dp n total width start answer ->
+  forall beads vals (dp : list Z) n total width start answer value,
+    (EnergyValsDuplicated beads vals n /\ Zlength dp = total * width /\ width = total /\ 0 <= start <= n /\ 0
+      <= answer <= 2100000000 /\ EnergyAnswerBest vals n start answer) ->
     0 <= start < n ->
     EnergyIntervalBest vals start (start + n - 1) value ->
     0 <= value <= 2100000000 ->
     answer < value ->
-    EnergyAnswerProgress beads vals dp n total width (start + 1) value.
+    (EnergyValsDuplicated beads vals n /\ Zlength dp = total * width /\ width = total /\ 0 <= (start + 1) <= n
+      /\ 0 <= value <= 2100000000 /\ EnergyAnswerBest vals n (start + 1) value).
 Proof.
   intros beads vals dp n total width start answer value
     Hprogress Hstart Hbest Hvalue_bounds Hanswer_lt.
-  unfold EnergyAnswerProgress in *.
+  unfold EnergyAnswerBest in *.
   destruct Hprogress as [Hvals [Hdp [Hwidth [Hstart_progress [Hanswer Hcase]]]]].
   split; [exact Hvals|].
   split; [exact Hdp|].
@@ -878,15 +877,16 @@ Proof.
   - reflexivity.
 Qed.
 Lemma EnergyAnswerProgress_finish__answer_loop :
-  forall beads vals dp n total width start answer,
+  forall beads vals (dp : list Z) n total width start answer,
     4 <= n ->
-    EnergyAnswerProgress beads vals dp n total width start answer ->
+    (EnergyValsDuplicated beads vals n /\ Zlength dp = total * width /\ width = total /\ 0 <= start <= n /\ 0
+      <= answer <= 2100000000 /\ EnergyAnswerBest vals n start answer) ->
     start >= n ->
     start <= n ->
     EnergyNecklaceAnswer beads n answer.
 Proof.
   intros beads vals dp n total width start answer Hn Hprogress Hge Hle.
-  unfold EnergyAnswerProgress in Hprogress.
+  unfold EnergyAnswerBest in Hprogress.
   destruct Hprogress as [Hvals [_ [_ [Hstart [Hanswer Hcase]]]]].
   assert (start = n) by lia.
   subst start.
@@ -915,34 +915,6 @@ Proof.
   - exact Ha_eq.
 Qed.
 
-(** Public progress predicates contain only mathematical table facts.  The
-    original helper lemmas above remain available for proof reuse. *)
-Definition EnergyLengthsComplete (vals dp : list Z) (width len : Z) : Prop :=
-  forall l left right idx,
-    1 <= l < len -> right = left + l - 1 ->
-    idx = EnergyCellIndex width left right -> 0 <= left ->
-    left + l < Zlength vals ->
-    EnergyIntervalBest vals left right (Znth idx dp 0).
-Definition EnergyLeftComplete (vals dp : list Z) (width len left : Z) : Prop :=
-  forall done_left right idx,
-    0 <= done_left < left -> right = done_left + len - 1 ->
-    idx = EnergyCellIndex width done_left right ->
-    done_left + len < Zlength vals ->
-    EnergyIntervalBest vals done_left right (Znth idx dp 0).
-Definition EnergySplitBest (vals dp : list Z) (width len left split best : Z) : Prop :=
-  (split = left /\ best = 0) \/
-  (left < split /\ max_value_of_subset Z.le
-    (fun candidate => exists k, left <= k < split /\
-      EnergySplitCandidate vals dp width left (left + len - 1) k candidate)
-    (fun candidate => candidate) best).
-Definition EnergyAnswerBest (vals : list Z) (n start answer : Z) : Prop :=
-  (start = 0 /\ answer = 0) \/
-  (0 < start /\ max_value_of_subset Z.le
-    (fun value => exists s, 0 <= s < start /\
-      EnergyIntervalBest vals s (s + n - 1) value)
-    (fun value => value) answer).
-
-Require Import AUXLib.MonotonicList.
 
 Lemma EnergyIntervalPlan_nonnegative vals left right energy :
   Forall (Z.le 0) vals ->
@@ -1042,7 +1014,7 @@ Proof.
 Qed.
 
 Lemma EnergyComputationBounded_from_answer_bound beads n bound :
-  1 <= n -> 0 <= bound -> EnergyLabelsBounded beads n ->
+  1 <= n -> 0 <= bound -> (Zlength beads = n /\ Forall (fun value : Z => 1 <= value <= 1000) beads) ->
   (forall vals start energy, EnergyValsDuplicated beads vals n ->
     0 <= start < n -> EnergyIntervalPlan vals start (start + n - 1) energy ->
     energy <= bound) ->
@@ -1087,4 +1059,122 @@ Proof.
         ltac:(lia) eq_refl eq_refl ltac:(lia) ltac:(lia)) as Hbest.
       apply EnergyIntervalBest_plan in Hbest.
       eapply Hplan; eauto; lia.
+Qed.
+
+(* Scratch-array operations and list access. *)
+From SimpleC.SL Require Import Mem SeparationLogic.
+Import naive_C_Rules.
+Local Open Scope sac.
+
+Lemma scratch_full_tail_undef : forall x k cap l,
+  0 <= k <= cap ->
+  IntArray.full x k l ** IntArray.undef_seg x k cap |-- IntArray.undef_full x cap.
+Proof.
+  intros x k cap l Hk.
+  sep_apply (IntArray.full_to_undef_full x k l).
+  sep_apply (IntArray.undef_full_to_undef_seg x k).
+  sep_apply (IntArray.undef_seg_merge_to_undef_full x 0 k cap Hk).
+  replace (x + 0 * sizeof (INT)) with x by lia.
+  replace (cap - 0) with cap by lia. repeat cancel; try reflexivity.
+Qed.
+
+Lemma scratch_undef_full_split : forall x k cap,
+  0 <= k <= cap ->
+  IntArray.undef_full x cap |-- IntArray.undef_full x k ** IntArray.undef_seg x k cap.
+Proof.
+  intros x k cap Hk.
+  sep_apply (IntArray.undef_full_split_to_undef_seg x k cap Hk).
+  sep_apply (IntArray.undef_seg_to_undef_full x 0 k).
+  replace (x + 0 * sizeof (INT)) with x by lia.
+  replace (k - 0) with k by lia. repeat cancel; try reflexivity.
+Qed.
+
+Lemma energy_bounds_reuse beads n :
+  1 <= n -> Zlength beads = n ->
+  Forall (Z.le 1) beads -> Forall (Z.ge 1000) beads ->
+  (forall vals start energy,
+    ((EnergyValsDuplicated beads vals n /\ 0 <= start) /\ start < n) /\
+    EnergyIntervalPlan vals start (start + n - 1) energy -> energy <= 2100000000) ->
+  EnergyComputationBounded beads n 2100000000.
+Proof.
+  intros Hn Hlen Hlo Hhi Hb.
+  apply EnergyComputationBounded_from_answer_bound; try lia.
+  - split; [exact Hlen |].
+    rewrite Forall_forall in Hlo, Hhi |- *.
+    intros value Hin. specialize (Hlo value Hin). specialize (Hhi value Hin). lia.
+  - intros vals start energy Hd Hs Hp. apply (Hb vals start energy). tauto.
+Qed.
+
+Lemma energy_bounds_expand : forall (beads : list Z) (n : Z),
+EnergyComputationBounded beads n 2100000000 ->
+(forall (ev: (@list Z)) , forall (ed: (@list Z)) , forall (et: Z) , forall (ew: Z) , forall (el: Z) , forall
+  (ea: Z) , forall (er: Z) , forall (es: Z) , ((((((((((((((((((EnergyValsDuplicated beads ev n ) /\ (et = (2
+  * n ))) /\ (ew = et)) /\ (2 <= el)) /\ (el <= n)) /\ (0 <= ea)) /\ (ea < (et - el ))) /\ (er = ((ea + el ) -
+  1 ))) /\ (ea <= es)) /\ (es < er)) /\ ((Zlength (ed)) = (et * ew ))) /\ (0 <= et)) /\ (ew = et)) /\
+  ((Zlength (ev)) = et)) /\ ((Zlength (ed)) = (et * ew ))) /\ (1 <= el)) /\ (EnergyLengthsComplete ev ed ew el
+  )) -> ((((((((((0 <= (Znth ((ea * ew ) + es ) ed 0)) /\ ((Znth ((ea * ew ) + es ) ed 0) <= 2100000000)) /\
+  (0 <= (Znth (((es + 1 ) * ew ) + er ) ed 0))) /\ ((Znth (((es + 1 ) * ew ) + er ) ed 0) <= 2100000000)) /\
+  (0 <= (((Znth ea ev 0) * (Znth (es + 1 ) ev 0) ) * (Znth (er + 1 ) ev 0) ))) /\ ((((Znth ea ev 0) * (Znth
+  (es + 1 ) ev 0) ) * (Znth (er + 1 ) ev 0) ) <= 2100000000)) /\ (0 <= ((Znth ((ea * ew ) + es ) ed 0) + (Znth
+  (((es + 1 ) * ew ) + er ) ed 0) ))) /\ (((Znth ((ea * ew ) + es ) ed 0) + (Znth (((es + 1 ) * ew ) + er ) ed
+  0) ) <= 2100000000)) /\ (0 <= (((Znth ((ea * ew ) + es ) ed 0) + (Znth (((es + 1 ) * ew ) + er ) ed 0) ) +
+  (((Znth ea ev 0) * (Znth (es + 1 ) ev 0) ) * (Znth (er + 1 ) ev 0) ) ))) /\ ((((Znth ((ea * ew ) + es ) ed
+  0) + (Znth (((es + 1 ) * ew ) + er ) ed 0) ) + (((Znth ea ev 0) * (Znth (es + 1 ) ev 0) ) * (Znth (er + 1 )
+  ev 0) ) ) <= 2100000000)))) /\
+(forall (ev_2: (@list Z)) , forall (ea_2: Z) , forall (er_2: Z) , forall (ez: Z) , ((((((EnergyValsDuplicated
+  beads ev_2 n ) /\ (0 <= ea_2)) /\ (ea_2 <= er_2)) /\ ((er_2 + 1 ) < (Zlength (ev_2)))) /\
+  (EnergyIntervalBest ev_2 ea_2 er_2 ez )) -> (er_2 - ea_2 + 1 <= n) -> ((0 <= ez) /\ (ez <= 2100000000)))) /\
+(forall (ev_3: (@list Z)) , forall (ed_2: (@list Z)) , forall (et_2: Z) , forall (ew_2: Z) , forall (es_2: Z)
+  , (((((((((((((EnergyValsDuplicated beads ev_3 n ) /\ (et_2 = (2 * n ))) /\ (ew_2 = et_2)) /\ (0 <= es_2))
+  /\ (es_2 < n)) /\ ((Zlength (ed_2)) = (et_2 * ew_2 ))) /\ (0 <= et_2)) /\ (ew_2 = et_2)) /\ ((Zlength
+  (ev_3)) = et_2)) /\ ((Zlength (ed_2)) = (et_2 * ew_2 ))) /\ (1 <= (n + 1 ))) /\ (EnergyLengthsComplete ev_3
+  ed_2 ew_2 (n + 1 ) )) -> ((0 <= (Znth ((((es_2 * ew_2 ) + es_2 ) + n ) - 1 ) ed_2 0)) /\ ((Znth ((((es_2 *
+  ew_2 ) + es_2 ) + n ) - 1 ) ed_2 0) <= 2100000000)))).
+Proof.
+  intros beads n (_ & H1 & H2 & H3). split.
+  - intros vals dp total width len left right split Hargs.
+    repeat match goal with H : _ /\ _ |- _ => destruct H end.
+    specialize (H1 vals dp total width len left right split
+      ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(split; assumption)
+      ltac:(split; assumption) ltac:(assumption) ltac:(split; assumption)
+      ltac:(assumption) ltac:(unfold EnergyLengthsComplete, EnergyLengthsComplete in *; repeat split; assumption)).
+    unfold EnergySplitArithmeticBounded, EnergyCellIndex in H1. tauto.
+  - split.
+    + intros vals left right answer Hargs Hlen. apply (H2 vals left right answer); tauto.
+    + intros vals dp total width start Hargs.
+      repeat match goal with H : _ /\ _ |- _ => destruct H end.
+      specialize (H3 vals dp total width start
+        ltac:(assumption) ltac:(assumption) ltac:(assumption) ltac:(split; assumption)
+        ltac:(assumption) ltac:(unfold EnergyLengthsComplete, EnergyLengthsComplete in *; repeat split; assumption)).
+      unfold EnergyCellIndex in H3.
+      replace (start * width + start + n - 1) with (start * width + (start + n - 1)) by ring.
+      exact H3.
+Qed.
+
+Lemma energy_Forall2_eq : forall (xs ys : list Z), Forall2 eq xs ys <-> xs = ys.
+Proof.
+  intros xs ys. split.
+  - intros H. induction H; subst; f_equal; assumption.
+  - intros H. subst ys. induction xs; constructor; auto.
+Qed.
+
+Lemma energy_segments_agree : forall (xs ys : list Z) lo hi other_lo other_hi,
+  0 <= lo <= hi /\ hi <= Zlength xs ->
+  0 <= other_lo <= other_hi /\ other_hi <= Zlength ys ->
+  hi - lo = other_hi - other_lo ->
+  (Forall2 eq (sublist lo hi xs) (sublist other_lo other_hi ys) <->
+   forall k, 0 <= k < hi - lo ->
+     Znth (lo + k) xs 0 = Znth (other_lo + k) ys 0).
+Proof.
+  intros xs ys lo hi other_lo other_hi Hx Hy Hlength.
+  rewrite energy_Forall2_eq, (list_eq_ext _ _ 0).
+  rewrite !Zlength_sublist by lia. split.
+  - intros [_ H] k Hk. specialize (H k Hk).
+    rewrite !Znth_sublist in H by lia.
+    replace (k + lo) with (lo + k) in H by lia.
+    replace (k + other_lo) with (other_lo + k) in H by lia. exact H.
+  - intros H. split; [lia |]. intros k Hk.
+    rewrite !Znth_sublist by lia.
+    replace (k + lo) with (lo + k) by lia.
+    replace (k + other_lo) with (other_lo + k) by lia. apply H. exact Hk.
 Qed.

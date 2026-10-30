@@ -59,7 +59,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def build_safety_wit_1 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (st0 : (List Int)) (l : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (Forall ((LE.le (α := Int)) ((INT_MIN))) l)) (PreH8 : (Forall ((GE.ge (α := Int)) (INT_MAX)) l)) ,
+  forall (st0 : (List Int)) (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (Forall ((LE.le (α := Int)) ((INT_MIN))) l)) (PreH8 : (Forall ((GE.ge (α := Int)) (INT_MAX)) l)) ,
   ((( &( "idx" ) )) # Int |->_)
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -72,7 +72,7 @@ noncomputable def build_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def build_safety_wit_2 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (idx : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : ((0 : Int) <= idx)) (PreH7 : (idx <= (n_pre * K_pre))) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (idx : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : ((0 : Int) <= idx)) (PreH7 : (idx <= (n_pre * K_pre))) ,
   ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -85,7 +85,7 @@ noncomputable def build_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (n_pre * K_pre)) ”
 
 noncomputable def build_safety_wit_3 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (idx : Int) (PreH1 : (idx < (n_pre * K_pre))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= idx)) (PreH8 : (idx <= (n_pre * K_pre))) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (idx : Int) (PreH1 : (idx < (n_pre * K_pre))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= idx)) (PreH8 : (idx <= (n_pre * K_pre))) ,
   ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -98,7 +98,7 @@ noncomputable def build_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def build_safety_wit_4 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (idx : Int) (PreH1 : (idx < (n_pre * K_pre))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= idx)) (PreH8 : (idx <= (n_pre * K_pre))) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (idx : Int) (PreH1 : (idx < (n_pre * K_pre))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= idx)) (PreH8 : (idx <= (n_pre * K_pre))) ,
   (intArray.full st_pre (n_pre * K_pre) (replace_Znth (idx) ((0 : Int)) (st_l)))
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -111,7 +111,7 @@ noncomputable def build_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (idx + 1)) ”
 
 noncomputable def build_safety_wit_5 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (idx : Int) (PreH1 : (idx >= (n_pre * K_pre))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= idx)) (PreH8 : (idx <= (n_pre * K_pre))) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (idx : Int) (PreH1 : (idx >= (n_pre * K_pre))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= idx)) (PreH8 : (idx <= (n_pre * K_pre))) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -124,7 +124,7 @@ noncomputable def build_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def build_safety_wit_6 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i < n_pre)) (PreH8 : ((0 : Int) <= (i * K_pre))) (PreH9 : ((i * K_pre) < (n_pre * K_pre))) (PreH10 : (STBasePrefix l st_l K_pre n_pre i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i < n_pre)) (PreH8 : ((0 : Int) <= (i * K_pre))) (PreH9 : ((i * K_pre) < (n_pre * K_pre))) (PreH10 : (STBasePrefix l st_l K_pre n_pre i)) ,
   ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -137,7 +137,7 @@ noncomputable def build_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (i * K_pre)) ”
 
 noncomputable def build_safety_wit_7 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i < n_pre)) (PreH8 : ((0 : Int) <= (i * K_pre))) (PreH9 : ((i * K_pre) < (n_pre * K_pre))) (PreH10 : (STBasePrefix l st_l K_pre n_pre i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i < n_pre)) (PreH8 : ((0 : Int) <= (i * K_pre))) (PreH9 : ((i * K_pre) < (n_pre * K_pre))) (PreH10 : (STBasePrefix l st_l K_pre n_pre i)) ,
   (intArray.full st_pre (n_pre * K_pre) (replace_Znth ((i * K_pre)) ((Znth i l (0 : Int))) (st_l)))
   ** (intArray.full arr_pre n_pre l)
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
@@ -150,7 +150,7 @@ noncomputable def build_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def build_safety_wit_8 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l K_pre n_pre i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l K_pre n_pre i)) ,
   ((( &( "half" ) )) # Int |->_)
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -163,7 +163,7 @@ noncomputable def build_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def build_safety_wit_9 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l K_pre n_pre i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l K_pre n_pre i)) ,
   ((( &( "len" ) )) # Int |->_)
   ** ((( &( "half" ) )) # Int |-> (1))
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
@@ -177,7 +177,7 @@ noncomputable def build_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def build_safety_wit_10 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l K_pre n_pre i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l K_pre n_pre i)) ,
   ((( &( "j" ) )) # Int |->_)
   ** ((( &( "len" ) )) # Int |-> (2))
   ** ((( &( "half" ) )) # Int |-> (1))
@@ -192,7 +192,7 @@ noncomputable def build_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def build_safety_wit_11 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (len : Int) (half : Int) (j : Int) (PreH1 : (j < K_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j <= K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (len : Int) (half : Int) (j : Int) (PreH1 : (j < K_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j <= K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -209,7 +209,7 @@ noncomputable def build_safety_wit_11 : Prop :=
 
 noncomputable def build_safety_wit_12 : Prop :=
   (
-forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= n_pre)) (PreH12 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH13 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= n_pre)) (PreH12 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH13 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -225,7 +225,7 @@ forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int
   “ ((INT_MIN) <= (i + len)) ”
 ) \/
 (
-forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= n_pre)) (PreH12 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH13 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= n_pre)) (PreH12 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH13 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -242,7 +242,7 @@ forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int
 )
 
 noncomputable def build_safety_wit_12_split_goal_1 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= n_pre)) (PreH12 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH13 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= n_pre)) (PreH12 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH13 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -257,7 +257,7 @@ noncomputable def build_safety_wit_12_split_goal_1 : Prop :=
   “ ((i + len) <= INT_MAX) ”
 
 noncomputable def build_safety_wit_12_split_goal_2 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= n_pre)) (PreH12 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH13 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : (i <= n_pre)) (PreH12 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH13 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -272,7 +272,7 @@ noncomputable def build_safety_wit_12_split_goal_2 : Prop :=
   “ ((INT_MIN) <= (i + len)) ”
 
 noncomputable def build_safety_wit_13 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "a" ) )) # Int |->_)
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -289,7 +289,7 @@ noncomputable def build_safety_wit_13 : Prop :=
   “ ((INT_MIN) <= (((i * K_pre) + j) - 1)) ”
 
 noncomputable def build_safety_wit_14 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "a" ) )) # Int |->_)
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -306,7 +306,7 @@ noncomputable def build_safety_wit_14 : Prop :=
   “ ((INT_MIN) <= ((i * K_pre) + j)) ”
 
 noncomputable def build_safety_wit_15 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "a" ) )) # Int |->_)
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -323,7 +323,7 @@ noncomputable def build_safety_wit_15 : Prop :=
   “ ((INT_MIN) <= (i * K_pre)) ”
 
 noncomputable def build_safety_wit_16 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "a" ) )) # Int |->_)
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -340,7 +340,7 @@ noncomputable def build_safety_wit_16 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def build_safety_wit_17 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "b" ) )) # Int |->_)
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
   ** ((( &( "a" ) )) # Int |-> ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int))))
@@ -358,7 +358,7 @@ noncomputable def build_safety_wit_17 : Prop :=
   “ ((INT_MIN) <= ((((i + half) * K_pre) + j) - 1)) ”
 
 noncomputable def build_safety_wit_18 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "b" ) )) # Int |->_)
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
   ** ((( &( "a" ) )) # Int |-> ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int))))
@@ -376,7 +376,7 @@ noncomputable def build_safety_wit_18 : Prop :=
   “ ((INT_MIN) <= (((i + half) * K_pre) + j)) ”
 
 noncomputable def build_safety_wit_19 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "b" ) )) # Int |->_)
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
   ** ((( &( "a" ) )) # Int |-> ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int))))
@@ -394,7 +394,7 @@ noncomputable def build_safety_wit_19 : Prop :=
   “ ((INT_MIN) <= ((i + half) * K_pre)) ”
 
 noncomputable def build_safety_wit_20 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "b" ) )) # Int |->_)
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
   ** ((( &( "a" ) )) # Int |-> ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int))))
@@ -412,7 +412,7 @@ noncomputable def build_safety_wit_20 : Prop :=
   “ ((INT_MIN) <= (i + half)) ”
 
 noncomputable def build_safety_wit_21 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "b" ) )) # Int |->_)
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
   ** ((( &( "a" ) )) # Int |-> ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int))))
@@ -430,7 +430,7 @@ noncomputable def build_safety_wit_21 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def build_safety_wit_22 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   (intArray.full st_pre (n_pre * K_pre) st_l)
   ** ((( &( "b" ) )) # Int |-> ((Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int))))
   ** ((( &( "a" ) )) # Int |-> ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int))))
@@ -448,7 +448,7 @@ noncomputable def build_safety_wit_22 : Prop :=
   “ ((INT_MIN) <= ((i * K_pre) + j)) ”
 
 noncomputable def build_safety_wit_23 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   (intArray.full st_pre (n_pre * K_pre) st_l)
   ** ((( &( "b" ) )) # Int |-> ((Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int))))
   ** ((( &( "a" ) )) # Int |-> ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int))))
@@ -466,7 +466,7 @@ noncomputable def build_safety_wit_23 : Prop :=
   “ ((INT_MIN) <= (i * K_pre)) ”
 
 noncomputable def build_safety_wit_24 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   (intArray.full st_pre (n_pre * K_pre) st_l)
   ** ((( &( "b" ) )) # Int |-> ((Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int))))
   ** ((( &( "a" ) )) # Int |-> ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int))))
@@ -484,7 +484,7 @@ noncomputable def build_safety_wit_24 : Prop :=
   “ ((INT_MIN) <= ((i * K_pre) + j)) ”
 
 noncomputable def build_safety_wit_25 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   (intArray.full st_pre (n_pre * K_pre) st_l)
   ** ((( &( "b" ) )) # Int |-> ((Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int))))
   ** ((( &( "a" ) )) # Int |-> ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int))))
@@ -502,7 +502,7 @@ noncomputable def build_safety_wit_25 : Prop :=
   “ ((INT_MIN) <= (i * K_pre)) ”
 
 noncomputable def build_safety_wit_26 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   (intArray.full st_pre (n_pre * K_pre) (replace_Znth (((i * K_pre) + j)) ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int))) (st_l)))
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -518,7 +518,7 @@ noncomputable def build_safety_wit_26 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def build_safety_wit_27 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   (intArray.full st_pre (n_pre * K_pre) (replace_Znth (((i * K_pre) + j)) ((Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int))) (st_l)))
   ** ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -535,7 +535,7 @@ noncomputable def build_safety_wit_27 : Prop :=
 
 noncomputable def build_safety_wit_28 : Prop :=
   (
-forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -550,7 +550,7 @@ forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int
   “ ((INT_MIN) <= (len * 2)) ”
 ) \/
 (
-forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -566,7 +566,7 @@ forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int
 )
 
 noncomputable def build_safety_wit_28_split_goal_1 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -580,7 +580,7 @@ noncomputable def build_safety_wit_28_split_goal_1 : Prop :=
   “ ((len * 2) <= INT_MAX) ”
 
 noncomputable def build_safety_wit_28_split_goal_2 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -594,7 +594,7 @@ noncomputable def build_safety_wit_28_split_goal_2 : Prop :=
   “ ((INT_MIN) <= (len * 2)) ”
 
 noncomputable def build_safety_wit_29 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -609,7 +609,7 @@ noncomputable def build_safety_wit_29 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def build_safety_wit_30 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   ((( &( "arr" ) )) # Ptr |-> (arr_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -624,7 +624,7 @@ noncomputable def build_safety_wit_30 : Prop :=
   “ ((INT_MIN) <= (j + 1)) ”
 
 noncomputable def build_entail_wit_1 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (st0 : (List Int)) (l : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (Forall ((LE.le (α := Int)) ((INT_MIN))) l)) (PreH8 : (Forall ((GE.ge (α := Int)) (INT_MAX)) l)) ,
+  forall (st0 : (List Int)) (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (Forall ((LE.le (α := Int)) ((INT_MIN))) l)) (PreH8 : (Forall ((GE.ge (α := Int)) (INT_MAX)) l)) ,
   (intArray.full arr_pre n_pre l)
   ** (intArray.full st_pre (n_pre * K_pre) st0)
 |--
@@ -640,7 +640,7 @@ noncomputable def build_entail_wit_1 : Prop :=
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
 
 noncomputable def build_entail_wit_2 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (idx : Int) (PreH1 : (idx < (n_pre * K_pre))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= idx)) (PreH8 : (idx <= (n_pre * K_pre))) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l_2 : (List Int)) (idx : Int) (PreH1 : (idx < (n_pre * K_pre))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= idx)) (PreH8 : (idx <= (n_pre * K_pre))) ,
   (intArray.full st_pre (n_pre * K_pre) (replace_Znth (idx) ((0 : Int)) (st_l_2)))
   ** (intArray.full arr_pre n_pre l)
 |--
@@ -657,7 +657,7 @@ noncomputable def build_entail_wit_2 : Prop :=
 
 noncomputable def build_entail_wit_3 : Prop :=
   (
-forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (idx : Int) (PreH1 : (idx >= (n_pre * K_pre))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= idx)) (PreH8 : (idx <= (n_pre * K_pre))) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l_2 : (List Int)) (idx : Int) (PreH1 : (idx >= (n_pre * K_pre))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= idx)) (PreH8 : (idx <= (n_pre * K_pre))) ,
   (intArray.full arr_pre n_pre l)
   ** (intArray.full st_pre (n_pre * K_pre) st_l_2)
 |--
@@ -674,7 +674,7 @@ forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
 ) \/
 (
-forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (idx : Int) (PreH1 : (idx >= (n_pre * K_pre))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= idx)) (PreH8 : (idx <= (n_pre * K_pre))) ,
+forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (idx : Int) (PreH1 : (idx >= (n_pre * K_pre))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= idx)) (PreH8 : (idx <= (n_pre * K_pre))) ,
   TT && emp 
 |--
   “ (STBasePrefix l st_l_2 K_pre n_pre (0 : Int)) ”
@@ -682,12 +682,12 @@ forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (idx :
 )
 
 noncomputable def build_entail_wit_3_split_goal_1 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (idx : Int) (PreH1 : (idx >= (n_pre * K_pre))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= idx)) (PreH8 : (idx <= (n_pre * K_pre))) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (idx : Int) (PreH1 : (idx >= (n_pre * K_pre))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= idx)) (PreH8 : (idx <= (n_pre * K_pre))) ,
   (STBasePrefix l st_l_2 K_pre n_pre (0 : Int))
 
 noncomputable def build_entail_wit_4 : Prop :=
   (
-forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l_2 : (List Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
   (intArray.full arr_pre n_pre l)
   ** (intArray.full st_pre (n_pre * K_pre) st_l_2)
 |--
@@ -706,7 +706,7 @@ forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
 ) \/
 (
-forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
+forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
   TT && emp 
 |--
   “ ((i * K_pre) < (n_pre * K_pre)) ”
@@ -714,12 +714,12 @@ forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : I
 )
 
 noncomputable def build_entail_wit_4_split_goal_1 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
   ((i * K_pre) < (n_pre * K_pre))
 
 noncomputable def build_entail_wit_5 : Prop :=
   (
-forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i < n_pre)) (PreH8 : ((0 : Int) <= (i * K_pre))) (PreH9 : ((i * K_pre) < (n_pre * K_pre))) (PreH10 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l_2 : (List Int)) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i < n_pre)) (PreH8 : ((0 : Int) <= (i * K_pre))) (PreH9 : ((i * K_pre) < (n_pre * K_pre))) (PreH10 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
   (intArray.full st_pre (n_pre * K_pre) (replace_Znth ((i * K_pre)) ((Znth i l (0 : Int))) (st_l_2)))
   ** (intArray.full arr_pre n_pre l)
 |--
@@ -736,7 +736,7 @@ forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
 ) \/
 (
-forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i < n_pre)) (PreH8 : ((0 : Int) <= (i * K_pre))) (PreH9 : ((i * K_pre) < (n_pre * K_pre))) (PreH10 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
+forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i < n_pre)) (PreH8 : ((0 : Int) <= (i * K_pre))) (PreH9 : ((i * K_pre) < (n_pre * K_pre))) (PreH10 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
   TT && emp 
 |--
   “ (STBasePrefix l (replace_Znth ((i * K_pre)) ((Znth i l (0 : Int))) (st_l_2)) K_pre n_pre (i + 1)) ”
@@ -744,12 +744,12 @@ forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : I
 )
 
 noncomputable def build_entail_wit_5_split_goal_1 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i < n_pre)) (PreH8 : ((0 : Int) <= (i * K_pre))) (PreH9 : ((i * K_pre) < (n_pre * K_pre))) (PreH10 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i < n_pre)) (PreH8 : ((0 : Int) <= (i * K_pre))) (PreH9 : ((i * K_pre) < (n_pre * K_pre))) (PreH10 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
   (STBasePrefix l (replace_Znth ((i * K_pre)) ((Znth i l (0 : Int))) (st_l_2)) K_pre n_pre (i + 1))
 
 noncomputable def build_entail_wit_6 : Prop :=
   (
-forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l_2 : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
   (intArray.full arr_pre n_pre l)
   ** (intArray.full st_pre (n_pre * K_pre) st_l_2)
 |--
@@ -768,7 +768,7 @@ forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
 ) \/
 (
-forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
+forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
   TT && emp 
 |--
   “ (STBuiltBeforeLevel l st_l_2 K_pre n_pre 1) ” &&
@@ -778,20 +778,20 @@ forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : I
 )
 
 noncomputable def build_entail_wit_6_split_goal_1 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
   (STBuiltBeforeLevel l st_l_2 K_pre n_pre 1)
 
 noncomputable def build_entail_wit_6_split_goal_2 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
   (2 = (Power2 (1)))
 
 noncomputable def build_entail_wit_6_split_goal_3 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (STBasePrefix l st_l_2 K_pre n_pre i)) ,
   (1 = (Power2 ((1 - 1))))
 
 noncomputable def build_entail_wit_7 : Prop :=
   (
-forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (len : Int) (half : Int) (j : Int) (PreH1 : (j < K_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j <= K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l_2 : (List Int)) (len : Int) (half : Int) (j : Int) (PreH1 : (j < K_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j <= K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) ,
   (intArray.full arr_pre n_pre l)
   ** (intArray.full st_pre (n_pre * K_pre) st_l_2)
 |--
@@ -813,7 +813,7 @@ forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
 ) \/
 (
-forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (len : Int) (half : Int) (j : Int) (PreH1 : (j < K_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j <= K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) ,
+forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (len : Int) (half : Int) (j : Int) (PreH1 : (j < K_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j <= K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) ,
   TT && emp 
 |--
   “ (STLevelPrefix l st_l_2 K_pre n_pre j (0 : Int)) ”
@@ -821,12 +821,12 @@ forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (len :
 )
 
 noncomputable def build_entail_wit_7_split_goal_1 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (len : Int) (half : Int) (j : Int) (PreH1 : (j < K_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j <= K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (len : Int) (half : Int) (j : Int) (PreH1 : (j < K_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j <= K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) ,
   (STLevelPrefix l st_l_2 K_pre n_pre j (0 : Int))
 
 noncomputable def build_entail_wit_8 : Prop :=
   (
-forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   (intArray.full arr_pre n_pre l)
   ** (intArray.full st_pre (n_pre * K_pre) st_l_2)
 |--
@@ -854,7 +854,7 @@ forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
 ) \/
 (
-forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   TT && emp 
 |--
   “ (((i * K_pre) + j) < (n_pre * K_pre)) ” &&
@@ -865,24 +865,24 @@ forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : I
 )
 
 noncomputable def build_entail_wit_8_split_goal_1 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   (((i * K_pre) + j) < (n_pre * K_pre))
 
 noncomputable def build_entail_wit_8_split_goal_2 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))
 
 noncomputable def build_entail_wit_8_split_goal_3 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))
 
 noncomputable def build_entail_wit_8_split_goal_4 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   ((((i * K_pre) + j) - 1) < (n_pre * K_pre))
 
 noncomputable def build_entail_wit_9_1 : Prop :=
   (
-forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   (intArray.full st_pre (n_pre * K_pre) (replace_Znth (((i * K_pre) + j)) ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int))) (st_l_2)))
   ** (intArray.full arr_pre n_pre l)
 |--
@@ -904,7 +904,7 @@ forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
 ) \/
 (
-forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   TT && emp 
 |--
   “ (STLevelPrefix l (replace_Znth (((i * K_pre) + j)) ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int))) (st_l_2)) K_pre n_pre j (i + 1)) ” &&
@@ -914,20 +914,20 @@ forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (j : I
 )
 
 noncomputable def build_entail_wit_9_1_split_goal_1 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   (STLevelPrefix l (replace_Znth (((i * K_pre) + j)) ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int))) (st_l_2)) K_pre n_pre j (i + 1))
 
 noncomputable def build_entail_wit_9_1_split_goal_2 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   (STBuiltBeforeLevel l (replace_Znth (((i * K_pre) + j)) ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int))) (st_l_2)) K_pre n_pre j)
 
 noncomputable def build_entail_wit_9_1_split_goal_3 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   ((i + 1) <= n_pre)
 
 noncomputable def build_entail_wit_9_2 : Prop :=
   (
-forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   (intArray.full st_pre (n_pre * K_pre) (replace_Znth (((i * K_pre) + j)) ((Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int))) (st_l_2)))
   ** (intArray.full arr_pre n_pre l)
 |--
@@ -949,7 +949,7 @@ forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
 ) \/
 (
-forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   TT && emp 
 |--
   “ (STLevelPrefix l (replace_Znth (((i * K_pre) + j)) ((Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int))) (st_l_2)) K_pre n_pre j (i + 1)) ” &&
@@ -959,20 +959,20 @@ forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (j : I
 )
 
 noncomputable def build_entail_wit_9_2_split_goal_1 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   (STLevelPrefix l (replace_Znth (((i * K_pre) + j)) ((Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int))) (st_l_2)) K_pre n_pre j (i + 1))
 
 noncomputable def build_entail_wit_9_2_split_goal_2 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   (STBuiltBeforeLevel l (replace_Znth (((i * K_pre) + j)) ((Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int))) (st_l_2)) K_pre n_pre j)
 
 noncomputable def build_entail_wit_9_2_split_goal_3 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l_2 (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l_2 (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   ((i + 1) <= n_pre)
 
 noncomputable def build_entail_wit_10 : Prop :=
   (
-forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   (intArray.full arr_pre n_pre l)
   ** (intArray.full st_pre (n_pre * K_pre) st_l_2)
 |--
@@ -991,7 +991,7 @@ forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
 ) \/
 (
-forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   TT && emp 
 |--
   “ (STBuiltBeforeLevel l st_l_2 K_pre n_pre (j + 1)) ” &&
@@ -1001,20 +1001,20 @@ forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : I
 )
 
 noncomputable def build_entail_wit_10_split_goal_1 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   (STBuiltBeforeLevel l st_l_2 K_pre n_pre (j + 1))
 
 noncomputable def build_entail_wit_10_split_goal_2 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   ((len * 2) = (Power2 ((j + 1))))
 
 noncomputable def build_entail_wit_10_split_goal_3 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (i : Int) (len : Int) (half : Int) (j : Int) (PreH1 : ((i + len) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) (PreH14 : (STLevelPrefix l st_l_2 K_pre n_pre j i)) ,
   (len = (Power2 (((j + 1) - 1))))
 
 noncomputable def build_return_wit_1 : Prop :=
   (
-forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (len : Int) (half : Int) (j : Int) (PreH1 : (j >= K_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j <= K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) ,
+forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l_2 : (List Int)) (len : Int) (half : Int) (j : Int) (PreH1 : (j >= K_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j <= K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) ,
   (intArray.full arr_pre n_pre l)
   ** (intArray.full st_pre (n_pre * K_pre) st_l_2)
 |--
@@ -1024,7 +1024,7 @@ forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
 ) \/
 (
-forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (len : Int) (half : Int) (j : Int) (PreH1 : (j >= K_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j <= K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) ,
+forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (len : Int) (half : Int) (j : Int) (PreH1 : (j >= K_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j <= K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) ,
   TT && emp 
 |--
   “ (STBuilt l st_l_2 K_pre n_pre) ”
@@ -1032,11 +1032,11 @@ forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (len :
 )
 
 noncomputable def build_return_wit_1_split_goal_1 : Prop :=
-  forall (K_pre : Int) (n_pre : Int) (l : (List Int)) (st_l_2 : (List Int)) (len : Int) (half : Int) (j : Int) (PreH1 : (j >= K_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j <= K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) ,
+  forall (l : (List Int)) (n_pre : Int) (K_pre : Int) (st_l_2 : (List Int)) (len : Int) (half : Int) (j : Int) (PreH1 : (j >= K_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j <= K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j)) ,
   (STBuilt l st_l_2 K_pre n_pre)
 
 noncomputable def build_partial_solve_wit_1 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (idx : Int) (PreH1 : (idx < (n_pre * K_pre))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= idx)) (PreH8 : (idx <= (n_pre * K_pre))) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (idx : Int) (PreH1 : (idx < (n_pre * K_pre))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : ((0 : Int) <= idx)) (PreH8 : (idx <= (n_pre * K_pre))) ,
   (intArray.full arr_pre n_pre l)
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
 |--
@@ -1053,7 +1053,7 @@ noncomputable def build_partial_solve_wit_1 : Prop :=
   ** (intArray.full arr_pre n_pre l)
 
 noncomputable def build_partial_solve_wit_2 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i < n_pre)) (PreH8 : ((0 : Int) <= (i * K_pre))) (PreH9 : ((i * K_pre) < (n_pre * K_pre))) (PreH10 : (STBasePrefix l st_l K_pre n_pre i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i < n_pre)) (PreH8 : ((0 : Int) <= (i * K_pre))) (PreH9 : ((i * K_pre) < (n_pre * K_pre))) (PreH10 : (STBasePrefix l st_l K_pre n_pre i)) ,
   (intArray.full arr_pre n_pre l)
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
 |--
@@ -1072,7 +1072,7 @@ noncomputable def build_partial_solve_wit_2 : Prop :=
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
 
 noncomputable def build_partial_solve_wit_3 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i < n_pre)) (PreH8 : ((0 : Int) <= (i * K_pre))) (PreH9 : ((i * K_pre) < (n_pre * K_pre))) (PreH10 : (STBasePrefix l st_l K_pre n_pre i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i < n_pre)) (PreH8 : ((0 : Int) <= (i * K_pre))) (PreH9 : ((i * K_pre) < (n_pre * K_pre))) (PreH10 : (STBasePrefix l st_l K_pre n_pre i)) ,
   (intArray.full arr_pre n_pre l)
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
 |--
@@ -1091,7 +1091,7 @@ noncomputable def build_partial_solve_wit_3 : Prop :=
   ** (intArray.full arr_pre n_pre l)
 
 noncomputable def build_partial_solve_wit_4 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   (intArray.full arr_pre n_pre l)
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
 |--
@@ -1119,7 +1119,7 @@ noncomputable def build_partial_solve_wit_4 : Prop :=
   ** (intArray.full arr_pre n_pre l)
 
 noncomputable def build_partial_solve_wit_5 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (1 <= j)) (PreH7 : (j < K_pre)) (PreH8 : (half = (Power2 ((j - 1))))) (PreH9 : (len = (Power2 (j)))) (PreH10 : ((0 : Int) <= i)) (PreH11 : ((i + len) <= n_pre)) (PreH12 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH13 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH14 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH15 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH16 : ((0 : Int) <= ((i * K_pre) + j))) (PreH17 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH18 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH19 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   (intArray.full st_pre (n_pre * K_pre) st_l)
   ** (intArray.full arr_pre n_pre l)
 |--
@@ -1147,7 +1147,7 @@ noncomputable def build_partial_solve_wit_5 : Prop :=
   ** (intArray.full arr_pre n_pre l)
 
 noncomputable def build_partial_solve_wit_6 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int)) >= (Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   (intArray.full st_pre (n_pre * K_pre) st_l)
   ** (intArray.full arr_pre n_pre l)
 |--
@@ -1176,7 +1176,7 @@ noncomputable def build_partial_solve_wit_6 : Prop :=
   ** (intArray.full arr_pre n_pre l)
 
 noncomputable def build_partial_solve_wit_7 : Prop :=
-  forall (st_pre : Int) (K_pre : Int) (n_pre : Int) (arr_pre : Int) (l : (List Int)) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
+  forall (l : (List Int)) (arr_pre : Int) (n_pre : Int) (K_pre : Int) (st_pre : Int) (st_l : (List Int)) (j : Int) (half : Int) (len : Int) (i : Int) (PreH1 : ((Znth (((i * K_pre) + j) - 1) st_l (0 : Int)) < (Znth ((((i + half) * K_pre) + j) - 1) st_l (0 : Int)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre) <= 1000000)) (PreH7 : (1 <= j)) (PreH8 : (j < K_pre)) (PreH9 : (half = (Power2 ((j - 1))))) (PreH10 : (len = (Power2 (j)))) (PreH11 : ((0 : Int) <= i)) (PreH12 : ((i + len) <= n_pre)) (PreH13 : ((0 : Int) <= (((i * K_pre) + j) - 1))) (PreH14 : ((((i * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH15 : ((0 : Int) <= ((((i + half) * K_pre) + j) - 1))) (PreH16 : (((((i + half) * K_pre) + j) - 1) < (n_pre * K_pre))) (PreH17 : ((0 : Int) <= ((i * K_pre) + j))) (PreH18 : (((i * K_pre) + j) < (n_pre * K_pre))) (PreH19 : (STBuiltBeforeLevel l st_l K_pre n_pre j)) (PreH20 : (STLevelPrefix l st_l K_pre n_pre j i)) ,
   (intArray.full st_pre (n_pre * K_pre) st_l)
   ** (intArray.full arr_pre n_pre l)
 |--
@@ -1205,7 +1205,7 @@ noncomputable def build_partial_solve_wit_7 : Prop :=
   ** (intArray.full arr_pre n_pre l)
 
 noncomputable def query_safety_wit_1 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "len" ) )) # Int |->_)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -1218,7 +1218,7 @@ noncomputable def query_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= ((right_pre - left_pre) + 1)) ”
 
 noncomputable def query_safety_wit_2 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "len" ) )) # Int |->_)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -1231,7 +1231,7 @@ noncomputable def query_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (right_pre - left_pre)) ”
 
 noncomputable def query_safety_wit_3 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "len" ) )) # Int |->_)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -1244,7 +1244,7 @@ noncomputable def query_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def query_safety_wit_4 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "k" ) )) # Int |->_)
   ** ((( &( "len" ) )) # Int |-> (((right_pre - left_pre) + 1)))
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
@@ -1258,7 +1258,7 @@ noncomputable def query_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def query_safety_wit_5 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "pow" ) )) # Int |->_)
   ** ((( &( "k" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "len" ) )) # Int |-> (((right_pre - left_pre) + 1)))
@@ -1273,7 +1273,7 @@ noncomputable def query_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def query_safety_wit_6 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (pow : Int) (k : Int) (len : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (pow : Int) (k : Int) (len : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -1288,7 +1288,7 @@ noncomputable def query_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (pow * 2)) ”
 
 noncomputable def query_safety_wit_7 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (pow : Int) (k : Int) (len : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (pow : Int) (k : Int) (len : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -1303,7 +1303,7 @@ noncomputable def query_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def query_safety_wit_8 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) <= len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) <= len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -1318,7 +1318,7 @@ noncomputable def query_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (pow * 2)) ”
 
 noncomputable def query_safety_wit_9 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) <= len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) <= len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -1333,7 +1333,7 @@ noncomputable def query_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= 2) ”
 
 noncomputable def query_safety_wit_10 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) <= len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) <= len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
   ** ((( &( "K" ) )) # Int |-> (K_pre))
@@ -1348,7 +1348,7 @@ noncomputable def query_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= (k + 1)) ”
 
 noncomputable def query_safety_wit_11 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "a" ) )) # Int |->_)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -1364,7 +1364,7 @@ noncomputable def query_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= ((left_pre * K_pre) + k)) ”
 
 noncomputable def query_safety_wit_12 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "a" ) )) # Int |->_)
   ** ((( &( "st" ) )) # Ptr |-> (st_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -1380,7 +1380,7 @@ noncomputable def query_safety_wit_12 : Prop :=
   “ ((INT_MIN) <= (left_pre * K_pre)) ”
 
 noncomputable def query_safety_wit_13 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "b" ) )) # Int |->_)
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
   ** ((( &( "a" ) )) # Int |-> ((Znth ((left_pre * K_pre) + k) st_l (0 : Int))))
@@ -1397,7 +1397,7 @@ noncomputable def query_safety_wit_13 : Prop :=
   “ ((INT_MIN) <= ((((right_pre - pow) + 1) * K_pre) + k)) ”
 
 noncomputable def query_safety_wit_14 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "b" ) )) # Int |->_)
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
   ** ((( &( "a" ) )) # Int |-> ((Znth ((left_pre * K_pre) + k) st_l (0 : Int))))
@@ -1414,7 +1414,7 @@ noncomputable def query_safety_wit_14 : Prop :=
   “ ((INT_MIN) <= (((right_pre - pow) + 1) * K_pre)) ”
 
 noncomputable def query_safety_wit_15 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "b" ) )) # Int |->_)
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
   ** ((( &( "a" ) )) # Int |-> ((Znth ((left_pre * K_pre) + k) st_l (0 : Int))))
@@ -1431,7 +1431,7 @@ noncomputable def query_safety_wit_15 : Prop :=
   “ ((INT_MIN) <= ((right_pre - pow) + 1)) ”
 
 noncomputable def query_safety_wit_16 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "b" ) )) # Int |->_)
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
   ** ((( &( "a" ) )) # Int |-> ((Znth ((left_pre * K_pre) + k) st_l (0 : Int))))
@@ -1448,7 +1448,7 @@ noncomputable def query_safety_wit_16 : Prop :=
   “ ((INT_MIN) <= (right_pre - pow)) ”
 
 noncomputable def query_safety_wit_17 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
   ((( &( "b" ) )) # Int |->_)
   ** (intArray.full st_pre (n_pre * K_pre) st_l)
   ** ((( &( "a" ) )) # Int |-> ((Znth ((left_pre * K_pre) + k) st_l (0 : Int))))
@@ -1466,7 +1466,7 @@ noncomputable def query_safety_wit_17 : Prop :=
 
 noncomputable def query_entail_wit_1 : Prop :=
   (
-forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (STBuilt l st_l K_pre n_pre)) ,
+forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (STBuilt l st_l K_pre n_pre)) ,
   (intArray.full st_pre (n_pre * K_pre) st_l)
 |--
   “ (n_pre <= 100000) ” &&
@@ -1487,7 +1487,7 @@ forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : 
   &&  (intArray.full st_pre (n_pre * K_pre) st_l)
 ) \/
 (
-forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (List Int)) (l : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (STBuilt l st_l K_pre n_pre)) ,
+forall (st_l : (List Int)) (l : (List Int)) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (STBuilt l st_l K_pre n_pre)) ,
   TT && emp 
 |--
   “ (1 = (Power2 ((0 : Int)))) ”
@@ -1495,12 +1495,12 @@ forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (L
 )
 
 noncomputable def query_entail_wit_1_split_goal_1 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (List Int)) (l : (List Int)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (STBuilt l st_l K_pre n_pre)) ,
   (1 = (Power2 ((0 : Int))))
 
 noncomputable def query_entail_wit_2 : Prop :=
   (
-forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) <= len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
+forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) <= len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
   (intArray.full st_pre (n_pre * K_pre) st_l)
 |--
   “ (n_pre <= 100000) ” &&
@@ -1521,7 +1521,7 @@ forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : 
   &&  (intArray.full st_pre (n_pre * K_pre) st_l)
 ) \/
 (
-forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (List Int)) (l : (List Int)) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) <= len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
+forall (st_l : (List Int)) (l : (List Int)) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) <= len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
   TT && emp 
 |--
   “ ((pow * 2) = (Power2 ((k + 1)))) ” &&
@@ -1530,16 +1530,16 @@ forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (L
 )
 
 noncomputable def query_entail_wit_2_split_goal_1 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (List Int)) (l : (List Int)) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) <= len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) <= len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
   ((pow * 2) = (Power2 ((k + 1))))
 
 noncomputable def query_entail_wit_2_split_goal_2 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (List Int)) (l : (List Int)) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) <= len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) <= len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
   ((k + 1) < K_pre)
 
 noncomputable def query_entail_wit_3 : Prop :=
   (
-forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) > len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
+forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) > len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
   (intArray.full st_pre (n_pre * K_pre) st_l)
 |--
   “ (n_pre <= 100000) ” &&
@@ -1565,7 +1565,7 @@ forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : 
   &&  (intArray.full st_pre (n_pre * K_pre) st_l)
 ) \/
 (
-forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (List Int)) (l : (List Int)) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) > len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
+forall (st_l : (List Int)) (l : (List Int)) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) > len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
   TT && emp 
 |--
   “ (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre)) ” &&
@@ -1575,27 +1575,27 @@ forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (L
 )
 
 noncomputable def query_entail_wit_3_split_goal_1 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (List Int)) (l : (List Int)) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) > len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) > len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
   (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))
 
 noncomputable def query_entail_wit_3_split_goal_2 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (List Int)) (l : (List Int)) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) > len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) > len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
   ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))
 
 noncomputable def query_entail_wit_3_split_goal_3 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (List Int)) (l : (List Int)) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) > len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (pow : Int) (k : Int) (len : Int) (PreH1 : ((pow * 2) > len)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (STBuilt l st_l K_pre n_pre)) ,
   (((left_pre * K_pre) + k) < (n_pre * K_pre))
 
 noncomputable def query_return_wit_1 : Prop :=
   (
-forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (len : Int) (k : Int) (pow : Int) (PreH1 : ((Znth ((left_pre * K_pre) + k) st_l (0 : Int)) < (Znth ((((right_pre - pow) + 1) * K_pre) + k) st_l (0 : Int)))) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (len < (pow * 2))) (PreH17 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH18 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH19 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH20 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH21 : (STBuilt l st_l K_pre n_pre)) ,
+forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (len : Int) (k : Int) (pow : Int) (PreH1 : ((Znth ((left_pre * K_pre) + k) st_l (0 : Int)) < (Znth ((((right_pre - pow) + 1) * K_pre) + k) st_l (0 : Int)))) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (len < (pow * 2))) (PreH17 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH18 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH19 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH20 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH21 : (STBuilt l st_l K_pre n_pre)) ,
   (intArray.full st_pre (n_pre * K_pre) st_l)
 |--
   “ (RangeMaxValue l left_pre (right_pre + 1) (Znth ((((right_pre - pow) + 1) * K_pre) + k) st_l (0 : Int))) ”
   &&  (intArray.full st_pre (n_pre * K_pre) st_l)
 ) \/
 (
-forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (List Int)) (l : (List Int)) (len : Int) (k : Int) (pow : Int) (PreH1 : ((Znth ((left_pre * K_pre) + k) st_l (0 : Int)) < (Znth ((((right_pre - pow) + 1) * K_pre) + k) st_l (0 : Int)))) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (len < (pow * 2))) (PreH17 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH18 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH19 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH20 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH21 : (STBuilt l st_l K_pre n_pre)) ,
+forall (st_l : (List Int)) (l : (List Int)) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (len : Int) (k : Int) (pow : Int) (PreH1 : ((Znth ((left_pre * K_pre) + k) st_l (0 : Int)) < (Znth ((((right_pre - pow) + 1) * K_pre) + k) st_l (0 : Int)))) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (len < (pow * 2))) (PreH17 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH18 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH19 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH20 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH21 : (STBuilt l st_l K_pre n_pre)) ,
   TT && emp 
 |--
   “ (RangeMaxValue l left_pre (right_pre + 1) (Znth ((((right_pre - pow) + 1) * K_pre) + k) st_l (0 : Int))) ”
@@ -1603,19 +1603,19 @@ forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (L
 )
 
 noncomputable def query_return_wit_1_split_goal_1 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (List Int)) (l : (List Int)) (len : Int) (k : Int) (pow : Int) (PreH1 : ((Znth ((left_pre * K_pre) + k) st_l (0 : Int)) < (Znth ((((right_pre - pow) + 1) * K_pre) + k) st_l (0 : Int)))) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (len < (pow * 2))) (PreH17 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH18 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH19 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH20 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH21 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (len : Int) (k : Int) (pow : Int) (PreH1 : ((Znth ((left_pre * K_pre) + k) st_l (0 : Int)) < (Znth ((((right_pre - pow) + 1) * K_pre) + k) st_l (0 : Int)))) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (len < (pow * 2))) (PreH17 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH18 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH19 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH20 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH21 : (STBuilt l st_l K_pre n_pre)) ,
   (RangeMaxValue l left_pre (right_pre + 1) (Znth ((((right_pre - pow) + 1) * K_pre) + k) st_l (0 : Int)))
 
 noncomputable def query_return_wit_2 : Prop :=
   (
-forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (len : Int) (k : Int) (pow : Int) (PreH1 : ((Znth ((left_pre * K_pre) + k) st_l (0 : Int)) >= (Znth ((((right_pre - pow) + 1) * K_pre) + k) st_l (0 : Int)))) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (len < (pow * 2))) (PreH17 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH18 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH19 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH20 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH21 : (STBuilt l st_l K_pre n_pre)) ,
+forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (len : Int) (k : Int) (pow : Int) (PreH1 : ((Znth ((left_pre * K_pre) + k) st_l (0 : Int)) >= (Znth ((((right_pre - pow) + 1) * K_pre) + k) st_l (0 : Int)))) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (len < (pow * 2))) (PreH17 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH18 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH19 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH20 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH21 : (STBuilt l st_l K_pre n_pre)) ,
   (intArray.full st_pre (n_pre * K_pre) st_l)
 |--
   “ (RangeMaxValue l left_pre (right_pre + 1) (Znth ((left_pre * K_pre) + k) st_l (0 : Int))) ”
   &&  (intArray.full st_pre (n_pre * K_pre) st_l)
 ) \/
 (
-forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (List Int)) (l : (List Int)) (len : Int) (k : Int) (pow : Int) (PreH1 : ((Znth ((left_pre * K_pre) + k) st_l (0 : Int)) >= (Znth ((((right_pre - pow) + 1) * K_pre) + k) st_l (0 : Int)))) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (len < (pow * 2))) (PreH17 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH18 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH19 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH20 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH21 : (STBuilt l st_l K_pre n_pre)) ,
+forall (st_l : (List Int)) (l : (List Int)) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (len : Int) (k : Int) (pow : Int) (PreH1 : ((Znth ((left_pre * K_pre) + k) st_l (0 : Int)) >= (Znth ((((right_pre - pow) + 1) * K_pre) + k) st_l (0 : Int)))) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (len < (pow * 2))) (PreH17 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH18 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH19 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH20 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH21 : (STBuilt l st_l K_pre n_pre)) ,
   TT && emp 
 |--
   “ (RangeMaxValue l left_pre (right_pre + 1) (Znth ((left_pre * K_pre) + k) st_l (0 : Int))) ”
@@ -1623,11 +1623,11 @@ forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (L
 )
 
 noncomputable def query_return_wit_2_split_goal_1 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_l : (List Int)) (l : (List Int)) (len : Int) (k : Int) (pow : Int) (PreH1 : ((Znth ((left_pre * K_pre) + k) st_l (0 : Int)) >= (Znth ((((right_pre - pow) + 1) * K_pre) + k) st_l (0 : Int)))) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (len < (pow * 2))) (PreH17 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH18 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH19 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH20 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH21 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (len : Int) (k : Int) (pow : Int) (PreH1 : ((Znth ((left_pre * K_pre) + k) st_l (0 : Int)) >= (Znth ((((right_pre - pow) + 1) * K_pre) + k) st_l (0 : Int)))) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((0 : Int) <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre) + 1))) (PreH11 : ((0 : Int) <= k)) (PreH12 : (k < K_pre)) (PreH13 : (pow = (Power2 (k)))) (PreH14 : (1 <= pow)) (PreH15 : (pow <= len)) (PreH16 : (len < (pow * 2))) (PreH17 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH18 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH19 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH20 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH21 : (STBuilt l st_l K_pre n_pre)) ,
   (RangeMaxValue l left_pre (right_pre + 1) (Znth ((left_pre * K_pre) + k) st_l (0 : Int)))
 
 noncomputable def query_partial_solve_wit_1 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
   (intArray.full st_pre (n_pre * K_pre) st_l)
 |--
   “ (n_pre <= 100000) ” &&
@@ -1654,7 +1654,7 @@ noncomputable def query_partial_solve_wit_1 : Prop :=
   ** (intArray.missing_i st_pre ((left_pre * K_pre) + k) (0 : Int) (n_pre * K_pre) st_l)
 
 noncomputable def query_partial_solve_wit_2 : Prop :=
-  forall (right_pre : Int) (left_pre : Int) (K_pre : Int) (n_pre : Int) (st_pre : Int) (st_l : (List Int)) (l : (List Int)) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
+  forall (st_l : (List Int)) (l : (List Int)) (st_pre : Int) (n_pre : Int) (K_pre : Int) (left_pre : Int) (right_pre : Int) (len : Int) (k : Int) (pow : Int) (PreH1 : (n_pre <= 100000)) (PreH2 : (1 <= K_pre)) (PreH3 : (K_pre <= 30)) (PreH4 : ((n_pre * K_pre) <= 1000000)) (PreH5 : (n_pre < (Power2 (K_pre)))) (PreH6 : ((0 : Int) <= left_pre)) (PreH7 : (left_pre <= right_pre)) (PreH8 : (right_pre < n_pre)) (PreH9 : (len = ((right_pre - left_pre) + 1))) (PreH10 : ((0 : Int) <= k)) (PreH11 : (k < K_pre)) (PreH12 : (pow = (Power2 (k)))) (PreH13 : (1 <= pow)) (PreH14 : (pow <= len)) (PreH15 : (len < (pow * 2))) (PreH16 : ((0 : Int) <= ((left_pre * K_pre) + k))) (PreH17 : (((left_pre * K_pre) + k) < (n_pre * K_pre))) (PreH18 : ((0 : Int) <= ((((right_pre - pow) + 1) * K_pre) + k))) (PreH19 : (((((right_pre - pow) + 1) * K_pre) + k) < (n_pre * K_pre))) (PreH20 : (STBuilt l st_l K_pre n_pre)) ,
   (intArray.full st_pre (n_pre * K_pre) st_l)
 |--
   “ (n_pre <= 100000) ” &&

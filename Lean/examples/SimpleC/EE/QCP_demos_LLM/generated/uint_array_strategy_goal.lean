@@ -57,6 +57,63 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 
+noncomputable def uint_array_strategy101 : Prop :=
+  forall (l : (List Int)) (n : Int) (p : Int),
+    TT &&
+    emp **
+    ((uintArray.full p n l))
+    |--
+    (
+    TT &&
+    (“ ((@Zlength Int l) = n) ”) &&
+    emp **
+    ((uintArray.full p n l))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
+noncomputable def uint_array_strategy102 : Prop :=
+  forall (l : (List Int)) (x : Int) (y : Int) (p : Int),
+    TT &&
+    emp **
+    ((uintArray.seg p x y l))
+    |--
+    (
+    TT &&
+    (“ ((@Zlength Int l) = (y - x)) ”) &&
+    emp **
+    ((uintArray.seg p x y l))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
+noncomputable def uint_array_strategy103 : Prop :=
+  forall (l : (List Int)) (x : Int) (y : Int) (p : Int) (i : Int),
+    TT &&
+    emp **
+    ((uintArray.missing_i p i x y l))
+    |--
+    (
+    TT &&
+    (“ ((@Zlength Int l) = (y - x)) ”) &&
+    emp **
+    ((uintArray.missing_i p i x y l))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
 noncomputable def uint_array_strategy1 : Prop :=
   forall (i : Int) (n : Int) (p : Int) (l : (List Int)),
     TT &&
@@ -136,6 +193,27 @@ noncomputable def uint_array_strategy6 : Prop :=
       TT &&
       emp **
       ((uintArray.seg p x y l2)))
+      )
+
+noncomputable def uint_array_strategy17 : Prop :=
+  forall (i : Int) (n : Int) (p : Int) (l1 : (List Int)),
+    TT &&
+    (“ (i = n) ”) &&
+    emp **
+    ((uintArray.seg p (0 : Int) i l1))
+    |--
+    (
+    TT &&
+    emp
+    ) ** (
+    ALL l2 : (List Int), 
+(
+      TT &&
+      (“ (l1 = l2) ”) &&
+      emp) -* (
+      TT &&
+      emp **
+      ((uintArray.full p n l2)))
       )
 
 noncomputable def uint_array_strategy7 : Prop :=
@@ -246,26 +324,6 @@ noncomputable def uint_array_strategy13 : Prop :=
       ((uintArray.full p n l)))
       )
 
-noncomputable def uint_array_strategy14 : Prop :=
-  TT &&
-  emp
-  |--
-  (
-  TT &&
-  emp
-  ) ** (
-  ALL l : (List Int), ALL l1 : (List Int), ALL a : Int, ALL p : Int, ALL n : Int, 
-(
-    TT &&
-    (“ (l = (@List.append Int l1 (@List.cons Int a (@List.nil Int)))) ”) &&
-    emp **
-    (((p + n * sizeof(UINT)) # UINT |-> (a))) **
-    ((uintArray.full p n l1))) -* (
-    TT &&
-    emp **
-    ((uintArray.full p (n + (1 : Int)) l)))
-    )
-
 noncomputable def uint_array_strategy2 : Prop :=
   forall (i : Int) (n : Int) (l : (List Int)) (p : Int),
     TT &&
@@ -300,6 +358,27 @@ noncomputable def uint_array_strategy11 : Prop :=
     TT &&
     emp **
     ((uintArray.seg p x y l))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
+noncomputable def uint_array_strategy31 : Prop :=
+  forall (i : Int) (n : Int) (l : (List Int)) (p : Int),
+    TT &&
+    (“ ((0 : Int) <= i) ”) &&
+    (“ (i < n) ”) &&
+    emp **
+    ((uintArray.missing_i p i (0 : Int) n l)) **
+    (((p + i * sizeof(UINT)) # UINT |-> ((@Znth Int i l (0 : Int)))))
+    |--
+    (
+    TT &&
+    emp **
+    ((uintArray.full p n l))
     ) ** (
 (
     TT &&
@@ -350,20 +429,87 @@ noncomputable def uint_array_strategy12 : Prop :=
     emp)
     )
 
+noncomputable def uint_array_strategy14 : Prop :=
+  forall (i : Int) (n : Int) (l : (List Int)) (v : Int) (p : Int),
+    TT &&
+    (“ (i = n) ”) &&
+    emp **
+    ((uintArray.full p n l)) **
+    (((p + i * sizeof(UINT)) # UINT |-> (v)))
+    |--
+    (
+    TT &&
+    emp **
+    ((uintArray.full p (n + (1 : Int)) (@List.append Int l (@List.cons Int v (@List.nil Int)))))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
+noncomputable def uint_array_strategy15 : Prop :=
+  forall (i : Int) (y : Int) (x : Int) (l : (List Int)) (v : Int) (p : Int),
+    TT &&
+    (“ (i = y) ”) &&
+    emp **
+    ((uintArray.seg p x y l)) **
+    (((p + i * sizeof(UINT)) # UINT |-> (v)))
+    |--
+    (
+    TT &&
+    emp **
+    ((uintArray.seg p x (y + (1 : Int)) (@List.append Int l (@List.cons Int v (@List.nil Int)))))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
+noncomputable def uint_array_strategy16 : Prop :=
+  forall (i : Int) (n : Int) (l : (List Int)) (v : Int) (p : Int),
+    TT &&
+    (“ ((0 : Int) < i) ”) &&
+    emp **
+    ((uintArray.full (p + i * sizeof(UINT)) n l)) **
+    (((p + (i - (1 : Int)) * sizeof(UINT)) # UINT |-> (v)))
+    |--
+    (
+    TT &&
+    emp **
+    ((uintArray.full (p + (i - (1 : Int)) * sizeof(UINT)) (n + (1 : Int)) (@List.cons Int v l)))
+    ) ** (
+(
+    TT &&
+    emp) -* (
+    TT &&
+    emp)
+    )
+
 structure uint_array_Strategy_Correct : Type where
+  uint_array_strategy101_correctness : uint_array_strategy101
+  uint_array_strategy102_correctness : uint_array_strategy102
+  uint_array_strategy103_correctness : uint_array_strategy103
   uint_array_strategy1_correctness : uint_array_strategy1
   uint_array_strategy4_correctness : uint_array_strategy4
   uint_array_strategy5_correctness : uint_array_strategy5
   uint_array_strategy6_correctness : uint_array_strategy6
+  uint_array_strategy17_correctness : uint_array_strategy17
   uint_array_strategy7_correctness : uint_array_strategy7
   uint_array_strategy8_correctness : uint_array_strategy8
   uint_array_strategy9_correctness : uint_array_strategy9
   uint_array_strategy10_correctness : uint_array_strategy10
   uint_array_strategy13_correctness : uint_array_strategy13
-  uint_array_strategy14_correctness : uint_array_strategy14
   uint_array_strategy2_correctness : uint_array_strategy2
   uint_array_strategy11_correctness : uint_array_strategy11
+  uint_array_strategy31_correctness : uint_array_strategy31
   uint_array_strategy3_correctness : uint_array_strategy3
   uint_array_strategy12_correctness : uint_array_strategy12
+  uint_array_strategy14_correctness : uint_array_strategy14
+  uint_array_strategy15_correctness : uint_array_strategy15
+  uint_array_strategy16_correctness : uint_array_strategy16
 
 end SimpleC.EE.QCP_demos_LLM.generated.uint_array_strategy_goal

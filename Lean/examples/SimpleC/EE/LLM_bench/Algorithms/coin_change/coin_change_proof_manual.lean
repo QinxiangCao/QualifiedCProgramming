@@ -40,7 +40,7 @@ private theorem annotation_Forall_nth_in (P : Int → Prop) (l : List Int) (i d 
 theorem proof_of_coinChange_entail_wit_1 : coinChange_entail_wit_1 := by
   unfold coinChange_entail_wit_1
   right
-  intro amount_pre coinsSize_pre coins_l PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro coins_l coinsSize_pre amount_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   have hp : DpPrefixZeroed [1] 1 := by
     refine ⟨by omega, by simp [Zlength], rfl, ?_⟩
     intro k hk; omega
@@ -53,7 +53,7 @@ theorem proof_of_coinChange_entail_wit_1 : coinChange_entail_wit_1 := by
 theorem proof_of_coinChange_entail_wit_2 : coinChange_entail_wit_2 := by
   unfold coinChange_entail_wit_2
   left
-  intro amount_pre coinsSize_pre coins_pre coins_l dp_l_2 j NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
+  intro coins_l coins_pre coinsSize_pre amount_pre dp_l_2 j NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
   prop_apply (intArray.full_Zlength coins_pre coinsSize_pre coins_l)
   Intros_p coins_length
   have PreH9 : (DpPrefixZeroed dp_l_2 j) := NewPreH8
@@ -70,7 +70,7 @@ theorem proof_of_coinChange_entail_wit_2 : coinChange_entail_wit_2 := by
 theorem proof_of_coinChange_entail_wit_3 : coinChange_entail_wit_3 := by
   unfold coinChange_entail_wit_3
   left
-  intro amount_pre coinsSize_pre coins_pre coins_l dp_l_2 j NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
+  intro coins_l coins_pre coinsSize_pre amount_pre dp_l_2 j NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
   prop_apply (intArray.full_Zlength coins_pre coinsSize_pre coins_l)
   Intros_p coins_length
   have PreH9 : (DpPrefixZeroed dp_l_2 j) := NewPreH8
@@ -91,7 +91,7 @@ theorem proof_of_coinChange_entail_wit_3 : coinChange_entail_wit_3 := by
 theorem proof_of_coinChange_entail_wit_4 : coinChange_entail_wit_4 := by
   unfold coinChange_entail_wit_4
   left
-  intro amount_pre coinsSize_pre coins_pre coins_l dp_l_2 i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
+  intro coins_l coins_pre coinsSize_pre amount_pre dp_l_2 i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
   prop_apply (intArray.full_Zlength coins_pre coinsSize_pre coins_l)
   Intros_p coins_length
   have current_coin_positive : 1 ≤ Znth i coins_l 0 := by
@@ -114,7 +114,7 @@ theorem proof_of_coinChange_entail_wit_4 : coinChange_entail_wit_4 := by
 theorem proof_of_coinChange_entail_wit_5_1 : coinChange_entail_wit_5_1 := by
   unfold coinChange_entail_wit_5_1
   left
-  intro amount_pre coinsSize_pre coins_pre coins_l dp_l_2 j coin i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13
+  intro coins_l coins_pre coinsSize_pre amount_pre dp_l_2 j coin i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13
   prop_apply (intArray.full_Zlength coins_pre coinsSize_pre coins_l)
   Intros_p coins_length
   have current_coin_positive : 1 ≤ Znth i coins_l 0 := by
@@ -133,7 +133,7 @@ theorem proof_of_coinChange_entail_wit_5_1 : coinChange_entail_wit_5_1 := by
 theorem proof_of_coinChange_entail_wit_5_2 : coinChange_entail_wit_5_2 := by
   unfold coinChange_entail_wit_5_2
   left
-  intro amount_pre coinsSize_pre coins_pre coins_l dp_l_2 j coin i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13
+  intro coins_l coins_pre coinsSize_pre amount_pre dp_l_2 j coin i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12 NewPreH13
   prop_apply (intArray.full_Zlength coins_pre coinsSize_pre coins_l)
   Intros_p coins_length
   have current_coin_positive : 1 ≤ Znth i coins_l 0 := by
@@ -166,7 +166,7 @@ theorem proof_of_coinChange_entail_wit_5_2 : coinChange_entail_wit_5_2 := by
 theorem proof_of_coinChange_entail_wit_6_1 : coinChange_entail_wit_6_1 := by
   unfold coinChange_entail_wit_6_1
   left
-  intro amount_pre coinsSize_pre coins_pre coins_l dp_l_2 j coin i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
+  intro coins_l coins_pre coinsSize_pre amount_pre dp_l_2 j coin i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9 NewPreH10 NewPreH11 NewPreH12
   prop_apply (intArray.full_Zlength coins_pre coinsSize_pre coins_l)
   Intros_p coins_length
   have current_coin_positive : 1 ≤ Znth i coins_l 0 := by
@@ -188,7 +188,7 @@ theorem proof_of_coinChange_entail_wit_6_1 : coinChange_entail_wit_6_1 := by
 theorem proof_of_coinChange_entail_wit_6_2 : coinChange_entail_wit_6_2 := by
   unfold coinChange_entail_wit_6_2
   left
-  intro amount_pre coinsSize_pre coins_pre coins_l dp_l_2 i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
+  intro coins_l coins_pre coinsSize_pre amount_pre dp_l_2 i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8 NewPreH9
   prop_apply (intArray.full_Zlength coins_pre coinsSize_pre coins_l)
   Intros_p coins_length
   have current_coin_positive : 1 ≤ Znth i coins_l 0 := by
@@ -211,7 +211,7 @@ theorem proof_of_coinChange_entail_wit_6_2 : coinChange_entail_wit_6_2 := by
 theorem proof_of_coinChange_entail_wit_7 : coinChange_entail_wit_7 := by
   unfold coinChange_entail_wit_7
   left
-  intro amount_pre coinsSize_pre coins_pre coins_l dp_l_2 i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
+  intro coins_l coins_pre coinsSize_pre amount_pre dp_l_2 i NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6 NewPreH7 NewPreH8
   prop_apply (intArray.full_Zlength coins_pre coinsSize_pre coins_l)
   Intros_p coins_length
   have PreH9 : (DpReachableTable (sublist ((0 : Int)) (i) (coins_l)) dp_l_2 (amount_pre + 1)) := NewPreH8
@@ -233,7 +233,7 @@ theorem proof_of_coinChange_entail_wit_7 : coinChange_entail_wit_7 := by
 theorem proof_of_coinChange_entail_wit_8 : coinChange_entail_wit_8 := by
   unfold coinChange_entail_wit_8
   left
-  intro amount_pre coinsSize_pre coins_pre coins_l dp_l_2 res NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6
+  intro coins_l coins_pre coinsSize_pre amount_pre dp_l_2 res NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6
   prop_apply (intArray.full_Zlength coins_pre coinsSize_pre coins_l)
   Intros_p coins_length
   have PreH1 : ((Znth res dp_l_2 (0 : Int)) = (0 : Int)) := NewPreH1
@@ -256,7 +256,7 @@ theorem proof_of_coinChange_entail_wit_8 : coinChange_entail_wit_8 := by
 theorem proof_of_coinChange_entail_wit_9_1 : coinChange_entail_wit_9_1 := by
   unfold coinChange_entail_wit_9_1
   left
-  intro amount_pre coinsSize_pre coins_pre coins_l dp_l res NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
+  intro coins_l coins_pre coinsSize_pre amount_pre dp_l res NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5
   prop_apply (intArray.full_Zlength coins_pre coinsSize_pre coins_l)
   Intros_p coins_length
   have PreH10 : (NoReachableAbove coins_l amount_pre res) := NewPreH5
@@ -273,7 +273,7 @@ theorem proof_of_coinChange_entail_wit_9_1 : coinChange_entail_wit_9_1 := by
 theorem proof_of_coinChange_entail_wit_9_2 : coinChange_entail_wit_9_2 := by
   unfold coinChange_entail_wit_9_2
   left
-  intro amount_pre coinsSize_pre coins_pre coins_l dp_l res NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6
+  intro coins_l coins_pre coinsSize_pre amount_pre dp_l res NewPreH1 NewPreH2 NewPreH3 NewPreH4 NewPreH5 NewPreH6
   prop_apply (intArray.full_Zlength coins_pre coinsSize_pre coins_l)
   Intros_p coins_length
   have PreH1 : ((Znth res dp_l (0 : Int)) ≠ (0 : Int)) := by first | assumption | omega

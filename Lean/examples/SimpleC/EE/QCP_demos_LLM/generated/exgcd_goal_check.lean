@@ -41,6 +41,6 @@ def VC_Correctness : SimpleC.EE.QCP_demos_LLM.generated.exgcd_goal.VC_Correct wh
   proof_of_exgcd_return_wit_5 := proof_of_exgcd_return_wit_5
   proof_of_exgcd_return_wit_6 := proof_of_exgcd_return_wit_6
   proof_of_exgcd_partial_solve_wit_4_pure := proof_of_exgcd_partial_solve_wit_4_pure
-  proof_of_exgcd_derive_Inter_by_Proof := proof_of_exgcd_derive_Inter_by_Proof
+  proof_of_exgcd_Proof_entail_Inter := proof_of_exgcd_Proof_entail_Inter
 
 end SimpleC.EE.QCP_demos_LLM.generated.exgcd_goal_check

@@ -1,44 +1,37 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.convex_hull.convex_hull_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
 
 Definition point_array_strategy20 :=
   forall (i : Z) (p : Z) (a : Point),
     TT &&
     emp **
-    ((store_point (Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))) a))
+    ((store_point (p + (i * (sizeof_front_end_type (FET_alias ("Point"))))) a))
     |--
     (
     TT &&
     emp **
-    ((store_point (Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))) a))
+    ((store_point (p + (i * (sizeof_front_end_type (FET_alias ("Point"))))) a))
     ) ** (
     ALL (vx : Z) (vy : Z),
       TT &&
       emp **
-      ((store_point (Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))) ( point_mk vx vy))) -*
+      ((store_point (p + (i * (sizeof_front_end_type (FET_alias ("Point"))))) (point_mk vx vy))) -*
       TT &&
       emp **
-      ((poly_store FET_int &( (((Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x") vx)) **
-      ((poly_store FET_int &( (((Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y") vy))
+      ((poly_store FET_int &( (((p + (i * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x") vx)) **
+      ((poly_store FET_int &( (((p + (i * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y") vy))
       ).
 
 Definition point_array_strategy25 :=
   forall (i : Z) (n : Z) (p : Z) (l : (@list Point)) (__default_Point : Point),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     emp **
     ((PointArray.missing_i p i 0 n l)) **
-    ((store_point (Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))) ( point_mk ( point_x (Znth i l __default_Point)) ( point_y (Znth i l __default_Point)))))
+    ((store_point (p + (i * (sizeof_front_end_type (FET_alias ("Point"))))) (point_mk (point_x (Znth i l __default_Point)) (point_y (Znth i l __default_Point)))))
     |--
     (
     TT &&
@@ -54,11 +47,11 @@ Definition point_array_strategy25 :=
 Definition point_array_strategy26 :=
   forall (i : Z) (y : Z) (x : Z) (p : Z) (l : (@list Point)) (__default_Point : Point),
     TT &&
-    (“ (Z.le x i) ”) &&
-    (“ (Z.lt i y) ”) &&
+    (“ (x <= i) ”) &&
+    (“ (i < y) ”) &&
     emp **
     ((PointArray.missing_i p i x y l)) **
-    ((store_point (Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))) ( point_mk ( point_x (Znth (Z.sub i x) l __default_Point)) ( point_y (Znth (Z.sub i x) l __default_Point)))))
+    ((store_point (p + (i * (sizeof_front_end_type (FET_alias ("Point"))))) (point_mk (point_x (Znth (i - x) l __default_Point)) (point_y (Znth (i - x) l __default_Point)))))
     |--
     (
     TT &&
@@ -75,13 +68,13 @@ Definition point_array_strategy19 :=
   forall (vx : Z) (vy : Z) (p : Z) (i : Z),
     TT &&
     emp **
-    ((poly_store FET_int &( (((Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x") vx)) **
-    ((poly_store FET_int &( (((Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y") vy))
+    ((poly_store FET_int &( (((p + (i * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x") vx)) **
+    ((poly_store FET_int &( (((p + (i * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y") vy))
     |--
     (
     TT &&
     emp **
-    ((store_point (Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))) ( point_mk vx vy)))
+    ((store_point (p + (i * (sizeof_front_end_type (FET_alias ("Point"))))) (point_mk vx vy)))
     ) ** (
     TT &&
     emp -*
@@ -92,8 +85,8 @@ Definition point_array_strategy19 :=
 Definition point_array_strategy1 :=
   forall (i : Z) (n : Z) (p : Z) (l : (@list Point)),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     emp **
     ((PointArray.full p n l))
     |--
@@ -108,7 +101,7 @@ Definition point_array_strategy1 :=
       emp -*
       TT &&
       emp **
-      ((store_point (Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))) v))
+      ((store_point (p + (i * (sizeof_front_end_type (FET_alias ("Point"))))) v))
       ).
 
 Definition point_array_strategy4 :=
@@ -169,8 +162,8 @@ Definition point_array_strategy6 :=
 Definition point_array_strategy7 :=
   forall (i : Z) (y : Z) (x : Z) (p : Z) (l : (@list Point)),
     TT &&
-    (“ (Z.le x i) ”) &&
-    (“ (Z.lt i y) ”) &&
+    (“ (x <= i) ”) &&
+    (“ (i < y) ”) &&
     emp **
     ((PointArray.seg p x y l))
     |--
@@ -181,18 +174,18 @@ Definition point_array_strategy7 :=
     ) ** (
     ALL (v : Point) (__default_Point : Point),
       TT &&
-      (“ (v = (Znth (Z.sub i x) l __default_Point)) ”) &&
+      (“ (v = (Znth (i - x) l __default_Point)) ”) &&
       emp -*
       TT &&
       emp **
-      ((store_point (Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))) v))
+      ((store_point (p + (i * (sizeof_front_end_type (FET_alias ("Point"))))) v))
       ).
 
 Definition point_array_strategy8 :=
   forall (x : Z) (y : Z) (z : Z) (l1 : (@list Point)) (p : Z) (l2 : (@list Point)),
     TT &&
-    (“ (Z.le y z) ”) &&
-    (“ (Z.le x y) ”) &&
+    (“ (y <= z) ”) &&
+    (“ (x <= y) ”) &&
     emp **
     ((PointArray.seg p x y l1)) **
     ((PointArray.seg p y z l2))
@@ -213,8 +206,8 @@ Definition point_array_strategy8 :=
 Definition point_array_strategy9 :=
   forall (x : Z) (y : Z) (z : Z) (p : Z) (l3 : (@list Point)),
     TT &&
-    (“ (Z.le y z) ”) &&
-    (“ (Z.le x y) ”) &&
+    (“ (y <= z) ”) &&
+    (“ (x <= y) ”) &&
     emp **
     ((PointArray.seg p x z l3))
     |--
@@ -225,7 +218,7 @@ Definition point_array_strategy9 :=
     ALL (l1 : (@list Point)) (l2 : (@list Point)),
       TT &&
       (“ (l3 = (@app Point l1 l2)) ”) &&
-      (“ ((@Zlength Point l1) = (Z.sub y x)) ”) &&
+      (“ ((@Zlength Point l1) = (y - x)) ”) &&
       emp -*
       TT &&
       emp **
@@ -253,7 +246,7 @@ Definition point_array_strategy10 :=
 Definition point_array_strategy13 :=
   forall (n : Z) (p : Z),
     TT &&
-    (“ (Z.lt 0 n) ”) &&
+    (“ (0 < n) ”) &&
     emp **
     ((PointArray.undef_full p n))
     |--
@@ -266,28 +259,28 @@ Definition point_array_strategy13 :=
     emp -*
     TT &&
     emp **
-    ((poly_undef_store FET_int &( (((Z.add p (Z.mul 0 (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x"))) **
-    ((poly_undef_store FET_int &( (((Z.add p (Z.mul 0 (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y")))
+    ((poly_undef_store FET_int &( (((p + (0 * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x"))) **
+    ((poly_undef_store FET_int &( (((p + (0 * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y")))
     ).
 
 Definition point_array_strategy15 :=
   forall (x : Z) (y : Z) (p : Z),
     TT &&
-    (“ (Z.lt x y) ”) &&
+    (“ (x < y) ”) &&
     emp **
     ((PointArray.undef_seg p x y))
     |--
     (
     TT &&
     emp **
-    ((PointArray.undef_seg p (Z.add x 1) y))
+    ((PointArray.undef_seg p (x + 1) y))
     ) ** (
     TT &&
     emp -*
     TT &&
     emp **
-    ((poly_undef_store FET_int &( (((Z.add p (Z.mul x (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x"))) **
-    ((poly_undef_store FET_int &( (((Z.add p (Z.mul x (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y")))
+    ((poly_undef_store FET_int &( (((p + (x * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x"))) **
+    ((poly_undef_store FET_int &( (((p + (x * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y")))
     ).
 
 Definition point_array_strategy29 :=
@@ -318,8 +311,8 @@ Definition point_array_strategy27 :=
     (
     TT &&
     emp **
-    ((poly_store FET_int &( ((p)) # "Point" ->ₛ "x") ( point_x a))) **
-    ((poly_store FET_int &( ((p)) # "Point" ->ₛ "y") ( point_y a)))
+    ((poly_store FET_int &( ((p)) # "Point" ->ₛ "x") (point_x a))) **
+    ((poly_store FET_int &( ((p)) # "Point" ->ₛ "y") (point_y a)))
     ) ** (
     TT &&
     emp -*
@@ -348,11 +341,11 @@ Definition point_array_strategy28 :=
 Definition point_array_strategy2 :=
   forall (i : Z) (n : Z) (p : Z) (l : (@list Point)) (__default_Point : Point),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     emp **
     ((PointArray.missing_i p i 0 n l)) **
-    ((store_point (Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))) (Znth i l __default_Point)))
+    ((store_point (p + (i * (sizeof_front_end_type (FET_alias ("Point"))))) (Znth i l __default_Point)))
     |--
     (
     TT &&
@@ -368,11 +361,11 @@ Definition point_array_strategy2 :=
 Definition point_array_strategy11 :=
   forall (i : Z) (y : Z) (x : Z) (p : Z) (l : (@list Point)) (__default_Point : Point),
     TT &&
-    (“ (Z.le x i) ”) &&
-    (“ (Z.lt i y) ”) &&
+    (“ (x <= i) ”) &&
+    (“ (i < y) ”) &&
     emp **
     ((PointArray.missing_i p i x y l)) **
-    ((store_point (Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))) (Znth (Z.sub i x) l __default_Point)))
+    ((store_point (p + (i * (sizeof_front_end_type (FET_alias ("Point"))))) (Znth (i - x) l __default_Point)))
     |--
     (
     TT &&
@@ -388,10 +381,10 @@ Definition point_array_strategy11 :=
 Definition point_array_strategy17 :=
   forall (x : Z) (z : Z) (y : Z) (a : Point) (p : Z),
     TT &&
-    (“ (y = (Z.add x 1)) ”) &&
-    (“ (Z.lt x z) ”) &&
+    (“ (y = (x + 1)) ”) &&
+    (“ (x < z) ”) &&
     emp **
-    ((store_point (Z.add p (Z.mul x (@sizeof_front_end_type (FET_alias ("Point"))))) a)) **
+    ((store_point (p + (x * (sizeof_front_end_type (FET_alias ("Point"))))) a)) **
     ((PointArray.undef_seg p y z))
     |--
     (
@@ -408,15 +401,15 @@ Definition point_array_strategy17 :=
 Definition point_array_strategy18 :=
   forall (x : Z) (y : Z) (l : (@list Point)) (p : Z) (a : Point),
     TT &&
-    (“ (Z.le x y) ”) &&
+    (“ (x <= y) ”) &&
     emp **
     ((PointArray.seg p x y l)) **
-    ((store_point (Z.add p (Z.mul y (@sizeof_front_end_type (FET_alias ("Point"))))) a))
+    ((store_point (p + (y * (sizeof_front_end_type (FET_alias ("Point"))))) a))
     |--
     (
     TT &&
     emp **
-    ((PointArray.seg p x (Z.add y 1) (@app Point l (@cons Point a (@nil Point)))))
+    ((PointArray.seg p x (y + 1) (@app Point l (@cons Point a (@nil Point)))))
     ) ** (
     TT &&
     emp -*
@@ -427,143 +420,143 @@ Definition point_array_strategy18 :=
 Definition point_array_strategy14 :=
   forall (n : Z) (p : Z),
     TT &&
-    (“ (Z.lt 0 n) ”) &&
+    (“ (0 < n) ”) &&
     emp **
     ((PointArray.undef_full p n))
     |--
     (
     TT &&
     emp **
-    ((poly_undef_store FET_int &( (((Z.add p (Z.mul 0 (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y"))) **
+    ((poly_undef_store FET_int &( (((p + (0 * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y"))) **
     ((PointArray.undef_seg p 1 n))
     ) ** (
     TT &&
     emp -*
     TT &&
     emp **
-    ((poly_undef_store FET_int &( (((Z.add p (Z.mul 0 (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x")))
+    ((poly_undef_store FET_int &( (((p + (0 * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x")))
     ).
 
 Definition point_array_strategy16 :=
   forall (x : Z) (y : Z) (p : Z),
     TT &&
-    (“ (Z.lt x y) ”) &&
+    (“ (x < y) ”) &&
     emp **
     ((PointArray.undef_seg p x y))
     |--
     (
     TT &&
     emp **
-    ((poly_undef_store FET_int &( (((Z.add p (Z.mul x (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y"))) **
-    ((PointArray.undef_seg p (Z.add x 1) y))
+    ((poly_undef_store FET_int &( (((p + (x * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y"))) **
+    ((PointArray.undef_seg p (x + 1) y))
     ) ** (
     TT &&
     emp -*
     TT &&
     emp **
-    ((poly_undef_store FET_int &( (((Z.add p (Z.mul x (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x")))
+    ((poly_undef_store FET_int &( (((p + (x * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x")))
     ).
 
 Definition point_array_strategy21 :=
   forall (i : Z) (n : Z) (__default_Point : Point) (p : Z) (l : (@list Point)),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     emp **
     ((PointArray.full p n l))
     |--
     (
     TT &&
     emp **
-    ((poly_store FET_int &( (((Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y") ( point_y (Znth i l __default_Point)))) **
+    ((poly_store FET_int &( (((p + (i * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y") (point_y (Znth i l __default_Point)))) **
     ((PointArray.missing_i p i 0 n l))
     ) ** (
     ALL (vx : Z),
       TT &&
-      (“ (vx = ( point_x (Znth i l __default_Point))) ”) &&
+      (“ (vx = (point_x (Znth i l __default_Point))) ”) &&
       emp -*
       TT &&
       emp **
-      ((poly_store FET_int &( (((Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x") vx))
+      ((poly_store FET_int &( (((p + (i * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x") vx))
       ).
 
 Definition point_array_strategy22 :=
   forall (i : Z) (n : Z) (__default_Point : Point) (p : Z) (l : (@list Point)),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     emp **
     ((PointArray.full p n l))
     |--
     (
     TT &&
     emp **
-    ((poly_store FET_int &( (((Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x") ( point_x (Znth i l __default_Point)))) **
+    ((poly_store FET_int &( (((p + (i * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x") (point_x (Znth i l __default_Point)))) **
     ((PointArray.missing_i p i 0 n l))
     ) ** (
     ALL (vy : Z),
       TT &&
-      (“ (vy = ( point_y (Znth i l __default_Point))) ”) &&
+      (“ (vy = (point_y (Znth i l __default_Point))) ”) &&
       emp -*
       TT &&
       emp **
-      ((poly_store FET_int &( (((Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y") vy))
+      ((poly_store FET_int &( (((p + (i * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y") vy))
       ).
 
 Definition point_array_strategy23 :=
   forall (i : Z) (y : Z) (x : Z) (__default_Point : Point) (p : Z) (l : (@list Point)),
     TT &&
-    (“ (Z.le x i) ”) &&
-    (“ (Z.lt i y) ”) &&
+    (“ (x <= i) ”) &&
+    (“ (i < y) ”) &&
     emp **
     ((PointArray.seg p x y l))
     |--
     (
     TT &&
     emp **
-    ((poly_store FET_int &( (((Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y") ( point_y (Znth (Z.sub i x) l __default_Point)))) **
+    ((poly_store FET_int &( (((p + (i * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y") (point_y (Znth (i - x) l __default_Point)))) **
     ((PointArray.missing_i p i x y l))
     ) ** (
     ALL (vx : Z),
       TT &&
-      (“ (vx = ( point_x (Znth (Z.sub i x) l __default_Point))) ”) &&
+      (“ (vx = (point_x (Znth (i - x) l __default_Point))) ”) &&
       emp -*
       TT &&
       emp **
-      ((poly_store FET_int &( (((Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x") vx))
+      ((poly_store FET_int &( (((p + (i * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x") vx))
       ).
 
 Definition point_array_strategy24 :=
   forall (i : Z) (y : Z) (x : Z) (__default_Point : Point) (p : Z) (l : (@list Point)),
     TT &&
-    (“ (Z.le x i) ”) &&
-    (“ (Z.lt i y) ”) &&
+    (“ (x <= i) ”) &&
+    (“ (i < y) ”) &&
     emp **
     ((PointArray.seg p x y l))
     |--
     (
     TT &&
     emp **
-    ((poly_store FET_int &( (((Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x") ( point_x (Znth (Z.sub i x) l __default_Point)))) **
+    ((poly_store FET_int &( (((p + (i * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "x") (point_x (Znth (i - x) l __default_Point)))) **
     ((PointArray.missing_i p i x y l))
     ) ** (
     ALL (vy : Z),
       TT &&
-      (“ (vy = ( point_y (Znth (Z.sub i x) l __default_Point))) ”) &&
+      (“ (vy = (point_y (Znth (i - x) l __default_Point))) ”) &&
       emp -*
       TT &&
       emp **
-      ((poly_store FET_int &( (((Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y") vy))
+      ((poly_store FET_int &( (((p + (i * (sizeof_front_end_type (FET_alias ("Point"))))))) # "Point" ->ₛ "y") vy))
       ).
 
 Definition point_array_strategy3 :=
   forall (i : Z) (n : Z) (l : (@list Point)) (p : Z) (v : Point),
     TT &&
-    (“ (Z.le 0 i) ”) &&
-    (“ (Z.lt i n) ”) &&
+    (“ (0 <= i) ”) &&
+    (“ (i < n) ”) &&
     emp **
     ((PointArray.missing_i p i 0 n l)) **
-    ((store_point (Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))) v))
+    ((store_point (p + (i * (sizeof_front_end_type (FET_alias ("Point"))))) v))
     |--
     (
     TT &&
@@ -579,16 +572,16 @@ Definition point_array_strategy3 :=
 Definition point_array_strategy12 :=
   forall (i : Z) (y : Z) (x : Z) (l : (@list Point)) (p : Z) (v : Point),
     TT &&
-    (“ (Z.le x i) ”) &&
-    (“ (Z.lt i y) ”) &&
+    (“ (x <= i) ”) &&
+    (“ (i < y) ”) &&
     emp **
     ((PointArray.missing_i p i x y l)) **
-    ((store_point (Z.add p (Z.mul i (@sizeof_front_end_type (FET_alias ("Point"))))) v))
+    ((store_point (p + (i * (sizeof_front_end_type (FET_alias ("Point"))))) v))
     |--
     (
     TT &&
     emp **
-    ((PointArray.seg p x y (@replace_Znth Point (Z.sub i x) v l)))
+    ((PointArray.seg p x y (@replace_Znth Point (i - x) v l)))
     ) ** (
     TT &&
     emp -*

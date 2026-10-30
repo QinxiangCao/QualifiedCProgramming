@@ -1,27 +1,21 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.Applications_human.convex_hull Require Import point_array_strategy_goal.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.convex_hull.convex_hull_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 
 Lemma point_array_strategy20_correctness : point_array_strategy20.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   cancel (store_point (p + i * sizeof_alias_type "Point") a).
   Intros_r vx vy.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
 Qed.
 
 Lemma point_array_strategy25_correctness : point_array_strategy25.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   assert (Heta :
     point_mk (point_x (Znth i l __default_Point))
              (point_y (Znth i l __default_Point)) =
@@ -32,7 +26,6 @@ Proof.
     (store_point (p + i * sizeof("Point")) (Znth i l __default_Point) **
      PointArray.missing_i p i 0 n l).
   - cancel.
-    reflexivity.
   - sep_apply (PointArray.missing_i_merge_to_full p i n) ; try lia.
     rewrite replace_Znth_Znth by lia.
     cancel.
@@ -40,7 +33,7 @@ Qed.
 
 Lemma point_array_strategy26_correctness : point_array_strategy26.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   assert (Heta :
     point_mk (point_x (Znth (i - x) l __default_Point))
              (point_y (Znth (i - x) l __default_Point)) =
@@ -52,7 +45,6 @@ Proof.
        (Znth (i - x) l __default_Point) **
      PointArray.missing_i p i x y l).
   - cancel.
-    reflexivity.
   - sep_apply (PointArray.missing_i_merge_to_seg p x i y) ; try lia.
     rewrite replace_Znth_Znth by lia.
     cancel.
@@ -60,12 +52,12 @@ Qed.
 
 Lemma point_array_strategy19_correctness : point_array_strategy19.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
 Qed.
 
 Lemma point_array_strategy1_correctness : point_array_strategy1.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   prop_apply (PointArray.full_Zlength p n l).
   Intros_p Hlen.
   sep_apply_l_atomic (PointArray.full_split_to_missing_i p i n l default_point).
@@ -80,12 +72,11 @@ Proof.
     assert (Hi : 0 <= i < Zlength l) by (rewrite Hlen; lia).
     rewrite (Znth_indep l i default_point __default_Point Hi).
     cancel.
-    reflexivity.
 Qed.
 
 Lemma point_array_strategy4_correctness : point_array_strategy4.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   Intros_p Hl2.
   subst l2.
   cancel.
@@ -93,12 +84,12 @@ Qed.
 
 Lemma point_array_strategy5_correctness : point_array_strategy5.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
 Qed.
 
 Lemma point_array_strategy6_correctness : point_array_strategy6.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   Intros_p Hl2.
   subst l2.
   cancel.
@@ -106,7 +97,7 @@ Qed.
 
 Lemma point_array_strategy7_correctness : point_array_strategy7.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   prop_apply (PointArray.seg_Zlength p x y l).
   Intros_p Hlen.
   sep_apply_l_atomic (PointArray.seg_split_to_missing_i p x i y l default_point).
@@ -121,12 +112,11 @@ Proof.
     assert (Hi : 0 <= i - x < Zlength l) by (rewrite Hlen; lia).
     rewrite (Znth_indep l (i - x) default_point __default_Point Hi).
     cancel.
-    reflexivity.
 Qed.
 
 Lemma point_array_strategy8_correctness : point_array_strategy8.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   Intros_p Hl3.
   subst l3.
   sep_apply_l_atomic (PointArray.seg_merge_to_seg p x y z l1 l2).
@@ -137,7 +127,7 @@ Qed.
 
 Lemma point_array_strategy9_correctness : point_array_strategy9.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   Intros_p Heq.
   Intros_p Hlen.
   subst l3.
@@ -158,7 +148,7 @@ Qed.
 
 Lemma point_array_strategy10_correctness : point_array_strategy10.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   Intros_p Hsize.
   subst l.
   rewrite PointArray.seg_empty.
@@ -170,7 +160,7 @@ Qed.
 
 Lemma point_array_strategy13_correctness : point_array_strategy13.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   sep_apply_l_atomic (PointArray.undef_full_split_to_undef_missing_i p 0 n).
   - dump_pre_spatial.
     lia.
@@ -188,7 +178,8 @@ Qed.
 
 Lemma point_array_strategy15_correctness : point_array_strategy15.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
+  cbn [poly_store poly_undef_store].
   sep_apply_l_atomic (PointArray.undef_seg_split_to_undef_missing_i p x x y).
   - dump_pre_spatial.
     lia.
@@ -204,7 +195,7 @@ Qed.
 
 Lemma point_array_strategy29_correctness : point_array_strategy29.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   Intros_p Hstore.
   subst b.
   cancel.
@@ -212,24 +203,23 @@ Qed.
 
 Lemma point_array_strategy27_correctness : point_array_strategy27.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
 Qed.
 
 Lemma point_array_strategy28_correctness : point_array_strategy28.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   subst m.
   cancel.
 Qed.
 
 Lemma point_array_strategy2_correctness : point_array_strategy2.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   transitivity
     (store_point (p + i * sizeof("Point")) (Znth i l __default_Point) **
      PointArray.missing_i p i 0 n l).
   - cancel.
-    reflexivity.
   - sep_apply (PointArray.missing_i_merge_to_full p i n) ; try lia.
     rewrite replace_Znth_Znth by lia.
     cancel.
@@ -237,13 +227,12 @@ Qed.
 
 Lemma point_array_strategy11_correctness : point_array_strategy11.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   transitivity
     (store_point (p + i * sizeof("Point"))
        (Znth (i - x) l __default_Point) **
      PointArray.missing_i p i x y l).
   - cancel.
-    reflexivity.
   - sep_apply (PointArray.missing_i_merge_to_seg p x i y) ; try lia.
     rewrite replace_Znth_Znth by lia.
     cancel.
@@ -251,32 +240,31 @@ Qed.
 
 Lemma point_array_strategy17_correctness : point_array_strategy17.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   subst y.
   transitivity
     (store_point (p + x * sizeof("Point")) a **
      PointArray.undef_seg p (x + 1) z).
   - cancel.
-    reflexivity.
   - apply point_array_store_undef_tail_to_undef_seg.
     lia.
 Qed.
 
 Lemma point_array_strategy18_correctness : point_array_strategy18.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   transitivity
     (PointArray.seg p x y l **
      store_point (p + y * sizeof("Point")) a).
   - cancel.
-    reflexivity.
   - apply point_array_seg_snoc_store.
     lia.
 Qed.
 
 Lemma point_array_strategy14_correctness : point_array_strategy14.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
+  cbn [poly_store poly_undef_store].
   sep_apply_l_atomic (PointArray.undef_full_split_to_undef_missing_i p 0 n).
   - dump_pre_spatial.
     lia.
@@ -295,7 +283,8 @@ Qed.
 
 Lemma point_array_strategy16_correctness : point_array_strategy16.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
+  cbn [poly_store poly_undef_store].
   sep_apply_l_atomic (PointArray.undef_seg_split_to_undef_missing_i p x x y).
   - dump_pre_spatial.
     lia.
@@ -311,7 +300,8 @@ Qed.
 
 Lemma point_array_strategy21_correctness : point_array_strategy21.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
+  cbn [poly_store poly_undef_store].
   sep_apply_l_atomic (PointArray.full_split_to_missing_i p i n l __default_Point).
   - dump_pre_spatial.
     lia.
@@ -328,7 +318,8 @@ Qed.
 
 Lemma point_array_strategy22_correctness : point_array_strategy22.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
+  cbn [poly_store poly_undef_store].
   sep_apply_l_atomic (PointArray.full_split_to_missing_i p i n l __default_Point).
   - dump_pre_spatial.
     lia.
@@ -345,7 +336,8 @@ Qed.
 
 Lemma point_array_strategy23_correctness : point_array_strategy23.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
+  cbn [poly_store poly_undef_store].
   sep_apply_l_atomic (PointArray.seg_split_to_missing_i p x i y l __default_Point).
   - dump_pre_spatial.
     lia.
@@ -362,7 +354,8 @@ Qed.
 
 Lemma point_array_strategy24_correctness : point_array_strategy24.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
+  cbn [poly_store poly_undef_store].
   sep_apply_l_atomic (PointArray.seg_split_to_missing_i p x i y l __default_Point).
   - dump_pre_spatial.
     lia.
@@ -379,24 +372,22 @@ Qed.
 
 Lemma point_array_strategy3_correctness : point_array_strategy3.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   transitivity
     (store_point (p + i * sizeof("Point")) v **
      PointArray.missing_i p i 0 n l).
   - cancel.
-    reflexivity.
   - sep_apply (PointArray.missing_i_merge_to_full p i n) ; try lia.
     cancel.
 Qed.
 
 Lemma point_array_strategy12_correctness : point_array_strategy12.
 Proof.
-  pre_process_default; repeat rewrite sizeof_front_end_type_Point.
+  pre_process_default.
   transitivity
     (store_point (p + i * sizeof("Point")) v **
      PointArray.missing_i p i x y l).
   - cancel.
-    reflexivity.
   - sep_apply (PointArray.missing_i_merge_to_seg p x i y) ; try lia.
     cancel.
 Qed.

@@ -26,6 +26,7 @@ match hc with
 | FROM_model_TO_impp => [FROM_model_TO_expr]
 | FROM_model_TO_andp => [FROM_model_TO_expr]
 | FROM_model_TO_orp => [FROM_model_TO_expr]
+| FROM_model_TO_falsep => [FROM_model_TO_expr]
 | FROM_model_TO_coq_prop => [FROM_model_TO_expr]
 | FROM_unit_TO_emp => [FROM_model_TO_expr]
 | FROM_model_TO_truep => [FROM_model_TO_expr]
@@ -58,6 +59,7 @@ match hj with
 | FROM_model_TO_provable => [FROM_model_TO_expr]
 | FROM_model_TO_derivable1 => [FROM_model_TO_expr]
 | FROM_derivable1_TO_provable => []
+| FROM_join_TO_corable => [FROM_model_TO_expr]
 end.
 
 (* generated connective *)
@@ -79,6 +81,7 @@ match hc with
 | FROM_model_TO_impp => impp
 | FROM_model_TO_andp => andp
 | FROM_model_TO_orp => orp
+| FROM_model_TO_falsep => falsep
 | FROM_model_TO_coq_prop => coq_prop
 | FROM_unit_TO_emp => emp
 | FROM_model_TO_truep => truep
@@ -101,6 +104,7 @@ match hj with
 | FROM_model_TO_provable => provable
 | FROM_model_TO_derivable1 => derivable1 
 | FROM_derivable1_TO_provable => provable
+| FROM_join_TO_corable => corable
 end.
 
 (* generated type *)
@@ -167,6 +171,7 @@ match hc with
 | FROM_model_TO_impp => []
 | FROM_model_TO_andp => []
 | FROM_model_TO_orp => []
+| FROM_model_TO_falsep => []
 | FROM_model_TO_coq_prop => []
 | FROM_unit_TO_emp => [is_unit]
 | FROM_model_TO_truep => []
@@ -189,6 +194,7 @@ match hj with
 | FROM_model_TO_provable => []
 | FROM_model_TO_derivable1 => []
 | FROM_derivable1_TO_provable => [derivable1]
+| FROM_join_TO_corable => []
 end.
 
 (* depended types of types *)
@@ -220,6 +226,7 @@ match hc with
 | FROM_model_TO_impp => Some (GEN_impp_FROM_model)
 | FROM_model_TO_andp => Some (GEN_andp_FROM_model)
 | FROM_model_TO_orp => Some (GEN_orp_FROM_model)
+| FROM_model_TO_falsep => Some (GEN_falsep_FROM_model)
 | FROM_model_TO_coq_prop => Some (GEN_coq_prop_FROM_model)
 | FROM_unit_TO_emp => Some (GEN_emp_FROM_unit)
 | FROM_model_TO_truep => Some (GEN_truep_FROM_model)
@@ -242,6 +249,7 @@ match hj with
 | FROM_model_TO_provable => Some GEN_provable_FROM_model
 | FROM_model_TO_derivable1 => Some GEN_derivable1_FROM_model
 | FROM_derivable1_TO_provable => Some GEN_provable_FROM_derivable1
+| FROM_join_TO_corable => Some GEN_corable_FROM_join
 end.
 
 Definition all_how_instances: list how_instance :=
@@ -668,4 +676,3 @@ Eval compute in (result how_connectives how_judgements transparent_names primiti
 End test3.
 
 *)
-

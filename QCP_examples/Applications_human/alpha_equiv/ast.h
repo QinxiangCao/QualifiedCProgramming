@@ -4,6 +4,7 @@
 
 
 /*@ Import Coq  Require Import ast_lib */
+/*@ Import Coq  Require Import thm_apply_lib */
 /*@ Import Coq  Require Import malloc */
 /*@ Import Coq  Require Import super_poly_sll2 */
 
@@ -52,7 +53,7 @@
                (thm_subst_allres: term -> list var_sub -> option (partial_quant * term))
                (sep_impl: term -> option ImplyProp)
                (gen_pre: term -> term -> list term)
-               (thm_app: term -> list var_sub -> term -> solve_res)
+               (thm_app_result: term -> list var_sub -> term -> solve_res)
                (imply_res_Cont: term -> term -> option ImplyProp)
                (SRBool: Z -> solve_res)
                (store_sub_thm_res: Z -> Z -> term -> list var_sub -> Assertion)
@@ -259,7 +260,7 @@ term *subst_term(term *den, char *src, term *t)
                   store_term(t, trm) *
                   store_string(src, src_str) *
                   store_term(den, den_term)
-          Ensure den == den@pre && src == src@pre && __return == t &&
+          Ensure den == den@pre && src == src@pre &&
                 store_term(__return, term_subst_t(den_term, src_str, trm)) *
                 store_term(den, den_term) *
                 store_string(src, src_str)
@@ -303,14 +304,19 @@ term_list* check_list_gen(term* thm, term* target)
   ;
 
 solve_res* thm_apply(term* thm, var_sub_list* lis, term* goal)
-  /*@ With t l g
+#ifndef QCP_THM_APPLY_IMPLEMENTATION
+  /*@ high_level_spec
+      With t l g
       Require store_term(thm, t) * 
               sll_var_sub_list(lis, l) * 
               store_term(goal, g)
-      Ensure thm == thm@pre && 
+      Ensure exists t_after,
+            thm == thm@pre &&
+            store_term(thm, t_after) *
             sll_var_sub_list(lis, l) * 
             store_term(goal, g) *
-            store_solve_res(__return, thm_app(t, l, g))
+            store_solve_res(__return, thm_app_result(t, l, g))
   */
+#endif
   ;
   

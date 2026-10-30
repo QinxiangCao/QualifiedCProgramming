@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.sliding_window_maximum Require Import sliding_window_maximum_goal.
 Require Import AUXLib.MonotonicList.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.sliding_window_maximum.sliding_window_maximum_lib.
 Local Open Scope sac.
@@ -68,8 +52,12 @@ Qed.
 
 Lemma proof_of_maxSlidingWindow_entail_wit_3 : maxSlidingWindow_entail_wit_3.
 Proof.
-  unfold maxSlidingWindow_entail_wit_3. right. intros.
-  replace z with n_pre in * by lia. Exists q_init.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  replace z with n_pre in * by lia. Exists (@nil Z) q_init.
+  rewrite (IntArray.undef_seg_empty (&("q")) n_pre).
+  sep_apply (IntArray.undef_full_split_to_undef_seg out_pre 0 (n_pre - k_pre + 1)); try lia.
+  rewrite (IntArray.undef_seg_empty out_pre 0).
+  rewrite (IntArray.seg_empty out_pre 0 0).
   sep_apply (IntArray.seg_to_full (&("q")) 0 n_pre q_init).
   repeat rewrite Z.mul_0_l. repeat rewrite Z.add_0_r. repeat rewrite Z.sub_0_r.
   assert (Hqueue : SWMQueueState l q_init 0 0 0 k_pre).
@@ -96,7 +84,7 @@ Qed.
 Lemma proof_of_maxSlidingWindow_entail_wit_4 : maxSlidingWindow_entail_wit_4.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maxSlidingWindow_entail_wit_4_split_goal_1.
+  - Goal_apply proof_of_maxSlidingWindow_entail_wit_4_split_goal_1.
 Qed.
 
 Lemma proof_of_maxSlidingWindow_entail_wit_5_split_goal_1 : maxSlidingWindow_entail_wit_5_split_goal_1.
@@ -139,7 +127,7 @@ Qed.
 Lemma proof_of_maxSlidingWindow_entail_wit_6_1 : maxSlidingWindow_entail_wit_6_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maxSlidingWindow_entail_wit_6_1_split_goal_1.
+  - Goal_apply proof_of_maxSlidingWindow_entail_wit_6_1_split_goal_1.
 Qed.
 
 Lemma proof_of_maxSlidingWindow_entail_wit_6_2_split_goal_1 : maxSlidingWindow_entail_wit_6_2_split_goal_1.
@@ -335,7 +323,7 @@ Qed.
 
 Lemma proof_of_maxSlidingWindow_entail_wit_12 : maxSlidingWindow_entail_wit_12.
 Proof.
-  unfold maxSlidingWindow_entail_wit_12. right. intros.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   replace i with n_pre in * by lia.
   replace out_idx with (n_pre - k_pre + 1) in * by lia.
   Exists out_l_2.
@@ -343,6 +331,7 @@ Proof.
   sep_apply (IntArray.full_to_undef_full (&("q")) n_pre q_l).
   sep_apply (IntArray.undef_full_to_undef_seg (&("q")) n_pre).
   sep_apply (IntArray.undef_seg_merge_to_undef_full (&("q")) 0 n_pre 100000); try lia.
+  rewrite (IntArray.undef_seg_empty out_pre (n_pre - k_pre + 1)).
   repeat rewrite Z.mul_0_l. repeat rewrite Z.add_0_r. repeat rewrite Z.sub_0_r.
   split_pure_spatial.
   - cancel.

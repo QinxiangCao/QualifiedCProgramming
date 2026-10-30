@@ -1,20 +1,5 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.QCP_demos_human Require Import bst_delete_rec_goal.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
 From SimpleC.EE.QCP_demos_human Require Import bst_lib.
 Import get_right_most.
 Import naive_C_Rules.
@@ -112,7 +97,7 @@ Qed.
 Lemma proof_of_delete_return_wit_1 : delete_return_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  subst b_pre_v_2.
+  subst b_v_2.
   destruct tr_low_level_spec as [| rl rk rv rr].
   - simpl store_tree.
     Exists 0.
@@ -130,13 +115,13 @@ Lemma proof_of_delete_return_wit_2 : delete_return_wit_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
   subst tr_low_level_spec.
-  Exists b_pre_v_2.
+  Exists b_v_2.
   assert (Hdel: tree_delete x_pre (make_tree l0 p_key p_value r0)
         = make_tree (tree_delete x_pre l0) p_key p_value r0).
   { simpl. destruct (Key.dec x_pre p_key) as [[Hlt | Hgt] | Heq]; try lia; reflexivity. }
   rewrite Hdel.
-  cancel (b_pre # Ptr |-> b_pre_v_2).
-  sep_apply_l_atomic (store_tree_make_tree b_pre_v_2 p_key p_value b_callee_v p_right
+  cancel (b_pre # Ptr |-> b_v_2).
+  sep_apply_l_atomic (store_tree_make_tree b_v_2 p_key p_value b_v_3 p_right
     (tree_delete x_pre l0) r0).
   - dump_pre_spatial. exact PreH5.
   - dump_pre_spatial. split; [exact PreH2 | exact PreH3].
@@ -147,13 +132,13 @@ Lemma proof_of_delete_return_wit_3 : delete_return_wit_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
   subst tr_low_level_spec.
-  Exists b_pre_v_2.
+  Exists b_v_2.
   assert (Hdel: tree_delete x_pre (make_tree l0 p_key p_value r0)
         = make_tree l0 p_key p_value (tree_delete x_pre r0)).
   { simpl. destruct (Key.dec x_pre p_key) as [[Hlt | Hgt] | Heq]; try lia; reflexivity. }
   rewrite Hdel.
-  cancel (b_pre # Ptr |-> b_pre_v_2).
-  sep_apply_l_atomic (store_tree_make_tree b_pre_v_2 p_key p_value p_left b_callee_v
+  cancel (b_pre # Ptr |-> b_v_2).
+  sep_apply_l_atomic (store_tree_make_tree b_v_2 p_key p_value p_left b_v_3
     l0 (tree_delete x_pre r0)).
   - dump_pre_spatial. exact PreH6.
   - dump_pre_spatial. split; [exact PreH3 | exact PreH4].
@@ -228,7 +213,7 @@ Proof.
       exact H0.
 Qed.
 
-Lemma proof_of_delete_derive_high_level_spec_by_low_level_spec : delete_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_delete_low_level_spec_entail_high_level_spec : delete_low_level_spec_entail_high_level_spec.
 Proof.
   LLM_pre_process ltac:(int_auto).
   Intros b_pre_v.

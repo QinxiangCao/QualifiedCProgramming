@@ -64,6 +64,7 @@ Inductive how_connective :=
 | FROM_model_TO_impp 
 | FROM_model_TO_andp
 | FROM_model_TO_orp
+| FROM_model_TO_falsep
 | FROM_model_TO_coq_prop
 | FROM_unit_TO_emp
 | FROM_model_TO_truep
@@ -90,6 +91,7 @@ Inductive how_judgement :=
 | FROM_derivable1_TO_provable
 | FROM_model_TO_provable
 | FROM_model_TO_derivable1
+| FROM_join_TO_corable
 .
 
 Definition USE_valid_FOR_provable := ___USE_valid_FOR_provable false.
@@ -171,7 +173,14 @@ Inductive rule_class :=
 | equivalence_OF_emp
 | corability_OF_basic_setting
 | corability_OF_coq_prop
+| imp_stable_OF_corable
+| and_stable_OF_corable
+| or_stable_OF_corable
+| false_stable_OF_corable
+| separation_stable_OF_corable
+| separation_absorb_stable_OF_corable
 | GEN_iffp_FROM_andp_impp
+| GEN_iffpDef_FROM_model
 | GEN_truep_FROM_falsep_impp
 | GEN_negp_FROM_falsep_impp
 | GEN_orp_FROM_impp_negp
@@ -193,6 +202,7 @@ Inductive rule_class :=
 | GEN_provable_FROM_model
 | GEN_andp_FROM_model
 | GEN_orp_FROM_model
+| GEN_falsep_FROM_model
 | GEN_coq_prop_FROM_model
 | GEN_emp_FROM_unit
 | GEN_truep_FROM_model
@@ -202,6 +212,7 @@ Inductive rule_class :=
 | deduction_exp_and
 | GEN_wand_FROM_model
 | GEN_derivable1_FROM_model
+| GEN_corable_FROM_join
 | GEN_exp_FROM_model
 | GEN_all_FROM_model
 | derivitive1_OF_iter_sepcon
@@ -696,7 +707,14 @@ match rc1, rc2 with
 | equivalence_OF_emp, equivalence_OF_emp
 | corability_OF_basic_setting, corability_OF_basic_setting
 | corability_OF_coq_prop, corability_OF_coq_prop
+| imp_stable_OF_corable, imp_stable_OF_corable
+| and_stable_OF_corable, and_stable_OF_corable
+| or_stable_OF_corable, or_stable_OF_corable
+| false_stable_OF_corable, false_stable_OF_corable
+| separation_stable_OF_corable, separation_stable_OF_corable
+| separation_absorb_stable_OF_corable, separation_absorb_stable_OF_corable
 | GEN_iffp_FROM_andp_impp, GEN_iffp_FROM_andp_impp
+| GEN_iffpDef_FROM_model, GEN_iffpDef_FROM_model
 | GEN_truep_FROM_falsep_impp, GEN_truep_FROM_falsep_impp
 | GEN_negp_FROM_falsep_impp, GEN_negp_FROM_falsep_impp
 | GEN_orp_FROM_impp_negp, GEN_orp_FROM_impp_negp
@@ -718,6 +736,7 @@ match rc1, rc2 with
 | join_is_SA, join_is_SA => true
 | GEN_andp_FROM_model, GEN_andp_FROM_model => true
 | GEN_orp_FROM_model, GEN_orp_FROM_model => true
+| GEN_falsep_FROM_model, GEN_falsep_FROM_model => true
 | GEN_coq_prop_FROM_model, GEN_coq_prop_FROM_model => true 
 | GEN_emp_FROM_unit, GEN_emp_FROM_unit => true
 | GEN_truep_FROM_model, GEN_truep_FROM_model => true
@@ -727,6 +746,7 @@ match rc1, rc2 with
 | deduction_exp_and, deduction_exp_and => true 
 | GEN_wand_FROM_model, GEN_wand_FROM_model => true
 | GEN_derivable1_FROM_model, GEN_derivable1_FROM_model => true
+| GEN_corable_FROM_join, GEN_corable_FROM_join => true
 | GEN_exp_FROM_model, GEN_exp_FROM_model => true
 | GEN_all_FROM_model, GEN_all_FROM_model => true
 | derivitive1_OF_iter_sepcon, derivitive1_OF_iter_sepcon => true

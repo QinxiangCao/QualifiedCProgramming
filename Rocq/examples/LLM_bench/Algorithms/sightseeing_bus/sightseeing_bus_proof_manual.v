@@ -1,22 +1,6 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.sightseeing_bus Require Import sightseeing_bus_goal.
 Require Import AUXLib.MonotonicList.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.sightseeing_bus.sightseeing_bus_lib.
 Local Open Scope sac.
@@ -145,7 +129,7 @@ Qed.
 
 Lemma proof_of_solve_safety_wit_6 : solve_safety_wit_6.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_safety_wit_6_split_goal_1.
   - Goal_apply proof_of_solve_safety_wit_6_split_goal_2.
 Qed.
@@ -190,7 +174,7 @@ Qed.
 
 Lemma proof_of_solve_safety_wit_8 : solve_safety_wit_8.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_safety_wit_8_split_goal_1.
   - Goal_apply proof_of_solve_safety_wit_8_split_goal_2.
 Qed.
@@ -229,7 +213,7 @@ Qed.
 
 Lemma proof_of_solve_safety_wit_10 : solve_safety_wit_10.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_safety_wit_10_split_goal_1.
   - Goal_apply proof_of_solve_safety_wit_10_split_goal_2.
 Qed.
@@ -268,7 +252,7 @@ Qed.
 
 Lemma proof_of_solve_safety_wit_12 : solve_safety_wit_12.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_safety_wit_12_split_goal_1.
   - Goal_apply proof_of_solve_safety_wit_12_split_goal_2.
 Qed.
@@ -315,7 +299,7 @@ Qed.
 
 Lemma proof_of_solve_safety_wit_22 : solve_safety_wit_22.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_safety_wit_22_split_goal_1.
   - Goal_apply proof_of_solve_safety_wit_22_split_goal_2.
 Qed.
@@ -358,7 +342,7 @@ Qed.
 
 Lemma proof_of_solve_safety_wit_23 : solve_safety_wit_23.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_safety_wit_23_split_goal_1.
   - Goal_apply proof_of_solve_safety_wit_23_split_goal_2.
 Qed.
@@ -396,7 +380,7 @@ Qed.
 
 Lemma proof_of_solve_safety_wit_39 : solve_safety_wit_39.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_safety_wit_39_split_goal_1.
   - Goal_apply proof_of_solve_safety_wit_39_split_goal_2.
 Qed.
@@ -433,7 +417,7 @@ Qed.
 
 Lemma proof_of_solve_safety_wit_46 : solve_safety_wit_46.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_safety_wit_46_split_goal_1.
   - Goal_apply proof_of_solve_safety_wit_46_split_goal_2.
 Qed.
@@ -470,7 +454,7 @@ Qed.
 
 Lemma proof_of_solve_safety_wit_50 : solve_safety_wit_50.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_safety_wit_50_split_goal_1.
   - Goal_apply proof_of_solve_safety_wit_50_split_goal_2.
 Qed.
@@ -529,7 +513,7 @@ Qed.
 
 Lemma proof_of_solve_safety_wit_63 : solve_safety_wit_63.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_safety_wit_63_split_goal_1.
   - Goal_apply proof_of_solve_safety_wit_63_split_goal_2.
 Qed.
@@ -568,10 +552,9 @@ Qed.
 
 Lemma proof_of_solve_safety_wit_64 : solve_safety_wit_64.
 Proof.
-  unfold solve_safety_wit_64; left; intros.
-  apply _derivable1_andp_intros.
-  - eapply proof_of_solve_safety_wit_64_split_goal_1; eassumption.
-  - eapply proof_of_solve_safety_wit_64_split_goal_2; eassumption.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_safety_wit_64_split_goal_1.
+  - Goal_apply proof_of_solve_safety_wit_64_split_goal_2.
 Qed.
 
 Lemma proof_of_solve_entail_wit_1 : solve_entail_wit_1.
@@ -645,7 +628,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_2 : solve_entail_wit_2.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_2_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_2_split_goal_2.
   - Goal_apply proof_of_solve_entail_wit_2_split_goal_3.
@@ -780,7 +763,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_5_1 : solve_entail_wit_5_1.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_5_1_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_5_1_split_goal_2.
   - Goal_apply proof_of_solve_entail_wit_5_1_split_goal_3.
@@ -842,7 +825,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_5_2 : solve_entail_wit_5_2.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_5_2_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_5_2_split_goal_2.
   - Goal_apply proof_of_solve_entail_wit_5_2_split_goal_3.
@@ -904,11 +887,11 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_6 : solve_entail_wit_6.
 Proof.
- aggressive_pre_process.
- - Goal_apply proof_of_solve_entail_wit_6_split_goal_1.
- - Goal_apply proof_of_solve_entail_wit_6_split_goal_2.
- - Goal_apply proof_of_solve_entail_wit_6_split_goal_3.
- - Goal_apply proof_of_solve_entail_wit_6_split_goal_4.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_entail_wit_6_split_goal_1.
+  - Goal_apply proof_of_solve_entail_wit_6_split_goal_2.
+  - Goal_apply proof_of_solve_entail_wit_6_split_goal_3.
+  - Goal_apply proof_of_solve_entail_wit_6_split_goal_4.
 Qed.
 
 Lemma proof_of_solve_entail_wit_7_1_split_goal_1 : solve_entail_wit_7_1_split_goal_1.
@@ -982,7 +965,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_7_1 : solve_entail_wit_7_1.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_7_1_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_7_1_split_goal_2.
   - Goal_apply proof_of_solve_entail_wit_7_1_split_goal_3.
@@ -1069,7 +1052,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_7_2 : solve_entail_wit_7_2.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_7_2_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_7_2_split_goal_2.
   - Goal_apply proof_of_solve_entail_wit_7_2_split_goal_3.
@@ -1132,7 +1115,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_7_3 : solve_entail_wit_7_3.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_7_3_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_7_3_split_goal_2.
   - Goal_apply proof_of_solve_entail_wit_7_3_split_goal_3.
@@ -1180,7 +1163,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_7_4 : solve_entail_wit_7_4.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_7_4_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_7_4_split_goal_2.
 Qed.
@@ -1233,8 +1216,8 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_9 : solve_entail_wit_9.
 Proof.
-aggressive_pre_process.
-  Goal_apply proof_of_solve_entail_wit_9_split_goal_1.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_entail_wit_9_split_goal_1.
 Qed.
 
 Lemma proof_of_solve_entail_wit_10_split_goal_1 : solve_entail_wit_10_split_goal_1.
@@ -1251,8 +1234,8 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_10 : solve_entail_wit_10.
 Proof.
-aggressive_pre_process.
-  Goal_apply proof_of_solve_entail_wit_10_split_goal_1.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_entail_wit_10_split_goal_1.
 Qed.
 
 Lemma proof_of_solve_entail_wit_11_split_goal_1 : solve_entail_wit_11_split_goal_1.
@@ -1303,7 +1286,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_11 : solve_entail_wit_11.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_11_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_11_split_goal_2.
   - Goal_apply proof_of_solve_entail_wit_11_split_goal_3.
@@ -1328,8 +1311,8 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_12_1 : solve_entail_wit_12_1.
 Proof.
-aggressive_pre_process.
-  Goal_apply proof_of_solve_entail_wit_12_1_split_goal_1.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_entail_wit_12_1_split_goal_1.
 Qed.
 
 Lemma proof_of_solve_entail_wit_12_2_split_goal_1 : solve_entail_wit_12_2_split_goal_1.
@@ -1393,7 +1376,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_12_2 : solve_entail_wit_12_2.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_12_2_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_12_2_split_goal_2.
   - Goal_apply proof_of_solve_entail_wit_12_2_split_goal_3.
@@ -1571,7 +1554,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_13_1 : solve_entail_wit_13_1.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_13_1_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_13_1_split_goal_2.
   - Goal_apply proof_of_solve_entail_wit_13_1_split_goal_3.
@@ -1759,7 +1742,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_13_2 : solve_entail_wit_13_2.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_13_2_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_13_2_split_goal_2.
   - Goal_apply proof_of_solve_entail_wit_13_2_split_goal_3.
@@ -1797,8 +1780,8 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_13_3 : solve_entail_wit_13_3.
 Proof.
-aggressive_pre_process.
-  Goal_apply proof_of_solve_entail_wit_13_3_split_goal_1.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_entail_wit_13_3_split_goal_1.
 Qed.
 
 Lemma proof_of_solve_entail_wit_14 : solve_entail_wit_14.
@@ -2020,8 +2003,8 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_16_1 : solve_entail_wit_16_1.
 Proof.
- aggressive_pre_process.
- - Goal_apply proof_of_solve_entail_wit_16_1_split_goal_1.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_entail_wit_16_1_split_goal_1.
 Qed.
 
 Lemma proof_of_solve_entail_wit_16_2_split_goal_1 : solve_entail_wit_16_2_split_goal_1.
@@ -2204,11 +2187,11 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_16_2 : solve_entail_wit_16_2.
 Proof.
- aggressive_pre_process.
- - Goal_apply proof_of_solve_entail_wit_16_2_split_goal_1.
- - Goal_apply proof_of_solve_entail_wit_16_2_split_goal_2.
- - Goal_apply proof_of_solve_entail_wit_16_2_split_goal_3.
- - Goal_apply proof_of_solve_entail_wit_16_2_split_goal_4.
+  aggressive_pre_process.
+  - Goal_apply proof_of_solve_entail_wit_16_2_split_goal_1.
+  - Goal_apply proof_of_solve_entail_wit_16_2_split_goal_2.
+  - Goal_apply proof_of_solve_entail_wit_16_2_split_goal_3.
+  - Goal_apply proof_of_solve_entail_wit_16_2_split_goal_4.
 Qed.
 
 Lemma proof_of_solve_entail_wit_17_1_split_goal_1 : solve_entail_wit_17_1_split_goal_1.
@@ -2250,7 +2233,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_17_1 : solve_entail_wit_17_1.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_17_1_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_17_1_split_goal_2.
   - Goal_apply proof_of_solve_entail_wit_17_1_split_goal_3.
@@ -2312,7 +2295,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_17_2 : solve_entail_wit_17_2.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_17_2_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_17_2_split_goal_2.
   - Goal_apply proof_of_solve_entail_wit_17_2_split_goal_3.
@@ -2365,7 +2348,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_17_3 : solve_entail_wit_17_3.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_17_3_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_17_3_split_goal_2.
   - Goal_apply proof_of_solve_entail_wit_17_3_split_goal_3.
@@ -2403,7 +2386,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_18 : solve_entail_wit_18.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_18_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_18_split_goal_2.
 Qed.
@@ -2497,7 +2480,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_19 : solve_entail_wit_19.
 Proof.
-aggressive_pre_process.
+  aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_19_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_19_split_goal_2.
   - Goal_apply proof_of_solve_entail_wit_19_split_goal_3.

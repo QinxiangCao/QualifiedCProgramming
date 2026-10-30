@@ -16,7 +16,7 @@ local instance : SacContext := ⟨naive_C_Rules⟩
 
 theorem proof_of_solver_return_wit_1 : solver_return_wit_1 := by
   right
-  intro out j i m n start _ _ _ _ _ _ hn hnmax hm hmmax hi hj hilo hihi hjlo hjhi
+  intro start n m i j out _ _ _ _ _ _ hn hnmax hm hmmax hi hj hilo hihi hjlo hjhi
   have hs : InRoom n m start := by
     dsimp [InRoom, zpair_fst, zpair_snd] at *
     omega

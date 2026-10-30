@@ -1,0 +1,5 @@
+From SimpleC.EE.Applications_human.typeinfer_rc Require Import typeinfer_rc_strategy_goal typeinfer_rc_strategy_proof.
+
+Module typeinfer_rc_Strategy_Correctness : typeinfer_rc_Strategy_Correct.
+  Include typeinfer_rc_strategy_proof.
+End typeinfer_rc_Strategy_Correctness.

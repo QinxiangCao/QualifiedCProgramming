@@ -102,14 +102,14 @@ private theorem merge_orders (ptr z : Int) (before after : List Int) (hz : 0≤z
 
 theorem proof_of_try_order_safety_wit_11_split_goal_1 : try_order_safety_wit_11_split_goal_1 := by
   unfold try_order_safety_wit_11_split_goal_1
-  intro out_pre order_pre need_pre n_pre v_pre ord c b a row_ptr lefts rights acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro ord c b a v_pre n_pre need_pre order_pre out_pre row_ptr lefts rights acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   dump_pre_spatial
   have hv := PreH7 who pos ⟨⟨by omega,by omega⟩,by omega⟩
   omega
 
 theorem proof_of_try_order_safety_wit_11_split_goal_2 : try_order_safety_wit_11_split_goal_2 := by
   unfold try_order_safety_wit_11_split_goal_2
-  intro out_pre order_pre need_pre n_pre v_pre ord c b a row_ptr lefts rights acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro ord c b a v_pre n_pre need_pre order_pre out_pre row_ptr lefts rights acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   dump_pre_spatial
   have hv := PreH7 who pos ⟨⟨by omega,by omega⟩,by omega⟩
   omega
@@ -117,21 +117,21 @@ theorem proof_of_try_order_safety_wit_11_split_goal_2 : try_order_safety_wit_11_
 theorem proof_of_try_order_safety_wit_11 : try_order_safety_wit_11 := by
   unfold try_order_safety_wit_11
   right
-  intro out_pre order_pre need_pre n_pre v_pre ord c b a row_ptr lefts rights acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro ord c b a v_pre n_pre need_pre order_pre out_pre row_ptr lefts rights acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   split_pures
-  · exact proof_of_try_order_safety_wit_11_split_goal_1 out_pre order_pre need_pre n_pre v_pre ord c b a row_ptr lefts rights acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
-  · exact proof_of_try_order_safety_wit_11_split_goal_2 out_pre order_pre need_pre n_pre v_pre ord c b a row_ptr lefts rights acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  · exact proof_of_try_order_safety_wit_11_split_goal_1 ord c b a v_pre n_pre need_pre order_pre out_pre row_ptr lefts rights acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  · exact proof_of_try_order_safety_wit_11_split_goal_2 ord c b a v_pre n_pre need_pre order_pre out_pre row_ptr lefts rights acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
 
 theorem proof_of_try_order_safety_wit_20_split_goal_1 : try_order_safety_wit_20_split_goal_1 := by
   unfold try_order_safety_wit_20_split_goal_1
-  intro out_pre order_pre need_pre n_pre v_pre ord c b a row_ptr lefts rights acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro ord c b a v_pre n_pre need_pre order_pre out_pre row_ptr lefts rights acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   dump_pre_spatial
   have hv := PreH6 who i ⟨⟨by omega,by omega⟩,by omega⟩
   omega
 
 theorem proof_of_try_order_safety_wit_20_split_goal_2 : try_order_safety_wit_20_split_goal_2 := by
   unfold try_order_safety_wit_20_split_goal_2
-  intro out_pre order_pre need_pre n_pre v_pre ord c b a row_ptr lefts rights acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro ord c b a v_pre n_pre need_pre order_pre out_pre row_ptr lefts rights acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   dump_pre_spatial
   have hv := PreH6 who i ⟨⟨by omega,by omega⟩,by omega⟩
   omega
@@ -139,47 +139,47 @@ theorem proof_of_try_order_safety_wit_20_split_goal_2 : try_order_safety_wit_20_
 theorem proof_of_try_order_safety_wit_20 : try_order_safety_wit_20 := by
   unfold try_order_safety_wit_20
   right
-  intro out_pre order_pre need_pre n_pre v_pre ord c b a row_ptr lefts rights acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro ord c b a v_pre n_pre need_pre order_pre out_pre row_ptr lefts rights acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   split_pures
-  · exact proof_of_try_order_safety_wit_20_split_goal_1 out_pre order_pre need_pre n_pre v_pre ord c b a row_ptr lefts rights acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
-  · exact proof_of_try_order_safety_wit_20_split_goal_2 out_pre order_pre need_pre n_pre v_pre ord c b a row_ptr lefts rights acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  · exact proof_of_try_order_safety_wit_20_split_goal_1 ord c b a v_pre n_pre need_pre order_pre out_pre row_ptr lefts rights acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  · exact proof_of_try_order_safety_wit_20_split_goal_2 ord c b a v_pre n_pre need_pre order_pre out_pre row_ptr lefts rights acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
 
 theorem proof_of_try_order_entail_wit_1_split_goal_1 : try_order_entail_wit_1_split_goal_1 := by
   unfold try_order_entail_wit_1_split_goal_1
-  intro need_pre n_pre ord c b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro ord c b a n_pre need_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   refine ⟨PreH9,rfl,rfl,⟨by omega,by omega⟩,⟨by omega,?_⟩,?_,rfl⟩
   · change 0≤Zlength a; omega
   · intro k hk; omega
 
 theorem proof_of_try_order_entail_wit_1_split_goal_2 : try_order_entail_wit_1_split_goal_2 := by
   unfold try_order_entail_wit_1_split_goal_2
-  intro need_pre n_pre ord c b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro ord c b a n_pre need_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   exact (need_bounds a b c need_pre PreH6 PreH8).2
 
 theorem proof_of_try_order_entail_wit_1_split_goal_3 : try_order_entail_wit_1_split_goal_3 := by
   unfold try_order_entail_wit_1_split_goal_3
-  intro need_pre n_pre ord c b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro ord c b a n_pre need_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   exact (need_bounds a b c need_pre PreH6 PreH8).1
 
 theorem proof_of_try_order_entail_wit_1 : try_order_entail_wit_1 := by
   unfold try_order_entail_wit_1
   right
-  intro need_pre n_pre ord c b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro ord c b a n_pre need_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact (proof_of_try_order_entail_wit_1_split_goal_1 need_pre n_pre ord c b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_1_split_goal_1 need_pre n_pre ord c b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10))
-      | exact (proof_of_try_order_entail_wit_1_split_goal_2 need_pre n_pre ord c b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_1_split_goal_2 need_pre n_pre ord c b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10))
-      | exact (proof_of_try_order_entail_wit_1_split_goal_3 need_pre n_pre ord c b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_1_split_goal_3 need_pre n_pre ord c b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10))
+      | exact (proof_of_try_order_entail_wit_1_split_goal_1 ord c b a n_pre need_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_1_split_goal_1 ord c b a n_pre need_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10))
+      | exact (proof_of_try_order_entail_wit_1_split_goal_2 ord c b a n_pre need_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_1_split_goal_2 ord c b a n_pre need_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10))
+      | exact (proof_of_try_order_entail_wit_1_split_goal_3 ord c b a n_pre need_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_1_split_goal_3 ord c b a n_pre need_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10))
 
 theorem proof_of_try_order_entail_wit_2 : try_order_entail_wit_2 := by
   unfold try_order_entail_wit_2
   right
-  intro need_pre n_pre v_pre ord c b a pos lefts_2 rights_2 part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro ord c b a v_pre n_pre need_pre pos lefts_2 rights_2 part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have hw := order_index ord part PreH12 ⟨by omega,by omega⟩
   have hl := row_length a b c (Znth part ord 0) hw PreH4 PreH5
   have hp := PreH16.2.2.2.2.1
@@ -193,7 +193,7 @@ theorem proof_of_try_order_entail_wit_2 : try_order_entail_wit_2 := by
 
 theorem proof_of_try_order_entail_wit_3_split_goal_1 : try_order_entail_wit_3_split_goal_1 := by
   unfold try_order_entail_wit_3_split_goal_1
-  intro need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   have hpos := PreH20.2.2.2.2.1
   change 0≤pos ∧ pos≤Zlength a at hpos
   have hstart : 0≤start ∧ start≤Zlength a := by omega
@@ -204,7 +204,7 @@ theorem proof_of_try_order_entail_wit_3_split_goal_1 : try_order_entail_wit_3_sp
 
 theorem proof_of_try_order_entail_wit_3_split_goal_2 : try_order_entail_wit_3_split_goal_2 := by
   unfold try_order_entail_wit_3_split_goal_2
-  intro need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   have hpos := PreH20.2.2.2.2.1
   change 0≤pos ∧ pos≤Zlength a at hpos
   have hstart : 0≤start ∧ start≤Zlength a := by omega
@@ -212,7 +212,7 @@ theorem proof_of_try_order_entail_wit_3_split_goal_2 : try_order_entail_wit_3_sp
 
 theorem proof_of_try_order_entail_wit_3_split_goal_3 : try_order_entail_wit_3_split_goal_3 := by
   unfold try_order_entail_wit_3_split_goal_3
-  intro need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   have hpos := PreH20.2.2.2.2.1
   change 0≤pos ∧ pos≤Zlength a at hpos
   have hstart : 0≤start ∧ start≤Zlength a := by omega
@@ -220,7 +220,7 @@ theorem proof_of_try_order_entail_wit_3_split_goal_3 : try_order_entail_wit_3_sp
 
 theorem proof_of_try_order_entail_wit_3_split_goal_4 : try_order_entail_wit_3_split_goal_4 := by
   unfold try_order_entail_wit_3_split_goal_4
-  intro need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   have hpos := PreH20.2.2.2.2.1
   change 0≤pos ∧ pos≤Zlength a at hpos
   have hstart : 0≤start ∧ start≤Zlength a := by omega
@@ -228,7 +228,7 @@ theorem proof_of_try_order_entail_wit_3_split_goal_4 : try_order_entail_wit_3_sp
 
 theorem proof_of_try_order_entail_wit_3_split_goal_5 : try_order_entail_wit_3_split_goal_5 := by
   unfold try_order_entail_wit_3_split_goal_5
-  intro need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   have hpos := PreH20.2.2.2.2.1
   change 0≤pos ∧ pos≤Zlength a at hpos
   have hstart : 0≤start ∧ start≤Zlength a := by omega
@@ -237,25 +237,25 @@ theorem proof_of_try_order_entail_wit_3_split_goal_5 : try_order_entail_wit_3_sp
 theorem proof_of_try_order_entail_wit_3 : try_order_entail_wit_3 := by
   unfold try_order_entail_wit_3
   right
-  intro need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
+  intro ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact (proof_of_try_order_entail_wit_3_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_3_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20))
-      | exact (proof_of_try_order_entail_wit_3_split_goal_2 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_3_split_goal_2 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20))
-      | exact (proof_of_try_order_entail_wit_3_split_goal_3 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_3_split_goal_3 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20))
-      | exact (proof_of_try_order_entail_wit_3_split_goal_4 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_3_split_goal_4 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20))
-      | exact (proof_of_try_order_entail_wit_3_split_goal_5 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_3_split_goal_5 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20))
+      | exact (proof_of_try_order_entail_wit_3_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_3_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20))
+      | exact (proof_of_try_order_entail_wit_3_split_goal_2 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_3_split_goal_2 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20))
+      | exact (proof_of_try_order_entail_wit_3_split_goal_3 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_3_split_goal_3 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20))
+      | exact (proof_of_try_order_entail_wit_3_split_goal_4 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_3_split_goal_4 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20))
+      | exact (proof_of_try_order_entail_wit_3_split_goal_5 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_3_split_goal_5 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20))
 
 theorem proof_of_try_order_entail_wit_4_split_goal_1 : try_order_entail_wit_4_split_goal_1 := by
   unfold try_order_entail_wit_4_split_goal_1
-  intro need_pre n_pre ord c b a lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro ord c b a n_pre need_pre lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hl := row_length a b c who ⟨by omega,by omega⟩ (by omega) (by omega)
   rcases PreH27 with ⟨hs,hsp,hpn,ha,hm⟩
   refine ⟨hs,by omega,by omega,?_,?_⟩
@@ -269,7 +269,7 @@ theorem proof_of_try_order_entail_wit_4_split_goal_1 : try_order_entail_wit_4_sp
 
 theorem proof_of_try_order_entail_wit_4_split_goal_2 : try_order_entail_wit_4_split_goal_2 := by
   unfold try_order_entail_wit_4_split_goal_2
-  intro need_pre n_pre ord c b a lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro ord c b a n_pre need_pre lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hh := need_bounds a b c need_pre PreH8 PreH10
   have hv := PreH7 who pos ⟨⟨by omega,by omega⟩,by omega⟩
   have hs := PreH27.2.2.2.1
@@ -284,82 +284,82 @@ theorem proof_of_try_order_entail_wit_4_split_goal_2 : try_order_entail_wit_4_sp
 
 theorem proof_of_try_order_entail_wit_4_split_goal_3 : try_order_entail_wit_4_split_goal_3 := by
   unfold try_order_entail_wit_4_split_goal_3
-  intro need_pre n_pre ord c b a lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro ord c b a n_pre need_pre lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hv := PreH7 who pos ⟨⟨by omega,by omega⟩,by omega⟩
   omega
 
 theorem proof_of_try_order_entail_wit_4 : try_order_entail_wit_4 := by
   unfold try_order_entail_wit_4
   right
-  intro need_pre n_pre ord c b a lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro ord c b a n_pre need_pre lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact (proof_of_try_order_entail_wit_4_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_4_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
-      | exact (proof_of_try_order_entail_wit_4_split_goal_2 need_pre n_pre ord c b a lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_4_split_goal_2 need_pre n_pre ord c b a lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
-      | exact (proof_of_try_order_entail_wit_4_split_goal_3 need_pre n_pre ord c b a lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_4_split_goal_3 need_pre n_pre ord c b a lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
+      | exact (proof_of_try_order_entail_wit_4_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_4_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
+      | exact (proof_of_try_order_entail_wit_4_split_goal_2 ord c b a n_pre need_pre lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_4_split_goal_2 ord c b a n_pre need_pre lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
+      | exact (proof_of_try_order_entail_wit_4_split_goal_3 ord c b a n_pre need_pre lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_4_split_goal_3 ord c b a n_pre need_pre lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
 
 theorem proof_of_try_order_entail_wit_5_1_split_goal_1 : try_order_entail_wit_5_1_split_goal_1 := by
   unfold try_order_entail_wit_5_1_split_goal_1
-  intro need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   dump_pre_spatial
   assumption
 
 theorem proof_of_try_order_entail_wit_5_1_split_goal_spatial : try_order_entail_wit_5_1_split_goal_spatial := by
   unfold try_order_entail_wit_5_1_split_goal_spatial
-  intro need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   have hl := row_length a b c who ⟨by omega,by omega⟩ (by omega) (by omega)
   exact merge_row a b c v_pre who row_ptr n_pre ⟨by omega,by omega⟩ (by omega)
 
 theorem proof_of_try_order_entail_wit_5_1 : try_order_entail_wit_5_1 := by
   unfold try_order_entail_wit_5_1
   right
-  intro need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   split_pure_spatial
-  · exact (proof_of_try_order_entail_wit_5_1_split_goal_spatial need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26)
+  · exact (proof_of_try_order_entail_wit_5_1_split_goal_spatial ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26)
   · split_pures
     all_goals first
-      | exact (proof_of_try_order_entail_wit_5_1_split_goal_1 need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_5_1_split_goal_1 need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26))
+      | exact (proof_of_try_order_entail_wit_5_1_split_goal_1 ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_5_1_split_goal_1 ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26))
 
 theorem proof_of_try_order_entail_wit_5_2_split_goal_1 : try_order_entail_wit_5_2_split_goal_1 := by
   unfold try_order_entail_wit_5_2_split_goal_1
-  intro need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   dump_pre_spatial
   exact PreH27.2.1
 
 theorem proof_of_try_order_entail_wit_5_2_split_goal_2 : try_order_entail_wit_5_2_split_goal_2 := by
   unfold try_order_entail_wit_5_2_split_goal_2
-  intro need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   dump_pre_spatial
   assumption
 
 theorem proof_of_try_order_entail_wit_5_2_split_goal_spatial : try_order_entail_wit_5_2_split_goal_spatial := by
   unfold try_order_entail_wit_5_2_split_goal_spatial
-  intro need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   have hl := row_length a b c who ⟨by omega,by omega⟩ (by omega) (by omega)
   exact merge_row a b c v_pre who row_ptr n_pre ⟨by omega,by omega⟩ (by omega)
 
 theorem proof_of_try_order_entail_wit_5_2 : try_order_entail_wit_5_2 := by
   unfold try_order_entail_wit_5_2
   right
-  intro need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
+  intro ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27
   split_pure_spatial
-  · exact (proof_of_try_order_entail_wit_5_2_split_goal_spatial need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+  · exact (proof_of_try_order_entail_wit_5_2_split_goal_spatial ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
   · split_pures
     all_goals first
-      | exact (proof_of_try_order_entail_wit_5_2_split_goal_1 need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_5_2_split_goal_1 need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
-      | exact (proof_of_try_order_entail_wit_5_2_split_goal_2 need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_5_2_split_goal_2 need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
+      | exact (proof_of_try_order_entail_wit_5_2_split_goal_1 ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_5_2_split_goal_1 ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
+      | exact (proof_of_try_order_entail_wit_5_2_split_goal_2 ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_5_2_split_goal_2 ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc pos start who part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27))
 
 theorem proof_of_try_order_entail_wit_6_split_goal_1 : try_order_entail_wit_6_split_goal_1 := by
   unfold try_order_entail_wit_6_split_goal_1
-  intro need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hn := need_bounds a b c need_pre PreH7 PreH9
   have htot := cake_sum_bounds_from_forall__try_initialization a PreH7.2.2.2.1
   have ht : 0≤CakeSum a := by omega
@@ -574,7 +574,7 @@ theorem proof_of_try_order_entail_wit_6_split_goal_1 : try_order_entail_wit_6_sp
 
 theorem proof_of_try_order_entail_wit_6_split_goal_2 : try_order_entail_wit_6_split_goal_2 := by
   unfold try_order_entail_wit_6_split_goal_2
-  intro need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hl := row_length a b c who ⟨by omega,by omega⟩ (by omega) (by omega)
   rcases PreH22 with ⟨hs,hsp,hpn,ha,hm⟩
   have hx := sum_sublist_nonnegative__try_terminal_semantics (Znth who [a,b,c] []) start pos
@@ -584,19 +584,19 @@ theorem proof_of_try_order_entail_wit_6_split_goal_2 : try_order_entail_wit_6_sp
 theorem proof_of_try_order_entail_wit_6 : try_order_entail_wit_6 := by
   unfold try_order_entail_wit_6
   right
-  intro need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact (proof_of_try_order_entail_wit_6_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_6_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
-      | exact (proof_of_try_order_entail_wit_6_split_goal_2 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_6_split_goal_2 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+      | exact (proof_of_try_order_entail_wit_6_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_6_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+      | exact (proof_of_try_order_entail_wit_6_split_goal_2 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_6_split_goal_2 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
 
 theorem proof_of_try_order_entail_wit_7_split_goal_1 : try_order_entail_wit_7_split_goal_1 := by
   unfold try_order_entail_wit_7_split_goal_1
-  intro need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hn := need_bounds a b c need_pre PreH7 PreH9
   have hl := row_length a b c who ⟨PreH15,PreH16⟩ PreH4 PreH5
   rcases PreH21 with ⟨ho,hll,hrl,hpart,hpos,hdone,hstart⟩
@@ -649,33 +649,33 @@ theorem proof_of_try_order_entail_wit_7_split_goal_1 : try_order_entail_wit_7_sp
 
 theorem proof_of_try_order_entail_wit_7_split_goal_2 : try_order_entail_wit_7_split_goal_2 := by
   unfold try_order_entail_wit_7_split_goal_2
-  intro need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   exact (need_bounds a b c need_pre PreH7 PreH9).2
 
 theorem proof_of_try_order_entail_wit_7_split_goal_3 : try_order_entail_wit_7_split_goal_3 := by
   unfold try_order_entail_wit_7_split_goal_3
-  intro need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   exact (need_bounds a b c need_pre PreH7 PreH9).1
 
 theorem proof_of_try_order_entail_wit_7 : try_order_entail_wit_7 := by
   unfold try_order_entail_wit_7
   right
-  intro need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact (proof_of_try_order_entail_wit_7_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_7_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
-      | exact (proof_of_try_order_entail_wit_7_split_goal_2 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_7_split_goal_2 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
-      | exact (proof_of_try_order_entail_wit_7_split_goal_3 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_7_split_goal_3 need_pre n_pre ord c b a lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+      | exact (proof_of_try_order_entail_wit_7_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_7_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+      | exact (proof_of_try_order_entail_wit_7_split_goal_2 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_7_split_goal_2 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+      | exact (proof_of_try_order_entail_wit_7_split_goal_3 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_7_split_goal_3 ord c b a n_pre need_pre lefts_2 rights_2 part who start pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
 
 theorem proof_of_try_order_entail_wit_8 : try_order_entail_wit_8 := by
   unfold try_order_entail_wit_8
   right
-  intro need_pre n_pre v_pre ord c b a pos lefts_2 rights_2 part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro ord c b a v_pre n_pre need_pre pos lefts_2 rights_2 part PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have he : part=2 := by omega
   rw [he] at PreH16
   have hw := order_index ord 2 PreH12 ⟨by omega,by omega⟩
@@ -691,30 +691,30 @@ theorem proof_of_try_order_entail_wit_8 : try_order_entail_wit_8 := by
 
 theorem proof_of_try_order_entail_wit_9_split_goal_1 : try_order_entail_wit_9_split_goal_1 := by
   unfold try_order_entail_wit_9_split_goal_1
-  intro need_pre n_pre ord c b a lefts_2 rights_2 who pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro ord c b a n_pre need_pre lefts_2 rights_2 who pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   have hl := selected_row_length__try_terminal_semantics a b c ord who PreH11 PreH13 (by omega) (by omega)
   exact suffix_sum_empty__try_terminal_semantics [a,b,c] who pos (by omega) (by omega)
 
 theorem proof_of_try_order_entail_wit_9 : try_order_entail_wit_9 := by
   unfold try_order_entail_wit_9
   right
-  intro need_pre n_pre ord c b a lefts_2 rights_2 who pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
+  intro ord c b a n_pre need_pre lefts_2 rights_2 who pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact (proof_of_try_order_entail_wit_9_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 who pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_9_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 who pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
+      | exact (proof_of_try_order_entail_wit_9_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 who pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_9_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 who pos acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19))
 
 theorem proof_of_try_order_entail_wit_10_split_goal_1 : try_order_entail_wit_10_split_goal_1 := by
   unfold try_order_entail_wit_10_split_goal_1
-  intro need_pre n_pre ord c b a lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro ord c b a n_pre need_pre lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have hl := selected_row_length__try_terminal_semantics a b c ord who PreH12 PreH14 (by omega) (by omega)
   exact suffix_sum_extend__try_terminal_semantics [a,b,c] who pos i acc PreH23 (by omega)
 
 theorem proof_of_try_order_entail_wit_10_split_goal_2 : try_order_entail_wit_10_split_goal_2 := by
   unfold try_order_entail_wit_10_split_goal_2
-  intro need_pre n_pre ord c b a lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro ord c b a n_pre need_pre lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have hl := selected_row_length__try_terminal_semantics a b c ord who PreH12 PreH14 (by omega) (by omega)
   apply suffix_sum_upper__try_terminal_semantics [a,b,c] who pos i acc PreH23 (by omega)
   · intro k hk
@@ -724,28 +724,28 @@ theorem proof_of_try_order_entail_wit_10_split_goal_2 : try_order_entail_wit_10_
 
 theorem proof_of_try_order_entail_wit_10_split_goal_3 : try_order_entail_wit_10_split_goal_3 := by
   unfold try_order_entail_wit_10_split_goal_3
-  intro need_pre n_pre ord c b a lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro ord c b a n_pre need_pre lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have hv := PreH6 who i ⟨⟨by omega,by omega⟩,by omega⟩
   omega
 
 theorem proof_of_try_order_entail_wit_10 : try_order_entail_wit_10 := by
   unfold try_order_entail_wit_10
   right
-  intro need_pre n_pre ord c b a lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro ord c b a n_pre need_pre lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact (proof_of_try_order_entail_wit_10_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_10_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-      | exact (proof_of_try_order_entail_wit_10_split_goal_2 need_pre n_pre ord c b a lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_10_split_goal_2 need_pre n_pre ord c b a lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-      | exact (proof_of_try_order_entail_wit_10_split_goal_3 need_pre n_pre ord c b a lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_10_split_goal_3 need_pre n_pre ord c b a lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+      | exact (proof_of_try_order_entail_wit_10_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_10_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+      | exact (proof_of_try_order_entail_wit_10_split_goal_2 ord c b a n_pre need_pre lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_10_split_goal_2 ord c b a n_pre need_pre lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+      | exact (proof_of_try_order_entail_wit_10_split_goal_3 ord c b a n_pre need_pre lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_10_split_goal_3 ord c b a n_pre need_pre lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
 
 theorem proof_of_try_order_entail_wit_11_split_goal_1 : try_order_entail_wit_11_split_goal_1 := by
   unfold try_order_entail_wit_11_split_goal_1
-  intro need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   dump_pre_spatial
   have he : i=n_pre := by omega
   rw [← he]
@@ -753,32 +753,32 @@ theorem proof_of_try_order_entail_wit_11_split_goal_1 : try_order_entail_wit_11_
 
 theorem proof_of_try_order_entail_wit_11_split_goal_2 : try_order_entail_wit_11_split_goal_2 := by
   unfold try_order_entail_wit_11_split_goal_2
-  intro need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   dump_pre_spatial
   assumption
 
 theorem proof_of_try_order_entail_wit_11_split_goal_spatial : try_order_entail_wit_11_split_goal_spatial := by
   unfold try_order_entail_wit_11_split_goal_spatial
-  intro need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   have hl := row_length a b c who ⟨by omega,by omega⟩ (by omega) (by omega)
   exact merge_row a b c v_pre who row_ptr n_pre ⟨by omega,by omega⟩ (by omega)
 
 theorem proof_of_try_order_entail_wit_11 : try_order_entail_wit_11 := by
   unfold try_order_entail_wit_11
   right
-  intro need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
+  intro ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23
   split_pure_spatial
-  · exact (proof_of_try_order_entail_wit_11_split_goal_spatial need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+  · exact (proof_of_try_order_entail_wit_11_split_goal_spatial ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
   · split_pures
     all_goals first
-      | exact (proof_of_try_order_entail_wit_11_split_goal_1 need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_11_split_goal_1 need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
-      | exact (proof_of_try_order_entail_wit_11_split_goal_2 need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_11_split_goal_2 need_pre n_pre v_pre ord c b a row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+      | exact (proof_of_try_order_entail_wit_11_split_goal_1 ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_11_split_goal_1 ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
+      | exact (proof_of_try_order_entail_wit_11_split_goal_2 ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_11_split_goal_2 ord c b a v_pre n_pre need_pre row_ptr lefts_2 rights_2 acc i pos who PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23))
 
 theorem proof_of_try_order_entail_wit_12_split_goal_1 : try_order_entail_wit_12_split_goal_1 := by
   unfold try_order_entail_wit_12_split_goal_1
-  intro need_pre n_pre ord c b a lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro ord c b a n_pre need_pre lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hh := cake_sum_bounds_from_forall__try_initialization a PreH7.2.2.2.1
   have hd := quot_div a need_pre (by omega) PreH9
   have ht := greedy_terminal_try_order__try_terminal_semantics a b c ord need_pre n_pre pos who acc lefts_2 rights_2 PreH7 PreH6 PreH8 hd PreH12 PreH16 PreH21 PreH22
@@ -787,17 +787,17 @@ theorem proof_of_try_order_entail_wit_12_split_goal_1 : try_order_entail_wit_12_
 theorem proof_of_try_order_entail_wit_12 : try_order_entail_wit_12 := by
   unfold try_order_entail_wit_12
   right
-  intro need_pre n_pre ord c b a lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro ord c b a n_pre need_pre lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact (proof_of_try_order_entail_wit_12_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_12_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+      | exact (proof_of_try_order_entail_wit_12_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_12_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
 
 theorem proof_of_try_order_entail_wit_13_split_goal_1 : try_order_entail_wit_13_split_goal_1 := by
   unfold try_order_entail_wit_13_split_goal_1
-  intro need_pre n_pre ord c b a lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro ord c b a n_pre need_pre lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   have hh := cake_sum_bounds_from_forall__try_initialization a PreH7.2.2.2.1
   have hd := quot_div a need_pre (by omega) PreH9
   have ht := greedy_terminal_try_order__try_terminal_semantics a b c ord need_pre n_pre pos who acc lefts_2 rights_2 PreH7 PreH6 PreH8 hd PreH12 PreH16 PreH21 PreH22
@@ -806,18 +806,18 @@ theorem proof_of_try_order_entail_wit_13_split_goal_1 : try_order_entail_wit_13_
 theorem proof_of_try_order_entail_wit_13 : try_order_entail_wit_13 := by
   unfold try_order_entail_wit_13
   right
-  intro need_pre n_pre ord c b a lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
+  intro ord c b a n_pre need_pre lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact (proof_of_try_order_entail_wit_13_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_13_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
+      | exact (proof_of_try_order_entail_wit_13_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_13_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22))
 
 theorem proof_of_try_order_entail_wit_14 : try_order_entail_wit_14 := by
   unfold try_order_entail_wit_14
   right
-  intro out_pre need_pre n_pre v_pre ord c b a lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro ord c b a v_pre n_pre need_pre out_pre lefts_2 rights_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   refine Automation.exp_right_rule (CRules := naive_C_Rules) ([] : List Int) ?_
   sep_apply (intArray.undef_full_to_undef_seg out_pre 6)
   split_pure_spatial
@@ -837,7 +837,7 @@ theorem proof_of_try_order_entail_wit_14 : try_order_entail_wit_14 := by
 theorem proof_of_try_order_entail_wit_15 : try_order_entail_wit_15 := by
   unfold try_order_entail_wit_15
   right
-  intro out_pre need_pre n_pre v_pre ord c b a lefts_2 rights_2 raw_prefix_2 i acc who pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro ord c b a v_pre n_pre need_pre out_pre lefts_2 rights_2 raw_prefix_2 i acc who pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   have hl1 : Zlength (raw_prefix_2++[Znth i lefts_2 0])=2*i+1 := by
     rw [Zlength_app,PreH10]; rfl
   have hl2 : Zlength ((raw_prefix_2++[Znth i lefts_2 0])++[Znth i rights_2 0])=2*(i+1) := by
@@ -864,7 +864,7 @@ theorem proof_of_try_order_entail_wit_15 : try_order_entail_wit_15 := by
 
 theorem proof_of_try_order_entail_wit_16_split_goal_1 : try_order_entail_wit_16_split_goal_1 := by
   unfold try_order_entail_wit_16_split_goal_1
-  intro need_pre n_pre ord c b a lefts_2 rights_2 raw_prefix i acc who pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro ord c b a n_pre need_pre lefts_2 rights_2 raw_prefix i acc who pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   intro j hj
   apply PreH12 j
   omega
@@ -872,18 +872,18 @@ theorem proof_of_try_order_entail_wit_16_split_goal_1 : try_order_entail_wit_16_
 theorem proof_of_try_order_entail_wit_16 : try_order_entail_wit_16 := by
   unfold try_order_entail_wit_16
   right
-  intro need_pre n_pre ord c b a lefts_2 rights_2 raw_prefix i acc who pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
+  intro ord c b a n_pre need_pre lefts_2 rights_2 raw_prefix i acc who pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact (proof_of_try_order_entail_wit_16_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 raw_prefix i acc who pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12)
-      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_16_split_goal_1 need_pre n_pre ord c b a lefts_2 rights_2 raw_prefix i acc who pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12))
+      | exact (proof_of_try_order_entail_wit_16_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 raw_prefix i acc who pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12)
+      | (dump_pre_spatial; exact (proof_of_try_order_entail_wit_16_split_goal_1 ord c b a n_pre need_pre lefts_2 rights_2 raw_prefix i acc who pos PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12))
 
 theorem proof_of_try_order_return_wit_1 : try_order_return_wit_1 := by
   unfold try_order_return_wit_1
   right
-  intro need_pre n_pre ord c b a lefts rights raw_result_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+  intro ord c b a n_pre need_pre lefts rights raw_result_2 pos who acc PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
   refine Automation.exp_right_rule (CRules := naive_C_Rules) (OutputBounds lefts rights) ?_
   split_pure_spatial
   · cancel
@@ -891,7 +891,7 @@ theorem proof_of_try_order_return_wit_1 : try_order_return_wit_1 := by
 
 theorem proof_of_solver_safety_wit_23_split_goal_1 : solver_safety_wit_23_split_goal_1 := by
   unfold solver_safety_wit_23_split_goal_1
-  intro out_pre n_pre v_pre c b a row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro c b a v_pre n_pre out_pre row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   dump_pre_spatial
   have hv := PreH6 0 i ⟨⟨by omega,by omega⟩,by omega⟩
   change 1≤Znth i a 0 ∧ Znth i a 0≤1000000 at hv
@@ -899,7 +899,7 @@ theorem proof_of_solver_safety_wit_23_split_goal_1 : solver_safety_wit_23_split_
 
 theorem proof_of_solver_safety_wit_23_split_goal_2 : solver_safety_wit_23_split_goal_2 := by
   unfold solver_safety_wit_23_split_goal_2
-  intro out_pre n_pre v_pre c b a row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro c b a v_pre n_pre out_pre row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   dump_pre_spatial
   have hv := PreH6 0 i ⟨⟨by omega,by omega⟩,by omega⟩
   change 1≤Znth i a 0 ∧ Znth i a 0≤1000000 at hv
@@ -908,15 +908,15 @@ theorem proof_of_solver_safety_wit_23_split_goal_2 : solver_safety_wit_23_split_
 theorem proof_of_solver_safety_wit_23 : solver_safety_wit_23 := by
   unfold solver_safety_wit_23
   right
-  intro out_pre n_pre v_pre c b a row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro c b a v_pre n_pre out_pre row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   split_pures
-  · exact proof_of_solver_safety_wit_23_split_goal_1 out_pre n_pre v_pre c b a row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
-  · exact proof_of_solver_safety_wit_23_split_goal_2 out_pre n_pre v_pre c b a row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  · exact proof_of_solver_safety_wit_23_split_goal_1 c b a v_pre n_pre out_pre row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  · exact proof_of_solver_safety_wit_23_split_goal_2 c b a v_pre n_pre out_pre row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
 
 theorem proof_of_solver_entail_wit_1 : solver_entail_wit_1 := by
   unfold solver_entail_wit_1
   right
-  intro n_pre v_pre c b a PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
+  intro c b a v_pre n_pre PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7
   sep_apply (split_row a b c v_pre 0 n_pre (by omega) PreH7)
   Intros row0
   refine Automation.exp_right_rule (CRules := naive_C_Rules) row0 ?_
@@ -927,24 +927,24 @@ theorem proof_of_solver_entail_wit_1 : solver_entail_wit_1 := by
 
 theorem proof_of_solver_entail_wit_2_split_goal_1 : solver_entail_wit_2_split_goal_1 := by
   unfold solver_entail_wit_2_split_goal_1
-  intro n_pre c b a total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro c b a n_pre total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   rw [Zsublist_nil a 0 0 (le_refl _)]
   rfl
 
 theorem proof_of_solver_entail_wit_2 : solver_entail_wit_2 := by
   unfold solver_entail_wit_2
   right
-  intro n_pre c b a total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
+  intro c b a n_pre total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact (proof_of_solver_entail_wit_2_split_goal_1 n_pre c b a total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8)
-      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_2_split_goal_1 n_pre c b a total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8))
+      | exact (proof_of_solver_entail_wit_2_split_goal_1 c b a n_pre total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8)
+      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_2_split_goal_1 c b a n_pre total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8))
 
 theorem proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_goal_1 := by
   unfold solver_entail_wit_3_split_goal_1
-  intro n_pre c b a total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro c b a n_pre total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   apply suffix_sum_upper__try_terminal_semantics [a] 0 0 i total ⟨by omega,by omega,by change i≤Zlength a; omega,PreH11⟩ (by change i<Zlength a; omega)
   · intro k hk
     have h:=PreH6 0 k ⟨⟨by omega,by omega⟩,hk.2⟩
@@ -955,14 +955,14 @@ theorem proof_of_solver_entail_wit_3_split_goal_1 : solver_entail_wit_3_split_go
 
 theorem proof_of_solver_entail_wit_3_split_goal_2 : solver_entail_wit_3_split_goal_2 := by
   unfold solver_entail_wit_3_split_goal_2
-  intro n_pre c b a total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro c b a n_pre total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   have h:=PreH6 0 i ⟨⟨by omega,by omega⟩,by omega⟩
   change 1≤Znth i a 0 ∧ Znth i a 0≤1000000 at h
   omega
 
 theorem proof_of_solver_entail_wit_3_split_goal_3 : solver_entail_wit_3_split_goal_3 := by
   unfold solver_entail_wit_3_split_goal_3
-  intro n_pre c b a total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro c b a n_pre total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   change total+Znth i a 0=CakeSum (sublist 0 (i+1) a)
   rw [sum_snoc a 0 i ⟨by omega,by omega⟩ (by omega)]
   change total=sum (sublist 0 i a) at PreH11
@@ -972,21 +972,21 @@ theorem proof_of_solver_entail_wit_3_split_goal_3 : solver_entail_wit_3_split_go
 theorem proof_of_solver_entail_wit_3 : solver_entail_wit_3 := by
   unfold solver_entail_wit_3
   right
-  intro n_pre c b a total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro c b a n_pre total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact (proof_of_solver_entail_wit_3_split_goal_1 n_pre c b a total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13)
-      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_3_split_goal_1 n_pre c b a total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13))
-      | exact (proof_of_solver_entail_wit_3_split_goal_2 n_pre c b a total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13)
-      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_3_split_goal_2 n_pre c b a total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13))
-      | exact (proof_of_solver_entail_wit_3_split_goal_3 n_pre c b a total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13)
-      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_3_split_goal_3 n_pre c b a total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13))
+      | exact (proof_of_solver_entail_wit_3_split_goal_1 c b a n_pre total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13)
+      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_3_split_goal_1 c b a n_pre total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13))
+      | exact (proof_of_solver_entail_wit_3_split_goal_2 c b a n_pre total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13)
+      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_3_split_goal_2 c b a n_pre total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13))
+      | exact (proof_of_solver_entail_wit_3_split_goal_3 c b a n_pre total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13)
+      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_3_split_goal_3 c b a n_pre total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13))
 
 theorem proof_of_solver_entail_wit_4_split_goal_1 : solver_entail_wit_4_split_goal_1 := by
   unfold solver_entail_wit_4_split_goal_1
-  intro n_pre v_pre c b a row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro c b a v_pre n_pre row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   dump_pre_spatial
   have he:i=Zlength a := by omega
   rw [he,sublist_full__try_terminal_semantics] at PreH11
@@ -994,32 +994,32 @@ theorem proof_of_solver_entail_wit_4_split_goal_1 : solver_entail_wit_4_split_go
 
 theorem proof_of_solver_entail_wit_4_split_goal_2 : solver_entail_wit_4_split_goal_2 := by
   unfold solver_entail_wit_4_split_goal_2
-  intro n_pre v_pre c b a row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro c b a v_pre n_pre row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   dump_pre_spatial
   assumption
 
 theorem proof_of_solver_entail_wit_4_split_goal_spatial : solver_entail_wit_4_split_goal_spatial := by
   unfold solver_entail_wit_4_split_goal_spatial
-  intro n_pre v_pre c b a row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro c b a v_pre n_pre row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   exact merge_row a b c v_pre 0 row0_addr n_pre ⟨by omega,by omega⟩ PreH8
 
 theorem proof_of_solver_entail_wit_4 : solver_entail_wit_4 := by
   unfold solver_entail_wit_4
   right
-  intro n_pre v_pre c b a row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
+  intro c b a v_pre n_pre row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13
   split_pure_spatial
-  · exact (proof_of_solver_entail_wit_4_split_goal_spatial n_pre v_pre c b a row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13)
+  · exact (proof_of_solver_entail_wit_4_split_goal_spatial c b a v_pre n_pre row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13)
   · split_pures
     all_goals first
-      | exact (proof_of_solver_entail_wit_4_split_goal_1 n_pre v_pre c b a row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13)
-      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_4_split_goal_1 n_pre v_pre c b a row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13))
-      | exact (proof_of_solver_entail_wit_4_split_goal_2 n_pre v_pre c b a row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13)
-      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_4_split_goal_2 n_pre v_pre c b a row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13))
+      | exact (proof_of_solver_entail_wit_4_split_goal_1 c b a v_pre n_pre row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13)
+      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_4_split_goal_1 c b a v_pre n_pre row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13))
+      | exact (proof_of_solver_entail_wit_4_split_goal_2 c b a v_pre n_pre row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13)
+      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_4_split_goal_2 c b a v_pre n_pre row0_addr total i PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13))
 
 theorem proof_of_solver_entail_wit_5 : solver_entail_wit_5 := by
   unfold solver_entail_wit_5
   right
-  intro n_pre c b a total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
+  intro c b a n_pre total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
   have hn := need_bounds a b c (Z.quot (total+2) 3) PreH6 (by rw [PreH8])
   split_pure_spatial
   · cancel
@@ -1029,7 +1029,7 @@ theorem proof_of_solver_entail_wit_5 : solver_entail_wit_5 := by
 theorem proof_of_solver_entail_wit_6 : solver_entail_wit_6 := by
   unfold solver_entail_wit_6
   right
-  intro n_pre v_pre c b a table_2 z need total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro c b a v_pre n_pre table_2 z need total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   rcases order_table_decomposition__solver_order_setup table_2 z PreH15 ⟨PreH13,PreH1⟩ with ⟨he,hb,ho,ha,hat,hcake,hm,hm2,ht⟩
   rw [List.append_assoc] at he
   refine Automation.exp_right_rule (CRules := naive_C_Rules) (sublist 0 (3*z) table_2) ?_
@@ -1048,7 +1048,7 @@ theorem proof_of_solver_entail_wit_6 : solver_entail_wit_6 := by
 theorem proof_of_solver_entail_wit_9 : solver_entail_wit_9 := by
   unfold solver_entail_wit_9
   right
-  intro n_pre v_pre c b a table_2 before_2 after_2 total need z ordp raw_result_2 result_2 retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
+  intro c b a v_pre n_pre table_2 before_2 after_2 total need z ordp raw_result_2 result_2 retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26
   refine Automation.exp_right_rule (CRules := naive_C_Rules) before_2 ?_
   refine Automation.exp_right_rule (CRules := naive_C_Rules) after_2 ?_
   refine Automation.exp_right_rule (CRules := naive_C_Rules) result_2 ?_
@@ -1063,7 +1063,7 @@ theorem proof_of_solver_entail_wit_9 : solver_entail_wit_9 := by
 theorem proof_of_solver_entail_wit_10 : solver_entail_wit_10 := by
   unfold solver_entail_wit_10
   right
-  intro n_pre v_pre c b a table_2 before after total need z ordp retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+  intro c b a v_pre n_pre table_2 before after total need z ordp retval PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
   have hf : FailedOrders a b c (z+1) := by
     intro k hk
     by_cases hlt:k<z
@@ -1081,7 +1081,7 @@ theorem proof_of_solver_entail_wit_10 : solver_entail_wit_10 := by
 
 theorem proof_of_solver_entail_wit_11_split_goal_1 : solver_entail_wit_11_split_goal_1 := by
   unfold solver_entail_wit_11_split_goal_1
-  intro n_pre c b a table_2 total need z ok ordp PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro c b a n_pre table_2 total need z ok ordp PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   intro row col hr
   rcases show row=0 ∨ row=1 ∨ row=2 by omega with rfl|rfl|rfl
   · exact (Forall_Znth__solver_order_iteration _ 0 a).mp PreH5.2.2.2.1 col ⟨by omega,by omega⟩
@@ -1091,24 +1091,24 @@ theorem proof_of_solver_entail_wit_11_split_goal_1 : solver_entail_wit_11_split_
 theorem proof_of_solver_entail_wit_11 : solver_entail_wit_11 := by
   unfold solver_entail_wit_11
   right
-  intro n_pre c b a table_2 total need z ok ordp PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro c b a n_pre table_2 total need z ok ordp PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact (proof_of_solver_entail_wit_11_split_goal_1 n_pre c b a table_2 total need z ok ordp PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_11_split_goal_1 n_pre c b a table_2 total need z ok ordp PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+      | exact (proof_of_solver_entail_wit_11_split_goal_1 c b a n_pre table_2 total need z ok ordp PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_11_split_goal_1 c b a n_pre table_2 total need z ok ordp PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
 
 theorem proof_of_solver_entail_wit_12_split_goal_1 : solver_entail_wit_12_split_goal_1 := by
   unfold solver_entail_wit_12_split_goal_1
-  intro n_pre c b a table_2 z need total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro c b a n_pre table_2 z need total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have he:z=6 := by omega
   rw [he] at PreH16
   exact failed_six_orders_spec_none__solver_final_results a b c PreH16
 
 theorem proof_of_solver_entail_wit_12_split_goal_2 : solver_entail_wit_12_split_goal_2 := by
   unfold solver_entail_wit_12_split_goal_2
-  intro n_pre c b a table_2 z need total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro c b a n_pre table_2 z need total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   have he:z=6 := by omega
   rw [he] at PreH16
   exact PreH16
@@ -1116,15 +1116,15 @@ theorem proof_of_solver_entail_wit_12_split_goal_2 : solver_entail_wit_12_split_
 theorem proof_of_solver_entail_wit_12 : solver_entail_wit_12 := by
   unfold solver_entail_wit_12
   right
-  intro n_pre c b a table_2 z need total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
+  intro c b a n_pre table_2 z need total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16
   split_pure_spatial
   · cancel
   · split_pures
     all_goals first
-      | exact (proof_of_solver_entail_wit_12_split_goal_1 n_pre c b a table_2 z need total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_12_split_goal_1 n_pre c b a table_2 z need total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
-      | exact (proof_of_solver_entail_wit_12_split_goal_2 n_pre c b a table_2 z need total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
-      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_12_split_goal_2 n_pre c b a table_2 z need total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+      | exact (proof_of_solver_entail_wit_12_split_goal_1 c b a n_pre table_2 z need total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_12_split_goal_1 c b a n_pre table_2 z need total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
+      | exact (proof_of_solver_entail_wit_12_split_goal_2 c b a n_pre table_2 z need total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16)
+      | (dump_pre_spatial; exact (proof_of_solver_entail_wit_12_split_goal_2 c b a n_pre table_2 z need total PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16))
 
 theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
   unfold solver_return_wit_2
@@ -1137,15 +1137,15 @@ theorem proof_of_solver_return_wit_2 : solver_return_wit_2 := by
 
 theorem proof_of_solver_partial_solve_wit_2_pure_split_goal_1 : solver_partial_solve_wit_2_pure_split_goal_1 := by
   unfold solver_partial_solve_wit_2_pure_split_goal_1
-  intro out_pre n_pre v_pre c b a table before after row0_addr total need z ordp PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro c b a v_pre n_pre out_pre table before after row0_addr total need z ordp PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   dump_pre_spatial
   assumption
 
 theorem proof_of_solver_partial_solve_wit_2_pure : solver_partial_solve_wit_2_pure := by
   unfold solver_partial_solve_wit_2_pure
   right
-  intro out_pre n_pre v_pre c b a table before after row0_addr total need z ordp PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  intro c b a v_pre n_pre out_pre table before after row0_addr total need z ordp PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
   split_pures
-  · exact proof_of_solver_partial_solve_wit_2_pure_split_goal_1 out_pre n_pre v_pre c b a table before after row0_addr total need z ordp PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
+  · exact proof_of_solver_partial_solve_wit_2_pure_split_goal_1 c b a v_pre n_pre out_pre table before after row0_addr total need z ordp PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
 
 end SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P040_1983C_have_your_cake_and_eat_it_too_proof_manual

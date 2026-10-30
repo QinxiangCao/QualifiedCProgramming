@@ -1,6 +1,3 @@
-
-
-
 const int NBUCK = 211;
 
 struct blist {
@@ -60,7 +57,7 @@ unsigned int *hashtbl_findref(struct hashtbl *h, char * key)
           store_string(key, k)
   Ensure store_hash_skeleton(h, m) *
          store_string(key, k) *
-         ((exists p, m(k) == Some(p) && __return == p) ||
+         ((exists p, m(k) == Some(&(p->val)) && __return == &p->val) ||
           (m(k) == None && __return == (void *) 0))
 */;
 
@@ -75,18 +72,19 @@ unsigned int hashtbl_remove(struct hashtbl *h, char * key, int *removed)
           has_int_permission(removed)
   Ensure store_hash_skeleton(h, KP::remove_map(m1, k)) *
          store_string(key, k) *
-         ((exists p v key0,
-             m1(k) == Some(&(p -> val)) &&
-             m2(&(p -> val)) == Some(v) && __return == v &&
-             store_int(removed, 1) *
-             store_map(store_uint, PV::remove_map(m2, p)) *
-             store_ptr(&(p -> key), key0) * store_string(key0, k) *
-             has_ptr_permission(&(p -> up)) *
-             has_ptr_permission(&(p -> down)) *
-             has_ptr_permission(&(p -> next)) *
-             store_uint(&(p -> val), v)) ||
-          (m1(k) == None && __return == 0 &&
-           store_int(removed, 0) * store_map(store_uint, m2)))
+         ((exists p v key0 p_up p_down,
+              m1(k) == Some(&(p -> val)) &&
+              m2(&(p -> val)) == Some(v) && __return == v &&
+              store_int(removed, 1) *
+              store_map(store_uint, PV::remove_map(m2, &(p -> val))) *
+              store_ptr(&(p -> key), key0) *
+              store_string(key0, k) *
+              store_ptr(&(p -> up), p_up) *
+              store_ptr(&(p -> down), p_down) *
+              store_uint(&(p -> val), v)) ||
+          ( m1(k) == None && __return == 0 &&
+             store_int(removed, 0) *
+             store_map(store_uint, m2)))
 */;
 void free_hashtbl(struct hashtbl *h)
 /*@

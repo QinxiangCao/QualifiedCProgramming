@@ -58,7 +58,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def sortArray_safety_wit_1 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (PreH1 : ((Zlength (l)) = numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (PreH1 : ((Zlength (l)) = numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -70,7 +70,7 @@ noncomputable def sortArray_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def sortArray_safety_wit_2 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (i : Int) (l0 : (List Int)) (l3 : (List Int)) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (l3 = (l0 ++ l2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (i : Int) (l0 : (List Int)) (l3 : (List Int)) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (l3 = (l0 ++ l2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) ,
   ((( &( "j" ) )) # Int |->_)
   ** (intArray.full nums_pre numsSize_pre l3)
   ** ((( &( "key" ) )) # Int |-> ((Znth i l3 (0 : Int))))
@@ -84,7 +84,7 @@ noncomputable def sortArray_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (i - 1)) ”
 
 noncomputable def sortArray_safety_wit_3 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (i : Int) (l0 : (List Int)) (l3 : (List Int)) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (l3 = (l0 ++ l2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (i : Int) (l0 : (List Int)) (l3 : (List Int)) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (l3 = (l0 ++ l2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) ,
   ((( &( "j" ) )) # Int |->_)
   ** (intArray.full nums_pre numsSize_pre l3)
   ** ((( &( "key" ) )) # Int |-> ((Znth i l3 (0 : Int))))
@@ -98,7 +98,7 @@ noncomputable def sortArray_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def sortArray_safety_wit_4 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 50000)) (PreH3 : (l = (l1 ++ (key :: l4)))) (PreH4 : (numsSize_pre = (Zlength (l)))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : (1 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (Permutation l1 l0)) (PreH9 : (increasing l0)) (PreH10 : (l0 = (l2 ++ l3))) (PreH11 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH12 : ((0 : Int) <= (j + 1))) (PreH13 : ((j + 1) = (Zlength (l2)))) (PreH14 : ((j + 1) <= i)) (PreH15 : ((j + 1) < numsSize_pre)) (PreH16 : (strict_lowerbound key l3)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 50000)) (PreH3 : (l = (l1 ++ (key :: l4)))) (PreH4 : (numsSize_pre = (Zlength (l)))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : (1 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (Permutation l1 l0)) (PreH9 : (increasing l0)) (PreH10 : (l0 = (l2 ++ l3))) (PreH11 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH12 : ((0 : Int) <= (j + 1))) (PreH13 : ((j + 1) = (Zlength (l2)))) (PreH14 : ((j + 1) <= i)) (PreH15 : ((j + 1) < numsSize_pre)) (PreH16 : (strict_lowerbound key l3)) ,
   ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
   ** ((( &( "returnSize" ) )) # Ptr |-> (returnSize_pre))
@@ -112,7 +112,7 @@ noncomputable def sortArray_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def sortArray_safety_wit_5 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) > key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) > key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
   (intArray.full nums_pre numsSize_pre l5)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -126,7 +126,7 @@ noncomputable def sortArray_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (j + 1)) ”
 
 noncomputable def sortArray_safety_wit_6 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) > key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) > key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
   (intArray.full nums_pre numsSize_pre l5)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -140,7 +140,7 @@ noncomputable def sortArray_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def sortArray_safety_wit_7 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) > key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) > key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
   (intArray.full nums_pre numsSize_pre (replace_Znth ((j + 1)) ((Znth j l5 (0 : Int))) (l5)))
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -154,7 +154,7 @@ noncomputable def sortArray_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= (j - 1)) ”
 
 noncomputable def sortArray_safety_wit_8 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) <= key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) <= key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
   (intArray.full nums_pre numsSize_pre l5)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -168,7 +168,7 @@ noncomputable def sortArray_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (j + 1)) ”
 
 noncomputable def sortArray_safety_wit_9 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : (j < (0 : Int))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1 ++ (key :: l4)))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0)) (PreH10 : (increasing l0)) (PreH11 : (l0 = (l2 ++ l3))) (PreH12 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH13 : ((0 : Int) <= (j + 1))) (PreH14 : ((j + 1) = (Zlength (l2)))) (PreH15 : ((j + 1) <= i)) (PreH16 : ((j + 1) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : (j < (0 : Int))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1 ++ (key :: l4)))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0)) (PreH10 : (increasing l0)) (PreH11 : (l0 = (l2 ++ l3))) (PreH12 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH13 : ((0 : Int) <= (j + 1))) (PreH14 : ((j + 1) = (Zlength (l2)))) (PreH15 : ((j + 1) <= i)) (PreH16 : ((j + 1) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3)) ,
   ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
   ** ((( &( "returnSize" ) )) # Ptr |-> (returnSize_pre))
@@ -182,7 +182,7 @@ noncomputable def sortArray_safety_wit_9 : Prop :=
   “ ((INT_MIN) <= (j + 1)) ”
 
 noncomputable def sortArray_safety_wit_10 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : (j < (0 : Int))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1 ++ (key :: l4)))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0)) (PreH10 : (increasing l0)) (PreH11 : (l0 = (l2 ++ l3))) (PreH12 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH13 : ((0 : Int) <= (j + 1))) (PreH14 : ((j + 1) = (Zlength (l2)))) (PreH15 : ((j + 1) <= i)) (PreH16 : ((j + 1) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : (j < (0 : Int))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1 ++ (key :: l4)))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0)) (PreH10 : (increasing l0)) (PreH11 : (l0 = (l2 ++ l3))) (PreH12 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH13 : ((0 : Int) <= (j + 1))) (PreH14 : ((j + 1) = (Zlength (l2)))) (PreH15 : ((j + 1) <= i)) (PreH16 : ((j + 1) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3)) ,
   ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
   ** ((( &( "returnSize" ) )) # Ptr |-> (returnSize_pre))
@@ -196,7 +196,7 @@ noncomputable def sortArray_safety_wit_10 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def sortArray_safety_wit_11 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) <= key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) <= key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
   (intArray.full nums_pre numsSize_pre l5)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -210,7 +210,7 @@ noncomputable def sortArray_safety_wit_11 : Prop :=
   “ ((INT_MIN) <= 1) ”
 
 noncomputable def sortArray_safety_wit_12 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : (j < (0 : Int))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1 ++ (key :: l4)))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0)) (PreH10 : (increasing l0)) (PreH11 : (l0 = (l2 ++ l3))) (PreH12 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH13 : ((0 : Int) <= (j + 1))) (PreH14 : ((j + 1) = (Zlength (l2)))) (PreH15 : ((j + 1) <= i)) (PreH16 : ((j + 1) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : (j < (0 : Int))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1 ++ (key :: l4)))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0)) (PreH10 : (increasing l0)) (PreH11 : (l0 = (l2 ++ l3))) (PreH12 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH13 : ((0 : Int) <= (j + 1))) (PreH14 : ((j + 1) = (Zlength (l2)))) (PreH15 : ((j + 1) <= i)) (PreH16 : ((j + 1) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3)) ,
   (intArray.full nums_pre numsSize_pre (replace_Znth ((j + 1)) (key) (l5)))
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -222,7 +222,7 @@ noncomputable def sortArray_safety_wit_12 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def sortArray_safety_wit_13 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) <= key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) <= key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
   (intArray.full nums_pre numsSize_pre (replace_Znth ((j + 1)) (key) (l5)))
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "numsSize" ) )) # Int |-> (numsSize_pre))
@@ -235,7 +235,7 @@ noncomputable def sortArray_safety_wit_13 : Prop :=
 
 noncomputable def sortArray_entail_wit_1 : Prop :=
   (
-forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (PreH1 : ((Zlength (l)) = numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) ,
+forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (PreH1 : ((Zlength (l)) = numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) ,
   (intArray.full nums_pre numsSize_pre l)
   ** ((returnSize_pre) # Int |-> (numsSize_pre))
 |--
@@ -254,7 +254,7 @@ forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List I
   ** (intArray.full nums_pre numsSize_pre l3)
 ) \/
 (
-forall (numsSize_pre : Int) (l : (List Int)) (PreH1 : ((Zlength (l)) = numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) ,
+forall (l : (List Int)) (numsSize_pre : Int) (PreH1 : ((Zlength (l)) = numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) ,
   TT && emp 
 |--
   EX l0 : (List Int), EX l1 : (List Int), EX l2 : (List Int),
@@ -270,7 +270,7 @@ forall (numsSize_pre : Int) (l : (List Int)) (PreH1 : ((Zlength (l)) = numsSize_
 
 noncomputable def sortArray_entail_wit_2 : Prop :=
   (
-forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (i : Int) (l0_2 : (List Int)) (l3 : (List Int)) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1_2 ++ l2_2))) (PreH5 : (l3 = (l0_2 ++ l2_2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2)) (PreH11 : (increasing l0_2)) ,
+forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (i : Int) (l0_2 : (List Int)) (l3 : (List Int)) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1_2 ++ l2_2))) (PreH5 : (l3 = (l0_2 ++ l2_2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2)) (PreH11 : (increasing l0_2)) ,
   (intArray.full nums_pre numsSize_pre l3)
   ** ((returnSize_pre) # Int |-> (numsSize_pre))
 |--
@@ -295,7 +295,7 @@ forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List I
   ** (intArray.full nums_pre numsSize_pre l5)
 ) \/
 (
-forall (numsSize_pre : Int) (l : (List Int)) (i : Int) (l0_2 : (List Int)) (l3 : (List Int)) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1_2 ++ l2_2))) (PreH5 : (l3 = (l0_2 ++ l2_2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2)) (PreH11 : (increasing l0_2)) ,
+forall (l : (List Int)) (numsSize_pre : Int) (i : Int) (l0_2 : (List Int)) (l3 : (List Int)) (l1_2 : (List Int)) (l2_2 : (List Int)) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1_2 ++ l2_2))) (PreH5 : (l3 = (l0_2 ++ l2_2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2)) (PreH11 : (increasing l0_2)) ,
   TT && emp 
 |--
   EX l2 : (List Int), EX l3_2 : (List Int), EX l1 : (List Int), EX l4 : (List Int),
@@ -314,7 +314,7 @@ forall (numsSize_pre : Int) (l : (List Int)) (i : Int) (l0_2 : (List Int)) (l3 :
 
 noncomputable def sortArray_entail_wit_3 : Prop :=
   (
-forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5_2 : (List Int)) (l2_2 : (List Int)) (l3_2 : (List Int)) (l0_2 : (List Int)) (i : Int) (l1_2 : (List Int)) (key : Int) (l4_2 : (List Int)) (PreH1 : ((Znth j l5_2 (0 : Int)) > key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1_2 ++ (key :: l4_2)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2)) (PreH11 : (increasing l0_2)) (PreH12 : (l0_2 = (l2_2 ++ l3_2))) (PreH13 : (l5_2 = ((l2_2 ++ ((Znth ((j + 1)) (l0_2) (key)) :: l3_2)) ++ l4_2))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2_2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3_2)) ,
+forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5_2 : (List Int)) (l2_2 : (List Int)) (l3_2 : (List Int)) (l0_2 : (List Int)) (i : Int) (l1_2 : (List Int)) (key : Int) (l4_2 : (List Int)) (PreH1 : ((Znth j l5_2 (0 : Int)) > key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1_2 ++ (key :: l4_2)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2)) (PreH11 : (increasing l0_2)) (PreH12 : (l0_2 = (l2_2 ++ l3_2))) (PreH13 : (l5_2 = ((l2_2 ++ ((Znth ((j + 1)) (l0_2) (key)) :: l3_2)) ++ l4_2))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2_2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3_2)) ,
   (intArray.full nums_pre numsSize_pre (replace_Znth ((j + 1)) ((Znth j l5_2 (0 : Int))) (l5_2)))
   ** ((returnSize_pre) # Int |-> (numsSize_pre))
 |--
@@ -339,7 +339,7 @@ forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List I
   ** (intArray.full nums_pre numsSize_pre l5)
 ) \/
 (
-forall (numsSize_pre : Int) (l : (List Int)) (j : Int) (l5_2 : (List Int)) (l2_2 : (List Int)) (l3_2 : (List Int)) (l0_2 : (List Int)) (i : Int) (l1_2 : (List Int)) (key : Int) (l4_2 : (List Int)) (PreH1 : ((Znth j l5_2 (0 : Int)) > key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1_2 ++ (key :: l4_2)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2)) (PreH11 : (increasing l0_2)) (PreH12 : (l0_2 = (l2_2 ++ l3_2))) (PreH13 : (l5_2 = ((l2_2 ++ ((Znth ((j + 1)) (l0_2) (key)) :: l3_2)) ++ l4_2))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2_2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3_2)) ,
+forall (l : (List Int)) (numsSize_pre : Int) (j : Int) (l5_2 : (List Int)) (l2_2 : (List Int)) (l3_2 : (List Int)) (l0_2 : (List Int)) (i : Int) (l1_2 : (List Int)) (key : Int) (l4_2 : (List Int)) (PreH1 : ((Znth j l5_2 (0 : Int)) > key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1_2 ++ (key :: l4_2)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2)) (PreH11 : (increasing l0_2)) (PreH12 : (l0_2 = (l2_2 ++ l3_2))) (PreH13 : (l5_2 = ((l2_2 ++ ((Znth ((j + 1)) (l0_2) (key)) :: l3_2)) ++ l4_2))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2_2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3_2)) ,
   TT && emp 
 |--
   EX l2 : (List Int), EX l3 : (List Int), EX l1 : (List Int), EX l4 : (List Int),
@@ -358,7 +358,7 @@ forall (numsSize_pre : Int) (l : (List Int)) (j : Int) (l5_2 : (List Int)) (l2_2
 
 noncomputable def sortArray_entail_wit_4_1 : Prop :=
   (
-forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2_2 : (List Int)) (l3_2 : (List Int)) (l0_2 : (List Int)) (i : Int) (l1_2 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : (j < (0 : Int))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1_2 ++ (key :: l4)))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1_2)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1_2 l0_2)) (PreH10 : (increasing l0_2)) (PreH11 : (l0_2 = (l2_2 ++ l3_2))) (PreH12 : (l5 = ((l2_2 ++ ((Znth ((j + 1)) (l0_2) (key)) :: l3_2)) ++ l4))) (PreH13 : ((0 : Int) <= (j + 1))) (PreH14 : ((j + 1) = (Zlength (l2_2)))) (PreH15 : ((j + 1) <= i)) (PreH16 : ((j + 1) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3_2)) ,
+forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2_2 : (List Int)) (l3_2 : (List Int)) (l0_2 : (List Int)) (i : Int) (l1_2 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : (j < (0 : Int))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1_2 ++ (key :: l4)))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1_2)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1_2 l0_2)) (PreH10 : (increasing l0_2)) (PreH11 : (l0_2 = (l2_2 ++ l3_2))) (PreH12 : (l5 = ((l2_2 ++ ((Znth ((j + 1)) (l0_2) (key)) :: l3_2)) ++ l4))) (PreH13 : ((0 : Int) <= (j + 1))) (PreH14 : ((j + 1) = (Zlength (l2_2)))) (PreH15 : ((j + 1) <= i)) (PreH16 : ((j + 1) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3_2)) ,
   (intArray.full nums_pre numsSize_pre (replace_Znth ((j + 1)) (key) (l5)))
   ** ((returnSize_pre) # Int |-> (numsSize_pre))
 |--
@@ -377,7 +377,7 @@ forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List I
   ** (intArray.full nums_pre numsSize_pre l3)
 ) \/
 (
-forall (numsSize_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2_2 : (List Int)) (l3_2 : (List Int)) (l0_2 : (List Int)) (i : Int) (l1_2 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : (j < (0 : Int))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1_2 ++ (key :: l4)))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1_2)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1_2 l0_2)) (PreH10 : (increasing l0_2)) (PreH11 : (l0_2 = (l2_2 ++ l3_2))) (PreH12 : (l5 = ((l2_2 ++ ((Znth ((j + 1)) (l0_2) (key)) :: l3_2)) ++ l4))) (PreH13 : ((0 : Int) <= (j + 1))) (PreH14 : ((j + 1) = (Zlength (l2_2)))) (PreH15 : ((j + 1) <= i)) (PreH16 : ((j + 1) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3_2)) ,
+forall (l : (List Int)) (numsSize_pre : Int) (j : Int) (l5 : (List Int)) (l2_2 : (List Int)) (l3_2 : (List Int)) (l0_2 : (List Int)) (i : Int) (l1_2 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : (j < (0 : Int))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1_2 ++ (key :: l4)))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1_2)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1_2 l0_2)) (PreH10 : (increasing l0_2)) (PreH11 : (l0_2 = (l2_2 ++ l3_2))) (PreH12 : (l5 = ((l2_2 ++ ((Znth ((j + 1)) (l0_2) (key)) :: l3_2)) ++ l4))) (PreH13 : ((0 : Int) <= (j + 1))) (PreH14 : ((j + 1) = (Zlength (l2_2)))) (PreH15 : ((j + 1) <= i)) (PreH16 : ((j + 1) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3_2)) ,
   TT && emp 
 |--
   EX l0 : (List Int), EX l1 : (List Int), EX l2 : (List Int),
@@ -393,7 +393,7 @@ forall (numsSize_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2_2 :
 
 noncomputable def sortArray_entail_wit_4_2 : Prop :=
   (
-forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2_2 : (List Int)) (l3_2 : (List Int)) (l0_2 : (List Int)) (i : Int) (l1_2 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) <= key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1_2 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2)) (PreH11 : (increasing l0_2)) (PreH12 : (l0_2 = (l2_2 ++ l3_2))) (PreH13 : (l5 = ((l2_2 ++ ((Znth ((j + 1)) (l0_2) (key)) :: l3_2)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2_2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3_2)) ,
+forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2_2 : (List Int)) (l3_2 : (List Int)) (l0_2 : (List Int)) (i : Int) (l1_2 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) <= key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1_2 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2)) (PreH11 : (increasing l0_2)) (PreH12 : (l0_2 = (l2_2 ++ l3_2))) (PreH13 : (l5 = ((l2_2 ++ ((Znth ((j + 1)) (l0_2) (key)) :: l3_2)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2_2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3_2)) ,
   (intArray.full nums_pre numsSize_pre (replace_Znth ((j + 1)) (key) (l5)))
   ** ((returnSize_pre) # Int |-> (numsSize_pre))
 |--
@@ -412,7 +412,7 @@ forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List I
   ** (intArray.full nums_pre numsSize_pre l3)
 ) \/
 (
-forall (numsSize_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2_2 : (List Int)) (l3_2 : (List Int)) (l0_2 : (List Int)) (i : Int) (l1_2 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) <= key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1_2 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2)) (PreH11 : (increasing l0_2)) (PreH12 : (l0_2 = (l2_2 ++ l3_2))) (PreH13 : (l5 = ((l2_2 ++ ((Znth ((j + 1)) (l0_2) (key)) :: l3_2)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2_2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3_2)) ,
+forall (l : (List Int)) (numsSize_pre : Int) (j : Int) (l5 : (List Int)) (l2_2 : (List Int)) (l3_2 : (List Int)) (l0_2 : (List Int)) (i : Int) (l1_2 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) <= key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1_2 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2)) (PreH11 : (increasing l0_2)) (PreH12 : (l0_2 = (l2_2 ++ l3_2))) (PreH13 : (l5 = ((l2_2 ++ ((Znth ((j + 1)) (l0_2) (key)) :: l3_2)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2_2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3_2)) ,
   TT && emp 
 |--
   EX l0 : (List Int), EX l1 : (List Int), EX l2 : (List Int),
@@ -428,7 +428,7 @@ forall (numsSize_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2_2 :
 
 noncomputable def sortArray_return_wit_1 : Prop :=
   (
-forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (i : Int) (l0 : (List Int)) (l3 : (List Int)) (l1_2 : (List Int)) (l2 : (List Int)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1_2 ++ l2))) (PreH5 : (l3 = (l0 ++ l2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0)) (PreH11 : (increasing l0)) ,
+forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (i : Int) (l0 : (List Int)) (l3 : (List Int)) (l1_2 : (List Int)) (l2 : (List Int)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1_2 ++ l2))) (PreH5 : (l3 = (l0 ++ l2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0)) (PreH11 : (increasing l0)) ,
   ((returnSize_pre) # Int |-> (numsSize_pre))
   ** (intArray.full nums_pre numsSize_pre l3)
 |--
@@ -439,7 +439,7 @@ forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List I
   ** ((returnSize_pre) # Int |-> (numsSize_pre))
 ) \/
 (
-forall (numsSize_pre : Int) (l : (List Int)) (i : Int) (l0 : (List Int)) (l3 : (List Int)) (l1_2 : (List Int)) (l2 : (List Int)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1_2 ++ l2))) (PreH5 : (l3 = (l0 ++ l2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0)) (PreH11 : (increasing l0)) ,
+forall (l : (List Int)) (numsSize_pre : Int) (i : Int) (l0 : (List Int)) (l3 : (List Int)) (l1_2 : (List Int)) (l2 : (List Int)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1_2 ++ l2))) (PreH5 : (l3 = (l0 ++ l2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0)) (PreH11 : (increasing l0)) ,
   TT && emp 
 |--
   “ (increasing l3) ” &&
@@ -448,15 +448,15 @@ forall (numsSize_pre : Int) (l : (List Int)) (i : Int) (l0 : (List Int)) (l3 : (
 )
 
 noncomputable def sortArray_return_wit_1_split_goal_1 : Prop :=
-  forall (numsSize_pre : Int) (l : (List Int)) (i : Int) (l0 : (List Int)) (l3 : (List Int)) (l1_2 : (List Int)) (l2 : (List Int)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1_2 ++ l2))) (PreH5 : (l3 = (l0 ++ l2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0)) (PreH11 : (increasing l0)) ,
+  forall (l : (List Int)) (numsSize_pre : Int) (i : Int) (l0 : (List Int)) (l3 : (List Int)) (l1_2 : (List Int)) (l2 : (List Int)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1_2 ++ l2))) (PreH5 : (l3 = (l0 ++ l2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0)) (PreH11 : (increasing l0)) ,
   (increasing l3)
 
 noncomputable def sortArray_return_wit_1_split_goal_2 : Prop :=
-  forall (numsSize_pre : Int) (l : (List Int)) (i : Int) (l0 : (List Int)) (l3 : (List Int)) (l1_2 : (List Int)) (l2 : (List Int)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1_2 ++ l2))) (PreH5 : (l3 = (l0 ++ l2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0)) (PreH11 : (increasing l0)) ,
+  forall (l : (List Int)) (numsSize_pre : Int) (i : Int) (l0 : (List Int)) (l3 : (List Int)) (l1_2 : (List Int)) (l2 : (List Int)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1_2 ++ l2))) (PreH5 : (l3 = (l0 ++ l2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0)) (PreH11 : (increasing l0)) ,
   (Permutation l l3)
 
 noncomputable def sortArray_partial_solve_wit_1 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (i : Int) (l0 : (List Int)) (l3 : (List Int)) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (l3 = (l0 ++ l2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (i : Int) (l0 : (List Int)) (l3 : (List Int)) (l1 : (List Int)) (l2 : (List Int)) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1 ++ l2))) (PreH5 : (l3 = (l0 ++ l2))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) ,
   ((returnSize_pre) # Int |-> (numsSize_pre))
   ** (intArray.full nums_pre numsSize_pre l3)
 |--
@@ -476,7 +476,7 @@ noncomputable def sortArray_partial_solve_wit_1 : Prop :=
   ** ((returnSize_pre) # Int |-> (numsSize_pre))
 
 noncomputable def sortArray_partial_solve_wit_2 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : (j >= (0 : Int))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1 ++ (key :: l4)))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0)) (PreH10 : (increasing l0)) (PreH11 : (l0 = (l2 ++ l3))) (PreH12 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH13 : ((0 : Int) <= (j + 1))) (PreH14 : ((j + 1) = (Zlength (l2)))) (PreH15 : ((j + 1) <= i)) (PreH16 : ((j + 1) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : (j >= (0 : Int))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1 ++ (key :: l4)))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0)) (PreH10 : (increasing l0)) (PreH11 : (l0 = (l2 ++ l3))) (PreH12 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH13 : ((0 : Int) <= (j + 1))) (PreH14 : ((j + 1) = (Zlength (l2)))) (PreH15 : ((j + 1) <= i)) (PreH16 : ((j + 1) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3)) ,
   ((returnSize_pre) # Int |-> (numsSize_pre))
   ** (intArray.full nums_pre numsSize_pre l5)
 |--
@@ -502,7 +502,7 @@ noncomputable def sortArray_partial_solve_wit_2 : Prop :=
   ** ((returnSize_pre) # Int |-> (numsSize_pre))
 
 noncomputable def sortArray_partial_solve_wit_3 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) > key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) > key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
   (intArray.full nums_pre numsSize_pre l5)
   ** ((returnSize_pre) # Int |-> (numsSize_pre))
 |--
@@ -529,7 +529,7 @@ noncomputable def sortArray_partial_solve_wit_3 : Prop :=
   ** ((returnSize_pre) # Int |-> (numsSize_pre))
 
 noncomputable def sortArray_partial_solve_wit_4 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) > key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) > key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
   (intArray.full nums_pre numsSize_pre l5)
   ** ((returnSize_pre) # Int |-> (numsSize_pre))
 |--
@@ -556,7 +556,7 @@ noncomputable def sortArray_partial_solve_wit_4 : Prop :=
   ** ((returnSize_pre) # Int |-> (numsSize_pre))
 
 noncomputable def sortArray_partial_solve_wit_5 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : (j < (0 : Int))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1 ++ (key :: l4)))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0)) (PreH10 : (increasing l0)) (PreH11 : (l0 = (l2 ++ l3))) (PreH12 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH13 : ((0 : Int) <= (j + 1))) (PreH14 : ((j + 1) = (Zlength (l2)))) (PreH15 : ((j + 1) <= i)) (PreH16 : ((j + 1) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : (j < (0 : Int))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (l1 ++ (key :: l4)))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0)) (PreH10 : (increasing l0)) (PreH11 : (l0 = (l2 ++ l3))) (PreH12 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH13 : ((0 : Int) <= (j + 1))) (PreH14 : ((j + 1) = (Zlength (l2)))) (PreH15 : ((j + 1) <= i)) (PreH16 : ((j + 1) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3)) ,
   ((returnSize_pre) # Int |-> (numsSize_pre))
   ** (intArray.full nums_pre numsSize_pre l5)
 |--
@@ -582,7 +582,7 @@ noncomputable def sortArray_partial_solve_wit_5 : Prop :=
   ** ((returnSize_pre) # Int |-> (numsSize_pre))
 
 noncomputable def sortArray_partial_solve_wit_6 : Prop :=
-  forall (returnSize_pre : Int) (numsSize_pre : Int) (nums_pre : Int) (l : (List Int)) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) <= key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
+  forall (l : (List Int)) (nums_pre : Int) (numsSize_pre : Int) (returnSize_pre : Int) (j : Int) (l5 : (List Int)) (l2 : (List Int)) (l3 : (List Int)) (l0 : (List Int)) (i : Int) (l1 : (List Int)) (key : Int) (l4 : (List Int)) (PreH1 : ((Znth j l5 (0 : Int)) <= key)) (PreH2 : (j >= (0 : Int))) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (l1 ++ (key :: l4)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0)) (PreH11 : (increasing l0)) (PreH12 : (l0 = (l2 ++ l3))) (PreH13 : (l5 = ((l2 ++ ((Znth ((j + 1)) (l0) (key)) :: l3)) ++ l4))) (PreH14 : ((0 : Int) <= (j + 1))) (PreH15 : ((j + 1) = (Zlength (l2)))) (PreH16 : ((j + 1) <= i)) (PreH17 : ((j + 1) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3)) ,
   (intArray.full nums_pre numsSize_pre l5)
   ** ((returnSize_pre) # Int |-> (numsSize_pre))
 |--

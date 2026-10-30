@@ -59,7 +59,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def solver_safety_wit_1 : Prop :=
-  forall (s_pre : Int) (text : (List Int)) (PreH1 : (1 <= (Zlength (text)))) (PreH2 : ((Zlength (text)) <= 500)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (text)))) -> ((97 <= (Znth i text (0 : Int))) ∧ ((Znth i text (0 : Int)) <= 122)))) ,
+  forall (text : (List Int)) (s_pre : Int) (PreH1 : (1 <= (Zlength (text)))) (PreH2 : ((Zlength (text)) <= 500)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (text)))) -> ((97 <= (Znth i text (0 : Int))) ∧ ((Znth i text (0 : Int)) <= 122)))) ,
   ((( &( "next" ) )) # Char |->_)
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
@@ -68,7 +68,7 @@ noncomputable def solver_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= 97) ”
 
 noncomputable def solver_safety_wit_2 : Prop :=
-  forall (s_pre : Int) (text : (List Int)) (PreH1 : (1 <= (Zlength (text)))) (PreH2 : ((Zlength (text)) <= 500)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (text)))) -> ((97 <= (Znth i text (0 : Int))) ∧ ((Znth i text (0 : Int)) <= 122)))) ,
+  forall (text : (List Int)) (s_pre : Int) (PreH1 : (1 <= (Zlength (text)))) (PreH2 : ((Zlength (text)) <= 500)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (text)))) -> ((97 <= (Znth i text (0 : Int))) ∧ ((Znth i text (0 : Int)) <= 122)))) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "next" ) )) # Char |-> (97))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
@@ -78,7 +78,7 @@ noncomputable def solver_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_3 : Prop :=
-  forall (s_pre : Int) (text : (List Int)) (next : Int) (i : Int) (PreH1 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) > next)) (PreH2 : (1 <= (Zlength (text)))) (PreH3 : ((Zlength (text)) <= 500)) (PreH4 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= (Zlength (text)))) (PreH7 : (97 <= next)) (PreH8 : (next <= 122)) (PreH9 : (ObfuscationPrefixState text i next)) (PreH10 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
+  forall (text : (List Int)) (s_pre : Int) (next : Int) (i : Int) (PreH1 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) > next)) (PreH2 : (1 <= (Zlength (text)))) (PreH3 : ((Zlength (text)) <= 500)) (PreH4 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= (Zlength (text)))) (PreH7 : (97 <= next)) (PreH8 : (next <= 122)) (PreH9 : (ObfuscationPrefixState text i next)) (PreH10 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
   (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -88,7 +88,7 @@ noncomputable def solver_safety_wit_3 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def solver_safety_wit_4 : Prop :=
-  forall (s_pre : Int) (text : (List Int)) (next : Int) (i : Int) (PreH1 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = next)) (PreH2 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH3 : (1 <= (Zlength (text)))) (PreH4 : ((Zlength (text)) <= 500)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= (Zlength (text)))) (PreH8 : (97 <= next)) (PreH9 : (next <= 122)) (PreH10 : (ObfuscationPrefixState text i next)) (PreH11 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
+  forall (text : (List Int)) (s_pre : Int) (next : Int) (i : Int) (PreH1 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = next)) (PreH2 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH3 : (1 <= (Zlength (text)))) (PreH4 : ((Zlength (text)) <= 500)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= (Zlength (text)))) (PreH8 : (97 <= next)) (PreH9 : (next <= 122)) (PreH10 : (ObfuscationPrefixState text i next)) (PreH11 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
   (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -98,7 +98,7 @@ noncomputable def solver_safety_wit_4 : Prop :=
   “ ((INT_MIN) <= 122) ”
 
 noncomputable def solver_safety_wit_5 : Prop :=
-  forall (s_pre : Int) (text : (List Int)) (next : Int) (i : Int) (PreH1 : (next < 122)) (PreH2 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = next)) (PreH3 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH4 : (1 <= (Zlength (text)))) (PreH5 : ((Zlength (text)) <= 500)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= (Zlength (text)))) (PreH9 : (97 <= next)) (PreH10 : (next <= 122)) (PreH11 : (ObfuscationPrefixState text i next)) (PreH12 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
+  forall (text : (List Int)) (s_pre : Int) (next : Int) (i : Int) (PreH1 : (next < 122)) (PreH2 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = next)) (PreH3 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH4 : (1 <= (Zlength (text)))) (PreH5 : ((Zlength (text)) <= 500)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= (Zlength (text)))) (PreH9 : (97 <= next)) (PreH10 : (next <= 122)) (PreH11 : (ObfuscationPrefixState text i next)) (PreH12 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
   (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -108,7 +108,7 @@ noncomputable def solver_safety_wit_5 : Prop :=
   “ ((-128) <= (next + 1)) ”
 
 noncomputable def solver_safety_wit_6 : Prop :=
-  forall (s_pre : Int) (text : (List Int)) (next : Int) (i : Int) (PreH1 : (next < 122)) (PreH2 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = next)) (PreH3 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH4 : (1 <= (Zlength (text)))) (PreH5 : ((Zlength (text)) <= 500)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= (Zlength (text)))) (PreH9 : (97 <= next)) (PreH10 : (next <= 122)) (PreH11 : (ObfuscationPrefixState text i next)) (PreH12 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
+  forall (text : (List Int)) (s_pre : Int) (next : Int) (i : Int) (PreH1 : (next < 122)) (PreH2 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = next)) (PreH3 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH4 : (1 <= (Zlength (text)))) (PreH5 : ((Zlength (text)) <= 500)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= (Zlength (text)))) (PreH9 : (97 <= next)) (PreH10 : (next <= 122)) (PreH11 : (ObfuscationPrefixState text i next)) (PreH12 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
   (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -118,7 +118,7 @@ noncomputable def solver_safety_wit_6 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solver_safety_wit_7 : Prop :=
-  forall (s_pre : Int) (text : (List Int)) (next : Int) (i : Int) (PreH1 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ next)) (PreH2 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH3 : (1 <= (Zlength (text)))) (PreH4 : ((Zlength (text)) <= 500)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= (Zlength (text)))) (PreH8 : (97 <= next)) (PreH9 : (next <= 122)) (PreH10 : (ObfuscationPrefixState text i next)) (PreH11 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
+  forall (text : (List Int)) (s_pre : Int) (next : Int) (i : Int) (PreH1 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ next)) (PreH2 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH3 : (1 <= (Zlength (text)))) (PreH4 : ((Zlength (text)) <= 500)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= (Zlength (text)))) (PreH8 : (97 <= next)) (PreH9 : (next <= 122)) (PreH10 : (ObfuscationPrefixState text i next)) (PreH11 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
   (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -128,7 +128,7 @@ noncomputable def solver_safety_wit_7 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solver_safety_wit_8 : Prop :=
-  forall (s_pre : Int) (text : (List Int)) (next : Int) (i : Int) (PreH1 : (next >= 122)) (PreH2 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = next)) (PreH3 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH4 : (1 <= (Zlength (text)))) (PreH5 : ((Zlength (text)) <= 500)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= (Zlength (text)))) (PreH9 : (97 <= next)) (PreH10 : (next <= 122)) (PreH11 : (ObfuscationPrefixState text i next)) (PreH12 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
+  forall (text : (List Int)) (s_pre : Int) (next : Int) (i : Int) (PreH1 : (next >= 122)) (PreH2 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = next)) (PreH3 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH4 : (1 <= (Zlength (text)))) (PreH5 : ((Zlength (text)) <= 500)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= (Zlength (text)))) (PreH9 : (97 <= next)) (PreH10 : (next <= 122)) (PreH11 : (ObfuscationPrefixState text i next)) (PreH12 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
   (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "i" ) )) # Int |-> (i))
@@ -138,7 +138,7 @@ noncomputable def solver_safety_wit_8 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def solver_safety_wit_9 : Prop :=
-  forall (s_pre : Int) (text : (List Int)) (next : Int) (i : Int) (PreH1 : (1 <= (Zlength (text)))) (PreH2 : ((Zlength (text)) <= 500)) (PreH3 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= (Zlength (text)))) (PreH6 : (97 <= next)) (PreH7 : (next <= 122)) (PreH8 : (ObfuscationPrefixState text i next)) (PreH9 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = (0 : Int))) ,
+  forall (text : (List Int)) (s_pre : Int) (next : Int) (i : Int) (PreH1 : (1 <= (Zlength (text)))) (PreH2 : ((Zlength (text)) <= 500)) (PreH3 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= (Zlength (text)))) (PreH6 : (97 <= next)) (PreH7 : (next <= 122)) (PreH8 : (ObfuscationPrefixState text i next)) (PreH9 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = (0 : Int))) ,
   (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
   ** ((( &( "s" ) )) # Ptr |-> (s_pre))
   ** ((( &( "next" ) )) # Char |-> (next))
@@ -148,7 +148,7 @@ noncomputable def solver_safety_wit_9 : Prop :=
 
 noncomputable def solver_entail_wit_1 : Prop :=
   (
-forall (s_pre : Int) (text : (List Int)) (PreH1 : (1 <= (Zlength (text)))) (PreH2 : ((Zlength (text)) <= 500)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (text)))) -> ((97 <= (Znth i text (0 : Int))) ∧ ((Znth i text (0 : Int)) <= 122)))) ,
+forall (text : (List Int)) (s_pre : Int) (PreH1 : (1 <= (Zlength (text)))) (PreH2 : ((Zlength (text)) <= 500)) (PreH3 : forall (i : Int) , ((((0 : Int) <= i) ∧ (i < (Zlength (text)))) -> ((97 <= (Znth i text (0 : Int))) ∧ ((Znth i text (0 : Int)) <= 122)))) ,
   (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
 |--
   “ (1 <= (Zlength (text))) ” &&
@@ -180,7 +180,7 @@ noncomputable def solver_entail_wit_1_split_goal_2 : Prop :=
 
 noncomputable def solver_entail_wit_2_1 : Prop :=
   (
-forall (s_pre : Int) (text : (List Int)) (next : Int) (i : Int) (PreH1 : (next < 122)) (PreH2 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = next)) (PreH3 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH4 : (1 <= (Zlength (text)))) (PreH5 : ((Zlength (text)) <= 500)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= (Zlength (text)))) (PreH9 : (97 <= next)) (PreH10 : (next <= 122)) (PreH11 : (ObfuscationPrefixState text i next)) (PreH12 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
+forall (text : (List Int)) (s_pre : Int) (next : Int) (i : Int) (PreH1 : (next < 122)) (PreH2 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = next)) (PreH3 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH4 : (1 <= (Zlength (text)))) (PreH5 : ((Zlength (text)) <= 500)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= (Zlength (text)))) (PreH9 : (97 <= next)) (PreH10 : (next <= 122)) (PreH11 : (ObfuscationPrefixState text i next)) (PreH12 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
   (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
 |--
   “ (1 <= (Zlength (text))) ” &&
@@ -212,7 +212,7 @@ noncomputable def solver_entail_wit_2_1_split_goal_2 : Prop :=
 
 noncomputable def solver_entail_wit_2_2 : Prop :=
   (
-forall (s_pre : Int) (text : (List Int)) (next : Int) (i : Int) (PreH1 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ next)) (PreH2 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH3 : (1 <= (Zlength (text)))) (PreH4 : ((Zlength (text)) <= 500)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= (Zlength (text)))) (PreH8 : (97 <= next)) (PreH9 : (next <= 122)) (PreH10 : (ObfuscationPrefixState text i next)) (PreH11 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
+forall (text : (List Int)) (s_pre : Int) (next : Int) (i : Int) (PreH1 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ next)) (PreH2 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH3 : (1 <= (Zlength (text)))) (PreH4 : ((Zlength (text)) <= 500)) (PreH5 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= (Zlength (text)))) (PreH8 : (97 <= next)) (PreH9 : (next <= 122)) (PreH10 : (ObfuscationPrefixState text i next)) (PreH11 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
   (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
 |--
   “ (1 <= (Zlength (text))) ” &&
@@ -244,7 +244,7 @@ noncomputable def solver_entail_wit_2_2_split_goal_2 : Prop :=
 
 noncomputable def solver_entail_wit_2_3 : Prop :=
   (
-forall (s_pre : Int) (text : (List Int)) (next : Int) (i : Int) (PreH1 : (next >= 122)) (PreH2 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = next)) (PreH3 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH4 : (1 <= (Zlength (text)))) (PreH5 : ((Zlength (text)) <= 500)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= (Zlength (text)))) (PreH9 : (97 <= next)) (PreH10 : (next <= 122)) (PreH11 : (ObfuscationPrefixState text i next)) (PreH12 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
+forall (text : (List Int)) (s_pre : Int) (next : Int) (i : Int) (PreH1 : (next >= 122)) (PreH2 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = next)) (PreH3 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH4 : (1 <= (Zlength (text)))) (PreH5 : ((Zlength (text)) <= 500)) (PreH6 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= (Zlength (text)))) (PreH9 : (97 <= next)) (PreH10 : (next <= 122)) (PreH11 : (ObfuscationPrefixState text i next)) (PreH12 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
   (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
 |--
   “ (1 <= (Zlength (text))) ” &&
@@ -276,7 +276,7 @@ noncomputable def solver_entail_wit_2_3_split_goal_2 : Prop :=
 
 noncomputable def solver_return_wit_1 : Prop :=
   (
-forall (s_pre : Int) (text : (List Int)) (next : Int) (i : Int) (PreH1 : (1 <= (Zlength (text)))) (PreH2 : ((Zlength (text)) <= 500)) (PreH3 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= (Zlength (text)))) (PreH6 : (97 <= next)) (PreH7 : (next <= 122)) (PreH8 : (ObfuscationPrefixState text i next)) (PreH9 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = (0 : Int))) ,
+forall (text : (List Int)) (s_pre : Int) (next : Int) (i : Int) (PreH1 : (1 <= (Zlength (text)))) (PreH2 : ((Zlength (text)) <= 500)) (PreH3 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= (Zlength (text)))) (PreH6 : (97 <= next)) (PreH7 : (next <= 122)) (PreH8 : (ObfuscationPrefixState text i next)) (PreH9 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) = (0 : Int))) ,
   (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
 |--
   “ (Spec text 1) ”
@@ -296,7 +296,7 @@ noncomputable def solver_return_wit_1_split_goal_1 : Prop :=
 
 noncomputable def solver_return_wit_2 : Prop :=
   (
-forall (s_pre : Int) (text : (List Int)) (next : Int) (i : Int) (PreH1 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) > next)) (PreH2 : (1 <= (Zlength (text)))) (PreH3 : ((Zlength (text)) <= 500)) (PreH4 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= (Zlength (text)))) (PreH7 : (97 <= next)) (PreH8 : (next <= 122)) (PreH9 : (ObfuscationPrefixState text i next)) (PreH10 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
+forall (text : (List Int)) (s_pre : Int) (next : Int) (i : Int) (PreH1 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) > next)) (PreH2 : (1 <= (Zlength (text)))) (PreH3 : ((Zlength (text)) <= 500)) (PreH4 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= (Zlength (text)))) (PreH7 : (97 <= next)) (PreH8 : (next <= 122)) (PreH9 : (ObfuscationPrefixState text i next)) (PreH10 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
   (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
 |--
   “ (Spec text (0 : Int)) ”
@@ -315,7 +315,7 @@ noncomputable def solver_return_wit_2_split_goal_1 : Prop :=
   (Spec text (0 : Int))
 
 noncomputable def solver_partial_solve_wit_1 : Prop :=
-  forall (s_pre : Int) (text : (List Int)) (next : Int) (i : Int) (PreH1 : (1 <= (Zlength (text)))) (PreH2 : ((Zlength (text)) <= 500)) (PreH3 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= (Zlength (text)))) (PreH6 : (97 <= next)) (PreH7 : (next <= 122)) (PreH8 : (ObfuscationPrefixState text i next)) ,
+  forall (text : (List Int)) (s_pre : Int) (next : Int) (i : Int) (PreH1 : (1 <= (Zlength (text)))) (PreH2 : ((Zlength (text)) <= 500)) (PreH3 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= (Zlength (text)))) (PreH6 : (97 <= next)) (PreH7 : (next <= 122)) (PreH8 : (ObfuscationPrefixState text i next)) ,
   (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
 |--
   “ (1 <= (Zlength (text))) ” &&
@@ -330,7 +330,7 @@ noncomputable def solver_partial_solve_wit_1 : Prop :=
   ** (charArray.missing_i s_pre i (0 : Int) ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
 
 noncomputable def solver_partial_solve_wit_2 : Prop :=
-  forall (s_pre : Int) (text : (List Int)) (next : Int) (i : Int) (PreH1 : (1 <= (Zlength (text)))) (PreH2 : ((Zlength (text)) <= 500)) (PreH3 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= (Zlength (text)))) (PreH6 : (97 <= next)) (PreH7 : (next <= 122)) (PreH8 : (ObfuscationPrefixState text i next)) (PreH9 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
+  forall (text : (List Int)) (s_pre : Int) (next : Int) (i : Int) (PreH1 : (1 <= (Zlength (text)))) (PreH2 : ((Zlength (text)) <= 500)) (PreH3 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH4 : ((0 : Int) <= i)) (PreH5 : (i <= (Zlength (text)))) (PreH6 : (97 <= next)) (PreH7 : (next <= 122)) (PreH8 : (ObfuscationPrefixState text i next)) (PreH9 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
   (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
 |--
   “ (1 <= (Zlength (text))) ” &&
@@ -346,7 +346,7 @@ noncomputable def solver_partial_solve_wit_2 : Prop :=
   ** (charArray.missing_i s_pre i (0 : Int) ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
 
 noncomputable def solver_partial_solve_wit_3 : Prop :=
-  forall (s_pre : Int) (text : (List Int)) (next : Int) (i : Int) (PreH1 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH2 : (1 <= (Zlength (text)))) (PreH3 : ((Zlength (text)) <= 500)) (PreH4 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= (Zlength (text)))) (PreH7 : (97 <= next)) (PreH8 : (next <= 122)) (PreH9 : (ObfuscationPrefixState text i next)) (PreH10 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
+  forall (text : (List Int)) (s_pre : Int) (next : Int) (i : Int) (PreH1 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next)) (PreH2 : (1 <= (Zlength (text)))) (PreH3 : ((Zlength (text)) <= 500)) (PreH4 : forall (k : Int) , ((((0 : Int) <= k) ∧ (k < (Zlength (text)))) -> ((97 <= (Znth k text (0 : Int))) ∧ ((Znth k text (0 : Int)) <= 122)))) (PreH5 : ((0 : Int) <= i)) (PreH6 : (i <= (Zlength (text)))) (PreH7 : (97 <= next)) (PreH8 : (next <= 122)) (PreH9 : (ObfuscationPrefixState text i next)) (PreH10 : ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) ≠ (0 : Int))) ,
   (charArray.full s_pre ((Zlength (text)) + 1) (text ++ ((0 : Int) :: (@List.nil Int))))
 |--
   “ ((Znth i (text ++ ((0 : Int) :: (@List.nil Int))) (0 : Int)) <= next) ” &&

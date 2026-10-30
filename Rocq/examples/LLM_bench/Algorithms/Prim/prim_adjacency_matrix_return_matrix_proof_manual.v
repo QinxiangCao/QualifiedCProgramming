@@ -1,28 +1,12 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.Verification Require Import VCPrelude.
 From SimpleC.EE.LLM_bench.Algorithms.Prim Require Import prim_adjacency_matrix_return_matrix_goal.
 From SimpleC.EE.LLM_bench.Algorithms.Prim Require Import prim_adjacency_matrix_return_matrix_proof_auto.
-Require Import Logic.LogicGenerator.demo932.Interface.
-Local Open Scope Z_scope.
-Local Open Scope sets.
-Local Open Scope string_scope.
-Local Open Scope list.
 Import naive_C_Rules.
 From MonadLib Require Export MonadLib.
 From MonadLib.StateRelMonad Require Export StateRelMonad.
 Export MonadNotation.
 Local Open Scope monad.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
+From AUXLib Require Import relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Require Import SimpleC.EE.LLM_bench.Algorithms.Prim.prim_adjacency_matrix_lib.
 Require Import ListLib.Base.Positional.
@@ -52,15 +36,6 @@ Proof.
   entailer!.
 Qed.
 
-Ltac intros_prim_adj_ret_wit_12_1_boot :=
-  intros n_pre X_low_level_spec src_low_level_spec g_low_level_spec
-	  matrix_low_level_spec l_visited_2 l_lowcost l_vertex_parent_2
-	  l_edge_parent i minIndex min row_ptr_2 __default__List_Z
-	  PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-	  PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-	  PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24.
-
-
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_1_split_goal_1 : prim_adjacency_matrix_return_matrix_entail_wit_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
@@ -87,13 +62,13 @@ Qed.
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_3_split_goal_1 : prim_adjacency_matrix_return_matrix_entail_wit_3_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
+  replace i with n_pre by lia.
+  reflexivity.
 Qed.
 
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_3_split_goal_2 : prim_adjacency_matrix_return_matrix_entail_wit_3_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
-  replace i with n_pre by lia.
-  reflexivity.
 Qed.
 
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_3 : prim_adjacency_matrix_return_matrix_entail_wit_3.
@@ -118,13 +93,13 @@ Qed.
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_5_split_goal_1 : prim_adjacency_matrix_return_matrix_entail_wit_5_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
+  replace i with n_pre by lia.
+  reflexivity.
 Qed.
 
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_5_split_goal_2 : prim_adjacency_matrix_return_matrix_entail_wit_5_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
-  replace i with n_pre by lia.
-  reflexivity.
 Qed.
 
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_5 : prim_adjacency_matrix_return_matrix_entail_wit_5.
@@ -155,8 +130,8 @@ Qed.
 
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_7_boot : prim_adjacency_matrix_return_matrix_entail_wit_7_boot.
 Proof.
-  unfold prim_adjacency_matrix_return_matrix_entail_wit_7_boot.
-  right; intros. assert (i = n_pre) by lia. subst i. entailer!.
+  aggressive_pre_process.
+  - Goal_apply proof_of_prim_adjacency_matrix_return_matrix_entail_wit_7_boot_split_goal_1.
 Qed. 
 
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_8_boot_split_goal_1 : prim_adjacency_matrix_return_matrix_entail_wit_8_boot_split_goal_1.
@@ -195,12 +170,7 @@ Qed.
 
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_9_1_boot_split_goal_2 : prim_adjacency_matrix_return_matrix_entail_wit_9_1_boot_split_goal_2.
 Proof.
-  intros n_pre X_low_level_spec src_low_level_spec g_low_level_spec
-    l_visited_2 l_vertex_parent_2 l_edge_parent_2
-    l_lowcost_2 minIndex min i j
-    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-    PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19
-    PreH20 PreH21 PreH22 PreH23 PreH24 PreH25.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   destruct (Z.eq_dec j 0) as [Hj | Hj].
   - subst j.
     assert (Hrange_arg : 0 <= 0 < Zlength l_lowcost_2).
@@ -402,7 +372,7 @@ Qed.
 
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_11_1_boot_split_goal_1 : prim_adjacency_matrix_return_matrix_entail_wit_11_1_boot_split_goal_1.
 Proof.
-  intros_prim_adj_ret_wit_12_1_boot.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   apply derivable1s_coq_prop_r.
   rewrite PreH22, PreH23.
   apply vertex_parent_matches_default_edge_parent with (matrix := matrix_low_level_spec) (inf := 1000000000) (src := 0).
@@ -411,7 +381,7 @@ Qed.
 
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_11_1_boot_split_goal_2 : prim_adjacency_matrix_return_matrix_entail_wit_11_1_boot_split_goal_2.
 Proof.
-  intros_prim_adj_ret_wit_12_1_boot.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   apply derivable1s_coq_prop_r.
   rewrite PreH20.
   apply initSt_lowcost_sum_matches_state; [reflexivity | lia | exact PreH12].
@@ -419,14 +389,14 @@ Qed.
 
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_11_1_boot_split_goal_3 : prim_adjacency_matrix_return_matrix_entail_wit_11_1_boot_split_goal_3.
 Proof.
-  intros_prim_adj_ret_wit_12_1_boot.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   apply derivable1s_coq_prop_r.
   apply initSt_state_vertex_count.
 Qed.
 
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_11_1_boot_split_goal_4 : prim_adjacency_matrix_return_matrix_entail_wit_11_1_boot_split_goal_4.
 Proof.
-  intros_prim_adj_ret_wit_12_1_boot.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   apply derivable1s_coq_prop_r.
   rewrite PreH24.
   eapply initSt_visited_matches_state_zero_repeat;
@@ -435,7 +405,7 @@ Qed.
 
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_11_1_boot_split_goal_5 : prim_adjacency_matrix_return_matrix_entail_wit_11_1_boot_split_goal_5.
 Proof.
-  intros_prim_adj_ret_wit_12_1_boot.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   apply derivable1s_coq_prop_r.
   apply initSt_growing_subgraph_state.
   rewrite <- PreH8.
@@ -444,7 +414,7 @@ Qed.
 
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_11_1_boot_split_goal_6 : prim_adjacency_matrix_return_matrix_entail_wit_11_1_boot_split_goal_6.
 Proof.
-  intros_prim_adj_ret_wit_12_1_boot.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   apply derivable1s_coq_prop_r.
   apply initStPred_Prim2_to_loop0.
   rewrite <- PreH8.
@@ -453,7 +423,7 @@ Qed.
 
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_11_1_boot_split_goal_7 : prim_adjacency_matrix_return_matrix_entail_wit_11_1_boot_split_goal_7.
 Proof.
-  intros_prim_adj_ret_wit_12_1_boot.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   apply derivable1s_coq_prop_r.
   pose proof PreH1 as Hmodel.
   unfold prim_adjacency_matrix_graph_model, adjacency_matrix_model in Hmodel.
@@ -463,7 +433,7 @@ Qed.
 
 Lemma proof_of_prim_adjacency_matrix_return_matrix_entail_wit_11_1_boot_split_goal_spatial : prim_adjacency_matrix_return_matrix_entail_wit_11_1_boot_split_goal_spatial.
 Proof.
-  intros_prim_adj_ret_wit_12_1_boot.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof PreH1 as Hmodel.
   unfold prim_adjacency_matrix_graph_model, adjacency_matrix_model in Hmodel.
   destruct Hmodel as [[Hmatrix_len _] _].
@@ -587,7 +557,7 @@ Proof.
 	      | apply derivable1s_coq_prop_r; int_auto
 	      | apply derivable1s_coq_prop_r; lia
 	      ].
-	    all: try solve [change (sizeof(PTR)) with ptr_size_Z; sepcon_assoc_change; cancel].
+	    all: try solve [normalize_ptr_size; sepcon_assoc_change; cancel].
 	  Unshelve.
   all: try solve [
     sepcon_assoc_change; cancel
@@ -604,7 +574,7 @@ Proof.
     unfold adjacency_matrix_model in Hmodel_shape;
     destruct Hmodel_shape as [[_ Hrow_len] _];
     rewrite (Hrow_len minIndex); lia
-  | change (sizeof(PTR)) with ptr_size_Z; sepcon_assoc_change; cancel
+  | normalize_ptr_size; sepcon_assoc_change; cancel
   | lia | assumption | reflexivity].
 Qed. 
 
@@ -1930,16 +1900,15 @@ Proof.
       unfold IntPtrArray2.row_blocks.
       rewrite (combine_app row_ptrs (row_ptr :: nil) result_matrix_2 (row_prefix :: nil) Hlen).
       rewrite map_app.
-      rewrite <- derivable1_sepcon_iter_sepcon1.
+      rewrite logic_equiv_iter_sepcon_app.
       unfold IntPtrArray2.row_block.
       change (IntArray.full row_ptr (Zlength row_prefix) row_prefix)
         with (IntPtrArray2.ElemArray.full row_ptr (Zlength row_prefix) row_prefix).
-      sep_apply (IntPtrArray2.single_to_iter_sepcon
+      rewrite (logic_equiv_iter_sepcon_single
         (IntPtrArray2.ElemArray.full row_ptr (Zlength row_prefix) row_prefix)).
-      simpl map.
-      simpl combine.
-      apply __derivable1_provable.
-      apply provable_sepcon_comm_impp.
+      cancel.
+      cancel.
+      reflexivity.
     - apply derivable1s_coq_prop_r.
       split.
       + rewrite Zlength_app, Zlength_cons, Zlength_nil. lia.
@@ -2030,7 +1999,7 @@ Proof.
             (Znth i l_vertex_parent 0) nil __default__List_Z)
             by (rewrite Hmatrix_len; lia);
           symmetry; apply Hmatrix_row_len; lia).
-    change (sizeof(PTR)) with ptr_size_Z.
+    normalize_ptr_size.
     repeat (split_pure_spatial || split_pures);
       try (dump_pre_spatial; assumption);
       try (dump_pre_spatial; lia);
@@ -2087,7 +2056,7 @@ Proof.
         (Zlength (Znth p result_matrix_2 __default__List_Z))
         (Znth p result_matrix_2 __default__List_Z)).
     rewrite Hres_row_len.
-    change (sizeof(PTR)) with ptr_size_Z.
+    normalize_ptr_size.
     repeat (split_pure_spatial || split_pures);
       try (dump_pre_spatial; assumption);
       try (dump_pre_spatial; lia);
@@ -2177,7 +2146,7 @@ Proof.
       try solve [cancel].
     unfold StorePtrAsElement.storeA.
     simpl.
-    change ptr_size_Z with Arch32.ptr_size_Z.
+    change (sizeof(PTR)) with (sizeof(PTR)).
     change (IntPtrArray2.ElemArray.full mst_row n_pre
       (Znth i (set_matrix_entry result_matrix_2 p i w) __default__List_Z))
       with (IntArray.full mst_row n_pre
@@ -2187,7 +2156,7 @@ Proof.
       graph_pre matrix_low_level_spec).
     cancel (IntPtrArray2.missing_i mst n_pre i mst_row
       (set_matrix_entry result_matrix_2 p i w)).
-    cancel (((mst + i * Arch32.ptr_size_Z)) # Ptr |-> mst_row).
+    cancel (((mst + i * (sizeof(PTR)))) # Ptr |-> mst_row).
     cancel (IntArray.full mst_row n_pre
       (Znth i (set_matrix_entry result_matrix_2 p i w) __default__List_Z)).
     cancel (IntArray.full visited n_pre l_visited_2).
@@ -2415,7 +2384,7 @@ Proof.
   Exists result_matrix_2 rg_2. entailer!.
 Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_return_matrix_derive_high_level_spec_by_low_level_spec : prim_adjacency_matrix_return_matrix_derive_high_level_spec_by_low_level_spec.
+Lemma proof_of_prim_adjacency_matrix_return_matrix_low_level_spec_entail_high_level_spec : prim_adjacency_matrix_return_matrix_low_level_spec_entail_high_level_spec.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   Exists matrix_high_level_spec g_high_level_spec src_high_level_spec
@@ -2428,8 +2397,9 @@ Proof.
   cancel (graph_matrix_lib.GraphMatrixPtr.store_graph n_pre
     (prim_adjacency_matrix_graph_model n_pre g_high_level_spec 1000000000)
     graph_pre matrix_high_level_spec).
-  apply derivable1_wand_sepcon_adjoint.
-  Intros result_matrix_2 rg_2 retval_2.
+  Intros_r retval.
+    apply derivable1_wand_sepcon_adjoint.
+  Intros result_matrix_2 rg_2.
   assert (Hresult_mst : return_is_mst g_high_level_spec rg_2).
   {
     match goal with
@@ -2452,10 +2422,9 @@ Proof.
     rewrite <- Hgraph.
     exact Hhoare.
   }
-  Exists result_matrix_2 rg_2 retval_2.
+  Exists result_matrix_2 rg_2.
   repeat (split_pure_spatial || split_pures);
     try (dump_pre_spatial; assumption);
     try (dump_pre_spatial; exact Hresult_mst);
     try solve [cancel].
 Qed. 
-

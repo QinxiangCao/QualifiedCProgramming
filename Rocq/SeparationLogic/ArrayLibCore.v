@@ -18,7 +18,7 @@ Local Open Scope string.
 Import ListNotations.
 Local Open Scope list.
 
-Module Type ArrayLibCoreSig (Arch : CArchSig) (Endian : CEndianSig) (CRules: SeparationLogicSig) (DePredSig : DerivedPredSig Arch Endian CRules) (SLibSig : StoreLibSig Arch Endian CRules DePredSig).
+Module Type ArrayLibCoreSig (ArchImpl : CArchSig) (Endian : CEndianSig) (CRules: SeparationLogicSig) (DePredSig : DerivedPredSig ArchImpl Endian CRules) (SLibSig : StoreLibSig ArchImpl Endian CRules DePredSig).
 
 Import CRules.
 Import DePredSig.
@@ -37,7 +37,6 @@ Module Type ELEMENT_STORE.
     undefstoreA (x + n * sizeA) lo --||-- undefstoreA x (lo + n).
   Axiom store_to_align : forall x lo a, storeA x lo a |-- store_align_n sizeA.
   Axiom undefstore_to_align : forall x lo, undefstoreA x lo |-- store_align_n sizeA.
-  Axiom sizeA_valid : 0 < sizeA < Int.max_unsigned.
 End ELEMENT_STORE.
 
 Section GeneralArrayLib.
@@ -1216,7 +1215,7 @@ Proof.
 Qed.
 
 Lemma missing_i_to_seg_tail : forall x lo hi a (l : list A),
-  missing_i x hi lo hi (l ++ a :: nil) |-- seg x lo (hi - 1) l.
+  missing_i x (hi - 1) lo hi (l ++ a :: nil) |-- seg x lo (hi - 1) l.
 Proof.
   intros.
   revert lo hi.
@@ -1228,7 +1227,7 @@ Proof.
 Qed.
 
 Lemma mixed_missing_i_to_mixed_seg_tail : forall x lo hi a (l : list (option A)),
-  mixed_missing_i x hi lo hi (l ++ a :: nil) |-- mixed_seg x lo (hi - 1) l.
+  mixed_missing_i x (hi - 1) lo hi (l ++ a :: nil) |-- mixed_seg x lo (hi - 1) l.
 Proof.
   intros.
   revert lo hi.
@@ -1241,7 +1240,7 @@ Qed.
 
 Lemma undef_missing_i_to_undef_seg_tail : forall x lo hi,
   lo < hi -> 
-  undef_missing_i x hi lo hi |-- undef_seg x lo (hi - 1).
+  undef_missing_i x (hi - 1) lo hi |-- undef_seg x lo (hi - 1).
 Proof.
   intros.
   unfold undef_missing_i, undef_seg.
@@ -1249,6 +1248,8 @@ Proof.
   replace (hi - 1 - lo) with (hi - (lo + 1)) by lia.
   simpl. 
   Split ; try entailer!.
+  1: replace (Z.to_nat (hi - (lo + 1))) with O by lia.
+  1: simpl; entailer!.
   set (len := Z.to_nat (hi - (lo + 1))).
   assert (len = Z.to_nat (hi - (lo + 1))) by lia.
   clearbody len.
@@ -1256,27 +1257,36 @@ Proof.
   induction len ; simpl ; intros ; ArraySimplify.
   - entailer!. 
   - Split ; try entailer!.
+    1: replace len with O by lia.
+    1: simpl; entailer!.
     sep_apply IHlen ; try lia.
     entailer!. 
 Qed.
 
 Lemma missing_i_shape_to_seg_shape_tail : forall x lo hi,
   lo < hi -> 
-  missing_i_shape x hi lo hi |-- seg_shape x lo (hi - 1).
+  missing_i_shape x (hi - 1) lo hi |-- seg_shape x lo (hi - 1).
 Proof.
   intros.
   unfold missing_i_shape, seg_shape.
   replace (Z.to_nat (hi - lo)) with (S (Z.to_nat (hi - (lo + 1)))) by lia.
   replace (hi - 1 - lo) with (hi - (lo + 1)) by lia.
   simpl.  
-  Split ; try entailer!. Intros x0.
+  Split ; try entailer!.
+  1: replace (Z.to_nat (hi - (lo + 1))) with O by lia.
+  1: simpl; entailer!.
+  Intros x0.
   set (len := Z.to_nat (hi - (lo + 1))).
   assert (len = Z.to_nat (hi - (lo + 1))) by lia.
   clearbody len.
   generalize dependent lo. revert hi x0.
   induction len ; simpl ; intros ; ArraySimplify.
   - entailer!.
-  - Split ; try entailer!. Intros x1.
+  - Split ; try entailer!.
+    1: replace len with O by lia.
+    1: simpl; entailer!.
+    1: Exists x0; entailer!.
+    Intros x1.
     Exists x0.
     sep_apply IHlen ; try lia.
     entailer!.
@@ -2348,120 +2358,72 @@ Lemma seg_length_range : forall x lo hi (l : list A),
   seg x lo hi l |-- “ 0 <= (hi - lo) * sizeA <= addr_max_unsigned + 1 ”.
 Proof.
   intros.
-  prop_apply seg_valid. Intros.
-  sep_apply seg_to_align.
-  prop_apply store_align_n_valid. Intros.
-  match goal with
-  | Hrange: _ <= addr_max_unsigned / 1 + 1 |- _ =>
-      replace (addr_max_unsigned / 1 + 1) with (addr_max_unsigned + 1) in Hrange by (rewrite Z.div_1_r; lia)
-  end.
-  pose proof sizeA_valid.
-  entailer!.
+  eapply derivable1_trans.
+  - apply seg_to_align.
+  - apply store_align_n_range.
 Qed.
 
 Lemma mixed_seg_length_range : forall x lo hi (l : list (option A)),
   mixed_seg x lo hi l |-- “ 0 <= (hi - lo) * sizeA <= addr_max_unsigned + 1 ”.
 Proof.
   intros.
-  prop_apply mixed_seg_valid. Intros.
-  sep_apply mixed_seg_to_align.
-  prop_apply store_align_n_valid. Intros.
-  match goal with
-  | Hrange: _ <= addr_max_unsigned / 1 + 1 |- _ =>
-      replace (addr_max_unsigned / 1 + 1) with (addr_max_unsigned + 1) in Hrange by (rewrite Z.div_1_r; lia)
-  end.
-  pose proof sizeA_valid.
-  entailer!.
+  eapply derivable1_trans.
+  - apply mixed_seg_to_align.
+  - apply store_align_n_range.
 Qed.
 
 Lemma undef_seg_length_range : forall x lo hi,
   undef_seg x lo hi |-- “ 0 <= (hi - lo) * sizeA <= addr_max_unsigned + 1 ”.
 Proof.
   intros.
-  prop_apply undef_seg_valid. Intros.
-  sep_apply undef_seg_to_align.
-  prop_apply store_align_n_valid. Intros.
-  match goal with
-  | Hrange: _ <= addr_max_unsigned / 1 + 1 |- _ =>
-      replace (addr_max_unsigned / 1 + 1) with (addr_max_unsigned + 1) in Hrange by (rewrite Z.div_1_r; lia)
-  end.
-  pose proof sizeA_valid.
-  entailer!.
+  eapply derivable1_trans.
+  - apply undef_seg_to_align.
+  - apply store_align_n_range.
 Qed.
 
 Lemma seg_shape_length_range : forall x lo hi,
   seg_shape x lo hi |-- “ 0 <= (hi - lo) * sizeA <= addr_max_unsigned + 1 ”.
 Proof.
   intros.
-  prop_apply seg_shape_valid. Intros.
-  sep_apply seg_shape_to_align.
-  prop_apply store_align_n_valid. Intros.
-  match goal with
-  | Hrange: _ <= addr_max_unsigned / 1 + 1 |- _ =>
-      replace (addr_max_unsigned / 1 + 1) with (addr_max_unsigned + 1) in Hrange by (rewrite Z.div_1_r; lia)
-  end.
-  pose proof sizeA_valid.
-  entailer!.
+  eapply derivable1_trans.
+  - apply seg_shape_to_align.
+  - apply store_align_n_range.
 Qed.
 
 Lemma full_length_range : forall x n (l : list A),
   full x n l |-- “ 0 <= n * sizeA <= addr_max_unsigned + 1 ”.
 Proof.
   intros.
-  prop_apply full_length. Intros.
-  sep_apply full_to_align.
-  prop_apply store_align_n_valid. Intros.
-  match goal with
-  | Hrange: _ <= addr_max_unsigned / 1 + 1 |- _ =>
-      replace (addr_max_unsigned / 1 + 1) with (addr_max_unsigned + 1) in Hrange by (rewrite Z.div_1_r; lia)
-  end.
-  pose proof sizeA_valid.
-  entailer!.
+  eapply derivable1_trans.
+  - apply full_to_align.
+  - apply store_align_n_range.
 Qed.
 
 Lemma mixed_full_length_range : forall x n (l : list (option A)),
   mixed_full x n l |-- “ 0 <= n * sizeA <= addr_max_unsigned + 1 ”.
 Proof.
   intros.
-  prop_apply mixed_full_length. Intros.
-  sep_apply mixed_full_to_align.
-  prop_apply store_align_n_valid. Intros.
-  match goal with
-  | Hrange: _ <= addr_max_unsigned / 1 + 1 |- _ =>
-      replace (addr_max_unsigned / 1 + 1) with (addr_max_unsigned + 1) in Hrange by (rewrite Z.div_1_r; lia)
-  end.
-  pose proof sizeA_valid.
-  entailer!.
+  eapply derivable1_trans.
+  - apply mixed_full_to_align.
+  - apply store_align_n_range.
 Qed.
 
 Lemma undef_full_length_range : forall x n,
   undef_full x n |-- “ 0 <= n * sizeA <= addr_max_unsigned + 1 ”.
 Proof.
   intros.
-  prop_apply undef_full_valid. Intros.
-  sep_apply undef_full_to_align.
-  prop_apply store_align_n_valid. Intros.
-  match goal with
-  | Hrange: _ <= addr_max_unsigned / 1 + 1 |- _ =>
-      replace (addr_max_unsigned / 1 + 1) with (addr_max_unsigned + 1) in Hrange by (rewrite Z.div_1_r; lia)
-  end.
-  pose proof sizeA_valid.
-  entailer!.
+  eapply derivable1_trans.
+  - apply undef_full_to_align.
+  - apply store_align_n_range.
 Qed.
 
 Lemma full_shape_length_range : forall x n,
   full_shape x n |-- “ 0 <= n * sizeA <= addr_max_unsigned + 1 ”.
 Proof.
   intros.
-  prop_apply full_shape_valid. Intros.
-  sep_apply full_shape_to_align.
-  prop_apply store_align_n_valid. Intros.
-  match goal with
-  | Hrange: _ <= addr_max_unsigned / 1 + 1 |- _ =>
-      replace (addr_max_unsigned / 1 + 1) with (addr_max_unsigned + 1) in Hrange by (rewrite Z.div_1_r; lia)
-  end.
-  pose proof sizeA_valid.
-  entailer!.
+  eapply derivable1_trans.
+  - apply full_shape_to_align.
+  - apply store_align_n_range.
 Qed.
 
 End ArrayLib. 

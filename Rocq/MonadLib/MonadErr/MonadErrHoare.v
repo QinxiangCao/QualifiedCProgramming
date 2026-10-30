@@ -306,13 +306,11 @@ Proof.
     destruct Hhoare as [Hn Herr].
     split; intros.
     + apply (Hn a σ1 σ2 H).
-      unfold bind; simpl.
-      unfold MonadErr.bind; simpl.
+      unfold_monad.
       exists tt; exists σ1; split; [| assumption].
       split; [reflexivity | apply Himp; assumption].
     + apply (Herr σ1 H).
-      unfold bind; simpl.
-      unfold MonadErr.bind; simpl.
+      unfold_monad.
       right.
       exists tt; exists σ1; split; [| assumption].
       split; [reflexivity | apply Himp; assumption].

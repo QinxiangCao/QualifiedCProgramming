@@ -1,19 +1,14 @@
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
-Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
-From SimpleC.SL Require Import SeparationLogic.
+From SimpleC.Verification Require Import StrategyPrelude.
 From SimpleC.EE.QCP_demos_tutorial Require Import swap_simple3_strategy_goal.
 Import naive_C_Rules.
 Require Import SimpleC.EE.QCP_demos_tutorial.swap_simple1_lib.
-Local Open Scope Z_scope.
 Local Open Scope sac.
 Local Open Scope string.
 
 Lemma swap_simple3_strategy0_correctness : swap_simple3_strategy0.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   unfold store_int_pair.
   cancel.
   Intros_r v.
@@ -26,6 +21,7 @@ Qed.
 Lemma swap_simple3_strategy1_correctness : swap_simple3_strategy1.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   unfold store_int_pair.
   cancel.
   Intros_r v.
@@ -38,6 +34,7 @@ Qed.
 Lemma swap_simple3_strategy2_correctness : swap_simple3_strategy2.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   unfold store_int_pair.
   cancel.
   apply_sepcon_adjoint.
@@ -49,6 +46,7 @@ Qed.
 Lemma swap_simple3_strategy3_correctness : swap_simple3_strategy3.
 Proof.
   pre_process_default.
+  cbn [poly_store poly_undef_store].
   unfold store_int_pair.
   cancel.
   apply_sepcon_adjoint.

@@ -57,7 +57,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def delta_safety_wit_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre < y_pre)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : ((0 : Int) <= y_pre)) (PreH5 : (y_pre <= 100)) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre < y_pre)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : ((0 : Int) <= y_pre)) (PreH5 : (y_pre <= 100)) ,
   ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
 |--
@@ -65,7 +65,7 @@ noncomputable def delta_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (y_pre - x_pre)) ”
 
 noncomputable def delta_safety_wit_2 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre >= y_pre)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : ((0 : Int) <= y_pre)) (PreH5 : (y_pre <= 100)) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre >= y_pre)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : ((0 : Int) <= y_pre)) (PreH5 : (y_pre <= 100)) ,
   ((( &( "x" ) )) # Int |-> (x_pre))
   ** ((( &( "y" ) )) # Int |-> (y_pre))
 |--
@@ -74,14 +74,14 @@ noncomputable def delta_safety_wit_2 : Prop :=
 
 noncomputable def delta_return_wit_1 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre >= y_pre)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : ((0 : Int) <= y_pre)) (PreH5 : (y_pre <= 100)) ,
+forall (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre >= y_pre)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : ((0 : Int) <= y_pre)) (PreH5 : (y_pre <= 100)) ,
   TT && emp 
 |--
   “ ((x_pre - y_pre) = (Z.abs ((x_pre - y_pre)))) ”
   &&  emp
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre >= y_pre)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : ((0 : Int) <= y_pre)) (PreH5 : (y_pre <= 100)) ,
+forall (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre >= y_pre)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : ((0 : Int) <= y_pre)) (PreH5 : (y_pre <= 100)) ,
   TT && emp 
 |--
   “ ((x_pre - y_pre) = (Z.abs ((x_pre - y_pre)))) ”
@@ -89,19 +89,19 @@ forall (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre >= y_pre)) (PreH2 : ((0 : Int
 )
 
 noncomputable def delta_return_wit_1_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre >= y_pre)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : ((0 : Int) <= y_pre)) (PreH5 : (y_pre <= 100)) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre >= y_pre)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : ((0 : Int) <= y_pre)) (PreH5 : (y_pre <= 100)) ,
   ((x_pre - y_pre) = (Z.abs ((x_pre - y_pre))))
 
 noncomputable def delta_return_wit_2 : Prop :=
   (
-forall (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre < y_pre)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : ((0 : Int) <= y_pre)) (PreH5 : (y_pre <= 100)) ,
+forall (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre < y_pre)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : ((0 : Int) <= y_pre)) (PreH5 : (y_pre <= 100)) ,
   TT && emp 
 |--
   “ ((y_pre - x_pre) = (Z.abs ((x_pre - y_pre)))) ”
   &&  emp
 ) \/
 (
-forall (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre < y_pre)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : ((0 : Int) <= y_pre)) (PreH5 : (y_pre <= 100)) ,
+forall (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre < y_pre)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : ((0 : Int) <= y_pre)) (PreH5 : (y_pre <= 100)) ,
   TT && emp 
 |--
   “ ((y_pre - x_pre) = (Z.abs ((x_pre - y_pre)))) ”
@@ -109,7 +109,7 @@ forall (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre < y_pre)) (PreH2 : ((0 : Int)
 )
 
 noncomputable def delta_return_wit_2_split_goal_1 : Prop :=
-  forall (y_pre : Int) (x_pre : Int) (PreH1 : (x_pre < y_pre)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : ((0 : Int) <= y_pre)) (PreH5 : (y_pre <= 100)) ,
+  forall (x_pre : Int) (y_pre : Int) (PreH1 : (x_pre < y_pre)) (PreH2 : ((0 : Int) <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : ((0 : Int) <= y_pre)) (PreH5 : (y_pre <= 100)) ,
   ((y_pre - x_pre) = (Z.abs ((x_pre - y_pre))))
 
 

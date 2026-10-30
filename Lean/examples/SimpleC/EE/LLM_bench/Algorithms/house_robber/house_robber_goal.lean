@@ -59,7 +59,7 @@ private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
 private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def rob_safety_wit_1 : Prop :=
-  forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (nums_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   ((( &( "prev2" ) )) # Int |->_)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -69,7 +69,7 @@ noncomputable def rob_safety_wit_1 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def rob_safety_wit_2 : Prop :=
-  forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (nums_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   ((( &( "prev1" ) )) # Int |->_)
   ** ((( &( "prev2" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
@@ -80,7 +80,7 @@ noncomputable def rob_safety_wit_2 : Prop :=
   “ ((INT_MIN) <= (0 : Int)) ”
 
 noncomputable def rob_safety_wit_3 : Prop :=
-  forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (nums_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   ((( &( "i" ) )) # Int |->_)
   ** ((( &( "prev1" ) )) # Int |-> ((0 : Int)))
   ** ((( &( "prev2" ) )) # Int |-> ((0 : Int)))
@@ -93,7 +93,7 @@ noncomputable def rob_safety_wit_3 : Prop :=
 
 noncomputable def rob_safety_wit_4 : Prop :=
   (
-forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (HouseRobberDPState l i prev2 prev1)) ,
+forall (l : (List Int)) (nums_pre : Int) (n_pre : Int) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (HouseRobberDPState l i prev2 prev1)) ,
   (intArray.full nums_pre n_pre l)
   ** ((( &( "take" ) )) # Int |->_)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
@@ -106,7 +106,7 @@ forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : In
   “ ((INT_MIN) <= (prev2 + (Znth i l (0 : Int)))) ”
 ) \/
 (
-forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (HouseRobberDPState l i prev2 prev1)) ,
+forall (l : (List Int)) (nums_pre : Int) (n_pre : Int) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (HouseRobberDPState l i prev2 prev1)) ,
   (intArray.full nums_pre n_pre l)
   ** ((( &( "take" ) )) # Int |->_)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
@@ -120,7 +120,7 @@ forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : In
 )
 
 noncomputable def rob_safety_wit_4_split_goal_1 : Prop :=
-  forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (HouseRobberDPState l i prev2 prev1)) ,
+  forall (l : (List Int)) (nums_pre : Int) (n_pre : Int) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (HouseRobberDPState l i prev2 prev1)) ,
   (intArray.full nums_pre n_pre l)
   ** ((( &( "take" ) )) # Int |->_)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
@@ -132,7 +132,7 @@ noncomputable def rob_safety_wit_4_split_goal_1 : Prop :=
   “ ((prev2 + (Znth i l (0 : Int))) <= INT_MAX) ”
 
 noncomputable def rob_safety_wit_4_split_goal_2 : Prop :=
-  forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (HouseRobberDPState l i prev2 prev1)) ,
+  forall (l : (List Int)) (nums_pre : Int) (n_pre : Int) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (HouseRobberDPState l i prev2 prev1)) ,
   (intArray.full nums_pre n_pre l)
   ** ((( &( "take" ) )) # Int |->_)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
@@ -144,7 +144,7 @@ noncomputable def rob_safety_wit_4_split_goal_2 : Prop :=
   “ ((INT_MIN) <= (prev2 + (Znth i l (0 : Int)))) ”
 
 noncomputable def rob_safety_wit_5 : Prop :=
-  forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : ((prev2 + (Znth i l (0 : Int))) > prev1)) (PreH2 : (i < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (HouseRobberDPState l i prev2 prev1)) ,
+  forall (l : (List Int)) (nums_pre : Int) (n_pre : Int) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : ((prev2 + (Znth i l (0 : Int))) > prev1)) (PreH2 : (i < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (HouseRobberDPState l i prev2 prev1)) ,
   (intArray.full nums_pre n_pre l)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -156,7 +156,7 @@ noncomputable def rob_safety_wit_5 : Prop :=
   “ ((INT_MIN) <= (i + 1)) ”
 
 noncomputable def rob_safety_wit_6 : Prop :=
-  forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : ((prev2 + (Znth i l (0 : Int))) <= prev1)) (PreH2 : (i < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (HouseRobberDPState l i prev2 prev1)) ,
+  forall (l : (List Int)) (nums_pre : Int) (n_pre : Int) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : ((prev2 + (Znth i l (0 : Int))) <= prev1)) (PreH2 : (i < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (HouseRobberDPState l i prev2 prev1)) ,
   (intArray.full nums_pre n_pre l)
   ** ((( &( "nums" ) )) # Ptr |-> (nums_pre))
   ** ((( &( "n" ) )) # Int |-> (n_pre))
@@ -169,7 +169,7 @@ noncomputable def rob_safety_wit_6 : Prop :=
 
 noncomputable def rob_entail_wit_1 : Prop :=
   (
-forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+forall (l : (List Int)) (nums_pre : Int) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (intArray.full nums_pre n_pre l)
 |--
   “ (n_pre <= 100000) ” &&
@@ -182,7 +182,7 @@ forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (PreH1 : ((0 : Int) <= n_
   &&  (intArray.full nums_pre n_pre l)
 ) \/
 (
-forall (n_pre : Int) (l : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+forall (l : (List Int)) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   TT && emp 
 |--
   “ (HouseRobberDPState l (0 : Int) (0 : Int) (0 : Int)) ”
@@ -190,12 +190,12 @@ forall (n_pre : Int) (l : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n
 )
 
 noncomputable def rob_entail_wit_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
+  forall (l : (List Int)) (n_pre : Int) (PreH1 : ((0 : Int) <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) ,
   (HouseRobberDPState l (0 : Int) (0 : Int) (0 : Int))
 
 noncomputable def rob_entail_wit_2_1 : Prop :=
   (
-forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : ((prev2 + (Znth i l (0 : Int))) > prev1)) (PreH2 : (i < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (HouseRobberDPState l i prev2 prev1)) ,
+forall (l : (List Int)) (nums_pre : Int) (n_pre : Int) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : ((prev2 + (Znth i l (0 : Int))) > prev1)) (PreH2 : (i < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (HouseRobberDPState l i prev2 prev1)) ,
   (intArray.full nums_pre n_pre l)
 |--
   “ (n_pre <= 100000) ” &&
@@ -208,7 +208,7 @@ forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : In
   &&  (intArray.full nums_pre n_pre l)
 ) \/
 (
-forall (n_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : ((prev2 + (Znth i l (0 : Int))) > prev1)) (PreH2 : (i < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (HouseRobberDPState l i prev2 prev1)) ,
+forall (l : (List Int)) (n_pre : Int) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : ((prev2 + (Znth i l (0 : Int))) > prev1)) (PreH2 : (i < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (HouseRobberDPState l i prev2 prev1)) ,
   TT && emp 
 |--
   “ (HouseRobberDPState l (i + 1) prev1 (prev2 + (Znth i l (0 : Int)))) ”
@@ -216,12 +216,12 @@ forall (n_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (Pre
 )
 
 noncomputable def rob_entail_wit_2_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : ((prev2 + (Znth i l (0 : Int))) > prev1)) (PreH2 : (i < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (HouseRobberDPState l i prev2 prev1)) ,
+  forall (l : (List Int)) (n_pre : Int) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : ((prev2 + (Znth i l (0 : Int))) > prev1)) (PreH2 : (i < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (HouseRobberDPState l i prev2 prev1)) ,
   (HouseRobberDPState l (i + 1) prev1 (prev2 + (Znth i l (0 : Int))))
 
 noncomputable def rob_entail_wit_2_2 : Prop :=
   (
-forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : ((prev2 + (Znth i l (0 : Int))) <= prev1)) (PreH2 : (i < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (HouseRobberDPState l i prev2 prev1)) ,
+forall (l : (List Int)) (nums_pre : Int) (n_pre : Int) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : ((prev2 + (Znth i l (0 : Int))) <= prev1)) (PreH2 : (i < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (HouseRobberDPState l i prev2 prev1)) ,
   (intArray.full nums_pre n_pre l)
 |--
   “ (n_pre <= 100000) ” &&
@@ -234,7 +234,7 @@ forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : In
   &&  (intArray.full nums_pre n_pre l)
 ) \/
 (
-forall (n_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : ((prev2 + (Znth i l (0 : Int))) <= prev1)) (PreH2 : (i < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (HouseRobberDPState l i prev2 prev1)) ,
+forall (l : (List Int)) (n_pre : Int) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : ((prev2 + (Znth i l (0 : Int))) <= prev1)) (PreH2 : (i < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (HouseRobberDPState l i prev2 prev1)) ,
   TT && emp 
 |--
   “ (HouseRobberDPState l (i + 1) prev1 prev1) ”
@@ -242,19 +242,19 @@ forall (n_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (Pre
 )
 
 noncomputable def rob_entail_wit_2_2_split_goal_1 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : ((prev2 + (Znth i l (0 : Int))) <= prev1)) (PreH2 : (i < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (HouseRobberDPState l i prev2 prev1)) ,
+  forall (l : (List Int)) (n_pre : Int) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : ((prev2 + (Znth i l (0 : Int))) <= prev1)) (PreH2 : (i < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH6 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH7 : ((0 : Int) <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (HouseRobberDPState l i prev2 prev1)) ,
   (HouseRobberDPState l (i + 1) prev1 prev1)
 
 noncomputable def rob_return_wit_1 : Prop :=
   (
-forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (HouseRobberDPState l i prev2 prev1)) ,
+forall (l : (List Int)) (nums_pre : Int) (n_pre : Int) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (HouseRobberDPState l i prev2 prev1)) ,
   (intArray.full nums_pre n_pre l)
 |--
   “ (HouseRobberAnswer l prev1) ”
   &&  (intArray.full nums_pre n_pre l)
 ) \/
 (
-forall (n_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (HouseRobberDPState l i prev2 prev1)) ,
+forall (l : (List Int)) (n_pre : Int) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (HouseRobberDPState l i prev2 prev1)) ,
   TT && emp 
 |--
   “ (HouseRobberAnswer l prev1) ”
@@ -262,11 +262,11 @@ forall (n_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (Pre
 )
 
 noncomputable def rob_return_wit_1_split_goal_1 : Prop :=
-  forall (n_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (HouseRobberDPState l i prev2 prev1)) ,
+  forall (l : (List Int)) (n_pre : Int) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : (i >= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (HouseRobberDPState l i prev2 prev1)) ,
   (HouseRobberAnswer l prev1)
 
 noncomputable def rob_partial_solve_wit_1 : Prop :=
-  forall (n_pre : Int) (nums_pre : Int) (l : (List Int)) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (HouseRobberDPState l i prev2 prev1)) ,
+  forall (l : (List Int)) (nums_pre : Int) (n_pre : Int) (prev2 : Int) (prev1 : Int) (i : Int) (PreH1 : (i < n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (Forall ((LE.le (α := Int)) ((0 : Int))) l)) (PreH5 : (Forall ((GE.ge (α := Int)) (10000)) l)) (PreH6 : ((0 : Int) <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (HouseRobberDPState l i prev2 prev1)) ,
   (intArray.full nums_pre n_pre l)
 |--
   “ (i < n_pre) ” &&

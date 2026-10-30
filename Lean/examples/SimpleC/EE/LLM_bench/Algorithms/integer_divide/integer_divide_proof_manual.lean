@@ -16,7 +16,7 @@ local instance : SacContext := ⟨naive_C_Rules⟩
 theorem proof_of_divide_entail_wit_1 : divide_entail_wit_1 := by
   unfold divide_entail_wit_1
   right
-  intro p n original heq ho hb
+  intro original n p heq ho hb
   Exists ([] : List Int)
   split_pure_spatial
   · sep_apply (naive_C_Rules.IntArray.undef_full_split_to_undef_seg p 1 original (by omega))
@@ -37,7 +37,7 @@ theorem proof_of_divide_entail_wit_1 : divide_entail_wit_1 := by
 
 theorem proof_of_divide_entail_wit_3_1 : divide_entail_wit_3_1 := by
   unfold divide_entail_wit_3_1
-  intro p original factors cnt i n hm ho hb hn hno hi hio h1 hc hco hl hp
+  intro original p factors cnt i n hm ho hb hn hno hi hio h1 hc hco hl hp
   have hrem : Z.rem n i = 1 := by
     subst n
     exact Int.tmod_eq_of_lt (by decide) (by omega)
@@ -45,7 +45,7 @@ theorem proof_of_divide_entail_wit_3_1 : divide_entail_wit_3_1 := by
 
 theorem proof_of_divide_entail_wit_3_2 : divide_entail_wit_3_2 := by
   unfold divide_entail_wit_3_2
-  intro p original factors cnt i n hm ho hb hn hno hi hio hin hc hco hl hp
+  intro original p factors cnt i n hm ho hb hn hno hi hio hin hc hco hl hp
   have hroom := factorization_progress_room__progress_transitions original factors n i hi hin hp
   Right
   split_pure_spatial
@@ -54,7 +54,7 @@ theorem proof_of_divide_entail_wit_3_2 : divide_entail_wit_3_2 := by
 
 theorem proof_of_divide_entail_wit_4_1 : divide_entail_wit_4_1 := by
   unfold divide_entail_wit_4_1
-  intro p original factors cnt i n hroom hib hnb hii hni hm ho hb hn hno hi hio h1 hc hco hl hp
+  intro original p factors cnt i n hroom hib hnb hii hni hm ho hb hn hno hi hio h1 hc hco hl hp
   have hrem : Z.rem n i = 1 := by
     subst n
     exact Int.tmod_eq_of_lt (by decide) (by omega)
@@ -62,7 +62,7 @@ theorem proof_of_divide_entail_wit_4_1 : divide_entail_wit_4_1 := by
 
 theorem proof_of_divide_entail_wit_4_2 : divide_entail_wit_4_2 := by
   unfold divide_entail_wit_4_2
-  intro p original factors cnt i n hroom hib hnb hii hni hm ho hb hn hno hi hio hin hc hco hl hp
+  intro original p factors cnt i n hroom hib hnb hii hni hm ho hb hn hno hi hio hin hc hco hl hp
   obtain ⟨hprogress, hcases⟩ :=
     factorization_progress_extract__progress_transitions original factors n i hn hi hin hm hp
   have hqpos : 1 ≤ Z.quot n i := Z.quot_le_lower_bound n i 1 (by omega) (by omega)
@@ -124,7 +124,7 @@ theorem proof_of_divide_entail_wit_6 : divide_entail_wit_6 := by
 theorem proof_of_divide_return_wit_1 : divide_return_wit_1 := by
   unfold divide_return_wit_1
   right
-  intro p original factors cnt i n hin ho hb hn hno hi hib hio hc hco hl hp
+  intro original p factors cnt i n hin ho hb hn hno hi hib hio hc hco hl hp
   Exists factors
   rw [hl]
   split_pure_spatial
@@ -137,7 +137,7 @@ theorem proof_of_divide_return_wit_1 : divide_return_wit_1 := by
 theorem proof_of_divide_return_wit_2 : divide_return_wit_2 := by
   unfold divide_return_wit_2
   right
-  intro p original factors cnt i n h1 hm ho hb hn hno hi hio h11 hc hco hl hp
+  intro original p factors cnt i n h1 hm ho hb hn hno hi hio h11 hc hco hl hp
   Exists factors
   rw [hl]
   split_pure_spatial

@@ -1,0 +1,10 @@
+From SimpleC.EE.Applications_human.minisat Require Import
+  solver_qcp_support_proof_manual_part1
+  solver_qcp_support_proof_manual_part2
+  solver_qcp_support_proof_manual_part3
+  solver_qcp_support_proof_manual_part4.
+
+Include solver_qcp_support_proof_manual_part1.
+Include solver_qcp_support_proof_manual_part2.
+Include solver_qcp_support_proof_manual_part3.
+Include solver_qcp_support_proof_manual_part4.
