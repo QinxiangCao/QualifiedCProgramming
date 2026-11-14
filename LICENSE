@@ -1,3 +1,55 @@
+QCP Licensing Terms
+
+Copyright (c) 2025 QCP developers and contributors
+
+QCP is distributed under different terms for its proprietary binary tools and
+its open-source components, as described below. Component-specific and
+third-party licenses take precedence for the components they cover.
+
+1. Proprietary QCP binary tools
+==============================
+
+The QCP binary tools distributed in linux-binary/, win-binary/,
+mac-x86-64-binary/, and mac-arm64-binary/, and equivalent QCP binary tool
+distributions, are proprietary, closed-source software (the "Binary Software").
+The Binary Software is not open source and is not covered by the MIT License
+in Section 2. Distribution of the Binary Software does not grant access to,
+or rights in, its source code.
+
+Universities and research institutes in China may use the current version
+and all historical versions of the Binary Software free of charge for
+non-commercial educational and research purposes.
+
+Any individual or organization wishing to use the Binary Software for
+commercial purposes must pay the applicable license fee and obtain prior
+authorization from the copyright holders before such use. This requirement
+also applies to commercial use by universities and research institutes.
+For commercial licensing, contact: caoqinxiang@sjtu.edu.cn
+
+All rights in the Binary Software not expressly granted above or in a separate
+license agreement are reserved. These terms do not revoke rights already
+granted under a license applicable to a previously received copy.
+
+THE BINARY SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE BINARY SOFTWARE OR THE USE OR OTHER DEALINGS
+IN THE BINARY SOFTWARE.
+
+2. Rocq and Lean backends -- MIT License
+======================================
+
+The QCP Rocq and Lean backend source code in Rocq/ and Lean/ is licensed under
+the MIT License below, except for components with their own license notices.
+Other original QCP source code and documentation in this repository remain
+under the MIT License unless a separate license is specified. The proprietary
+binary terms in Section 1 do not restrict rights granted under the MIT License,
+including commercial use of MIT-licensed components.
+
+MIT License
+
 Copyright (c) 2025 QCP developers and contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -17,3 +69,9 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+3. Third-party components
+=========================
+
+Third-party components retain their respective licenses and copyright notices.
+Nothing in this file replaces or restricts rights granted under those licenses.
