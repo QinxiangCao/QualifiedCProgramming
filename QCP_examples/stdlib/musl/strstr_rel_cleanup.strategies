@@ -1,0 +1,21 @@
+// Case-local ownership weakening for an automatic local array.
+// Soundness is proved in Rocq/examples/stdlib/musl/strstr_rel_cleanup_strategy_proof.v.
+
+id : 1
+priority : core(1)
+left : UInt64Array::mixed_full(?p, ?n, ?l) at 0
+right : UInt64Array::undef_full(p, n) at 1
+action : right_erase(1);
+         left_erase(0);
+
+// A first write can leave a typed cell plus the undefined tail instead of
+// constructing mixed_full.  Reclaiming this exact shape also needs a proof.
+id : 2
+priority : core(1)
+left : data_at(pointer_offset(?p, 0, U64), U64, ?v) at 0
+       UInt64Array::undef_seg(p, 1, ?n) at 1
+right : UInt64Array::undef_full(p, n) at 2
+check : infer(1 <= n);
+action : right_erase(2);
+         left_erase(1);
+         left_erase(0);

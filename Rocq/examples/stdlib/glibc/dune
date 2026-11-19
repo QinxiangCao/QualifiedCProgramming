@@ -1,0 +1,19 @@
+(coq.theory
+ (name SimpleC.EE.stdlib.glibc)
+ (theories
+  AUXLib
+  FP
+  ListLib
+  Logic
+  MaxMinLib
+  MonadLib
+  SetsClass
+  SimpleC.EE.stdlib.musl
+  SimpleC.Common
+  SimpleC.SL
+  SimpleC.Verification
+  SimpleC.StdLib
+  SumLib
+  compcert.lib))
+
+(include_subdirs qualified)
