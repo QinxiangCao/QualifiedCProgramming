@@ -1,0 +1,5 @@
+Require Import strstr_rel_cleanup_strategy_goal strstr_rel_cleanup_strategy_proof.
+
+Module strstr_rel_cleanup_Strategy_Correctness : strstr_rel_cleanup_Strategy_Correct.
+  Include strstr_rel_cleanup_strategy_proof.
+End strstr_rel_cleanup_Strategy_Correctness.

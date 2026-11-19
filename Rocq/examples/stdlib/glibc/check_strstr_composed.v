@@ -1,0 +1,16 @@
+(* Build all imported goal-check modules before the MCP assumption check. *)
+From SimpleC.EE.stdlib.glibc Require Import
+  available_goal_check two_way_dynamic_goal_check horspool_dynamic_goal_check
+  strstr_tw_bridge_goal_check strstr_goal_check.
+Check strstr_proof_manual.proof_of_strstr_return_wit_1.
+Check strstr_proof_manual.proof_of_strstr_return_wit_2.
+Check strstr_proof_manual.proof_of_strstr_return_wit_9.
+Check strstr_tw_bridge_proof_manual.proof_of_strstr_tw_bridge_entail_wit_2.
+Print Assumptions strstr_lib.gs_result_suffix.
+Print Assumptions strstr_short_lib.gs_short_return.
+Print Assumptions strstr_tw_bridge_lib.gs_tw_open.
+Print Assumptions strstr_tw_bridge_lib.gs_tw_close.
+Print Assumptions strstr_tw_bridge_lib.gs_tw_result.
+Print Assumptions strstr_proof_manual.proof_of_strstr_return_wit_1.
+Print Assumptions strstr_proof_manual.proof_of_strstr_return_wit_2.
+Print Assumptions strstr_tw_bridge_proof_manual.proof_of_strstr_tw_bridge_entail_wit_2.

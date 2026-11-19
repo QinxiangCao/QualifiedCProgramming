@@ -1,0 +1,157 @@
+From SimpleC.Verification Require Import VCPrelude.
+From SimpleC.EE.stdlib.glibc Require Import horspool_dynamic_goal.
+Import naive_C_Rules.
+Require Import SimpleC.EE.stdlib.glibc.horspool_dynamic_lib.
+Local Open Scope monad.
+Local Open Scope sac.
+
+Lemma proof_of_hp_hash2_safety_wit_1 : hp_hash2_safety_wit_1.
+Proof. Admitted.
+
+Lemma proof_of_hp_hash2_safety_wit_2 : hp_hash2_safety_wit_2.
+Proof. Admitted.
+
+Lemma proof_of_hp_hash2_safety_wit_3 : hp_hash2_safety_wit_3.
+Proof. Admitted.
+
+Lemma proof_of_hp_hash2_safety_wit_4 : hp_hash2_safety_wit_4.
+Proof. Admitted.
+
+Lemma proof_of_hp_hash2_safety_wit_5 : hp_hash2_safety_wit_5.
+Proof. Admitted.
+
+Lemma proof_of_hp_hash2_safety_wit_6 : hp_hash2_safety_wit_6.
+Proof. Admitted.
+
+Lemma proof_of_hp_hash2_safety_wit_7 : hp_hash2_safety_wit_7.
+Proof. Admitted.
+
+Lemma proof_of_hp_hash2_partial_solve_wit_1 : hp_hash2_partial_solve_wit_1.
+Proof. Admitted.
+
+Lemma proof_of_hp_hash2_partial_solve_wit_2 : hp_hash2_partial_solve_wit_2.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_1 : horspool_memmem_refinement_safety_wit_1.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_2 : horspool_memmem_refinement_safety_wit_2.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_3 : horspool_memmem_refinement_safety_wit_3.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_4 : horspool_memmem_refinement_safety_wit_4.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_5 : horspool_memmem_refinement_safety_wit_5.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_6 : horspool_memmem_refinement_safety_wit_6.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_7 : horspool_memmem_refinement_safety_wit_7.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_8 : horspool_memmem_refinement_safety_wit_8.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_9 : horspool_memmem_refinement_safety_wit_9.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_10 : horspool_memmem_refinement_safety_wit_10.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_11 : horspool_memmem_refinement_safety_wit_11.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_12 : horspool_memmem_refinement_safety_wit_12.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_13 : horspool_memmem_refinement_safety_wit_13.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_14 : horspool_memmem_refinement_safety_wit_14.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_15 : horspool_memmem_refinement_safety_wit_15.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_16 : horspool_memmem_refinement_safety_wit_16.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_17 : horspool_memmem_refinement_safety_wit_17.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_18 : horspool_memmem_refinement_safety_wit_18.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_19 : horspool_memmem_refinement_safety_wit_19.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_20 : horspool_memmem_refinement_safety_wit_20.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_21 : horspool_memmem_refinement_safety_wit_21.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_22 : horspool_memmem_refinement_safety_wit_22.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_23 : horspool_memmem_refinement_safety_wit_23.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_24 : horspool_memmem_refinement_safety_wit_24.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_25 : horspool_memmem_refinement_safety_wit_25.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_safety_wit_26 : horspool_memmem_refinement_safety_wit_26.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_entail_wit_1 : horspool_memmem_refinement_entail_wit_1.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_partial_solve_wit_1_pure : horspool_memmem_refinement_partial_solve_wit_1_pure.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_partial_solve_wit_1 : horspool_memmem_refinement_partial_solve_wit_1.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_partial_solve_wit_2 : horspool_memmem_refinement_partial_solve_wit_2.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_partial_solve_wit_3 : horspool_memmem_refinement_partial_solve_wit_3.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_partial_solve_wit_4 : horspool_memmem_refinement_partial_solve_wit_4.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_partial_solve_wit_5 : horspool_memmem_refinement_partial_solve_wit_5.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_partial_solve_wit_6 : horspool_memmem_refinement_partial_solve_wit_6.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_partial_solve_wit_7 : horspool_memmem_refinement_partial_solve_wit_7.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_partial_solve_wit_8 : horspool_memmem_refinement_partial_solve_wit_8.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_partial_solve_wit_9 : horspool_memmem_refinement_partial_solve_wit_9.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_partial_solve_wit_10 : horspool_memmem_refinement_partial_solve_wit_10.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_partial_solve_wit_11 : horspool_memmem_refinement_partial_solve_wit_11.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_partial_solve_wit_12 : horspool_memmem_refinement_partial_solve_wit_12.
+Proof. Admitted.
+
+Lemma proof_of_horspool_memmem_refinement_partial_solve_wit_13 : horspool_memmem_refinement_partial_solve_wit_13.
+Proof. Admitted.
+
